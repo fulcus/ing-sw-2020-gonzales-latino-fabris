@@ -5,10 +5,10 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>it.polimi.ingsw</groupId>
-  <artifactId>SantoriniProject</artifactId>
+  <artifactId>ing-sw-2020-gonzales-latino-fabris</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>SantoriniProject</name>
+  <name>ing-sw-2020-gonzales-latino-fabris</name>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
