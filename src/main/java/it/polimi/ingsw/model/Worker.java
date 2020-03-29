@@ -30,10 +30,10 @@ public class Worker {
         Cell newPosition = player.getGame().getMap().findCell(x,y);
 
         //vado via da cella precedente e Position nella nuova
-        position.moveOut(this);
+        position.moveOut();
         newPosition.moveIn(this);
 
-        movedUp = hasMovedUp(newPosition);
+        movedUp = hasMovedUpThisTurn(newPosition);
         level = newPosition.getLevel();
         position = newPosition;
 
@@ -62,12 +62,16 @@ public class Worker {
     }
 
     /**
-     * Checks if new position is higher than the previous position.
+     * Checks if new selected position is higher than the previous position.
      * @param newPosition Cell the worker is moving into.
      * @return True if worker is moving up, false otherwise.
      */
-    private boolean hasMovedUp(Cell newPosition) {
+    private boolean hasMovedUpThisTurn(Cell newPosition) {
         return newPosition.getLevel() > level;
+    }
+
+    public boolean hasMovedUp() {
+        return movedUp;
     }
 
     public Player getPlayer() {

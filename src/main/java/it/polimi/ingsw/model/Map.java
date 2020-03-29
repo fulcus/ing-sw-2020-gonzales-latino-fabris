@@ -5,15 +5,15 @@ package it.polimi.ingsw.model;
  */
 
 public class Map {
-    private Game game;
-    private Cell[][] map;
-    public static final int BORDERLENGTH = 5;
+    private final Game game;
+    private final Cell[][] map;
+    public static final int SIDE = 5;
 
     public Map(Game game) {
         this.game = game;
-        this.map = new Cell[BORDERLENGTH][BORDERLENGTH];
-        for(int i=0; i<BORDERLENGTH; i++){
-            for(int j=0; j<BORDERLENGTH; j++){
+        this.map = new Cell[SIDE][SIDE];
+        for(int i = 0; i < SIDE; i++){
+            for(int j = 0; j < SIDE; j++){
                 map[i][j] = new Cell(i, j);
             }
         }

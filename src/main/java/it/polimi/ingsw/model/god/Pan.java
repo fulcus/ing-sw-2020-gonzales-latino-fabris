@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.Worker;
 public class Pan implements God{
 
     public void evolveTurn(Worker w) {
-        loose(w);
+        lose(w);
         move(w);
         win(w);
         build(w);
@@ -20,7 +20,7 @@ public class Pan implements God{
     public boolean win(Worker w){
     }
 
-    public boolean loose(Worker w) {
+    public boolean lose(Worker w) {
     }
 
 }

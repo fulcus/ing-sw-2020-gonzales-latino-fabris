@@ -8,14 +8,16 @@ import it.polimi.ingsw.model.Worker;
 
 public interface God {
 
-    public void evolveTurn(Worker w);
+    String getName();
 
-    public void move(Worker w);
+    void evolveTurn(Worker w);
 
-    public void build(Worker w);
+    void move(Worker w);
 
-    public boolean win(Worker w);
+    void build(Worker w);
 
-    public boolean loose(Worker w);
+    boolean win(Worker w);
+
+    boolean lose(Worker w);
 
 }

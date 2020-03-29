@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.god.God;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -22,11 +24,10 @@ public class Game {
 
     /** Adds a new player to the game and chooses challenger if target number of players has beeb reached.
      * @param nickname Nickname chosen by the player.
-     * @param color Color chosen by the player.
      */
     //viene fatto check su nickname e colore prima di creare nuovo player
-    public void addPlayer(String nickname, Color color) {
-        players.add(new Player(this, nickname, color));
+    public void addPlayer(String nickname) {
+        players.add(new Player(this, nickname));
 
         if(players.size() == numberOfPlayers)
             randomChallenger();

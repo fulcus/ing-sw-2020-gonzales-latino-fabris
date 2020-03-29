@@ -13,9 +13,9 @@ public class Player {
     private String nickname;
     private Color color;
     private God god;
-    private ArrayList<Worker> workers;
+    private ArrayList<Worker> workers;  //make local?
     private Worker chosenWorker;
-    private boolean canWinPerimetric;
+    private boolean canWinPerimeter;
     private boolean canMoveUp;
 
 
@@ -30,8 +30,8 @@ public class Player {
 
         this.game = game;
         this.nickname = nickname;
-        this.god = null;
-
+        god = null;
+        chosenWorker = null;
         //playerObservers = new ArrayList<PlayerObserver>();
         workers = new ArrayList<Worker>(2);
         workers.add(new Worker(this, Sex.MALE));
@@ -58,27 +58,22 @@ public class Player {
     public void chooseGod() {
 
         Scanner input = new Scanner(System.in);
-        System.out.println("List of available Gods:");
+        System.out.println("Choose one God among the following.");
 
-        //todo excepiton
+        //todo exception
 
         while (god == null) {
 
-            for (God god : game.getChosenGods()) {
-                System.out.println("*  " + game.getChosenGods().getName());
-            }
+            for (God god : game.getChosenGods())
+                System.out.println("* " + god.getName());
 
             String s = input.nextLine();
 
             for (God god : game.getChosenGods()) {
-                if (s.equals(god.getName())) {
+                if (s.equals(god.getName()))
                     this.god = god;
-                }
-
             }
-
         }
-
 
     }
 
@@ -91,22 +86,21 @@ public class Player {
 
         Scanner input = new Scanner(System.in);
 
-        int x;
-        int y;
 
         do {
 
-            System.out.println("Insert Worker's position");
-            x = input.nextInt();
-            y = input.nextInt();
+            System.out.println("Insert the position of the worker you wish to select.");
+            int x = input.nextInt();
+            int y = input.nextInt();
+            Cell chosenCell = game.getMap().findCell(x, y);
+            if (chosenCell.hasWorker() && chosenCell.getWorker().getPlayer() == this) {
+                chosenWorker = game.getMap().findCell(x, y).getWorker();
+                break;
+            }
 
-            if (game.getMap().findCell(x, y).worker != null)
-                setChosenWorker(game.getMap().findCell(x, y).worker);
-            else
-                System.out.println("Insert a cell with a Worker on it");
+            System.out.println("The position is not valid");
 
-
-        } while (game.getMap().findCell(x, y).worker == null);
+        } while (true);
 
 
     }
@@ -139,22 +133,22 @@ public class Player {
      * @return True if the Player can win with a worker on the perimeter, false otherwise
      */
     public boolean CanWinPerimetric() {
-        return canWinPerimetric;
+        return canWinPerimeter;
     }
 
     /**
-     * @param canWinPerimetric is eventually set to false by a God of another Player
+     * @param canWinPerimeter is eventually set to false by a God of another Player
      */
-    public void setCanWinPerimetric(boolean canWinPerimetric) {
-        this.canWinPerimetric = canWinPerimetric;
+    public void setCanWinPerimeter(boolean canWinPerimeter) {
+        this.canWinPerimeter = canWinPerimeter;
     }
 
     /**
      * Reset restrictions of the Player
      */
 
-    /*Once the moving and winning restricions have been eventually applied to the player's turn,
-     * these restrictions will be resetted*/
+    //Once the moving and winning restrictions have been eventually applied to the player's turn,
+    //these restrictions will be reset
 
     public void resetRestrictions() {
         canMoveUp = true;
