@@ -1,24 +1,30 @@
 package it.polimi.ingsw.model.god;
 
+import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.Map;
 import it.polimi.ingsw.model.Worker;
 
 import java.util.Scanner;
 
 public class Atlas implements God{
-
+    /**
+     *
+     * @param worker This the current worker.
+     * @return It returns the cell wherein the worker has just built.
+     */
     @Override
-    public void build(Worker worker) {
-        buildAllowDome(worker);
+    public Cell build(Worker worker) {
+       return buildAllowDome(worker);
     }
 
-    private void buildAllowDome(Worker worker) {
+    private Cell buildAllowDome(Worker worker) {
 
         System.out.println("Atlas additional power: You can also build a Dome at any level");
 
         //TODO evitare che una volta scelta la cella, non può più cambiare fare(while nel while)
         Scanner input = new Scanner(System.in);
         String buildingName;
+        Cell buildingCell;
         int buildingX;
         int buildingY;
 
@@ -29,8 +35,11 @@ public class Atlas implements God{
             buildingY = input.nextInt();
 
             //questo controllo va fatto con un metodo static in Map
-            if (buildingX < Map.SIDE && buildingY < Map.SIDE && !(worker.getPlayer().getGame().getMap().findCell(buildingX,buildingY).isOccupied()))
+            if (buildingX < Map.SIDE && buildingY < Map.SIDE && !(worker.getPlayer().getGame().getMap().findCell(buildingX,buildingY).isOccupied())){
+                buildingCell = worker.getPlayer().getGame().getMap().findCell(buildingX,buildingY);
                 break;
+            }
+
 
             System.out.println("Invalid position or occupied cell! It must be in a 5X5 map.TRY AGAIN");
 
@@ -40,7 +49,7 @@ public class Atlas implements God{
 
         do {
 
-            if(worker.getPlayer().getGame().getMap().findCell(buildingX,buildingY).getLevel() == 3)
+            if(buildingCell.getLevel() == 3 && !(buildingCell.hasDome()))
             {
                 System.out.println("You can only build a Dome here, type Dome to build");
                 buildingName = input.nextLine();
@@ -52,7 +61,7 @@ public class Atlas implements God{
 
             }
 
-            else {
+            else if (buildingCell.getLevel()<3 && !(buildingCell.hasDome())){
 
                 System.out.println("You can build both a Block and a Dome here, type the name of building you want here");
                 buildingName = input.nextLine();
@@ -71,11 +80,17 @@ public class Atlas implements God{
 
             }
 
-            System.out.println("Incorrect building's name.TRY AGAIN");
+            else{
+                System.out.println("You cannot build here");
+            }
+
+            System.out.println("TRY AGAIN");
 
         } while (true);
 
+
         System.out.println(buildingName + "successfully built");
+        return buildingCell;
 
     }
 

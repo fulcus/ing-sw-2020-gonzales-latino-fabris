@@ -35,6 +35,11 @@ public interface God {
 
     }
 
+    /**
+     *This method represents the standard build action.
+     * @param w This is the current worker.
+     * @return It returns the cell wherein the worker has just built.
+     */
     default Cell build(Worker w) {
 
         //TODO evitare che una volta scelta la cella, non può più cambiare. fare(while nel while)
@@ -98,7 +103,6 @@ public interface God {
     }
 
 
-    boolean loseCannotMove(Worker w);
 
     /**
      * Checks if win conditions are met.
