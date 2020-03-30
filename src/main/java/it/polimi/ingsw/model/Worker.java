@@ -7,8 +7,7 @@ public class Worker {
     private final Sex sex;
     private Cell position;
     private int level;
-    private boolean movedUp;
-
+    private int levelVariation; //level before moving - level after moving
     /** Creates a worker.
      * @param player The worker's owner.
      * @param sex A worker can be Male or Female.
@@ -17,7 +16,7 @@ public class Worker {
         this.player = player;
         this.sex = sex;
         level = 0;
-        movedUp = false;
+        levelVariation = 0;
     }
 
     /**
@@ -28,13 +27,31 @@ public class Worker {
     //prima di chiamare fare check se posso andare (isOccupied)
     public void setPosition(int x, int y) {
         Cell newPosition = player.getGame().getMap().findCell(x,y);
+        int newLevel = newPosition.getLevel();
 
         //vado via da cella precedente e Position nella nuova
-        position.moveOut(this);
+        position.moveOut();
         newPosition.moveIn(this);
+        //newPosition.getLevel() > level
+        levelVariation = newLevel - level;
+        level = newLevel;
+        position = newPosition;
 
-        movedUp = hasMovedUp(newPosition);
-        level = newPosition.getLevel();
+    }
+
+    /**
+     * Changes position of the worker and updates level and movedUp.
+     * @param newPosition Cell the worker is moving into.
+     */
+    public void setPosition(Cell newPosition) {
+        int newLevel = newPosition.getLevel();
+
+        //vado via da cella precedente e Position nella nuova
+        position.moveOut();
+        newPosition.moveIn(this);
+        //newPosition.getLevel() > level
+        levelVariation = newLevel - level;
+        level = newLevel;
         position = newPosition;
 
     }
@@ -61,14 +78,6 @@ public class Worker {
         buildPosition.buildDome();
     }
 
-    /**
-     * Checks if new position is higher than the previous position.
-     * @param newPosition Cell the worker is moving into.
-     * @return True if worker is moving up, false otherwise.
-     */
-    private boolean hasMovedUp(Cell newPosition) {
-        return newPosition.getLevel() > level;
-    }
 
     public Player getPlayer() {
         return player;
@@ -80,6 +89,10 @@ public class Worker {
 
     public int getLevel() {
         return level;
+    }
+
+    public int getLevelVariation() {
+        return levelVariation;
     }
 
     public Sex getSex() {

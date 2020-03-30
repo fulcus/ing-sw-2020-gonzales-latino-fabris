@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.Worker;
 public class Charon implements God{
 
     public void evolveTurn(Worker w) {
-        loose(w);
+        lose(w);
         moveOther(w);
         move(w);
         win(w);
@@ -21,7 +21,7 @@ public class Charon implements God{
     public boolean win(Worker w){
     }
 
-    public boolean loose(Worker w) {
+    public boolean lose(Worker w) {
     }
 
     public void moveOther(Worker w){
