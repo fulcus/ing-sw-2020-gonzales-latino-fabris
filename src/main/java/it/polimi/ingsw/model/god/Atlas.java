@@ -88,7 +88,9 @@ public class Atlas implements God{
 
         } while (true);
 
+
         System.out.println(buildingName + "successfully built");
+        return buildingCell;
 
     }
 
