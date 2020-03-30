@@ -9,14 +9,14 @@ public class Athena implements God{
         move(worker);
         win(worker);
         build(worker);
-        applyRestriction(worker);
+        cannotMoveUpRestriction(worker);
     }
 
-    private void applyRestriction(Worker worker){
+    private void cannotMoveUpRestriction(Worker worker){
         if(worker.getLevelVariation() > 0) {
             for(Player p : worker.getPlayer().getGame().getPlayers()) {
                 if(p != worker.getPlayer()) {
-                    p.cantMoveUp();
+                    p.cannotMoveUp();
                 }
                 else
                     p.canMoveUp();
