@@ -135,7 +135,7 @@ public class Player {
     /**
      *
      */
-    public void cantMoveUp() {
+    public void cannotMoveUp() {
         this.forbiddenToMoveUp = true;
     }
 
@@ -155,6 +155,10 @@ public class Player {
     //Once the moving and winning restrictions have been applied to the player's turn, these restrictions will be reset
     public void canWinInPerimeter() {
         forbiddenToWinInPerimeter = false;
+    }
+
+    public void cannotWinInPerimeter() {
+        forbiddenToWinInPerimeter = true;
     }
 
     public ArrayList<Worker> getWorkers() {
