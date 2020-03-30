@@ -22,18 +22,6 @@ public class Prometheus implements God{
         build(w);
     }
 
-    public void move(Worker w) {
-    }
-
-    public void build(Worker w) {
-    }
-
-    public boolean win(Worker w){
-    }
-
-    public boolean loose(Worker w) {
-    }
-
     public boolean[][] possibleMove(Worker w, Map m) {
         boolean[][] matrix = new boolean[][];
         for(int i=w.getPosition().getX() - 1; i<=w.getPosition().getX()+1; i++ ){
@@ -41,7 +29,7 @@ public class Prometheus implements God{
                 // se è fuori dal perimetro, se il salto di livello è troppo alto
                 // o se nella cella c'è un altro worker o una dome
                 // allora non posso spostarmi in quella cella
-                if ( (i<0 || i>4 || j<0 || j>4) || (m.findCell(i,j).getLevel() - w.getPosition().getLevel() > 1) || (m.findCell(i,j).hasWorker() || m.findCell(i,j).getDome()) )
+                if ( (i<0 || i>4 || j<0 || j>4) || (m.findCell(i,j).getLevel() - w.getPosition().getLevel() > 1) || (m.findCell(i,j).isOccupied()) )
                     matrix[i][j] = false;
                 else
                     matrix[i][j] = true;

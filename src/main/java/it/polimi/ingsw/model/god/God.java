@@ -92,7 +92,6 @@ public interface God {
     }
 
 
-    boolean loseCannotMove(Worker w);
 
     /**
      * Checks if win conditions are met.
@@ -101,12 +100,7 @@ public interface God {
      */
     //add end game for player if win is true
     default boolean win(Worker worker) {
-        for(Worker w : worker.getPlayer().getWorkers()) {
-            if (w.getLevel() == 3 && w.getLevelVariation() == 1)
-                return true;
-        }
-
-        return false;
+        return worker.getLevel() == 3 && worker.getLevelVariation() == 1;
     }
 
 }

@@ -1,18 +1,17 @@
 package it.polimi.ingsw.model;
 
 /**
- * This class represents one map's cell structure
+ * This class represents a map's cell structure
  */
 
 public class Cell {
 
-    private Map map;
     private boolean dome;
     private int level;
     private Worker worker;
     private final int x;
     private final int y;
-    private final boolean perimetral;
+    private final boolean inPerimeter;
 
     public Cell(int x, int y) {
         this.x = x;
@@ -20,10 +19,7 @@ public class Cell {
         this.level = 0;
         this.worker = null;
         this.dome = false;
-        if (x == 0 || x == (map.BORDERLENGTH-1) || y == 0 || y == (map.BORDERLENGTH-1))
-            perimetral = true;
-        else
-            perimetral = false;
+        inPerimeter = x == 0 || x == (Map.SIDE - 1) || y == 0 || y == (Map.SIDE - 1);
     }
 
     public int getLevel() {
@@ -37,7 +33,7 @@ public class Cell {
         level++;
     }
 
-    public boolean getDome() {
+    private boolean hasDome() {
         return dome;
     }
 
@@ -53,9 +49,7 @@ public class Cell {
      * @return  true if the cell contains a worker
      */
     public boolean hasWorker() {
-        if (worker != null)
-            return true;
-        return false;
+        return worker != null;
     }
 
     /**
@@ -77,8 +71,19 @@ public class Cell {
      * States if the cell stays on the border of the map
      * @return  true if the cell is on the border of the map
      */
-    public boolean isPerimetral() {
-        return perimetral;
+    public boolean isInPerimeter() {
+        return inPerimeter;
+    }
+
+    /**
+     * Checks if cell has a worker or a dome on it.
+     */
+    public boolean isOccupied() {
+        return hasWorker() || hasDome();
+    }
+
+    public Worker getWorker() {
+        return worker;
     }
 
     public int getX(){
