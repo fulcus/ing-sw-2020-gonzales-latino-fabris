@@ -13,6 +13,7 @@ import java.util.Scanner;
 public interface God {
     /**
      * Default evolution of the turn: move, checks if win condition is met, builds.
+     *
      * @param worker Selected worker that will act in the current turn.
      */
     default void evolveTurn(Worker worker) {
@@ -23,6 +24,7 @@ public interface God {
 
     /**
      * Default rules to move the worker.
+     *
      * @param worker Selected worker that will move.
      */
     default void move(Worker worker) {
@@ -31,15 +33,16 @@ public interface God {
         int x = input.nextInt();
         int y = input.nextInt();
 
-        worker.setPosition(x,y);
+        worker.setPosition(x, y);
 
     }
 
-    default void build(Worker w){
+    default Cell build(Worker w) {
 
-        //TODO evitare che una volta scelta la cella, non può più cambiare fare(while nel while)
+        //TODO evitare che una volta scelta la cella, non può più cambiare. fare(while nel while)
         Scanner input = new Scanner(System.in);
         String buildingName;
+        Cell buildingCell;
         int buildingX;
         int buildingY;
 
@@ -49,36 +52,36 @@ public interface God {
             buildingX = input.nextInt();
             buildingY = input.nextInt();
 
+            //devi controllare anche che stia nella mappa.
             //questo controllo va fatto con un metodo static in Map
-            if (buildingX < Map.SIDE && buildingY < Map.SIDE && !(w.getPlayer().getGame().getMap().findCell(buildingX,buildingY).isOccupied()))
-                break;
+            if (!(w.getPlayer().getGame().getMap().findCell(buildingX, buildingY).isOccupied())) {
 
-            System.out.println("Invalid position or occupied cell! It must be in a 5X5 map.TRY AGAIN");
+                buildingCell = w.getPlayer().getGame().getMap().findCell(buildingX, buildingY);
+                break;
+            }
+
+            System.out.println("You cannot build here. Insert a new position");
 
         } while (true);
 
 
-
         do {
 
-            if(w.getPlayer().getGame().getMap().findCell(buildingX,buildingY).getLevel() == 3)
-            {
+            if (buildingCell.getLevel() == 3) {
                 System.out.println("You can build a Dome here, type Dome to build");
                 buildingName = input.nextLine();
 
-                if(buildingName.equals("Dome")) {
+                if (buildingName.equals("Dome")) {
                     w.buildDome(buildingX, buildingY);
                     break;
                 }
 
-            }
-
-            else {
+            } else {
 
                 System.out.println("You can build a Block here, type Block to build");
                 buildingName = input.nextLine();
 
-                if(buildingName.equals("Block")) {
+                if (buildingName.equals("Block")) {
                     w.buildBlock(buildingX, buildingY);
                     break;
                 }
@@ -89,6 +92,8 @@ public interface God {
 
         System.out.println(buildingName + "successfully built");
 
+        return buildingCell;
+
     }
 
 
@@ -96,12 +101,13 @@ public interface God {
 
     /**
      * Checks if win conditions are met.
+     *
      * @param worker The selected worker. Used to get his player.
      * @return True if the worker's player has won. False otherwise.
      */
     //add end game for player if win is true
     default boolean win(Worker worker) {
-        for(Worker w : worker.getPlayer().getWorkers()) {
+        for (Worker w : worker.getPlayer().getWorkers()) {
             if (w.getLevel() == 3 && w.getLevelVariation() == 1)
                 return true;
         }
