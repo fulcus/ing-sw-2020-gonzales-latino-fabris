@@ -1,25 +1,23 @@
 package it.polimi.ingsw.model.god;
 
-import it.polimi.ingsw.model.Worker;
+import it.polimi.ingsw.model.*;
 
 public class Zeus implements God{
 
-    public void evolveTurn(Worker w) {
-        lose(w);
-        move(w);
-        win(w);
-        build(w);
+    private Cell previousPosition;
+
+    @Override
+    public void evolveTurn(Worker worker) {
+        previousPosition = worker.getPosition();
+        move(worker);
+        build(worker);
+        if (previousPosition.equals(worker.getPosition()) && worker.getLevelVariation()==1)
+            System.out.println("You reached an higher level! You are still not the winner!\n");
+        else{
+            win(worker);
+        }
     }
 
-    public void move(Worker w) {
-    }
 
-    public void build(Worker w) {
-    }
 
-    public boolean win(Worker w){
-    }
-
-    public boolean lose(Worker w) {
-    }
 }
