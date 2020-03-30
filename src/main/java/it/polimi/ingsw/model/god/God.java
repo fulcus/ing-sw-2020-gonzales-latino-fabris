@@ -13,7 +13,6 @@ import java.util.Scanner;
 public interface God {
     /**
      * Default evolution of the turn: move, checks if win condition is met, builds.
-     *
      * @param worker Selected worker that will act in the current turn.
      */
     default void evolveTurn(Worker worker) {
@@ -24,7 +23,6 @@ public interface God {
 
     /**
      * Default rules to move the worker.
-     *
      * @param worker Selected worker that will move.
      */
     default void move(Worker worker) {
@@ -33,7 +31,7 @@ public interface God {
         int x = input.nextInt();
         int y = input.nextInt();
 
-        worker.setPosition(x, y);
+        worker.setPosition(x,y);
 
     }
 
@@ -65,18 +63,21 @@ public interface God {
         } while (true);
 
 
+
         do {
 
             if (buildingCell.getLevel() == 3) {
                 System.out.println("You can build a Dome here, type Dome to build");
                 buildingName = input.nextLine();
 
-                if (buildingName.equals("Dome")) {
+                if(buildingName.equals("Dome")) {
                     w.buildDome(buildingX, buildingY);
                     break;
                 }
 
-            } else {
+            }
+
+            else {
 
                 System.out.println("You can build a Block here, type Block to build");
                 buildingName = input.nextLine();
@@ -101,18 +102,12 @@ public interface God {
 
     /**
      * Checks if win conditions are met.
-     *
      * @param worker The selected worker. Used to get his player.
      * @return True if the worker's player has won. False otherwise.
      */
     //add end game for player if win is true
     default boolean win(Worker worker) {
-        for (Worker w : worker.getPlayer().getWorkers()) {
-            if (w.getLevel() == 3 && w.getLevelVariation() == 1)
-                return true;
-        }
-
-        return false;
+        return worker.getLevel() == 3 && worker.getLevelVariation() == 1;
     }
 
 }

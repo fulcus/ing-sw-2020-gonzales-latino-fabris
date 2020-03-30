@@ -10,28 +10,19 @@ public class Demeter implements God {
 
     Cell firstBuildingCell;
 
+    @Override
     public void evolveTurn(Worker w) {
-        lose(w);
         move(w);
-        firstBuildingCell = build(w);
-        secondBuild(w);
         win(w);
+        firstBuildingCell = build(w);
+        buildAgain(w);
     }
 
-    public void move(Worker w) {
-    }
 
 
 
 
-
-    public boolean win(Worker w) {
-    }
-
-    public boolean lose(Worker w) {
-    }
-
-    public void secondBuild(Worker w) {
+    private void buildAgain(Worker worker) {
 
         Scanner input = new Scanner(System.in);
         String buildingName;
@@ -55,15 +46,15 @@ public class Demeter implements God {
                     buildingY = input.nextInt();
 
 
-                    if (!(w.getPlayer().getGame().getMap().findCell(buildingX, buildingY).equals(firstBuildingCell)) && !(w.getPlayer().getGame().getMap().findCell(buildingX,buildingY).isOccupied())) {
+                    if (!(worker.getPlayer().getGame().getMap().findCell(buildingX, buildingY).equals(firstBuildingCell)) && buildingX < Map.SIDE && buildingY < Map.SIDE && !(worker.getPlayer().getGame().getMap().findCell(buildingX, buildingY).isOccupied())) {
 
-                        if (w.getPlayer().getGame().getMap().findCell(buildingX, buildingY).getLevel() == 3) {
+                        if (worker.getPlayer().getGame().getMap().findCell(buildingX, buildingY).getLevel() == 3) {
 
                             System.out.println("You can build a Dome here, type Dome to build");
                             buildingName = input.nextLine();
 
                             if (buildingName.equals("Dome")) {
-                                w.buildDome(buildingX, buildingY);
+                                worker.buildDome(buildingX, buildingY);
                                 break;
                             }
 
@@ -73,7 +64,7 @@ public class Demeter implements God {
                             buildingName = input.nextLine();
 
                             if (buildingName.equals("Block")) {
-                                w.buildBlock(buildingX, buildingY);
+                                worker.buildBlock(buildingX, buildingY);
                                 break;
                             }
 
@@ -83,8 +74,7 @@ public class Demeter implements God {
 
                     System.out.println("It must be a different place");
 
-                } while (true)
-
+                } while (true);
 
             } else if (command.equals("Endturn")) {
 
