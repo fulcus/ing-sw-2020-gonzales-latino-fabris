@@ -2,52 +2,35 @@ package it.polimi.ingsw.model.god;
 
 import it.polimi.ingsw.model.*;
 
+import java.util.Scanner;
+
 public class Prometheus implements God{
 
-    public void evolveTurn(Worker w, Map m) {
-        boolean canBuildBeforeMove=true;
-        for(int i=-1; i<2; i++){
-            for(int j=-1; j<2; j++){
-                //se la mossa è possibile in quella cella
-                // e se la mossa comporta salire di livello
-                // allora non posso costruire prima di muovermi
-                if (possibleMove(w,m)[i+1][j+1] && (m.findCell(w.getPosition().getX()+i, w.getPosition().getY()+j).getLevel() - w.getPosition().getLevel() ==1))
-                    canBuildBeforeMove = false;
-            }
+    @Override
+    public void evolveTurn(Worker worker) {
+        if(!wantToMoveUp()) {
+            build(worker);
+            worker.getPlayer().cantMoveUp();
         }
-        if (canBuildBeforeMove)
-            build(w);
-        move(w);
-        win(w);
-        build(w);
+        move(worker);
+        win(worker);
+        build(worker);
     }
 
-    public void move(Worker w) {
-    }
+    private boolean wantToMoveUp() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Do you want to move up?");
+        String answer = input.nextLine();
 
-    public void build(Worker w) {
-    }
+        while(true) {
 
-    public boolean win(Worker w){
-    }
-
-    public boolean loose(Worker w) {
-    }
-
-    public boolean[][] possibleMove(Worker w, Map m) {
-        boolean[][] matrix = new boolean[][];
-        for(int i=w.getPosition().getX() - 1; i<=w.getPosition().getX()+1; i++ ){
-            for(int j=w.getPosition().getY() -1; j<=w.getPosition().getY() +1; j++){
-                // se è fuori dal perimetro, se il salto di livello è troppo alto
-                // o se nella cella c'è un altro worker o una dome
-                // allora non posso spostarmi in quella cella
-                if ( (i<0 || i>4 || j<0 || j>4) || (m.findCell(i,j).getLevel() - w.getPosition().getLevel() > 1) || (m.findCell(i,j).hasWorker() || m.findCell(i,j).getDome()) )
-                    matrix[i][j] = false;
-                else
-                    matrix[i][j] = true;
-            }
+            if (answer.equals("Y")) {
+                return false;
+            } else if(answer.equals("N")) {
+                return true;
+            } else
+                System.out.println("Type Y or N to answer");
         }
-        return matrix;
     }
 
 }

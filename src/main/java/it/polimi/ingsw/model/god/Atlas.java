@@ -7,20 +7,12 @@ import java.util.Scanner;
 
 public class Atlas implements God{
 
-    public void evolveTurn(Worker w) {
-        lose(w);
-        move(w);
-        win(w);
-        build(w);
-        buildDome(w);
-    }
-
-    public void move(Worker w) {
-    }
-
-
     @Override
-    public void build(Worker w) {
+    public void build(Worker worker) {
+        buildAllowDome(worker);
+    }
+
+    private void buildAllowDome(Worker worker) {
 
         System.out.println("Atlas additional power: You can also build a Dome at any level");
 
@@ -37,7 +29,7 @@ public class Atlas implements God{
             buildingY = input.nextInt();
 
             //questo controllo va fatto con un metodo static in Map
-            if (buildingX < Map.SIDE && buildingY < Map.SIDE && !(w.getPlayer().getGame().getMap().findCell(buildingX,buildingY).isOccupied()))
+            if (buildingX < Map.SIDE && buildingY < Map.SIDE && !(worker.getPlayer().getGame().getMap().findCell(buildingX,buildingY).isOccupied()))
                 break;
 
             System.out.println("Invalid position or occupied cell! It must be in a 5X5 map.TRY AGAIN");
@@ -48,13 +40,13 @@ public class Atlas implements God{
 
         do {
 
-            if(w.getPlayer().getGame().getMap().findCell(buildingX,buildingY).getLevel() == 3)
+            if(worker.getPlayer().getGame().getMap().findCell(buildingX,buildingY).getLevel() == 3)
             {
                 System.out.println("You can only build a Dome here, type Dome to build");
                 buildingName = input.nextLine();
 
                 if(buildingName.equals("Dome")) {
-                    w.buildDome(buildingX, buildingY);
+                    worker.buildDome(buildingX, buildingY);
                     break;
                 }
 
@@ -67,13 +59,13 @@ public class Atlas implements God{
 
                 if(buildingName.equals("Block")) {
 
-                    w.buildBlock(buildingX, buildingY);
+                    worker.buildBlock(buildingX, buildingY);
                     break;
                 }
 
                 else if(buildingName.equals("Dome")){
 
-                    w.buildDome(buildingX, buildingY);
+                    worker.buildDome(buildingX, buildingY);
                     break;
                 }
 
@@ -87,13 +79,4 @@ public class Atlas implements God{
 
     }
 
-    public boolean win(Worker w){
-    }
-
-    public boolean lose(Worker w) {
-    }
-
-    public void buildDome(Worker w){
-
-    }
 }
