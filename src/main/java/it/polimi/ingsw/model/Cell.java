@@ -33,7 +33,7 @@ public class Cell {
         level++;
     }
 
-    public boolean getDome() {
+    private boolean hasDome() {
         return dome;
     }
 
@@ -73,6 +73,13 @@ public class Cell {
      */
     public boolean isInPerimeter() {
         return inPerimeter;
+    }
+
+    /**
+     * Checks if cell has a worker or a dome on it.
+     */
+    public boolean isOccupied() {
+        return hasWorker() || hasDome();
     }
 
     public Worker getWorker() {

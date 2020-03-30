@@ -1,30 +1,30 @@
 package it.polimi.ingsw.model.god;
 
+import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.Worker;
+
+import java.util.Scanner;
 
 public class Apollo implements God{
 
-    public void evolveTurn(Worker w) {
-        lose(w);
-        move(w);
-        moveSwap(w);
-        win(w);
-        build(w);
-    }
-
+    @Override
     public void move(Worker w) {
+        moveSwap(w);
     }
 
-    public void build(Worker w) {
-    }
+    private void moveSwap(Worker worker){
+        Scanner input = new Scanner(System.in);
+        int x = input.nextInt();
+        int y = input.nextInt();
+        Cell chosenCell = worker.getPlayer().getGame().getMap().findCell(x, y);
 
-    public boolean win(Worker w){
-    }
+        Worker enemyWorker = chosenCell.getWorker(); //si può fare? è safe? e se getWorker() == null ?
 
-    public boolean lose(Worker w) {
-    }
+        //chosenCell contains enemy worker
+        if(chosenCell.hasWorker() && enemyWorker.getPlayer() != worker.getPlayer())
+            enemyWorker.setPosition(worker.getPosition());  //swap enemyWorker
 
-    public void moveSwap(Worker w){
+        worker.setPosition(x,y);
 
     }
 

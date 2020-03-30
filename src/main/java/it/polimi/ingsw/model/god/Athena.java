@@ -1,30 +1,28 @@
 package it.polimi.ingsw.model.god;
 
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Worker;
 
 public class Athena implements God{
 
-    public void evolveTurn(Worker w) {
-        lose(w);
-        move(w);
-        win(w);
-        build(w);
-        verifyRestriction(w);
+    public void evolveTurn(Worker worker) {
+        loseCannotMove(worker);
+        move(worker);
+        win(worker);
+        loseCannotBuild(worker);
+        build(worker);
+        applyRestriction(worker);
     }
 
-    public void move(Worker w) {
-    }
-
-    public void build(Worker w) {
-    }
-
-    public boolean win(Worker w){
-    }
-
-    public boolean lose(Worker w) {
-    }
-
-    public void verifyRestriction(Worker w){
-
+    private void applyRestriction(Worker worker){
+        if(worker.hasMovedUp()) {
+            for(Player p : worker.getPlayer().getGame().getPlayers()) {
+                if(p != worker.getPlayer()) {
+                    p.cantMoveUp();
+                }
+                else
+                    p.canMoveUp();
+            }
+        }
     }
 }

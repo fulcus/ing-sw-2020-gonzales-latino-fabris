@@ -40,6 +40,21 @@ public class Worker {
     }
 
     /**
+     * Changes position of the worker and updates level and movedUp.
+     * @param newPosition Cell the worker is moving into.
+     */
+    public void setPosition(Cell newPosition) {
+        //vado via da cella precedente e Position nella nuova
+        position.moveOut();
+        newPosition.moveIn(this);
+
+        movedUp = hasMovedUpThisTurn(newPosition);
+        level = newPosition.getLevel();
+        position = newPosition;
+
+    }
+
+    /**
      * Builds a new block in the specified cell.
      * @param x Coordinate of the position to build in.
      * @param y Coordinate of the position to build in.
