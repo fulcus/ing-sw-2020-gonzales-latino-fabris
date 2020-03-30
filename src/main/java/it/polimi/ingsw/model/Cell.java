@@ -33,7 +33,7 @@ public class Cell {
         level++;
     }
 
-    private boolean hasDome() {
+    public boolean hasDome() {
         return dome;
     }
 

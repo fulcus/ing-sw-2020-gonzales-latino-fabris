@@ -36,7 +36,7 @@ public class Artemis implements God{
                 System.out.println("You can't move back to the initial space");
 
             } else if (!answer.equals("N"))
-                System.out.println("Write Y or N to answer");
+                System.out.println("Type Y or N to answer");
         }
     }
 
