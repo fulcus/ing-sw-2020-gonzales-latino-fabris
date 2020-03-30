@@ -13,7 +13,7 @@ public class Player {
     private String nickname;
     private Color color;
     private God god;
-    private ArrayList<Worker> workers;  //useless?
+    private ArrayList<Worker> workers;
     protected Worker chosenWorker;
     private boolean forbiddenToWinInPerimeter;  //true if restriction applied
     private boolean forbiddenToMoveUp;
@@ -157,10 +157,14 @@ public class Player {
         forbiddenToWinInPerimeter = false;
     }
 
+    public ArrayList<Worker> getWorkers() {
+        return workers;
+    }
 
     public Game getGame() {
         return game;
     }
+
 
     /*
     public void register(PlayerObserver playerObserver){
