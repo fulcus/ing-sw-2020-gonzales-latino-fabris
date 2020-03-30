@@ -11,12 +11,10 @@ public class Artemis implements God{
 
     @Override
     public void evolveTurn(Worker w) {
-        loseCannotMove(w);
         initialPosition = w.getPosition();
         move(w);
         moveAgain(w);
         win(w);
-        loseCannotBuild(w);
         build(w);
     }
 

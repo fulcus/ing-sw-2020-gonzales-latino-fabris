@@ -10,15 +10,20 @@ import java.util.Scanner;
  */
 
 public interface God {
-
+    /**
+     * Default evolution of the turn: move, checks if win condition is met, builds.
+     * @param worker Selected worker that will act in the current turn.
+     */
     default void evolveTurn(Worker worker) {
-        loseCannotMove(worker);
         move(worker);
         win(worker);
-        loseCannotBuild(worker);
         build(worker);
     }
 
+    /**
+     * Default rules to move the worker.
+     * @param worker Selected worker that will move.
+     */
     default void move(Worker worker) {
         Scanner input = new Scanner(System.in);
         System.out.println("Where do you want to move? (input coordinates)");
@@ -29,12 +34,21 @@ public interface God {
 
     }
 
-    void build(Worker w);
+    void build(Worker worker);
 
-    boolean win(Worker w);
+    /**
+     * Checks if win conditions are met.
+     * @param worker The selected worker. Used to get his player.
+     * @return True if the worker's player has won. False otherwise.
+     */
+    //add end game for player if win is true
+    default boolean win(Worker worker) {
+        for(Worker w : worker.getPlayer().getWorkers()) {
+            if (w.getLevel() == 3 && w.getLevelVariation() == 1)
+                return true;
+        }
 
-    boolean loseCannotMove(Worker w);
-
-    boolean loseCannotBuild(Worker w);
+        return false;
+    }
 
 }
