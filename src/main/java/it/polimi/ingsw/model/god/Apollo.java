@@ -30,12 +30,14 @@ public class Apollo implements God{
 
     }
 
-    public void updateMoveMatrix(Worker worker) {
+    public MoveMatrix updateMoveMatrix(Worker worker) {
         MoveMatrix workersMatrix = worker.getAllowedMoveMatrix();
 
         workersMatrix.cannotStayStill();
         workersMatrix.cannotMoveInDomeCell();
         workersMatrix.cannotMoveInFriendlyWorkerCell();
+
+        return workersMatrix;
     }
 
 }

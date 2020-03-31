@@ -27,9 +27,16 @@ public class Map {
      * Used to find one specific cell on the map
      * @param x Row of the map
      * @param y Column of the map
-     * @return  Cell which I specified with the parameters
+     * @return  Returns cell if contained in map, null otherwise.
      */
     public Cell findCell(int x, int y) {
-        return map[x][y];
+        if(isInMap(x,y))
+            return map[x][y];
+        return null;
     }
+
+    public boolean isInMap(int x, int y) {
+        return x >= 0 && x < SIDE && y >= 0 && y < SIDE;
+    }
+
 }

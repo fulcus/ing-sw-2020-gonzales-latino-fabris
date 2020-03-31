@@ -6,6 +6,7 @@ import java.util.Random;
  * Matrix that represents the adjacent positions the player can move to.
  */
 public class MoveMatrix {
+    private Map map;
     private Worker worker;
     private boolean[][] matrix;
     private static final int N = 3;
@@ -13,6 +14,7 @@ public class MoveMatrix {
     public MoveMatrix(Worker worker) {
         this.worker = worker;
         matrix = new boolean[N][N];
+        this.map = worker.getPlayer().getGame().getMap();
 
         //initialized standard matrix
         for(int i = 0; i < N; i++) {
@@ -23,7 +25,7 @@ public class MoveMatrix {
     }
 
     public void cannotMoveInDomeCell() {
-        Map map = worker.getPlayer().getGame().getMap();
+
         for(int i = 0; i < N; i++) {
             for(int j = 0; j < N; j++) {
                 if(getAbsolutePosition(i,j).hasDome())
@@ -33,7 +35,7 @@ public class MoveMatrix {
     }
 
     public void cannotMoveInWorkerCell() {
-        Map map = worker.getPlayer().getGame().getMap();
+
         for(int i = 0; i < N; i++) {
             for(int j = 0; j < N; j++) {
                 if(getAbsolutePosition(i,j).hasWorker())
@@ -43,7 +45,7 @@ public class MoveMatrix {
     }
 
     public void cannotMoveInOccupiedCell() {
-        Map map = worker.getPlayer().getGame().getMap();
+
         for(int i = 0; i < N; i++) {
             for(int j = 0; j < N; j++) {
                 if(getAbsolutePosition(i,j).isOccupied())
@@ -53,7 +55,7 @@ public class MoveMatrix {
     }
 
     public void cannotMoveInFriendlyWorkerCell() {
-        Map map = worker.getPlayer().getGame().getMap();
+
         for(int i = 0; i < N; i++) {
             for(int j = 0; j < N; j++) {
                 if(getAbsolutePosition(i,j).hasWorker() &&
@@ -80,11 +82,39 @@ public class MoveMatrix {
         return matrix[i][j];
     }
 
-
+    /**
+     * Returns Cell of Map given the relative coordinates of the worker.
+     * @param i Relative coordinate of MoveMatrix.
+     * @param j Relative coordinate of MoveMatrix.
+     * @return Returns Cell of Map given the relative coordinates of the worker,
+     * returns null if the Cell is out of the boundaries of the map.
+     */
     public Cell getAbsolutePosition(int i, int j) {
         int workersX = worker.getPosition().getX();
         int workersY = worker.getPosition().getY();
+
+        if(!map.isInMap(workersX,workersY))
+            return null;
+
         return worker.getPlayer().getGame().getMap().findCell(workersX - 1 + i,workersY - 1 + j);
+    }
+
+    /**
+     * Sets false cells not contained in Map.
+     */
+    public void updateCellsNotInMap() {
+        Cell workersCell = worker.getPosition();
+
+        if(workersCell.isInPerimeter()) {
+            for(int i = 0; i < N; i++) {
+                for(int j = 0; j < N; j++) {
+
+                    if(!map.isInMap(i,j))
+                        matrix[i][j] = false;
+
+                }
+            }
+        }
     }
 
     public Worker getWorker() {

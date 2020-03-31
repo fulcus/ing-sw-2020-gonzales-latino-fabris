@@ -16,7 +16,6 @@ public interface God {
      * @param worker Selected worker that will act in the current turn.
      */
     default void evolveTurn(Worker worker) {
-        updateMoveMatrix(worker);
         move(worker);
         win(worker);
         build(worker);
@@ -27,12 +26,16 @@ public interface God {
      * @param worker Selected worker that will move.
      */
     default void move(Worker worker) {
+        MoveMatrix workersMatrix = updateMoveMatrix(worker);
+
+        //todo in View
         Scanner input = new Scanner(System.in);
         System.out.println("Where do you want to move? (input coordinates)");
         int x = input.nextInt();
         int y = input.nextInt();
 
-        worker.setPosition(x,y);
+        if(workersMatrix.getAllowedToMove(x,y))
+            worker.setPosition(x,y);
 
     }
 
@@ -120,10 +123,11 @@ public interface God {
      * @param worker Selected worker.
      */
     //will be called at the beginning of each move, which will then comply with the matrix.
-    default void updateMoveMatrix(Worker worker) {
+    default MoveMatrix updateMoveMatrix(Worker worker) {
         MoveMatrix workersMatrix = worker.getAllowedMoveMatrix();
 
         workersMatrix.cannotStayStill();
         workersMatrix.cannotMoveInOccupiedCell();
+        return workersMatrix;
     }
 }
