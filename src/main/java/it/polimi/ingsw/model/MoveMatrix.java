@@ -22,6 +22,7 @@ public class MoveMatrix {
                 matrix[i][j] = true;
             }
         }
+        cannotStayStill();
     }
 
     public void cannotMoveInDomeCell() {

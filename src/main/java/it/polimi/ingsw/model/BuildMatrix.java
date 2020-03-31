@@ -18,7 +18,7 @@ public class BuildMatrix {
                 matrix[i][j] = true;
             }
         }
-        matrix[2][2] = false;
+        matrix[1][1] = false;
 
     }
 

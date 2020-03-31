@@ -34,7 +34,8 @@ public class Worker {
         int newLevel = newPosition.getLevel();
 
         //vado via da cella precedente e Position nella nuova
-        position.moveOut();
+        if(position != null)
+            position.moveOut();
         newPosition.moveIn(this);
         //newPosition.getLevel() > level
         levelVariation = newLevel - level;
