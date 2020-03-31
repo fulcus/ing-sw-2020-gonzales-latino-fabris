@@ -16,7 +16,7 @@ public class Game {
      * @param numberOfPlayers Number of players of the game.
      */
     public Game(int numberOfPlayers) {
-        map = new Map(this);
+        map = new Map();
         this.numberOfPlayers = numberOfPlayers;
         players = new ArrayList<>(numberOfPlayers);
         chosenGods = new ArrayList<>(numberOfPlayers);

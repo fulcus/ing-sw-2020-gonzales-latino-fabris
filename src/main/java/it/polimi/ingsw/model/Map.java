@@ -5,23 +5,22 @@ package it.polimi.ingsw.model;
  */
 
 public class Map {
-    private final Game game;
-    private final Cell[][] map;
+    private final Cell[][] board;
     public static final int SIDE = 5;
 
-    public Map(Game game) {
-        this.game = game;
-        this.map = new Cell[SIDE][SIDE];
+    public Map() {
+        this.board = new Cell[SIDE][SIDE];
         for(int i = 0; i < SIDE; i++){
             for(int j = 0; j < SIDE; j++){
-                map[i][j] = new Cell(i, j);
+                board[i][j] = new Cell(i, j);
             }
         }
     }
 
-    public Cell[][] getMap(){
-        return map;
+    public Cell[][] getBoard() {
+        return board;
     }
+
 
     /**
      * Used to find one specific cell on the map
@@ -31,7 +30,7 @@ public class Map {
      */
     public Cell findCell(int x, int y) {
         if(isInMap(x,y))
-            return map[x][y];
+            return board[x][y];
         return null;
     }
 
