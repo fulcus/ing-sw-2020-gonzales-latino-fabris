@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.god;
 
 import it.polimi.ingsw.model.Cell;
-import it.polimi.ingsw.model.Map;
+import it.polimi.ingsw.model.MoveMatrix;
 import it.polimi.ingsw.model.Worker;
 
 import java.util.Scanner;
@@ -16,6 +16,7 @@ public interface God {
      * @param worker Selected worker that will act in the current turn.
      */
     default void evolveTurn(Worker worker) {
+        updateMoveMatrix(worker);
         move(worker);
         win(worker);
         build(worker);
@@ -36,11 +37,11 @@ public interface God {
     }
 
     /**
-     *This method represents the standard build action.
-     * @param w This is the current worker.
+     * The standard build action.
+     * @param worker This is the current worker.
      * @return It returns the cell wherein the worker has just built.
      */
-    default Cell build(Worker w) {
+    default Cell build(Worker worker) {
 
         //TODO evitare che una volta scelta la cella, non può più cambiare. fare(while nel while)
         Scanner input = new Scanner(System.in);
@@ -57,9 +58,9 @@ public interface God {
 
             //devi controllare anche che stia nella mappa.
             //questo controllo va fatto con un metodo static in Map
-            if (!(w.getPlayer().getGame().getMap().findCell(buildingX, buildingY).isOccupied())) {
+            if (!(worker.getPlayer().getGame().getMap().findCell(buildingX, buildingY).isOccupied())) {
 
-                buildingCell = w.getPlayer().getGame().getMap().findCell(buildingX, buildingY);
+                buildingCell = worker.getPlayer().getGame().getMap().findCell(buildingX, buildingY);
                 break;
             }
 
@@ -76,7 +77,7 @@ public interface God {
                 buildingName = input.nextLine();
 
                 if(buildingName.equals("Dome")) {
-                    w.buildDome(buildingX, buildingY);
+                    worker.buildDome(buildingX, buildingY);
                     break;
                 }
 
@@ -88,7 +89,7 @@ public interface God {
                 buildingName = input.nextLine();
 
                 if (buildingName.equals("Block")) {
-                    w.buildBlock(buildingX, buildingY);
+                    worker.buildBlock(buildingX, buildingY);
                     break;
                 }
 
@@ -114,4 +115,15 @@ public interface God {
         return worker.getLevel() == 3 && worker.getLevelVariation() == 1;
     }
 
+    /**
+     * Sets the permissions to move of the selected worker.
+     * @param worker Selected worker.
+     */
+    //will be called at the beginning of each move, which will then comply with the matrix.
+    default void updateMoveMatrix(Worker worker) {
+        MoveMatrix workersMatrix = worker.getAllowedMoveMatrix();
+
+        workersMatrix.cannotStayStill();
+        workersMatrix.cannotMoveInOccupiedCell();
+    }
 }

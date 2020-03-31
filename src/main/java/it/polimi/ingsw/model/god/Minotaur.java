@@ -15,21 +15,21 @@ public class Minotaur implements God{
     @Override
     public void move(Worker worker) {
 
-        Map m = worker.getPlayer().getGame().getMap();
+        Map map = worker.getPlayer().getGame().getMap();
         int[] delta = new int[2];
         Scanner input = new Scanner(System.in);
         System.out.println("Where do you want to move? (input coordinates)");
         int x = input.nextInt();
         int y = input.nextInt();
 
-        if(possibleMove(worker,m)[x][y])
+        if(possibleMove(worker,map)[x][y])
             worker.setPosition(x,y);
         else{
-            if((x<5 && y<5) && m.findCell(x,y).hasWorker() && !m.findCell(x,y).hasDome() && !m.findCell(x,y).getWorker().getPlayer().equals(worker.getPlayer())) {
+            if((x<5 && y<5) && map.findCell(x,y).hasWorker() && !map.findCell(x,y).hasDome() && !map.findCell(x,y).getWorker().getPlayer().equals(worker.getPlayer())) {
                 delta[0] = x - worker.getPosition().getX();
                 delta[1] = y - worker.getPosition().getY();
                 if (x+delta[0]<=4 && x+delta[0]>=0 && y+delta[1]>=0 && y+delta[1]<=4) {
-                    m.findCell(x,y).getWorker().setPosition(x+delta[0], y+delta[1]);
+                    map.findCell(x,y).getWorker().setPosition(x+delta[0], y+delta[1]);
                     worker.setPosition(x,y);
                 }
             }

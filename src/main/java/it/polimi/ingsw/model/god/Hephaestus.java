@@ -11,20 +11,20 @@ public class Hephaestus implements God{
 
     /**
      * This method calls the sequence of actions that can be done by the player who owns Hephaestus.
-     * @param w This is the current worker.
+     * @param worker This is the current worker.
      */
-    public void evolveTurn(Worker w) {
-        move(w);
-        win(w);
-        firstBuildingCell = build(w);
-        secondBuild(w);
+    public void evolveTurn(Worker worker) {
+        move(worker);
+        win(worker);
+        firstBuildingCell = build(worker);
+        secondBuild(worker);
     }
 
     /**
      * This method allows the player to build in the same place twice.
-     * @param w This is the player's current worker.
+     * @param worker This is the player's current worker.
      */
-    public void secondBuild(Worker w){
+    public void secondBuild(Worker worker){
 
         Scanner input = new Scanner(System.in);
         String command;
@@ -38,13 +38,13 @@ public class Hephaestus implements God{
 
                 if(firstBuildingCell.getLevel()<3 && !(firstBuildingCell.hasDome())){
 
-                    w.buildBlock(firstBuildingCell.getX(),firstBuildingCell.getY());
+                    worker.buildBlock(firstBuildingCell.getX(),firstBuildingCell.getY());
                     break;
                 }
 
                 else if(firstBuildingCell.getLevel()==3 && !(firstBuildingCell.hasDome()) ){
 
-                    w.buildDome(firstBuildingCell.getX(),firstBuildingCell.getY());
+                    worker.buildDome(firstBuildingCell.getX(),firstBuildingCell.getY());
                     break;
                 }
 

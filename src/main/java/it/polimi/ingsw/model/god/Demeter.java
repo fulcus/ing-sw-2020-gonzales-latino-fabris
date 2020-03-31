@@ -18,10 +18,6 @@ public class Demeter implements God {
         buildAgain(w);
     }
 
-
-
-
-
     private void buildAgain(Worker worker) {
 
         Scanner input = new Scanner(System.in);

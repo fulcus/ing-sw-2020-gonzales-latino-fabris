@@ -6,6 +6,8 @@ public class Worker {
     private final Player player;
     private final Sex sex;
     private Cell position;
+    private final MoveMatrix allowedMoveMatrix;
+    private final BuildMatrix allowedBuildMatrix;
     private int level;
     private int levelVariation; //level before moving - level after moving
     /** Creates a worker.
@@ -17,6 +19,8 @@ public class Worker {
         this.sex = sex;
         level = 0;
         levelVariation = 0;
+        allowedMoveMatrix = new MoveMatrix(this);
+        allowedBuildMatrix = new BuildMatrix(this);
     }
 
     /**
@@ -99,6 +103,13 @@ public class Worker {
         return sex;
     }
 
+    public MoveMatrix getAllowedMoveMatrix() {
+        return allowedMoveMatrix;
+    }
+
+    public BuildMatrix getAllowedBuildMatrix() {
+        return allowedBuildMatrix;
+    }
 
 
 }
