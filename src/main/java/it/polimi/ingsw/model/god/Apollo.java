@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model.god;
 
 import it.polimi.ingsw.model.Cell;
-import it.polimi.ingsw.model.MoveMatrix;
 import it.polimi.ingsw.model.Worker;
+import it.polimi.ingsw.model.WorkerMoveMap;
 
 import java.util.Scanner;
 
@@ -30,14 +30,14 @@ public class Apollo implements God{
 
     }
 
-    public MoveMatrix updateMoveMatrix(Worker worker) {
-        MoveMatrix workersMatrix = worker.getAllowedMoveMatrix();
+    public WorkerMoveMap updateMoveMatrix(Worker worker) {
+        WorkerMoveMap workersMoveMap = worker.getMoveMap();
 
-        workersMatrix.cannotStayStill();
-        workersMatrix.cannotMoveInDomeCell();
-        workersMatrix.cannotMoveInFriendlyWorkerCell();
+        workersMoveMap.cannotStayStill();
+        workersMoveMap.cannotMoveInDomeCell();
+        workersMoveMap.cannotMoveInFriendlyWorkerCell();
 
-        return workersMatrix;
+        return workersMoveMap;
     }
 
 }

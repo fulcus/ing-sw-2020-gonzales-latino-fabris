@@ -32,11 +32,28 @@ public class WorkerTest {
     }
 
     @Test
-    public void testSetPosition() {
+    public void testSetPositionCoordinates() {
         worker.setPosition(2,3);
         assertEquals(2,worker.getPosition().getX());
         assertEquals(3,worker.getPosition().getY());
 
+        worker.setPosition(4,2);
+        assertEquals(4,worker.getPosition().getX());
+        assertEquals(2,worker.getPosition().getY());
+
+    }
+
+    @Test
+    public void testSetPositionCell() {
+        Cell firstCell = map.findCell(2,3);
+        worker.setPosition(firstCell);
+        assertEquals(2,worker.getPosition().getX());
+        assertEquals(3,worker.getPosition().getY());
+
+        Cell secondCell = map.findCell(3,1);
+        worker.setPosition(secondCell);
+        assertEquals(3,worker.getPosition().getX());
+        assertEquals(1,worker.getPosition().getY());
     }
 
     @Test
@@ -91,14 +108,14 @@ public class WorkerTest {
 
     @Test
     public void testGetAllowedMoveMatrix() {
-        MoveMatrix matrix = worker.getAllowedMoveMatrix();
+        WorkerMoveMap matrix = worker.getMoveMap();
 
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 3; j++) {
                 if(i == 1 && j == 1)
-                    assertFalse(matrix.getAllowedToMove(i,j));
+                    assertFalse(matrix.isAllowedToMove(i,j));
                 else
-                    assertTrue(matrix.getAllowedToMove(i,j));
+                    assertTrue(matrix.isAllowedToMove(i,j));
             }
         }
 
@@ -106,7 +123,7 @@ public class WorkerTest {
 
     @Test
     public void testGetAllowedBuildMatrix() {
-        BuildMatrix matrix = worker.getAllowedBuildMatrix();
+        WorkerBuildMap matrix = worker.getBuildMap();
 
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 3; j++) {

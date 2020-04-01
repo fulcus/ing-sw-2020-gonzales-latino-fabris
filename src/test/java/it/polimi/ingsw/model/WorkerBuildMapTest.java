@@ -2,7 +2,7 @@ package it.polimi.ingsw.model;
 
 import junit.framework.TestCase;
 
-public class BuildMatrixTest extends TestCase {
+public class WorkerBuildMapTest extends TestCase {
 
     public void testAllowedToBuildInPosition() {
     }

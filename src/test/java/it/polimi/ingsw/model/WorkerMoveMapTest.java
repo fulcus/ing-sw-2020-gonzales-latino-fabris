@@ -2,7 +2,7 @@ package it.polimi.ingsw.model;
 
 import junit.framework.TestCase;
 
-public class MoveMatrixTest extends TestCase {
+public class WorkerMoveMapTest extends TestCase {
 
     public void testCannotMoveInDomeCell() {
     }
