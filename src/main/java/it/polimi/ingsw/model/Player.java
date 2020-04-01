@@ -15,7 +15,7 @@ public class Player {
     private God god;
     private ArrayList<Worker> workers;
     private Worker chosenWorker;
-    private boolean canWinInPerimeter;  //true if restriction applied
+    private boolean canWinInPerimeter;  //true if can win on perimeter
     private boolean canMoveUp;
 
 
