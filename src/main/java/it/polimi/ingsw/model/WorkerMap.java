@@ -103,6 +103,7 @@ public class WorkerMap {
     /**
      * Sets false cells not contained in Map.
      */
+    //called in both getters of moveMap and buildMap of worker
     public void updateCellsOutofMap() {
         Cell workersCell = worker.getPosition();
 

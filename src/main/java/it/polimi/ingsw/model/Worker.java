@@ -106,10 +106,12 @@ public class Worker {
     }
 
     public WorkerMoveMap getMoveMap() {
+        moveMap.updateCellsOutofMap();
         return moveMap;
     }
 
     public WorkerBuildMap getBuildMap() {
+        buildMap.updateCellsOutofMap();
         return buildMap;
     }
 

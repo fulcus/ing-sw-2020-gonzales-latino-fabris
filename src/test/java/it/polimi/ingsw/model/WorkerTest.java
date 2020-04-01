@@ -17,7 +17,7 @@ public class WorkerTest {
     public void setUp() {
         game = new Game(2);
         game.addPlayer("nickname1");
-        //game.addPlayer("nickname2");
+        game.addPlayer("nickname2");
         map = game.getMap();
         player = game.getPlayers().get(0);
         worker = player.getWorkers().get(0);
@@ -108,11 +108,13 @@ public class WorkerTest {
 
     @Test
     public void testGetAllowedMoveMatrix() {
+        //edge case of worker in perimeter
+        worker.setPosition(4,4);
         WorkerMoveMap matrix = worker.getMoveMap();
 
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 3; j++) {
-                if(i == 1 && j == 1)
+                if(i == 1 && j == 1 || !map.isInMap(i,j))
                     assertFalse(matrix.isAllowedToMove(i,j));
                 else
                     assertTrue(matrix.isAllowedToMove(i,j));
@@ -123,11 +125,12 @@ public class WorkerTest {
 
     @Test
     public void testGetAllowedBuildMatrix() {
+        worker.setPosition(3,3);
         WorkerBuildMap matrix = worker.getBuildMap();
 
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 3; j++) {
-                if(i == 1 && j == 1)
+                if(i == 1 && j == 1 || !map.isInMap(i,j))
                     assertFalse(matrix.isAllowedToBuild(i,j));
                 else
                     assertTrue(matrix.isAllowedToBuild(i,j));
