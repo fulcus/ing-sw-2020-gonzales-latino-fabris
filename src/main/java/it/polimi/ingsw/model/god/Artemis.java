@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.Worker;
 
 import java.util.Scanner;
 
-public class Artemis implements God{
+public class Artemis implements God {
 
     private Cell initialPosition;
 

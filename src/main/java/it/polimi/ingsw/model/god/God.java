@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model.god;
 
 import it.polimi.ingsw.model.Cell;
-import it.polimi.ingsw.model.MoveMatrix;
 import it.polimi.ingsw.model.Worker;
+import it.polimi.ingsw.model.WorkerMoveMap;
 
 import java.util.Scanner;
 
@@ -26,7 +26,7 @@ public interface God {
      * @param worker Selected worker that will move.
      */
     default void move(Worker worker) {
-        MoveMatrix workersMatrix = updateMoveMatrix(worker);
+        WorkerMoveMap workersMatrix = updateMoveMatrix(worker);
 
         //todo in View
         Scanner input = new Scanner(System.in);
@@ -34,7 +34,7 @@ public interface God {
         int x = input.nextInt();
         int y = input.nextInt();
 
-        if(workersMatrix.getAllowedToMove(x,y))
+        if(workersMatrix.isAllowedToMove(x,y))
             worker.setPosition(x,y);
 
     }
@@ -123,8 +123,8 @@ public interface God {
      * @param worker Selected worker.
      */
     //will be called at the beginning of each move, which will then comply with the matrix.
-    default MoveMatrix updateMoveMatrix(Worker worker) {
-        MoveMatrix workersMatrix = worker.getAllowedMoveMatrix();
+    default WorkerMoveMap updateMoveMatrix(Worker worker) {
+        WorkerMoveMap workersMatrix = worker.getMoveMap();
 
         workersMatrix.cannotStayStill();
         workersMatrix.cannotMoveInOccupiedCell();

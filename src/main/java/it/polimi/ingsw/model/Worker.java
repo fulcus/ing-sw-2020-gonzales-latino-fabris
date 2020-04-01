@@ -6,8 +6,8 @@ public class Worker {
     private final Player player;
     private final Sex sex;
     private Cell position;
-    private final MoveMatrix allowedMoveMatrix;
-    private final BuildMatrix allowedBuildMatrix;
+    private final WorkerMoveMap moveMap;
+    private final WorkerBuildMap buildMap;
     private int level;
     private int levelVariation; //level before moving - level after moving
     /** Creates a worker.
@@ -19,8 +19,8 @@ public class Worker {
         this.sex = sex;
         level = 0;
         levelVariation = 0;
-        allowedMoveMatrix = new MoveMatrix(this);
-        allowedBuildMatrix = new BuildMatrix(this);
+        moveMap = new WorkerMoveMap(this);
+        buildMap = new WorkerBuildMap(this);
     }
 
     /**
@@ -52,7 +52,8 @@ public class Worker {
         int newLevel = newPosition.getLevel();
 
         //vado via da cella precedente e Position nella nuova
-        position.moveOut();
+        if(position != null)
+            position.moveOut();
         newPosition.moveIn(this);
         //newPosition.getLevel() > level
         levelVariation = newLevel - level;
@@ -104,12 +105,12 @@ public class Worker {
         return sex;
     }
 
-    public MoveMatrix getAllowedMoveMatrix() {
-        return allowedMoveMatrix;
+    public WorkerMoveMap getMoveMap() {
+        return moveMap;
     }
 
-    public BuildMatrix getAllowedBuildMatrix() {
-        return allowedBuildMatrix;
+    public WorkerBuildMap getBuildMap() {
+        return buildMap;
     }
 
 
