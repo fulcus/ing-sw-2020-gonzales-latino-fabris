@@ -20,8 +20,8 @@ public class Game {
         map = new Map();
         this.numberOfPlayers = numberOfPlayers;
         players = new ArrayList<>(numberOfPlayers);
-        deckGods = createDeckGods();
-        chosenGods = new ArrayList<God>(getNumberOfPlayers());
+        deckGods = new God[14];
+        chosenGods = new ArrayList<God>(numberOfPlayers);
     }
 
     /** Adds a new player to the game and chooses challenger if target number of players has been reached.
@@ -47,8 +47,7 @@ public class Game {
      * Creates the deck where we can find the God cards of the game
      * @return The full deck of the Gods
      */
-    private God[] createDeckGods(){
-        God[] god = new God[14];
+    public void createDeckGods(){
         deckGods[0] = new Apollo();
         deckGods[1] = new Artemis();
         deckGods[2] = new Athena();
@@ -63,7 +62,10 @@ public class Game {
         deckGods[11] = new Prometheus();
         deckGods[12] = new Triton();
         deckGods[13] = new Zeus();
-        return god;
+    }
+
+    public God[] getDeckGods(){
+        return deckGods;
     }
 
     public void addChosenGods() {
