@@ -16,7 +16,7 @@ public class Athena implements God{
         if(worker.getLevelVariation() > 0) {
             for(Player p : worker.getPlayer().getGame().getPlayers()) {
                 if(p != worker.getPlayer()) {
-                    p.cannotMoveUp();
+                    p.setPermissionToMoveUp(false);
                 }
                 else
                     p.canMoveUp();
