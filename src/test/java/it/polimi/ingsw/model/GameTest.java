@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class GameTest extends TestCase {
+public class GameTest {
 
     Game game;
 

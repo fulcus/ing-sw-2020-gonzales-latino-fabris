@@ -10,7 +10,7 @@ public class Prometheus implements God{
     public void evolveTurn(Worker worker) {
         if(!wantToMoveUp()) {
             build(worker);
-            worker.getPlayer().cannotMoveUp();
+            worker.getPlayer().setPermissionToMoveUp(false);
         }
         move(worker);
         win(worker);

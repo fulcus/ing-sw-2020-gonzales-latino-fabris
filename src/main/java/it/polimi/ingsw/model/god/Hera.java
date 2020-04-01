@@ -13,7 +13,7 @@ public class Hera implements God{
     }
 
     private void cannotWinInPerimeterRestriction(Worker worker) {
-        worker.getPlayer().cannotWinInPerimeter();
+        worker.getPlayer().setPermissionToWinInPerimeter(false);
 
     }
 }

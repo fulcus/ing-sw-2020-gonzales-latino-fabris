@@ -14,9 +14,9 @@ public class Player {
     private Color color;
     private God god;
     private ArrayList<Worker> workers;
-    protected Worker chosenWorker;
-    private boolean forbiddenToWinInPerimeter;  //true if restriction applied
-    private boolean forbiddenToMoveUp;
+    private Worker chosenWorker;
+    private boolean canWinInPerimeter;  //true if restriction applied
+    private boolean canMoveUp;
 
 
     /**
@@ -32,8 +32,8 @@ public class Player {
         this.nickname = nickname;
         god = null;
         chosenWorker = null;
-        forbiddenToWinInPerimeter = false;
-        forbiddenToMoveUp = false;
+        canWinInPerimeter = true;
+        canMoveUp = true;
         //playerObservers = new ArrayList<PlayerObserver>();
         workers = new ArrayList<Worker>(2);
         workers.add(new Worker(this, Sex.MALE));
@@ -45,6 +45,7 @@ public class Player {
         return nickname;
     }
 
+    public Worker getChosenWorker() {return chosenWorker;}
 
     public void setChosenWorker(Worker chosenWorker) {
         this.chosenWorker = chosenWorker;
@@ -154,59 +155,37 @@ public class Player {
     }
 
 
-    public void setColor(Color color) {
-        this.color = color;
-    }
+    public void setColor(Color color) { this.color = color; }
 
+    /**
+     *
+     * @param value true allows the player to win in perimeter, false otherwise
+     */
+    public void setPermissionToWinInPerimeter(boolean value) { canWinInPerimeter = value;}
 
+    /**
+     *
+     * @param value true allows the player to move up, false otherwise
+     */
+    public void setPermissionToMoveUp(boolean value) {canMoveUp = value;}
 
     /**
      * @return True if the Player can move up, false if this player can not move up for the current turn
      */
-    public boolean isForbiddenToWinInPerimeter() {
-        return forbiddenToWinInPerimeter;
-    }
+    public boolean canMoveUp() { return canMoveUp;}
 
 
     /**
      * @return True if the Player can win with a worker on the perimeter, false otherwise
      */
-    public boolean isForbiddenToMoveUp() {
-        return forbiddenToMoveUp;
-    }
-
-    /**
-     *
-     */
-    public void cannotMoveUp() {
-        this.forbiddenToMoveUp = true;
-    }
-
-    /**
-     *
-     *
-     */
-    /*This method is called by a God of another player*/
-    public void canMoveUp() {
-        this.forbiddenToMoveUp = false;
-    }
+    public boolean canWinInPerimeter() { return canWinInPerimeter; }
 
 
-    /**
-     * Resets restrictions of the Player.
-     */
-    //Once the moving and winning restrictions have been applied to the player's turn, these restrictions will be reset
-    public void canWinInPerimeter() {
-        forbiddenToWinInPerimeter = false;
-    }
-
-    public void cannotWinInPerimeter() {
-        forbiddenToWinInPerimeter = true;
-    }
 
     public ArrayList<Worker> getWorkers() {
         return workers;
     }
+
 
     public Game getGame() {
         return game;
