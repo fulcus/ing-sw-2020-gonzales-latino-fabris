@@ -1,31 +1,34 @@
 package it.polimi.ingsw.model;
-import org.junit.*;
+
+import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
-import junit.framework.TestCase;
-
-import java.util.ArrayList;
 
 public class PlayerTest {
 
-   private Player player;
-    private Game game;
     private Worker worker;
-
+    private Worker worker2;
+    private Player player;
+    private Game game;
+    private Map map;
 
     @Before
-    public void setupPlayer()
-    {
+    public void setUp() {
         game = new Game(2);
-        player = new Player(game,"player");
-        worker = new Worker(player,Sex.FEMALE);
-
+        game.addPlayer("player");
+        game.addPlayer("player2");
+        map = game.getMap();
+        player = game.getPlayers().get(0);
+        worker = player.getWorkers().get(0);
+        worker2 = player.getWorkers().get(1);
     }
 
     @After
-    public void clean()
-    {
+    public void tearDown() {
         game = null;
+        map = null;
         player = null;
         worker = null;
     }
@@ -33,7 +36,7 @@ public class PlayerTest {
     @Test
     public void testGetNickname() {
 
-        Assert.assertEquals("player" ,player.getNickname());
+        assertEquals("player", player.getNickname());
     }
 
     @Test
@@ -41,13 +44,13 @@ public class PlayerTest {
 
         player.setChosenWorker(worker);
 
-        Assert.assertEquals(worker,player.getChosenWorker());
+        assertEquals(worker, player.getChosenWorker());
     }
 
     @Test
     public void testGetGod() {
 
-        Assert.assertNull(player.getGod());
+        assertNull(player.getGod());
 
 
     }
@@ -68,15 +71,15 @@ public class PlayerTest {
 
         player.setColor(Color.BLUE);
 
-        Assert.assertEquals(Color.BLUE,player.getColor());
+        assertEquals(Color.BLUE, player.getColor());
 
         player.setColor(Color.WHITE);
 
-        Assert.assertEquals(Color.WHITE,player.getColor());
+        assertEquals(Color.WHITE, player.getColor());
 
         player.setColor(Color.BEIGE);
 
-        Assert.assertEquals(Color.BEIGE,player.getColor());
+        assertEquals(Color.BEIGE, player.getColor());
 
     }
 
@@ -85,22 +88,22 @@ public class PlayerTest {
 
         player.setColor(Color.BLUE);
 
-        Assert.assertEquals(Color.BLUE,player.getColor());
+        assertEquals(Color.BLUE, player.getColor());
 
         player.setColor(Color.WHITE);
 
-        Assert.assertEquals(Color.WHITE,player.getColor());
+        assertEquals(Color.WHITE, player.getColor());
 
         player.setColor(Color.BEIGE);
 
-        Assert.assertEquals(Color.BEIGE,player.getColor());
+        assertEquals(Color.BEIGE, player.getColor());
     }
 
     @Test
     public void testCanWinInPerimeter() {
 
         player.setPermissionToWinInPerimeter(false);
-        Assert.assertFalse(player.canWinInPerimeter());
+        assertFalse(player.canWinInPerimeter());
 
 
     }
@@ -110,18 +113,19 @@ public class PlayerTest {
 
         player.setPermissionToMoveUp(false);
 
-        Assert.assertFalse(player.canMoveUp());
+        assertFalse(player.canMoveUp());
     }
 
 
     @Test
     public void testGetWorkers() {
-
+        assertEquals(worker,player.getWorkers().get(0));
+        assertEquals(worker2,player.getWorkers().get(1));
     }
 
     @Test
     public void testGetGame() {
 
-        Assert.assertEquals(game, player.getGame());
+        assertEquals(game, player.getGame());
     }
 }

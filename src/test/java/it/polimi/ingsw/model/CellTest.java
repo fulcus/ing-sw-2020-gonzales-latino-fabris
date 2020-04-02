@@ -1,25 +1,38 @@
 package it.polimi.ingsw.model;
 
-import org.junit.*;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 public class CellTest {
 
 
     private Cell cell;
     private Worker worker;
+    private Player player;
+    private Game game;
+    private Map map;
+
 
     @Before
-    public void setupCell() {
-        Game game = new Game(2);
-        Player player = new Player(game, "player");
-        cell = new Cell(3, 2);
-        worker = new Worker(player, Sex.MALE);
-
+    public void setUp() {
+        game = new Game(2);
+        game.addPlayer("nickname1");
+        game.addPlayer("nickname2");
+        map = game.getMap();
+        player = game.getPlayers().get(0);
+        worker = player.getWorkers().get(0);
+        cell = map.findCell(3,2);
     }
 
     @After
-    public void cleancell() {
-        cell = null;
+    public void tearDown() {
+        game = null;
+        map = null;
+        player = null;
+        worker = null;
     }
 
     @Test
@@ -28,7 +41,7 @@ public class CellTest {
 
         cell.buildBlock();
 
-        Assert.assertEquals(1, cell.getLevel());
+        assertEquals(1, cell.getLevel());
     }
 
     @Test
@@ -36,15 +49,15 @@ public class CellTest {
 
         cell.buildBlock();
 
-        Assert.assertEquals(1, cell.getLevel());
+        assertEquals(1, cell.getLevel());
 
         cell.buildBlock();
 
-        Assert.assertEquals(2, cell.getLevel());
+        assertEquals(2, cell.getLevel());
 
         cell.buildBlock();
 
-        Assert.assertEquals(3, cell.getLevel());
+        assertEquals(3, cell.getLevel());
 
 
     }
@@ -52,38 +65,39 @@ public class CellTest {
     @Test
     public void testHasDome() {
 
-        Assert.assertFalse(cell.hasDome());
+        assertFalse(cell.hasDome());
 
         cell.buildDome();
 
-        Assert.assertTrue(cell.hasDome());
+        assertTrue(cell.hasDome());
     }
 
     @Test
     public void testBuildDome() {
 
-        Assert.assertFalse(cell.hasDome());
+        assertFalse(cell.hasDome());
 
         cell.buildDome();
 
-        Assert.assertTrue(cell.hasDome());
+        assertTrue(cell.hasDome());
 
     }
 
     @Test
     public void testHasWorker() {
 
-        Assert.assertFalse(cell.hasWorker());
+        assertFalse(cell.hasWorker());
+
     }
 
     @Test
     public void testMoveIn() {
 
-        Assert.assertNull(cell.getWorker());
+        assertNull(cell.getWorker());
 
         cell.moveIn(worker);
 
-        Assert.assertEquals(worker, cell.getWorker());
+        assertEquals(worker, cell.getWorker());
 
     }
 
@@ -93,7 +107,7 @@ public class CellTest {
         cell.moveIn(worker);
         cell.moveOut();
 
-        Assert.assertNull(cell.getWorker());
+        assertNull(cell.getWorker());
 
 
     }
@@ -101,9 +115,9 @@ public class CellTest {
     @Test
     public void testIsInPerimeter() {
 
-        Assert.assertTrue((new Cell(4, 2).isInPerimeter()));
+        assertTrue((new Cell(4, 2).isInPerimeter()));
 
-        Assert.assertFalse((new Cell(3, 2).isInPerimeter()));
+        assertFalse((new Cell(3, 2).isInPerimeter()));
 
 
     }
@@ -111,33 +125,33 @@ public class CellTest {
     @Test
     public void testIsOccupied() {
 
-        Assert.assertFalse(cell.isOccupied());
+        assertFalse(cell.isOccupied());
 
         cell.moveIn(worker);
 
-        Assert.assertTrue(cell.isOccupied());
+        assertTrue(cell.isOccupied());
     }
 
     @Test
     public void testGetWorker() {
 
-        Assert.assertNull(cell.getWorker());
+        assertNull(cell.getWorker());
 
         cell.moveIn(worker);
 
-        Assert.assertEquals(worker, cell.getWorker());
+        assertEquals(worker, cell.getWorker());
     }
 
     @Test
     public void testGetX() {
 
-        Assert.assertEquals(3, cell.getX());
+        assertEquals(3, cell.getX());
 
     }
 
     @Test
     public void testGetY() {
 
-        Assert.assertEquals(2, cell.getY());
+        assertEquals(2, cell.getY());
     }
 }

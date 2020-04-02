@@ -1,10 +1,10 @@
 package it.polimi.ingsw.model;
 
-import junit.framework.TestCase;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 public class MapTest {
 
@@ -35,7 +35,7 @@ public class MapTest {
         x=1; y=2;
         Assert.assertEquals(map.getBoard()[x][y], map.findCell(x,y));
         x=7; y=2;
-        Assert.assertEquals(null, map.findCell(x,y));
+        assertNull(map.findCell(x, y));
     }
 
     @Test
