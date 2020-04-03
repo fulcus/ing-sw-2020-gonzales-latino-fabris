@@ -42,8 +42,14 @@ public class WorkerMoveMap extends WorkerMap {
         setCellFalse(i,j);
     }
 
-    public boolean isAllowedToMove(int i, int j) {
-        return getBooleanCell(i,j);
+    /**
+     * Returns if it is allowed to move in a given cell of the map.
+     * @param i Map coordinate X.
+     * @param j Map coordinate Y.
+     * @return True if it can move in position, false otherwise.
+     */
+    public boolean isAllowedToMoveBoard(int i, int j) {
+        return getBooleanCellBoard(i,j);
     }
 
     public void cannotMoveInPerimeter() {

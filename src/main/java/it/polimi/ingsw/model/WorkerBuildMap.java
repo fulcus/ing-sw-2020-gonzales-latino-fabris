@@ -33,8 +33,8 @@ public class WorkerBuildMap extends WorkerMap {
         setCellFalse(i, j);
     }
 
-    public boolean isAllowedToBuild(int i, int j) {
-        return getBooleanCell(i, j);
+    public boolean isAllowedToBuildBoard(int i, int j) {
+        return getBooleanCellBoard(i, j);
     }
 
     public void cannotBuildInPerimeter() {

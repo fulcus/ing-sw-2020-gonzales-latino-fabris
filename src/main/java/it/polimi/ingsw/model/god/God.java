@@ -34,7 +34,7 @@ public interface God {
         int x = input.nextInt();
         int y = input.nextInt();
 
-        if(workersMatrix.isAllowedToMove(x,y))
+        if(workersMatrix.isAllowedToMoveBoard(x,y))
             worker.setPosition(x,y);
 
     }
