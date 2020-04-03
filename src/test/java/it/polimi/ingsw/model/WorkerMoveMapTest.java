@@ -84,29 +84,59 @@ public class WorkerMoveMapTest {
 
     @Test
     public void testCannotStayStill() {
+        worker.setPosition(2,1);
+        moveMap.cannotStayStill();
+        assertFalse(moveMap.isAllowedToMoveBoard(2,1));
+        moveMap.canStayStill();
+        assertTrue(moveMap.isAllowedToMoveBoard(2,1));
     }
 
     @Test
-    public void testAllowedToMoveInPosition() {
-    }
-
-    @Test
-    public void testNotAllowedToMoveInPosition() {
-    }
-
-    @Test
-    public void testGetAllowedToMove() {
-    }
-
-    @Test
-    public void testGetAbsolutePosition() {
-    }
-
-    @Test
-    public void testUpdateCellsNotInMap() {
+    public void testCannotMoveInPerimeter() {
+        worker.setPosition(3,3);
+        moveMap.cannotMoveInPerimeter();
+        assertFalse(moveMap.isAllowedToMoveBoard(4,3));
     }
 
     @Test
     public void testGetWorker() {
+        assertEquals(worker,moveMap.getWorker());
     }
+
+    @Test
+    public void testCannotMoveUpMoveThanOneLevel() {
+        worker.setPosition(3,3);
+        moveMap.cannotMoveUpMoreThanOneLevel();
+
+        worker.buildBlock(3,4);
+        assertTrue(moveMap.isAllowedToMoveBoard(3,4));
+
+        worker.buildBlock(3,4);
+
+        moveMap.cannotMoveUpMoreThanOneLevel();
+        assertFalse(moveMap.isAllowedToMoveBoard(3,4));
+    }
+
+    @Test
+    public void testIsAllowedToMoveOutOfMaps() {
+        worker.setPosition(3,3);
+        //out of workers map
+        assertFalse(moveMap.isAllowedToMoveBoard(3,5));
+        worker.setPosition(4,4);
+        //out of board
+        assertFalse(moveMap.isAllowedToMoveBoard(5,4));
+
+        assertNull(moveMap.getAbsolutePosition(5,4));
+
+    }
+
+    @Test
+    public void testGetBooleanCellWorkerMap() {
+        worker.setPosition(3,3);
+        worker.buildDome(2,2);
+        moveMap.cannotMoveInOccupiedCell();
+        //relative to workers map
+        assertFalse(moveMap.isAllowedToMoveWorkersMap(0,0));
+    }
+
 }

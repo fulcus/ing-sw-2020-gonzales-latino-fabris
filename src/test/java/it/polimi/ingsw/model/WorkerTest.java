@@ -115,9 +115,9 @@ public class WorkerTest {
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 3; j++) {
                 if(i == 1 && j == 1 || !map.isInMap(i,j))
-                    assertFalse(matrix.isAllowedToMoveBoard(i,j));
+                    assertFalse(matrix.isAllowedToMoveWorkersMap(i,j));
                 else
-                    assertTrue(matrix.isAllowedToMoveBoard(i,j));
+                    assertTrue(matrix.isAllowedToMoveWorkersMap(i,j));
             }
         }
 
@@ -131,9 +131,9 @@ public class WorkerTest {
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 3; j++) {
                 if(i == 1 && j == 1 || !map.isInMap(i,j))
-                    assertFalse(matrix.isAllowedToBuildBoard(i,j));
+                    assertFalse(matrix.getBooleanCellWorkerMap(i,j));
                 else
-                    assertTrue(matrix.isAllowedToBuildBoard(i,j));
+                    assertTrue(matrix.getBooleanCellWorkerMap(i,j));
             }
         }
 

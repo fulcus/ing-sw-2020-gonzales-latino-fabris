@@ -25,12 +25,12 @@ public class WorkerBuildMap extends WorkerMap {
         workersPositionTrue();
     }
 
-    public void allowedToBuildInPosition(int i, int j) {
-        setCellTrue(i, j);
+    public void setAllowedToBuildInPosition(int i, int j) {
+        setBooleanCellBoard(i, j,true);
     }
 
-    public void notAllowedToBuildInPosition(int i, int j) {
-        setCellFalse(i, j);
+    public void setNotAllowedToBuildInPosition(int i, int j) {
+        setBooleanCellBoard(i, j,false);
     }
 
     public boolean isAllowedToBuildBoard(int i, int j) {
@@ -40,6 +40,5 @@ public class WorkerBuildMap extends WorkerMap {
     public void cannotBuildInPerimeter() {
         cellsInPerimeterFalse();
     }
-
 
 }

@@ -34,13 +34,15 @@ public class WorkerMoveMap extends WorkerMap {
         workersPositionTrue();
     }
 
-    public void allowedToMoveInPosition(int i, int j) {
+    /* //useless methods
+    public void setAllowedToMoveInPosition(int i, int j) {
         setCellTrue(i,j);
     }
 
-    public void notAllowedToMoveInPosition(int i, int j) {
+    public void setNotAllowedToMoveInPosition(int i, int j) {
         setCellFalse(i,j);
     }
+    */
 
     /**
      * Returns if it is allowed to move in a given cell of the map.
@@ -52,9 +54,15 @@ public class WorkerMoveMap extends WorkerMap {
         return getBooleanCellBoard(i,j);
     }
 
+    public boolean isAllowedToMoveWorkersMap(int i, int j) {
+        return getBooleanCellWorkerMap(i, j);
+    }
+
     public void cannotMoveInPerimeter() {
         cellsInPerimeterFalse();
     }
 
-
+    public void cannotMoveUpMoreThanOneLevel() {
+        levelDifferenceOne();
+    }
 }

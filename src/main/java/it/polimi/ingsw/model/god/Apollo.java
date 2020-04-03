@@ -10,7 +10,7 @@ public class Apollo implements God{
 
     @Override
     public void move(Worker worker) {
-        updateMoveMatrix(worker);
+        updateMoveMap(worker);
         moveSwap(worker);
     }
 
@@ -30,12 +30,13 @@ public class Apollo implements God{
 
     }
 
-    public WorkerMoveMap updateMoveMatrix(Worker worker) {
+    public WorkerMoveMap updateMoveMap(Worker worker) {
         WorkerMoveMap workersMoveMap = worker.getMoveMap();
 
         workersMoveMap.cannotStayStill();
         workersMoveMap.cannotMoveInDomeCell();
         workersMoveMap.cannotMoveInFriendlyWorkerCell();
+        workersMoveMap.cannotMoveUpMoreThanOneLevel();
 
         return workersMoveMap;
     }
