@@ -34,14 +34,16 @@ public class Worker {
         int newLevel = newPosition.getLevel();
 
         //vado via da cella precedente e Position nella nuova
-        if(position != null)
+        if(position != null) {
             position.moveOut();
+            moveMap.updateCellsOutOfMap();
+            buildMap.updateCellsOutOfMap();
+        }
         newPosition.moveIn(this);
         //newPosition.getLevel() > level
         levelVariation = newLevel - level;
         level = newLevel;
         position = newPosition;
-
     }
 
     /**
@@ -52,14 +54,16 @@ public class Worker {
         int newLevel = newPosition.getLevel();
 
         //vado via da cella precedente e Position nella nuova
-        if(position != null)
+        if(position != null) {
             position.moveOut();
+            moveMap.updateCellsOutOfMap();
+            buildMap.updateCellsOutOfMap();
+        }
         newPosition.moveIn(this);
         //newPosition.getLevel() > level
         levelVariation = newLevel - level;
         level = newLevel;
         position = newPosition;
-
     }
 
     /**
@@ -106,12 +110,10 @@ public class Worker {
     }
 
     public WorkerMoveMap getMoveMap() {
-        moveMap.updateCellsOutofMap();
         return moveMap;
     }
 
     public WorkerBuildMap getBuildMap() {
-        buildMap.updateCellsOutofMap();
         return buildMap;
     }
 

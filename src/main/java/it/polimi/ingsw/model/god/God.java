@@ -26,7 +26,7 @@ public interface God {
      * @param worker Selected worker that will move.
      */
     default void move(Worker worker) {
-        WorkerMoveMap workersMatrix = updateMoveMatrix(worker);
+        WorkerMoveMap workersMatrix = updateMoveMap(worker);
 
         //todo in View
         Scanner input = new Scanner(System.in);
@@ -34,8 +34,11 @@ public interface God {
         int x = input.nextInt();
         int y = input.nextInt();
 
-        if(workersMatrix.isAllowedToMove(x,y))
-            worker.setPosition(x,y);
+        if(workersMatrix.isAllowedToMoveBoard(x,y)) {
+            worker.setPosition(x, y);
+            updateMoveMap(worker);
+        }
+
 
     }
 
@@ -123,11 +126,12 @@ public interface God {
      * @param worker Selected worker.
      */
     //will be called at the beginning of each move, which will then comply with the matrix.
-    default WorkerMoveMap updateMoveMatrix(Worker worker) {
-        WorkerMoveMap workersMatrix = worker.getMoveMap();
+    default WorkerMoveMap updateMoveMap(Worker worker) {
+        WorkerMoveMap workersMoveMap = worker.getMoveMap();
 
-        workersMatrix.cannotStayStill();
-        workersMatrix.cannotMoveInOccupiedCell();
-        return workersMatrix;
+        workersMoveMap.cannotStayStill();
+        workersMoveMap.cannotMoveInOccupiedCell();
+        workersMoveMap.cannotMoveUpMoreThanOneLevel();
+        return workersMoveMap;
     }
 }

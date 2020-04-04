@@ -4,7 +4,7 @@ public class WorkerMap {
     private Map map;
     private Worker worker;
     private boolean[][] matrix;
-    private static final int N = 3;
+    public static final int N = 3;
 
     public WorkerMap(Worker worker) {
         this.worker = worker;
@@ -20,11 +20,15 @@ public class WorkerMap {
         }
     }
 
+    public Worker getWorker() {
+        return worker;
+    }
+
     public void DomeCellFalse() {
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                if (getAbsolutePosition(i, j).hasDome())
+                if (getAbsolutePosition(i,j) != null && getAbsolutePosition(i, j).hasDome())
                     matrix[i][j] = false;
             }
         }
@@ -34,7 +38,7 @@ public class WorkerMap {
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                if (getAbsolutePosition(i, j).hasWorker())
+                if (getAbsolutePosition(i,j) != null && getAbsolutePosition(i, j).hasWorker())
                     matrix[i][j] = false;
             }
         }
@@ -44,7 +48,7 @@ public class WorkerMap {
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                if (getAbsolutePosition(i, j).isOccupied())
+                if (getAbsolutePosition(i,j) != null && getAbsolutePosition(i, j).isOccupied())
                     matrix[i][j] = false;
             }
         }
@@ -54,7 +58,7 @@ public class WorkerMap {
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                if (getAbsolutePosition(i, j).hasWorker() &&
+                if (getAbsolutePosition(i,j) != null && getAbsolutePosition(i, j).hasWorker() &&
                         getAbsolutePosition(i, j).getWorker().getPlayer() == worker.getPlayer())
                     matrix[i][j] = false;
             }
@@ -70,16 +74,36 @@ public class WorkerMap {
         matrix[1][1] = true;
     }
 
-    public void setCellTrue(int i, int j) {
-        matrix[i][j] = true;
+    public void setBooleanCellBoard(int i, int j, boolean value) {
+        int workersX = worker.getPosition().getX();
+        int workersY = worker.getPosition().getY();
+
+        //if not in boolean map return
+        int relativeX = i - workersX + 1;
+        int relativeY = j - workersY + 1;
+
+        if(relativeX < 0 || relativeX > 2 || relativeY < 0 || relativeY > 2 || !map.isInMap(i,j))
+            return;
+
+        matrix[i - workersX + 1][j - workersY + 1] = value;
     }
 
-    public void setCellFalse(int i, int j) {
-        matrix[i][j] = false;
-    }
-
-    public boolean getBooleanCell(int i, int j) {
+    public boolean getBooleanCellWorkerMap(int i, int j) {
         return matrix[i][j];
+    }
+
+    public boolean getBooleanCellBoard(int i, int j) {
+        int workersX = worker.getPosition().getX();
+        int workersY = worker.getPosition().getY();
+
+        //if not in boolean map return false
+        int relativeX = i - workersX + 1;
+        int relativeY = j - workersY + 1;
+
+        if(relativeX < 0 || relativeX > 2 || relativeY < 0 || relativeY > 2 || !map.isInMap(i,j))
+            return false;
+
+        return matrix[i - workersX + 1][j - workersY + 1];
     }
 
     /**
@@ -94,7 +118,7 @@ public class WorkerMap {
         int workersX = worker.getPosition().getX();
         int workersY = worker.getPosition().getY();
 
-        if (!map.isInMap(workersX, workersY))
+        if (!map.isInMap(workersX, workersY) || !map.isInMap(i,j))
             return null;
 
         return worker.getPlayer().getGame().getMap().findCell(workersX - 1 + i, workersY - 1 + j);
@@ -104,14 +128,16 @@ public class WorkerMap {
      * Sets false cells not contained in Map.
      */
     //called in both getters of moveMap and buildMap of worker
-    public void updateCellsOutofMap() {
+    public void updateCellsOutOfMap() {
         Cell workersCell = worker.getPosition();
+        int workersX = worker.getPosition().getX();
+        int workersY = worker.getPosition().getY();
 
         if (workersCell.isInPerimeter()) {
             for (int i = 0; i < N; i++) {
                 for (int j = 0; j < N; j++) {
 
-                    if (!map.isInMap(i, j))
+                    if (!map.isInMap(i - workersX + 1, j - workersY + 1))
                         matrix[i][j] = false;
 
                 }
@@ -123,14 +149,25 @@ public class WorkerMap {
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-
-                if (getAbsolutePosition(i, j).isInPerimeter())
+                //null pointer exception
+                if (getAbsolutePosition(i, j) != null && getAbsolutePosition(i, j).isInPerimeter())
                     matrix[i][j] = false;
             }
         }
     }
 
-    public Worker getWorker() {
-        return worker;
+    public void levelDifferenceOne() {
+        int workersLevel = worker.getPosition().getLevel();
+
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+
+                if (getAbsolutePosition(i, j) != null &&
+                        getAbsolutePosition(i, j).getLevel() - workersLevel > 1)
+                    matrix[i][j] = false;
+            }
+        }
     }
+
+
 }
