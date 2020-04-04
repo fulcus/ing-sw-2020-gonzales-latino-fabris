@@ -1,8 +1,17 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.god.Apollo;
+import it.polimi.ingsw.model.god.Artemis;
+import it.polimi.ingsw.model.god.Athena;
+import it.polimi.ingsw.model.god.God;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
 import static org.junit.Assert.*;
 
 
@@ -57,6 +66,50 @@ public class PlayerTest {
 
     @Test
     public void testChooseGod() {
+
+        God apollo = new Apollo();
+        God artemis = new Artemis();
+        God athena = new Athena();
+        God chosengod;
+
+
+        ArrayList<God> gods = new ArrayList<God>(game.getNumberOfPlayers());
+        gods.add(apollo);
+        gods.add(artemis);
+        gods.add(athena);
+
+
+
+
+        int i=0, chosenOne;
+
+        //dalla lista dei chosenGods del gioco sceglierne uno dei 3 e assegnarlo al God di questo player
+        //todo:
+        //dal controller ricevo l'input che la view deve dare per poter scegliere uno dei god tra cui scegliere
+        //intanto lo faccio qui per semplicità
+
+        System.out.println("Choose one God among the following.");
+        Scanner input = new Scanner(System.in);
+        chosenOne = input.nextInt();   //scelgo il god della lista con un numero da 1 a 3
+        chosengod = gods.get(chosenOne-1);
+        while(i<game.getNumberOfPlayers()){
+            //Se il giocatore è diverso e il dio scelto è lo stesso allora faccio riscegliere il dio
+            if(!this.equals(game.getPlayers().get(i)) && chosengod.equals(game.getPlayers().get(i).getGod())){
+                System.out.println("This god has already been chosen. Pick another!\n");
+                chosenOne = input.nextInt();   //scelgo il god della lista con un numero da 1 a 3
+                chosengod = gods.get(chosenOne-1);
+            }
+            else{
+                i++;
+            }
+        }
+
+
+
+
+
+
+
 
     }
 

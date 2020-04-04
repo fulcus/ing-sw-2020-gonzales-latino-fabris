@@ -8,16 +8,16 @@ import it.polimi.ingsw.model.*;
 public class GameController {
 
     private Game game;
-    private Turn currentTurn;
+    private TurnHandler turnHandler;
 
     public GameController(){
         game = null;
-        currentTurn = null;
+        turnHandler = null;
     }
 
     public void playerSetting(String pl1, String pl2, String pl3){
         game = new Game(3);
-        currentTurn = new Turn(game);
+        turnHandler = new TurnHandler(game);
         game.addPlayer(pl1);
         game.addPlayer(pl2);
         game.addPlayer(pl3);
@@ -25,10 +25,12 @@ public class GameController {
 
     public void playerSetting(String pl1, String pl2){
         game = new Game(2);
-        currentTurn = new Turn(game);
+        turnHandler = new TurnHandler(game);
         game.addPlayer(pl1);
         game.addPlayer(pl2);
     }
+
+
 
     public void initializeGame(){
         game.createDeckGods();
@@ -43,7 +45,7 @@ public class GameController {
      * Increments the turn number and allows to the next player to play
      */
     public void endTurn(){
-        currentTurn.nextTurn();
+        turnHandler.nextTurn();
     }
 
 

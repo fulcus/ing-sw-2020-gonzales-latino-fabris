@@ -3,12 +3,12 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.*;
 import java.util.Random;
 
-public class Turn {
+public class TurnHandler {
     private int counter;
     private Game game;
     private Player currentPlayer;
 
-    public Turn(Game game){
+    public TurnHandler(Game game){
         this.game = game;
         currentPlayer = null;
         counter = 0;

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Game {
+
     private final Map map;
     private final int numberOfPlayers;
     private ArrayList<Player> players;
