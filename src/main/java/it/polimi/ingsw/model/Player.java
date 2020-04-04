@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.god.God;
+import it.polimi.ingsw.controller.god.God;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -172,14 +172,13 @@ public class Player {
     /**
      * @return True if the Player can move up, false if this player can not move up for the current turn
      */
-    public boolean canMoveUp() { return canMoveUp;}
+    public boolean getCanMoveUp() { return canMoveUp;}
 
 
     /**
      * @return True if the Player can win with a worker on the perimeter, false otherwise
      */
-    public boolean canWinInPerimeter() { return canWinInPerimeter; }
-
+    public boolean getCanWinInPerimeter() { return canWinInPerimeter; }
 
 
     public ArrayList<Worker> getWorkers() {

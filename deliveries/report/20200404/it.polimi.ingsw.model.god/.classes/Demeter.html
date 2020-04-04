@@ -1,0 +1,164 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Demeter</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.controller.god</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Demeter (it.polimi.ingsw.model.god)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Demeter</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    33.3%
+  </span>
+  <span class="absValue">
+    (1/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    3.3%
+  </span>
+  <span class="absValue">
+    (1/ 30)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.controller.god;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.model.Cell;
+<i>4</i>&nbsp;import it.polimi.ingsw.model.Map;
+<i>5</i>&nbsp;import it.polimi.ingsw.model.Worker;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import java.util.Scanner;
+<i>8</i>&nbsp;
+<b class="fc"><i>9</i>&nbsp;public class Demeter implements God {</b>
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;    Cell firstBuildingCell;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;    @Override
+<i>14</i>&nbsp;    public void evolveTurn(Worker w) {
+<b class="nc"><i>15</i>&nbsp;        move(w);</b>
+<b class="nc"><i>16</i>&nbsp;        win(w);</b>
+<b class="nc"><i>17</i>&nbsp;        firstBuildingCell = build(w);</b>
+<b class="nc"><i>18</i>&nbsp;        buildAgain(w);</b>
+<b class="nc"><i>19</i>&nbsp;    }</b>
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    private void buildAgain(Worker worker) {
+<i>22</i>&nbsp;
+<b class="nc"><i>23</i>&nbsp;        Scanner input = new Scanner(System.in);</b>
+<i>24</i>&nbsp;        String buildingName;
+<i>25</i>&nbsp;        String command;
+<i>26</i>&nbsp;        int buildingX;
+<i>27</i>&nbsp;        int buildingY;
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;        do {
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;
+<b class="nc"><i>32</i>&nbsp;            System.out.println(&quot;You can build again, type Build or Endturn&quot;);</b>
+<b class="nc"><i>33</i>&nbsp;            command = input.nextLine();</b>
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;
+<b class="nc"><i>36</i>&nbsp;            if (command.equals(&quot;Build&quot;)) {</b>
+<i>37</i>&nbsp;                do {
+<i>38</i>&nbsp;
+<b class="nc"><i>39</i>&nbsp;                    System.out.println(&quot;Insert another x y position where you want to build in&quot;);</b>
+<i>40</i>&nbsp;
+<b class="nc"><i>41</i>&nbsp;                    buildingX = input.nextInt();</b>
+<b class="nc"><i>42</i>&nbsp;                    buildingY = input.nextInt();</b>
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;
+<b class="nc"><i>45</i>&nbsp;                    if (!(worker.getPlayer().getGame().getMap().findCell(buildingX, buildingY).equals(firstBuildingCell)) &amp;&amp; buildingX &lt; Map.SIDE &amp;&amp; buildingY &lt; Map.SIDE &amp;&amp; !(worker.getPlayer().getGame().getMap().findCell(buildingX, buildingY).isOccupied())) {</b>
+<i>46</i>&nbsp;
+<b class="nc"><i>47</i>&nbsp;                        if (worker.getPlayer().getGame().getMap().findCell(buildingX, buildingY).getLevel() == 3) {</b>
+<i>48</i>&nbsp;
+<b class="nc"><i>49</i>&nbsp;                            System.out.println(&quot;You can build a Dome here, type Dome to build&quot;);</b>
+<b class="nc"><i>50</i>&nbsp;                            buildingName = input.nextLine();</b>
+<i>51</i>&nbsp;
+<b class="nc"><i>52</i>&nbsp;                            if (buildingName.equals(&quot;Dome&quot;)) {</b>
+<b class="nc"><i>53</i>&nbsp;                                worker.buildDome(buildingX, buildingY);</b>
+<b class="nc"><i>54</i>&nbsp;                                break;</b>
+<i>55</i>&nbsp;                            }
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;                        } else {
+<i>58</i>&nbsp;
+<b class="nc"><i>59</i>&nbsp;                            System.out.println(&quot;You can build a Block here, type Block to build&quot;);</b>
+<b class="nc"><i>60</i>&nbsp;                            buildingName = input.nextLine();</b>
+<i>61</i>&nbsp;
+<b class="nc"><i>62</i>&nbsp;                            if (buildingName.equals(&quot;Block&quot;)) {</b>
+<b class="nc"><i>63</i>&nbsp;                                worker.buildBlock(buildingX, buildingY);</b>
+<b class="nc"><i>64</i>&nbsp;                                break;</b>
+<i>65</i>&nbsp;                            }
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;                        }
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;                    }
+<i>70</i>&nbsp;
+<b class="nc"><i>71</i>&nbsp;                    System.out.println(&quot;It must be a different place&quot;);</b>
+<i>72</i>&nbsp;
+<b class="nc"><i>73</i>&nbsp;                } while (true);</b>
+<i>74</i>&nbsp;
+<b class="nc"><i>75</i>&nbsp;            } else if (command.equals(&quot;Endturn&quot;)) {</b>
+<i>76</i>&nbsp;
+<b class="nc"><i>77</i>&nbsp;                break;</b>
+<i>78</i>&nbsp;            }
+<i>79</i>&nbsp;        } while (true);
+<b class="nc"><i>80</i>&nbsp;    }</b>
+<i>81</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-04 18:07</div>
+</div>
+</body>
+</html>

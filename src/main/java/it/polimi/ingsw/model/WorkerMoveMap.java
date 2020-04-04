@@ -61,8 +61,21 @@ public class WorkerMoveMap extends WorkerMap {
     public void cannotMoveInPerimeter() {
         cellsInPerimeterFalse();
     }
-
+/*
     public void cannotMoveUpMoreThanOneLevel() {
-        levelDifferenceOne();
+        levelDifferenceLessEqualThanX(1);
     }
+*/
+
+    /**
+     * Sets if player can move up or not based on attribute of Player.
+     */
+    public void updateMoveUpRestrictions() {
+
+        if(getWorker().getPlayer().getCanMoveUp())
+            levelDifferenceLessEqualThanX(1);
+        else
+            levelDifferenceLessEqualThanX(0);
+    }
+
 }

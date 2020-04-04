@@ -1,0 +1,204 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Worker</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Worker (it.polimi.ingsw.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Worker</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (12/ 12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (42/ 42)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;
+<i>4</i>&nbsp;public class Worker {
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;    private final Player player;
+<i>7</i>&nbsp;    private final Sex sex;
+<i>8</i>&nbsp;    private Cell position;
+<i>9</i>&nbsp;    private final WorkerMoveMap moveMap;
+<i>10</i>&nbsp;    private final WorkerBuildMap buildMap;
+<i>11</i>&nbsp;    private int level;
+<i>12</i>&nbsp;    private int levelVariation; //level before moving - level after moving
+<i>13</i>&nbsp;    /** Creates a worker.
+<i>14</i>&nbsp;     * @param player The worker&#39;s owner.
+<i>15</i>&nbsp;     * @param sex A worker can be Male or Female.
+<i>16</i>&nbsp;     */
+<b class="fc"><i>17</i>&nbsp;    public Worker(Player player, Sex sex) {</b>
+<b class="fc"><i>18</i>&nbsp;        this.player = player;</b>
+<b class="fc"><i>19</i>&nbsp;        this.sex = sex;</b>
+<b class="fc"><i>20</i>&nbsp;        level = 0;</b>
+<b class="fc"><i>21</i>&nbsp;        levelVariation = 0;</b>
+<b class="fc"><i>22</i>&nbsp;        moveMap = new WorkerMoveMap(this);</b>
+<b class="fc"><i>23</i>&nbsp;        buildMap = new WorkerBuildMap(this);</b>
+<b class="fc"><i>24</i>&nbsp;    }</b>
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    /**
+<i>27</i>&nbsp;     * Changes position of the worker and updates level and movedUp.
+<i>28</i>&nbsp;     * @param x Coordinate of the new position of the worker.
+<i>29</i>&nbsp;     * @param y Coordinate of the new position of the worker.
+<i>30</i>&nbsp;     */
+<i>31</i>&nbsp;    //prima di chiamare fare check se posso andare (isOccupied)
+<i>32</i>&nbsp;    public void setPosition(int x, int y) {
+<b class="fc"><i>33</i>&nbsp;        Cell newPosition = player.getGame().getMap().findCell(x,y);</b>
+<b class="fc"><i>34</i>&nbsp;        int newLevel = newPosition.getLevel();</b>
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;        //vado via da cella precedente e Position nella nuova
+<b class="fc"><i>37</i>&nbsp;        if(position != null) {</b>
+<b class="fc"><i>38</i>&nbsp;            position.moveOut();</b>
+<b class="fc"><i>39</i>&nbsp;            moveMap.updateCellsOutOfMap();</b>
+<b class="fc"><i>40</i>&nbsp;            buildMap.updateCellsOutOfMap();</b>
+<i>41</i>&nbsp;        }
+<b class="fc"><i>42</i>&nbsp;        newPosition.moveIn(this);</b>
+<i>43</i>&nbsp;        //newPosition.getLevel() &gt; level
+<b class="fc"><i>44</i>&nbsp;        levelVariation = newLevel - level;</b>
+<b class="fc"><i>45</i>&nbsp;        level = newLevel;</b>
+<b class="fc"><i>46</i>&nbsp;        position = newPosition;</b>
+<b class="fc"><i>47</i>&nbsp;    }</b>
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;    /**
+<i>50</i>&nbsp;     * Changes position of the worker and updates level and movedUp.
+<i>51</i>&nbsp;     * @param newPosition Cell the worker is moving into.
+<i>52</i>&nbsp;     */
+<i>53</i>&nbsp;    public void setPosition(Cell newPosition) {
+<b class="fc"><i>54</i>&nbsp;        int newLevel = newPosition.getLevel();</b>
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;        //vado via da cella precedente e Position nella nuova
+<b class="fc"><i>57</i>&nbsp;        if(position != null) {</b>
+<b class="fc"><i>58</i>&nbsp;            position.moveOut();</b>
+<b class="fc"><i>59</i>&nbsp;            moveMap.updateCellsOutOfMap();</b>
+<b class="fc"><i>60</i>&nbsp;            buildMap.updateCellsOutOfMap();</b>
+<i>61</i>&nbsp;        }
+<b class="fc"><i>62</i>&nbsp;        newPosition.moveIn(this);</b>
+<i>63</i>&nbsp;        //newPosition.getLevel() &gt; level
+<b class="fc"><i>64</i>&nbsp;        levelVariation = newLevel - level;</b>
+<b class="fc"><i>65</i>&nbsp;        level = newLevel;</b>
+<b class="fc"><i>66</i>&nbsp;        position = newPosition;</b>
+<b class="fc"><i>67</i>&nbsp;    }</b>
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;    /**
+<i>70</i>&nbsp;     * Builds a new block in the specified cell.
+<i>71</i>&nbsp;     * @param x Coordinate of the position to build in.
+<i>72</i>&nbsp;     * @param y Coordinate of the position to build in.
+<i>73</i>&nbsp;     */
+<i>74</i>&nbsp;    //prima di chiamare faccio check se posso costruire block (canBuildBlock)
+<i>75</i>&nbsp;    public void buildBlock(int x, int y) {
+<b class="fc"><i>76</i>&nbsp;        Cell buildPosition = player.getGame().getMap().findCell(x,y);</b>
+<b class="fc"><i>77</i>&nbsp;        buildPosition.buildBlock();</b>
+<b class="fc"><i>78</i>&nbsp;    }</b>
+<i>79</i>&nbsp;
+<i>80</i>&nbsp;    /**
+<i>81</i>&nbsp;     * Builds a new dome in the specified cell.
+<i>82</i>&nbsp;     * @param x Coordinate of the position to build in.
+<i>83</i>&nbsp;     * @param y Coordinate of the position to build in.
+<i>84</i>&nbsp;     */
+<i>85</i>&nbsp;    //prima di chiamare faccio check se posso costruire dome (canBuildDome)
+<i>86</i>&nbsp;    public void buildDome(int x, int y) {
+<b class="fc"><i>87</i>&nbsp;        Cell buildPosition = player.getGame().getMap().findCell(x,y);</b>
+<b class="fc"><i>88</i>&nbsp;        buildPosition.buildDome();</b>
+<b class="fc"><i>89</i>&nbsp;    }</b>
+<i>90</i>&nbsp;
+<i>91</i>&nbsp;
+<i>92</i>&nbsp;    public Player getPlayer() {
+<b class="fc"><i>93</i>&nbsp;        return player;</b>
+<i>94</i>&nbsp;    }
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;    public Cell getPosition() {
+<b class="fc"><i>97</i>&nbsp;        return position;</b>
+<i>98</i>&nbsp;    }
+<i>99</i>&nbsp;
+<i>100</i>&nbsp;    public int getLevel() {
+<b class="fc"><i>101</i>&nbsp;        return level;</b>
+<i>102</i>&nbsp;    }
+<i>103</i>&nbsp;
+<i>104</i>&nbsp;    public int getLevelVariation() {
+<b class="fc"><i>105</i>&nbsp;        return levelVariation;</b>
+<i>106</i>&nbsp;    }
+<i>107</i>&nbsp;
+<i>108</i>&nbsp;    public Sex getSex() {
+<b class="fc"><i>109</i>&nbsp;        return sex;</b>
+<i>110</i>&nbsp;    }
+<i>111</i>&nbsp;
+<i>112</i>&nbsp;    public WorkerMoveMap getMoveMap() {
+<b class="fc"><i>113</i>&nbsp;        return moveMap;</b>
+<i>114</i>&nbsp;    }
+<i>115</i>&nbsp;
+<i>116</i>&nbsp;    public WorkerBuildMap getBuildMap() {
+<b class="fc"><i>117</i>&nbsp;        return buildMap;</b>
+<i>118</i>&nbsp;    }
+<i>119</i>&nbsp;
+<i>120</i>&nbsp;
+<i>121</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-04 18:07</div>
+</div>
+</body>
+</html>
