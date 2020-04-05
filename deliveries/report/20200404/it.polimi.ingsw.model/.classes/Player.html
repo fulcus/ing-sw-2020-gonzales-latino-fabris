@@ -1,0 +1,302 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Player</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Player (it.polimi.ingsw.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Player</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    76.5%
+  </span>
+  <span class="absValue">
+    (13/ 17)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    38.1%
+  </span>
+  <span class="absValue">
+    (24/ 63)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.controller.god.God;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import java.util.ArrayList;
+<i>6</i>&nbsp;import java.util.Scanner;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;public class Player {
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;    private Game game;
+<i>12</i>&nbsp;    //private ArrayList&lt;PlayerObserver&gt; playerObservers;
+<i>13</i>&nbsp;    private String nickname;
+<i>14</i>&nbsp;    private Color color;
+<i>15</i>&nbsp;    private God god;
+<i>16</i>&nbsp;    private ArrayList&lt;Worker&gt; workers;
+<i>17</i>&nbsp;    private Worker chosenWorker;
+<i>18</i>&nbsp;    private boolean canWinInPerimeter;  //true if can win on perimeter
+<i>19</i>&nbsp;    private boolean canMoveUp;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    /**
+<i>23</i>&nbsp;     * Creates a Player.
+<i>24</i>&nbsp;     *
+<i>25</i>&nbsp;     * @param game     Represents the belonging game of the player.
+<i>26</i>&nbsp;     * @param nickname The name chosen by the user for the belonging game.
+<i>27</i>&nbsp;     */
+<i>28</i>&nbsp;
+<b class="fc"><i>29</i>&nbsp;    public Player(Game game, String nickname) {</b>
+<i>30</i>&nbsp;
+<b class="fc"><i>31</i>&nbsp;        this.game = game;</b>
+<b class="fc"><i>32</i>&nbsp;        this.nickname = nickname;</b>
+<b class="fc"><i>33</i>&nbsp;        god = null;</b>
+<b class="fc"><i>34</i>&nbsp;        chosenWorker = null;</b>
+<b class="fc"><i>35</i>&nbsp;        canWinInPerimeter = true;</b>
+<b class="fc"><i>36</i>&nbsp;        canMoveUp = true;</b>
+<i>37</i>&nbsp;        //playerObservers = new ArrayList&lt;PlayerObserver&gt;();
+<b class="fc"><i>38</i>&nbsp;        workers = new ArrayList&lt;Worker&gt;(2);</b>
+<b class="fc"><i>39</i>&nbsp;        workers.add(new Worker(this, Sex.MALE));</b>
+<b class="fc"><i>40</i>&nbsp;        workers.add(new Worker(this, Sex.FEMALE));</b>
+<b class="fc"><i>41</i>&nbsp;    }</b>
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;    public String getNickname() {
+<b class="fc"><i>45</i>&nbsp;        return nickname;</b>
+<i>46</i>&nbsp;    }
+<i>47</i>&nbsp;
+<b class="fc"><i>48</i>&nbsp;    public Worker getChosenWorker() {return chosenWorker;}</b>
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    public void setChosenWorker(Worker chosenWorker) {
+<b class="fc"><i>51</i>&nbsp;        this.chosenWorker = chosenWorker;</b>
+<b class="fc"><i>52</i>&nbsp;    }</b>
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;    public God getGod() {
+<b class="fc"><i>56</i>&nbsp;        return god;</b>
+<i>57</i>&nbsp;    }
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;    /**
+<i>60</i>&nbsp;     * Assigns to this player the God,
+<i>61</i>&nbsp;     * giving the possibility to choose between the God cards of this game
+<i>62</i>&nbsp;     */
+<i>63</i>&nbsp;    public void chooseMyGod(){
+<b class="nc"><i>64</i>&nbsp;        god = chooseGod(game.getChosenGods());</b>
+<b class="nc"><i>65</i>&nbsp;    }</b>
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;    /**
+<i>69</i>&nbsp;     * Allows to choose the God cards that will be used by the players during the Game
+<i>70</i>&nbsp;     * @param deckGods It&#39;s all the possible Gods the challenger can choose between
+<i>71</i>&nbsp;     * @return The chosen Gods are listed in this element
+<i>72</i>&nbsp;     */
+<i>73</i>&nbsp;    public ArrayList&lt;God&gt; chooseInitialGods(God[] deckGods){
+<b class="nc"><i>74</i>&nbsp;        ArrayList&lt;God&gt; chosenGods = new ArrayList&lt;God&gt;(game.getNumberOfPlayers());</b>
+<i>75</i>&nbsp;        God chosen;
+<b class="nc"><i>76</i>&nbsp;        int i = 0;</b>
+<b class="nc"><i>77</i>&nbsp;        while(i &lt; game.getNumberOfPlayers()){</b>
+<b class="nc"><i>78</i>&nbsp;            chosen = chooseGod(chosenGods);</b>
+<b class="nc"><i>79</i>&nbsp;            int j=0;</b>
+<b class="nc"><i>80</i>&nbsp;            while (j&lt;=i) {</b>
+<b class="nc"><i>81</i>&nbsp;                if (chosen.equals(chosenGods.get(j))) {</b>
+<b class="nc"><i>82</i>&nbsp;                    System.out.println(&quot;This God has already been chosen. Pick another!\n&quot;);</b>
+<b class="nc"><i>83</i>&nbsp;                    i--;</b>
+<i>84</i>&nbsp;                } else {
+<b class="nc"><i>85</i>&nbsp;                    j++;</b>
+<i>86</i>&nbsp;                }
+<i>87</i>&nbsp;            }
+<b class="nc"><i>88</i>&nbsp;            chosenGods.add(i, chosen);</b>
+<b class="nc"><i>89</i>&nbsp;            i++;</b>
+<b class="nc"><i>90</i>&nbsp;        }</b>
+<b class="nc"><i>91</i>&nbsp;        return chosenGods;</b>
+<i>92</i>&nbsp;    }
+<i>93</i>&nbsp;
+<i>94</i>&nbsp;
+<i>95</i>&nbsp;    /**
+<i>96</i>&nbsp;     * Allows the player to choose a God from the available gods of the current game
+<i>97</i>&nbsp;     */
+<i>98</i>&nbsp;    public God chooseGod(ArrayList&lt;God&gt; gameGods) {
+<b class="nc"><i>99</i>&nbsp;        int i=0, chosenOne;</b>
+<i>100</i>&nbsp;        God chosenGod;
+<i>101</i>&nbsp;        //dalla lista dei chosenGods del gioco sceglierne uno dei 3 e assegnarlo al God di questo player
+<i>102</i>&nbsp;        //todo:
+<i>103</i>&nbsp;        //dal controller ricevo l&#39;input che la view deve dare per poter scegliere uno dei god tra cui scegliere
+<i>104</i>&nbsp;        //intanto lo faccio qui per semplicità
+<i>105</i>&nbsp;
+<b class="nc"><i>106</i>&nbsp;        System.out.println(&quot;Choose one God among the following.&quot;);</b>
+<b class="nc"><i>107</i>&nbsp;        Scanner input = new Scanner(System.in);</b>
+<b class="nc"><i>108</i>&nbsp;        chosenOne = input.nextInt();   //scelgo il god della lista con un numero da 1 a 3</b>
+<b class="nc"><i>109</i>&nbsp;        chosenGod = gameGods.get(chosenOne-1);</b>
+<b class="nc"><i>110</i>&nbsp;        while(i&lt;game.getNumberOfPlayers()){</b>
+<i>111</i>&nbsp;            //Se il giocatore è diverso e il dio scelto è lo stesso allora faccio riscegliere il dio
+<b class="nc"><i>112</i>&nbsp;            if(!this.equals(game.getPlayers().get(i)) &amp;&amp; chosenGod.equals(game.getPlayers().get(i).getGod())){</b>
+<b class="nc"><i>113</i>&nbsp;                System.out.println(&quot;This god has already been chosen. Pick another!\n&quot;);</b>
+<b class="nc"><i>114</i>&nbsp;                chosenOne = input.nextInt();   //scelgo il god della lista con un numero da 1 a 3</b>
+<b class="nc"><i>115</i>&nbsp;                chosenGod = gameGods.get(chosenOne-1);</b>
+<i>116</i>&nbsp;            }
+<i>117</i>&nbsp;            else{
+<b class="nc"><i>118</i>&nbsp;                i++;</b>
+<i>119</i>&nbsp;            }
+<i>120</i>&nbsp;        }
+<b class="nc"><i>121</i>&nbsp;        return chosenGod;</b>
+<i>122</i>&nbsp;    }
+<i>123</i>&nbsp;
+<i>124</i>&nbsp;
+<i>125</i>&nbsp;    /**
+<i>126</i>&nbsp;     * This method allows the user to choose the worker to be used for his turn
+<i>127</i>&nbsp;     */
+<i>128</i>&nbsp;    public void chooseWorker() {
+<i>129</i>&nbsp;        //con X e Y
+<i>130</i>&nbsp;        //chosenWorker = prendera il puntatore al Worker che ha selezionato l&#39;utente
+<i>131</i>&nbsp;
+<b class="nc"><i>132</i>&nbsp;        Scanner input = new Scanner(System.in);</b>
+<i>133</i>&nbsp;
+<i>134</i>&nbsp;
+<i>135</i>&nbsp;        do {
+<i>136</i>&nbsp;
+<b class="nc"><i>137</i>&nbsp;            System.out.println(&quot;Insert the position of the worker you wish to select.&quot;);</b>
+<b class="nc"><i>138</i>&nbsp;            int x = input.nextInt();</b>
+<b class="nc"><i>139</i>&nbsp;            int y = input.nextInt();</b>
+<b class="nc"><i>140</i>&nbsp;            Cell chosenCell = game.getMap().findCell(x, y);</b>
+<b class="nc"><i>141</i>&nbsp;            if (chosenCell.hasWorker() &amp;&amp; chosenCell.getWorker().getPlayer() == this) {</b>
+<b class="nc"><i>142</i>&nbsp;                chosenWorker = game.getMap().findCell(x, y).getWorker();</b>
+<b class="nc"><i>143</i>&nbsp;                break;</b>
+<i>144</i>&nbsp;            }
+<i>145</i>&nbsp;
+<b class="nc"><i>146</i>&nbsp;            System.out.println(&quot;The position is not valid&quot;);</b>
+<i>147</i>&nbsp;
+<b class="nc"><i>148</i>&nbsp;        } while (true);</b>
+<i>149</i>&nbsp;
+<i>150</i>&nbsp;
+<b class="nc"><i>151</i>&nbsp;    }</b>
+<i>152</i>&nbsp;
+<i>153</i>&nbsp;    public Color getColor() {
+<b class="fc"><i>154</i>&nbsp;        return color;</b>
+<i>155</i>&nbsp;    }
+<i>156</i>&nbsp;
+<i>157</i>&nbsp;
+<b class="fc"><i>158</i>&nbsp;    public void setColor(Color color) { this.color = color; }</b>
+<i>159</i>&nbsp;
+<i>160</i>&nbsp;    /**
+<i>161</i>&nbsp;     *
+<i>162</i>&nbsp;     * @param value true allows the player to win in perimeter, false otherwise
+<i>163</i>&nbsp;     */
+<b class="fc"><i>164</i>&nbsp;    public void setPermissionToWinInPerimeter(boolean value) { canWinInPerimeter = value;}</b>
+<i>165</i>&nbsp;
+<i>166</i>&nbsp;    /**
+<i>167</i>&nbsp;     *
+<i>168</i>&nbsp;     * @param value true allows the player to move up, false otherwise
+<i>169</i>&nbsp;     */
+<b class="fc"><i>170</i>&nbsp;    public void setPermissionToMoveUp(boolean value) {canMoveUp = value;}</b>
+<i>171</i>&nbsp;
+<i>172</i>&nbsp;    /**
+<i>173</i>&nbsp;     * @return True if the Player can move up, false if this player can not move up for the current turn
+<i>174</i>&nbsp;     */
+<b class="fc"><i>175</i>&nbsp;    public boolean canMoveUp() { return canMoveUp;}</b>
+<i>176</i>&nbsp;
+<i>177</i>&nbsp;
+<i>178</i>&nbsp;    /**
+<i>179</i>&nbsp;     * @return True if the Player can win with a worker on the perimeter, false otherwise
+<i>180</i>&nbsp;     */
+<b class="fc"><i>181</i>&nbsp;    public boolean canWinInPerimeter() { return canWinInPerimeter; }</b>
+<i>182</i>&nbsp;
+<i>183</i>&nbsp;
+<i>184</i>&nbsp;
+<i>185</i>&nbsp;    public ArrayList&lt;Worker&gt; getWorkers() {
+<b class="fc"><i>186</i>&nbsp;        return workers;</b>
+<i>187</i>&nbsp;    }
+<i>188</i>&nbsp;
+<i>189</i>&nbsp;
+<i>190</i>&nbsp;    public Game getGame() {
+<b class="fc"><i>191</i>&nbsp;        return game;</b>
+<i>192</i>&nbsp;    }
+<i>193</i>&nbsp;
+<i>194</i>&nbsp;
+<i>195</i>&nbsp;    /*
+<i>196</i>&nbsp;    public void register(PlayerObserver playerObserver){
+<i>197</i>&nbsp;
+<i>198</i>&nbsp;        this.playerObservers.add(playerObserver);
+<i>199</i>&nbsp;
+<i>200</i>&nbsp;    }
+<i>201</i>&nbsp;
+<i>202</i>&nbsp;    public void unregister(PlayerObserver playerObserver){
+<i>203</i>&nbsp;
+<i>204</i>&nbsp;        this.playerObservers.remove(playerObserver);
+<i>205</i>&nbsp;    }
+<i>206</i>&nbsp;
+<i>207</i>&nbsp;    public void notifyObservers(){
+<i>208</i>&nbsp;
+<i>209</i>&nbsp;        for(PlayerObserver observer : this.playerObservers )
+<i>210</i>&nbsp;        {
+<i>211</i>&nbsp;            observer.update();
+<i>212</i>&nbsp;        }
+<i>213</i>&nbsp;
+<i>214</i>&nbsp;    }
+<i>215</i>&nbsp;
+<i>216</i>&nbsp;*/
+<i>217</i>&nbsp;
+<i>218</i>&nbsp;
+<i>219</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-04 18:07</div>
+</div>
+</body>
+</html>

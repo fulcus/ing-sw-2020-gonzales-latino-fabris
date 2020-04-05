@@ -36,8 +36,6 @@ public class Worker {
         //vado via da cella precedente e Position nella nuova
         if(position != null) {
             position.moveOut();
-            moveMap.updateCellsOutOfMap();
-            buildMap.updateCellsOutOfMap();
         }
         newPosition.moveIn(this);
         //newPosition.getLevel() > level
@@ -56,8 +54,6 @@ public class Worker {
         //vado via da cella precedente e Position nella nuova
         if(position != null) {
             position.moveOut();
-            moveMap.updateCellsOutOfMap();
-            buildMap.updateCellsOutOfMap();
         }
         newPosition.moveIn(this);
         //newPosition.getLevel() > level

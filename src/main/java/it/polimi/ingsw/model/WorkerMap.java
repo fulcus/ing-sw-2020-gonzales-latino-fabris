@@ -65,7 +65,6 @@ public class WorkerMap {
         }
     }
 
-
     public void centerPositionFalse() {
         matrix[1][1] = false;
     }
@@ -156,18 +155,16 @@ public class WorkerMap {
         }
     }
 
-    public void levelDifferenceOne() {
+    public void levelDifferenceLessEqualThanX(int x) {
         int workersLevel = worker.getPosition().getLevel();
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
 
-                if (getAbsolutePosition(i, j) != null &&
-                        getAbsolutePosition(i, j).getLevel() - workersLevel > 1)
+                if (getAbsolutePosition(i,j) != null &&
+                        getAbsolutePosition(i,j).getLevel() - workersLevel > x)
                     matrix[i][j] = false;
             }
         }
     }
-
-
 }
