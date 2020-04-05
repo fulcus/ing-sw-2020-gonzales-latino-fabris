@@ -2,6 +2,7 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.controller.TurnHandler;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.god.God;
 
 
 import java.util.ArrayList;
@@ -67,7 +68,6 @@ public class CLIMainView {
      *
      * @return The ArrayList with the nicknames.
      */
-    //da cambiare in base a come VICTOR fara controller
     public ArrayList<String> askPlayersNickname(){
 
         ArrayList<String> nicknames = new ArrayList<String>(numberOfPlayers);
@@ -85,11 +85,51 @@ public class CLIMainView {
             } else
                 System.out.println("This nickname has been chosen by another player");
 
-
         }
 
         return nicknames;
 
+    }
+
+    public ArrayList<Integer> askPlayingGod(){
+        int i=0, j=0;
+        int chosenOne;
+        ArrayList<Integer> choice = new ArrayList<Integer>(myGame.getNumberOfPlayers());
+        Scanner scanner = new Scanner(System.in);
+
+        while(i<myGame.getNumberOfPlayers()){
+            System.out.println("Choose one God among the following: ");
+            //stampare il nome degli dei
+            chosenOne = scanner.nextInt();
+            if (choice.contains(chosenOne) || !(chosenOne==1 || chosenOne==2 || chosenOne==3)){
+                System.out.println("This god has already been chosen or your choice is not valid.\n Pick another!\n");
+            }
+            else{
+                choice.add(i, chosenOne);
+                i++;
+            }
+        }
+        return choice;
+    }
+
+    public ArrayList<Integer> askGameGods(){
+        ArrayList<Integer> chosenGods = new ArrayList<Integer>(myGame.getNumberOfPlayers());
+        int select, i=0;
+        System.out.println("Select " + myGame.getNumberOfPlayers() + "God cards to play the Game\n");
+        //fare la print degli dèi, affiancarli ad un numero per poterli selezionare;
+
+        Scanner input = new Scanner(System.in);
+        while( i < myGame.getNumberOfPlayers() ) {
+            select = input.nextInt();
+            if (chosenGods.contains(select) || select<1 || select>14 )
+                System.out.println("You have already chosen this God. Pick another!\n");
+            else {
+                chosenGods.add(select);
+                i++;
+            }
+
+        }
+        return chosenGods;
     }
 
     public String askChosenWorker() {

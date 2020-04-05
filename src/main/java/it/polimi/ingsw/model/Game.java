@@ -69,8 +69,8 @@ public class Game {
         return deckGods;
     }
 
-    public void addChosenGods() {
-        chosenGods = getChallenger().chooseInitialGods(deckGods);
+    public void addChosenGods(ArrayList<God> challengerChoice) {
+        chosenGods = challengerChoice;
     }
 
     public Map getMap() {

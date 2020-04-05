@@ -56,69 +56,22 @@ public class Player {
         return god;
     }
 
-    /**
-     * Assigns to this player the God,
-     * giving the possibility to choose between the God cards of this game
-     */
-    public void chooseMyGod(){
-        god = chooseGod(game.getChosenGods());
-    }
-
 
     /**
-     * Allows to choose the God cards that will be used by the players during the Game
-     * @param deckGods It's all the possible Gods the challenger can choose between
-     * @return The chosen Gods are listed in this element
+     * Allows the challenger to set the God cards that will be used by the players during the Game
+     * @param chosen It's the Gods the challenger has chosen to play the game
      */
-    public ArrayList<God> chooseInitialGods(God[] deckGods){
-        ArrayList<God> chosenGods = new ArrayList<God>(game.getNumberOfPlayers());
-        God chosen;
-        int i = 0;
-        while(i < game.getNumberOfPlayers()){
-            chosen = chooseGod(chosenGods);
-            int j=0;
-            while (j<=i) {
-                if (chosen.equals(chosenGods.get(j))) {
-                    System.out.println("This God has already been chosen. Pick another!\n");
-                    i--;
-                } else {
-                    j++;
-                }
-            }
-            chosenGods.add(i, chosen);
-            i++;
-        }
-        return chosenGods;
+    public void chooseInitialGods(ArrayList<God> chosen){
+        game.addChosenGods(chosen);
     }
 
 
     /**
      * Allows the player to choose a God from the available gods of the current game
      */
-    public God chooseGod(ArrayList<God> gameGods) {
+    public void setGod(int god) {
         int i=0, chosenOne;
-        God chosenGod;
-        //dalla lista dei chosenGods del gioco sceglierne uno dei 3 e assegnarlo al God di questo player
-        //todo:
-        //dal controller ricevo l'input che la view deve dare per poter scegliere uno dei god tra cui scegliere
-        //intanto lo faccio qui per semplicità
-
-        System.out.println("Choose one God among the following.");
-        Scanner input = new Scanner(System.in);
-        chosenOne = input.nextInt();   //scelgo il god della lista con un numero da 1 a 3
-        chosenGod = gameGods.get(chosenOne-1);
-        while(i<game.getNumberOfPlayers()){
-            //Se il giocatore è diverso e il dio scelto è lo stesso allora faccio riscegliere il dio
-            if(!this.equals(game.getPlayers().get(i)) && chosenGod.equals(game.getPlayers().get(i).getGod())){
-                System.out.println("This god has already been chosen. Pick another!\n");
-                chosenOne = input.nextInt();   //scelgo il god della lista con un numero da 1 a 3
-                chosenGod = gameGods.get(chosenOne-1);
-            }
-            else{
-                i++;
-            }
-        }
-        return chosenGod;
+        this.god = game.getChosenGods().get(god-1);
     }
 
 

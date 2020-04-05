@@ -1,6 +1,11 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.god.*;
+import it.polimi.ingsw.view.*;
+
+
+import java.util.ArrayList;
 
 /**
  * Handles the input given by the view and sends them to the model to change the Game status
@@ -9,36 +14,95 @@ public class GameController {
 
     private Game game;
     private TurnHandler turnHandler;
+    private CLIMainView view;
 
     public GameController(){
         game = null;
         turnHandler = null;
     }
 
-    public void playerSetting(String pl1, String pl2, String pl3){
-        game = new Game(3);
+    public void playerSetting(ArrayList<String> playerUsernames){
+        game = new Game(playerUsernames.size());
         turnHandler = new TurnHandler(game);
-        game.addPlayer(pl1);
-        game.addPlayer(pl2);
-        game.addPlayer(pl3);
+        game.addPlayer(playerUsernames.get(0));
+        game.addPlayer(playerUsernames.get(1));
+        if (playerUsernames.size() == 3)
+            game.addPlayer(playerUsernames.get(2));
     }
 
-    public void playerSetting(String pl1, String pl2){
-        game = new Game(2);
-        turnHandler = new TurnHandler(game);
-        game.addPlayer(pl1);
-        game.addPlayer(pl2);
-    }
-
-
-
+    /**
+     * Allows to create the deck of God cards of the game
+     * Allows to set the chosen Gods of the game thanks to the challenger
+     */
     public void initializeGame(){
         game.createDeckGods();
-        game.addChosenGods();
+        game.getChallenger().chooseInitialGods(chooseInitialGod(view.askGameGods()));
     }
 
-    public void chooseGod(int player, int god){
-        game.getPlayers().get(player).chooseGod(game.getChosenGods());
+    /**
+     * Allows to assign the God to every player of the game
+     * @param choices Is the ordered list of gods to assign to the players
+     */
+    public void chooseGod(ArrayList<Integer> choices){
+        int i=0;
+        while(i<game.getNumberOfPlayers()){
+            turnHandler.getCurrentPlayer().setGod(choices.get(i));
+            turnHandler.nextPlayer();
+        }
+    }
+
+    public ArrayList<God> chooseInitialGod(ArrayList<Integer> chosen){
+        int i=0;
+        ArrayList<God> gods = new ArrayList<God>(game.getNumberOfPlayers());
+        while(i<game.getNumberOfPlayers()){
+            switch (chosen.get(i)) {
+                case 1 :
+                    gods.add(i, new Apollo());
+                    break;
+                case 2 :
+                    gods.add(i, new Artemis());
+                    break;
+                case 3:
+                    gods.add(i, new Athena());
+                    break;
+                case 4 :
+                    gods.add(i, new Atlas());
+                    break;
+                case 5 :
+                    gods.add(i, new Charon());
+                    break;
+                case 6 :
+                    gods.add(i, new Demeter());
+                    break;
+                case 7 :
+                    gods.add(i, new Hephaestus());
+                    break;
+                case 8 :
+                    gods.add(i, new Hera());
+                    break;
+                case 9 :
+                    gods.add(i, new Hestia());
+                    break;
+                case 10 :
+                    gods.add(i, new Minotaur());
+                    break;
+                case 11 :
+                    gods.add(i, new Pan());
+                    break;
+                case 12 :
+                    gods.add(i, new Prometheus());
+                    break;
+                case 13 :
+                    gods.add(i, new Triton());
+                    break;
+                case 14 :
+                    gods.add(i, new Zeus());
+                    break;
+                default:break;
+            }
+            i++;
+        }
+        return gods;
     }
 
     /**
@@ -48,14 +112,6 @@ public class GameController {
         turnHandler.nextTurn();
     }
 
-
-    //PROBABILMENTE è UN CHECK DA FARE NELLA VIEW NEL MOMENTO IN CUI SI INSERISCONO GLI USERNAMES DEI PLAYERS
-    public boolean checkUsernames(String pl1, String pl2, String pl3){
-        if (pl1.equals(pl2) || pl1.equals(pl3) || pl2.equals(pl3)){
-            return false;
-        }
-        return true;
-    }
 
 
 }
