@@ -5,6 +5,8 @@ import it.polimi.ingsw.model.Worker;
 
 public class Athena implements God{
 
+    private static final String name = "ATHENA";
+
     @Override
     public void evolveTurn(Worker worker) {
         move(worker);
@@ -28,5 +30,10 @@ public class Athena implements God{
                     p.setPermissionToMoveUp(true);
             }
         }
+    }
+
+
+    public String getName(){
+        return name;
     }
 }

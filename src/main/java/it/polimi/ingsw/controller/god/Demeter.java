@@ -9,6 +9,7 @@ import java.util.Scanner;
 public class Demeter implements God {
 
     Cell firstBuildingCell;
+    private static final String name = "DEMETER";
 
     @Override
     public void evolveTurn(Worker w) {
@@ -77,5 +78,10 @@ public class Demeter implements God {
                 break;
             }
         } while (true);
+    }
+
+
+    public String getName(){
+        return name;
     }
 }

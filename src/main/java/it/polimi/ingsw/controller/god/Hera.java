@@ -5,6 +5,10 @@ import it.polimi.ingsw.model.Worker;
 
 public class Hera implements God{
 
+    private static final String name = "HERA";
+
+
+    @Override
     public void evolveTurn(Worker worker) {
         move(worker);
         win(worker);
@@ -15,10 +19,16 @@ public class Hera implements God{
     private void cannotWinInPerimeterRestriction(Worker worker) {
         for(Player p : worker.getPlayer().getGame().getPlayers()) {
 
-            if(p != worker.getPlayer()) {
+            if (p != worker.getPlayer()) {
                 p.setPermissionToWinInPerimeter(false);
+            }
         }
-
     }
+
+
+    public String getName(){
+        return name;
+    }
+
 }
 

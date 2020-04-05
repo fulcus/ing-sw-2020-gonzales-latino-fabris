@@ -8,6 +8,7 @@ import java.util.Scanner;
 public class Hephaestus implements God{
 
     Cell firstBuildingCell;
+    private static final String name = "HEPHAESTUS";
 
     /**
      * This method calls the sequence of actions that can be done by the player who owns Hephaestus.
@@ -63,10 +64,11 @@ public class Hephaestus implements God{
 
         }while(true);
 
+    }
 
 
 
-
-
+    public String getName(){
+        return name;
     }
 }

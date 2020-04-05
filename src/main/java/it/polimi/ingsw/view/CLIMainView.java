@@ -95,12 +95,11 @@ public class CLIMainView {
         int i=0, j=0;
         int chosenOne;
         ArrayList<Integer> choice = new ArrayList<Integer>(myGame.getNumberOfPlayers());
-        Scanner scanner = new Scanner(System.in);
 
         while(i<myGame.getNumberOfPlayers()){
             System.out.println("Choose one God among the following: ");
             //stampare il nome degli dei
-            chosenOne = scanner.nextInt();
+            chosenOne = input.nextInt();
             if (choice.contains(chosenOne) || !(chosenOne==1 || chosenOne==2 || chosenOne==3)){
                 System.out.println("This god has already been chosen or your choice is not valid.\n Pick another!\n");
             }
@@ -118,7 +117,6 @@ public class CLIMainView {
         System.out.println("Select " + myGame.getNumberOfPlayers() + "God cards to play the Game\n");
         //fare la print degli dèi, affiancarli ad un numero per poterli selezionare;
 
-        Scanner input = new Scanner(System.in);
         while( i < myGame.getNumberOfPlayers() ) {
             select = input.nextInt();
             if (chosenGods.contains(select) || select<1 || select>14 )

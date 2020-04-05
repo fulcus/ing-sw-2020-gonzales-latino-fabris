@@ -1,12 +1,14 @@
 package it.polimi.ingsw.controller.god;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.controller.*;
 
 public class Charon implements God{
 
 
+    private static String name = "CHARON";
 
+
+    @Override
     public void evolveTurn(Worker worker) {
         swapOther(worker);
         move(worker);
@@ -46,6 +48,11 @@ public class Charon implements God{
     public String askApplyCharon(){
         //chiamare il metodo della view che farà la richiesta per poter spostare o meno il worker avversario
         return "Y"; // il valore di ritorno è la stringa data dal metodo della view
+    }
+
+
+    public String getName(){
+        return name;
     }
 
 }

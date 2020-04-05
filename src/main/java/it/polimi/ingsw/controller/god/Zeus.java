@@ -4,6 +4,8 @@ import it.polimi.ingsw.model.*;
 
 public class Zeus implements God{
 
+    private static final String name = "ZEUS";
+
     @Override
     public void evolveTurn(Worker worker) {
         Cell previousPosition = worker.getPosition();
@@ -16,6 +18,11 @@ public class Zeus implements God{
         }
     }
 
+
+
+    public String getName(){
+        return name;
+    }
 
 
 }
