@@ -1,7 +1,14 @@
 package it.polimi.ingsw.model;
 
 
+import it.polimi.ingsw.view.ViewObserver;
+
+import java.util.ArrayList;
+
 public class Worker {
+
+
+    private ArrayList<ViewObserver> workerObservers;
 
     private final Player player;
     private final Sex sex;
@@ -15,6 +22,7 @@ public class Worker {
      * @param sex A worker can be Male or Female.
      */
     public Worker(Player player, Sex sex) {
+
         this.player = player;
         this.sex = sex;
         level = 0;
@@ -111,6 +119,40 @@ public class Worker {
 
     public WorkerBuildMap getBuildMap() {
         return buildMap;
+    }
+
+    //OBSERVER METHODS
+
+    /**
+     * This method adds a new Observer.
+     * @param newObserver Reference of the observer.
+     */
+    public void register(ViewObserver newObserver){
+
+        this.workerObservers.add(newObserver);
+
+    }
+
+
+    /**
+     * This method remove an observer.
+     * @param myObserver The observer to be unregistered.
+     */
+    public void unregister(ViewObserver myObserver){
+
+        this.workerObservers.remove(myObserver);
+    }
+
+    /**
+     * This method updates all the Observer of the Worker Class.
+     */
+    public void notifyObservers(){
+
+        for(ViewObserver observer : this.workerObservers )
+        {
+            observer.update(this);
+        }
+
     }
 
 

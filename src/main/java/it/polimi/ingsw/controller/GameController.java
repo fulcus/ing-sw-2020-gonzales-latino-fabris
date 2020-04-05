@@ -31,6 +31,10 @@ public class GameController {
             game.addPlayer(playerUsernames.get(2));
     }
 
+    public TurnHandler getTurnHandler() {
+        return turnHandler;
+    }
+
     /**
      * Allows to create the deck of God cards of the game
      * Allows to set the chosen Gods of the game thanks to the challenger
