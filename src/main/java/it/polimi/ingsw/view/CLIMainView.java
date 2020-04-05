@@ -1,9 +1,8 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.TurnHandler;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.controller.god.God;
+import it.polimi.ingsw.controller.god.*;
 
 
 import java.util.ArrayList;
@@ -13,7 +12,7 @@ public class CLIMainView implements ViewObserver {
 
     Scanner input = new Scanner(System.in);
     int numberOfPlayers;
-    GameController mycontroller;
+    TurnHandler myTurnHandler;
     Game myGame;
     Map myMap;// this will contain a copy of the Model's map and each cell will be update if there are any changes
 
@@ -104,22 +103,19 @@ public class CLIMainView implements ViewObserver {
 
     }
 
-    public ArrayList<Integer> askPlayingGod() {
-
-        int i = 0, j = 0;
+    public ArrayList<Integer> askPlayingGod(){
+        int i=0, j=0;
         int chosenOne;
         ArrayList<Integer> choice = new ArrayList<Integer>(myGame.getNumberOfPlayers());
 
-
-        while (i < myGame.getNumberOfPlayers()) {
-
+        while(i<myGame.getNumberOfPlayers()){
             System.out.println("Choose one God among the following: ");
             //stampare il nome degli dei
             chosenOne = input.nextInt();
-
-            if (choice.contains(chosenOne) || !(chosenOne == 1 || chosenOne == 2 || chosenOne == 3)) {
+            if (choice.contains(chosenOne) || !(chosenOne==1 || chosenOne==2 || chosenOne==3)){
                 System.out.println("This god has already been chosen or your choice is not valid.\n Pick another!\n");
-            } else {
+            }
+            else{
                 choice.add(i, chosenOne);
                 i++;
             }
@@ -127,17 +123,15 @@ public class CLIMainView implements ViewObserver {
         return choice;
     }
 
-    public ArrayList<Integer> askGameGods() {
-
+    public ArrayList<Integer> askGameGods(){
         ArrayList<Integer> chosenGods = new ArrayList<Integer>(myGame.getNumberOfPlayers());
-        int select, i = 0;
+        int select, i=0;
         System.out.println("Select " + myGame.getNumberOfPlayers() + "God cards to play the Game\n");
         //fare la print degli dèi, affiancarli ad un numero per poterli selezionare;
 
-        Scanner input = new Scanner(System.in);
-        while (i < myGame.getNumberOfPlayers()) {
+        while( i < myGame.getNumberOfPlayers() ) {
             select = input.nextInt();
-            if (chosenGods.contains(select) || select < 1 || select > 14)
+            if (chosenGods.contains(select) || select<1 || select>14 )
                 System.out.println("You have already chosen this God. Pick another!\n");
             else {
                 chosenGods.add(select);
@@ -152,7 +146,7 @@ public class CLIMainView implements ViewObserver {
 
         String chosenWorker;
 
-        System.out.println(mycontroller.getTurnHandler().getCurrentPlayer().getNickname() + "is your turn!");//Il fatto che la view per stampare il nickname del player debba andare chiamare prima il controller che poi a sua volta chiama il model....boh?
+        System.out.println(myTurnHandler.getCurrentPlayer().getNickname() + "is your turn!");//Il fatto che la view per stampare il nickname del player debba andare chiamare prima il controller che poi a sua volta chiama il model....boh?
 
         while (true) {
             System.out.println("Insert MALE or FEMALE to choose one of your workers");
@@ -176,15 +170,15 @@ public class CLIMainView implements ViewObserver {
      */
     public String askMovementDirection() {
 
-        String selectedBuildingDirection;
+        String selectedDirection;
 
         while (true) {
-            System.out.println(mycontroller.getTurnHandler().getCurrentPlayer().getNickname() + "where do you want to move your worker? Insert compass points!");
+            System.out.println(myTurnHandler.getCurrentPlayer().getNickname() + "where do you want to move your worker?");
 
-            selectedBuildingDirection = input.nextLine();
+            selectedDirection = input.nextLine();
 
-            if (selectedBuildingDirection.equals("N") || selectedBuildingDirection.equals("NE") || selectedBuildingDirection.equals("E") || selectedBuildingDirection.equals("SE") || selectedBuildingDirection.equals("S") || selectedBuildingDirection.equals("SO") || selectedBuildingDirection.equals("O") || selectedBuildingDirection.equals("NO"))
-                return selectedBuildingDirection;
+            if (selectedDirection.equals("N") || selectedDirection.equals("NE") || selectedDirection.equals("E") || selectedDirection.equals("SE") || selectedDirection.equals("S") || selectedDirection.equals("SO") || selectedDirection.equals("O") || selectedDirection.equals("NO"))
+                return selectedDirection;
 
             else
                 System.out.println("Invalid Direction. You must use: N,NE,E,SE,S,SO,O,NO");
@@ -205,7 +199,7 @@ public class CLIMainView implements ViewObserver {
 
         while (true) {
 
-            System.out.println(mycontroller.getTurnHandler().getCurrentPlayer().getNickname() + "where do you want to build? Insert compass points!");
+            System.out.println(myTurnHandler.getCurrentPlayer().getNickname() + "where do you want to build? Insert compass points!");
 
             selectedBuildingDirection = input.nextLine();
 

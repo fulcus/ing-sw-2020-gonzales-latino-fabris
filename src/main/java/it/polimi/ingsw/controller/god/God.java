@@ -11,6 +11,7 @@ import java.util.Scanner;
  */
 
 public interface God {
+
     /**
      * Default evolution of the turn: move, checks if win condition is met, builds.
      *
@@ -151,4 +152,5 @@ public interface God {
 
         return workersMoveMap;
     }
+
 }

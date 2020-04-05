@@ -9,6 +9,8 @@ import java.util.Scanner;
  */
 public class Minotaur implements God {
 
+    private static final String name = "MINOTAUR";
+
     @Override
     public void move(Worker worker) {
         updateMoveMap(worker);
@@ -64,4 +66,9 @@ public class Minotaur implements God {
         return workersMoveMap;
     }
 
+
+
+    public String getName(){
+        return name;
+    }
 }

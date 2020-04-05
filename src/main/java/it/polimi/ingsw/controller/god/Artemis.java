@@ -9,6 +9,7 @@ import java.util.Scanner;
 public class Artemis implements God {
 
     private Cell initialPosition;
+    private static final String name = "ARTEMIS";
 
     @Override
     public void evolveTurn(Worker worker) {
@@ -40,6 +41,11 @@ public class Artemis implements God {
         } else {
             //todo View error + loop
         }
+    }
+
+
+    public String getName(){
+        return name;
     }
 
 }

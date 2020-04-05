@@ -7,6 +7,9 @@ import it.polimi.ingsw.model.Worker;
 import java.util.Scanner;
 
 public class Atlas implements God{
+
+    private static final String name = "ATLAS";
+
     /**
      *
      * @param worker This the current worker.
@@ -92,6 +95,12 @@ public class Atlas implements God{
         System.out.println(buildingName + "successfully built");
         return buildingCell;
 
+    }
+
+
+
+    public String getName(){
+        return name;
     }
 
 }
