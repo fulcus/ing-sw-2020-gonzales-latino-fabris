@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.controller.god.*;
 import it.polimi.ingsw.view.*;
+import java.lang.Class.*;
 
 
 import java.util.ArrayList;
@@ -33,10 +34,12 @@ public class GameController {
     /**
      * Allows to create the deck of God cards of the game
      * Allows to set the chosen Gods of the game thanks to the challenger
+     * Allows to assign the God to every player of the game
      */
     public void initializeGame(){
         game.createDeckGods();
         game.getChallenger().chooseInitialGods(chooseInitialGod(view.askGameGods()));
+        chooseGod(view.askPlayingGod());
     }
 
     /**
@@ -47,10 +50,14 @@ public class GameController {
         int i=0;
         while(i<game.getNumberOfPlayers()){
             turnHandler.getCurrentPlayer().setGod(choices.get(i));
-            turnHandler.nextPlayer();
         }
     }
 
+    /**
+     * Allows to add to the list of the chosenGods of the game the ones that the challenger decided to choose
+     * @param chosen Contains the challenger inputs to the Gods he wants to play with
+     * @return The list of the Gods
+     */
     public ArrayList<God> chooseInitialGod(ArrayList<Integer> chosen){
         int i=0;
         ArrayList<God> gods = new ArrayList<God>(game.getNumberOfPlayers());
@@ -113,5 +120,23 @@ public class GameController {
     }
 
 
+    /**
+     * Allows to print all the deck of Gods' cards
+     */
+    public void printAllGods(){
+        System.out.println("Here's the Gods' card list:\n");
+        for(int i=1; i<=game.getDeckGods().length; i++) {
+            System.out.println(i + "]  " + game.getDeckGods()[i].getClass().getSimpleName());
+        }
+    }
+
+    /**
+     * Allows to print the Gods that the challenger has chosen for the game
+     */
+    public void printGameGods(){
+        for(int i=1; i<=game.getChosenGods().size(); i++){
+            System.out.println(i + "]  " + game.getChosenGods().get(i).getClass().getSimpleName());
+        }
+    }
 
 }

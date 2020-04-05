@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.TurnHandler;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.controller.god.*;
@@ -14,6 +15,7 @@ public class CLIMainView {
     int numberOfPlayers;
     TurnHandler myTurnHandler;
     Game myGame;
+    GameController gameController = new GameController();
 
 
     /**
@@ -42,7 +44,7 @@ public class CLIMainView {
     /**
      * @return The number of players.
      */
-    public int askNumberofPlayers() {
+    public int askNumberOfPlayers() {
 
         int insertedNumberOfPlayers;
 
@@ -96,15 +98,17 @@ public class CLIMainView {
         int chosenOne;
         ArrayList<Integer> choice = new ArrayList<Integer>(myGame.getNumberOfPlayers());
 
+        myTurnHandler.nextPlayer();
         while(i<myGame.getNumberOfPlayers()){
-            System.out.println("Choose one God among the following: ");
-            //stampare il nome degli dei
+            System.out.println(myTurnHandler.getCurrentPlayer().getNickname() + "! Choose one God among the following: ");
+            gameController.printGameGods();
             chosenOne = input.nextInt();
             if (choice.contains(chosenOne) || !(chosenOne==1 || chosenOne==2 || chosenOne==3)){
                 System.out.println("This god has already been chosen or your choice is not valid.\n Pick another!\n");
             }
             else{
                 choice.add(i, chosenOne);
+                myTurnHandler.nextTurn();
                 i++;
             }
         }
@@ -114,9 +118,9 @@ public class CLIMainView {
     public ArrayList<Integer> askGameGods(){
         ArrayList<Integer> chosenGods = new ArrayList<Integer>(myGame.getNumberOfPlayers());
         int select, i=0;
-        System.out.println("Select " + myGame.getNumberOfPlayers() + "God cards to play the Game\n");
-        //fare la print degli dèi, affiancarli ad un numero per poterli selezionare;
 
+        System.out.println("Select " + myGame.getNumberOfPlayers() + "God cards to play the Game\n");
+        gameController.printAllGods();
         while( i < myGame.getNumberOfPlayers() ) {
             select = input.nextInt();
             if (chosenGods.contains(select) || select<1 || select>14 )

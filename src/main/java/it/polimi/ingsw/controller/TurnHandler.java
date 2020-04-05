@@ -67,6 +67,13 @@ public class TurnHandler {
         return currentPlayer;
     }
 
+    /**
+     * Allows to print the God of a player
+     */
+    public void printPlayerGod(){
+        System.out.println(currentPlayer.getNickname() + " has chosen " + currentPlayer.getGod().getClass().getSimpleName());
+    }
+
     public int getCounter(){
         return counter;
     }
