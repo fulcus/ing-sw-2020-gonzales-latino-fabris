@@ -8,9 +8,6 @@ import java.util.Scanner;
 
 public class Apollo implements God{
 
-    private static final String name = "APOLLO";
-
-
     @Override
     public void move(Worker worker) {
         updateMoveMap(worker);
@@ -55,7 +52,4 @@ public class Apollo implements God{
     }
 
 
-    public String getName(){
-        return name;
-    }
 }

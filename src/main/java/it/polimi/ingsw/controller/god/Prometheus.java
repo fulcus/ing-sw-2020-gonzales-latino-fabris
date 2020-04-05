@@ -6,8 +6,6 @@ import java.util.Scanner;
 
 public class Prometheus implements God {
 
-    private static final String name = "PROMETHEUS";
-
     @Override
     public void evolveTurn(Worker worker) {
         if (!wantToMoveUp()) {
@@ -40,9 +38,5 @@ public class Prometheus implements God {
     }
     */
 
-
-    public String getName(){
-        return name;
-    }
 
 }

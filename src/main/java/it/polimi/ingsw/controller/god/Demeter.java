@@ -81,7 +81,4 @@ public class Demeter implements God {
     }
 
 
-    public String getName(){
-        return name;
-    }
 }

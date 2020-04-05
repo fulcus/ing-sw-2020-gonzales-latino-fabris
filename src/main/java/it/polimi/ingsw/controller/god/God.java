@@ -1,8 +1,6 @@
 package it.polimi.ingsw.controller.god;
 
-import it.polimi.ingsw.model.Cell;
-import it.polimi.ingsw.model.Worker;
-import it.polimi.ingsw.model.WorkerMoveMap;
+import it.polimi.ingsw.model.*;
 
 import java.util.Scanner;
 
@@ -30,18 +28,17 @@ public interface God {
      * @param worker Selected worker that will move.
      */
     default void move(Worker worker) {
-        WorkerMoveMap workersMatrix = updateMoveMap(worker);
+        WorkerMoveMap moveMap = updateMoveMap(worker);
 
         //todo Controller method that calls View method that returns int xMovePosition and yMovePosition in array
-        int[] movePosition = getInputPosition();
+        int[] movePosition = getInputMovePosition();
         int xMove = movePosition[0];
         int yMove = movePosition[1];
 
 
-        if (workersMatrix.isAllowedToMoveBoard(xMove, yMove)) {
+        if (moveMap.isAllowedToMoveBoard(xMove, yMove)) {
             worker.setPosition(xMove, yMove);
         }
-
 
     }
 
@@ -53,64 +50,39 @@ public interface God {
      * @return It returns the cell wherein the worker has just built.
      */
     default Cell build(Worker worker) {
-
-        //TODO evitare che una volta scelta la cella, non può più cambiare. fare(while nel while)
+        WorkerBuildMap buildMap = updateBuildMap(worker);
+        Map map = worker.getPlayer().getGame().getMap();
         //todo distinzione tra dome e block. Can only build dome on lvl 3
 
 
-        Scanner input = new Scanner(System.in);
-        String buildingName;
-        Cell buildingCell;
-        int buildingX;
-        int buildingY;
+        int[] buildInput = getInputBuildPosition();  //returns build position + type: block/dome
+        int xBuild = buildInput[0];
+        int yBuild = buildInput[1];
+        int buildType = buildInput[2]; //0 is block, 1 is dome
 
-        System.out.println("Insert the x y position where you want to build in");
+        Cell buildPosition = null;
 
-        do {
-            buildingX = input.nextInt();
-            buildingY = input.nextInt();
+        //build Dome
+        if (buildType == 1) {
 
-            //devi controllare anche che stia nella mappa.
-            //questo controllo va fatto con un metodo static in Map
-            if (!(worker.getPlayer().getGame().getMap().findCell(buildingX, buildingY).isOccupied())) {
-
-                buildingCell = worker.getPlayer().getGame().getMap().findCell(buildingX, buildingY);
-                break;
+            if (buildMap.isAllowedToBuildBoard(xBuild, yBuild) && map.findCell(xBuild, yBuild).getLevel() == 3) {
+                worker.buildDome(xBuild, yBuild);
+                buildPosition = map.findCell(xBuild, yBuild);
+            } else {
+                //todo View + Controller error
             }
 
-            System.out.println("You cannot build here. Insert a new position");
-
-        } while (true);
-
-
-        do {
-
-            if (buildingCell.getLevel() == 3) {
-                System.out.println("You can build a Dome here, type Dome to build");
-                buildingName = input.nextLine();
-
-                if (buildingName.equals("Dome")) {
-                    worker.buildDome(buildingX, buildingY);
-                    break;
-                }
+        } else if (buildType == 2) {    //build Block
+            if (buildMap.isAllowedToBuildBoard(xBuild, yBuild) && map.findCell(xBuild, yBuild).getLevel() < 3) {
+                worker.buildBlock(xBuild, yBuild);
+                buildPosition = map.findCell(xBuild, yBuild);
 
             } else {
-
-                System.out.println("You can build a Block here, type Block to build");
-                buildingName = input.nextLine();
-
-                if (buildingName.equals("Block")) {
-                    worker.buildBlock(buildingX, buildingY);
-                    break;
-                }
-
+                //todo View + Controller error
             }
+        }
 
-        } while (true);
-
-        System.out.println(buildingName + "successfully built");
-
-        return buildingCell;
+        return buildPosition;
 
     }
 
@@ -122,7 +94,7 @@ public interface God {
      * @return True if the worker's player has won. False otherwise.
      */
     //add end game for player if win is true
-    default boolean win(Worker worker) {
+        default boolean win(Worker worker) {
         boolean won;
         boolean normalCondition = worker.getLevel() == 3 && worker.getLevelVariation() == 1;
         if (worker.getPlayer().getCanWinInPerimeter())

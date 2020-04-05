@@ -5,8 +5,6 @@ import it.polimi.ingsw.model.Worker;
 
 public class Hera implements God{
 
-    private static final String name = "HERA";
-
 
     @Override
     public void evolveTurn(Worker worker) {
@@ -25,10 +23,6 @@ public class Hera implements God{
         }
     }
 
-
-    public String getName(){
-        return name;
-    }
 
 }
 

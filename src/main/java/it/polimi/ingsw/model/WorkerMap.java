@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import java.util.ArrayList;
+
 public class WorkerMap {
     private Map map;
     private Worker worker;
@@ -95,7 +97,7 @@ public class WorkerMap {
         int workersX = worker.getPosition().getX();
         int workersY = worker.getPosition().getY();
 
-        //if not in boolean map return false
+        //if not in boolean map or not in board map return false
         int relativeX = i - workersX + 1;
         int relativeY = j - workersY + 1;
 
@@ -126,7 +128,7 @@ public class WorkerMap {
     /**
      * Sets false cells not contained in Map.
      */
-    //called in both getters of moveMap and buildMap of worker
+    //useless because getBooleanMap returns false if cell is out of board
     public void updateCellsOutOfMap() {
         Cell workersCell = worker.getPosition();
         int workersX = worker.getPosition().getX();
@@ -167,4 +169,27 @@ public class WorkerMap {
             }
         }
     }
+
+
+    /**
+     * Finds all neighboring enemy workers.
+     * @return Returns all enemy workers adjacent to the worker.
+     */
+    public ArrayList<Worker> neighboringEnemyWorkers() {
+
+        ArrayList<Worker> neighboringWorkers = new ArrayList<Worker>(6);
+
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+
+                Cell adjacentCell = getAbsolutePosition(i,j);
+                if (adjacentCell != null && adjacentCell.hasWorker() &&
+                        adjacentCell.getWorker().getPlayer() != worker.getPlayer())
+                    neighboringWorkers.add(adjacentCell.getWorker());
+            }
+        }
+
+        return neighboringWorkers;
+    }
+
 }

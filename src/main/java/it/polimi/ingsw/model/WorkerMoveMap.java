@@ -34,16 +34,6 @@ public class WorkerMoveMap extends WorkerMap {
         workersPositionTrue();
     }
 
-    /* //useless methods
-    public void setAllowedToMoveInPosition(int i, int j) {
-        setCellTrue(i,j);
-    }
-
-    public void setNotAllowedToMoveInPosition(int i, int j) {
-        setCellFalse(i,j);
-    }
-    */
-
     /**
      * Returns if it is allowed to move in a given cell of the map.
      * @param i Map coordinate X.
@@ -61,11 +51,6 @@ public class WorkerMoveMap extends WorkerMap {
     public void cannotMoveInPerimeter() {
         cellsInPerimeterFalse();
     }
-/*
-    public void cannotMoveUpMoreThanOneLevel() {
-        levelDifferenceLessEqualThanX(1);
-    }
-*/
 
     /**
      * Sets if player can move up or not based on attribute of Player.

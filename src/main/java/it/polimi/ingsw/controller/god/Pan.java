@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.Worker;
 
 public class Pan implements God{
 
-    private static final String name = "PAN";
 
     @Override
     public boolean win(Worker worker){
@@ -24,7 +23,4 @@ public class Pan implements God{
 
 
 
-    public String getName(){
-        return name;
-    }
 }

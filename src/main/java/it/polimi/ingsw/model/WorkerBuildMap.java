@@ -41,4 +41,5 @@ public class WorkerBuildMap extends WorkerMap {
         cellsInPerimeterFalse();
     }
 
+
 }
