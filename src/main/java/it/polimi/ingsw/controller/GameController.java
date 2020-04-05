@@ -1,7 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.god.*;
+import it.polimi.ingsw.controller.god.*;
 import it.polimi.ingsw.view.*;
 
 

@@ -2,7 +2,7 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.controller.TurnHandler;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.god.God;
+import it.polimi.ingsw.controller.god.*;
 
 
 import java.util.ArrayList;
