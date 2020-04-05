@@ -8,8 +8,6 @@ import java.util.Scanner;
 
 public class Triton implements God{
 
-    private static final String name = "TRITON";
-
     public void evolveTurn(Worker worker) {
         move(worker);
         win(worker);
@@ -63,11 +61,5 @@ public class Triton implements God{
 
     }
 
-
-
-
-    public String getName(){
-        return name;
-    }
 }
 
