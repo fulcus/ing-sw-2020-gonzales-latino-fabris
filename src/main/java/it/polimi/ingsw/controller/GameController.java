@@ -1,7 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.god.*;
+import it.polimi.ingsw.controller.god.*;
 import it.polimi.ingsw.view.*;
 
 
@@ -28,6 +28,10 @@ public class GameController {
         game.addPlayer(playerUsernames.get(1));
         if (playerUsernames.size() == 3)
             game.addPlayer(playerUsernames.get(2));
+    }
+
+    public TurnHandler getTurnHandler() {
+        return turnHandler;
     }
 
     /**
