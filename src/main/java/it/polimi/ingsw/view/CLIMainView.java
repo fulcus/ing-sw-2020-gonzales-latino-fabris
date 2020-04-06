@@ -13,8 +13,8 @@ public class CLIMainView implements ViewObserver {
     Scanner input = new Scanner(System.in);
     int numberOfPlayers;
     TurnHandler myTurnHandler;
-    Game myGame;
-    GameController gameController = new GameController();
+    Game myGame;//TODO RImuovere game!!!! al max mettere getgame da mycontroller
+    GameController myController;
     Board myBoard;// this will contain a copy of the Model's map and each cell will be update if there are any changes
 
     /**
@@ -22,10 +22,10 @@ public class CLIMainView implements ViewObserver {
      *
      * @param //controller This is the controller that has created the game.
      */
-    //devo passare controller
-    public void CLIMainView() {
 
-        //mycontroller = controller;
+    public void CLIMainView(GameController controller) {
+
+        myController = controller;
         input = new Scanner(System.in);
     }
 
@@ -112,7 +112,7 @@ public class CLIMainView implements ViewObserver {
         myTurnHandler.nextPlayer();
         while(i<myGame.getNumberOfPlayers()){
             System.out.println(myTurnHandler.getCurrentPlayer().getNickname() + "! Choose one God among the following: ");
-            gameController.printGameGods();
+            myController.printGameGods();
             chosenOne = input.nextInt();
             if (choice.contains(chosenOne) || !(chosenOne==1 || chosenOne==2 || chosenOne==3)){
                 System.out.println("This god has already been chosen or your choice is not valid.\n Pick another!\n");
@@ -131,7 +131,7 @@ public class CLIMainView implements ViewObserver {
         int select, i=0;
 
         System.out.println("Select " + myGame.getNumberOfPlayers() + "God cards to play the Game\n");
-        gameController.printAllGods();
+        myController.printAllGods();
         while( i < myGame.getNumberOfPlayers() ) {
             select = input.nextInt();
             if (chosenGods.contains(select) || select<1 || select>14 )
@@ -302,12 +302,13 @@ public class CLIMainView implements ViewObserver {
     }
 
 
-    // TODO: è vero che è il worker a cambiare la mappa, però l'oggetto che cambia è la mappa(o la cella)
     //TODO: in update si potrebbero passare inoltre dei parametri che specificano cosa ha fatto avvenire il cambiamento, ad esempio se per un movimento o per una costruzione. Intal modo posso far apparire all'utente: PLAYER1 si è mosso-->stampa mappa.
     @Override
-    public void update(Worker observedWorker) {
+    public void update(Cell toBeUpdatedCell){
 
-        printMap();
+        myBoard.findCell(toBeUpdatedCell.getX(),toBeUpdatedCell.getY()).setLevel(toBeUpdatedCell.getLevel());//update the level of the changed cell in the view
+        myBoard.findCell(toBeUpdatedCell.getX(),toBeUpdatedCell.getY()).setDome(toBeUpdatedCell.hasDome());//update dome of changed cell in the view
+        myBoard.findCell(toBeUpdatedCell.getX(),toBeUpdatedCell.getY()).setWorker(toBeUpdatedCell.getWorker());//update worker of the changed cell in the view
 
     }
 }

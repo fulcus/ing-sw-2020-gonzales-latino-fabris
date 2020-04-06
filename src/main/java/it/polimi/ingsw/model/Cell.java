@@ -1,10 +1,17 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.view.ViewObserver;
+
+import java.util.ArrayList;
+
 /**
  * This class represents a map's cell structure
  */
 
 public class Cell {
+
+    private ArrayList<ViewObserver> cellObservers;
+
 
     private boolean dome;
     private int level;
@@ -26,11 +33,20 @@ public class Cell {
         return level;
     }
 
+    public void setLevel(int level) {this.level = level;}
+
+
+    public void setDome(boolean dome) {this.dome = dome;}
+
+    public void setWorker(Worker worker) {this.worker = worker;}
+
+
     /**
      * Builds 1 block more in this cell
      */
     public void buildBlock() {
         level++;
+        notifyObservers();
     }
 
     public boolean hasDome() {
@@ -42,6 +58,7 @@ public class Cell {
      */
     public void buildDome() {
         dome = true;
+        notifyObservers();
     }
 
     /**
@@ -58,6 +75,7 @@ public class Cell {
      */
     public void moveIn(Worker w) {
         worker = w;
+        notifyObservers();//when a worker has moved in this Cell, it will be changed in the View
     }
 
     /**
@@ -65,6 +83,7 @@ public class Cell {
      */
     public void moveOut() {
         worker = null;
+        notifyObservers();//when a worker has moved out from this Cell, it will be changed in the View
     }
 
     /**
@@ -92,6 +111,42 @@ public class Cell {
 
     public int getY() {
         return y;
+    }
+
+
+
+    //OBSERVER METHODS
+
+    /**
+     * This method adds a new Observer.
+     * @param newObserver Reference of the observer.
+     */
+    public void register(ViewObserver newObserver){
+
+        this.cellObservers.add(newObserver);
+
+    }
+
+
+    /**
+     * This method remove an observer.
+     * @param myObserver The observer to be unregistered.
+     */
+    public void unregister(ViewObserver myObserver){
+
+        this.cellObservers.remove(myObserver);
+    }
+
+    /**
+     * This method updates all the Observer of the Worker Class.
+     */
+    public void notifyObservers(){
+
+        for(ViewObserver observer : this.cellObservers )
+        {
+            observer.update(this);
+        }
+
     }
 
 }
