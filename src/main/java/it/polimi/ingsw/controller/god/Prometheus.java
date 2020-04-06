@@ -1,8 +1,7 @@
 package it.polimi.ingsw.controller.god;
 
 import it.polimi.ingsw.controller.GameController;
-import it.polimi.ingsw.model.*;
-
+import it.polimi.ingsw.model.Worker;
 
 
 public class Prometheus implements God {

@@ -2,7 +2,6 @@ package it.polimi.ingsw.controller.god;
 
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.Cell;
-import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Worker;
 import it.polimi.ingsw.model.WorkerMoveMap;
 
@@ -37,14 +36,14 @@ public class Triton implements God{
             if (secondMovePosition == null)
                 return;
 
-            WorkerMoveMap workersMoveMap = updateMoveMap(worker);
+            WorkerMoveMap moveMap = updateMoveMap(worker);
 
             int xMove = secondMovePosition[0] + worker.getPosition().getX();
             int yMove = secondMovePosition[1] + worker.getPosition().getY();
 
             Cell secondMoveCell = worker.getPlayer().getGame().getBoard().findCell(xMove, yMove);
 
-            if (secondMoveCell != initialPosition) {
+            if (secondMoveCell != initialPosition && moveMap.isAllowedToMoveBoard(xMove,yMove)) {
                 worker.setPosition(xMove, yMove);
             } else {
                 gameController.errorScreen();
@@ -53,7 +52,9 @@ public class Triton implements God{
     }
 
 
-    public int[] getInputMoveAgain(){
+
+
+    public int[] getInputMoveAgain() {
         String answer = gameController.getView().askMoveAgain();
         int[] input = new int[2];
         if (answer.equals("Y")) {

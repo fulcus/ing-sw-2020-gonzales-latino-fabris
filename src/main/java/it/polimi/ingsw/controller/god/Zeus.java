@@ -1,19 +1,27 @@
 package it.polimi.ingsw.controller.god;
 
-import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.Worker;
+import it.polimi.ingsw.model.WorkerBuildMap;
+
 
 public class Zeus implements God{
 
+
     @Override
-    public void evolveTurn(Worker worker) {
-        Cell previousPosition = worker.getPosition();
-        move(worker);
-        build(worker);
-        if (previousPosition.equals(worker.getPosition()) && worker.getLevelVariation()==1)
-            System.out.println("You reached an higher level! You are still not the winner!\n");
-        else{
-            win(worker);
-        }
+    public WorkerBuildMap updateBuildMap(Worker worker) {
+        WorkerBuildMap buildMap = worker.getBuildMap();
+
+        buildMap.cannotBuildInWorkerCell();
+        //WARNING: previous rule (cannotBuildInWorkerCell forbids worker to build in his own position
+        //but canBuildUnderneath overwrites the previous rule to allow worker to build underneath him
+        buildMap.canBuildUnderneath();
+        buildMap.cannotBuildInDomeCell();
+        buildMap.updateCellsOutOfMap();
+
+        return buildMap;
     }
+
+
+
 
 }
