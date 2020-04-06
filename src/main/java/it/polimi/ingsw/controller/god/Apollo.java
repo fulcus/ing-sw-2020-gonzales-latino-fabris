@@ -16,7 +16,6 @@ public class Apollo implements God{
 
     @Override
     public void move(Worker worker) {
-        updateMoveMap(worker);
         moveSwap(worker);
     }
 
@@ -26,11 +25,13 @@ public class Apollo implements God{
             int[] movePosition = getInputMove();
             int xMove = movePosition[0] + worker.getPosition().getX();
             int yMove = movePosition[1] + worker.getPosition().getY();
+
+            WorkerMoveMap moveMap = updateMoveMap(worker);
             Cell moveCell = worker.getPlayer().getGame().getBoard().findCell(xMove, yMove);
             Worker enemyWorker;
 
 
-            if (worker.getMoveMap().isAllowedToMoveBoard(xMove, yMove)) {   //if moveCell doesn't exist returns false
+            if (moveMap.isAllowedToMoveBoard(xMove, yMove)) {   //if moveCell doesn't exist returns false
 
                 //swaps enemy and worker
                 if (moveCell.hasWorker()) {    //moveMap rules assure that worker in moveCell is enemy
@@ -48,15 +49,22 @@ public class Apollo implements God{
 
 
     public WorkerMoveMap updateMoveMap(Worker worker) {
-        WorkerMoveMap workersMoveMap = worker.getMoveMap();
+        WorkerMoveMap moveMap = worker.getMoveMap();
 
-        workersMoveMap.cannotStayStill();
-        workersMoveMap.cannotMoveInDomeCell();
-        workersMoveMap.cannotMoveInFriendlyWorkerCell();
-        workersMoveMap.updateMoveUpRestrictions();
+        moveMap.cannotStayStill();
+        moveMap.cannotMoveInDomeCell();
+        moveMap.cannotMoveInFriendlyWorkerCell();
+        moveMap.updateMoveUpRestrictions();
 
-        return workersMoveMap;
+        if(!moveMap.anyAvailableMovePosition())
+            //todo Controller lose
+
+        return moveMap;
     }
+
+
+
+
 
 
     /**

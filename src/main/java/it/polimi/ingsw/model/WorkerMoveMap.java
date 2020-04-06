@@ -63,4 +63,13 @@ public class WorkerMoveMap extends WorkerMap {
             levelDifferenceLessEqualThanX(0);
     }
 
+    /**
+     *
+     * @return Returns true if there is a cell the worker can move in, false otherwise.
+     */
+    public boolean anyAvailableMovePosition() {
+        return anyTrueCell();
+    }
+
+
 }

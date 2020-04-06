@@ -193,4 +193,18 @@ public class WorkerMap {
         return neighboringWorkers;
     }
 
+    /**
+     * Checks if there is any true cell in the matrix. Useful for lose conditions.
+     */
+    public boolean anyTrueCell() {
+
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if(matrix[i][j])
+                    return true;
+            }
+        }
+        return false;
+    }
+
 }

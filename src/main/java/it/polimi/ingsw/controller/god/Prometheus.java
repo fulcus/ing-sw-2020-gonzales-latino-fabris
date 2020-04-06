@@ -18,7 +18,6 @@ public class Prometheus implements God {
             build(worker);
             worker.getPlayer().setPermissionToMoveUp(false);
         }
-        updateMoveMap(worker);
         move(worker);
         win(worker);
         build(worker);

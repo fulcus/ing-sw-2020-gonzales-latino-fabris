@@ -125,6 +125,9 @@ public interface God {
         moveMap.updateMoveUpRestrictions();
         moveMap.updateCellsOutOfMap();
 
+        if(!moveMap.anyAvailableMovePosition())
+            //todo Controller lose
+
         return moveMap;
     }
 
@@ -137,8 +140,13 @@ public interface God {
         buildMap.cannotBuildInDomeCell();
         buildMap.updateCellsOutOfMap();
 
+        if(!buildMap.anyAvailableBuildPosition())
+            //todo Controller lose
+
+
         return buildMap;
     }
+
 
 
 }

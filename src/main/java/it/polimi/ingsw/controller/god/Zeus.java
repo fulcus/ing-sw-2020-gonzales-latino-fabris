@@ -18,6 +18,9 @@ public class Zeus implements God{
         buildMap.cannotBuildInDomeCell();
         buildMap.updateCellsOutOfMap();
 
+        if(!buildMap.anyTrueCell())
+        //todo Controller lose
+
         return buildMap;
     }
 

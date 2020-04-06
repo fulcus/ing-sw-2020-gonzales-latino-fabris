@@ -12,7 +12,6 @@ public class Charon implements God{
 
     @Override
     public void evolveTurn(Worker worker) {
-        updateMoveMap(worker);
         forceMoveEnemy(worker);
         move(worker);
         win(worker);
@@ -20,7 +19,7 @@ public class Charon implements God{
     }
 
     public void forceMoveEnemy(Worker worker) {
-        WorkerMoveMap moveMap = worker.getMoveMap();
+        WorkerMoveMap moveMap = updateMoveMap(worker);
         Board board = worker.getPlayer().getGame().getBoard();
 
 
@@ -62,5 +61,21 @@ public class Charon implements God{
 
 
     }
+
+
+    public WorkerMoveMap updateMoveMap(Worker worker) {
+        WorkerMoveMap moveMap = worker.getMoveMap();
+
+        moveMap.cannotStayStill();
+        moveMap.cannotMoveInDomeCell();
+        moveMap.cannotMoveInFriendlyWorkerCell();
+        moveMap.updateMoveUpRestrictions();
+
+        if(!moveMap.anyAvailableMovePosition())
+            //todo Controller lose
+
+        return moveMap;
+    }
+
 
 }

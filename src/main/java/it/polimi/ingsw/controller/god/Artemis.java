@@ -35,26 +35,29 @@ public class Artemis implements God {
             int[] secondMovePosition = getInputMoveAgain();
             if (secondMovePosition == null)
                 return;
-            else {
-                WorkerMoveMap workersMoveMap = updateMoveMap(worker);
 
-                int xMove = secondMovePosition[0] + worker.getPosition().getX();
-                int yMove = secondMovePosition[1] + worker.getPosition().getY();
+            WorkerMoveMap moveMap = updateMoveMap(worker);
 
-                Cell secondMoveCell = worker.getPlayer().getGame().getBoard().findCell(xMove, yMove);
+            int xMove = secondMovePosition[0] + worker.getPosition().getX();
+            int yMove = secondMovePosition[1] + worker.getPosition().getY();
 
-                if (secondMoveCell != initialPosition && workersMoveMap.isAllowedToMoveBoard(xMove, yMove)) {
-                    worker.setPosition(xMove, yMove);
-                } else {
-                    gameController.errorScreen();
-                }
+            Cell secondMoveCell = worker.getPlayer().getGame().getBoard().findCell(xMove, yMove);
+
+            if (secondMoveCell != initialPosition && moveMap.isAllowedToMoveBoard(xMove, yMove)) {
+                worker.setPosition(xMove, yMove);
+            } else {
+                gameController.errorScreen();
             }
+
         }
 
     }
 
 
-    public int[] getInputMoveAgain(){
+
+
+
+    public int[] getInputMoveAgain() {
         String answer = gameController.getView().askMoveAgain();
         int[] input = new int[2];
         if (answer.equals("Y")) {
@@ -63,54 +66,53 @@ public class Artemis implements God {
 
             String playerInput = gameController.getView().askMovementDirection();
             switch (playerInput) {
-                case "N" : {
+                case "N": {
                     input[0] = -1;
                     input[1] = 0;
                     break;
                 }
-                case "NE" : {
+                case "NE": {
                     input[0] = -1;
                     input[1] = -1;
                     break;
                 }
-                case "NW" : {
+                case "NW": {
                     input[0] = -1;
                     input[1] = 1;
                     break;
                 }
-                case "S" : {
+                case "S": {
                     input[0] = 1;
                     input[1] = 0;
                     break;
                 }
-                case "SE" : {
+                case "SE": {
                     input[0] = 1;
                     input[1] = 1;
                     break;
                 }
-                case "SW" : {
+                case "SW": {
                     input[0] = 1;
                     input[1] = -1;
                     break;
                 }
-                case "W" : {
+                case "W": {
                     input[0] = 0;
                     input[1] = -1;
                     break;
                 }
-                case "E" : {
+                case "E": {
                     input[0] = 0;
                     input[1] = 1;
                     break;
                 }
-                default : {
+                default: {
                     input[0] = 0;
                     input[1] = 0;
                     break;
                 }
             }
-        }
-        else
+        } else
             input = null;
 
         return input;

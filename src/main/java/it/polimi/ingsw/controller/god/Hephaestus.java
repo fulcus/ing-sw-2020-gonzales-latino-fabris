@@ -32,8 +32,6 @@ public class Hephaestus implements God {
         if(firstBuildCell.getLevel() >= 3)
             return;
 
-        WorkerBuildMap buildMap = updateBuildMap(worker);
-        Board board = worker.getPlayer().getGame().getBoard();
 
         boolean buildAgainInSamePosition = askBuildAgainInSamePosition();  //true if player wants to build again
 
