@@ -42,7 +42,7 @@ public class Triton implements God{
             int xMove = secondMovePosition[0] + worker.getPosition().getX();
             int yMove = secondMovePosition[1] + worker.getPosition().getY();
 
-            Cell secondMoveCell = worker.getPlayer().getGame().getMap().findCell(xMove, yMove);
+            Cell secondMoveCell = worker.getPlayer().getGame().getBoard().findCell(xMove, yMove);
 
             if (secondMoveCell != initialPosition) {
                 worker.setPosition(xMove, yMove);

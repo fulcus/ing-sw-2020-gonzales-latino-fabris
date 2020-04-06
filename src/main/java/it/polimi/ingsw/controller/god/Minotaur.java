@@ -33,7 +33,7 @@ public class Minotaur implements God {
             int xWorker = worker.getPosition().getX();
             int yWorker = worker.getPosition().getY();
 
-            Map map = worker.getPlayer().getGame().getMap();
+            Board map = worker.getPlayer().getGame().getBoard();
             Cell moveCell = map.findCell(xMove, yMove);
             Worker enemyWorker;
 

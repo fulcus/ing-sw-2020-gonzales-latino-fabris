@@ -41,7 +41,7 @@ public class Artemis implements God {
                 int xMove = secondMovePosition[0] + worker.getPosition().getX();
                 int yMove = secondMovePosition[1] + worker.getPosition().getY();
 
-                Cell secondMoveCell = worker.getPlayer().getGame().getMap().findCell(xMove, yMove);
+                Cell secondMoveCell = worker.getPlayer().getGame().getBoard().findCell(xMove, yMove);
 
                 if (secondMoveCell != initialPosition && workersMoveMap.isAllowedToMoveBoard(xMove, yMove)) {
                     worker.setPosition(xMove, yMove);

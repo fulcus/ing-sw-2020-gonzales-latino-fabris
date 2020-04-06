@@ -26,7 +26,7 @@ public class Apollo implements God{
             int[] movePosition = getInputMove();
             int xMove = movePosition[0] + worker.getPosition().getX();
             int yMove = movePosition[1] + worker.getPosition().getY();
-            Cell moveCell = worker.getPlayer().getGame().getMap().findCell(xMove, yMove);
+            Cell moveCell = worker.getPlayer().getGame().getBoard().findCell(xMove, yMove);
             Worker enemyWorker;
 
 
