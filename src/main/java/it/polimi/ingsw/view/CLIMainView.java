@@ -15,7 +15,7 @@ public class CLIMainView implements ViewObserver {
     int numberOfPlayers;
     TurnHandler myTurnHandler;
     Game myGame;
-    GameController gameController = new GameController();
+    GameController gameController;
     Map myMap;// this will contain a copy of the Model's map and each cell will be update if there are any changes
 
     /**
@@ -49,7 +49,10 @@ public class CLIMainView implements ViewObserver {
 
         }
 
+    }
 
+    public void setGameController(GameController gameController){
+        this.gameController = gameController;
     }
 
 
@@ -189,8 +192,35 @@ public class CLIMainView implements ViewObserver {
 
         }
 
-
     }
+
+
+    public String askMoveAgain() {
+        String answer;
+        System.out.println("\n" + myTurnHandler.getCurrentPlayer().getNickname() + ": Do you want to move again your Worker? (Y = 'Yes', N = 'No'");
+        while (true) {
+            answer = input.nextLine();
+            if (answer.equals("Y") || answer.equals("N"))
+                return answer;
+            else
+                System.out.println("NOT VALID ANSWER. \nRETRY:  ");
+        }
+    }
+
+
+    public String askWantToMoveUp() {
+        String answer;
+        while(true) {
+            System.out.println("Do you want to move up? \n Y for Yes, N for No\n");
+            answer = input.nextLine();
+
+            if (answer.equals("Y") || answer.equals("N")) {
+                return answer;
+            } else
+                System.out.println("  ERROR: RETRY   \n  Type Y or N to answer");
+        }
+    }
+
 
     /**
      * This method asks the user to insert the position where he wants to build.
@@ -207,15 +237,19 @@ public class CLIMainView implements ViewObserver {
 
             selectedBuildingDirection = input.nextLine();
 
-            if (selectedBuildingDirection.equals("N") || selectedBuildingDirection.equals("NE") || selectedBuildingDirection.equals("E") || selectedBuildingDirection.equals("SE") || selectedBuildingDirection.equals("S") || selectedBuildingDirection.equals("SO") || selectedBuildingDirection.equals("O") || selectedBuildingDirection.equals("NO"))
+            if (selectedBuildingDirection.equals("N") || selectedBuildingDirection.equals("NE") || selectedBuildingDirection.equals("E") || selectedBuildingDirection.equals("SE") || selectedBuildingDirection.equals("S") || selectedBuildingDirection.equals("SW") || selectedBuildingDirection.equals("W") || selectedBuildingDirection.equals("NW"))
                 return selectedBuildingDirection;
 
             else
-                System.out.println("Invalid Direction. You must use: N,NE,E,SE,S,SO,O,NO");
+                System.out.println("Invalid Direction. You must use: N,NE,E,SE,S,SW,W,NW");
 
 
         }
 
+    }
+
+    public void printErrorScreen() {
+        System.out.println("\n\n      ERROR      \n\n RETRY\n\n");
     }
 
     /**

@@ -3,7 +3,6 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.controller.god.*;
 import it.polimi.ingsw.view.*;
-import java.lang.Class.*;
 
 
 import java.util.ArrayList;
@@ -14,13 +13,26 @@ import java.util.ArrayList;
 public class GameController {
 
     private Game game;
+    private int numOfPlayers;
     private TurnHandler turnHandler;
     private CLIMainView view;
 
-    public GameController(){
+    public GameController(CLIMainView view){
         game = null;
+        numOfPlayers = 0;
         turnHandler = null;
+        this.view = view;
     }
+
+    public CLIMainView getView(){
+        return view;
+    }
+
+
+    public void setNumOfPlayers(int players){
+        numOfPlayers = players;
+    }
+
 
     public void playerSetting(ArrayList<String> playerUsernames){
         game = new Game(playerUsernames.size());
@@ -68,10 +80,10 @@ public class GameController {
         while(i<game.getNumberOfPlayers()){
             switch (chosen.get(i)) {
                 case 1 :
-                    gods.add(i, new Apollo());
+                    gods.add(i, new Apollo(this));
                     break;
                 case 2 :
-                    gods.add(i, new Artemis());
+                    gods.add(i, new Artemis(this));
                     break;
                 case 3:
                     gods.add(i, new Athena());
@@ -95,16 +107,16 @@ public class GameController {
                     gods.add(i, new Hestia());
                     break;
                 case 10 :
-                    gods.add(i, new Minotaur());
+                    gods.add(i, new Minotaur(this));
                     break;
                 case 11 :
                     gods.add(i, new Pan());
                     break;
                 case 12 :
-                    gods.add(i, new Prometheus());
+                    gods.add(i, new Prometheus(this));
                     break;
                 case 13 :
-                    gods.add(i, new Triton());
+                    gods.add(i, new Triton(this));
                     break;
                 case 14 :
                     gods.add(i, new Zeus());
@@ -141,6 +153,10 @@ public class GameController {
         for(int i=1; i<=game.getChosenGods().size(); i++){
             System.out.println(i + "]  " + game.getChosenGods().get(i).getClass().getSimpleName());
         }
+    }
+
+    public void errorScreen() {
+        view.printErrorScreen();
     }
 
 }

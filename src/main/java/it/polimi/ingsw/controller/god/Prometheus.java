@@ -1,10 +1,17 @@
 package it.polimi.ingsw.controller.god;
 
+import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.*;
 
-import java.util.Scanner;
+
 
 public class Prometheus implements God {
+
+    private GameController gameController;
+
+    public Prometheus(GameController gameController){
+        this.gameController = gameController;
+    }
 
     @Override
     public void evolveTurn(Worker worker) {
@@ -18,13 +25,8 @@ public class Prometheus implements God {
         build(worker);
     }
 
-
-    //todo View & Controller implement this exact method
-    /*
-    private boolean wantToMoveUp() {
-        Scanner input = new Scanner(System.in);
-        System.out.println("Do you want to move up?");
-        String answer = input.nextLine();
+    public boolean wantToMoveUp(){
+        String answer = gameController.getView().askWantToMoveUp();
 
         while(true) {
 
@@ -33,10 +35,10 @@ public class Prometheus implements God {
             } else if(answer.equals("N")) {
                 return true;
             } else
-                System.out.println("Type Y or N to answer");
+                gameController.errorScreen();
         }
     }
-    */
+
 
 
 }
