@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.Worker;
 import it.polimi.ingsw.model.WorkerBuildMap;
 
-import java.util.Scanner;
 
 public class Demeter implements God {
 
