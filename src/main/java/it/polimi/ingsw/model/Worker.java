@@ -38,7 +38,7 @@ public class Worker {
      */
     //prima di chiamare fare check se posso andare (isOccupied)
     public void setPosition(int x, int y) {
-        Cell newPosition = player.getGame().getMap().findCell(x,y);
+        Cell newPosition = player.getGame().getBoard().findCell(x,y);
         int newLevel = newPosition.getLevel();
 
         //vado via da cella precedente e Position nella nuova
@@ -77,7 +77,7 @@ public class Worker {
      */
     //prima di chiamare faccio check se posso costruire block (canBuildBlock)
     public void buildBlock(int x, int y) {
-        Cell buildPosition = player.getGame().getMap().findCell(x,y);
+        Cell buildPosition = player.getGame().getBoard().findCell(x,y);
         buildPosition.buildBlock();
     }
 
@@ -88,7 +88,7 @@ public class Worker {
      */
     //prima di chiamare faccio check se posso costruire dome (canBuildDome)
     public void buildDome(int x, int y) {
-        Cell buildPosition = player.getGame().getMap().findCell(x,y);
+        Cell buildPosition = player.getGame().getBoard().findCell(x,y);
         buildPosition.buildDome();
     }
 
@@ -121,39 +121,6 @@ public class Worker {
         return buildMap;
     }
 
-    //OBSERVER METHODS
-
-    /**
-     * This method adds a new Observer.
-     * @param newObserver Reference of the observer.
-     */
-    public void register(ViewObserver newObserver){
-
-        this.workerObservers.add(newObserver);
-
-    }
-
-
-    /**
-     * This method remove an observer.
-     * @param myObserver The observer to be unregistered.
-     */
-    public void unregister(ViewObserver myObserver){
-
-        this.workerObservers.remove(myObserver);
-    }
-
-    /**
-     * This method updates all the Observer of the Worker Class.
-     */
-    public void notifyObservers(){
-
-        for(ViewObserver observer : this.workerObservers )
-        {
-            observer.update(this);
-        }
-
-    }
 
 
 }

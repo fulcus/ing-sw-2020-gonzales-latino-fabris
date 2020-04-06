@@ -75,7 +75,7 @@
 <div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.model;
 <i>2</i>&nbsp;
 <i>3</i>&nbsp;public class WorkerMap {
-<i>4</i>&nbsp;    private Map map;
+<i>4</i>&nbsp;    private Map board;
 <i>5</i>&nbsp;    private Worker worker;
 <i>6</i>&nbsp;    private boolean[][] matrix;
 <i>7</i>&nbsp;    public static final int N = 3;
@@ -83,7 +83,7 @@
 <b class="fc"><i>9</i>&nbsp;    public WorkerMap(Worker worker) {</b>
 <b class="fc"><i>10</i>&nbsp;        this.worker = worker;</b>
 <b class="fc"><i>11</i>&nbsp;        matrix = new boolean[N][N];</b>
-<b class="fc"><i>12</i>&nbsp;        this.map = worker.getPlayer().getGame().getMap();</b>
+<b class="fc"><i>12</i>&nbsp;        this.board = worker.getPlayer().getGame().getMap();</b>
 <i>13</i>&nbsp;
 <i>14</i>&nbsp;        //initialized standard matrix
 <b class="fc"><i>15</i>&nbsp;        for (int i = 0; i &lt; N; i++) {</b>
@@ -152,11 +152,11 @@
 <b class="fc"><i>78</i>&nbsp;        int workersX = worker.getPosition().getX();</b>
 <b class="fc"><i>79</i>&nbsp;        int workersY = worker.getPosition().getY();</b>
 <i>80</i>&nbsp;
-<i>81</i>&nbsp;        //if not in boolean map return
+<i>81</i>&nbsp;        //if not in boolean board return
 <b class="fc"><i>82</i>&nbsp;        int relativeX = i - workersX + 1;</b>
 <b class="fc"><i>83</i>&nbsp;        int relativeY = j - workersY + 1;</b>
 <i>84</i>&nbsp;
-<b class="fc"><i>85</i>&nbsp;        if(relativeX &lt; 0 || relativeX &gt; 2 || relativeY &lt; 0 || relativeY &gt; 2 || !map.isInMap(i,j))</b>
+<b class="fc"><i>85</i>&nbsp;        if(relativeX &lt; 0 || relativeX &gt; 2 || relativeY &lt; 0 || relativeY &gt; 2 || !board.isInMap(i,j))</b>
 <b class="nc"><i>86</i>&nbsp;            return;</b>
 <i>87</i>&nbsp;
 <b class="fc"><i>88</i>&nbsp;        matrix[i - workersX + 1][j - workersY + 1] = value;</b>
@@ -170,11 +170,11 @@
 <b class="fc"><i>96</i>&nbsp;        int workersX = worker.getPosition().getX();</b>
 <b class="fc"><i>97</i>&nbsp;        int workersY = worker.getPosition().getY();</b>
 <i>98</i>&nbsp;
-<i>99</i>&nbsp;        //if not in boolean map return false
+<i>99</i>&nbsp;        //if not in boolean board return false
 <b class="fc"><i>100</i>&nbsp;        int relativeX = i - workersX + 1;</b>
 <b class="fc"><i>101</i>&nbsp;        int relativeY = j - workersY + 1;</b>
 <i>102</i>&nbsp;
-<b class="fc"><i>103</i>&nbsp;        if(relativeX &lt; 0 || relativeX &gt; 2 || relativeY &lt; 0 || relativeY &gt; 2 || !map.isInMap(i,j))</b>
+<b class="fc"><i>103</i>&nbsp;        if(relativeX &lt; 0 || relativeX &gt; 2 || relativeY &lt; 0 || relativeY &gt; 2 || !board.isInMap(i,j))</b>
 <b class="fc"><i>104</i>&nbsp;            return false;</b>
 <i>105</i>&nbsp;
 <b class="fc"><i>106</i>&nbsp;        return matrix[i - workersX + 1][j - workersY + 1];</b>
@@ -186,13 +186,13 @@
 <i>112</i>&nbsp;     * @param i Relative coordinate of MoveMatrix.
 <i>113</i>&nbsp;     * @param j Relative coordinate of MoveMatrix.
 <i>114</i>&nbsp;     * @return Returns Cell of Map given the relative coordinates of the worker,
-<i>115</i>&nbsp;     * returns null if the Cell is out of the boundaries of the map.
+<i>115</i>&nbsp;     * returns null if the Cell is out of the boundaries of the board.
 <i>116</i>&nbsp;     */
 <i>117</i>&nbsp;    public Cell getAbsolutePosition(int i, int j) {
 <b class="fc"><i>118</i>&nbsp;        int workersX = worker.getPosition().getX();</b>
 <b class="fc"><i>119</i>&nbsp;        int workersY = worker.getPosition().getY();</b>
 <i>120</i>&nbsp;
-<b class="fc"><i>121</i>&nbsp;        if (!map.isInMap(workersX, workersY) || !map.isInMap(i,j))</b>
+<b class="fc"><i>121</i>&nbsp;        if (!board.isInMap(workersX, workersY) || !board.isInMap(i,j))</b>
 <b class="fc"><i>122</i>&nbsp;            return null;</b>
 <i>123</i>&nbsp;
 <b class="fc"><i>124</i>&nbsp;        return worker.getPlayer().getGame().getMap().findCell(workersX - 1 + i, workersY - 1 + j);</b>
@@ -211,7 +211,7 @@
 <b class="fc"><i>137</i>&nbsp;            for (int i = 0; i &lt; N; i++) {</b>
 <b class="fc"><i>138</i>&nbsp;                for (int j = 0; j &lt; N; j++) {</b>
 <i>139</i>&nbsp;
-<b class="fc"><i>140</i>&nbsp;                    if (!map.isInMap(i - workersX + 1, j - workersY + 1))</b>
+<b class="fc"><i>140</i>&nbsp;                    if (!board.isInMap(i - workersX + 1, j - workersY + 1))</b>
 <b class="nc"><i>141</i>&nbsp;                        matrix[i][j] = false;</b>
 <i>142</i>&nbsp;
 <i>143</i>&nbsp;                }

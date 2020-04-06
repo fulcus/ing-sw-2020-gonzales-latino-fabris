@@ -3,7 +3,6 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.TurnHandler;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.controller.god.*;
 
 
 import java.util.ArrayList;
@@ -15,15 +14,15 @@ public class CLIMainView implements ViewObserver {
     int numberOfPlayers;
     TurnHandler myTurnHandler;
     Game myGame;
-    GameController gameController;
-    Map myMap;// this will contain a copy of the Model's map and each cell will be update if there are any changes
+    GameController myController;
+    Board myBoard;// this will contain a copy of the Model's map and each cell will be update if there are any changes
 
     /**
      * This is the CLIMainView constructor.
      *
      * @param //controller This is the controller that has created the game.
      */
-    //devo passare controller
+
     public void CLIMainView() {
 
         //mycontroller = controller;
@@ -52,7 +51,7 @@ public class CLIMainView implements ViewObserver {
     }
 
     public void setGameController(GameController gameController){
-        this.gameController = gameController;
+        this.myController = gameController;
     }
 
 
@@ -116,7 +115,7 @@ public class CLIMainView implements ViewObserver {
         myTurnHandler.nextPlayer();
         while(i<myGame.getNumberOfPlayers()){
             System.out.println(myTurnHandler.getCurrentPlayer().getNickname() + "! Choose one God among the following: ");
-            gameController.printGameGods();
+            myController.printGameGods();
             chosenOne = input.nextInt();
             if (choice.contains(chosenOne) || !(chosenOne==1 || chosenOne==2 || chosenOne==3)){
                 System.out.println("This god has already been chosen or your choice is not valid.\n Pick another!\n");
@@ -135,7 +134,7 @@ public class CLIMainView implements ViewObserver {
         int select, i=0;
 
         System.out.println("Select " + myGame.getNumberOfPlayers() + "God cards to play the Game\n");
-        gameController.printAllGods();
+        myController.printAllGods();
         while( i < myGame.getNumberOfPlayers() ) {
             select = input.nextInt();
             if (chosenGods.contains(select) || select<1 || select>14 )
@@ -253,14 +252,14 @@ public class CLIMainView implements ViewObserver {
     }
 
     /**
-     * This method prints an updated version of the Map, depending on the Class' parameter "mymap".
+     * This method prints an updated version of the Board, depending on the Class' parameter "mymap".
      */
     public void printMap() {
 
         final String LINE_SEPARATOR = "+------+------+------+------+------+%n";
         final String SPACESEPARATOR = "+      +      +      +      +      +%n";
 
-        for (int i = 0; i < Map.SIDE; i++) {
+        for (int i = 0; i < Board.SIDE; i++) {
 
             System.out.printf(LINE_SEPARATOR);//Border
             System.out.printf(SPACESEPARATOR);//space
@@ -278,24 +277,24 @@ public class CLIMainView implements ViewObserver {
      */
     public void printMapLine(int linenumber) {
 
-        for (int i = 0; i < Map.SIDE; i++) {
+        for (int i = 0; i < Board.SIDE; i++) {
 
             System.out.printf("+");
             System.out.printf(" ");//1
 
             //Place where eventual buildings will be printed
 
-            if (myMap.findCell(linenumber, i).hasDome())//if cell has dome
+            if (myBoard.findCell(linenumber, i).hasDome())//if cell has dome
                 System.out.printf("D");
 
             else {
                 //if cell has not dome
 
-                if (myMap.findCell(linenumber, i).getLevel() == 0)
+                if (myBoard.findCell(linenumber, i).getLevel() == 0)
                     System.out.printf(" ");//if there is no building, prints nothing
 
                 else
-                    System.out.printf("%d", myMap.findCell(linenumber, i).getLevel());   // if there is a building, prints its level
+                    System.out.printf("%d", myBoard.findCell(linenumber, i).getLevel());   // if there is a building, prints its level
             }
 
             //SPACE
@@ -306,22 +305,22 @@ public class CLIMainView implements ViewObserver {
             //PLACE of cell (4) that prints eventual presence of a worker with its parameter(SEX;COLOR)
 
 
-            if (myMap.findCell(linenumber, i).getWorker() == null) {
+            if (myBoard.findCell(linenumber, i).getWorker() == null) {
                 System.out.printf(" ");
                 System.out.printf(" ");//5
             } else {
 
-                if (myMap.findCell(linenumber, i).getWorker().getPlayer().getColor() == Color.BLUE && myMap.findCell(linenumber, i).getWorker().getSex() == Sex.MALE)
+                if (myBoard.findCell(linenumber, i).getWorker().getPlayer().getColor() == Color.BLUE && myBoard.findCell(linenumber, i).getWorker().getSex() == Sex.MALE)
                     System.out.printf("BM");
-                else if (myMap.findCell(linenumber, i).getWorker().getPlayer().getColor() == Color.BLUE && myMap.findCell(linenumber, i).getWorker().getSex() == Sex.FEMALE)
+                else if (myBoard.findCell(linenumber, i).getWorker().getPlayer().getColor() == Color.BLUE && myBoard.findCell(linenumber, i).getWorker().getSex() == Sex.FEMALE)
                     System.out.printf("BF");
-                else if (myMap.findCell(linenumber, i).getWorker().getPlayer().getColor() == Color.WHITE && myMap.findCell(linenumber, i).getWorker().getSex() == Sex.MALE)
+                else if (myBoard.findCell(linenumber, i).getWorker().getPlayer().getColor() == Color.WHITE && myBoard.findCell(linenumber, i).getWorker().getSex() == Sex.MALE)
                     System.out.printf("WM");
-                else if (myMap.findCell(linenumber, i).getWorker().getPlayer().getColor() == Color.WHITE && myMap.findCell(linenumber, i).getWorker().getSex() == Sex.FEMALE)
+                else if (myBoard.findCell(linenumber, i).getWorker().getPlayer().getColor() == Color.WHITE && myBoard.findCell(linenumber, i).getWorker().getSex() == Sex.FEMALE)
                     System.out.printf("WF");
-                else if (myMap.findCell(linenumber, i).getWorker().getPlayer().getColor() == Color.BEIGE && myMap.findCell(linenumber, i).getWorker().getSex() == Sex.MALE)
+                else if (myBoard.findCell(linenumber, i).getWorker().getPlayer().getColor() == Color.BEIGE && myBoard.findCell(linenumber, i).getWorker().getSex() == Sex.MALE)
                     System.out.printf("bM");
-                else if (myMap.findCell(linenumber, i).getWorker().getPlayer().getColor() == Color.BEIGE && myMap.findCell(linenumber, i).getWorker().getSex() == Sex.FEMALE)
+                else if (myBoard.findCell(linenumber, i).getWorker().getPlayer().getColor() == Color.BEIGE && myBoard.findCell(linenumber, i).getWorker().getSex() == Sex.FEMALE)
                     System.out.printf("bF");
 
             }
@@ -337,12 +336,13 @@ public class CLIMainView implements ViewObserver {
     }
 
 
-    // TODO: è vero che è il worker a cambiare la mappa, però l'oggetto che cambia è la mappa(o la cella)
     //TODO: in update si potrebbero passare inoltre dei parametri che specificano cosa ha fatto avvenire il cambiamento, ad esempio se per un movimento o per una costruzione. Intal modo posso far apparire all'utente: PLAYER1 si è mosso-->stampa mappa.
     @Override
-    public void update(Worker observedWorker) {
+    public void update(Cell toBeUpdatedCell){
 
-        printMap();
+        myBoard.findCell(toBeUpdatedCell.getX(),toBeUpdatedCell.getY()).setLevel(toBeUpdatedCell.getLevel());//update the level of the changed cell in the view
+        myBoard.findCell(toBeUpdatedCell.getX(),toBeUpdatedCell.getY()).setDome(toBeUpdatedCell.hasDome());//update dome of changed cell in the view
+        myBoard.findCell(toBeUpdatedCell.getX(),toBeUpdatedCell.getY()).setWorker(toBeUpdatedCell.getWorker());//update worker of the changed cell in the view
 
     }
 }

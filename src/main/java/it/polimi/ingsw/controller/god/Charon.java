@@ -17,7 +17,7 @@ public class Charon implements God{
 
     public void forceMoveEnemy(Worker worker) {
         WorkerMoveMap moveMap = worker.getMoveMap();
-        Map map = worker.getPlayer().getGame().getMap();
+        Board board = worker.getPlayer().getGame().getBoard();
 
 
         ArrayList<Worker> neighboringEnemies = moveMap.neighboringEnemyWorkers();
@@ -31,7 +31,7 @@ public class Charon implements God{
             for(Worker Enemy : neighboringEnemies) {
                 newEnemyX = 2 * worker.getPosition().getX() - Enemy.getPosition().getX();
                 newEnemyY = 2 * worker.getPosition().getY() - Enemy.getPosition().getY();
-                Cell newEnemyPosition = map.findCell(newEnemyX,newEnemyY);
+                Cell newEnemyPosition = board.findCell(newEnemyX,newEnemyY);
 
                 if(newEnemyPosition.isOccupied())
                     neighboringEnemies.remove(Enemy);

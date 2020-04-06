@@ -90,9 +90,9 @@ public class Player {
             System.out.println("Insert the position of the worker you wish to select.");
             int x = input.nextInt();
             int y = input.nextInt();
-            Cell chosenCell = game.getMap().findCell(x, y);
+            Cell chosenCell = game.getBoard().findCell(x, y);
             if (chosenCell.hasWorker() && chosenCell.getWorker().getPlayer() == this) {
-                chosenWorker = game.getMap().findCell(x, y).getWorker();
+                chosenWorker = game.getBoard().findCell(x, y).getWorker();
                 break;
             }
 

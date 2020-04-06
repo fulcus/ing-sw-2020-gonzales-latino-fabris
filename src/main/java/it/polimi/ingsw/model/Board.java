@@ -4,11 +4,11 @@ package it.polimi.ingsw.model;
  * This class represents the structure where the players can play their game
  */
 
-public class Map {
+public class Board {
     private final Cell[][] board;
     public static final int SIDE = 5;
 
-    public Map() {
+    public Board() {
         this.board = new Cell[SIDE][SIDE];
         for(int i = 0; i < SIDE; i++){
             for(int j = 0; j < SIDE; j++){
@@ -29,12 +29,12 @@ public class Map {
      * @return  Returns cell if contained in map, null otherwise.
      */
     public Cell findCell(int x, int y) {
-        if(isInMap(x,y))
+        if(isInBoard(x,y))
             return board[x][y];
         return null;
     }
 
-    public boolean isInMap(int x, int y) {
+    public boolean isInBoard(int x, int y) {
         return x >= 0 && x < SIDE && y >= 0 && y < SIDE;
     }
 

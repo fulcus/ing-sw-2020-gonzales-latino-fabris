@@ -1,70 +1,49 @@
 package it.polimi.ingsw.controller.god;
 
+import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.Worker;
+import it.polimi.ingsw.model.WorkerBuildMap;
 
-import java.util.Scanner;
 
-public class Hephaestus implements God{
+public class Hephaestus implements God {
 
-    Cell firstBuildingCell;
+    Cell firstBuildCell;
 
     /**
      * This method calls the sequence of actions that can be done by the player who owns Hephaestus.
+     *
      * @param worker This is the current worker.
      */
     public void evolveTurn(Worker worker) {
         move(worker);
         win(worker);
-        firstBuildingCell = build(worker);
+        firstBuildCell = build(worker);
         secondBuild(worker);
     }
 
     /**
      * This method allows the player to build in the same place twice.
+     *
      * @param worker This is the player's current worker.
      */
-    public void secondBuild(Worker worker){
+    public void secondBuild(Worker worker) {
 
-        Scanner input = new Scanner(System.in);
-        String command;
+        if(firstBuildCell.getLevel() >= 3)
+            return;
 
-        do {
+        WorkerBuildMap buildMap = updateBuildMap(worker);
+        Board board = worker.getPlayer().getGame().getBoard();
 
-            System.out.println("Hephaestus power: Do you wanna build again in the same place, type Yes or No");
-            command = input.nextLine();
+        boolean buildAgainInSamePosition = askBuildAgainInSamePosition();  //true if player wants to build again
 
-            if (command.equals("Yes")) {
+        if(!buildAgainInSamePosition)
+            return;
 
-                if(firstBuildingCell.getLevel()<3 && !(firstBuildingCell.hasDome())){
-
-                    worker.buildBlock(firstBuildingCell.getX(),firstBuildingCell.getY());
-                    break;
-                }
-
-                else if(firstBuildingCell.getLevel()==3 && !(firstBuildingCell.hasDome()) ){
-
-                    worker.buildDome(firstBuildingCell.getX(),firstBuildingCell.getY());
-                    break;
-                }
-
-                else{
-                    System.out.println("You cannot build, building is already completed");
-                    break;
-                }
-            }
-
-            else if(command.equals("No")){
-
-                break;
-            }
-
-            System.out.println("Incorrect input");
-
-        }while(true);
+        //check is useless because worker is certainly allowed to build in first build cell
+        worker.buildBlock(firstBuildCell.getX(), firstBuildCell.getY());
 
     }
-
 
 
 }

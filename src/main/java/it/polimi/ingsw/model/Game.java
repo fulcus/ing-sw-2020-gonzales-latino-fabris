@@ -8,7 +8,7 @@ import java.util.Random;
 public class Game {
 
 
-    private final Map map;
+    private final Board board;
     private final int numberOfPlayers;
     private ArrayList<Player> players;
     private God[] deckGods;
@@ -19,7 +19,7 @@ public class Game {
      * @param numberOfPlayers Number of players of the game.
      */
     public Game(int numberOfPlayers) {
-        map = new Map();
+        board = new Board();
         this.numberOfPlayers = numberOfPlayers;
         players = new ArrayList<>(numberOfPlayers);
         deckGods = new God[14];
@@ -74,8 +74,8 @@ public class Game {
         chosenGods = challengerChoice;
     }
 
-    public Map getMap() {
-        return map;
+    public Board getBoard() {
+        return board;
     }
 
     public int getNumberOfPlayers() {

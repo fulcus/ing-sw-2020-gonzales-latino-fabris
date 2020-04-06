@@ -5,7 +5,6 @@ import it.polimi.ingsw.model.god.Artemis;
 import it.polimi.ingsw.model.god.Athena;
 import it.polimi.ingsw.model.god.God;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,14 +20,14 @@ public class PlayerTest {
     private Worker worker2;
     private Player player;
     private Game game;
-    private Map map;
+    private Board board;
 
     @Before
     public void setUp() {
         game = new Game(2);
         game.addPlayer("player");
         game.addPlayer("player2");
-        map = game.getMap();
+        board = game.getBoard();
         player = game.getPlayers().get(0);
         worker = player.getWorkers().get(0);
         worker2 = player.getWorkers().get(1);
@@ -37,7 +36,7 @@ public class PlayerTest {
     @After
     public void tearDown() {
         game = null;
-        map = null;
+        board = null;
         player = null;
         worker = null;
     }

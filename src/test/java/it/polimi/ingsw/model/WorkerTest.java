@@ -11,14 +11,14 @@ public class WorkerTest {
     private Worker worker;
     private Player player;
     private Game game;
-    private Map map;
+    private Board board;
 
     @Before
     public void setUp() {
         game = new Game(2);
         game.addPlayer("nickname1");
         game.addPlayer("nickname2");
-        map = game.getMap();
+        board = game.getBoard();
         player = game.getPlayers().get(0);
         worker = player.getWorkers().get(0);
     }
@@ -26,7 +26,7 @@ public class WorkerTest {
     @After
     public void tearDown() {
         game = null;
-        map = null;
+        board = null;
         player = null;
         worker = null;
     }
@@ -45,12 +45,12 @@ public class WorkerTest {
 
     @Test
     public void testSetPositionCell() {
-        Cell firstCell = map.findCell(2,3);
+        Cell firstCell = board.findCell(2,3);
         worker.setPosition(firstCell);
         assertEquals(2,worker.getPosition().getX());
         assertEquals(3,worker.getPosition().getY());
 
-        Cell secondCell = map.findCell(3,1);
+        Cell secondCell = board.findCell(3,1);
         worker.setPosition(secondCell);
         assertEquals(3,worker.getPosition().getX());
         assertEquals(1,worker.getPosition().getY());
@@ -59,13 +59,13 @@ public class WorkerTest {
     @Test
     public void testBuildBlock() {
         worker.buildBlock(1,2);
-        assertEquals(1,map.findCell(1,2).getLevel());
+        assertEquals(1, board.findCell(1,2).getLevel());
     }
 
     @Test
     public void testBuildDome() {
         worker.buildDome(4,4);
-        assertTrue(map.findCell(4,4).hasDome());
+        assertTrue(board.findCell(4,4).hasDome());
     }
 
     @Test
@@ -79,7 +79,7 @@ public class WorkerTest {
         assertEquals(4,worker.getPosition().getX());
         assertEquals(3,worker.getPosition().getY());
 
-        assertEquals(map.findCell(4,3),worker.getPosition());
+        assertEquals(board.findCell(4,3),worker.getPosition());
     }
 
     @Test
@@ -90,7 +90,7 @@ public class WorkerTest {
         worker.setPosition(3,4);
 
         assertEquals(2,worker.getLevel());
-        assertEquals(2,map.findCell(3,4).getLevel());
+        assertEquals(2, board.findCell(3,4).getLevel());
     }
 
     @Test
@@ -114,7 +114,7 @@ public class WorkerTest {
 
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 3; j++) {
-                if(i == 1 && j == 1 || !map.isInMap(i,j))
+                if(i == 1 && j == 1 || !board.isInBoard(i,j))
                     assertFalse(matrix.isAllowedToMoveWorkersMap(i,j));
                 else
                     assertTrue(matrix.isAllowedToMoveWorkersMap(i,j));
@@ -130,7 +130,7 @@ public class WorkerTest {
 
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 3; j++) {
-                if(i == 1 && j == 1 || !map.isInMap(i,j))
+                if(i == 1 && j == 1 || !board.isInBoard(i,j))
                     assertFalse(matrix.getBooleanCellWorkerMap(i,j));
                 else
                     assertTrue(matrix.getBooleanCellWorkerMap(i,j));

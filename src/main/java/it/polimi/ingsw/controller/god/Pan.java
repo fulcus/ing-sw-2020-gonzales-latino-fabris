@@ -10,6 +10,7 @@ public class Pan implements God{
 
         boolean won;
         boolean normalCondition = worker.getLevel() == 3 && worker.getLevelVariation() == 1 || worker.getLevelVariation() <= -2;
+
         if (worker.getPlayer().getCanWinInPerimeter())
             won = normalCondition;
         else
