@@ -40,5 +40,8 @@ public class Prometheus implements God {
     }
 
 
+    public GameController getGameController() {
+        return gameController;
+    }
 
 }

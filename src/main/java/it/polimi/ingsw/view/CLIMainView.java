@@ -247,9 +247,21 @@ public class CLIMainView implements ViewObserver {
 
     }
 
+
+    /**
+     * Allows to print the ERROR to the screen
+     */
     public void printErrorScreen() {
         System.out.println("\n\n      ERROR      \n\n RETRY\n\n");
     }
+
+    /**
+     * Prints to screen that one of the player has won the game
+     */
+    public void winningView() {
+        System.out.println("\n\n\n       " + myTurnHandler.getCurrentPlayer().getNickname() + "HAS WON THIS GAME!!!\n\n GAME ENDED\n\nSEE YOU!");
+    }
+
 
     /**
      * This method prints an updated version of the Board, depending on the Class' parameter "mymap".

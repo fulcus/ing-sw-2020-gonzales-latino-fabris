@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller.god;
 
+import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.*;
 
 /**
@@ -7,6 +8,7 @@ import it.polimi.ingsw.model.*;
  */
 
 public interface God {
+
 
     /**
      * Default evolution of the turn: move, checks if win condition is met, builds.
@@ -28,16 +30,17 @@ public interface God {
     default void move(Worker worker) {
         WorkerMoveMap moveMap = updateMoveMap(worker);
 
-        //todo Controller method that calls View method that returns int xMovePosition and yMovePosition in array
-        int[] movePosition = getInputMovePosition();
-        int xMove = movePosition[0];
-        int yMove = movePosition[1];
+        while (true) {
+            int[] movePosition = getInputMove();
+            int xMove = movePosition[0] + worker.getPosition().getX();
+            int yMove = movePosition[1] + worker.getPosition().getY();
 
 
-        if (moveMap.isAllowedToMoveBoard(xMove, yMove)) {
-            worker.setPosition(xMove, yMove);
-        }else {
-            //todo View error + loop
+            if (moveMap.isAllowedToMoveBoard(xMove, yMove)) {
+                worker.setPosition(xMove, yMove);
+            } else {
+                getGameController().errorScreen();
+            }
         }
 
     }
@@ -95,8 +98,7 @@ public interface God {
      * @param worker The selected worker. Used to get his player.
      * @return True if the worker's player has won. False otherwise.
      */
-    //add end game for player if win is true
-        default boolean win(Worker worker) {
+        default void win(Worker worker) {
         boolean won;
         boolean normalCondition = worker.getLevel() == 3 && worker.getLevelVariation() == 1;
         if (worker.getPlayer().getCanWinInPerimeter())
@@ -106,7 +108,7 @@ public interface God {
 
 
         if (won)
-        //todo View + Controller call some method to win
+            worker.getPlayer().getGod().getGameController().winGame();
     }
 
 
@@ -139,5 +141,66 @@ public interface God {
         return buildMap;
     }
 
+
+    /**
+     * Allows to get the will of the player to move to the next position
+     * @return  Array with the direction the player wants to move his worker
+     */
+    default int[] getInputMove(){
+        int[] input = new int[2];
+        String playerInput = getGameController().getView().askMovementDirection();
+        switch (playerInput) {
+            case "N" : {
+                input[0] = -1;
+                input[1] = 0;
+                break;
+            }
+            case "NE" : {
+                input[0] = -1;
+                input[1] = -1;
+                break;
+            }
+            case "NW" : {
+                input[0] = -1;
+                input[1] = 1;
+                break;
+            }
+            case "S" : {
+                input[0] = 1;
+                input[1] = 0;
+                break;
+            }
+            case "SE" : {
+                input[0] = 1;
+                input[1] = 1;
+                break;
+            }
+            case "SW" : {
+                input[0] = 1;
+                input[1] = -1;
+                break;
+            }
+            case "W" : {
+                input[0] = 0;
+                input[1] = -1;
+                break;
+            }
+            case "E" : {
+                input[0] = 0;
+                input[1] = 1;
+                break;
+            }
+            default : {
+                input[0] = 0;
+                input[1] = 0;
+                break;
+            }
+
+        }
+        return input;
+    }
+
+
+    GameController getGameController();
 
 }

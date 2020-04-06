@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller.god;
 
+import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.Worker;
@@ -8,6 +9,12 @@ import it.polimi.ingsw.model.WorkerBuildMap;
 import java.util.Scanner;
 
 public class Atlas implements God{
+
+    private GameController gameController;
+
+    public Atlas(GameController gameController) {
+        this.gameController = gameController;
+    }
 
     /**
      *
@@ -61,4 +68,8 @@ public class Atlas implements God{
 
     }
 
+
+    public GameController getGameController() {
+        return gameController;
+    }
 }

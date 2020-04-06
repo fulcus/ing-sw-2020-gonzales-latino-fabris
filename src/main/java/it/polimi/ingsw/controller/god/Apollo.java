@@ -59,61 +59,8 @@ public class Apollo implements God{
     }
 
 
-    /**
-     * Allows to get the will of the player to move to the next position
-     * @return  Array with the direction the player wants to move his worker
-     */
-    public int[] getInputMove(){
-        int[] input = new int[2];
-        String playerInput = gameController.getView().askMovementDirection();
-        switch (playerInput) {
-            case "N" : {
-                input[0] = -1;
-                input[1] = 0;
-                break;
-            }
-            case "NE" : {
-                input[0] = -1;
-                input[1] = -1;
-                break;
-            }
-            case "NW" : {
-                input[0] = -1;
-                input[1] = 1;
-                break;
-            }
-            case "S" : {
-                input[0] = 1;
-                input[1] = 0;
-                break;
-            }
-            case "SE" : {
-                input[0] = 1;
-                input[1] = 1;
-                break;
-            }
-            case "SW" : {
-                input[0] = 1;
-                input[1] = -1;
-                break;
-            }
-            case "W" : {
-                input[0] = 0;
-                input[1] = -1;
-                break;
-            }
-            case "E" : {
-                input[0] = 0;
-                input[1] = 1;
-                break;
-            }
-            default : {
-                input[0] = 0;
-                input[1] = 0;
-                break;
-            }
 
-        }
-        return input;
+    public GameController getGameController() {
+        return gameController;
     }
 }

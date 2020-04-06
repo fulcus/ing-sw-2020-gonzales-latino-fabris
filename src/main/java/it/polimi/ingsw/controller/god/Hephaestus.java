@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller.god;
 
+import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.Worker;
@@ -8,7 +9,12 @@ import it.polimi.ingsw.model.WorkerBuildMap;
 
 public class Hephaestus implements God {
 
+    private GameController gameController;
     Cell firstBuildCell;
+
+    public Hephaestus(GameController gameController){
+        this.gameController = gameController;
+    }
 
     /**
      * This method calls the sequence of actions that can be done by the player who owns Hephaestus.
@@ -46,4 +52,7 @@ public class Hephaestus implements God {
     }
 
 
+    public GameController getGameController() {
+        return gameController;
+    }
 }

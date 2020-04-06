@@ -1,8 +1,15 @@
 package it.polimi.ingsw.controller.god;
 
+import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.*;
 
 public class Zeus implements God{
+
+    private GameController gameController;
+
+    public Zeus(GameController gameController){
+        this.gameController = gameController;
+    }
 
     @Override
     public void evolveTurn(Worker worker) {
@@ -14,6 +21,11 @@ public class Zeus implements God{
         else{
             win(worker);
         }
+    }
+
+
+    public GameController getGameController() {
+        return gameController;
     }
 
 }
