@@ -16,12 +16,14 @@ public class GameController {
     private int numOfPlayers;
     private TurnHandler turnHandler;
     private CLIMainView view;
+    private boolean endGame;
 
     public GameController(CLIMainView view){
         game = null;
         numOfPlayers = 0;
         turnHandler = null;
         this.view = view;
+        endGame = false;
     }
 
     public CLIMainView getView(){
@@ -86,31 +88,31 @@ public class GameController {
                     gods.add(i, new Artemis(this));
                     break;
                 case 3:
-                    gods.add(i, new Athena());
+                    gods.add(i, new Athena(this));
                     break;
                 case 4 :
-                    gods.add(i, new Atlas());
+                    gods.add(i, new Atlas(this));
                     break;
                 case 5 :
-                    gods.add(i, new Charon());
+                    gods.add(i, new Charon(this));
                     break;
                 case 6 :
-                    gods.add(i, new Demeter());
+                    gods.add(i, new Demeter(this));
                     break;
                 case 7 :
-                    gods.add(i, new Hephaestus());
+                    gods.add(i, new Hephaestus(this));
                     break;
                 case 8 :
-                    gods.add(i, new Hera());
+                    gods.add(i, new Hera(this));
                     break;
                 case 9 :
-                    gods.add(i, new Hestia());
+                    gods.add(i, new Hestia(this));
                     break;
                 case 10 :
                     gods.add(i, new Minotaur(this));
                     break;
                 case 11 :
-                    gods.add(i, new Pan());
+                    gods.add(i, new Pan(this));
                     break;
                 case 12 :
                     gods.add(i, new Prometheus(this));
@@ -119,7 +121,7 @@ public class GameController {
                     gods.add(i, new Triton(this));
                     break;
                 case 14 :
-                    gods.add(i, new Zeus());
+                    gods.add(i, new Zeus(this));
                     break;
                 default:break;
             }
@@ -159,4 +161,9 @@ public class GameController {
         view.printErrorScreen();
     }
 
+
+    public void winGame() {
+        view.winningView();
+        endGame = true;
+    }
 }
