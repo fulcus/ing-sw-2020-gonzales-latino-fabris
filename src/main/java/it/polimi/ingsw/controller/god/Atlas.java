@@ -1,8 +1,9 @@
 package it.polimi.ingsw.controller.god;
 
+import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Cell;
-import it.polimi.ingsw.model.Map;
 import it.polimi.ingsw.model.Worker;
+import it.polimi.ingsw.model.WorkerBuildMap;
 
 import java.util.Scanner;
 
@@ -15,83 +16,48 @@ public class Atlas implements God{
      */
     @Override
     public Cell build(Worker worker) {
-       return buildAllowDome(worker);
+       return buildAllowAnyLevelDome(worker);
     }
 
-    private Cell buildAllowDome(Worker worker) {
 
-        System.out.println("Atlas additional power: You can also build a Dome at any level");
+    private Cell buildAllowAnyLevelDome(Worker worker) {
 
-        //TODO evitare che una volta scelta la cella, non può più cambiare fare(while nel while)
-        Scanner input = new Scanner(System.in);
-        String buildingName;
-        Cell buildingCell;
-        int buildingX;
-        int buildingY;
+        //same as default build without "lvl == 3 condition" for buildDome
+        WorkerBuildMap buildMap = updateBuildMap(worker);
+        Board board = worker.getPlayer().getGame().getBoard();
 
-        System.out.println("Insert the x y position where you want to build in");
 
-        do {
-            buildingX = input.nextInt();
-            buildingY = input.nextInt();
+        int[] buildInput = getInputBuildAllowDomePosition();  //returns build position + type: block/dome
+        int xBuild = buildInput[0];
+        int yBuild = buildInput[1];
+        int buildType = buildInput[2]; //0 is block, 1 is dome
 
-            //questo controllo va fatto con un metodo static in Map
-            if (buildingX < Map.SIDE && buildingY < Map.SIDE && !(worker.getPlayer().getGame().getMap().findCell(buildingX,buildingY).isOccupied())){
-                buildingCell = worker.getPlayer().getGame().getMap().findCell(buildingX,buildingY);
-                break;
+        Cell buildPosition = board.findCell(xBuild, yBuild);
+
+        //build Dome AT ANY LEVEL
+        if (buildType == 1) {
+
+            if (buildMap.isAllowedToBuildBoard(xBuild, yBuild)) {
+                worker.buildDome(xBuild, yBuild);
+            } else {
+                buildPosition = null;
+                //todo View + Controller error: cant build dome there
             }
 
+        } else if (buildType == 2) {    //build Block
+            if (buildMap.isAllowedToBuildBoard(xBuild, yBuild) && board.findCell(xBuild, yBuild).getLevel() < 3) {
+                worker.buildBlock(xBuild, yBuild);
 
-            System.out.println("Invalid position or occupied cell! It must be in a 5X5 map.TRY AGAIN");
-
-        } while (true);
-
-
-
-        do {
-
-            if(buildingCell.getLevel() == 3 && !(buildingCell.hasDome()))
-            {
-                System.out.println("You can only build a Dome here, type Dome to build");
-                buildingName = input.nextLine();
-
-                if(buildingName.equals("Dome")) {
-                    worker.buildDome(buildingX, buildingY);
-                    break;
-                }
-
+            } else {
+                buildPosition = null;
+                //todo View + Controller error: cant build block there
             }
+        } else {
+            buildPosition = null;
+            //todo View + Controller error: wrong input for build type (can be 1 or 2)
+        }
 
-            else if (buildingCell.getLevel()<3 && !(buildingCell.hasDome())){
-
-                System.out.println("You can build both a Block and a Dome here, type the name of building you want here");
-                buildingName = input.nextLine();
-
-                if(buildingName.equals("Block")) {
-
-                    worker.buildBlock(buildingX, buildingY);
-                    break;
-                }
-
-                else if(buildingName.equals("Dome")){
-
-                    worker.buildDome(buildingX, buildingY);
-                    break;
-                }
-
-            }
-
-            else{
-                System.out.println("You cannot build here");
-            }
-
-            System.out.println("TRY AGAIN");
-
-        } while (true);
-
-
-        System.out.println(buildingName + "successfully built");
-        return buildingCell;
+        return buildPosition;
 
     }
 

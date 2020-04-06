@@ -13,6 +13,10 @@ public class WorkerBuildMap extends WorkerMap {
         WorkerCellFalse();
     }
 
+    public void cannotBuildInDomeCell() {
+        DomeCellFalse();
+    }
+
     public void cannotBuildInOccupiedCell() {
         OccupiedCellFalse();
     }
@@ -25,13 +29,15 @@ public class WorkerBuildMap extends WorkerMap {
         workersPositionTrue();
     }
 
-    public void setAllowedToBuildInPosition(int i, int j) {
+    /*
+    public void setAllowedToBuildBoard(int i, int j) {
         setBooleanCellBoard(i, j,true);
     }
 
-    public void setNotAllowedToBuildInPosition(int i, int j) {
+    public void setNotAllowedToBuildBoard(int i, int j) {
         setBooleanCellBoard(i, j,false);
     }
+    */
 
     public boolean isAllowedToBuildBoard(int i, int j) {
         return getBooleanCellBoard(i, j);

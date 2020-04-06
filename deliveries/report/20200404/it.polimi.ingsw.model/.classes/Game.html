@@ -80,7 +80,7 @@
 <i>6</i>&nbsp;import java.util.Random;
 <i>7</i>&nbsp;
 <i>8</i>&nbsp;public class Game {
-<i>9</i>&nbsp;    private final Map map;
+<i>9</i>&nbsp;    private final Map board;
 <i>10</i>&nbsp;    private final int numberOfPlayers;
 <i>11</i>&nbsp;    private ArrayList&lt;Player&gt; players;
 <i>12</i>&nbsp;    private God[] deckGods;
@@ -91,7 +91,7 @@
 <i>17</i>&nbsp;     * @param numberOfPlayers Number of players of the game.
 <i>18</i>&nbsp;     */
 <b class="fc"><i>19</i>&nbsp;    public Game(int numberOfPlayers) {</b>
-<b class="fc"><i>20</i>&nbsp;        map = new Map();</b>
+<b class="fc"><i>20</i>&nbsp;        board = new Map();</b>
 <b class="fc"><i>21</i>&nbsp;        this.numberOfPlayers = numberOfPlayers;</b>
 <b class="fc"><i>22</i>&nbsp;        players = new ArrayList&lt;&gt;(numberOfPlayers);</b>
 <b class="fc"><i>23</i>&nbsp;        deckGods = new God[14];</b>
@@ -147,7 +147,7 @@
 <b class="nc"><i>73</i>&nbsp;    }</b>
 <i>74</i>&nbsp;
 <i>75</i>&nbsp;    public Map getMap() {
-<b class="fc"><i>76</i>&nbsp;        return map;</b>
+<b class="fc"><i>76</i>&nbsp;        return board;</b>
 <i>77</i>&nbsp;    }
 <i>78</i>&nbsp;
 <i>79</i>&nbsp;    public int getNumberOfPlayers() {

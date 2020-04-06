@@ -19,7 +19,7 @@ public class Cell {
         this.level = 0;
         this.worker = null;
         this.dome = false;
-        inPerimeter = x == 0 || x == (Map.SIDE - 1) || y == 0 || y == (Map.SIDE - 1);
+        inPerimeter = x == 0 || x == (Board.SIDE - 1) || y == 0 || y == (Board.SIDE - 1);
     }
 
     public int getLevel() {

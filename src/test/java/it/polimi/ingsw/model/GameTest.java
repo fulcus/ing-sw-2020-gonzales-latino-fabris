@@ -57,7 +57,7 @@ public class GameTest {
 
     @Test
     public void testGetMap() {
-        Assert.assertNotNull(game.getMap());
+        Assert.assertNotNull(game.getBoard());
     }
 
     @Test

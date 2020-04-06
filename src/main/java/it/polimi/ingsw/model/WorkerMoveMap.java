@@ -36,8 +36,8 @@ public class WorkerMoveMap extends WorkerMap {
 
     /**
      * Returns if it is allowed to move in a given cell of the map.
-     * @param i Map coordinate X.
-     * @param j Map coordinate Y.
+     * @param i Board coordinate X.
+     * @param j Board coordinate Y.
      * @return True if it can move in position, false otherwise.
      */
     public boolean isAllowedToMoveBoard(int i, int j) {

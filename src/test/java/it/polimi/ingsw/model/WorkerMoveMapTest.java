@@ -15,7 +15,7 @@ public class WorkerMoveMapTest {
     private Player player;
     private Player player2;
     private Game game;
-    private Map map;
+    private Board board;
     private WorkerMoveMap moveMap;
 
     @Before
@@ -23,7 +23,7 @@ public class WorkerMoveMapTest {
         game = new Game(2);
         game.addPlayer("nickname1");
         game.addPlayer("nickname2");
-        map = game.getMap();
+        board = game.getBoard();
         player = game.getPlayers().get(0);
         player2 = game.getPlayers().get(1);
         worker = player.getWorkers().get(0);
@@ -40,7 +40,7 @@ public class WorkerMoveMapTest {
     @After
     public void tearDown() {
         game = null;
-        map = null;
+        board = null;
         player = null;
         worker = null;
         moveMap = null;
@@ -120,7 +120,7 @@ public class WorkerMoveMapTest {
     @Test
     public void testIsAllowedToMoveOutOfMaps() {
         worker.setPosition(3,3);
-        //out of workers map
+        //out of workers board
         assertFalse(moveMap.isAllowedToMoveBoard(3,5));
         worker.setPosition(4,4);
         //out of board
@@ -135,7 +135,7 @@ public class WorkerMoveMapTest {
         worker.setPosition(3,3);
         worker.buildDome(2,2);
         moveMap.cannotMoveInOccupiedCell();
-        //relative to workers map
+        //relative to workers board
         assertFalse(moveMap.isAllowedToMoveWorkersMap(0,0));
     }
 

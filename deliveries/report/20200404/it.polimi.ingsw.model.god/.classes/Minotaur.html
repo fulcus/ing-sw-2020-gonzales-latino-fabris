@@ -89,21 +89,21 @@
 <i>15</i>&nbsp;    @Override
 <i>16</i>&nbsp;    public void move(Worker worker) {
 <i>17</i>&nbsp;
-<b class="nc"><i>18</i>&nbsp;        Map map = worker.getPlayer().getGame().getMap();</b>
+<b class="nc"><i>18</i>&nbsp;        Map board = worker.getPlayer().getGame().getMap();</b>
 <b class="nc"><i>19</i>&nbsp;        int[] delta = new int[2];</b>
 <b class="nc"><i>20</i>&nbsp;        Scanner input = new Scanner(System.in);</b>
 <b class="nc"><i>21</i>&nbsp;        System.out.println(&quot;Where do you want to move? (input coordinates)&quot;);</b>
 <b class="nc"><i>22</i>&nbsp;        int x = input.nextInt();</b>
 <b class="nc"><i>23</i>&nbsp;        int y = input.nextInt();</b>
 <i>24</i>&nbsp;
-<b class="nc"><i>25</i>&nbsp;        if(possibleMove(worker,map)[x][y])</b>
+<b class="nc"><i>25</i>&nbsp;        if(possibleMove(worker,board)[x][y])</b>
 <b class="nc"><i>26</i>&nbsp;            worker.setPosition(x,y);</b>
 <i>27</i>&nbsp;        else{
-<b class="nc"><i>28</i>&nbsp;            if((x&lt;5 &amp;&amp; y&lt;5) &amp;&amp; map.findCell(x,y).hasWorker() &amp;&amp; !map.findCell(x,y).hasDome() &amp;&amp; !map.findCell(x,y).getWorker().getPlayer().equals(worker.getPlayer())) {</b>
+<b class="nc"><i>28</i>&nbsp;            if((x&lt;5 &amp;&amp; y&lt;5) &amp;&amp; board.findCell(x,y).hasWorker() &amp;&amp; !board.findCell(x,y).hasDome() &amp;&amp; !board.findCell(x,y).getWorker().getPlayer().equals(worker.getPlayer())) {</b>
 <b class="nc"><i>29</i>&nbsp;                delta[0] = x - worker.getPosition().getX();</b>
 <b class="nc"><i>30</i>&nbsp;                delta[1] = y - worker.getPosition().getY();</b>
 <b class="nc"><i>31</i>&nbsp;                if (x+delta[0]&lt;=4 &amp;&amp; x+delta[0]&gt;=0 &amp;&amp; y+delta[1]&gt;=0 &amp;&amp; y+delta[1]&lt;=4) {</b>
-<b class="nc"><i>32</i>&nbsp;                    map.findCell(x,y).getWorker().setPosition(x+delta[0], y+delta[1]);</b>
+<b class="nc"><i>32</i>&nbsp;                    board.findCell(x,y).getWorker().setPosition(x+delta[0], y+delta[1]);</b>
 <b class="nc"><i>33</i>&nbsp;                    worker.setPosition(x,y);</b>
 <i>34</i>&nbsp;                }
 <i>35</i>&nbsp;            }
@@ -118,7 +118,7 @@
 <i>44</i>&nbsp;    /**
 <i>45</i>&nbsp;     * It explains where I can move with the selected worker
 <i>46</i>&nbsp;     * @param w It&#39;s the selected worker
-<i>47</i>&nbsp;     * @param m It&#39;s the map of the current game
+<i>47</i>&nbsp;     * @param m It&#39;s the board of the current game
 <i>48</i>&nbsp;     * @return The matrix with a true in the near position where the worker can move, false if the worker cannot move there
 <i>49</i>&nbsp;     */
 <i>50</i>&nbsp;    public boolean[][] possibleMove(Worker w, Map m) {

@@ -6,26 +6,26 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class MapTest {
+public class BoardTest {
 
-    private Map map;
+    private Board board;
     private int x, y;
 
     @Before
     public void setUp() {
-        map = new Map();
+        board = new Board();
     }
 
     @After
     public void tearDown(){
-        map = null;
+        board = null;
     }
 
     @Test
     public void testGetBoard() {
         for(int i=0; i<5; i++){
             for(int j=0; j<5;j++){
-                Assert.assertEquals(map.findCell(i,j), map.getBoard()[i][j]);
+                Assert.assertEquals(board.findCell(i,j), board.getBoard()[i][j]);
             }
         }
     }
@@ -33,18 +33,18 @@ public class MapTest {
     @Test
     public void testFindCell() {
         x=1; y=2;
-        Assert.assertEquals(map.getBoard()[x][y], map.findCell(x,y));
+        Assert.assertEquals(board.getBoard()[x][y], board.findCell(x,y));
         x=7; y=2;
-        assertNull(map.findCell(x, y));
+        assertNull(board.findCell(x, y));
     }
 
     @Test
     public void testIsInMap() {
         x=1; y=3;
-        Assert.assertTrue(map.isInMap(x,y));
+        Assert.assertTrue(board.isInBoard(x,y));
         x=7; y=-1;
-        Assert.assertFalse(map.isInMap(x,y));
+        Assert.assertFalse(board.isInBoard(x,y));
         x=3; y=7;
-        Assert.assertFalse(map.isInMap(x,y));
+        Assert.assertFalse(board.isInBoard(x,y));
     }
 }

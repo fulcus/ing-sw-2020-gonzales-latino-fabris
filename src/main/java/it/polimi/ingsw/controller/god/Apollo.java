@@ -4,8 +4,6 @@ import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.Worker;
 import it.polimi.ingsw.model.WorkerMoveMap;
 
-import java.util.Scanner;
-
 public class Apollo implements God{
 
     @Override
@@ -17,10 +15,10 @@ public class Apollo implements God{
     private void moveSwap(Worker worker){
 
         //todo Controller method that calls View method that returns int xMovePosition and yMovePosition in array
-        int[] movePosition = getInputMove();
+        int[] movePosition = getInputMoveSwap();
         int xMove = movePosition[0];
         int yMove = movePosition[1];
-        Cell moveCell = worker.getPlayer().getGame().getMap().findCell(xMove, yMove);
+        Cell moveCell = worker.getPlayer().getGame().getBoard().findCell(xMove, yMove);
         Worker enemyWorker;
 
 

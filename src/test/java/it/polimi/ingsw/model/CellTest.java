@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -13,7 +12,7 @@ public class CellTest {
     private Worker worker;
     private Player player;
     private Game game;
-    private Map map;
+    private Board board;
 
 
     @Before
@@ -21,16 +20,16 @@ public class CellTest {
         game = new Game(2);
         game.addPlayer("nickname1");
         game.addPlayer("nickname2");
-        map = game.getMap();
+        board = game.getBoard();
         player = game.getPlayers().get(0);
         worker = player.getWorkers().get(0);
-        cell = map.findCell(3,2);
+        cell = board.findCell(3,2);
     }
 
     @After
     public void tearDown() {
         game = null;
-        map = null;
+        board = null;
         player = null;
         worker = null;
     }

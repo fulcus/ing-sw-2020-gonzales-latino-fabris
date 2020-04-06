@@ -38,7 +38,7 @@ public class Worker {
      */
     //prima di chiamare fare check se posso andare (isOccupied)
     public void setPosition(int x, int y) {
-        Cell newPosition = player.getGame().getMap().findCell(x,y);
+        Cell newPosition = player.getGame().getBoard().findCell(x,y);
         int newLevel = newPosition.getLevel();
 
         //vado via da cella precedente e Position nella nuova
@@ -77,7 +77,7 @@ public class Worker {
      */
     //prima di chiamare faccio check se posso costruire block (canBuildBlock)
     public void buildBlock(int x, int y) {
-        Cell buildPosition = player.getGame().getMap().findCell(x,y);
+        Cell buildPosition = player.getGame().getBoard().findCell(x,y);
         buildPosition.buildBlock();
     }
 
@@ -88,7 +88,7 @@ public class Worker {
      */
     //prima di chiamare faccio check se posso costruire dome (canBuildDome)
     public void buildDome(int x, int y) {
-        Cell buildPosition = player.getGame().getMap().findCell(x,y);
+        Cell buildPosition = player.getGame().getBoard().findCell(x,y);
         buildPosition.buildDome();
     }
 

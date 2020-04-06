@@ -4,8 +4,6 @@ import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.Worker;
 import it.polimi.ingsw.model.WorkerMoveMap;
 
-import java.util.Scanner;
-
 public class Artemis implements God {
 
     private Cell initialPosition;
@@ -33,7 +31,7 @@ public class Artemis implements God {
         int xMove = secondMovePosition[0];
         int yMove = secondMovePosition[1];
 
-        Cell secondMoveCell = worker.getPlayer().getGame().getMap().findCell(xMove, yMove);
+        Cell secondMoveCell = worker.getPlayer().getGame().getBoard().findCell(xMove, yMove);
 
         if (secondMoveCell != initialPosition && workersMoveMap.isAllowedToMoveBoard(xMove, yMove)) {
             worker.setPosition(xMove, yMove);

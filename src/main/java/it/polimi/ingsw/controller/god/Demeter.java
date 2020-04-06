@@ -1,83 +1,62 @@
 package it.polimi.ingsw.controller.god;
 
+import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Cell;
-import it.polimi.ingsw.model.Map;
 import it.polimi.ingsw.model.Worker;
+import it.polimi.ingsw.model.WorkerBuildMap;
 
 import java.util.Scanner;
 
 public class Demeter implements God {
 
-    Cell firstBuildingCell;
-    private static final String name = "DEMETER";
+    Cell firstBuildCell;
 
     @Override
     public void evolveTurn(Worker w) {
         move(w);
         win(w);
-        firstBuildingCell = build(w);
+        firstBuildCell = build(w);
         buildAgain(w);
     }
 
     private void buildAgain(Worker worker) {
 
-        Scanner input = new Scanner(System.in);
-        String buildingName;
-        String command;
-        int buildingX;
-        int buildingY;
-
-        do {
+        WorkerBuildMap buildMap = updateBuildMap(worker);
+        Board board = worker.getPlayer().getGame().getBoard();
 
 
-            System.out.println("You can build again, type Build or Endturn");
-            command = input.nextLine();
+        int[] buildInput = getInputSecondBuildPosition();  //returns build position + type: block/dome
+        int xBuild = buildInput[0];
+        int yBuild = buildInput[1];
+        int buildType = buildInput[2]; //0 is block, 1 is dome
+
+        Cell buildPosition = board.findCell(xBuild, yBuild);
 
 
-            if (command.equals("Build")) {
-                do {
+        if (buildPosition != firstBuildCell) {
 
-                    System.out.println("Insert another x y position where you want to build in");
+            //build Dome
+            if (buildType == 1) {
 
-                    buildingX = input.nextInt();
-                    buildingY = input.nextInt();
+                if (buildMap.isAllowedToBuildBoard(xBuild, yBuild) && buildPosition.getLevel() == 3) {
+                    worker.buildDome(xBuild, yBuild);
 
+                } else {
+                    //todo View + Controller error
+                }
 
-                    if (!(worker.getPlayer().getGame().getMap().findCell(buildingX, buildingY).equals(firstBuildingCell)) && buildingX < Map.SIDE && buildingY < Map.SIDE && !(worker.getPlayer().getGame().getMap().findCell(buildingX, buildingY).isOccupied())) {
+            } else if (buildType == 2) {    //build Block
+                if (buildMap.isAllowedToBuildBoard(xBuild, yBuild) && buildPosition.getLevel() < 3) {
+                    worker.buildBlock(xBuild, yBuild);
 
-                        if (worker.getPlayer().getGame().getMap().findCell(buildingX, buildingY).getLevel() == 3) {
-
-                            System.out.println("You can build a Dome here, type Dome to build");
-                            buildingName = input.nextLine();
-
-                            if (buildingName.equals("Dome")) {
-                                worker.buildDome(buildingX, buildingY);
-                                break;
-                            }
-
-                        } else {
-
-                            System.out.println("You can build a Block here, type Block to build");
-                            buildingName = input.nextLine();
-
-                            if (buildingName.equals("Block")) {
-                                worker.buildBlock(buildingX, buildingY);
-                                break;
-                            }
-
-                        }
-
-                    }
-
-                    System.out.println("It must be a different place");
-
-                } while (true);
-
-            } else if (command.equals("Endturn")) {
-
-                break;
+                } else {
+                    //todo View + Controller error
+                }
             }
-        } while (true);
+        } else {
+            //todo View + Controller error cant build in initial position
+        }
+
     }
 
 

@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 import java.util.ArrayList;
 
 public class WorkerMap {
-    private Map map;
+    private Board board;
     private Worker worker;
     private boolean[][] matrix;
     public static final int N = 3;
@@ -11,7 +11,7 @@ public class WorkerMap {
     public WorkerMap(Worker worker) {
         this.worker = worker;
         matrix = new boolean[N][N];
-        this.map = worker.getPlayer().getGame().getMap();
+        this.board = worker.getPlayer().getGame().getBoard();
 
         //initialized standard matrix
         for (int i = 0; i < N; i++) {
@@ -79,11 +79,11 @@ public class WorkerMap {
         int workersX = worker.getPosition().getX();
         int workersY = worker.getPosition().getY();
 
-        //if not in boolean map return
+        //if not in boolean board return
         int relativeX = i - workersX + 1;
         int relativeY = j - workersY + 1;
 
-        if(relativeX < 0 || relativeX > 2 || relativeY < 0 || relativeY > 2 || !map.isInMap(i,j))
+        if(relativeX < 0 || relativeX > 2 || relativeY < 0 || relativeY > 2 || !board.isInBoard(i,j))
             return;
 
         matrix[i - workersX + 1][j - workersY + 1] = value;
@@ -97,38 +97,39 @@ public class WorkerMap {
         int workersX = worker.getPosition().getX();
         int workersY = worker.getPosition().getY();
 
-        //if not in boolean map or not in board map return false
+        //if not in boolean board or not in board board return false
         int relativeX = i - workersX + 1;
         int relativeY = j - workersY + 1;
 
-        if(relativeX < 0 || relativeX > 2 || relativeY < 0 || relativeY > 2 || !map.isInMap(i,j))
+        if(relativeX < 0 || relativeX > 2 || relativeY < 0 || relativeY > 2 || !board.isInBoard(i,j))
             return false;
 
         return matrix[i - workersX + 1][j - workersY + 1];
     }
 
     /**
-     * Returns Cell of Map given the relative coordinates of the worker.
+     * Returns Cell of Board given the relative coordinates of the worker.
      *
      * @param i Relative coordinate of MoveMatrix.
      * @param j Relative coordinate of MoveMatrix.
-     * @return Returns Cell of Map given the relative coordinates of the worker,
-     * returns null if the Cell is out of the boundaries of the map.
+     * @return Returns Cell of Board given the relative coordinates of the worker,
+     * returns null if the Cell is out of the boundaries of the board.
      */
     public Cell getAbsolutePosition(int i, int j) {
         int workersX = worker.getPosition().getX();
         int workersY = worker.getPosition().getY();
 
-        if (!map.isInMap(workersX, workersY) || !map.isInMap(i,j))
+        if (!board.isInBoard(workersX, workersY) || !board.isInBoard(i,j))
             return null;
 
-        return worker.getPlayer().getGame().getMap().findCell(workersX - 1 + i, workersY - 1 + j);
+        return worker.getPlayer().getGame().getBoard().findCell(workersX - 1 + i, workersY - 1 + j);
     }
 
     /**
-     * Sets false cells not contained in Map.
+     * Sets false cells not contained in Board.
      */
     //useless because getBooleanMap returns false if cell is out of board
+    //called in updateMove/BuildMap of God
     public void updateCellsOutOfMap() {
         Cell workersCell = worker.getPosition();
         int workersX = worker.getPosition().getX();
@@ -138,7 +139,7 @@ public class WorkerMap {
             for (int i = 0; i < N; i++) {
                 for (int j = 0; j < N; j++) {
 
-                    if (!map.isInMap(i - workersX + 1, j - workersY + 1))
+                    if (!board.isInBoard(i - workersX + 1, j - workersY + 1))
                         matrix[i][j] = false;
 
                 }

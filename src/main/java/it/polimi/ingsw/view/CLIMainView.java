@@ -3,7 +3,6 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.TurnHandler;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.controller.god.*;
 
 
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ public class CLIMainView implements ViewObserver {
     TurnHandler myTurnHandler;
     Game myGame;
     GameController gameController = new GameController();
-    Map myMap;// this will contain a copy of the Model's map and each cell will be update if there are any changes
+    Board myBoard;// this will contain a copy of the Model's map and each cell will be update if there are any changes
 
     /**
      * This is the CLIMainView constructor.
@@ -219,14 +218,14 @@ public class CLIMainView implements ViewObserver {
     }
 
     /**
-     * This method prints an updated version of the Map, depending on the Class' parameter "mymap".
+     * This method prints an updated version of the Board, depending on the Class' parameter "mymap".
      */
     public void printMap() {
 
         final String LINE_SEPARATOR = "+------+------+------+------+------+%n";
         final String SPACESEPARATOR = "+      +      +      +      +      +%n";
 
-        for (int i = 0; i < Map.SIDE; i++) {
+        for (int i = 0; i < Board.SIDE; i++) {
 
             System.out.printf(LINE_SEPARATOR);//Border
             System.out.printf(SPACESEPARATOR);//space
@@ -244,24 +243,24 @@ public class CLIMainView implements ViewObserver {
      */
     public void printMapLine(int linenumber) {
 
-        for (int i = 0; i < Map.SIDE; i++) {
+        for (int i = 0; i < Board.SIDE; i++) {
 
             System.out.printf("+");
             System.out.printf(" ");//1
 
             //Place where eventual buildings will be printed
 
-            if (myMap.findCell(linenumber, i).hasDome())//if cell has dome
+            if (myBoard.findCell(linenumber, i).hasDome())//if cell has dome
                 System.out.printf("D");
 
             else {
                 //if cell has not dome
 
-                if (myMap.findCell(linenumber, i).getLevel() == 0)
+                if (myBoard.findCell(linenumber, i).getLevel() == 0)
                     System.out.printf(" ");//if there is no building, prints nothing
 
                 else
-                    System.out.printf("%d", myMap.findCell(linenumber, i).getLevel());   // if there is a building, prints its level
+                    System.out.printf("%d", myBoard.findCell(linenumber, i).getLevel());   // if there is a building, prints its level
             }
 
             //SPACE
@@ -272,22 +271,22 @@ public class CLIMainView implements ViewObserver {
             //PLACE of cell (4) that prints eventual presence of a worker with its parameter(SEX;COLOR)
 
 
-            if (myMap.findCell(linenumber, i).getWorker() == null) {
+            if (myBoard.findCell(linenumber, i).getWorker() == null) {
                 System.out.printf(" ");
                 System.out.printf(" ");//5
             } else {
 
-                if (myMap.findCell(linenumber, i).getWorker().getPlayer().getColor() == Color.BLUE && myMap.findCell(linenumber, i).getWorker().getSex() == Sex.MALE)
+                if (myBoard.findCell(linenumber, i).getWorker().getPlayer().getColor() == Color.BLUE && myBoard.findCell(linenumber, i).getWorker().getSex() == Sex.MALE)
                     System.out.printf("BM");
-                else if (myMap.findCell(linenumber, i).getWorker().getPlayer().getColor() == Color.BLUE && myMap.findCell(linenumber, i).getWorker().getSex() == Sex.FEMALE)
+                else if (myBoard.findCell(linenumber, i).getWorker().getPlayer().getColor() == Color.BLUE && myBoard.findCell(linenumber, i).getWorker().getSex() == Sex.FEMALE)
                     System.out.printf("BF");
-                else if (myMap.findCell(linenumber, i).getWorker().getPlayer().getColor() == Color.WHITE && myMap.findCell(linenumber, i).getWorker().getSex() == Sex.MALE)
+                else if (myBoard.findCell(linenumber, i).getWorker().getPlayer().getColor() == Color.WHITE && myBoard.findCell(linenumber, i).getWorker().getSex() == Sex.MALE)
                     System.out.printf("WM");
-                else if (myMap.findCell(linenumber, i).getWorker().getPlayer().getColor() == Color.WHITE && myMap.findCell(linenumber, i).getWorker().getSex() == Sex.FEMALE)
+                else if (myBoard.findCell(linenumber, i).getWorker().getPlayer().getColor() == Color.WHITE && myBoard.findCell(linenumber, i).getWorker().getSex() == Sex.FEMALE)
                     System.out.printf("WF");
-                else if (myMap.findCell(linenumber, i).getWorker().getPlayer().getColor() == Color.BEIGE && myMap.findCell(linenumber, i).getWorker().getSex() == Sex.MALE)
+                else if (myBoard.findCell(linenumber, i).getWorker().getPlayer().getColor() == Color.BEIGE && myBoard.findCell(linenumber, i).getWorker().getSex() == Sex.MALE)
                     System.out.printf("bM");
-                else if (myMap.findCell(linenumber, i).getWorker().getPlayer().getColor() == Color.BEIGE && myMap.findCell(linenumber, i).getWorker().getSex() == Sex.FEMALE)
+                else if (myBoard.findCell(linenumber, i).getWorker().getPlayer().getColor() == Color.BEIGE && myBoard.findCell(linenumber, i).getWorker().getSex() == Sex.FEMALE)
                     System.out.printf("bF");
 
             }

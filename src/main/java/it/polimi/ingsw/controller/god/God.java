@@ -2,8 +2,6 @@ package it.polimi.ingsw.controller.god;
 
 import it.polimi.ingsw.model.*;
 
-import java.util.Scanner;
-
 /**
  * This interface allows to see the Gods' main methods
  */
@@ -38,6 +36,8 @@ public interface God {
 
         if (moveMap.isAllowedToMoveBoard(xMove, yMove)) {
             worker.setPosition(xMove, yMove);
+        }else {
+            //todo View error + loop
         }
 
     }
@@ -51,8 +51,7 @@ public interface God {
      */
     default Cell build(Worker worker) {
         WorkerBuildMap buildMap = updateBuildMap(worker);
-        Map map = worker.getPlayer().getGame().getMap();
-        //todo distinzione tra dome e block. Can only build dome on lvl 3
+        Board board = worker.getPlayer().getGame().getBoard();
 
 
         int[] buildInput = getInputBuildPosition();  //returns build position + type: block/dome
@@ -60,26 +59,29 @@ public interface God {
         int yBuild = buildInput[1];
         int buildType = buildInput[2]; //0 is block, 1 is dome
 
-        Cell buildPosition = null;
+        Cell buildPosition = board.findCell(xBuild,yBuild);
 
         //build Dome
         if (buildType == 1) {
 
-            if (buildMap.isAllowedToBuildBoard(xBuild, yBuild) && map.findCell(xBuild, yBuild).getLevel() == 3) {
+            if (buildMap.isAllowedToBuildBoard(xBuild, yBuild) && buildPosition.getLevel() == 3) {
                 worker.buildDome(xBuild, yBuild);
-                buildPosition = map.findCell(xBuild, yBuild);
+
             } else {
-                //todo View + Controller error
+                buildPosition = null;
+                //todo View + Controller error: cant build dome there
             }
 
         } else if (buildType == 2) {    //build Block
-            if (buildMap.isAllowedToBuildBoard(xBuild, yBuild) && map.findCell(xBuild, yBuild).getLevel() < 3) {
+            if (buildMap.isAllowedToBuildBoard(xBuild, yBuild) && buildPosition.getLevel() < 3) {
                 worker.buildBlock(xBuild, yBuild);
-                buildPosition = map.findCell(xBuild, yBuild);
 
             } else {
-                //todo View + Controller error
+                buildPosition = null;
+                //todo View + Controller error: cant build block there
             }
+        } else {
+            //todo View + Controller error: wrong input for build type (can be 1 or 2)
         }
 
         return buildPosition;
@@ -115,14 +117,27 @@ public interface God {
      */
     //will be called at the beginning of each move, which will then comply with the matrix.
     default WorkerMoveMap updateMoveMap(Worker worker) {
-        WorkerMoveMap workersMoveMap = worker.getMoveMap();
+        WorkerMoveMap moveMap = worker.getMoveMap();
 
-        workersMoveMap.cannotStayStill();
-        workersMoveMap.cannotMoveInOccupiedCell();
-        workersMoveMap.updateMoveUpRestrictions();
-        workersMoveMap.updateCellsOutOfMap(); //todo also with buildMap
+        moveMap.cannotStayStill();
+        moveMap.cannotMoveInOccupiedCell();
+        moveMap.updateMoveUpRestrictions();
+        moveMap.updateCellsOutOfMap();
 
-        return workersMoveMap;
+        return moveMap;
     }
+
+
+    default WorkerBuildMap updateBuildMap(Worker worker) {
+        WorkerBuildMap buildMap = worker.getBuildMap();
+
+        buildMap.cannotBuildUnderneath();
+        buildMap.cannotBuildInWorkerCell();
+        buildMap.cannotBuildInDomeCell();
+        buildMap.updateCellsOutOfMap();
+
+        return buildMap;
+    }
+
 
 }

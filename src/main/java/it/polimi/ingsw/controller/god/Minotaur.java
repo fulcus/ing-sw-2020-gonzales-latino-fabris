@@ -2,8 +2,6 @@ package it.polimi.ingsw.controller.god;
 
 import it.polimi.ingsw.model.*;
 
-import java.util.Scanner;
-
 /**
  * This class is the one that describes the Minotaur behaviour
  */
@@ -19,15 +17,15 @@ public class Minotaur implements God {
     private void movePushBack(Worker worker){
 
         //todo Controller method that calls View method that returns int xMovePosition and yMovePosition in array
-        int[] movePosition = getInputMove();
+        int[] movePosition = getInputMovePushBack();
         int xMove = movePosition[0];
         int yMove = movePosition[1];
 
         int xWorker = worker.getPosition().getX();
         int yWorker = worker.getPosition().getY();
 
-        Map map = worker.getPlayer().getGame().getMap();
-        Cell moveCell = map.findCell(xMove, yMove);
+        Board board = worker.getPlayer().getGame().getBoard();
+        Cell moveCell = board.findCell(xMove, yMove);
         Worker enemyWorker;
 
         if (worker.getMoveMap().isAllowedToMoveBoard(xMove, yMove)) {   //if moveCell doesn't exist returns false
@@ -35,7 +33,7 @@ public class Minotaur implements God {
             //forces enemy back and puts worker in its former place
             if(moveCell.hasWorker()) {    //moveMap rules assure that worker in moveCell is enemy
                 enemyWorker = moveCell.getWorker();
-                Cell newEnemyPosition = map.findCell(2*xMove - xWorker,2*yMove - yWorker);
+                Cell newEnemyPosition = board.findCell(2*xMove - xWorker,2*yMove - yWorker);
 
                 //checks if enemy can move in cell
                 if(newEnemyPosition != null && !newEnemyPosition.isOccupied()) {
