@@ -15,7 +15,7 @@ public class GameController {
     private Game game;
     private int numOfPlayers;
     private TurnHandler turnHandler;
-    private CLIMainView view;
+    protected CLIMainView view;
     private boolean endGame;
 
     public GameController() {
@@ -25,10 +25,26 @@ public class GameController {
         this.view = null;
     }
 
+    public static void main(String args[]) {
+        GameController gameController = new GameController();
+
+        CLIMainView view = new CLIMainView(gameController);
+
+
+        view.beginningView();
+        //view.setGameController(gameController);
+        gameController.setNumOfPlayers(view.askNumberOfPlayers());
+        gameController.playerSetting(view.askPlayersNickname());
+        gameController.initializeGame();
+
+    }
+
+
+
     public void createCLIView() {
 
         if (view != null)
-            view = new CLIMainView();
+
         this.view = view;
         endGame = false;
     }
@@ -165,95 +181,6 @@ public class GameController {
         }
     }
 
-    public void errorScreen() {
-        view.printErrorScreen();
-    }
 
 
-    /**
-     * This method translates compass directions (N,S,E,...) into coordinates.
-     * @param compassInput Compass direction to be translated.
-     * @return Variation in coordinates
-     */
-    public int[] getInputInCoordinates(String compassInput){
-
-        int[] result = new int[2];
-
-        switch (compassInput) {
-            case "N" : {
-                result[0] = -1;
-                result[1] = 0;
-                break;
-            }
-            case "NE" : {
-                result[0] = -1;
-                result[1] = -1;
-                break;
-            }
-            case "NW" : {
-                result[0] = -1;
-                result[1] = 1;
-                break;
-            }
-            case "S" : {
-                result[0] = 1;
-                result[1] = 0;
-                break;
-            }
-            case "SE" : {
-                result[0] = 1;
-                result[1] = 1;
-                break;
-            }
-            case "SW" : {
-                result[0] = 1;
-                result[1] = -1;
-                break;
-            }
-            case "W" : {
-                result[0] = 0;
-                result[1] = -1;
-                break;
-            }
-            case "E" : {
-                result[0] = 0;
-                result[1] = 1;
-                break;
-            }
-            default : {
-                result[0] = 0;
-                result[1] = 0;
-                break;
-            }
-
-        }
-
-        return result;
-
-    }
-
-    /**
-     * This method returns the coordinates' variation of the selected movement.
-     * @return Coordinates' variation.
-     */
-    public int[] getMovementInput(){
-
-        return getInputInCoordinates(view.askMovementDirection());
-    }
-
-    /**
-     * This method returns the coordinates' variation of the selected building.
-     * @return Coordinates' variation.
-     */
-    public int[] getBuildingInput(){
-
-        return getInputInCoordinates(view.askBuildingDirection());
-    }
-
-
-
-    public void winGame() {
-        view.winningView();
-        endGame = true;
-    }
 }

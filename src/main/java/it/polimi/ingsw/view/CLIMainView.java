@@ -23,7 +23,7 @@ public class CLIMainView implements ViewObserver {
      * @param //controller This is the controller that has created the game.
      */
 
-    public void CLIMainView(GameController controller) {
+    public CLIMainView(GameController controller) {
 
         myController = controller;
         input = new Scanner(System.in);
