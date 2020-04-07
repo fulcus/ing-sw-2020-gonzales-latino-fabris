@@ -20,7 +20,7 @@ public class CLIMainView implements ViewObserver {
     /**
      * This is the CLIMainView constructor.
      *
-     * @param //controller This is the controller that has created the game.
+     * @param controller This is the controller that has created the game.
      */
 
     public CLIMainView(GameController controller) {
@@ -38,22 +38,14 @@ public class CLIMainView implements ViewObserver {
 
         System.out.println("WELCOME TO SANTORINI");
 
-        while (true) {
+        do {
 
             System.out.println("--write START to play--");
             startString = input.nextLine();
 
-            if (startString.equals("START")) ;
-            break;
-
-        }
+        } while (!startString.equals("START"));
 
     }
-
-    public void setGameController(GameController gameController){
-        this.myController = gameController;
-    }
-
 
     /**
      * @return The number of players.
@@ -74,6 +66,7 @@ public class CLIMainView implements ViewObserver {
                 break;
 
         }
+        numberOfPlayers = insertedNumberOfPlayers;
 
         return insertedNumberOfPlayers;
 
@@ -92,7 +85,7 @@ public class CLIMainView implements ViewObserver {
 
         while (i < numberOfPlayers) {
 
-            System.out.println("Player" + (i + 1) + "insert your nickname");
+            System.out.println("Player" + (i + 1) + ". Insert your nickname.");
             insertedNickname = input.nextLine();
 
             if (!(nicknames.contains(insertedNickname)) && insertedNickname != null) {
@@ -107,7 +100,8 @@ public class CLIMainView implements ViewObserver {
 
     }
 
-    //IO farei una funzione che permette ad 1 player di scegliere il suo dio, poi è il controller che chiama questa funzione 2 o 3 volte, e il controller fa next turn.
+    //IO farei una funzione che permette ad 1 player di scegliere il suo dio,
+    // poi è il controller che chiama questa funzione 2 o 3 volte, e il controller fa next turn.
     public ArrayList<Integer> askPlayingGod(){
         int i=0, j=0;
         int chosenOne;
