@@ -8,12 +8,12 @@ import java.util.Scanner;
 
 public class Player {
 
-    private Game game;
+    private final Game game;
     //private ArrayList<PlayerObserver> playerObservers;
-    private String nickname;
+    private final String nickname;
     private Color color;
     private God god;
-    private ArrayList<Worker> workers;
+    private final ArrayList<Worker> workers;
     private Worker chosenWorker;
     private boolean canWinInPerimeter;  //true if can win on perimeter
     private boolean canMoveUp;
@@ -132,30 +132,6 @@ public class Player {
     public Game getGame() {
         return game;
     }
-
-
-    /*
-    public void register(PlayerObserver playerObserver){
-
-        this.playerObservers.add(playerObserver);
-
-    }
-
-    public void unregister(PlayerObserver playerObserver){
-
-        this.playerObservers.remove(playerObserver);
-    }
-
-    public void notifyObservers(){
-
-        for(PlayerObserver observer : this.playerObservers )
-        {
-            observer.update();
-        }
-
-    }
-
-*/
 
 
 }

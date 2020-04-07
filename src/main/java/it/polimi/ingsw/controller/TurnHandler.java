@@ -10,10 +10,10 @@ public class TurnHandler {
     private final Game game;
     private final CLIMainView view;
     private final GameController gameController;
-
+    private final ArrayList<Player> players;
     private Player currentPlayer;
     private int turnNumber;
-
+    private final int numberOfPlayers;
 
     public TurnHandler(Game game, CLIMainView view, GameController gameController) {
         this.game = game;
@@ -21,6 +21,8 @@ public class TurnHandler {
         turnNumber = 0;
         this.view = view;
         this.gameController = gameController;
+        this.players = game.getPlayers();
+        numberOfPlayers = game.getNumberOfPlayers();
     }
 
 
@@ -31,12 +33,12 @@ public class TurnHandler {
         int j = 0;
         //in the initial turn (turn 0) the first player is set to be the first one after the challenger
         if (turnNumber == 0) {
-            if (game.getChallenger().equals(game.getPlayers().get(game.getNumberOfPlayers() - 1)))
-                currentPlayer = game.getPlayers().get(0);
+            if (game.getChallenger().equals(players.get(numberOfPlayers - 1)))
+                currentPlayer = players.get(0);
             else
-                while (j < game.getNumberOfPlayers() - 1) {
-                    if (game.getPlayers().get(j).equals(game.getChallenger()))
-                        currentPlayer = game.getPlayers().get(j + 1);
+                while (j < numberOfPlayers - 1) {
+                    if (players.get(j).equals(game.getChallenger()))
+                        currentPlayer = players.get(j + 1);
                     j++;
                 }
         }
@@ -45,32 +47,17 @@ public class TurnHandler {
         else {
             //to assign the next currentPlayer it needs to be distinguished
             // if the current player is the las one of the game.players or not
-            if (currentPlayer.equals(game.getPlayers().get(game.getNumberOfPlayers() - 1)))
-                currentPlayer = game.getPlayers().get(0);
+            if (currentPlayer.equals(players.get(numberOfPlayers - 1)))
+                currentPlayer = players.get(0);
             else {
                 j = 0;
-                while (j < game.getNumberOfPlayers() - 1) {
-                    if (game.getPlayers().get(j).equals(currentPlayer))
-                        currentPlayer = game.getPlayers().get(j + 1);
+                while (j < numberOfPlayers - 1) {
+                    if (players.get(j).equals(currentPlayer))
+                        currentPlayer = players.get(j + 1);
                     j++;
                 }
             }
         }
-    }
-
-
-    /**
-     * Allows to set the initial position of the workers of the current player
-     *
-     * @param gender Selected worker thanks to its gender attribute from the view
-     * @param x      Coordinate in the map
-     * @param y      Coordinate in the map
-     */
-    public void setWorkerInitialPosition(Sex gender, int x, int y) {
-        if (gender.equals(Sex.MALE))
-            currentPlayer.getWorkers().get(0).setPosition(x, y);
-        if (gender.equals(Sex.FEMALE))
-            currentPlayer.getWorkers().get(1).setPosition(x, y);
     }
 
 
@@ -98,7 +85,7 @@ public class TurnHandler {
     /**
      * Lets the Challenger choose Gods equal to the number of players.
      */
-    public void challengerChooseGods() {
+    private void challengerChooseGods() {
 
         /*
         //todo in view : print gods and their description
@@ -115,7 +102,7 @@ public class TurnHandler {
 
         //lets challenger select the gods
         int i = 0;
-        while (i < game.getNumberOfPlayers()) {
+        while (i < numberOfPlayers) {
             String chosenGod = view.getGodFromChallenger();
             boolean foundGod = false;
             for (God god : godsDeck) {
@@ -144,13 +131,13 @@ public class TurnHandler {
     /**
      * Lets players choose their own god among the ones chosen by the challenger.
      */
-    public void playersChooseGods() {
+    private void playersChooseGods() {
         //remember: Challenger must be last
         //challenger is the last of arraylist [see Game.randomChallenger()]
-        ArrayList<God> alreadyTakenGods = new ArrayList<God>(game.getNumberOfPlayers());
+        ArrayList<God> alreadyTakenGods = new ArrayList<God>(numberOfPlayers));
         boolean foundGod = false;
 
-        for (Player player : game.getPlayers()) {
+        for (Player player : players) {
 
             while (!foundGod) {
                 String inputGod = view.choosePlayerGod();
@@ -174,11 +161,65 @@ public class TurnHandler {
     public void start() {
         challengerChooseGods();
         playersChooseGods();
-        //challengerChooseStartPlayer();
-        //idea: reorder players arraylist to put startPlayer first and iterate on them
-        //setInitialWorkersPosition();
+        challengerChooseStartPlayer();
+        setInitialWorkersPosition();
 
         //start actual game (new method)
+    }
+
+    /**
+     * Lets the challenger choose the start player
+     * and puts him in the first position of the arraylist players of game.
+     */
+    private void challengerChooseStartPlayer() {
+        String startPlayerNick;
+        boolean foundPlayer = false;
+        Player startPlayer = null;
+
+        while(startPlayer == null) {
+
+            startPlayerNick = view.challengerChooseStartPlayer();   //returns nickname of startPlayer
+            for(Player player : players) {
+                if(startPlayerNick.equals(player.getNickname())) {
+                    startPlayer = player;
+                    break;
+                }
+            }
+            if(startPlayer == null)
+                view.invalidStartPlayer();
+        }
+
+        //set startPlayer as first of arraylist players.
+        //challenger already was the last.
+
+        int startPlayerIndex = players.indexOf(startPlayer);
+        Player temp = players.get(0);
+        players.set(0, startPlayer);
+        players.set(startPlayerIndex, temp);
+    }
+
+    /**
+     * All players set the position for all workers.
+     */
+    private void setInitialWorkersPosition() {
+        boolean positionSet;
+        for(Player player : players) {
+            for(Worker worker : player.getWorkers()) {
+                positionSet = false;
+
+                while(!positionSet) {
+                    int[] initialPosition = view.getInitialWorkerPosition();
+                    int x = initialPosition[0];
+                    int y = initialPosition[1];
+
+                    if (game.getBoard().findCell(x, y) != null) {
+                        worker.setPosition(x, y);
+                        positionSet = true;
+                    } else
+                        view.invalidInitialWorkerPosition();
+                }
+            }
+        }
     }
 
 }

@@ -35,8 +35,7 @@ public class GameController {
 
     public static void main(String[] args) {
         GameController gameController = new GameController();
-        gameController.setPreferredView();
-        gameController.start();
+        gameController.setUpGame();
 
     }
 
@@ -54,13 +53,15 @@ public class GameController {
     }
 
 
-    public void start() {
-
+    /**
+     * Sets up game and starts flow
+     */
+    public void setUpGame() {
         godController = new GodController(view, this);
         createDeckGods();
         
         view.beginningView();
-        numOfPlayers = view.askNumberOfPlayers();
+        int numOfPlayers = view.askNumberOfPlayers();
         
         game = new Game(numOfPlayers);
         turnHandler = new TurnHandler(game, view, this);
@@ -74,11 +75,6 @@ public class GameController {
 
     public CLIMainView getView() {
         return view;
-    }
-
-
-    public TurnHandler getTurnHandler() {
-        return turnHandler;
     }
 
 
@@ -106,6 +102,8 @@ public class GameController {
         godsDeck.add(new Zeus(godController));
     }
 
-
+    public void endGame() {
+        //todo
+    }
 
 }
