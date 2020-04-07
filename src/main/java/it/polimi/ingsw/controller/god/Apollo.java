@@ -22,7 +22,7 @@ public class Apollo implements God{
     private void moveSwap(Worker worker){
 
         while(true) {
-            int[] movePosition = getInputMove();
+            int[] movePosition = gameController.getMovementInput();
             int xMove = movePosition[0] + worker.getPosition().getX();
             int yMove = movePosition[1] + worker.getPosition().getY();
 
@@ -61,10 +61,6 @@ public class Apollo implements God{
 
         return moveMap;
     }
-
-
-
-
 
 
 

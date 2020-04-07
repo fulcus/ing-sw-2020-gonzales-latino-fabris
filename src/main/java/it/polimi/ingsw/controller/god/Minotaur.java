@@ -27,7 +27,7 @@ public class Minotaur implements God {
     private void movePushBack(Worker worker){
 
         while (true) {
-            int[] movePosition = getInputMove();
+            int[] movePosition = gameController.getMovementInput();
             int xMove = movePosition[0] + worker.getPosition().getX();
             int yMove = movePosition[1] + worker.getPosition().getY();
 

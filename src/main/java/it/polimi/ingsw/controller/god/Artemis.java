@@ -63,13 +63,11 @@ public class Artemis implements God {
 
 
 
-
-
     public int[] getInputMoveAgain() {
         String answer = gameController.getView().askMoveAgain();
         int[] input;
         if (answer.equals("Y")) {
-            input = getInputMove();
+            input = gameController.getMovementInput();
         }
         else
             input = null;
