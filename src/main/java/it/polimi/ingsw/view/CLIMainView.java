@@ -29,6 +29,7 @@ public class CLIMainView implements ViewObserver {
         input = new Scanner(System.in);
     }
 
+
     /**
      * This method displays to the user Initial Game Interface
      */
@@ -190,6 +191,7 @@ public class CLIMainView implements ViewObserver {
 
 
     public String askMoveAgain() {
+
         String answer;
         System.out.println("\n" + myTurnHandler.getCurrentPlayer().getNickname() + ": Do you want to move again your Worker? (Y = 'Yes', N = 'No'");
         while (true) {
@@ -241,6 +243,8 @@ public class CLIMainView implements ViewObserver {
         }
 
     }
+
+
 
 
     /**
@@ -352,4 +356,18 @@ public class CLIMainView implements ViewObserver {
         myBoard.findCell(toBeUpdatedCell.getX(),toBeUpdatedCell.getY()).setWorker(toBeUpdatedCell.getWorker());//update worker of the changed cell in the view
 
     }
+
+
+    public void printAllGods(){
+
+
+
+
+    }
+
+
+
+
+
+
 }

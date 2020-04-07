@@ -16,7 +16,8 @@ public class GameController {
     private Game game;
     private int numOfPlayers;
     private TurnHandler turnHandler;
-    private CLIMainView view; //will be refactored
+    private CLIMainView view;
+    private ViewSelecter viewSelecter;
     private boolean endGame;
     private GodController godController;
     private final ArrayList<God> godsDeck;
@@ -26,6 +27,7 @@ public class GameController {
         numOfPlayers = 0;
         turnHandler = null;
         view = null;
+        viewSelecter = new ViewSelecter();
         endGame = false;
         godsDeck = new ArrayList<>(14);
 
@@ -41,11 +43,10 @@ public class GameController {
 
     //Asks the player whether he wants to play with a CLI or GUI
     private void setPreferredView() {
-        System.out.println("Do you want to play with a CLI or GUI?");
-        Scanner input = new Scanner(System.in);
-        String viewType = input.nextLine().toUpperCase();   //makes input case insensitive
-        if(viewType.equals("CLI"))
+
+        if(viewSelecter.askTypeofView().equals("CLI"))
             this.view = new CLIMainView(this);
+
         /*else if(viewType.equals("GUI"))
             this.view = new GUIMainView(this);*/
         else
@@ -54,6 +55,7 @@ public class GameController {
 
 
     public void start() {
+
         godController = new GodController(view, this);
         createDeckGods();
         
