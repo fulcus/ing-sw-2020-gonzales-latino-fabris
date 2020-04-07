@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller.god;
 
 
+import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.*;
 
 /**
@@ -21,13 +22,17 @@ public interface God {
     }
 
 
+
+
     /**
      * Default rules to move the worker.
      *
      * @param worker Selected worker that will move.
      */
     default void move(Worker worker) {
+
         WorkerMoveMap moveMap = updateMoveMap(worker);
+        //TODO GameController mycontroller = this.getGameController(); 
 
         //todo Controller method that calls View method that returns int xMovePosition and yMovePosition in array
         int[] movePosition = getInputMovePosition();
@@ -58,7 +63,7 @@ public interface God {
         int[] buildInput = getInputBuildPosition();  //returns build position + type: block/dome
         int xBuild = buildInput[0];
         int yBuild = buildInput[1];
-        int buildType = buildInput[2]; //0 is block, 1 is dome
+        int buildType = buildInput[2]; //0 is block, 1 is dome TODO try to remove the last cell of the array that indicates if it is a dom or a block(problem only with ATlas)
 
         Cell buildPosition = board.findCell(xBuild,yBuild);
 
@@ -139,6 +144,7 @@ public interface God {
 
         return buildMap;
     }
+
 
 
 }
