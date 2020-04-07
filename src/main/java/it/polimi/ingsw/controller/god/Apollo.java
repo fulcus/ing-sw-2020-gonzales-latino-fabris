@@ -10,6 +10,8 @@ public class Apollo implements God{
 
     private GodController godController;
 
+    public String description = "Your Worker may move into an opponent Worker’s space by forcing their Worker to the space yours just vacated.";
+
     public Apollo (GodController godController){
         this.godController = godController;
     }

@@ -53,16 +53,7 @@ public class TurnHandler {
      */
     private void challengerChooseGods() {
 
-        /*
-        //todo in view : print gods and their description
-        System.out.println("You are the challenger. You shall pick " + game.getNumberOfPlayers()
-        + " Gods from the deck: ");
-        for(God god : godsDeck) {
-            System.out.println(god.getClass().getSimpleName() + "'s Power:");
-            System.out.println(god.getDescription());
-            System.out.println("");
-        }
-        */
+        view.printAllGods(gameController.getGodsDeck());
 
         ArrayList<God> godsDeck = gameController.getGodsDeck();
 

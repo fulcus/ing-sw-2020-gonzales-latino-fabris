@@ -9,6 +9,8 @@ import it.polimi.ingsw.model.WorkerBuildMap;
 public class Zeus implements God{
     
     private GodController godController;
+    public String description = "Your Worker may build a block under itself.";
+
 
     public Zeus(GodController godController){
         this.godController = godController;

@@ -7,6 +7,8 @@ import it.polimi.ingsw.model.Worker;
 public class Athena implements God{
 
     private GodController godController;
+    public String description = "If one of your Workers moved up on your last turn, opponent Workers cannot move up this turn.";
+
 
     public Athena(GodController godController){
         this.godController = godController;

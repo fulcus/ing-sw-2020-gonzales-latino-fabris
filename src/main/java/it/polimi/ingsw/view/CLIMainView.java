@@ -2,6 +2,7 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.TurnHandler;
+import it.polimi.ingsw.controller.god.God;
 import it.polimi.ingsw.model.*;
 
 
@@ -29,25 +30,10 @@ public class CLIMainView implements ViewObserver {
         input = new Scanner(System.in);
     }
 
-    //Asks the player whether he wants to play with a CLI or GUI
-    private void setPreferredView() {
-        System.out.println("Do you want to play with a CLI or GUI?");
-        Scanner input = new Scanner(System.in);
-        String viewType = input.nextLine().toUpperCase();   //makes input case insensitive
-        //if(viewType.equals("CLI"))
-
-        /*else if(viewType.equals("GUI"))
-            this.view = new GUIMainView(this);*/
-        //else
-          //  System.out.println("Invalid input: type either CLI or GUI.");
-    }
-
-
     /**
      * This method displays to the user Initial Game Interface
      */
     public void beginningView() {
-        setPreferredView();
 
         String startString;
 
@@ -59,8 +45,6 @@ public class CLIMainView implements ViewObserver {
             startString = input.nextLine();
 
         } while (!startString.equals("START"));
-
-        setPreferredView();
 
     }
 
@@ -369,4 +353,40 @@ public class CLIMainView implements ViewObserver {
         myBoard.findCell(toBeUpdatedCell.getX(),toBeUpdatedCell.getY()).setWorker(toBeUpdatedCell.getWorker());//update worker of the changed cell in the view
 
     }
+
+
+    public void printAllGods(ArrayList<God> godsDeck){
+
+        for(God god : godsDeck){
+
+            System.out.println(god.toString()+ ":" +god.description);
+
+        }
+
+
+    }
+
+    public void challengerError(){
+
+        System.out.println("This god doesn't exist");
+    }
+
+
+    public void printChosenGods(){
+
+        System.out.println("Available Gods:");
+
+        for(God god : myGame.getChosenGods()){
+
+            System.out.println(god.toString());
+        }
+
+    }
+
+
+
+
+
+
+
 }

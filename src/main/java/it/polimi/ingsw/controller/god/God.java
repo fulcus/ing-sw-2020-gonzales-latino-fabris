@@ -10,6 +10,7 @@ import it.polimi.ingsw.controller.*;
 
 public interface God {
 
+    String description = null;
     /**
      * Default evolution of the turn: move, checks if win condition is met, builds.
      *
@@ -148,5 +149,6 @@ public interface God {
 
 
     GodController getGodController();
+
 
 }

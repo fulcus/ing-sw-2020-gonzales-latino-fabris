@@ -9,6 +9,8 @@ import it.polimi.ingsw.model.WorkerMoveMap;
 public class Triton implements God{
 
     private GodController godController;
+    public String description = "Each time your Worker moves into a perimeter space, it may immediately move again.";
+
     private Cell initialPosition;
 
     public Triton(GodController godController) {

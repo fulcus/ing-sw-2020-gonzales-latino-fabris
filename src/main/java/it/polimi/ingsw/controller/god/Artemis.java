@@ -10,6 +10,7 @@ public class Artemis implements God {
 
     private GodController godController;
     private Cell initialPosition;
+    public String description = "Your Worker may move one additional time, but not back to its initial space.";
 
 
     public Artemis(GodController godController) {
