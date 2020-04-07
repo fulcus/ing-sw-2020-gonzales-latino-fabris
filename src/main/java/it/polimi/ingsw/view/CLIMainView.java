@@ -29,10 +29,25 @@ public class CLIMainView implements ViewObserver {
         input = new Scanner(System.in);
     }
 
+    //Asks the player whether he wants to play with a CLI or GUI
+    private void setPreferredView() {
+        System.out.println("Do you want to play with a CLI or GUI?");
+        Scanner input = new Scanner(System.in);
+        String viewType = input.nextLine().toUpperCase();   //makes input case insensitive
+        //if(viewType.equals("CLI"))
+
+        /*else if(viewType.equals("GUI"))
+            this.view = new GUIMainView(this);*/
+        //else
+          //  System.out.println("Invalid input: type either CLI or GUI.");
+    }
+
+
     /**
      * This method displays to the user Initial Game Interface
      */
     public void beginningView() {
+        setPreferredView();
 
         String startString;
 
@@ -44,6 +59,8 @@ public class CLIMainView implements ViewObserver {
             startString = input.nextLine();
 
         } while (!startString.equals("START"));
+
+        setPreferredView();
 
     }
 
