@@ -1,11 +1,19 @@
 package it.polimi.ingsw.controller.god;
 
+import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.Worker;
 import it.polimi.ingsw.model.WorkerBuildMap;
 
 
 public class Zeus implements God{
 
+
+    private GameController gameController;
+
+    public Zeus(GameController gameController){
+        this.gameController = gameController;
+    }
 
     @Override
     public WorkerBuildMap updateBuildMap(Worker worker) {
@@ -18,10 +26,18 @@ public class Zeus implements God{
         buildMap.cannotBuildInDomeCell();
         buildMap.updateCellsOutOfMap();
 
+        if(!buildMap.anyTrueCell())
+        //todo Controller lose
+
         return buildMap;
     }
 
 
 
+
+
+    public GameController getGameController() {
+        return gameController;
+    }
 
 }

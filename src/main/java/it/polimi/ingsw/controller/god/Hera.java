@@ -1,9 +1,17 @@
 package it.polimi.ingsw.controller.god;
 
+import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Worker;
 
 public class Hera implements God{
+
+    private GameController gameController;
+
+    public Hera(GameController gameController){
+        this.gameController = gameController;
+    }
 
 
     @Override
@@ -24,5 +32,8 @@ public class Hera implements God{
     }
 
 
+    public GameController getGameController() {
+        return gameController;
+    }
 }
 

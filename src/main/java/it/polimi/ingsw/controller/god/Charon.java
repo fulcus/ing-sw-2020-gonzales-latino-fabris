@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller.god;
 
-
+import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.Worker;
@@ -8,11 +8,16 @@ import it.polimi.ingsw.model.WorkerMoveMap;
 
 import java.util.ArrayList;
 
-public class Charon implements God{
+public class Charon implements God {
+
+    private GameController gameController;
+
+    public Charon(GameController gameController) {
+        this.gameController = gameController;
+    }
 
     @Override
     public void evolveTurn(Worker worker) {
-        updateMoveMap(worker);
         forceMoveEnemy(worker);
         move(worker);
         win(worker);
@@ -20,7 +25,7 @@ public class Charon implements God{
     }
 
     public void forceMoveEnemy(Worker worker) {
-        WorkerMoveMap moveMap = worker.getMoveMap();
+        WorkerMoveMap moveMap = updateMoveMap(worker);
         Board board = worker.getPlayer().getGame().getBoard();
 
 
@@ -60,7 +65,25 @@ public class Charon implements God{
 
         }
 
-
     }
 
+
+    public WorkerMoveMap updateMoveMap(Worker worker) {
+        WorkerMoveMap moveMap = worker.getMoveMap();
+
+        moveMap.cannotStayStill();
+        moveMap.cannotMoveInDomeCell();
+        moveMap.cannotMoveInFriendlyWorkerCell();
+        moveMap.updateMoveUpRestrictions();
+
+        if(!moveMap.anyAvailableMovePosition())
+            //todo Controller lose
+
+        return moveMap;
+    }
+
+
+    public GameController getGameController() {
+        return gameController;
+    }
 }

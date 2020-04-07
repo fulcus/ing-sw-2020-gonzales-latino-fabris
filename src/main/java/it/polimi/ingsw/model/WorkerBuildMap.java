@@ -47,5 +47,12 @@ public class WorkerBuildMap extends WorkerMap {
         cellsInPerimeterFalse();
     }
 
+    /**
+     *
+     * @return Returns true if there is a cell the worker can build in, false otherwise.
+     */
+    public boolean anyAvailableBuildPosition() {
+        return anyTrueCell();
+    }
 
 }

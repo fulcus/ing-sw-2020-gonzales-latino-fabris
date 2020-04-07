@@ -16,6 +16,7 @@ public class GameController {
     private int numOfPlayers;
     private TurnHandler turnHandler;
     private CLIMainView view;
+    private boolean endGame;
 
     public GameController() {
         game = null;
@@ -28,6 +29,8 @@ public class GameController {
 
         if (view != null)
             view = new CLIMainView();
+        this.view = view;
+        endGame = false;
     }
 
     public CLIMainView getView() {
@@ -40,8 +43,7 @@ public class GameController {
     }
 
 
-    public void playerSetting(ArrayList<String> playerUsernames) {
-
+    public void playerSetting(ArrayList<String> playerUsernames){
         game = new Game(playerUsernames.size());
         turnHandler = new TurnHandler(game);
         game.addPlayer(playerUsernames.get(0));
@@ -59,17 +61,14 @@ public class GameController {
      * Allows to set the chosen Gods of the game thanks to the challenger
      * Allows to assign the God to every player of the game
      */
-    public void initializeGame() {
-
+    public void initializeGame(){
         game.createDeckGods();
-        game.getChallenger().chooseInitialGods(chooseInitialGod(view.askGameGods()));//Challenger sceglie i gods
-        chooseGod(view.askPlayingGod());//I players scelgono gli dei e vengono assegnati
-
+        game.getChallenger().chooseInitialGods(chooseInitialGod(view.askGameGods()));
+        chooseGod(view.askPlayingGod());
     }
 
     /**
      * Allows to assign the God to every player of the game
-     *
      * @param choices Is the ordered list of gods to assign to the players
      */
     public void chooseGod(ArrayList<Integer> choices) {
@@ -81,55 +80,54 @@ public class GameController {
 
     /**
      * Allows to add to the list of the chosenGods of the game the ones that the challenger decided to choose
-     *
      * @param chosen Contains the challenger inputs to the Gods he wants to play with
      * @return The list of the Gods
      */
-    public ArrayList<God> chooseInitialGod(ArrayList<Integer> chosen) {
-        int i = 0;
+    public ArrayList<God> chooseInitialGod(ArrayList<Integer> chosen){
+        int i=0;
         ArrayList<God> gods = new ArrayList<God>(game.getNumberOfPlayers());
-        while (i < game.getNumberOfPlayers()) {
+        while(i<game.getNumberOfPlayers()){
             switch (chosen.get(i)) {
-                case 1:
+                case 1 :
                     gods.add(i, new Apollo(this));
                     break;
-                case 2:
+                case 2 :
                     gods.add(i, new Artemis(this));
                     break;
                 case 3:
                     gods.add(i, new Athena());
                     break;
-                case 4:
+                case 4 :
                     gods.add(i, new Atlas());
                     break;
-                case 5:
+                case 5 :
                     gods.add(i, new Charon());
                     break;
-                case 6:
+                case 6 :
                     gods.add(i, new Demeter());
                     break;
-                case 7:
+                case 7 :
                     gods.add(i, new Hephaestus());
                     break;
-                case 8:
+                case 8 :
                     gods.add(i, new Hera());
                     break;
-                case 9:
+                case 9 :
                     gods.add(i, new Hestia());
                     break;
-                case 10:
+                case 10 :
                     gods.add(i, new Minotaur(this));
                     break;
-                case 11:
+                case 11 :
                     gods.add(i, new Pan());
                     break;
-                case 12:
+                case 12 :
                     gods.add(i, new Prometheus(this));
                     break;
-                case 13:
+                case 13 :
                     gods.add(i, new Triton(this));
                     break;
-                case 14:
+                case 14 :
                     gods.add(i, new Zeus());
                     break;
                 default:
@@ -143,7 +141,7 @@ public class GameController {
     /**
      * Increments the turn number and allows to the next player to play
      */
-    public void endTurn() {
+    public void endTurn(){
         turnHandler.nextTurn();
     }
 
@@ -151,9 +149,9 @@ public class GameController {
     /**
      * Allows to print all the deck of Gods' cards
      */
-    public void printAllGods() {
+    public void printAllGods(){
         System.out.println("Here's the Gods' card list:\n");
-        for (int i = 1; i <= game.getDeckGods().length; i++) {
+        for(int i=1; i<=game.getDeckGods().length; i++) {
             System.out.println(i + "]  " + game.getDeckGods()[i].getClass().getSimpleName());
         }
     }
@@ -161,8 +159,8 @@ public class GameController {
     /**
      * Allows to print the Gods that the challenger has chosen for the game
      */
-    public void printGameGods() {
-        for (int i = 1; i <= game.getChosenGods().size(); i++) {
+    public void printGameGods(){
+        for(int i=1; i<=game.getChosenGods().size(); i++){
             System.out.println(i + "]  " + game.getChosenGods().get(i).getClass().getSimpleName());
         }
     }
@@ -253,4 +251,9 @@ public class GameController {
     }
 
 
+
+    public void winGame() {
+        view.winningView();
+        endGame = true;
+    }
 }

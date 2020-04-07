@@ -2,11 +2,18 @@ package it.polimi.ingsw.controller.god;
 
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Cell;
+import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.Worker;
 import it.polimi.ingsw.model.WorkerBuildMap;
 
 
 public class Hestia implements God {
+
+    private GameController gameController;
+
+    public Hestia(GameController gameController) {
+        this.gameController = gameController;
+    }
 
 
     @Override
@@ -58,4 +65,9 @@ public class Hestia implements God {
         }
     }
 
+
+
+    public GameController getGameController() {
+        return gameController;
+    }
 }

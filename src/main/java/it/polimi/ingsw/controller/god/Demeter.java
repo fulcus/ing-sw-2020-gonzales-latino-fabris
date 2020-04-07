@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller.god;
 
+import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.Worker;
@@ -8,7 +9,13 @@ import it.polimi.ingsw.model.WorkerBuildMap;
 
 public class Demeter implements God {
 
+    private GameController gameController;
     Cell firstBuildCell;
+
+    public Demeter (GameController gameController) {
+        this.gameController= gameController;
+        firstBuildCell = null;
+    }
 
     @Override
     public void evolveTurn(Worker w) {
@@ -58,5 +65,9 @@ public class Demeter implements God {
 
     }
 
+
+    public GameController getGameController(){
+        return gameController;
+    }
 
 }
