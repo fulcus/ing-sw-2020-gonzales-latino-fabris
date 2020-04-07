@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller.god;
 
-import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.controller.GodController;
 import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.Worker;
 import it.polimi.ingsw.model.WorkerMoveMap;
@@ -8,10 +8,10 @@ import it.polimi.ingsw.model.WorkerMoveMap;
 
 public class Apollo implements God{
 
-    private GameController gameController;
+    private GodController godController;
 
-    public Apollo (GameController gameController){
-        this.gameController=gameController;
+    public Apollo (GodController godController){
+        this.godController = godController;
     }
 
     @Override
@@ -22,7 +22,7 @@ public class Apollo implements God{
     private void moveSwap(Worker worker){
 
         while(true) {
-            int[] movePosition = gameController.getMovementInput();
+            int[] movePosition = godController.getMovementInput();
             int xMove = movePosition[0] + worker.getPosition().getX();
             int yMove = movePosition[1] + worker.getPosition().getY();
 
@@ -41,7 +41,7 @@ public class Apollo implements God{
                 worker.setPosition(xMove, yMove);
                 return;
             } else {
-                gameController.errorScreen();
+                godController.errorScreen();
             }
         }
 
@@ -64,7 +64,7 @@ public class Apollo implements God{
 
 
 
-    public GameController getGameController() {
-        return gameController;
+    public GodController getGodController() {
+        return godController;
     }
 }

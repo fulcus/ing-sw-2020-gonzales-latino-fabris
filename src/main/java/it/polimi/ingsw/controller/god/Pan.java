@@ -1,14 +1,14 @@
 package it.polimi.ingsw.controller.god;
 
-import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.controller.GodController;
 import it.polimi.ingsw.model.Worker;
 
 public class Pan implements God{
 
-    private GameController gameController;
+    private GodController godController;
 
-    public Pan(GameController gameController) {
-        this.gameController = gameController;
+    public Pan(GodController godController) {
+        this.godController = godController;
     }
 
 
@@ -24,12 +24,12 @@ public class Pan implements God{
            //chiedere a fra perchè ha messo la condizione per cui per vincere non può stare nel perimetro
 
         if (won)
-            gameController.winGame();
+            godController.winGame();
     }
 
     @Override
-    public  GameController getGameController(){
-        return gameController;
+    public  GodController getGodController(){
+        return godController;
     }
 
 }

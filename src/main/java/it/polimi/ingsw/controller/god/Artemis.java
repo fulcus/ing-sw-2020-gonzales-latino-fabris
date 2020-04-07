@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller.god;
 
-import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.controller.GodController;
 import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.Worker;
 import it.polimi.ingsw.model.WorkerMoveMap;
@@ -8,12 +8,12 @@ import it.polimi.ingsw.model.WorkerMoveMap;
 
 public class Artemis implements God {
 
-    private GameController gameController;
+    private GodController godController;
     private Cell initialPosition;
 
 
-    public Artemis(GameController gameController) {
-        this.gameController = gameController;
+    public Artemis(GodController godController) {
+        this.godController = godController;
     }
 
 
@@ -32,7 +32,7 @@ public class Artemis implements God {
 
         while (true) {
 
-            int[] secondMovePosition = getInputMoveAgain();
+            int[] secondMovePosition = godController.getInputMoveAgain();
             if (secondMovePosition == null)
                 return;
 
@@ -47,36 +47,18 @@ public class Artemis implements God {
                     worker.setPosition(xMove, yMove);
                     return;
                 }
-                gameController.errorScreen();
-
-
+                godController.errorScreen();
 
             if (secondMoveCell != initialPosition && moveMap.isAllowedToMoveBoard(xMove, yMove)) {
                 worker.setPosition(xMove, yMove);
             } else {
-                gameController.errorScreen();
+                godController.errorScreen();
             }
-
         }
-
     }
 
 
-
-    public int[] getInputMoveAgain() {
-        String answer = gameController.getView().askMoveAgain();
-        int[] input;
-        if (answer.equals("Y")) {
-            input = gameController.getMovementInput();
-        }
-        else
-            input = null;
-
-        return input;
-    }
-
-
-    public GameController getGameController() {
-        return gameController;
+    public GodController getGodController() {
+        return godController;
     }
 }

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller.god;
 
-import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.controller.GodController;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.Worker;
@@ -9,16 +9,15 @@ import it.polimi.ingsw.model.WorkerBuildMap;
 
 public class Hephaestus implements God {
 
-    private GameController gameController;
+    private GodController godController;
     Cell firstBuildCell;
 
-    public Hephaestus(GameController gameController){
-        this.gameController = gameController;
+    public Hephaestus(GodController godController){
+        this.godController = godController;
     }
 
     /**
      * This method calls the sequence of actions that can be done by the player who owns Hephaestus.
-     *
      * @param worker This is the current worker.
      */
     public void evolveTurn(Worker worker) {
@@ -30,7 +29,6 @@ public class Hephaestus implements God {
 
     /**
      * This method allows the player to build in the same place twice.
-     *
      * @param worker This is the player's current worker.
      */
     public void secondBuild(Worker worker) {
@@ -50,7 +48,7 @@ public class Hephaestus implements God {
     }
 
 
-    public GameController getGameController() {
-        return gameController;
+    public GodController getGodController() {
+        return godController;
     }
 }

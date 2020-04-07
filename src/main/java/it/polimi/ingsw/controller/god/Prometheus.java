@@ -1,20 +1,20 @@
 package it.polimi.ingsw.controller.god;
 
-import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.controller.GodController;
 import it.polimi.ingsw.model.Worker;
 
 
 public class Prometheus implements God {
 
-    private GameController gameController;
+    private GodController godController;
 
-    public Prometheus(GameController gameController){
-        this.gameController = gameController;
+    public Prometheus(GodController godController){
+        this.godController = godController;
     }
 
     @Override
     public void evolveTurn(Worker worker) {
-        if (!wantToMoveUp()) {
+        if (!getGodController().wantToMoveUp()) {
             build(worker);
             worker.getPlayer().setPermissionToMoveUp(false);
         }
@@ -23,23 +23,9 @@ public class Prometheus implements God {
         build(worker);
     }
 
-    public boolean wantToMoveUp(){
-        String answer = gameController.getView().askWantToMoveUp();
 
-        while(true) {
-
-            if (answer.equals("Y")) {
-                return false;
-            } else if(answer.equals("N")) {
-                return true;
-            } else
-                gameController.errorScreen();
-        }
-    }
-
-
-    public GameController getGameController() {
-        return gameController;
+    public GodController getGodController() {
+        return godController;
     }
 
 }

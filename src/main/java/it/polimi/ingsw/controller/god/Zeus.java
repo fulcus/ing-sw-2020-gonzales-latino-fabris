@@ -1,18 +1,17 @@
 package it.polimi.ingsw.controller.god;
 
-import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.controller.GodController;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.Worker;
 import it.polimi.ingsw.model.WorkerBuildMap;
 
 
 public class Zeus implements God{
+    
+    private GodController godController;
 
-
-    private GameController gameController;
-
-    public Zeus(GameController gameController){
-        this.gameController = gameController;
+    public Zeus(GodController godController){
+        this.godController = godController;
     }
 
     @Override
@@ -33,11 +32,8 @@ public class Zeus implements God{
     }
 
 
-
-
-
-    public GameController getGameController() {
-        return gameController;
+    public GodController getGodController() {
+        return godController;
     }
 
 }
