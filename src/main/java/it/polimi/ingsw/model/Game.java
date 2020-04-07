@@ -10,9 +10,8 @@ public class Game {
 
     private final Board board;
     private final int numberOfPlayers;
-    private ArrayList<Player> players;
-    private God[] deckGods;
-    private ArrayList<God> chosenGods;
+    private final ArrayList<Player> players;
+    private final ArrayList<God> chosenGods;
     private Player challenger;
 
     /** Creates a new game.
@@ -22,7 +21,6 @@ public class Game {
         board = new Board();
         this.numberOfPlayers = numberOfPlayers;
         players = new ArrayList<>(numberOfPlayers);
-        deckGods = new God[14];
         chosenGods = new ArrayList<God>(numberOfPlayers);
     }
 
@@ -41,37 +39,24 @@ public class Game {
      */
     private void randomChallenger() {
         Random rand = new Random();
-        int i = rand.nextInt(numberOfPlayers);
-        challenger = players.get(i);
+        int challengerIndex = rand.nextInt(numberOfPlayers);
+        challenger = players.get(challengerIndex);
+
+        //set challenger as last of arraylist players
+        int lastIndex = numberOfPlayers - 1;
+        Player temp = players.get(lastIndex);
+        players.set(lastIndex, challenger);
+        players.set(challengerIndex, temp);
     }
+
+
 
     /**
-     * Creates the deck where we can find the God cards of the game
-     * @return The full deck of the Gods
+     * Lets the Challenger choose the Gods that will be used in the game.
+     * @param godChosenByChallenger God chosen by the Challenger.
      */
-    public void createDeckGods(){
-        deckGods[0] = new Apollo();
-        deckGods[1] = new Artemis();
-        deckGods[2] = new Athena();
-        deckGods[3] = new Atlas();
-        deckGods[4] = new Charon();
-        deckGods[5] = new Demeter();
-        deckGods[6] = new Hephaestus();
-        deckGods[7] = new Hera();
-        deckGods[8] = new Hestia();
-        deckGods[9] = new Minotaur();
-        deckGods[10] = new Pan();
-        deckGods[11] = new Prometheus();
-        deckGods[12] = new Triton();
-        deckGods[13] = new Zeus();
-    }
-
-    public God[] getDeckGods(){
-        return deckGods;
-    }
-
-    public void addChosenGods(ArrayList<God> challengerChoice) {
-        chosenGods = challengerChoice;
+    public void addGodChosenByChallenger(God godChosenByChallenger) {
+        chosenGods.add(godChosenByChallenger);
     }
 
     public Board getBoard() {
@@ -93,5 +78,6 @@ public class Game {
     public ArrayList<God> getChosenGods() {
         return chosenGods;
     }
+
 
 }

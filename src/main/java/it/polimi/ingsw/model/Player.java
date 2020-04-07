@@ -58,20 +58,10 @@ public class Player {
 
 
     /**
-     * Allows the challenger to set the God cards that will be used by the players during the Game
-     * @param chosen It's the Gods the challenger has chosen to play the game
-     */
-    public void chooseInitialGods(ArrayList<God> chosen){
-        game.addChosenGods(chosen);
-    }
-
-
-    /**
      * Allows the player to choose a God from the available gods of the current game
      */
-    public void setGod(int god) {
-        int i=0, chosenOne;
-        this.god = game.getChosenGods().get(god-1);
+    public void setGod(God god) {
+        this.god = god;
     }
 
 
