@@ -18,20 +18,27 @@ public class GameController {
     private CLIMainView view;
     private boolean endGame;
 
-    public GameController(CLIMainView view){
+    public GameController() {
         game = null;
         numOfPlayers = 0;
         turnHandler = null;
+        this.view = null;
+    }
+
+    public void createCLIView() {
+
+        if (view != null)
+            view = new CLIMainView();
         this.view = view;
         endGame = false;
     }
 
-    public CLIMainView getView(){
+    public CLIMainView getView() {
         return view;
     }
 
 
-    public void setNumOfPlayers(int players){
+    public void setNumOfPlayers(int players) {
         numOfPlayers = players;
     }
 
@@ -64,9 +71,9 @@ public class GameController {
      * Allows to assign the God to every player of the game
      * @param choices Is the ordered list of gods to assign to the players
      */
-    public void chooseGod(ArrayList<Integer> choices){
-        int i=0;
-        while(i<game.getNumberOfPlayers()){
+    public void chooseGod(ArrayList<Integer> choices) {
+        int i = 0;
+        while (i < game.getNumberOfPlayers()) {
             turnHandler.getCurrentPlayer().setGod(choices.get(i));
         }
     }
@@ -88,31 +95,31 @@ public class GameController {
                     gods.add(i, new Artemis(this));
                     break;
                 case 3:
-                    gods.add(i, new Athena(this));
+                    gods.add(i, new Athena());
                     break;
                 case 4 :
-                    gods.add(i, new Atlas(this));
+                    gods.add(i, new Atlas());
                     break;
                 case 5 :
-                    gods.add(i, new Charon(this));
+                    gods.add(i, new Charon());
                     break;
                 case 6 :
-                    gods.add(i, new Demeter(this));
+                    gods.add(i, new Demeter());
                     break;
                 case 7 :
-                    gods.add(i, new Hephaestus(this));
+                    gods.add(i, new Hephaestus());
                     break;
                 case 8 :
-                    gods.add(i, new Hera(this));
+                    gods.add(i, new Hera());
                     break;
                 case 9 :
-                    gods.add(i, new Hestia(this));
+                    gods.add(i, new Hestia());
                     break;
                 case 10 :
                     gods.add(i, new Minotaur(this));
                     break;
                 case 11 :
-                    gods.add(i, new Pan(this));
+                    gods.add(i, new Pan());
                     break;
                 case 12 :
                     gods.add(i, new Prometheus(this));
@@ -121,9 +128,10 @@ public class GameController {
                     gods.add(i, new Triton(this));
                     break;
                 case 14 :
-                    gods.add(i, new Zeus(this));
+                    gods.add(i, new Zeus());
                     break;
-                default:break;
+                default:
+                    break;
             }
             i++;
         }
@@ -160,6 +168,88 @@ public class GameController {
     public void errorScreen() {
         view.printErrorScreen();
     }
+
+
+    /**
+     * This method translates compass directions (N,S,E,...) into coordinates.
+     * @param compassInput Compass direction to be translated.
+     * @return Variation in coordinates
+     */
+    public int[] getInputInCoordinates(String compassInput){
+
+        int[] result = new int[2];
+
+        switch (compassInput) {
+            case "N" : {
+                result[0] = -1;
+                result[1] = 0;
+                break;
+            }
+            case "NE" : {
+                result[0] = -1;
+                result[1] = -1;
+                break;
+            }
+            case "NW" : {
+                result[0] = -1;
+                result[1] = 1;
+                break;
+            }
+            case "S" : {
+                result[0] = 1;
+                result[1] = 0;
+                break;
+            }
+            case "SE" : {
+                result[0] = 1;
+                result[1] = 1;
+                break;
+            }
+            case "SW" : {
+                result[0] = 1;
+                result[1] = -1;
+                break;
+            }
+            case "W" : {
+                result[0] = 0;
+                result[1] = -1;
+                break;
+            }
+            case "E" : {
+                result[0] = 0;
+                result[1] = 1;
+                break;
+            }
+            default : {
+                result[0] = 0;
+                result[1] = 0;
+                break;
+            }
+
+        }
+
+        return result;
+
+    }
+
+    /**
+     * This method returns the coordinates' variation of the selected movement.
+     * @return Coordinates' variation.
+     */
+    public int[] getMovementInput(){
+
+        return getInputInCoordinates(view.askMovementDirection());
+    }
+
+    /**
+     * This method returns the coordinates' variation of the selected building.
+     * @return Coordinates' variation.
+     */
+    public int[] getBuildingInput(){
+
+        return getInputInCoordinates(view.askBuildingDirection());
+    }
+
 
 
     public void winGame() {

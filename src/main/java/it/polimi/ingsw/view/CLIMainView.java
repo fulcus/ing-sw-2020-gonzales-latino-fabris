@@ -23,9 +23,9 @@ public class CLIMainView implements ViewObserver {
      * @param //controller This is the controller that has created the game.
      */
 
-    public void CLIMainView() {
+    public void CLIMainView(GameController controller) {
 
-        //mycontroller = controller;
+        myController = controller;
         input = new Scanner(System.in);
     }
 
@@ -107,6 +107,7 @@ public class CLIMainView implements ViewObserver {
 
     }
 
+    //IO farei una funzione che permette ad 1 player di scegliere il suo dio, poi è il controller che chiama questa funzione 2 o 3 volte, e il controller fa next turn.
     public ArrayList<Integer> askPlayingGod(){
         int i=0, j=0;
         int chosenOne;

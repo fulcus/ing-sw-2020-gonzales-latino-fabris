@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller.god;
 
-import it.polimi.ingsw.controller.GameController;
+
 import it.polimi.ingsw.model.*;
 
 /**
@@ -8,7 +8,6 @@ import it.polimi.ingsw.model.*;
  */
 
 public interface God {
-
 
     /**
      * Default evolution of the turn: move, checks if win condition is met, builds.
@@ -29,6 +28,7 @@ public interface God {
      */
     default void move(Worker worker) {
         WorkerMoveMap moveMap = updateMoveMap(worker);
+        //TODO GameController mycontroller = this.getGameController();
 
         while (true) {
             int[] movePosition = getInputMove();
@@ -60,7 +60,7 @@ public interface God {
         int[] buildInput = getInputBuildPosition();  //returns build position + type: block/dome
         int xBuild = buildInput[0];
         int yBuild = buildInput[1];
-        int buildType = buildInput[2]; //0 is block, 1 is dome
+        int buildType = buildInput[2]; //0 is block, 1 is dome TODO try to remove the last cell of the array that indicates if it is a dom or a block(problem only with ATlas)
 
         Cell buildPosition = board.findCell(xBuild,yBuild);
 
@@ -108,7 +108,7 @@ public interface God {
 
 
         if (won)
-            worker.getPlayer().getGod().getGameController().winGame();
+        //todo View + Controller call some method to win
     }
 
 
@@ -140,10 +140,6 @@ public interface God {
         buildMap.cannotBuildInWorkerCell();
         buildMap.cannotBuildInDomeCell();
         buildMap.updateCellsOutOfMap();
-
-        if(!buildMap.anyAvailableBuildPosition())
-            //todo Controller lose
-
 
         return buildMap;
     }
