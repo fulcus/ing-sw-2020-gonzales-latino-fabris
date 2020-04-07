@@ -67,6 +67,7 @@ public class TurnHandler {
         return currentPlayer;
     }
 
+
     /**
      * Allows to print the God of a player
      */

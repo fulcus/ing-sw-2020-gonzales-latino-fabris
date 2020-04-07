@@ -32,7 +32,7 @@ public interface God {
         //TODO GameController mycontroller = this.getGameController();
 
         while (true) {
-            int[] movePosition = getInputMove();
+            int[] movePosition = getGodController().getMovementInput();
             int xMove = movePosition[0] + worker.getPosition().getX();
             int yMove = movePosition[1] + worker.getPosition().getY();
 
@@ -40,7 +40,7 @@ public interface God {
             if (moveMap.isAllowedToMoveBoard(xMove, yMove)) {
                 worker.setPosition(xMove, yMove);
             } else {
-                getGameController().errorScreen();
+                getGodController().errorScreen();
             }
         }
 
@@ -147,6 +147,6 @@ public interface God {
 
 
 
-    GameController getGameController();
+    GodController getGodController();
 
 }

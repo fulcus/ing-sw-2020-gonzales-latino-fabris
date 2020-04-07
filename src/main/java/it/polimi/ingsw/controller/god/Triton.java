@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller.god;
 
-import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.controller.GodController;
 import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.Worker;
 import it.polimi.ingsw.model.WorkerMoveMap;
@@ -8,11 +8,11 @@ import it.polimi.ingsw.model.WorkerMoveMap;
 
 public class Triton implements God{
 
-    private GameController gameController;
+    private GodController godController;
     private Cell initialPosition;
 
-    public Triton(GameController gameController) {
-        this.gameController = gameController;
+    public Triton(GodController godController) {
+        this.godController = godController;
     }
 
     public void evolveTurn(Worker worker) {
@@ -32,7 +32,7 @@ public class Triton implements God{
     private void moveAgain(Worker worker) {
 
         while (true) {
-            int[] secondMovePosition = getInputMoveAgain();
+            int[] secondMovePosition = godController.getInputMoveAgain();
             if (secondMovePosition == null)
                 return;
 
@@ -46,29 +46,14 @@ public class Triton implements God{
             if (secondMoveCell != initialPosition && moveMap.isAllowedToMoveBoard(xMove,yMove)) {
                 worker.setPosition(xMove, yMove);
             } else {
-                gameController.errorScreen();
+                godController.errorScreen();
             }
         }
     }
 
 
-
-
-    public int[] getInputMoveAgain() {
-        String answer = gameController.getView().askMoveAgain();
-        int[] input;
-        if (answer.equals("Y")) {
-            input = gameController.getMovementInput();
-        }
-        else
-            input = null;
-
-        return input;
-    }
-
-
-    public GameController getGameController() {
-        return gameController;
+    public GodController getGodController() {
+        return godController;
     }
 }
 

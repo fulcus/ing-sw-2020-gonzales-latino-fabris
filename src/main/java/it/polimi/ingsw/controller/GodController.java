@@ -87,6 +87,37 @@ public class GodController {
         return getInputInCoordinates(view.askMovementDirection());
     }
 
+
+    public int[] getInputMoveAgain() {
+        String answer = view.askMoveAgain();
+        int[] input;
+        if (answer.equals("Y")) {
+            input = getMovementInput();
+        }
+        else
+            input = null;
+
+        return input;
+    }
+
+    /**
+     * Allows to get the right input for the God if the player wants to move up or not.
+     * @return True if the player with his worker wants to jump to an higher level, False otherwise.
+     */
+    public boolean wantToMoveUp(){
+        String answer = view.askWantToMoveUp();
+
+        while(true) {
+
+            if (answer.equals("Y")) {
+                return false;
+            } else if(answer.equals("N")) {
+                return true;
+            } else
+                errorScreen();
+        }
+    }
+
     /**
      * This method returns the coordinates' variation of the selected building.
      * @return Coordinates' variation.

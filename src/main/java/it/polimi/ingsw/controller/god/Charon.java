@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller.god;
 
-import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.controller.GodController;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.Worker;
@@ -10,10 +10,10 @@ import java.util.ArrayList;
 
 public class Charon implements God {
 
-    private GameController gameController;
+    private GodController godController;
 
-    public Charon(GameController gameController) {
-        this.gameController = gameController;
+    public Charon(GodController godController) {
+        this.godController = godController;
     }
 
     @Override
@@ -83,7 +83,7 @@ public class Charon implements God {
     }
 
 
-    public GameController getGameController() {
-        return gameController;
+    public GodController getGodController() {
+        return godController;
     }
 }

@@ -1,15 +1,15 @@
 package it.polimi.ingsw.controller.god;
 
-import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.controller.GodController;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Worker;
 
 public class Athena implements God{
 
-    private GameController gameController;
+    private GodController godController;
 
-    public Athena(GameController gameController){
-        this.gameController = gameController;
+    public Athena(GodController godController){
+        this.godController = godController;
     }
 
 
@@ -39,8 +39,7 @@ public class Athena implements God{
     }
 
 
-
-    public GameController getGameController(){
-        return gameController;
+    public GodController getGodController(){
+        return godController;
     }
 }

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller.god;
 
-import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.controller.GodController;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.Worker;
@@ -12,10 +12,10 @@ import it.polimi.ingsw.model.WorkerMoveMap;
  */
 public class Minotaur implements God {
 
-    private GameController gameController;
+    private GodController godController;
 
-    public Minotaur(GameController gameController){
-        this.gameController = gameController;
+    public Minotaur(GodController godController){
+        this.godController = godController;
     }
 
 
@@ -27,7 +27,7 @@ public class Minotaur implements God {
     private void movePushBack(Worker worker){
 
         while (true) {
-            int[] movePosition = gameController.getMovementInput();
+            int[] movePosition = godController.getMovementInput();
             int xMove = movePosition[0] + worker.getPosition().getX();
             int yMove = movePosition[1] + worker.getPosition().getY();
 
@@ -54,7 +54,7 @@ public class Minotaur implements God {
                         return;
                     } else    //cannot move in that cell
                         //todo controller & view method that returns error
-                        gameController.errorScreen();
+                        godController.errorScreen();
                     //also put this in a loop (recursively call moveSwap?)
                 }
             } else {
@@ -63,7 +63,7 @@ public class Minotaur implements God {
 
                 //also put this in a loop (recursively call moveSwap?)
             }
-            gameController.errorScreen();
+            godController.errorScreen();
         }
     }
 
@@ -83,7 +83,7 @@ public class Minotaur implements God {
     }
 
 
-    public GameController getGameController() {
-        return gameController;
+    public GodController getGodController() {
+        return godController;
     }
 }
