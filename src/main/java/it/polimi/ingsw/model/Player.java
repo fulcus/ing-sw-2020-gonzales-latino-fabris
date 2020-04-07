@@ -45,12 +45,6 @@ public class Player {
         return nickname;
     }
 
-    public Worker getChosenWorker() {return chosenWorker;}
-
-    public void setChosenWorker(Worker chosenWorker) {
-        this.chosenWorker = chosenWorker;
-    }
-
 
     public God getGod() {
         return god;
@@ -64,34 +58,6 @@ public class Player {
         this.god = god;
     }
 
-
-    /**
-     * This method allows the user to choose the worker to be used for his turn
-     */
-    public void chooseWorker() {
-        //con X e Y
-        //chosenWorker = prendera il puntatore al Worker che ha selezionato l'utente
-
-        Scanner input = new Scanner(System.in);
-
-
-        do {
-
-            System.out.println("Insert the position of the worker you wish to select.");
-            int x = input.nextInt();
-            int y = input.nextInt();
-            Cell chosenCell = game.getBoard().findCell(x, y);
-            if (chosenCell.hasWorker() && chosenCell.getWorker().getPlayer() == this) {
-                chosenWorker = game.getBoard().findCell(x, y).getWorker();
-                break;
-            }
-
-            System.out.println("The position is not valid");
-
-        } while (true);
-
-
-    }
 
     public Color getColor() {
         return color;

@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.view.CLIMainView;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class TurnHandler {
     private final Game game;
@@ -12,52 +13,17 @@ public class TurnHandler {
     private final GameController gameController;
     private final ArrayList<Player> players;
     private Player currentPlayer;
-    private int turnNumber;
+    private int turnCount;
     private final int numberOfPlayers;
 
     public TurnHandler(Game game, CLIMainView view, GameController gameController) {
         this.game = game;
         currentPlayer = null;
-        turnNumber = 0;
+        turnCount = 0;
         this.view = view;
         this.gameController = gameController;
         this.players = game.getPlayers();
         numberOfPlayers = game.getNumberOfPlayers();
-    }
-
-
-    /**
-     * Allows to select the correct player for this turn
-     */
-    public void nextPlayer() {
-        int j = 0;
-        //in the initial turn (turn 0) the first player is set to be the first one after the challenger
-        if (turnNumber == 0) {
-            if (game.getChallenger().equals(players.get(numberOfPlayers - 1)))
-                currentPlayer = players.get(0);
-            else
-                while (j < numberOfPlayers - 1) {
-                    if (players.get(j).equals(game.getChallenger()))
-                        currentPlayer = players.get(j + 1);
-                    j++;
-                }
-        }
-        //in the turns of the game (counter > 0) the next currentPlayer will be the following one
-        //in the ArrayList of the players of the current Game
-        else {
-            //to assign the next currentPlayer it needs to be distinguished
-            // if the current player is the las one of the game.players or not
-            if (currentPlayer.equals(players.get(numberOfPlayers - 1)))
-                currentPlayer = players.get(0);
-            else {
-                j = 0;
-                while (j < numberOfPlayers - 1) {
-                    if (players.get(j).equals(currentPlayer))
-                        currentPlayer = players.get(j + 1);
-                    j++;
-                }
-            }
-        }
     }
 
 
@@ -73,12 +39,12 @@ public class TurnHandler {
         System.out.println(currentPlayer.getNickname() + " has chosen " + currentPlayer.getGod().getClass().getSimpleName());
     }
 
-    public int getTurnNumber() {
-        return turnNumber;
+    public int getTurnCount() {
+        return turnCount;
     }
 
     public void nextTurn() {
-        turnNumber++;
+        turnCount++;
         nextPlayer();
     }
 
@@ -158,13 +124,13 @@ public class TurnHandler {
     }
 
 
-    public void start() {
+    public void setUpTurns() {
         challengerChooseGods();
         playersChooseGods();
         challengerChooseStartPlayer();
         setInitialWorkersPosition();
 
-        //start actual game (new method)
+        startTurnFlow();    //starts regular flow of the turns
     }
 
     /**
@@ -222,4 +188,49 @@ public class TurnHandler {
         }
     }
 
+
+
+    private void startTurnFlow() {
+        int turnCount = 0;
+        int i = 0;
+        while (true) {
+            currentPlayer = players.get(i);
+
+            Worker chosenWorker = chooseWorker();
+
+            currentPlayer.getGod().evolveTurn(chosenWorker);
+
+            if(gameController.getEndGame()) {
+                view.endGame();
+                //?? exit program
+                return;
+            }
+            i++;
+            if (i == numberOfPlayers)
+                i = 0;
+        }
+    }
+
+
+
+    private Worker chooseWorker() {
+
+
+        while(true) {
+            String inputSex = view.chooseWorker(); //returns MALE or FEMALE, check this in view
+            for(Worker worker : currentPlayer.getWorkers()) {
+                String workerSex = worker.getSex().getClass().getSimpleName().toUpperCase();
+                if(workerSex.equals(inputSex))
+                    return worker;
+                else
+                    view.invalidSexWorker();   //additional check here (maybe useless)
+            }
+        }
+
+
+    }
+
+
+
 }
+

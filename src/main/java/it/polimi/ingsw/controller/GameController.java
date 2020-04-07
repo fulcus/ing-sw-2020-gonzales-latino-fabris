@@ -17,13 +17,14 @@ public class GameController {
     private final CLIMainView view; //will be refactored to include GUI
     private GodController godController;
     private final ArrayList<God> godsDeck;
+    private boolean endGame;
 
     public GameController() {
         game = null;
         turnHandler = null;
         view = new CLIMainView(this);
         godsDeck = new ArrayList<>(14);
-
+        endGame = false;
     }
 
     public static void main(String[] args) {
@@ -35,7 +36,7 @@ public class GameController {
 
 
     /**
-     * Sets up game and starts flow
+     * Sets up game and starts the logic flow.
      */
     public void setUpGame() {
         godController = new GodController(view, this);
@@ -49,7 +50,7 @@ public class GameController {
         for(String nick : view.askPlayersNickname())
             game.addPlayer(nick);
 
-        turnHandler.start();
+        turnHandler.setUpTurns();
     }
 
 
@@ -82,8 +83,9 @@ public class GameController {
         godsDeck.add(new Zeus(godController));
     }
 
-    public void endGame() {
+    public boolean getEndGame() {
         //todo
+        return endGame;
     }
 
 }
