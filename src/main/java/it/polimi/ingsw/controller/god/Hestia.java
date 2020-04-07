@@ -10,6 +10,8 @@ import it.polimi.ingsw.model.WorkerBuildMap;
 public class Hestia implements God {
 
     private GodController godController;
+    public String description = "Your Worker may build one additional time, but this cannot be on a perimeter space.";
+
 
     public Hestia(GodController godController) {
         this.godController = godController;

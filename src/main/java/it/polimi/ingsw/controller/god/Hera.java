@@ -8,6 +8,8 @@ import it.polimi.ingsw.model.Worker;
 public class Hera implements God{
 
     private GodController godController;
+    public String description = "An opponent cannot win by moving into a perimeter space.";
+
 
     public Hera(GodController godController){
         this.godController = godController;

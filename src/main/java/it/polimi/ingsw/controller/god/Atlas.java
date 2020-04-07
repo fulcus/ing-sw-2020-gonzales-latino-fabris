@@ -10,6 +10,8 @@ import it.polimi.ingsw.model.WorkerBuildMap;
 public class Atlas implements God{
 
     private GodController godController;
+    public String description = "Your Worker may build a dome at any level.";
+
 
     public Atlas(GodController godController) {
         this.godController = godController;

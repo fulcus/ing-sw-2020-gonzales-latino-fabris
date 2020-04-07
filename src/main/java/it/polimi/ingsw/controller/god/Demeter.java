@@ -10,6 +10,8 @@ import it.polimi.ingsw.model.WorkerBuildMap;
 public class Demeter implements God {
 
     private GodController godController;
+    public String description = "Your Worker may build one additional time, but not on the same space.";
+
     Cell firstBuildCell;
 
     public Demeter (GodController godController) {

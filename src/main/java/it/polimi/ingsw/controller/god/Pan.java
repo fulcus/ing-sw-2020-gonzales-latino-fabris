@@ -6,6 +6,8 @@ import it.polimi.ingsw.model.Worker;
 public class Pan implements God{
 
     private GodController godController;
+    public String description = "You also win if your Worker moves down two or more levels.";
+
 
     public Pan(GodController godController) {
         this.godController = godController;

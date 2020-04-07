@@ -11,6 +11,8 @@ import java.util.ArrayList;
 public class Charon implements God {
 
     private GodController godController;
+    public String description = "Before your Worker moves, you may force a neighboring opponent Worker to the space directly on the other side of your Worker, if that space is unoccupied.";
+
 
     public Charon(GodController godController) {
         this.godController = godController;
