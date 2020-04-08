@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller.god;
 
 import it.polimi.ingsw.controller.GodController;
+import it.polimi.ingsw.controller.UnableToMoveException;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.Worker;
@@ -21,14 +22,14 @@ public class Minotaur extends God {
 
 
     @Override
-    public void move(Worker worker) {
+    public void move(Worker worker) throws UnableToMoveException {
         movePushBack(worker);
     }
 
-    private void movePushBack(Worker worker){
+    private void movePushBack(Worker worker) throws UnableToMoveException {
 
         while (true) {
-            int[] movePosition = godController.getMovementInput();
+            int[] movePosition = godController.getInputMove();
             int xMove = movePosition[0] + worker.getPosition().getX();
             int yMove = movePosition[1] + worker.getPosition().getY();
 
@@ -69,7 +70,7 @@ public class Minotaur extends God {
     }
 
 
-    public WorkerMoveMap updateMoveMap(Worker worker) {
+    public WorkerMoveMap updateMoveMap(Worker worker) throws UnableToMoveException {
         WorkerMoveMap moveMap = worker.getMoveMap();
 
         moveMap.cannotStayStill();
@@ -78,7 +79,7 @@ public class Minotaur extends God {
         moveMap.updateMoveUpRestrictions();
 
         if(!moveMap.anyAvailableMovePosition())
-            //todo Controller lose
+            throw new UnableToMoveException();
 
         return moveMap;
     }

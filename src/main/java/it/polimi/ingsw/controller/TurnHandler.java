@@ -5,7 +5,6 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.view.CLIMainView;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class TurnHandler {
     private final Game game;
@@ -198,49 +197,52 @@ public class TurnHandler {
 
 
     protected void startTurnFlow() {
-        int turnCount = 0;
-        int i = 0;
+        int cyclicalCounter = 0;
+        //int cannotMoveCounter = 0;
+
         while (true) {
-            currentPlayer = players.get(i);
+
+            currentPlayer = players.get(cyclicalCounter);
 
 
-            Worker worker1 = currentPlayer.getWorkers().get(0);
-            Worker worker2 = currentPlayer.getWorkers().get(1);
-            currentPlayer.getGod().updateMoveMap(worker1);
-            currentPlayer.getGod().updateMoveMap(worker2);
 
-
+            /*
             //if none of currentPlayer's workers can move, lose
             if (!worker1.getMoveMap().anyAvailableMovePosition()
                     && !worker2.getMoveMap().anyAvailableMovePosition())
                 losePlayer();
-
-
-
-
+            */
 
             Worker chosenWorker = chooseWorker();
 
-
-            currentPlayer.getGod().evolveTurn(chosenWorker);
-
-
-            if (gameController.getEndGame()) {
-                view.endGame();
-                //?? exit program
-                return;
+            try {
+                currentPlayer.getGod().evolveTurn(chosenWorker);
             }
-            i++;
-            if (i == numberOfPlayers)
-                i = 0;
+            catch (UnableToMoveException ex) {
+                //cannotMoveCounter++;
+                /*if(cannotMoveCounter == 1)
+                //choose other worker
+                else*/
+                currentPlayer.lose();
+                //todo display something from GodController (?)
+            }
+            catch (UnableToBuildException ex) {
+                currentPlayer.lose();
+                //todo display something from GodController (?)
+            }
+            finally {
+                if(players.size() == 1)
+                    players.get(0).getGod().getGodController().winGame();
+            }
+
+
+            cyclicalCounter++;
+            if (cyclicalCounter == numberOfPlayers)
+                cyclicalCounter = 0;
         }
     }
 
 
-    public void losePlayer() {
-        //remove workers from board
-
-    }
 
 }
 

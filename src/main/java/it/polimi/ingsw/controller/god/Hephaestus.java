@@ -1,6 +1,8 @@
 package it.polimi.ingsw.controller.god;
 
 import it.polimi.ingsw.controller.GodController;
+import it.polimi.ingsw.controller.UnableToBuildException;
+import it.polimi.ingsw.controller.UnableToMoveException;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.Worker;
@@ -21,7 +23,7 @@ public class Hephaestus extends God {
      * This method calls the sequence of actions that can be done by the player who owns Hephaestus.
      * @param worker This is the current worker.
      */
-    public void evolveTurn(Worker worker) {
+    public void evolveTurn(Worker worker) throws UnableToMoveException, UnableToBuildException {
         move(worker);
         win(worker);
         firstBuildCell = build(worker);

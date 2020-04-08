@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller.god;
 
 import it.polimi.ingsw.controller.GodController;
+import it.polimi.ingsw.controller.UnableToBuildException;
 import it.polimi.ingsw.model.Worker;
 import it.polimi.ingsw.model.WorkerBuildMap;
 
@@ -15,7 +16,7 @@ public class Zeus extends God{
 
 
     @Override
-    public WorkerBuildMap updateBuildMap(Worker worker) {
+    public WorkerBuildMap updateBuildMap(Worker worker) throws UnableToBuildException {
         WorkerBuildMap buildMap = worker.getBuildMap();
 
         buildMap.cannotBuildInWorkerCell();
@@ -26,7 +27,7 @@ public class Zeus extends God{
         buildMap.updateCellsOutOfMap();
 
         if(!buildMap.anyTrueCell())
-        //todo Controller lose
+            throw new UnableToBuildException();
 
         return buildMap;
     }

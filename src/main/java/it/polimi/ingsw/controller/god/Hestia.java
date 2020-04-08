@@ -1,5 +1,7 @@
 package it.polimi.ingsw.controller.god;
 
+import it.polimi.ingsw.controller.UnableToBuildException;
+import it.polimi.ingsw.controller.UnableToMoveException;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.controller.GodController;
@@ -18,7 +20,7 @@ public class Hestia extends God {
 
 
     @Override
-    public void evolveTurn(Worker w) {
+    public void evolveTurn(Worker w) throws UnableToMoveException, UnableToBuildException {
         move(w);
         win(w);
         build(w);
@@ -27,8 +29,14 @@ public class Hestia extends God {
 
 
     private void buildAgain(Worker worker) {
+        WorkerBuildMap buildMap;
+        try {
+            buildMap = updateBuildMap(worker);
+        } catch (UnableToBuildException ex) {
+            //todo print you cant build again
+            return;
+        }
 
-        WorkerBuildMap buildMap = updateBuildMap(worker);
         Board board = worker.getPlayer().getGame().getBoard();
 
 

@@ -13,17 +13,16 @@ import java.util.ArrayList;
 public class GameController {
 
     private Game game;
-    private int numOfPlayers;
     private TurnHandler turnHandler;
     private CLIMainView view;
-    private ViewSelector viewSelector;
+    private final ViewSelector viewSelector;
     private boolean endGame;
     private GodController godController;
     private final ArrayList<God> godsDeck;
 
     public GameController() {
         game = null;
-        numOfPlayers = 0;
+        int numOfPlayers = 0;
         turnHandler = null;
         view = null;
         viewSelector = new ViewSelector();

@@ -1,8 +1,11 @@
 package it.polimi.ingsw.controller.god;
 
 import it.polimi.ingsw.controller.GodController;
+import it.polimi.ingsw.controller.UnableToBuildException;
+import it.polimi.ingsw.controller.UnableToMoveException;
 import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.Worker;
+import it.polimi.ingsw.model.WorkerBuildMap;
 import it.polimi.ingsw.model.WorkerMoveMap;
 
 
@@ -16,7 +19,7 @@ public class Triton extends God{
         super(godController);
     }
 
-    public void evolveTurn(Worker worker) {
+    public void evolveTurn(Worker worker) throws UnableToMoveException, UnableToBuildException {
         initialPosition = worker.getPosition();
         move(worker);
         win(worker);
@@ -37,7 +40,15 @@ public class Triton extends God{
             if (secondMovePosition == null)
                 return;
 
-            WorkerMoveMap moveMap = updateMoveMap(worker);
+            WorkerMoveMap moveMap;
+            try {
+                moveMap = updateMoveMap(worker);
+            } catch (UnableToMoveException ex) {
+                //todo print you cant move again
+                return;
+            }
+
+
 
             int xMove = secondMovePosition[0] + worker.getPosition().getX();
             int yMove = secondMovePosition[1] + worker.getPosition().getY();

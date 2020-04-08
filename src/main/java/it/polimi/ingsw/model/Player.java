@@ -99,5 +99,10 @@ public class Player {
         return game;
     }
 
+    public void lose() {
+        //remove workers from board
+        //remove from players arraylist
+    }
+
 
 }

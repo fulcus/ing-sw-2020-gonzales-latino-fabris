@@ -1,6 +1,8 @@
 package it.polimi.ingsw.controller.god;
 
 import it.polimi.ingsw.controller.GodController;
+import it.polimi.ingsw.controller.UnableToBuildException;
+import it.polimi.ingsw.controller.UnableToMoveException;
 import it.polimi.ingsw.model.Worker;
 
 
@@ -14,10 +16,14 @@ public class Prometheus extends God {
     }
 
     @Override
-    public void evolveTurn(Worker worker) {
+    public void evolveTurn(Worker worker) throws UnableToMoveException, UnableToBuildException {
         if (!getGodController().wantToMoveUp()) {
-            build(worker);
-            worker.getPlayer().setPermissionToMoveUp(false);
+            //should not lose with optional build
+            if(worker.getBuildMap().anyAvailableBuildPosition()) {
+                build(worker);
+                worker.getPlayer().setPermissionToMoveUp(false);
+            } else
+                //todo print cant build
         }
         move(worker);
         win(worker);

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.controller.god;
 
 import it.polimi.ingsw.controller.GodController;
+import it.polimi.ingsw.controller.UnableToBuildException;
+import it.polimi.ingsw.controller.UnableToMoveException;
 import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.Worker;
 import it.polimi.ingsw.model.WorkerMoveMap;
@@ -18,7 +20,7 @@ public class Artemis extends God {
 
 
     @Override
-    public void evolveTurn(Worker worker) {
+    public void evolveTurn(Worker worker) throws UnableToBuildException, UnableToMoveException {
         initialPosition = worker.getPosition();
         move(worker);
         win(worker);
@@ -28,7 +30,7 @@ public class Artemis extends God {
     }
 
 
-    private void moveAgain(Worker worker) {
+    private void moveAgain(Worker worker) throws UnableToMoveException {
 
         while (true) {
 
@@ -61,4 +63,6 @@ public class Artemis extends God {
     public GodController getGodController() {
         return godController;
     }
+
+
 }

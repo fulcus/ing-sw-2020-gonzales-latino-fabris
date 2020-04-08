@@ -7,9 +7,9 @@ import it.polimi.ingsw.controller.*;
 /**
  * This interface allows to see the Gods' main methods
  */
-public class God {
+public abstract class God {
 
-    private final String description = "Generic God";
+
     protected GodController godController;
 
     public God(GodController godController) {
@@ -21,7 +21,7 @@ public class God {
      * Default evolution of the turn: move, checks if win condition is met, builds.
      * @param worker Selected worker that will act in the current turn.
      */
-    public void evolveTurn(Worker worker) {
+    public void evolveTurn(Worker worker) throws UnableToMoveException, UnableToBuildException {
         move(worker);
         win(worker);
         build(worker);
@@ -33,12 +33,11 @@ public class God {
      *
      * @param worker Selected worker that will move.
      */
-    public void move(Worker worker) {
+    public void move(Worker worker) throws UnableToMoveException {
         WorkerMoveMap moveMap = updateMoveMap(worker);
-        //TODO GameController mycontroller = this.getGameController();
 
         while (true) {
-            int[] movePosition = getGodController().getMovementInput();
+            int[] movePosition = getGodController().getInputMove();
             int xMove = movePosition[0] + worker.getPosition().getX();
             int yMove = movePosition[1] + worker.getPosition().getY();
 
@@ -60,12 +59,13 @@ public class God {
      * @param worker This is the current worker.
      * @return It returns the cell wherein the worker has just built.
      */
-    public Cell build(Worker worker) {
+    public Cell build(Worker worker) throws UnableToBuildException {
         WorkerBuildMap buildMap = updateBuildMap(worker);
         Board board = worker.getPlayer().getGame().getBoard();
 
+        //returns build position + type: block/dome
+        int[] buildInput = godController.getBuildingInput();
 
-        int[] buildInput = getInputBuildPosition();  //returns build position + type: block/dome
         int xBuild = buildInput[0];
         int yBuild = buildInput[1];
         int buildType = buildInput[2]; //0 is block, 1 is dome TODO try to remove the last cell of the array that indicates if it is a dom or a block(problem only with ATlas)
@@ -115,7 +115,7 @@ public class God {
 
 
         if (won)
-        //todo View + Controller call some method to win
+            godController.winGame();
     }
 
 
@@ -125,7 +125,9 @@ public class God {
      * @param worker Selected worker.
      */
     //will be called at the beginning of each move, which will then comply with the matrix.
-    public WorkerMoveMap updateMoveMap(Worker worker) {
+    public WorkerMoveMap updateMoveMap(Worker worker)
+            throws UnableToMoveException {
+
         WorkerMoveMap moveMap = worker.getMoveMap();
 
         moveMap.cannotStayStill();
@@ -134,13 +136,15 @@ public class God {
         moveMap.updateCellsOutOfMap();
 
         if(!moveMap.anyAvailableMovePosition())
-            //todo Controller lose
+            throw new UnableToMoveException();
 
         return moveMap;
     }
 
 
-    public WorkerBuildMap updateBuildMap(Worker worker) {
+    public WorkerBuildMap updateBuildMap(Worker worker)
+            throws UnableToBuildException {
+
         WorkerBuildMap buildMap = worker.getBuildMap();
 
         buildMap.cannotBuildUnderneath();
@@ -149,7 +153,7 @@ public class God {
         buildMap.updateCellsOutOfMap();
 
         if(!buildMap.anyAvailableBuildPosition())
-            //todo Controller lose
+            throw new UnableToBuildException();
 
 
         return buildMap;
@@ -159,11 +163,6 @@ public class God {
     public GodController getGodController() {
         return godController;
     }
-
-    public String getDescription() {
-        return description;
-    }
-
-
+    
 
 }
