@@ -2,7 +2,7 @@ package it.polimi.ingsw.view;
 
 import java.util.Scanner;
 
-public class ViewSelecter {
+public class ViewSelector {
 
     public String askTypeofView() {
 

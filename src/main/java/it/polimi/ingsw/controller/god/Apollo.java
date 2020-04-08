@@ -6,15 +6,14 @@ import it.polimi.ingsw.model.Worker;
 import it.polimi.ingsw.model.WorkerMoveMap;
 
 
-public class Apollo implements God{
-
-    private GodController godController;
+public class Apollo extends God{
 
     public String description = "Your Worker may move into an opponent Worker’s space by forcing their Worker to the space yours just vacated.";
 
-    public Apollo (GodController godController){
-        this.godController = godController;
+    public Apollo(GodController godController) {
+        super(godController);
     }
+
 
     @Override
     public void move(Worker worker) {

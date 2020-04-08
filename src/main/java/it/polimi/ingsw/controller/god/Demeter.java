@@ -7,15 +7,14 @@ import it.polimi.ingsw.model.Worker;
 import it.polimi.ingsw.model.WorkerBuildMap;
 
 
-public class Demeter implements God {
+public class Demeter extends God {
 
-    private GodController godController;
     public String description = "Your Worker may build one additional time, but not on the same space.";
 
     Cell firstBuildCell;
 
     public Demeter (GodController godController) {
-        this.godController= godController;
+        super(godController);
         firstBuildCell = null;
     }
 
@@ -68,7 +67,7 @@ public class Demeter implements God {
     }
 
 
-    public GodController getGameController(){
+    public GodController getGodController(){
         return godController;
     }
 

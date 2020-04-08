@@ -4,14 +4,13 @@ import it.polimi.ingsw.controller.GodController;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Worker;
 
-public class Athena implements God{
+public class Athena extends God{
 
-    private GodController godController;
     public String description = "If one of your Workers moved up on your last turn, opponent Workers cannot move up this turn.";
 
 
     public Athena(GodController godController){
-        this.godController = godController;
+        super(godController);
     }
 
 

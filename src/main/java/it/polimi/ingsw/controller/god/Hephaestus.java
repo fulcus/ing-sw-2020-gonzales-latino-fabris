@@ -7,15 +7,14 @@ import it.polimi.ingsw.model.Worker;
 import it.polimi.ingsw.model.WorkerBuildMap;
 
 
-public class Hephaestus implements God {
+public class Hephaestus extends God {
 
-    private GodController godController;
     public String description = "Your Worker may build one additional block (not dome) on top of your first block.";
 
     Cell firstBuildCell;
 
     public Hephaestus(GodController godController){
-        this.godController = godController;
+        super(godController);
     }
 
     /**

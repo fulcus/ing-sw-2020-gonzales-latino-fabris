@@ -6,15 +6,14 @@ import it.polimi.ingsw.model.Worker;
 import it.polimi.ingsw.model.WorkerMoveMap;
 
 
-public class Artemis implements God {
+public class Artemis extends God {
 
-    private GodController godController;
     private Cell initialPosition;
     public String description = "Your Worker may move one additional time, but not back to its initial space.";
 
 
     public Artemis(GodController godController) {
-        this.godController = godController;
+        super(godController);
     }
 
 

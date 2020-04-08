@@ -6,7 +6,6 @@ import it.polimi.ingsw.view.*;
 
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * Handles the input given by the view and sends them to the model to change the Game status
@@ -17,18 +16,17 @@ public class GameController {
     private int numOfPlayers;
     private TurnHandler turnHandler;
     private CLIMainView view;
-    private ViewSelecter viewSelecter;
+    private ViewSelector viewSelector;
     private boolean endGame;
     private GodController godController;
     private final ArrayList<God> godsDeck;
-    private boolean endGame;
 
     public GameController() {
         game = null;
         numOfPlayers = 0;
         turnHandler = null;
         view = null;
-        viewSelecter = new ViewSelecter();
+        viewSelector = new ViewSelector();
         endGame = false;
         godsDeck = new ArrayList<>(14);
         endGame = false;
@@ -37,21 +35,9 @@ public class GameController {
     public static void main(String[] args) {
         GameController gameController = new GameController();
         gameController.setUpGame();
-
     }
 
 
-    //Asks the player whether he wants to play with a CLI or GUI
-    private void setPreferredView() {
-
-        if(viewSelecter.askTypeofView().equals("CLI"))
-            this.view = new CLIMainView(this);
-
-        /*else if(viewType.equals("GUI"))
-            this.view = new GUIMainView(this);*/
-        else
-            System.out.println("Invalid input: type either CLI or GUI.");
-    }
 
 
     /**
@@ -60,7 +46,16 @@ public class GameController {
     public void setUpGame() {
         godController = new GodController(view, this);
         createDeckGods();
-        
+
+        String viewType = viewSelector.askTypeofView();
+        if(viewType.toUpperCase().equals("CLI"))
+            view = new CLIMainView(this);
+        /*
+        else if(viewType.toUpperCase().equals("GUI"))
+            view = new GUIMainView(this);
+        else
+            viewSelector.genericError();
+        */
         view.beginningView();
         int numOfPlayers = view.askNumberOfPlayers();
         
@@ -71,6 +66,7 @@ public class GameController {
             game.addPlayer(nick);
 
         turnHandler.setUpTurns();
+        turnHandler.startTurnFlow();
     }
 
 
@@ -102,6 +98,7 @@ public class GameController {
         godsDeck.add(new Triton(godController));
         godsDeck.add(new Zeus(godController));
     }
+
 
     public boolean getEndGame() {
         //todo

@@ -7,14 +7,13 @@ import it.polimi.ingsw.model.Worker;
 import it.polimi.ingsw.model.WorkerBuildMap;
 
 
-public class Atlas implements God{
+public class Atlas extends God{
 
-    private GodController godController;
     public String description = "Your Worker may build a dome at any level.";
 
 
     public Atlas(GodController godController) {
-        this.godController = godController;
+        super(godController);
     }
 
     /**

@@ -1,20 +1,18 @@
 package it.polimi.ingsw.controller.god;
 
 import it.polimi.ingsw.controller.GodController;
-import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.Worker;
 import it.polimi.ingsw.model.WorkerBuildMap;
 
 
-public class Zeus implements God{
+public class Zeus extends God{
     
-    private GodController godController;
     public String description = "Your Worker may build a block under itself.";
 
-
-    public Zeus(GodController godController){
-        this.godController = godController;
+    public Zeus(GodController godController) {
+        super(godController);
     }
+
 
     @Override
     public WorkerBuildMap updateBuildMap(Worker worker) {

@@ -10,14 +10,13 @@ import it.polimi.ingsw.model.WorkerMoveMap;
 /**
  * This class is the one that describes the Minotaur behaviour
  */
-public class Minotaur implements God {
+public class Minotaur extends God {
 
-    private GodController godController;
     public String description = "Your Worker may move into an opponent Worker’s space, if their Worker can be forced one space straight backwards to an unoccupied space at any level.";
 
 
     public Minotaur(GodController godController){
-        this.godController = godController;
+        super(godController);
     }
 
 

@@ -115,15 +115,6 @@ public class TurnHandler {
     }
 
 
-    public void setUpTurns() {
-        challengerChooseGods();
-        playersChooseGods();
-        challengerChooseStartPlayer();
-        setInitialWorkersPosition();
-
-        startTurnFlow();    //starts regular flow of the turns
-    }
-
     /**
      * Lets the challenger choose the start player
      * and puts him in the first position of the arraylist players of game.
@@ -133,16 +124,16 @@ public class TurnHandler {
         boolean foundPlayer = false;
         Player startPlayer = null;
 
-        while(startPlayer == null) {
+        while (startPlayer == null) {
 
             startPlayerNick = view.challengerChooseStartPlayer();   //returns nickname of startPlayer
-            for(Player player : players) {
-                if(startPlayerNick.equals(player.getNickname())) {
+            for (Player player : players) {
+                if (startPlayerNick.equals(player.getNickname())) {
                     startPlayer = player;
                     break;
                 }
             }
-            if(startPlayer == null)
+            if (startPlayer == null)
                 view.invalidStartPlayer();
         }
 
@@ -160,11 +151,11 @@ public class TurnHandler {
      */
     private void setInitialWorkersPosition() {
         boolean positionSet;
-        for(Player player : players) {
-            for(Worker worker : player.getWorkers()) {
+        for (Player player : players) {
+            for (Worker worker : player.getWorkers()) {
                 positionSet = false;
 
-                while(!positionSet) {
+                while (!positionSet) {
                     int[] initialPosition = view.getInitialWorkerPosition();
                     int x = initialPosition[0];
                     int y = initialPosition[1];
@@ -180,18 +171,61 @@ public class TurnHandler {
     }
 
 
+    private Worker chooseWorker() {
 
-    private void startTurnFlow() {
+
+        while (true) {
+            String inputSex = view.chooseWorker(); //returns MALE or FEMALE, check this in view
+            for (Worker worker : currentPlayer.getWorkers()) {
+                String workerSex = worker.getSex().getClass().getSimpleName().toUpperCase();
+                if (workerSex.equals(inputSex))
+                    return worker;
+                else
+                    view.invalidSexWorker();   //additional check here (maybe useless)
+            }
+        }
+
+
+    }
+
+
+    protected void setUpTurns() {
+        challengerChooseGods();
+        playersChooseGods();
+        challengerChooseStartPlayer();
+        setInitialWorkersPosition();
+    }
+
+
+    protected void startTurnFlow() {
         int turnCount = 0;
         int i = 0;
         while (true) {
             currentPlayer = players.get(i);
 
+
+            Worker worker1 = currentPlayer.getWorkers().get(0);
+            Worker worker2 = currentPlayer.getWorkers().get(1);
+            currentPlayer.getGod().updateMoveMap(worker1);
+            currentPlayer.getGod().updateMoveMap(worker2);
+
+
+            //if none of currentPlayer's workers can move, lose
+            if (!worker1.getMoveMap().anyAvailableMovePosition()
+                    && !worker2.getMoveMap().anyAvailableMovePosition())
+                losePlayer();
+
+
+
+
+
             Worker chosenWorker = chooseWorker();
+
 
             currentPlayer.getGod().evolveTurn(chosenWorker);
 
-            if(gameController.getEndGame()) {
+
+            if (gameController.getEndGame()) {
                 view.endGame();
                 //?? exit program
                 return;
@@ -203,25 +237,10 @@ public class TurnHandler {
     }
 
 
-
-    private Worker chooseWorker() {
-
-
-        while(true) {
-            String inputSex = view.chooseWorker(); //returns MALE or FEMALE, check this in view
-            for(Worker worker : currentPlayer.getWorkers()) {
-                String workerSex = worker.getSex().getClass().getSimpleName().toUpperCase();
-                if(workerSex.equals(inputSex))
-                    return worker;
-                else
-                    view.invalidSexWorker();   //additional check here (maybe useless)
-            }
-        }
-
+    public void losePlayer() {
+        //remove workers from board
 
     }
-
-
 
 }
 
