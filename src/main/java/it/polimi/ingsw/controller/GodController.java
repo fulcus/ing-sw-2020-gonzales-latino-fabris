@@ -21,6 +21,7 @@ public class GodController {
      * @param compassInput Compass direction to be translated.
      * @return Variation in coordinates
      */
+    @SuppressWarnings("ConstantConditions")
     public int[] getInputInCoordinates(String compassInput){
 
         int[] result = new int[2];
@@ -82,7 +83,7 @@ public class GodController {
      * This method returns the coordinates' variation of the selected movement.
      * @return Coordinates' variation.
      */
-    public int[] getMovementInput(){
+    public int[] getInputMove(){
 
         return getInputInCoordinates(view.askMovementDirection());
     }
@@ -96,7 +97,7 @@ public class GodController {
         String answer = view.askMoveAgain();
         int[] input;
         if (answer.equals("Y")) {
-            input = getMovementInput();
+            input = getInputMove();
         }
         else
             input = null;
@@ -137,7 +138,7 @@ public class GodController {
      */
     public void winGame() {
         view.winningView();
-        gameController.endGame();
+        System.exit(0);
     }
 
 

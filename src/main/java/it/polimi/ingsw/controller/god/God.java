@@ -7,15 +7,21 @@ import it.polimi.ingsw.controller.*;
 /**
  * This interface allows to see the Gods' main methods
  */
+public abstract class God {
 
-public interface God {
+
+    protected GodController godController;
+
+    public God(GodController godController) {
+        this.godController = godController;
+    }
+
 
     /**
      * Default evolution of the turn: move, checks if win condition is met, builds.
-     *
      * @param worker Selected worker that will act in the current turn.
      */
-    default void evolveTurn(Worker worker) {
+    public void evolveTurn(Worker worker) throws UnableToMoveException, UnableToBuildException {
         move(worker);
         win(worker);
         build(worker);
@@ -27,18 +33,18 @@ public interface God {
      *
      * @param worker Selected worker that will move.
      */
-    default void move(Worker worker) {
+    public void move(Worker worker) throws UnableToMoveException {
         WorkerMoveMap moveMap = updateMoveMap(worker);
-        //TODO GameController mycontroller = this.getGameController();
 
         while (true) {
-            int[] movePosition = getGodController().getMovementInput();
+            int[] movePosition = getGodController().getInputMove();
             int xMove = movePosition[0] + worker.getPosition().getX();
             int yMove = movePosition[1] + worker.getPosition().getY();
 
 
             if (moveMap.isAllowedToMoveBoard(xMove, yMove)) {
                 worker.setPosition(xMove, yMove);
+                break;
             } else {
                 getGodController().errorScreen();
             }
@@ -53,12 +59,13 @@ public interface God {
      * @param worker This is the current worker.
      * @return It returns the cell wherein the worker has just built.
      */
-    default Cell build(Worker worker) {
+    public Cell build(Worker worker) throws UnableToBuildException {
         WorkerBuildMap buildMap = updateBuildMap(worker);
         Board board = worker.getPlayer().getGame().getBoard();
 
+        //returns build position + type: block/dome
+        int[] buildInput = godController.getBuildingInput();
 
-        int[] buildInput = getInputBuildPosition();  //returns build position + type: block/dome
         int xBuild = buildInput[0];
         int yBuild = buildInput[1];
         int buildType = buildInput[2]; //0 is block, 1 is dome TODO try to remove the last cell of the array that indicates if it is a dom or a block(problem only with ATlas)
@@ -97,9 +104,8 @@ public interface God {
      * Checks if win conditions are met.
      *
      * @param worker The selected worker. Used to get his player.
-     * @return True if the worker's player has won. False otherwise.
      */
-        default void win(Worker worker) {
+    public void win(Worker worker) {
         boolean won;
         boolean normalCondition = worker.getLevel() == 3 && worker.getLevelVariation() == 1;
         if (worker.getPlayer().getCanWinInPerimeter())
@@ -109,7 +115,7 @@ public interface God {
 
 
         if (won)
-        //todo View + Controller call some method to win
+            godController.winGame();
     }
 
 
@@ -119,7 +125,9 @@ public interface God {
      * @param worker Selected worker.
      */
     //will be called at the beginning of each move, which will then comply with the matrix.
-    default WorkerMoveMap updateMoveMap(Worker worker) {
+    public WorkerMoveMap updateMoveMap(Worker worker)
+            throws UnableToMoveException {
+
         WorkerMoveMap moveMap = worker.getMoveMap();
 
         moveMap.cannotStayStill();
@@ -128,13 +136,15 @@ public interface God {
         moveMap.updateCellsOutOfMap();
 
         if(!moveMap.anyAvailableMovePosition())
-            //todo Controller lose
+            throw new UnableToMoveException();
 
         return moveMap;
     }
 
 
-    default WorkerBuildMap updateBuildMap(Worker worker) {
+    public WorkerBuildMap updateBuildMap(Worker worker)
+            throws UnableToBuildException {
+
         WorkerBuildMap buildMap = worker.getBuildMap();
 
         buildMap.cannotBuildUnderneath();
@@ -142,11 +152,17 @@ public interface God {
         buildMap.cannotBuildInDomeCell();
         buildMap.updateCellsOutOfMap();
 
+        if(!buildMap.anyAvailableBuildPosition())
+            throw new UnableToBuildException();
+
+
         return buildMap;
     }
 
 
-
-    GodController getGodController();
+    public GodController getGodController() {
+        return godController;
+    }
+    
 
 }

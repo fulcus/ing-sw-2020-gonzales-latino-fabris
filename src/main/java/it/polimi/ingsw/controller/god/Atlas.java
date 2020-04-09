@@ -1,18 +1,20 @@
 package it.polimi.ingsw.controller.god;
 
 import it.polimi.ingsw.controller.GodController;
+import it.polimi.ingsw.controller.UnableToBuildException;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.Worker;
 import it.polimi.ingsw.model.WorkerBuildMap;
 
 
-public class Atlas implements God{
+public class Atlas extends God{
 
-    private GodController godController;
+    public String description = "Your Worker may build a dome at any level.";
+
 
     public Atlas(GodController godController) {
-        this.godController = godController;
+        super(godController);
     }
 
     /**
@@ -21,12 +23,12 @@ public class Atlas implements God{
      * @return It returns the cell wherein the worker has just built.
      */
     @Override
-    public Cell build(Worker worker) {
+    public Cell build(Worker worker) throws UnableToBuildException {
        return buildAllowAnyLevelDome(worker);
     }
 
 
-    private Cell buildAllowAnyLevelDome(Worker worker) {
+    private Cell buildAllowAnyLevelDome(Worker worker) throws UnableToBuildException {
 
         //same as default build without "lvl == 3 condition" for buildDome
         WorkerBuildMap buildMap = updateBuildMap(worker);

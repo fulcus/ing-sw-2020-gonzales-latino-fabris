@@ -1,6 +1,8 @@
 package it.polimi.ingsw.controller.god;
 
 import it.polimi.ingsw.controller.GodController;
+import it.polimi.ingsw.controller.UnableToBuildException;
+import it.polimi.ingsw.controller.UnableToMoveException;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.Worker;
@@ -8,16 +10,17 @@ import it.polimi.ingsw.model.WorkerMoveMap;
 
 import java.util.ArrayList;
 
-public class Charon implements God {
+public class Charon extends God {
 
-    private GodController godController;
+    public String description = "Before your Worker moves, you may force a neighboring opponent Worker to the space directly on the other side of your Worker, if that space is unoccupied.";
+
 
     public Charon(GodController godController) {
-        this.godController = godController;
+        super(godController);
     }
 
     @Override
-    public void evolveTurn(Worker worker) {
+    public void evolveTurn(Worker worker) throws UnableToMoveException, UnableToBuildException {
         forceMoveEnemy(worker);
         move(worker);
         win(worker);

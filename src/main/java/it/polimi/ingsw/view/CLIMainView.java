@@ -2,6 +2,7 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.TurnHandler;
+import it.polimi.ingsw.controller.god.God;
 import it.polimi.ingsw.model.*;
 
 
@@ -352,4 +353,40 @@ public class CLIMainView implements ViewObserver {
         myBoard.findCell(toBeUpdatedCell.getX(),toBeUpdatedCell.getY()).setWorker(toBeUpdatedCell.getWorker());//update worker of the changed cell in the view
 
     }
+
+
+    public void printAllGods(ArrayList<God> godsDeck){
+
+        for(God god : godsDeck){
+
+            System.out.println(god.toString()+ ":" +god.description);
+
+        }
+
+
+    }
+
+    public void challengerError(){
+
+        System.out.println("This god doesn't exist");
+    }
+
+
+    public void printChosenGods(){
+
+        System.out.println("Available Gods:");
+
+        for(God god : myGame.getChosenGods()){
+
+            System.out.println(god.toString());
+        }
+
+    }
+
+
+
+
+
+
+
 }

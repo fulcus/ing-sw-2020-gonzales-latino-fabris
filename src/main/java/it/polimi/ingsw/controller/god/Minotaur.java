@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller.god;
 
 import it.polimi.ingsw.controller.GodController;
+import it.polimi.ingsw.controller.UnableToMoveException;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.Worker;
@@ -10,24 +11,25 @@ import it.polimi.ingsw.model.WorkerMoveMap;
 /**
  * This class is the one that describes the Minotaur behaviour
  */
-public class Minotaur implements God {
+public class Minotaur extends God {
 
-    private GodController godController;
+    public String description = "Your Worker may move into an opponent Worker’s space, if their Worker can be forced one space straight backwards to an unoccupied space at any level.";
+
 
     public Minotaur(GodController godController){
-        this.godController = godController;
+        super(godController);
     }
 
 
     @Override
-    public void move(Worker worker) {
+    public void move(Worker worker) throws UnableToMoveException {
         movePushBack(worker);
     }
 
-    private void movePushBack(Worker worker){
+    private void movePushBack(Worker worker) throws UnableToMoveException {
 
         while (true) {
-            int[] movePosition = godController.getMovementInput();
+            int[] movePosition = godController.getInputMove();
             int xMove = movePosition[0] + worker.getPosition().getX();
             int yMove = movePosition[1] + worker.getPosition().getY();
 
@@ -68,7 +70,7 @@ public class Minotaur implements God {
     }
 
 
-    public WorkerMoveMap updateMoveMap(Worker worker) {
+    public WorkerMoveMap updateMoveMap(Worker worker) throws UnableToMoveException {
         WorkerMoveMap moveMap = worker.getMoveMap();
 
         moveMap.cannotStayStill();
@@ -77,7 +79,7 @@ public class Minotaur implements God {
         moveMap.updateMoveUpRestrictions();
 
         if(!moveMap.anyAvailableMovePosition())
-            //todo Controller lose
+            throw new UnableToMoveException();
 
         return moveMap;
     }

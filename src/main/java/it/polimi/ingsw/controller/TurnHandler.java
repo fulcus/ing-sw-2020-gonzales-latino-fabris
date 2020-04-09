@@ -10,67 +10,19 @@ public class TurnHandler {
     private final Game game;
     private final CLIMainView view;
     private final GameController gameController;
-
+    private final ArrayList<Player> players;
     private Player currentPlayer;
-    private int turnNumber;
-
+    private int turnCount;
+    private final int numberOfPlayers;
 
     public TurnHandler(Game game, CLIMainView view, GameController gameController) {
         this.game = game;
         currentPlayer = null;
-        turnNumber = 0;
+        turnCount = 0;
         this.view = view;
         this.gameController = gameController;
-    }
-
-
-    /**
-     * Allows to select the correct player for this turn
-     */
-    public void nextPlayer() {
-        int j = 0;
-        //in the initial turn (turn 0) the first player is set to be the first one after the challenger
-        if (turnNumber == 0) {
-            if (game.getChallenger().equals(game.getPlayers().get(game.getNumberOfPlayers() - 1)))
-                currentPlayer = game.getPlayers().get(0);
-            else
-                while (j < game.getNumberOfPlayers() - 1) {
-                    if (game.getPlayers().get(j).equals(game.getChallenger()))
-                        currentPlayer = game.getPlayers().get(j + 1);
-                    j++;
-                }
-        }
-        //in the turns of the game (counter > 0) the next currentPlayer will be the following one
-        //in the ArrayList of the players of the current Game
-        else {
-            //to assign the next currentPlayer it needs to be distinguished
-            // if the current player is the las one of the game.players or not
-            if (currentPlayer.equals(game.getPlayers().get(game.getNumberOfPlayers() - 1)))
-                currentPlayer = game.getPlayers().get(0);
-            else {
-                j = 0;
-                while (j < game.getNumberOfPlayers() - 1) {
-                    if (game.getPlayers().get(j).equals(currentPlayer))
-                        currentPlayer = game.getPlayers().get(j + 1);
-                    j++;
-                }
-            }
-        }
-    }
-
-
-    /**
-     * Allows to set the initial position of the workers of the current player
-     *
-     * @param gender Selected worker thanks to its gender attribute from the view
-     * @param x      Coordinate in the map
-     * @param y      Coordinate in the map
-     */
-    public void setWorkerInitialPosition(Sex gender, int x, int y) {
-        if (gender.equals(Sex.MALE))
-            currentPlayer.getWorkers().get(0).setPosition(x, y);
-        if (gender.equals(Sex.FEMALE))
-            currentPlayer.getWorkers().get(1).setPosition(x, y);
+        this.players = game.getPlayers();
+        numberOfPlayers = game.getNumberOfPlayers();
     }
 
 
@@ -86,36 +38,27 @@ public class TurnHandler {
         System.out.println(currentPlayer.getNickname() + " has chosen " + currentPlayer.getGod().getClass().getSimpleName());
     }
 
-    public int getTurnNumber() {
-        return turnNumber;
+    public int getTurnCount() {
+        return turnCount;
     }
 
     public void nextTurn() {
-        turnNumber++;
+        turnCount++;
         nextPlayer();
     }
 
     /**
      * Lets the Challenger choose Gods equal to the number of players.
      */
-    public void challengerChooseGods() {
+    private void challengerChooseGods() {
 
-        /*
-        //todo in view : print gods and their description
-        System.out.println("You are the challenger. You shall pick " + game.getNumberOfPlayers()
-        + " Gods from the deck: ");
-        for(God god : godsDeck) {
-            System.out.println(god.getClass().getSimpleName() + "'s Power:");
-            System.out.println(god.getDescription());
-            System.out.println("");
-        }
-        */
+        view.printAllGods(gameController.getGodsDeck());
 
         ArrayList<God> godsDeck = gameController.getGodsDeck();
 
         //lets challenger select the gods
         int i = 0;
-        while (i < game.getNumberOfPlayers()) {
+        while (i < numberOfPlayers) {
             String chosenGod = view.getGodFromChallenger();
             boolean foundGod = false;
             for (God god : godsDeck) {
@@ -144,13 +87,13 @@ public class TurnHandler {
     /**
      * Lets players choose their own god among the ones chosen by the challenger.
      */
-    public void playersChooseGods() {
+    private void playersChooseGods() {
         //remember: Challenger must be last
         //challenger is the last of arraylist [see Game.randomChallenger()]
-        ArrayList<God> alreadyTakenGods = new ArrayList<God>(game.getNumberOfPlayers());
+        ArrayList<God> alreadyTakenGods = new ArrayList<God>(numberOfPlayers));
         boolean foundGod = false;
 
-        for (Player player : game.getPlayers()) {
+        for (Player player : players) {
 
             while (!foundGod) {
                 String inputGod = view.choosePlayerGod();
@@ -171,14 +114,135 @@ public class TurnHandler {
     }
 
 
-    public void start() {
-        challengerChooseGods();
-        playersChooseGods();
-        //challengerChooseStartPlayer();
-        //idea: reorder players arraylist to put startPlayer first and iterate on them
-        //setInitialWorkersPosition();
+    /**
+     * Lets the challenger choose the start player
+     * and puts him in the first position of the arraylist players of game.
+     */
+    private void challengerChooseStartPlayer() {
+        String startPlayerNick;
+        boolean foundPlayer = false;
+        Player startPlayer = null;
 
-        //start actual game (new method)
+        while (startPlayer == null) {
+
+            startPlayerNick = view.challengerChooseStartPlayer();   //returns nickname of startPlayer
+            for (Player player : players) {
+                if (startPlayerNick.equals(player.getNickname())) {
+                    startPlayer = player;
+                    break;
+                }
+            }
+            if (startPlayer == null)
+                view.invalidStartPlayer();
+        }
+
+        //set startPlayer as first of arraylist players.
+        //challenger already was the last.
+
+        int startPlayerIndex = players.indexOf(startPlayer);
+        Player temp = players.get(0);
+        players.set(0, startPlayer);
+        players.set(startPlayerIndex, temp);
     }
 
+    /**
+     * All players set the position for all workers.
+     */
+    private void setInitialWorkersPosition() {
+        boolean positionSet;
+        for (Player player : players) {
+            for (Worker worker : player.getWorkers()) {
+                positionSet = false;
+
+                while (!positionSet) {
+                    int[] initialPosition = view.getInitialWorkerPosition();
+                    int x = initialPosition[0];
+                    int y = initialPosition[1];
+
+                    if (game.getBoard().findCell(x, y) != null) {
+                        worker.setPosition(x, y);
+                        positionSet = true;
+                    } else
+                        view.invalidInitialWorkerPosition();
+                }
+            }
+        }
+    }
+
+
+    private Worker chooseWorker() {
+
+
+        while (true) {
+            String inputSex = view.chooseWorker(); //returns MALE or FEMALE, check this in view
+            for (Worker worker : currentPlayer.getWorkers()) {
+                String workerSex = worker.getSex().getClass().getSimpleName().toUpperCase();
+                if (workerSex.equals(inputSex))
+                    return worker;
+                else
+                    view.invalidSexWorker();   //additional check here (maybe useless)
+            }
+        }
+
+
+    }
+
+
+    protected void setUpTurns() {
+        challengerChooseGods();
+        playersChooseGods();
+        challengerChooseStartPlayer();
+        setInitialWorkersPosition();
+    }
+
+
+    protected void startTurnFlow() {
+        int cyclicalCounter = 0;
+        //int cannotMoveCounter = 0;
+
+        while (true) {
+
+            currentPlayer = players.get(cyclicalCounter);
+
+
+
+            /*
+            //if none of currentPlayer's workers can move, lose
+            if (!worker1.getMoveMap().anyAvailableMovePosition()
+                    && !worker2.getMoveMap().anyAvailableMovePosition())
+                losePlayer();
+            */
+
+            Worker chosenWorker = chooseWorker();
+
+            try {
+                currentPlayer.getGod().evolveTurn(chosenWorker);
+            }
+            catch (UnableToMoveException ex) {
+                //cannotMoveCounter++;
+                /*if(cannotMoveCounter == 1)
+                //choose other worker
+                else*/
+                currentPlayer.lose();
+                //todo display something from GodController (?)
+            }
+            catch (UnableToBuildException ex) {
+                currentPlayer.lose();
+                //todo display something from GodController (?)
+            }
+            finally {
+                if(players.size() == 1)
+                    players.get(0).getGod().getGodController().winGame();
+            }
+
+
+            cyclicalCounter++;
+            if (cyclicalCounter == numberOfPlayers)
+                cyclicalCounter = 0;
+        }
+    }
+
+
+
 }
+

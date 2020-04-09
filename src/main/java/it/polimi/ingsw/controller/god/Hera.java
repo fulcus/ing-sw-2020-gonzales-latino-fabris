@@ -1,21 +1,23 @@
 package it.polimi.ingsw.controller.god;
 
 import it.polimi.ingsw.controller.GodController;
-import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.controller.UnableToBuildException;
+import it.polimi.ingsw.controller.UnableToMoveException;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Worker;
 
-public class Hera implements God{
+public class Hera extends God{
 
-    private GodController godController;
+    public String description = "An opponent cannot win by moving into a perimeter space.";
+
 
     public Hera(GodController godController){
-        this.godController = godController;
+        super(godController);
     }
 
 
     @Override
-    public void evolveTurn(Worker worker) {
+    public void evolveTurn(Worker worker) throws UnableToMoveException, UnableToBuildException {
         move(worker);
         win(worker);
         build(worker);

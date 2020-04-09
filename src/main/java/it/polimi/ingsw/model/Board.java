@@ -17,11 +17,6 @@ public class Board {
         }
     }
 
-    public Cell[][] getBoard() {
-        return board;
-    }
-
-
     /**
      * Used to find one specific cell on the map
      * @param x Row of the map

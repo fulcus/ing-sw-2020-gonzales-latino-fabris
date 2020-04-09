@@ -6,7 +6,6 @@ import it.polimi.ingsw.view.*;
 
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * Handles the input given by the view and sends them to the model to change the Game status
@@ -14,51 +13,50 @@ import java.util.Scanner;
 public class GameController {
 
     private Game game;
-    private int numOfPlayers;
     private TurnHandler turnHandler;
-    private CLIMainView view; //will be refactored
+    private CLIMainView view;
+    private final ViewSelector viewSelector;
     private boolean endGame;
     private GodController godController;
     private final ArrayList<God> godsDeck;
 
     public GameController() {
         game = null;
-        numOfPlayers = 0;
+        int numOfPlayers = 0;
         turnHandler = null;
         view = null;
+        viewSelector = new ViewSelector();
         endGame = false;
         godsDeck = new ArrayList<>(14);
-
+        endGame = false;
     }
 
     public static void main(String[] args) {
         GameController gameController = new GameController();
-        gameController.setPreferredView();
-        gameController.start();
-
+        gameController.setUpGame();
     }
 
 
-    //Asks the player whether he wants to play with a CLI or GUI
-    private void setPreferredView() {
-        System.out.println("Do you want to play with a CLI or GUI?");
-        Scanner input = new Scanner(System.in);
-        String viewType = input.nextLine().toUpperCase();   //makes input case insensitive
-        if(viewType.equals("CLI"))
-            this.view = new CLIMainView(this);
-        /*else if(viewType.equals("GUI"))
-            this.view = new GUIMainView(this);*/
-        else
-            System.out.println("Invalid input: type either CLI or GUI.");
-    }
 
 
-    public void start() {
+    /**
+     * Sets up game and starts the logic flow.
+     */
+    public void setUpGame() {
         godController = new GodController(view, this);
         createDeckGods();
-        
+
+        String viewType = viewSelector.askTypeofView();
+        if(viewType.toUpperCase().equals("CLI"))
+            view = new CLIMainView(this);
+        /*
+        else if(viewType.toUpperCase().equals("GUI"))
+            view = new GUIMainView(this);
+        else
+            viewSelector.genericError();
+        */
         view.beginningView();
-        numOfPlayers = view.askNumberOfPlayers();
+        int numOfPlayers = view.askNumberOfPlayers();
         
         game = new Game(numOfPlayers);
         turnHandler = new TurnHandler(game, view, this);
@@ -66,17 +64,13 @@ public class GameController {
         for(String nick : view.askPlayersNickname())
             game.addPlayer(nick);
 
-        turnHandler.start();
+        turnHandler.setUpTurns();
+        turnHandler.startTurnFlow();
     }
 
 
     public CLIMainView getView() {
         return view;
-    }
-
-
-    public TurnHandler getTurnHandler() {
-        return turnHandler;
     }
 
 
@@ -105,5 +99,9 @@ public class GameController {
     }
 
 
+    public boolean getEndGame() {
+        //todo
+        return endGame;
+    }
 
 }

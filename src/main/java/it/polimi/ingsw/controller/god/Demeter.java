@@ -1,24 +1,27 @@
 package it.polimi.ingsw.controller.god;
 
 import it.polimi.ingsw.controller.GodController;
+import it.polimi.ingsw.controller.UnableToBuildException;
+import it.polimi.ingsw.controller.UnableToMoveException;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.Worker;
 import it.polimi.ingsw.model.WorkerBuildMap;
 
 
-public class Demeter implements God {
+public class Demeter extends God {
 
-    private GodController godController;
+    public String description = "Your Worker may build one additional time, but not on the same space.";
+
     Cell firstBuildCell;
 
     public Demeter (GodController godController) {
-        this.godController= godController;
+        super(godController);
         firstBuildCell = null;
     }
 
     @Override
-    public void evolveTurn(Worker w) {
+    public void evolveTurn(Worker w) throws UnableToBuildException, UnableToMoveException {
         move(w);
         win(w);
         firstBuildCell = build(w);
@@ -26,8 +29,14 @@ public class Demeter implements God {
     }
 
     private void buildAgain(Worker worker) {
+        WorkerBuildMap buildMap;
+        try {
+            buildMap = updateBuildMap(worker);
+        } catch (UnableToBuildException ex) {
+            //todo print you cant build again
+            return;
+        }
 
-        WorkerBuildMap buildMap = updateBuildMap(worker);
         Board board = worker.getPlayer().getGame().getBoard();
 
 
@@ -66,7 +75,7 @@ public class Demeter implements God {
     }
 
 
-    public GodController getGameController(){
+    public GodController getGodController(){
         return godController;
     }
 

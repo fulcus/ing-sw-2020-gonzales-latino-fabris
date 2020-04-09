@@ -1,20 +1,23 @@
 package it.polimi.ingsw.controller.god;
 
 import it.polimi.ingsw.controller.GodController;
+import it.polimi.ingsw.controller.UnableToBuildException;
+import it.polimi.ingsw.controller.UnableToMoveException;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Worker;
 
-public class Athena implements God{
+public class Athena extends God{
 
-    private GodController godController;
+    public String description = "If one of your Workers moved up on your last turn, opponent Workers cannot move up this turn.";
+
 
     public Athena(GodController godController){
-        this.godController = godController;
+        super(godController);
     }
 
 
     @Override
-    public void evolveTurn(Worker worker) {
+    public void evolveTurn(Worker worker) throws UnableToMoveException, UnableToBuildException {
         move(worker);
         win(worker);
         build(worker);
@@ -42,4 +45,5 @@ public class Athena implements God{
     public GodController getGodController(){
         return godController;
     }
+
 }
