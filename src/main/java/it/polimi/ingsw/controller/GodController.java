@@ -88,6 +88,10 @@ public class GodController {
     }
 
 
+    /**
+     * Allows to translate if the player wants or not to move another time.
+     * @return The understandable input for the God's specific method.
+     */
     public int[] getInputMoveAgain() {
         String answer = view.askMoveAgain();
         int[] input;
@@ -128,13 +132,18 @@ public class GodController {
     }
 
 
-
+    /**
+     * Allows to call the GameController to notify that a player has  won the game.
+     */
     public void winGame() {
         view.winningView();
         gameController.endGame();
     }
 
 
+    /**
+     * Allows to call the view to print the error screen
+     */
     public void errorScreen() {
         view.printErrorScreen();
     }

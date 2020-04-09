@@ -13,6 +13,7 @@ public class Hephaestus implements God {
     Cell firstBuildCell;
 
     public Hephaestus(GodController godController){
+        firstBuildCell = null;
         this.godController = godController;
     }
 
