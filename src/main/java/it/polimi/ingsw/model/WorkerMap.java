@@ -3,9 +3,9 @@ package it.polimi.ingsw.model;
 import java.util.ArrayList;
 
 public class WorkerMap {
-    private Board board;
-    private Worker worker;
-    private boolean[][] matrix;
+    private final Board board;
+    private final Worker worker;
+    private final boolean[][] matrix;
     public static final int N = 3;
 
     public WorkerMap(Worker worker) {
@@ -26,6 +26,10 @@ public class WorkerMap {
         return worker;
     }
 
+
+    /**
+     * Sets false any cell containing a dome.
+     */
     public void DomeCellFalse() {
 
         for (int i = 0; i < N; i++) {
@@ -36,6 +40,9 @@ public class WorkerMap {
         }
     }
 
+    /**
+     * Sets false any cell containing a worker.
+     */
     public void WorkerCellFalse() {
 
         for (int i = 0; i < N; i++) {
@@ -46,6 +53,9 @@ public class WorkerMap {
         }
     }
 
+    /**
+     * Sets false any occupied cell, i.e. any cell containing a worker or a dome.
+     */
     public void OccupiedCellFalse() {
 
         for (int i = 0; i < N; i++) {
@@ -56,6 +66,9 @@ public class WorkerMap {
         }
     }
 
+    /**
+     * Sets false any cell containing the other worker of the same player.
+     */
     public void FriendlyWorkerCellFalse() {
 
         for (int i = 0; i < N; i++) {
@@ -67,14 +80,21 @@ public class WorkerMap {
         }
     }
 
+    /**
+     * Sets false the central cell of the WorkersMap.
+     */
     public void centerPositionFalse() {
         matrix[1][1] = false;
     }
 
-    public void workersPositionTrue() {
+    /**
+     * Sets true the central cell of the WorkersMap.
+     */
+    public void centerPositionTrue() {
         matrix[1][1] = true;
     }
 
+    //useless?
     public void setBooleanCellBoard(int i, int j, boolean value) {
         int workersX = worker.getPosition().getX();
         int workersY = worker.getPosition().getY();
@@ -89,10 +109,23 @@ public class WorkerMap {
         matrix[i - workersX + 1][j - workersY + 1] = value;
     }
 
+    /**
+     * Returns a cell of the WorkerMap given its relative coordinates.
+     * @param i Coordinate relative to the WorkerMap.
+     * @param j Coordinate relative to the WorkerMap.
+     * @return Selected cell of the WorkerMap.
+     */
     public boolean getBooleanCellWorkerMap(int i, int j) {
         return matrix[i][j];
     }
 
+    /**
+     * Returns a cell of the WorkerMap given its absolute coordinates
+     * i.e the coordinates of the Board.
+     * @param i Coordinate relative to the Board.
+     * @param j Coordinate relative to the Board.
+     * @return Selected cell of the WorkerMap.
+     */
     public boolean getBooleanCellBoard(int i, int j) {
         int workersX = worker.getPosition().getX();
         int workersY = worker.getPosition().getY();
@@ -108,8 +141,7 @@ public class WorkerMap {
     }
 
     /**
-     * Returns Cell of Board given the relative coordinates of the worker.
-     *
+     * Returns the cell of the Board given its coordinates relative to the WorkerMap.
      * @param i Relative coordinate of MoveMatrix.
      * @param j Relative coordinate of MoveMatrix.
      * @return Returns Cell of Board given the relative coordinates of the worker,
@@ -119,17 +151,17 @@ public class WorkerMap {
         int workersX = worker.getPosition().getX();
         int workersY = worker.getPosition().getY();
 
-        if (!board.isInBoard(workersX, workersY) || !board.isInBoard(i,j))
+        if (!board.isInBoard(workersX, workersY))
             return null;
 
-        return worker.getPlayer().getGame().getBoard().findCell(workersX - 1 + i, workersY - 1 + j);
+        return board.findCell(workersX - 1 + i, workersY - 1 + j);
     }
 
     /**
      * Sets false cells not contained in Board.
      */
     //useless because getBooleanMap returns false if cell is out of board
-    //called in updateMove/BuildMap of God
+    //called in updateMap of God
     public void updateCellsOutOfMap() {
         Cell workersCell = worker.getPosition();
         int workersX = worker.getPosition().getX();
@@ -147,6 +179,9 @@ public class WorkerMap {
         }
     }
 
+    /**
+     * Sets false the cells the cells in the perimeter of the Board.
+     */
     public void cellsInPerimeterFalse() {
 
         for (int i = 0; i < N; i++) {
@@ -158,6 +193,10 @@ public class WorkerMap {
         }
     }
 
+    /**
+     * Sets false cells that are above the worker more than x levels.
+     * @param x Maximum level difference between any given cell of the WorkerMap and the Worker's cell.
+     */
     public void levelDifferenceLessEqualThanX(int x) {
         int workersLevel = worker.getPosition().getLevel();
 
@@ -173,12 +212,12 @@ public class WorkerMap {
 
 
     /**
-     * Finds all neighboring enemy workers.
-     * @return Returns all enemy workers adjacent to the worker.
+     * Finds all neighboring enemy Workers.
+     * @return Returns all enemy Workers adjacent to the worker.
      */
     public ArrayList<Worker> neighboringEnemyWorkers() {
 
-        ArrayList<Worker> neighboringWorkers = new ArrayList<Worker>(6);
+        ArrayList<Worker> neighboringWorkers = new ArrayList<>(6);
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {

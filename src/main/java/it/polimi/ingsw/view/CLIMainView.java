@@ -388,5 +388,4 @@ public class CLIMainView implements ViewObserver {
 
 
 
-
 }

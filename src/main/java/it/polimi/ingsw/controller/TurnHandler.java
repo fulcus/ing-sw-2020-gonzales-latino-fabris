@@ -1,7 +1,10 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.controller.god.God;
-import it.polimi.ingsw.model.*;
+
+import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.Worker;
 import it.polimi.ingsw.view.CLIMainView;
 
 import java.util.ArrayList;
@@ -12,13 +15,11 @@ public class TurnHandler {
     private final GameController gameController;
     private final ArrayList<Player> players;
     private Player currentPlayer;
-    private int turnCount;
-    private final int numberOfPlayers;
+    private Integer numberOfPlayers;    //is it updated when game.numberOfPlayers is decreased?
 
     public TurnHandler(Game game, CLIMainView view, GameController gameController) {
         this.game = game;
         currentPlayer = null;
-        turnCount = 0;
         this.view = view;
         this.gameController = gameController;
         this.players = game.getPlayers();
@@ -31,21 +32,6 @@ public class TurnHandler {
     }
 
 
-    /**
-     * Allows to print the God of a player
-     */
-    public void printPlayerGod() {
-        System.out.println(currentPlayer.getNickname() + " has chosen " + currentPlayer.getGod().getClass().getSimpleName());
-    }
-
-    public int getTurnCount() {
-        return turnCount;
-    }
-
-    public void nextTurn() {
-        turnCount++;
-        nextPlayer();
-    }
 
     /**
      * Lets the Challenger choose Gods equal to the number of players.

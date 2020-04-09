@@ -9,7 +9,7 @@ public class Game {
 
 
     private final Board board;
-    private final int numberOfPlayers;
+    private Integer numberOfPlayers;
     private final ArrayList<Player> players;
     private final ArrayList<God> chosenGods;
     private Player challenger;
@@ -19,15 +19,16 @@ public class Game {
      */
     public Game(int numberOfPlayers) {
         board = new Board();
-        this.numberOfPlayers = numberOfPlayers;
+        this.numberOfPlayers = numberOfPlayers; //autoboxing
         players = new ArrayList<>(numberOfPlayers);
-        chosenGods = new ArrayList<God>(numberOfPlayers);
+        chosenGods = new ArrayList<>(numberOfPlayers);
     }
 
-    /** Adds a new player to the game and chooses challenger if target number of players has been reached.
+    /**
+     *  Adds a new player to the game and chooses challenger if target number of players has been reached.
      * @param nickname Nickname chosen by the player.
      */
-    //viene fatto check su nickname e colore prima di creare nuovo player
+    //view checks that nickname and color aren't already taken
     public void addPlayer(String nickname) {
         players.add(new Player(this, nickname));
 
@@ -35,7 +36,8 @@ public class Game {
             randomChallenger();
     }
 
-    /** Picks a challenger randomly.
+    /**
+     *  Picks a challenger randomly.
      */
     private void randomChallenger() {
         Random rand = new Random();
@@ -79,5 +81,10 @@ public class Game {
         return chosenGods;
     }
 
+    public void removePlayer(Player loser) {
+        chosenGods.remove(loser.getGod());
+        players.remove(loser);
+        numberOfPlayers--;
+    }
 
 }
