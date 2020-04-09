@@ -7,7 +7,10 @@ import it.polimi.ingsw.model.*;
 
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class CLIMainView implements ViewObserver {
 
@@ -101,48 +104,83 @@ public class CLIMainView implements ViewObserver {
 
     }
 
-    //IO farei una funzione che permette ad 1 player di scegliere il suo dio,
-    // poi è il controller che chiama questa funzione 2 o 3 volte, e il controller fa next turn.
-    public ArrayList<Integer> askPlayingGod(){
-        int i=0, j=0;
-        int chosenOne;
-        ArrayList<Integer> choice = new ArrayList<Integer>(myGame.getNumberOfPlayers());
+    /**
+     *
+     * @return The name of the chosen God.
+     */
+    public String askPlayerGod() {
 
-        myTurnHandler.nextPlayer();
-        while(i<myGame.getNumberOfPlayers()){
-            System.out.println(myTurnHandler.getCurrentPlayer().getNickname() + "! Choose one God among the following: ");
-            myController.printGameGods();
-            chosenOne = input.nextInt();
-            if (choice.contains(chosenOne) || !(chosenOne==1 || chosenOne==2 || chosenOne==3)){
-                System.out.println("This god has already been chosen or your choice is not valid.\n Pick another!\n");
-            }
-            else{
-                choice.add(i, chosenOne);
-                myTurnHandler.nextTurn();
-                i++;
-            }
-        }
-        return choice;
+            System.out.println("Choose your god by inserting its name!");
+
+             return input.nextLine();
+
     }
 
-    public ArrayList<Integer> askGameGods(){
-        ArrayList<Integer> chosenGods = new ArrayList<Integer>(myGame.getNumberOfPlayers());
-        int select, i=0;
+    public void playerChoseInvalidGod(){ System.out.println("Your god is not available or has been already chosen"); }
 
-        System.out.println("Select " + myGame.getNumberOfPlayers() + "God cards to play the Game\n");
-        myController.printAllGods();
-        while( i < myGame.getNumberOfPlayers() ) {
-            select = input.nextInt();
-            if (chosenGods.contains(select) || select<1 || select>14 )
-                System.out.println("You have already chosen this God. Pick another!\n");
-            else {
-                chosenGods.add(select);
+
+    public String getGodFromChallenger(int n){
+
+        System.out.println("Select Gods for the Game!" +(myGame.getNumberOfPlayers()-n)+ "remaining" );
+
+       return input.nextLine();
+
+
+    }
+
+    public String challengerChooseStartPlayer(String challengerNickname){
+
+        System.out.println(challengerNickname + "you can choose the first player to start! Insert a nickname");
+
+        return input.nextLine();
+
+    }
+
+    public void invalidStartPlayer(){
+        System.out.println("This is an invalid nickname, insert another one!");
+    }
+
+
+    /**
+     *
+     * @param availableGodsFromDeck This is the deck with available.
+     * @return The 3 names of chosen gods.
+     */
+    /*public ArrayList askGameGods(ArrayList<God> availableGodsFromDeck){
+
+        List<String> nameOfAvailableGods = availableGodsFromDeck.stream().map(object -> Objects.toString(object, null)).collect(Collectors.toList());
+
+        ArrayList<String> selectedGods = new ArrayList<String>(myGame.getNumberOfPlayers());
+
+        String selectedGod;
+
+        int i = 0;
+
+        System.out.println("Select " + (myGame.getNumberOfPlayers()) + "God cards to play the Game");
+
+        while(i < myGame.getNumberOfPlayers()) {
+
+            selectedGod = input.nextLine();
+
+            if (nameOfAvailableGods.contains(selectedGod) && !(selectedGods.contains(selectedGod)))
+            {
+                selectedGods.add(selectedGod);
+                nameOfAvailableGods.remove(selectedGod);
                 i++;
             }
 
+            else
+                System.out.println("This God is not among available gods! Insert another");
+
         }
-        return chosenGods;
-    }
+
+        return selectedGods;
+
+    }*/
+
+
+
+
 
     public String askChosenWorker() {
 
@@ -168,6 +206,7 @@ public class CLIMainView implements ViewObserver {
 
     /**
      * This method asks the user to insert the direction of his next movement.
+     *
      * @return The compass direction of the movement.
      */
     public String askMovementDirection() {
@@ -190,8 +229,10 @@ public class CLIMainView implements ViewObserver {
     }
 
 
+
     public String askMoveAgain() {
         String answer;
+
         System.out.println("\n" + myTurnHandler.getCurrentPlayer().getNickname() + ": Do you want to move again your Worker? (Y = 'Yes', N = 'No'");
         while (true) {
             answer = input.nextLine();
@@ -205,7 +246,7 @@ public class CLIMainView implements ViewObserver {
 
     public String askWantToMoveUp() {
         String answer;
-        while(true) {
+        while (true) {
             System.out.println("Do you want to move up? \n Y for Yes, N for No\n");
             answer = input.nextLine();
 
@@ -219,6 +260,7 @@ public class CLIMainView implements ViewObserver {
 
     /**
      * This method asks the user to insert the position where he wants to build.
+     *
      * @return The compass direction of the place where to build.
      */
     //TODO devo chiedere che tipo di edificio vuole costruire? perchè nel caso del dio Atlas
@@ -281,6 +323,7 @@ public class CLIMainView implements ViewObserver {
 
     /**
      * Prints a line of the map, showing eventual buildings and workers of the line.
+     *
      * @param linenumber Represents the line which content will be displayed.
      */
     public void printMapLine(int linenumber) {
@@ -346,46 +389,42 @@ public class CLIMainView implements ViewObserver {
 
     //TODO: in update si potrebbero passare inoltre dei parametri che specificano cosa ha fatto avvenire il cambiamento, ad esempio se per un movimento o per una costruzione. Intal modo posso far apparire all'utente: PLAYER1 si è mosso-->stampa mappa.
     @Override
-    public void update(Cell toBeUpdatedCell){
+    public void update(Cell toBeUpdatedCell) {
 
-        myBoard.findCell(toBeUpdatedCell.getX(),toBeUpdatedCell.getY()).setLevel(toBeUpdatedCell.getLevel());//update the level of the changed cell in the view
-        myBoard.findCell(toBeUpdatedCell.getX(),toBeUpdatedCell.getY()).setDome(toBeUpdatedCell.hasDome());//update dome of changed cell in the view
-        myBoard.findCell(toBeUpdatedCell.getX(),toBeUpdatedCell.getY()).setWorker(toBeUpdatedCell.getWorker());//update worker of the changed cell in the view
+        myBoard.findCell(toBeUpdatedCell.getX(), toBeUpdatedCell.getY()).setLevel(toBeUpdatedCell.getLevel());//update the level of the changed cell in the view
+        myBoard.findCell(toBeUpdatedCell.getX(), toBeUpdatedCell.getY()).setDome(toBeUpdatedCell.hasDome());//update dome of changed cell in the view
+        myBoard.findCell(toBeUpdatedCell.getX(), toBeUpdatedCell.getY()).setWorker(toBeUpdatedCell.getWorker());//update worker of the changed cell in the view
 
     }
 
 
-    public void printAllGods(ArrayList<God> godsDeck){
+    public void printAllGods(ArrayList<God> godsDeck) {
 
-        for(God god : godsDeck){
+        for (God god : godsDeck) {
 
-            System.out.println(god.toString()+ ":" +god.description);
+            System.out.println(god.toString() + ":" + god.description);
 
         }
 
 
     }
 
-    public void challengerError(){
+    public void challengerError() {
 
         System.out.println("This god doesn't exist");
     }
 
 
-    public void printChosenGods(){
+    public void printChosenGods() {
 
         System.out.println("Available Gods:");
 
-        for(God god : myGame.getChosenGods()){
+        for (God god : myGame.getChosenGods()) {
 
             System.out.println(god.toString());
         }
 
     }
-
-
-
-
 
 
 }

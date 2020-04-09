@@ -32,7 +32,6 @@ public class TurnHandler {
     }
 
 
-
     /**
      * Lets the Challenger choose Gods equal to the number of players.
      */
@@ -45,9 +44,11 @@ public class TurnHandler {
         //lets challenger select the gods
         int i = 0;
         while (i < numberOfPlayers) {
-            String chosenGod = view.getGodFromChallenger();
+
+            String chosenGod = view.getGodFromChallenger(i);
             boolean foundGod = false;
             for (God god : godsDeck) {
+
                 String godName = god.getClass().getSimpleName().toLowerCase();
 
                 if (chosenGod.toLowerCase().equals(godName)
@@ -82,7 +83,7 @@ public class TurnHandler {
         for (Player player : players) {
 
             while (!foundGod) {
-                String inputGod = view.choosePlayerGod();
+                String inputGod = view.askPlayerGod();
 
                 for (God god : game.getChosenGods()) {
                     String godName = god.getClass().getSimpleName().toLowerCase();
@@ -111,7 +112,7 @@ public class TurnHandler {
 
         while (startPlayer == null) {
 
-            startPlayerNick = view.challengerChooseStartPlayer();   //returns nickname of startPlayer
+            startPlayerNick = view.challengerChooseStartPlayer(game.getChallenger().getNickname());   //returns nickname of startPlayer
             for (Player player : players) {
                 if (startPlayerNick.equals(player.getNickname())) {
                     startPlayer = player;
@@ -203,21 +204,18 @@ public class TurnHandler {
 
             try {
                 currentPlayer.getGod().evolveTurn(chosenWorker);
-            }
-            catch (UnableToMoveException ex) {
+            } catch (UnableToMoveException ex) {
                 //cannotMoveCounter++;
                 /*if(cannotMoveCounter == 1)
                 //choose other worker
                 else*/
                 currentPlayer.lose();
                 //todo display something from GodController (?)
-            }
-            catch (UnableToBuildException ex) {
+            } catch (UnableToBuildException ex) {
                 currentPlayer.lose();
                 //todo display something from GodController (?)
-            }
-            finally {
-                if(players.size() == 1)
+            } finally {
+                if (players.size() == 1)
                     players.get(0).getGod().getGodController().winGame();
             }
 
@@ -227,7 +225,6 @@ public class TurnHandler {
                 cyclicalCounter = 0;
         }
     }
-
 
 
 }
