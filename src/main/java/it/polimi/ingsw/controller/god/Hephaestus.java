@@ -42,7 +42,7 @@ public class Hephaestus extends God {
             return;
 
 
-        boolean buildAgainInSamePosition = askBuildAgainInSamePosition();  //true if player wants to build again
+        boolean buildAgainInSamePosition = godController.getBuildAgain(this);  //true if player wants to build again
 
         if(!buildAgainInSamePosition)
             return;

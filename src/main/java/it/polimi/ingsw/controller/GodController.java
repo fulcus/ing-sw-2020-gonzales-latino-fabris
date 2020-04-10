@@ -1,18 +1,18 @@
 package it.polimi.ingsw.controller;
 
 
-import it.polimi.ingsw.view.CLIMainView;
+import it.polimi.ingsw.controller.god.God;
+import it.polimi.ingsw.view.GodView;
 
 /**
  * Manages IO of Gods.
  */
 public class GodController {
-    private final CLIMainView view;
-    private final GameController gameController;
+    private final GodView godView;
 
-    public GodController(CLIMainView view, GameController gameController) {
-        this.view = view;
-        this.gameController = gameController;
+
+    public GodController(GodView godView) {
+        this.godView = godView;
     }
 
 
@@ -85,7 +85,7 @@ public class GodController {
      */
     public int[] getInputMove(){
 
-        return getInputInCoordinates(view.askMovementDirection());
+        return getInputInCoordinates(godView.askMovementDirection());
     }
 
 
@@ -94,7 +94,7 @@ public class GodController {
      * @return The understandable input for the God's specific method.
      */
     public int[] getInputMoveAgain() {
-        String answer = view.askMoveAgain();
+        String answer = godView.askMoveAgain();
         int[] input;
         if (answer.equals("Y")) {
             input = getInputMove();
@@ -107,35 +107,59 @@ public class GodController {
 
     /**
      * Allows to get the right input for the God if the player wants to move up or not.
-     * @return True if the player with his worker wants to jump to an higher level, False otherwise.
+     * @return True if the player with his worker doesn't want to jump to an higher level, False otherwise.
      */
     public boolean wantToMoveUp(){
-        String answer = view.askWantToMoveUp();
 
-        while(true) {
+        String answer = godView.askWantToMoveUp();
+        return !answer.equals("Y");
 
-            if (answer.equals("Y")) {
-                return false;
-            } else if(answer.equals("N")) {
-                return true;
-            } else
-                errorScreen();
-        }
     }
 
     /**
-     * This method returns the coordinates' variation of the selected building.
-     * @return Coordinates' variation.
+     * This method returns the coordinates where a player wants to build and the specific building.
+     * @return Coordinates' variation and type of building.
      */
     public int[] getBuildingInput(){
 
-        return getInputInCoordinates(view.askBuildingDirection());
+        int[] buildingInput = new int[3];
+        String[] playerInput = godView.askBuildingDirection();
+
+        int[] playerInputCoord = getInputInCoordinates(playerInput[0]);
+        buildingInput[0] = playerInputCoord[0];
+        buildingInput[1] = playerInputCoord[1];
+
+        if (playerInput[2].equals("B"))
+            buildingInput[2] = 0;
+        else
+            buildingInput[2] = 1;
+
+        return buildingInput;
+    }
+
+
+    /**
+     * Allows to translate the players' answer to the will of build another time, all related to a specific God.
+     * @param god It's the specific god of the player.
+     * @return True for the will of build, False otherwise.
+     */
+    public boolean getBuildAgain(God god){
+        String answer = null;
+        if (god.toString().equals("Hephaestus"))
+            answer = godView.askBuildAgainHephaestus();
+
+        if (god.toString().equals("Demeter"))
+            answer = godView.askBuildAgainDemeter();
+
+
+        return answer.equals("Y");
     }
 
 
     /**
      * Allows to call the GameController to notify that a player has  won the game.
      */
+    //TODO forse questo è possibile rivederlo - da mettere che non si interfacci con la view direttamente, ma col gameController??
     public void winGame() {
         view.winningView();
         System.exit(0);
@@ -145,6 +169,7 @@ public class GodController {
     /**
      * Allows to call the view to print the error screen
      */
+    //TODO : Vitto ora lo modifica come avevamo detto
     public void errorScreen() {
         view.printErrorScreen();
     }

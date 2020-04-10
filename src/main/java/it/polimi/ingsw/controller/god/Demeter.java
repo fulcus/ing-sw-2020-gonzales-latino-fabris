@@ -39,37 +39,41 @@ public class Demeter extends God {
 
         Board board = worker.getPlayer().getGame().getBoard();
 
+        if (godController.getBuildAgain(this)) {
+            int[] buildInput = godController.getBuildingInput();  //returns build position + type: block/dome
+            int xBuild = buildInput[0];
+            int yBuild = buildInput[1];
+            int buildType = buildInput[2]; //0 is block, 1 is dome
 
-        int[] buildInput = getInputSecondBuildPosition();  //returns build position + type: block/dome
-        int xBuild = buildInput[0];
-        int yBuild = buildInput[1];
-        int buildType = buildInput[2]; //0 is block, 1 is dome
-
-        Cell buildPosition = board.findCell(xBuild, yBuild);
+            Cell buildPosition = board.findCell(xBuild, yBuild);
 
 
-        if (buildPosition != firstBuildCell) {
+            if (buildPosition != firstBuildCell) {
 
-            //build Dome
-            if (buildType == 1) {
+                //build Dome
+                if (buildType == 1) {
 
-                if (buildMap.isAllowedToBuildBoard(xBuild, yBuild) && buildPosition.getLevel() == 3) {
-                    worker.buildDome(xBuild, yBuild);
+                    if (buildMap.isAllowedToBuildBoard(xBuild, yBuild) && buildPosition.getLevel() == 3) {
+                        worker.buildDome(xBuild, yBuild);
 
-                } else {
-                    //todo View + Controller error
+                    } else {
+                        //todo View + Controller error
+                    }
+
+                } else if (buildType == 2) {    //build Block
+                    if (buildMap.isAllowedToBuildBoard(xBuild, yBuild) && buildPosition.getLevel() < 3) {
+                        worker.buildBlock(xBuild, yBuild);
+
+                    } else {
+                        //todo View + Controller error
+                    }
                 }
-
-            } else if (buildType == 2) {    //build Block
-                if (buildMap.isAllowedToBuildBoard(xBuild, yBuild) && buildPosition.getLevel() < 3) {
-                    worker.buildBlock(xBuild, yBuild);
-
-                } else {
-                    //todo View + Controller error
-                }
+            } else {
+                //todo View + Controller error cant build in initial position
             }
-        } else {
-            //todo View + Controller error cant build in initial position
+        }
+        else {
+            //todo non voglio costruire di nuovo
         }
 
     }

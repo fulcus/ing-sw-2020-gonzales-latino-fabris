@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class CLIMainView implements ViewObserver {
 
-    Scanner input = new Scanner(System.in);
+    Scanner input;
     int numberOfPlayers;
     TurnHandler myTurnHandler;
     Game myGame;
@@ -48,6 +48,7 @@ public class CLIMainView implements ViewObserver {
 
     }
 
+
     /**
      * @return The number of players.
      */
@@ -72,6 +73,7 @@ public class CLIMainView implements ViewObserver {
         return insertedNumberOfPlayers;
 
     }
+
 
     /**
      * This method registers all the players' nicknames.
@@ -160,84 +162,6 @@ public class CLIMainView implements ViewObserver {
 
             else
                 System.out.println("Invalid input");
-
-        }
-
-
-    }
-
-    /**
-     * This method asks the user to insert the direction of his next movement.
-     * @return The compass direction of the movement.
-     */
-    public String askMovementDirection() {
-
-        String selectedDirection;
-
-        while (true) {
-            System.out.println(myTurnHandler.getCurrentPlayer().getNickname() + "where do you want to move your worker?");
-
-            selectedDirection = input.nextLine();
-
-            if (selectedDirection.equals("N") || selectedDirection.equals("NE") || selectedDirection.equals("E") || selectedDirection.equals("SE") || selectedDirection.equals("S") || selectedDirection.equals("SO") || selectedDirection.equals("O") || selectedDirection.equals("NO"))
-                return selectedDirection;
-
-            else
-                System.out.println("Invalid Direction. You must use: N,NE,E,SE,S,SO,O,NO");
-
-        }
-
-    }
-
-
-    public String askMoveAgain() {
-        String answer;
-        System.out.println("\n" + myTurnHandler.getCurrentPlayer().getNickname() + ": Do you want to move again your Worker? (Y = 'Yes', N = 'No'");
-        while (true) {
-            answer = input.nextLine();
-            if (answer.equals("Y") || answer.equals("N"))
-                return answer;
-            else
-                System.out.println("NOT VALID ANSWER. \nRETRY:  ");
-        }
-    }
-
-
-    public String askWantToMoveUp() {
-        String answer;
-        while(true) {
-            System.out.println("Do you want to move up? \n Y for Yes, N for No\n");
-            answer = input.nextLine();
-
-            if (answer.equals("Y") || answer.equals("N")) {
-                return answer;
-            } else
-                System.out.println("  ERROR: RETRY   \n  Type Y or N to answer");
-        }
-    }
-
-
-    /**
-     * This method asks the user to insert the position where he wants to build.
-     * @return The compass direction of the place where to build.
-     */
-    //TODO devo chiedere che tipo di edificio vuole costruire? perchè nel caso del dio Atlas
-    public String askBuildingDirection() {
-
-        String selectedBuildingDirection;
-
-        while (true) {
-
-            System.out.println(myTurnHandler.getCurrentPlayer().getNickname() + "where do you want to build? Insert compass points!");
-
-            selectedBuildingDirection = input.nextLine();
-
-            if (selectedBuildingDirection.equals("N") || selectedBuildingDirection.equals("NE") || selectedBuildingDirection.equals("E") || selectedBuildingDirection.equals("SE") || selectedBuildingDirection.equals("S") || selectedBuildingDirection.equals("SW") || selectedBuildingDirection.equals("W") || selectedBuildingDirection.equals("NW"))
-                return selectedBuildingDirection;
-
-            else
-                System.out.println("Invalid Direction. You must use: N,NE,E,SE,S,SW,W,NW");
-
 
         }
 
