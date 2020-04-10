@@ -3,7 +3,6 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.controller.god.God;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 
 public class Player {
@@ -14,7 +13,6 @@ public class Player {
     private Color color;
     private God god;
     private final ArrayList<Worker> workers;
-    private Worker chosenWorker;
     private boolean canWinInPerimeter;  //true if can win on perimeter
     private boolean canMoveUp;
 
@@ -31,11 +29,10 @@ public class Player {
         this.game = game;
         this.nickname = nickname;
         god = null;
-        chosenWorker = null;
         canWinInPerimeter = true;
         canMoveUp = true;
         //playerObservers = new ArrayList<PlayerObserver>();
-        workers = new ArrayList<Worker>(2);
+        workers = new ArrayList<>(2);
         workers.add(new Worker(this, Sex.MALE));
         workers.add(new Worker(this, Sex.FEMALE));
     }
@@ -101,7 +98,13 @@ public class Player {
 
     public void lose() {
         //remove workers from board
+        for(Worker worker : workers) {
+            Cell workerCell = worker.getPosition();
+            workerCell.moveOut();
+        }
+
         //remove from players arraylist
+        game.removePlayer(this);
     }
 
 

@@ -31,7 +31,7 @@ public class WorkerMoveMap extends WorkerMap {
     }
 
     public void canStayStill() {
-        workersPositionTrue();
+        centerPositionTrue();
     }
 
     /**
