@@ -6,6 +6,7 @@ import it.polimi.ingsw.controller.god.God;
 import it.polimi.ingsw.model.*;
 
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -77,60 +78,77 @@ public class CLIMainView implements ViewObserver {
 
     }
 
-
     /**
-     * This method registers all the players' nicknames.
-     *
-     * @return The ArrayList with the nicknames.
+     * This method asks the player to set his worker initial position.
+     * @param workerSex This is the sex of the worker to be placed on the board.
+     * @return Array with x,y coordinates of the chosen position.
      */
-    public ArrayList<String> askPlayersNickname() {
+    public int[] askInitialWorkerPosition(Sex workerSex) {
 
-        ArrayList<String> nicknames = new ArrayList<String>(numberOfPlayers);
-        String insertedNickname;
-        int i = 0;
+        int[] initialWorkerPosition = new int[2];
 
-        while (i < numberOfPlayers) {
-
-            System.out.println("Player" + (i + 1) + ". Insert your nickname.");
-            insertedNickname = input.nextLine();
-
-            if (!(nicknames.contains(insertedNickname)) && insertedNickname != null) {
-                nicknames.add(insertedNickname);
-                i++;
-            } else
-                System.out.println("This nickname has been chosen by another player");
-
+        if (workerSex == Sex.MALE) {
+            System.out.println("Set your male worker's position in coordinates ");
+            initialWorkerPosition[0] = input.nextInt();
+            initialWorkerPosition[1] = input.nextInt();
         }
+        else if (workerSex == Sex.FEMALE) {
+            System.out.println("Set your female worker's position in coordinates");
+            initialWorkerPosition[0] = input.nextInt();
+            initialWorkerPosition[1] = input.nextInt();
+        }
+        else
+            System.out.println("Invalid worker's sex");
 
-        return nicknames;
+        return initialWorkerPosition;
 
     }
 
+    public void invalidInitialWorkerPosition(){
+
+        System.out.println("Not valid or available position. Choose another place!");
+    }
+
+
+    public String askPlayerNickname(){
+
+        System.out.println("Insert your nickname");
+        return input.nextLine();
+    }
+
+    public String askPlayerColor(String playerNickname){
+
+        System.out.println(playerNickname+ "Choose your color");
+        return input.nextLine();
+    }
+
+
     /**
-     *
      * @return The name of the chosen God.
      */
-    public String askPlayerGod() {
+    public String askPlayerGod(String playerNickname) {
 
-            System.out.println("Choose your god by inserting its name!");
+        System.out.println(playerNickname + "choose your god by inserting its name!");
 
-             return input.nextLine();
-
-    }
-
-    public void playerChoseInvalidGod(){ System.out.println("Your god is not available or has been already chosen"); }
-
-
-    public String getGodFromChallenger(int n){
-
-        System.out.println("Select Gods for the Game!" +(myGame.getNumberOfPlayers()-n)+ "remaining" );
-
-       return input.nextLine();
-
+        return input.nextLine();
 
     }
 
-    public String challengerChooseStartPlayer(String challengerNickname){
+    public void playerChoseInvalidGod() {
+        System.out.println("Your god is not available or has been already chosen");
+    }
+
+
+    public String getGodFromChallenger(int n) {
+
+        System.out.println("Select Gods for the Game!" + (myGame.getNumberOfPlayers() - n) + "remaining");
+
+        return input.nextLine();
+
+
+    }
+
+    public String challengerChooseStartPlayer(String challengerNickname) {
 
         System.out.println(challengerNickname + "you can choose the first player to start! Insert a nickname");
 
@@ -138,16 +156,15 @@ public class CLIMainView implements ViewObserver {
 
     }
 
-    public void invalidStartPlayer(){
-        System.out.println("This is an invalid nickname, insert another one!");
+    public void invalidStartPlayer() {
+        System.out.println("This is player doesn't exist, insert another one!");
     }
 
 
-    /**
-     *
-     * @param availableGodsFromDeck This is the deck with available.
-     * @return The 3 names of chosen gods.
-     */
+    public void notAvailableNickname(){
+        System.out.println("This nickname is not available!");
+    }
+
     /*public ArrayList askGameGods(ArrayList<God> availableGodsFromDeck){
 
         List<String> nameOfAvailableGods = availableGodsFromDeck.stream().map(object -> Objects.toString(object, null)).collect(Collectors.toList());
@@ -179,11 +196,6 @@ public class CLIMainView implements ViewObserver {
         return selectedGods;
 
     }*/
-
-
-
-
-
     public String askChosenWorker() {
 
         String chosenWorker;

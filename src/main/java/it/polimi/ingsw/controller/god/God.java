@@ -10,7 +10,9 @@ import it.polimi.ingsw.controller.*;
 public abstract class God {
 
 
+    public String description;
     protected GodController godController;
+
 
     public God(GodController godController) {
         this.godController = godController;

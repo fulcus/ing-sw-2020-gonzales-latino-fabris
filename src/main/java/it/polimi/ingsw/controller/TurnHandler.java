@@ -47,6 +47,7 @@ public class TurnHandler {
 
             String chosenGod = view.getGodFromChallenger(i);
             boolean foundGod = false;
+
             for (God god : godsDeck) {
 
                 String godName = god.getClass().getSimpleName().toLowerCase();
@@ -60,7 +61,7 @@ public class TurnHandler {
                 }
             }
 
-            if (!foundGod)
+            if (foundGod)
                 i++;
             else
                 view.challengerError(); //print: the god you typed doesnt exist
@@ -77,13 +78,13 @@ public class TurnHandler {
     private void playersChooseGods() {
         //remember: Challenger must be last
         //challenger is the last of arraylist [see Game.randomChallenger()]
-        ArrayList<God> alreadyTakenGods = new ArrayList<God>(numberOfPlayers));
+        ArrayList<God> alreadyTakenGods = new ArrayList<God>(numberOfPlayers);
         boolean foundGod = false;
 
         for (Player player : players) {
 
             while (!foundGod) {
-                String inputGod = view.askPlayerGod();
+                String inputGod = view.askPlayerGod(player.getNickname());
 
                 for (God god : game.getChosenGods()) {
                     String godName = god.getClass().getSimpleName().toLowerCase();
@@ -142,11 +143,11 @@ public class TurnHandler {
                 positionSet = false;
 
                 while (!positionSet) {
-                    int[] initialPosition = view.getInitialWorkerPosition();
+                    int[] initialPosition = view.askInitialWorkerPosition(worker.getSex());
                     int x = initialPosition[0];
                     int y = initialPosition[1];
 
-                    if (game.getBoard().findCell(x, y) != null) {
+                    if (game.getBoard().findCell(x, y) != null && !game.getBoard().findCell(x, y).isOccupied()) {
                         worker.setPosition(x, y);
                         positionSet = true;
                     } else
@@ -159,18 +160,12 @@ public class TurnHandler {
 
     private Worker chooseWorker() {
 
+        String inputSex = view.askChosenWorker();
 
-        while (true) {
-            String inputSex = view.chooseWorker(); //returns MALE or FEMALE, check this in view
-            for (Worker worker : currentPlayer.getWorkers()) {
-                String workerSex = worker.getSex().getClass().getSimpleName().toUpperCase();
-                if (workerSex.equals(inputSex))
-                    return worker;
-                else
-                    view.invalidSexWorker();   //additional check here (maybe useless)
-            }
-        }
-
+        if (currentPlayer.getWorkers().get(0).getSex().toString().equals(inputSex))
+            return currentPlayer.getWorkers().get(0);
+        else
+            return currentPlayer.getWorkers().get(1);
 
     }
 

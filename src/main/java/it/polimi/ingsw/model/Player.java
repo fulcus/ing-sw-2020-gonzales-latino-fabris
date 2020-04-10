@@ -97,6 +97,7 @@ public class Player {
     }
 
     public void lose() {
+
         //remove workers from board
         for(Worker worker : workers) {
             Cell workerCell = worker.getPosition();

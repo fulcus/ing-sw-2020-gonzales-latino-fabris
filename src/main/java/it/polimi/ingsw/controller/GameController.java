@@ -37,17 +37,18 @@ public class GameController {
     }
 
 
-
-
     /**
      * Sets up game and starts the logic flow.
      */
     public void setUpGame() {
+
         godController = new GodController(view, this);
+
         createDeckGods();
 
         String viewType = viewSelector.askTypeofView();
-        if(viewType.toUpperCase().equals("CLI"))
+
+        if (viewType.toUpperCase().equals("CLI"))
             view = new CLIMainView(this);
         /*
         else if(viewType.toUpperCase().equals("GUI"))
@@ -55,17 +56,94 @@ public class GameController {
         else
             viewSelector.genericError();
         */
+
         view.beginningView();
+
         int numOfPlayers = view.askNumberOfPlayers();
-        
+
         game = new Game(numOfPlayers);
+
         turnHandler = new TurnHandler(game, view, this);
 
-        for(String nick : view.askPlayersNickname())
-            game.addPlayer(nick);
+        setPlayersNicknames(numOfPlayers);
+
+        setPlayersColors();
 
         turnHandler.setUpTurns();
+
         turnHandler.startTurnFlow();
+    }
+
+
+    public void setPlayersColors() {
+
+        for (Player player : game.getPlayers()) {
+
+            boolean colorCorrectlyChosen = false;
+
+            while (!colorCorrectlyChosen) {
+
+                String chosenColor = view.askPlayerColor(player.getNickname());
+
+                if (colorIsAvailable(chosenColor) && colorIsValid(chosenColor)) {
+                    player.setColor(Color.StringtoColor(chosenColor));
+                    colorCorrectlyChosen = true;
+                } else
+                    view.notAvailableNickname();
+
+            }
+        }
+    }
+
+    public void setPlayersNicknames(int numberOfPlayers) {
+
+        int i = 0;
+
+        while (i < numberOfPlayers) {
+
+            boolean nicknameCorrectlyChosen = false;
+
+            while (!nicknameCorrectlyChosen) {
+
+                String chosenNickname = view.askPlayerNickname();
+
+                if (nicknameIsAvailable(chosenNickname) && chosenNickname.length() > 0) {
+                    game.addPlayer(chosenNickname);
+                    nicknameCorrectlyChosen = true;
+                    i++;
+                } else
+                    view.notAvailableNickname();
+
+            }
+        }
+
+    }
+
+    public boolean colorIsValid(String chosenColor) {
+        return chosenColor.equals(Color.BLUE.toString()) || chosenColor.equals(Color.BEIGE.toString()) || chosenColor.equals(Color.WHITE.toString());
+    }
+
+    public boolean nicknameIsAvailable(String chosenNickname) {
+
+        for (Player player : game.getPlayers()) {
+
+            if (chosenNickname.equals(player.getNickname()))
+                return false;
+        }
+
+        return true;
+
+    }
+
+    public boolean colorIsAvailable(String chosenColor) {
+
+        for (Player player : game.getPlayers()) {
+
+            if (chosenColor.equals(player.getColor().toString()))
+                return false;
+        }
+
+        return true;
     }
 
 
@@ -81,7 +159,7 @@ public class GameController {
     /**
      * Creates the deck where we can find the God cards of the game.
      */
-    public void createDeckGods(){
+    public void createDeckGods() {
         godsDeck.add(new Apollo(godController));
         godsDeck.add(new Artemis(godController));
         godsDeck.add(new Athena(godController));
@@ -105,3 +183,5 @@ public class GameController {
     }
 
 }
+
+
