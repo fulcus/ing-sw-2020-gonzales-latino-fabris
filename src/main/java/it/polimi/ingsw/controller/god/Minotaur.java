@@ -54,18 +54,18 @@ public class Minotaur extends God {
                         enemyWorker.setPosition(newEnemyPosition);
                         worker.setPosition(moveCell);
                         return;
-                    } else    //cannot move in that cell
-                        //todo controller & view method that returns error
-                        godController.errorScreen();
-                    //also put this in a loop (recursively call moveSwap?)
-                }
-            } else {
-                //worker.setPosition(moveCell);
-                //todo controller & view method that returns error
+                    } else { //cannot move in that cell
+                        godController.errorMoveScreen();
+                    }
 
-                //also put this in a loop (recursively call moveSwap?)
-            }
-            godController.errorScreen();
+                } else
+                    godController.errorMoveScreen();
+
+            } else
+                godController.errorMoveScreen();
+
+
+
         }
     }
 

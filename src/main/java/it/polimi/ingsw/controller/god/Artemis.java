@@ -32,11 +32,12 @@ public class Artemis extends God {
 
     private void moveAgain(Worker worker) throws UnableToMoveException {
 
+        if (!godController.getMoveAgain())
+            return;
+
         while (true) {
 
-            int[] secondMovePosition = godController.getInputMoveAgain();
-            if (secondMovePosition == null)
-                return;
+            int[] secondMovePosition = godController.getInputMove();
 
             WorkerMoveMap moveMap = updateMoveMap(worker);
 
@@ -45,17 +46,16 @@ public class Artemis extends God {
 
             Cell secondMoveCell = worker.getPlayer().getGame().getBoard().findCell(xMove, yMove);
 
-                if (secondMoveCell != initialPosition && moveMap.isAllowedToMoveBoard(xMove, yMove)) {
+            if (secondMoveCell != initialPosition && moveMap.isAllowedToMoveBoard(xMove, yMove)) {
                     worker.setPosition(xMove, yMove);
                     return;
-                }
-                godController.errorScreen();
-
-            if (secondMoveCell != initialPosition && moveMap.isAllowedToMoveBoard(xMove, yMove)) {
-                worker.setPosition(xMove, yMove);
-            } else {
-                godController.errorScreen();
             }
+
+            // Asks again to the player if he still wants to move again:
+            // if not the method ends and the worker remains on the same cell
+            if (!godController.errorMoveDecisionScreen())
+                return;
+
         }
     }
 

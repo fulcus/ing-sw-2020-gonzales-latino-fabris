@@ -43,7 +43,7 @@ public class Apollo extends God{
                 worker.setPosition(xMove, yMove);
                 return;
             } else {
-                godController.errorScreen();
+                godController.errorMoveScreen();
             }
         }
 

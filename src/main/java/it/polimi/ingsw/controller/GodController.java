@@ -2,7 +2,10 @@ package it.polimi.ingsw.controller;
 
 
 import it.polimi.ingsw.controller.god.God;
+import it.polimi.ingsw.model.Worker;
 import it.polimi.ingsw.view.GodView;
+
+import java.util.ArrayList;
 
 /**
  * Manages IO of Gods.
@@ -90,19 +93,11 @@ public class GodController {
 
 
     /**
-     * Allows to translate if the player wants or not to move another time.
-     * @return The understandable input for the God's specific method.
+     * Allows to manage the will to move again.
+     * @return True if the player wants to move again, False otherwise.
      */
-    public int[] getInputMoveAgain() {
-        String answer = godView.askMoveAgain();
-        int[] input;
-        if (answer.equals("Y")) {
-            input = getInputMove();
-        }
-        else
-            input = null;
-
-        return input;
+    public boolean getMoveAgain() {
+        return godView.askMoveAgain().equals("Y");
     }
 
     /**
@@ -115,6 +110,37 @@ public class GodController {
         return !answer.equals("Y");
 
     }
+
+
+    /**
+     * Allows to manage the will of moving an enemy on the board.
+     * @return True if the player wants to do it.
+     */
+    public boolean wantToMoveEnemy(){
+        String answer = godView.askWantToMoveEnemy();
+        return answer.equals("Y");
+    }
+
+
+    /**
+     * Allows to manage the constriction of moving an enemy worker.
+     * @param enemyWorkers It's the list of the detected near enemyWorkers.
+     * @param worker It's the worker has selected for this turn.
+     * @return The worker the player has chosen to move.
+     */
+    public Worker ForceMoveEnemy(ArrayList<Worker> enemyWorkers, Worker worker){
+        String workerToMove = godView.askWorkerToMove(enemyWorkers, worker);
+
+        if (workerToMove == null)
+            return null;
+
+        int[] boardPosition = getInputInCoordinates(workerToMove);
+
+        Worker chosenEnemy = worker.getPlayer().getGame().getBoard().findCell(boardPosition[0], boardPosition[1]).getWorker();
+
+        return chosenEnemy;
+    }
+
 
     /**
      * This method returns the coordinates where a player wants to build and the specific building.
@@ -151,7 +177,10 @@ public class GodController {
         if (god.toString().equals("Demeter"))
             answer = godView.askBuildAgainDemeter();
 
+        if (god.toString().equals("Hestia"))
+            answer = godView.askBuildAgainHestia();
 
+        assert answer != null;
         return answer.equals("Y");
     }
 
@@ -161,7 +190,7 @@ public class GodController {
      */
     //TODO forse questo è possibile rivederlo - da mettere che non si interfacci con la view direttamente, ma col gameController??
     public void winGame() {
-        view.winningView();
+        gameController.winningView();
         System.exit(0);
     }
 
@@ -169,11 +198,58 @@ public class GodController {
     /**
      * Allows to call the view to print the error screen
      */
-    //TODO : Vitto ora lo modifica come avevamo detto
-    public void errorScreen() {
-        view.printErrorScreen();
+    public void errorMoveScreen() {
+        godView.printMoveErrorScreen();
     }
 
 
+    /**
+     * Allows to manage the decision of the player to retry the move of his worker.
+     * @return True if the player wants to retry.
+     */
+    public boolean errorMoveDecisionScreen(){
+        return godView.printMoveDecisionError().equals("Y");
+    }
+
+
+    /**
+     * Allows to manage the decision of the player to retry the build of his worker.
+     * @return True if the player wants to retry.
+     */
+    public boolean errorBuildDecisionScreen() {
+        return godView.printBuildDecisionError().equals("Y");
+    }
+
+
+    /**
+     * Allows to manage the error screen saw when there's not the possibility to build in the same position.
+     */
+    public void errorBuildInSamePosition(){
+        godView.printBuildInSamePositionScreen();
+    }
+
+
+    /**
+     * Allows to manage the error screen saw by the player when his building phase fails.
+     */
+    public void errorBuildScreen(){
+        godView.printBuildGeneralErrorScreen();
+    }
+
+
+    /**
+     * Allows to manage the error screen saw by the player when his dome cannot be built
+     */
+    public void errorBuildDomeScreen() {
+        godView.printBuildDomeErrorScreen();
+    }
+
+
+    /**
+     * Allows to manage the error screen saw by the player when his block cannot be built
+     */
+    public void errorBuildBlockScreen() {
+        godView.printBuildBlockErrorScreen();
+    }
 
 }

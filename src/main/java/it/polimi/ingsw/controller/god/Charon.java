@@ -28,6 +28,10 @@ public class Charon extends God {
     }
 
     public void forceMoveEnemy(Worker worker) {
+
+        if (!godController.wantToMoveEnemy())
+            return;
+
         WorkerMoveMap moveMap = updateMoveMap(worker);
         Board board = worker.getPlayer().getGame().getBoard();
 
@@ -45,18 +49,13 @@ public class Charon extends God {
                 newEnemyY = 2 * worker.getPosition().getY() - Enemy.getPosition().getY();
                 Cell newEnemyPosition = board.findCell(newEnemyX,newEnemyY);
 
-                if(newEnemyPosition.isOccupied())
+                if(newEnemyPosition.isOccupied() || newEnemyX>4 || newEnemyX<0 || newEnemyY<0 || newEnemyY>4)
                     neighboringEnemies.remove(Enemy);
             }
 
             //now in neighboringEnemies there are only enemy workers that can be displaced
 
-            //todo View + Controller askForceMoveEnemy prints  "would you like to displace an enemy worker?"
-            // if N returns null, if Y prints list of possible workers to displace (passed as parameter)
-            // and lets user select one of them and returns it as Worker
-
-
-            Worker enemyToMove = askForceMoveEnemy(neighboringEnemies);
+            Worker enemyToMove = godController.ForceMoveEnemy(neighboringEnemies, worker);
 
             if(enemyToMove == null)
                 return;

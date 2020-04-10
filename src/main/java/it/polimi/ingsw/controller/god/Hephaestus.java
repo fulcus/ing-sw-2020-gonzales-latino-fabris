@@ -28,9 +28,54 @@ public class Hephaestus extends God {
     public void evolveTurn(Worker worker) throws UnableToMoveException, UnableToBuildException {
         move(worker);
         win(worker);
-        firstBuildCell = build(worker);
+        firstBuildCell = buildCell(worker);
         secondBuild(worker);
     }
+
+
+    /**
+     * Allows to build into a near cell of the board.
+     * @param worker It's the selected worker.
+     * @return The cell where has been built the first building.
+     * @throws UnableToBuildException Says that the building cannot be built anywhere.
+     */
+    public Cell buildCell(Worker worker) throws UnableToBuildException {
+        WorkerBuildMap buildMap = updateBuildMap(worker);
+        Board board = worker.getPlayer().getGame().getBoard();
+
+        while (true) {
+            //returns build position + type: block/dome
+            int[] buildInput = godController.getBuildingInput();
+
+            int xBuild = buildInput[0];
+            int yBuild = buildInput[1];
+            int buildType = buildInput[2]; //0 is block, 1 is dome
+
+            Cell buildPosition = board.findCell(xBuild, yBuild);
+
+            //build Dome
+            if (buildType == 1) {
+
+                if (buildMap.isAllowedToBuildBoard(xBuild, yBuild) && buildPosition.getLevel() == 3) {
+                    worker.buildDome(xBuild, yBuild);
+                    return buildPosition;
+                } else {
+                    godController.errorBuildDomeScreen();
+                }
+
+            } else if (buildType == 0) {    //build Block
+                if (buildMap.isAllowedToBuildBoard(xBuild, yBuild) && buildPosition.getLevel() < 3) {
+                    worker.buildBlock(xBuild, yBuild);
+                    return buildPosition;
+                } else {
+                    godController.errorBuildBlockScreen();
+                }
+            } else
+                godController.errorBuildScreen();
+
+        }
+    }
+
 
     /**
      * This method allows the player to build in the same place twice.
@@ -40,7 +85,6 @@ public class Hephaestus extends God {
 
         if(firstBuildCell.getLevel() >= 3)
             return;
-
 
         boolean buildAgainInSamePosition = godController.getBuildAgain(this);  //true if player wants to build again
 

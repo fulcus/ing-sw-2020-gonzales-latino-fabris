@@ -17,13 +17,14 @@ public class Prometheus extends God {
 
     @Override
     public void evolveTurn(Worker worker) throws UnableToMoveException, UnableToBuildException {
+        worker.getPlayer().setPermissionToMoveUp(true);
         if (!getGodController().wantToMoveUp()) {
             //should not lose with optional build
             if(worker.getBuildMap().anyAvailableBuildPosition()) {
                 build(worker);
                 worker.getPlayer().setPermissionToMoveUp(false);
             } else
-                //todo print cant build
+                godController.errorBuildScreen();
         }
         move(worker);
         win(worker);

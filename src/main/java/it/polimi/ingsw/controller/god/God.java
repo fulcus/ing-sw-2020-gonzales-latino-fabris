@@ -30,7 +30,6 @@ public abstract class God {
 
     /**
      * Default rules to move the worker.
-     *
      * @param worker Selected worker that will move.
      */
     public void move(Worker worker) throws UnableToMoveException {
@@ -41,12 +40,11 @@ public abstract class God {
             int xMove = movePosition[0] + worker.getPosition().getX();
             int yMove = movePosition[1] + worker.getPosition().getY();
 
-
             if (moveMap.isAllowedToMoveBoard(xMove, yMove)) {
                 worker.setPosition(xMove, yMove);
-                break;
+                return;
             } else {
-                getGodController().errorScreen();
+                getGodController().errorMoveScreen();
             }
         }
 
@@ -57,46 +55,41 @@ public abstract class God {
      * The standard build action.
      *
      * @param worker This is the current worker.
-     * @return It returns the cell wherein the worker has just built.
      */
-    public Cell build(Worker worker) throws UnableToBuildException {
+    public void build(Worker worker) throws UnableToBuildException {
         WorkerBuildMap buildMap = updateBuildMap(worker);
         Board board = worker.getPlayer().getGame().getBoard();
 
-        //returns build position + type: block/dome
-        int[] buildInput = godController.getBuildingInput();
+        while (true) {
+            //returns build position + type: block/dome
+            int[] buildInput = godController.getBuildingInput();
 
-        int xBuild = buildInput[0];
-        int yBuild = buildInput[1];
-        int buildType = buildInput[2]; //0 is block, 1 is dome TODO try to remove the last cell of the array that indicates if it is a dom or a block(problem only with ATlas)
+            int xBuild = buildInput[0];
+            int yBuild = buildInput[1];
+            int buildType = buildInput[2]; //0 is block, 1 is dome
 
-        Cell buildPosition = board.findCell(xBuild,yBuild);
+            Cell buildPosition = board.findCell(xBuild, yBuild);
 
-        //build Dome
-        if (buildType == 1) {
+            //build Dome
+            if (buildType == 1) {
 
-            if (buildMap.isAllowedToBuildBoard(xBuild, yBuild) && buildPosition.getLevel() == 3) {
-                worker.buildDome(xBuild, yBuild);
+                if (buildMap.isAllowedToBuildBoard(xBuild, yBuild) && buildPosition.getLevel() == 3) {
+                    worker.buildDome(xBuild, yBuild);
+                    return;
+                } else
+                    godController.errorBuildDomeScreen();
 
-            } else {
-                buildPosition = null;
-                //todo View + Controller error: cant build dome there
-            }
+            } else if (buildType == 0) {    //build Block
+                if (buildMap.isAllowedToBuildBoard(xBuild, yBuild) && buildPosition.getLevel() < 3) {
+                    worker.buildBlock(xBuild, yBuild);
+                    return;
+                } else
+                    godController.errorBuildBlockScreen();
 
-        } else if (buildType == 2) {    //build Block
-            if (buildMap.isAllowedToBuildBoard(xBuild, yBuild) && buildPosition.getLevel() < 3) {
-                worker.buildBlock(xBuild, yBuild);
+            } else
+                godController.errorBuildScreen();
 
-            } else {
-                buildPosition = null;
-                //todo View + Controller error: cant build block there
-            }
-        } else {
-            //todo View + Controller error: wrong input for build type (can be 1 or 2)
         }
-
-        return buildPosition;
-
     }
 
 

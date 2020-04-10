@@ -13,6 +13,7 @@ public class Pan extends God{
     }
 
 
+    @Override
     public void win(Worker worker){
 
         boolean won;
@@ -22,7 +23,6 @@ public class Pan extends God{
             won = normalCondition;
         else
             won = normalCondition && !worker.getPosition().isInPerimeter();
-           //chiedere a fra perchè ha messo la condizione per cui per vincere non può stare nel perimetro
 
         if (won)
             godController.winGame();

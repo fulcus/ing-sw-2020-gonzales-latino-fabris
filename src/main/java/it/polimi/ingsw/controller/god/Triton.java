@@ -35,21 +35,20 @@ public class Triton extends God{
 
     private void moveAgain(Worker worker) {
 
+        if (!godController.getMoveAgain())
+            return;
+
         while (true) {
-            int[] secondMovePosition = godController.getInputMoveAgain();
-            if (secondMovePosition == null)
-                return;
 
             WorkerMoveMap moveMap;
             try {
                 moveMap = updateMoveMap(worker);
             } catch (UnableToMoveException ex) {
-                //todo print you cant move again
+                godController.errorMoveScreen();
                 return;
             }
 
-
-
+            int[] secondMovePosition = godController.getInputMove();
             int xMove = secondMovePosition[0] + worker.getPosition().getX();
             int yMove = secondMovePosition[1] + worker.getPosition().getY();
 
@@ -57,9 +56,13 @@ public class Triton extends God{
 
             if (secondMoveCell != initialPosition && moveMap.isAllowedToMoveBoard(xMove,yMove)) {
                 worker.setPosition(xMove, yMove);
-            } else {
-                godController.errorScreen();
-            }
+                return;
+            } else
+                godController.errorMoveScreen();
+
+            //Asking if the player is sure to keep going on moving on the board
+            if (!godController.errorMoveDecisionScreen())
+                return;
         }
     }
 
