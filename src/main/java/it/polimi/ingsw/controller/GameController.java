@@ -101,7 +101,7 @@ public class GameController {
                 String chosenColor = view.askPlayerColor(player.getNickname());
 
                 if (colorIsAvailable(chosenColor) && colorIsValid(chosenColor)) {
-                    player.setColor(Color.StringtoColor(chosenColor));
+                    player.setColor(Color.StringToColor(chosenColor));
                     colorCorrectlyChosen = true;
                 } else
                     view.notAvailableNickname();

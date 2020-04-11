@@ -6,12 +6,8 @@ import it.polimi.ingsw.controller.god.God;
 import it.polimi.ingsw.model.*;
 
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class CLIMainView implements ViewObserver {
 
@@ -53,7 +49,7 @@ public class CLIMainView implements ViewObserver {
 
         do {
 
-            System.out.println("--write START to play--");
+            System.out.println("--type START to play--");
             startString = input.nextLine();
 
         } while (!startString.equals("START"));
@@ -70,7 +66,7 @@ public class CLIMainView implements ViewObserver {
 
         while (true) {
 
-            System.out.println("Insert the number of players");
+            System.out.println("Insert the number of players.");
             insertedNumberOfPlayers = input.nextInt();
 
             if (insertedNumberOfPlayers != 2 && insertedNumberOfPlayers != 3)
@@ -98,11 +94,11 @@ public class CLIMainView implements ViewObserver {
         int[] initialWorkerPosition = new int[2];
 
         if (workerSex == Sex.MALE) {
-            System.out.println("Set your male worker's position in coordinates ");
+            System.out.println("Set your male worker's position in coordinates:");
             initialWorkerPosition[0] = input.nextInt();
             initialWorkerPosition[1] = input.nextInt();
         } else if (workerSex == Sex.FEMALE) {
-            System.out.println("Set your female worker's position in coordinates");
+            System.out.println("Set your female worker's position in coordinates:");
             initialWorkerPosition[0] = input.nextInt();
             initialWorkerPosition[1] = input.nextInt();
         } else
@@ -120,13 +116,13 @@ public class CLIMainView implements ViewObserver {
 
     public String askPlayerNickname() {
 
-        System.out.println("Insert your nickname");
+        System.out.println("Insert your nickname:");
         return input.nextLine();
     }
 
     public String askPlayerColor(String playerNickname) {
 
-        System.out.println(playerNickname + "Choose your color");
+        System.out.println(playerNickname + "Choose your color:");
         return input.nextLine();
     }
 
@@ -143,13 +139,13 @@ public class CLIMainView implements ViewObserver {
     }
 
     public void playerChoseInvalidGod() {
-        System.out.println("Your god is not available or has been already chosen");
+        System.out.println("Your god is not available or has been already chosen.");
     }
 
 
     public String getGodFromChallenger(int n) {
 
-        System.out.println("Select Gods for the Game!" + (myGame.getNumberOfPlayers() - n) + "remaining");
+        System.out.println("Select Gods for the Game!" + (myGame.getNumberOfPlayers() - n) + "remaining.");
 
         return input.nextLine();
 
@@ -158,7 +154,7 @@ public class CLIMainView implements ViewObserver {
 
     public String challengerChooseStartPlayer(String challengerNickname) {
 
-        System.out.println(challengerNickname + "you can choose the first player to start! Insert a nickname");
+        System.out.println(challengerNickname + "You can choose the first player to start! Insert his nickname:");
 
         return input.nextLine();
 
@@ -208,10 +204,10 @@ public class CLIMainView implements ViewObserver {
 
         String chosenWorker;
 
-        System.out.println(myTurnHandler.getCurrentPlayer().getNickname() + "is your turn!");//Il fatto che la view per stampare il nickname del player debba andare chiamare prima il controller che poi a sua volta chiama il model....boh?
+        System.out.println(myTurnHandler.getCurrentPlayer().getNickname() + "It's your turn!");//Il fatto che la view per stampare il nickname del player debba andare chiamare prima il controller che poi a sua volta chiama il model....boh?
 
         while (true) {
-            System.out.println("Insert MALE or FEMALE to choose one of your workers");
+            System.out.println("Insert MALE or FEMALE to choose one of your workers.");
 
             chosenWorker = input.nextLine();
 
@@ -219,7 +215,7 @@ public class CLIMainView implements ViewObserver {
                 return chosenWorker;
 
             else
-                System.out.println("Invalid input");
+                System.out.println("Invalid input.");
 
         }
 

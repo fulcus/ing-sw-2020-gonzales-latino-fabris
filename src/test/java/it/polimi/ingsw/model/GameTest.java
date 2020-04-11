@@ -43,17 +43,6 @@ public class GameTest {
         Assert.assertNotNull(game.getChallenger());
     }
 
-    @Test
-    public void testCreateDeckGods(){
-        Assert.assertNull(game.getDeckGods()[10]);
-        game.createDeckGods();
-        Assert.assertNotNull(game.getDeckGods()[10]);
-    }
-
-    @Test
-    public void testGetDeckGods(){
-        Assert.assertNotNull(game.getDeckGods());
-    }
 
     @Test
     public void testGetMap() {

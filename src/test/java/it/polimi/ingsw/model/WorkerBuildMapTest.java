@@ -45,10 +45,10 @@ public class WorkerBuildMapTest {
     @Test
     public void testAllowedToBuildInPosition() {
         worker.setPosition(2,3);
-        buildMap.setNotAllowedToBuildInPosition(2,4);
+        buildMap.setBooleanCellBoard(2,4,false);
         assertFalse(buildMap.isAllowedToBuildBoard(2,4));
 
-        buildMap.setAllowedToBuildInPosition(2,4);
+        buildMap.setBooleanCellBoard(2,4,true);
         assertTrue(buildMap.isAllowedToBuildBoard(2,4));
 
     }

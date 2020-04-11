@@ -8,12 +8,19 @@ import static org.junit.Assert.*;
 
 public class BoardTest {
 
-    private Board board;
-    private int x, y;
+    int x, y;
 
+    private Player player;
+    private Game game;
+    private WorkerBuildMap buildMap;
+    private Board board;
     @Before
     public void setUp() {
-        board = new Board();
+        game = new Game(2);
+        game.addPlayer("nickname1");
+        game.addPlayer("nickname2");
+        player = game.getPlayers().get(0);
+        board = game.getBoard();
     }
 
     @After
@@ -25,7 +32,7 @@ public class BoardTest {
     public void testGetBoard() {
         for(int i=0; i<5; i++){
             for(int j=0; j<5;j++){
-                Assert.assertEquals(board.findCell(i,j), board.getBoard()[i][j]);
+                Assert.assertEquals(board.findCell(i,j), board.findCell(i,j));
             }
         }
     }
@@ -33,7 +40,7 @@ public class BoardTest {
     @Test
     public void testFindCell() {
         x=1; y=2;
-        Assert.assertEquals(board.getBoard()[x][y], board.findCell(x,y));
+        assertNotNull(board.findCell(x,y));
         x=7; y=2;
         assertNull(board.findCell(x, y));
     }

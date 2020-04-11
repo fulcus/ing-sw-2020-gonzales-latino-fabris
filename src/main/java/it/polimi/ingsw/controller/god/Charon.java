@@ -27,14 +27,22 @@ public class Charon extends God {
         build(worker);
     }
 
-    public void forceMoveEnemy(Worker worker) throws UnableToMoveException {
+    public void forceMoveEnemy(Worker worker) {
 
         if (!godController.wantToMoveEnemy())
             return;
 
-        WorkerMoveMap moveMap = updateMoveMap(worker);//TODO Mettiamo che tutta la move map è false allora la update manda l'exception. In realta pero, la cella in cui andra un enemy è false per me perchè non posso salire(ATHENA), il nemico in reltà lo posso spostare e poi mi si libera la cella , quindi perchè lanciare l'exception?
-        Board board = worker.getPlayer().getGame().getBoard();
+        WorkerMoveMap moveMap;
 
+        try {
+            moveMap = updateMoveMap(worker);
+        } catch (UnableToMoveException ex) {
+            godController.errorMoveScreen();
+            return;
+        }
+
+
+        Board board = worker.getPlayer().getGame().getBoard();
 
         ArrayList<Worker> neighboringEnemies = moveMap.neighboringEnemyWorkers();
         int newEnemyX;
@@ -71,7 +79,6 @@ public class Charon extends God {
 
 
     public WorkerMoveMap updateMoveMap(Worker worker) throws UnableToMoveException {
-
         WorkerMoveMap moveMap = worker.getMoveMap();
 
         moveMap.cannotStayStill();

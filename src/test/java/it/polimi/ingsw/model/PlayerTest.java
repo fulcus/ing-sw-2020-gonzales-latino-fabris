@@ -1,15 +1,9 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.god.Apollo;
-import it.polimi.ingsw.model.god.Artemis;
-import it.polimi.ingsw.model.god.Athena;
-import it.polimi.ingsw.model.god.God;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Scanner;
 
 import static org.junit.Assert.*;
 
@@ -47,13 +41,6 @@ public class PlayerTest {
         assertEquals("player", player.getNickname());
     }
 
-    @Test
-    public void testSetChosenWorker() {
-
-        player.setChosenWorker(worker);
-
-        assertEquals(worker, player.getChosenWorker());
-    }
 
     @Test
     public void testGetGod() {
@@ -62,7 +49,7 @@ public class PlayerTest {
 
 
     }
-
+/*
     @Test
     public void testChooseGod() {
 
@@ -111,7 +98,7 @@ public class PlayerTest {
 
 
     }
-
+*/
     @Test
     public void testChooseWorker() {
 
@@ -149,23 +136,6 @@ public class PlayerTest {
         player.setColor(Color.BEIGE);
 
         assertEquals(Color.BEIGE, player.getColor());
-    }
-
-    @Test
-    public void testCanWinInPerimeter() {
-
-        player.setPermissionToWinInPerimeter(false);
-        assertFalse(player.canWinInPerimeter());
-
-
-    }
-
-    @Test
-    public void testCanMoveUp() {
-
-        player.setPermissionToMoveUp(false);
-
-        assertFalse(player.canMoveUp());
     }
 
 
