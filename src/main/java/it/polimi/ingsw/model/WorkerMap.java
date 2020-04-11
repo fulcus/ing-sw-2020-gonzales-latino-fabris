@@ -43,7 +43,7 @@ public class WorkerMap {
     /**
      * Sets false any cell containing a worker.
      */
-    public void WorkerCellFalse() {
+    public void workerCellFalse() {
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
@@ -56,7 +56,7 @@ public class WorkerMap {
     /**
      * Sets false any occupied cell, i.e. any cell containing a worker or a dome.
      */
-    public void OccupiedCellFalse() {
+    public void occupiedCellFalse() {
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
@@ -69,7 +69,7 @@ public class WorkerMap {
     /**
      * Sets false any cell containing the other worker of the same player.
      */
-    public void FriendlyWorkerCellFalse() {
+    public void friendlyWorkerCellFalse() {
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
@@ -117,6 +117,11 @@ public class WorkerMap {
      */
     public boolean getBooleanCellWorkerMap(int i, int j) {
         return matrix[i][j];
+    }
+
+
+    public void setBooleanCellWorkerMap(int i, int j, boolean value) {
+        matrix[i][j] = value;
     }
 
     /**

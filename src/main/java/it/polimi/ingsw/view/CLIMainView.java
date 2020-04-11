@@ -326,10 +326,16 @@ public class CLIMainView implements ViewObserver {
     //TODO: in update si potrebbero passare inoltre dei parametri che specificano cosa ha fatto avvenire il cambiamento, ad esempio se per un movimento o per una costruzione. Intal modo posso far apparire all'utente: PLAYER1 si è mosso-->stampa mappa.
     @Override
     public void update(Cell toBeUpdatedCell) {
+        int xUpdated = toBeUpdatedCell.getX();
+        int yUpdated = toBeUpdatedCell.getY();
+        Cell cellUpdatedView = myBoard.findCell(xUpdated, yUpdated);
 
-        myBoard.findCell(toBeUpdatedCell.getX(), toBeUpdatedCell.getY()).setLevel(toBeUpdatedCell.getLevel());//update the level of the changed cell in the view
-        myBoard.findCell(toBeUpdatedCell.getX(), toBeUpdatedCell.getY()).setDome(toBeUpdatedCell.hasDome());//update dome of changed cell in the view
-        myBoard.findCell(toBeUpdatedCell.getX(), toBeUpdatedCell.getY()).setWorker(toBeUpdatedCell.getWorker());//update worker of the changed cell in the view
+        //update the level of the changed cell in the view
+        cellUpdatedView.setLevel(toBeUpdatedCell.getLevel());
+        //update dome of changed cell in the view
+        cellUpdatedView.setDome(toBeUpdatedCell.hasDome());
+        //update worker of the changed cell in the view
+        cellUpdatedView.setWorker(toBeUpdatedCell.getWorker());
 
     }
 
@@ -347,7 +353,7 @@ public class CLIMainView implements ViewObserver {
 
     public void challengerError() {
 
-        System.out.println("This god doesn't exist");
+        System.out.println("This god doesn't exist.");
     }
 
 

@@ -14,15 +14,15 @@ public class WorkerMoveMap extends WorkerMap {
     }
 
     public void cannotMoveInWorkerCell() {
-        WorkerCellFalse();
+        workerCellFalse();
     }
 
     public void cannotMoveInOccupiedCell() {
-        OccupiedCellFalse();
+        occupiedCellFalse();
     }
 
     public void cannotMoveInFriendlyWorkerCell() {
-        FriendlyWorkerCellFalse();
+        friendlyWorkerCellFalse();
     }
 
 
