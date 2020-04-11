@@ -42,8 +42,6 @@ public class GameController {
      */
     public void setUpGame() {
 
-        godController = new GodController(view.getGodView(), this);
-
         createDeckGods();
 
         String viewType = viewSelector.askTypeofView();
@@ -56,6 +54,8 @@ public class GameController {
         else
             viewSelector.genericError();
         */
+
+        godController = new GodController(view.getGodView(), this);
 
         view.beginningView();
 

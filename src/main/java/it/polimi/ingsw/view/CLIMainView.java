@@ -20,6 +20,7 @@ public class CLIMainView implements ViewObserver {
     TurnHandler myTurnHandler;
     Game myGame;
     GameController myController;
+    GodView godView;
     Board myBoard;// this will contain a copy of the Model's map and each cell will be update if there are any changes
 
     /**
@@ -34,6 +35,11 @@ public class CLIMainView implements ViewObserver {
         myBoard = new Board();
         myController = controller;
         input = new Scanner(System.in);
+        godView = new GodView();
+    }
+
+    public GodView getGodView() {
+        return godView;
     }
 
     /**
