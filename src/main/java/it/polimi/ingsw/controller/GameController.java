@@ -42,7 +42,7 @@ public class GameController {
      */
     public void setUpGame() {
 
-        godController = new GodController(view, this);
+        godController = new GodController(view.getGodView(), this);
 
         createDeckGods();
 
@@ -65,6 +65,8 @@ public class GameController {
 
         turnHandler = new TurnHandler(game, view, this);
 
+        setUpObserverView();
+
         setPlayersNicknames(numOfPlayers);
 
         setPlayersColors();
@@ -74,6 +76,19 @@ public class GameController {
         turnHandler.startTurnFlow();
     }
 
+    public void setUpObserverView() {
+
+        for (int i = 0; i < Board.SIDE; i++) {
+
+            for (int j = 0; j < Board.SIDE; j++) {
+
+                game.getBoard().findCell(i,j).register(view);
+
+            }
+        }
+
+
+    }
 
     public void setPlayersColors() {
 

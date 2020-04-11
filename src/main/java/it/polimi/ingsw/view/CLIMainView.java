@@ -28,8 +28,10 @@ public class CLIMainView implements ViewObserver {
      * @param controller This is the controller that has created the game.
      */
 
+
     public CLIMainView(GameController controller) {
 
+        myBoard = new Board();
         myController = controller;
         input = new Scanner(System.in);
     }
@@ -78,8 +80,10 @@ public class CLIMainView implements ViewObserver {
 
     }
 
+
     /**
      * This method asks the player to set his worker initial position.
+     *
      * @param workerSex This is the sex of the worker to be placed on the board.
      * @return Array with x,y coordinates of the chosen position.
      */
@@ -91,34 +95,32 @@ public class CLIMainView implements ViewObserver {
             System.out.println("Set your male worker's position in coordinates ");
             initialWorkerPosition[0] = input.nextInt();
             initialWorkerPosition[1] = input.nextInt();
-        }
-        else if (workerSex == Sex.FEMALE) {
+        } else if (workerSex == Sex.FEMALE) {
             System.out.println("Set your female worker's position in coordinates");
             initialWorkerPosition[0] = input.nextInt();
             initialWorkerPosition[1] = input.nextInt();
-        }
-        else
+        } else
             System.out.println("Invalid worker's sex");
 
         return initialWorkerPosition;
 
     }
 
-    public void invalidInitialWorkerPosition(){
+    public void invalidInitialWorkerPosition() {
 
         System.out.println("Not valid or available position. Choose another place!");
     }
 
 
-    public String askPlayerNickname(){
+    public String askPlayerNickname() {
 
         System.out.println("Insert your nickname");
         return input.nextLine();
     }
 
-    public String askPlayerColor(String playerNickname){
+    public String askPlayerColor(String playerNickname) {
 
-        System.out.println(playerNickname+ "Choose your color");
+        System.out.println(playerNickname + "Choose your color");
         return input.nextLine();
     }
 
@@ -161,7 +163,7 @@ public class CLIMainView implements ViewObserver {
     }
 
 
-    public void notAvailableNickname(){
+    public void notAvailableNickname() {
         System.out.println("This nickname is not available!");
     }
 

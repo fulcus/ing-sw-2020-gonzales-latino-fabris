@@ -59,6 +59,7 @@ public abstract class God {
      * @param worker This is the current worker.
      */
     public void build(Worker worker) throws UnableToBuildException {
+
         WorkerBuildMap buildMap = updateBuildMap(worker);
         Board board = worker.getPlayer().getGame().getBoard();
 
@@ -66,8 +67,8 @@ public abstract class God {
             //returns build position + type: block/dome
             int[] buildInput = godController.getBuildingInput();
 
-            int xBuild = buildInput[0];
-            int yBuild = buildInput[1];
+            int xBuild = worker.getPosition().getX() + buildInput[0];
+            int yBuild = worker.getPosition().getY() + buildInput[1];
             int buildType = buildInput[2]; //0 is block, 1 is dome
 
             Cell buildPosition = board.findCell(xBuild, yBuild);

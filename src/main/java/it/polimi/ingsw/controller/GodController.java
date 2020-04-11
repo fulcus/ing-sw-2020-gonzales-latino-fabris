@@ -12,65 +12,69 @@ import java.util.ArrayList;
  */
 public class GodController {
     private final GodView godView;
+    private final GameController gameController;
 
 
-    public GodController(GodView godView) {
+    public GodController(GodView godView, GameController gameController) {
+
         this.godView = godView;
+        this.gameController = gameController;
     }
 
 
     /**
      * This method translates compass directions (N,S,E,...) into coordinates.
+     *
      * @param compassInput Compass direction to be translated.
      * @return Variation in coordinates
      */
     @SuppressWarnings("ConstantConditions")
-    public int[] getInputInCoordinates(String compassInput){
+    public int[] getInputInCoordinates(String compassInput) {
 
         int[] result = new int[2];
 
         switch (compassInput) {
-            case "N" : {
+            case "N": {
                 result[0] = -1;
                 result[1] = 0;
                 break;
             }
-            case "NE" : {
+            case "NE": {
                 result[0] = -1;
                 result[1] = -1;
                 break;
             }
-            case "NW" : {
+            case "NW": {
                 result[0] = -1;
                 result[1] = 1;
                 break;
             }
-            case "S" : {
+            case "S": {
                 result[0] = 1;
                 result[1] = 0;
                 break;
             }
-            case "SE" : {
+            case "SE": {
                 result[0] = 1;
                 result[1] = 1;
                 break;
             }
-            case "SW" : {
+            case "SW": {
                 result[0] = 1;
                 result[1] = -1;
                 break;
             }
-            case "W" : {
+            case "W": {
                 result[0] = 0;
                 result[1] = -1;
                 break;
             }
-            case "E" : {
+            case "E": {
                 result[0] = 0;
                 result[1] = 1;
                 break;
             }
-            default : {
+            default: {
                 result[0] = 0;
                 result[1] = 0;
                 break;
@@ -84,9 +88,10 @@ public class GodController {
 
     /**
      * This method returns the coordinates' variation of the selected movement.
+     *
      * @return Coordinates' variation.
      */
-    public int[] getInputMove(){
+    public int[] getInputMove() {
 
         return getInputInCoordinates(godView.askMovementDirection());
     }
@@ -94,6 +99,7 @@ public class GodController {
 
     /**
      * Allows to manage the will to move again.
+     *
      * @return True if the player wants to move again, False otherwise.
      */
     public boolean getMoveAgain() {
@@ -102,9 +108,10 @@ public class GodController {
 
     /**
      * Allows to get the right input for the God if the player wants to move up or not.
+     *
      * @return True if the player with his worker doesn't want to jump to an higher level, False otherwise.
      */
-    public boolean wantToMoveUp(){
+    public boolean wantToMoveUp() {
 
         String answer = godView.askWantToMoveUp();
         return !answer.equals("Y");
@@ -114,9 +121,10 @@ public class GodController {
 
     /**
      * Allows to manage the will of moving an enemy on the board.
+     *
      * @return True if the player wants to do it.
      */
-    public boolean wantToMoveEnemy(){
+    public boolean wantToMoveEnemy() {
         String answer = godView.askWantToMoveEnemy();
         return answer.equals("Y");
     }
@@ -124,11 +132,12 @@ public class GodController {
 
     /**
      * Allows to manage the constriction of moving an enemy worker.
+     *
      * @param enemyWorkers It's the list of the detected near enemyWorkers.
-     * @param worker It's the worker has selected for this turn.
+     * @param worker       It's the worker has selected for this turn.
      * @return The worker the player has chosen to move.
      */
-    public Worker ForceMoveEnemy(ArrayList<Worker> enemyWorkers, Worker worker){
+    public Worker ForceMoveEnemy(ArrayList<Worker> enemyWorkers, Worker worker) {
         String workerToMove = godView.askWorkerToMove(enemyWorkers, worker);
 
         if (workerToMove == null)
@@ -144,9 +153,10 @@ public class GodController {
 
     /**
      * This method returns the coordinates where a player wants to build and the specific building.
+     *
      * @return Coordinates' variation and type of building.
      */
-    public int[] getBuildingInput(){
+    public int[] getBuildingInput() {
 
         int[] buildingInput = new int[3];
         String[] playerInput = godView.askBuildingDirection();
@@ -166,10 +176,11 @@ public class GodController {
 
     /**
      * Allows to translate the players' answer to the will of build another time, all related to a specific God.
+     *
      * @param god It's the specific god of the player.
      * @return True for the will of build, False otherwise.
      */
-    public boolean getBuildAgain(God god){
+    public boolean getBuildAgain(God god) {
         String answer = null;
         if (god.toString().equals("Hephaestus"))
             answer = godView.askBuildAgainHephaestus();
@@ -190,7 +201,7 @@ public class GodController {
      */
     //TODO forse questo è possibile rivederlo - da mettere che non si interfacci con la view direttamente, ma col gameController??
     public void winGame() {
-        gameController.winningView();
+        gameController.getView().winningView();
         System.exit(0);
     }
 
@@ -205,15 +216,17 @@ public class GodController {
 
     /**
      * Allows to manage the decision of the player to retry the move of his worker.
+     *
      * @return True if the player wants to retry.
      */
-    public boolean errorMoveDecisionScreen(){
+    public boolean errorMoveDecisionScreen() {
         return godView.printMoveDecisionError().equals("Y");
     }
 
 
     /**
      * Allows to manage the decision of the player to retry the build of his worker.
+     *
      * @return True if the player wants to retry.
      */
     public boolean errorBuildDecisionScreen() {
@@ -224,7 +237,7 @@ public class GodController {
     /**
      * Allows to manage the error screen saw when there's not the possibility to build in the same position.
      */
-    public void errorBuildInSamePosition(){
+    public void errorBuildInSamePosition() {
         godView.printBuildInSamePositionScreen();
     }
 
@@ -232,7 +245,7 @@ public class GodController {
     /**
      * Allows to manage the error screen saw by the player when his building phase fails.
      */
-    public void errorBuildScreen(){
+    public void errorBuildScreen() {
         godView.printBuildGeneralErrorScreen();
     }
 
