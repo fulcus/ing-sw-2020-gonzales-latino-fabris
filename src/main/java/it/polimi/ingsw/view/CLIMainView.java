@@ -116,8 +116,9 @@ public class CLIMainView implements ViewObserver {
 
     public String askPlayerNickname() {
 
+        Scanner in = new Scanner(System.in);
         System.out.println("Insert your nickname:");
-        return input.nextLine();
+        return in.nextLine();
     }
 
     public String askPlayerColor(String playerNickname) {
@@ -167,6 +168,10 @@ public class CLIMainView implements ViewObserver {
 
     public void notAvailableNickname() {
         System.out.println("This nickname is not available!");
+    }
+
+    public void notAvailableColor(){
+        System.out.println("This color is not available!");
     }
 
     /*public ArrayList askGameGods(ArrayList<God> availableGodsFromDeck){
