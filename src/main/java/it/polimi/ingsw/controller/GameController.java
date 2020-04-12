@@ -42,8 +42,6 @@ public class GameController {
      */
     public void setUpGame() {
 
-        createDeckGods();
-
         String viewType = viewSelector.askTypeofView();
 
         if (viewType.toUpperCase().equals("CLI"))
@@ -56,6 +54,7 @@ public class GameController {
         */
 
         godController = new GodController(view.getGodView(), this);
+        createDeckGods();
 
         view.beginningView();
 
@@ -135,7 +134,9 @@ public class GameController {
     }
 
     public boolean colorIsValid(String chosenColor) {
-        return chosenColor.equals(Color.BLUE.toString()) || chosenColor.equals(Color.BEIGE.toString()) || chosenColor.equals(Color.WHITE.toString());
+        return chosenColor.equals(Color.BLUE.name())
+                || chosenColor.equals(Color.BEIGE.name())
+                || chosenColor.equals(Color.WHITE.name());
     }
 
     public boolean nicknameIsAvailable(String chosenNickname) {
@@ -154,7 +155,8 @@ public class GameController {
 
         for (Player player : game.getPlayers()) {
 
-            if (chosenColor.equals(player.getColor().toString()))
+            if (player.getColor() != null
+                    && chosenColor.equals(player.getColor().toString()))
                 return false;
         }
 
@@ -195,6 +197,10 @@ public class GameController {
     public boolean getEndGame() {
         //todo
         return endGame;
+    }
+
+    public Game getGame() {
+        return game;
     }
 
 }

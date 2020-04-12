@@ -165,7 +165,7 @@ public class GodController {
         buildingInput[0] = playerInputCoord[0];
         buildingInput[1] = playerInputCoord[1];
 
-        if (playerInput[2].equals("B"))
+        if (playerInput[1].equals("B"))
             buildingInput[2] = 0;
         else
             buildingInput[2] = 1;

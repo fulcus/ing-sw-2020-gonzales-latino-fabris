@@ -10,7 +10,6 @@ import it.polimi.ingsw.controller.*;
 public abstract class God {
 
 
-    public String description;
     protected GodController godController;
 
 
@@ -159,6 +158,7 @@ public abstract class God {
     public GodController getGodController() {
         return godController;
     }
-    
 
+
+    public abstract String getDescription();
 }

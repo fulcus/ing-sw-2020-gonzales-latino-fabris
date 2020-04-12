@@ -11,13 +11,12 @@ import java.util.Scanner;
 
 public class CLIMainView implements ViewObserver {
 
-    Scanner input;
-    int numberOfPlayers;
-    TurnHandler myTurnHandler;
-    Game myGame;
-    GameController myController;
-    GodView godView;
-    Board myBoard;// this will contain a copy of the Model's map and each cell will be update if there are any changes
+    private Scanner input;
+    private Scanner intInput;
+    private TurnHandler myTurnHandler;
+    private final GameController myController;
+    private final GodView godView;
+    private final Board myBoard;// this will contain a copy of the Model's map and each cell will be update if there are any changes
 
     /**
      * This is the CLIMainView constructor.
@@ -31,6 +30,7 @@ public class CLIMainView implements ViewObserver {
         myBoard = new Board();
         myController = controller;
         input = new Scanner(System.in);
+        intInput = new Scanner(System.in);
         godView = new GodView();
     }
 
@@ -50,7 +50,7 @@ public class CLIMainView implements ViewObserver {
         do {
 
             System.out.println("--type START to play--");
-            startString = input.nextLine();
+            startString = input.nextLine().toUpperCase();
 
         } while (!startString.equals("START"));
 
@@ -67,16 +67,15 @@ public class CLIMainView implements ViewObserver {
         while (true) {
 
             System.out.println("Insert the number of players.");
-            insertedNumberOfPlayers = input.nextInt();
+            insertedNumberOfPlayers = intInput.nextInt();
 
             if (insertedNumberOfPlayers != 2 && insertedNumberOfPlayers != 3)
-                System.out.println("You can play only with 2 or 3 players!");
+                System.out.println("You can only play with 2 or 3 players.");
 
             else
                 break;
 
         }
-        numberOfPlayers = insertedNumberOfPlayers;
 
         return insertedNumberOfPlayers;
 
@@ -94,11 +93,11 @@ public class CLIMainView implements ViewObserver {
         int[] initialWorkerPosition = new int[2];
 
         if (workerSex == Sex.MALE) {
-            System.out.println("Set your male worker's position in coordinates:");
+            System.out.println("Set your male worker's position in coordinates.");
             initialWorkerPosition[0] = input.nextInt();
             initialWorkerPosition[1] = input.nextInt();
         } else if (workerSex == Sex.FEMALE) {
-            System.out.println("Set your female worker's position in coordinates:");
+            System.out.println("Set your female worker's position in coordinates.");
             initialWorkerPosition[0] = input.nextInt();
             initialWorkerPosition[1] = input.nextInt();
         } else
@@ -115,16 +114,16 @@ public class CLIMainView implements ViewObserver {
 
 
     public String askPlayerNickname() {
+        //Scanner in = new Scanner(System.in);
 
-        Scanner in = new Scanner(System.in);
-        System.out.println("Insert your nickname:");
-        return in.nextLine();
+        System.out.println("Insert your nickname.");
+        return input.nextLine();
     }
 
     public String askPlayerColor(String playerNickname) {
 
-        System.out.println(playerNickname + "Choose your color:");
-        return input.nextLine();
+        System.out.println(playerNickname + ", choose your color.");
+        return input.nextLine().toUpperCase();
     }
 
 
@@ -133,7 +132,7 @@ public class CLIMainView implements ViewObserver {
      */
     public String askPlayerGod(String playerNickname) {
 
-        System.out.println(playerNickname + "choose your god by inserting its name!");
+        System.out.println(playerNickname + ", choose your god by inserting his name.");
 
         return input.nextLine();
 
@@ -144,9 +143,11 @@ public class CLIMainView implements ViewObserver {
     }
 
 
-    public String getGodFromChallenger(int n) {
-
-        System.out.println("Select Gods for the Game!" + (myGame.getNumberOfPlayers() - n) + "remaining.");
+    public String getGodFromChallenger(String nickname, int n) {
+        int numOfPlayers = myController.getGame().getNumberOfPlayers();
+        System.out.println(nickname + ", you are the Challenger.\nSelect "
+                + numOfPlayers + " Gods for this game.");
+        System.out.println(numOfPlayers - n + " Gods left to choose.");
 
         return input.nextLine();
 
@@ -155,7 +156,7 @@ public class CLIMainView implements ViewObserver {
 
     public String challengerChooseStartPlayer(String challengerNickname) {
 
-        System.out.println(challengerNickname + "You can choose the first player to start! Insert his nickname:");
+        System.out.println(challengerNickname + ", you can choose the first player to start! Insert his nickname:");
 
         return input.nextLine();
 
@@ -170,46 +171,13 @@ public class CLIMainView implements ViewObserver {
         System.out.println("This nickname is not available!");
     }
 
-    public void notAvailableColor(){
-        System.out.println("This color is not available!");
-    }
 
-    /*public ArrayList askGameGods(ArrayList<God> availableGodsFromDeck){
-
-        List<String> nameOfAvailableGods = availableGodsFromDeck.stream().map(object -> Objects.toString(object, null)).collect(Collectors.toList());
-
-        ArrayList<String> selectedGods = new ArrayList<String>(myGame.getNumberOfPlayers());
-
-        String selectedGod;
-
-        int i = 0;
-
-        System.out.println("Select " + (myGame.getNumberOfPlayers()) + "God cards to play the Game");
-
-        while(i < myGame.getNumberOfPlayers()) {
-
-            selectedGod = input.nextLine();
-
-            if (nameOfAvailableGods.contains(selectedGod) && !(selectedGods.contains(selectedGod)))
-            {
-                selectedGods.add(selectedGod);
-                nameOfAvailableGods.remove(selectedGod);
-                i++;
-            }
-
-            else
-                System.out.println("This God is not among available gods! Insert another");
-
-        }
-
-        return selectedGods;
-
-    }*/
-    public String askChosenWorker() {
+    public String askChosenWorker(String currentPlayerNickname) {
 
         String chosenWorker;
-
-        System.out.println(myTurnHandler.getCurrentPlayer().getNickname() + "It's your turn!");//Il fatto che la view per stampare il nickname del player debba andare chiamare prima il controller che poi a sua volta chiama il model....boh?
+        //Il fatto che la view per stampare il nickname del player debba andare chiamare
+        // prima il controller che poi a sua volta chiama il model....boh?
+        System.out.println(currentPlayerNickname + ", it's your turn!");
 
         while (true) {
             System.out.println("Insert MALE or FEMALE to choose one of your workers.");
@@ -331,11 +299,18 @@ public class CLIMainView implements ViewObserver {
     //TODO: in update si potrebbero passare inoltre dei parametri che specificano cosa ha fatto avvenire il cambiamento, ad esempio se per un movimento o per una costruzione. Intal modo posso far apparire all'utente: PLAYER1 si è mosso-->stampa mappa.
     @Override
     public void update(Cell toBeUpdatedCell) {
+        int xUpdated = toBeUpdatedCell.getX();
+        int yUpdated = toBeUpdatedCell.getY();
+        Cell cellUpdatedView = myBoard.findCell(xUpdated, yUpdated);
 
-        myBoard.findCell(toBeUpdatedCell.getX(), toBeUpdatedCell.getY()).setLevel(toBeUpdatedCell.getLevel());//update the level of the changed cell in the view
-        myBoard.findCell(toBeUpdatedCell.getX(), toBeUpdatedCell.getY()).setDome(toBeUpdatedCell.hasDome());//update dome of changed cell in the view
-        myBoard.findCell(toBeUpdatedCell.getX(), toBeUpdatedCell.getY()).setWorker(toBeUpdatedCell.getWorker());//update worker of the changed cell in the view
+        //update the level of the changed cell in the view
+        cellUpdatedView.setLevel(toBeUpdatedCell.getLevel());
+        //update dome of changed cell in the view
+        cellUpdatedView.setDome(toBeUpdatedCell.hasDome());
+        //update worker of the changed cell in the view
+        cellUpdatedView.setWorker(toBeUpdatedCell.getWorker());
 
+        printMap();
     }
 
 
@@ -343,7 +318,8 @@ public class CLIMainView implements ViewObserver {
 
         for (God god : godsDeck) {
 
-            System.out.println(god.toString() + ":" + god.description);
+            System.out.println(god.getClass().getSimpleName() + ":");
+            System.out.println(god.getDescription() + "\n");
 
         }
 
@@ -352,7 +328,7 @@ public class CLIMainView implements ViewObserver {
 
     public void challengerError() {
 
-        System.out.println("This god doesn't exist");
+        System.out.println("This god doesn't exist.");
     }
 
 
@@ -360,9 +336,9 @@ public class CLIMainView implements ViewObserver {
 
         System.out.println("Available Gods:");
 
-        for (God god : myGame.getChosenGods()) {
+        for (God god : myController.getGame().getChosenGods()) {
 
-            System.out.println(god.toString());
+            System.out.println(god.getClass().getSimpleName());
         }
 
     }

@@ -37,5 +37,10 @@ public class Hera extends God{
     public GodController getGodController() {
         return godController;
     }
+
+    public String getDescription() {
+        return description;
+    }
+
 }
 

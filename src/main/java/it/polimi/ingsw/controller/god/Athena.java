@@ -46,4 +46,8 @@ public class Athena extends God{
         return godController;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
 }

@@ -33,4 +33,8 @@ public class Pan extends God{
         return godController;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
 }

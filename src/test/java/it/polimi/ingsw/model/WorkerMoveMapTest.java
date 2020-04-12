@@ -153,4 +153,23 @@ public class WorkerMoveMapTest {
         assertFalse(moveMap.isAllowedToMoveWorkersMap(0, 0));
     }
 
+    @Test
+    public void testAnyAvailableMovePosition() {
+        worker.setPosition(3, 3);
+
+        assertTrue(moveMap.anyAvailableMovePosition());
+
+        //set whole map false
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                moveMap.setBooleanCellWorkerMap(i,j,false);
+            }
+        }
+
+
+        //relative to workers board
+        assertFalse(moveMap.anyAvailableMovePosition());
+    }
+
+
 }

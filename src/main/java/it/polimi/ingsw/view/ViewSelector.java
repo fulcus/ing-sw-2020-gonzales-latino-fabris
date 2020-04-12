@@ -14,7 +14,7 @@ public class ViewSelector {
 
         while (true) {
 
-            selectedView = input.nextLine();
+            selectedView = input.nextLine().toUpperCase();
 
             if (!(selectedView.equals("CLI") || selectedView.equals("GUI")))
                 System.out.println("Invalid interface. Type CLI or GUI");

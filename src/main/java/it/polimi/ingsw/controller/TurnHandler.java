@@ -36,7 +36,7 @@ public class TurnHandler {
      * Lets the Challenger choose Gods equal to the number of players.
      */
     private void challengerChooseGods() {
-
+        Player challenger = game.getChallenger();
         view.printAllGods(gameController.getGodsDeck());
 
         ArrayList<God> godsDeck = gameController.getGodsDeck();
@@ -45,7 +45,7 @@ public class TurnHandler {
         int i = 0;
         while (i < numberOfPlayers) {
 
-            String chosenGod = view.getGodFromChallenger(i);
+            String chosenGod = view.getGodFromChallenger(challenger.getNickname(),i);
             boolean foundGod = false;
 
             for (God god : godsDeck) {
@@ -82,7 +82,7 @@ public class TurnHandler {
         boolean foundGod = false;
 
         for (Player player : players) {
-
+            foundGod = false;
             while (!foundGod) {
                 String inputGod = view.askPlayerGod(player.getNickname());
 
@@ -160,7 +160,7 @@ public class TurnHandler {
 
     private Worker chooseWorker() {
 
-        String inputSex = view.askChosenWorker();
+        String inputSex = view.askChosenWorker(currentPlayer.getNickname());
 
         if (currentPlayer.getWorkers().get(0).getSex().toString().equals(inputSex))
             return currentPlayer.getWorkers().get(0);

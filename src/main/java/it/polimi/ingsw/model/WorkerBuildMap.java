@@ -10,7 +10,7 @@ public class WorkerBuildMap extends WorkerMap {
     }
 
     public void cannotBuildInWorkerCell() {
-        WorkerCellFalse();
+        workerCellFalse();
     }
 
     public void cannotBuildInDomeCell() {
@@ -18,7 +18,7 @@ public class WorkerBuildMap extends WorkerMap {
     }
 
     public void cannotBuildInOccupiedCell() {
-        OccupiedCellFalse();
+        occupiedCellFalse();
     }
 
     public void cannotBuildUnderneath() {

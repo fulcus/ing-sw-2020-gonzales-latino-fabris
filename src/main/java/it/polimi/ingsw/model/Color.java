@@ -5,7 +5,7 @@ public enum Color {
     WHITE,
     BLUE;
 
-    public static Color StringToColor(String stringColor){
+    public static Color StringToColor(String stringColor) {
         if(stringColor.equals("BLUE"))
             return BLUE;
 

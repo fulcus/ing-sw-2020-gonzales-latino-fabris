@@ -100,4 +100,9 @@ public class Hephaestus extends God {
     public GodController getGodController() {
         return godController;
     }
+
+    public String getDescription() {
+        return description;
+    }
+
 }
