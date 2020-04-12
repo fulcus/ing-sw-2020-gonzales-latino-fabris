@@ -86,4 +86,9 @@ public class Hestia extends God {
     public GodController getGodController() {
         return godController;
     }
+
+    public String getDescription() {
+        return description;
+    }
+
 }

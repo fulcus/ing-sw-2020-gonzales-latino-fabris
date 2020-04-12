@@ -37,4 +37,8 @@ public class Zeus extends God{
         return godController;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
 }

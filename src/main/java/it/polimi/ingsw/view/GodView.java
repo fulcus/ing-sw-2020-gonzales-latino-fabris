@@ -28,22 +28,29 @@ public class GodView {
         while (true) {
             selectedBuildingDirection[0] = input.nextLine();
 
-            if (selectedBuildingDirection[0].equals("N") || selectedBuildingDirection[0].equals("NE") || selectedBuildingDirection[0].equals("E") || selectedBuildingDirection[0].equals("SE") || selectedBuildingDirection[0].equals("S") || selectedBuildingDirection[0].equals("SW") || selectedBuildingDirection[0].equals("W") || selectedBuildingDirection[0].equals("NW")) {
+            if (selectedBuildingDirection[0].equals("N")
+                    || selectedBuildingDirection[0].equals("NE")
+                    || selectedBuildingDirection[0].equals("E")
+                    || selectedBuildingDirection[0].equals("SE")
+                    || selectedBuildingDirection[0].equals("S")
+                    || selectedBuildingDirection[0].equals("SW")
+                    || selectedBuildingDirection[0].equals("W")
+                    || selectedBuildingDirection[0].equals("NW")) {
 
                 while (true){
-                    System.out.println("Now tell me what do you want to build:  Block <B>  or  Dome <D>  : ");
+                    System.out.println("Now tell me what do you want to build:  Block <B>  or  Dome <D>: ");
                     selectedBuildingDirection[1] = input.nextLine();
 
                     if (selectedBuildingDirection[1].equals("B") || selectedBuildingDirection[1].equals("D"))
                         return selectedBuildingDirection;
 
                     else
-                        System.out.println("Invalid Building. You must build B or D\n");
+                        System.out.println("Invalid Building. You must build B or D.\n");
                 }
             }
 
             else
-                System.out.println("Invalid Direction. You must use: N, NE, E, SE, S, SW, W, NW   ");
+                System.out.println("Invalid Direction. You must use: N, NE, E, SE, S, SW, W, NW.");
 
         }
     }

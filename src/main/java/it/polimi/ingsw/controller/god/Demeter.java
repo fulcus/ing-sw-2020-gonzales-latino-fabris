@@ -128,4 +128,9 @@ public class Demeter extends God {
         return godController;
     }
 
+
+    public String getDescription() {
+        return description;
+    }
+
 }

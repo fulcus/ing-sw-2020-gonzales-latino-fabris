@@ -70,4 +70,8 @@ public class Apollo extends God{
         return godController;
     }
 
+
+    public String getDescription() {
+        return description;
+    }
 }
