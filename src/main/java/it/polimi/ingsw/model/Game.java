@@ -5,6 +5,9 @@ import it.polimi.ingsw.controller.god.*;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Represents the game with its main components.
+ */
 public class Game {
 
 

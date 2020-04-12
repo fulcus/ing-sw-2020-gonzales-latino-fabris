@@ -1,7 +1,8 @@
 package it.polimi.ingsw.model;
 
 /**
- * Matrix that represents the adjacent positions the player can move to.
+ * Matrix that represents positions adjacent to the worker, in which he
+ * may or may not build, depending on the boolean value of the cell.
  */
 public class WorkerBuildMap extends WorkerMap {
 
@@ -29,16 +30,6 @@ public class WorkerBuildMap extends WorkerMap {
         centerPositionTrue();
     }
 
-    /*
-    public void setAllowedToBuildBoard(int i, int j) {
-        setBooleanCellBoard(i, j,true);
-    }
-
-    public void setNotAllowedToBuildBoard(int i, int j) {
-        setBooleanCellBoard(i, j,false);
-    }
-    */
-
     public boolean isAllowedToBuildBoard(int i, int j) {
         return getBooleanCellBoard(i, j);
     }
@@ -48,7 +39,7 @@ public class WorkerBuildMap extends WorkerMap {
     }
 
     /**
-     *
+     * Checks if the worker can build.
      * @return Returns true if there is a cell the worker can build in, false otherwise.
      */
     public boolean anyAvailableBuildPosition() {

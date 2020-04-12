@@ -1,14 +1,10 @@
 package it.polimi.ingsw.model;
 
-
-import it.polimi.ingsw.view.ViewObserver;
-
-import java.util.ArrayList;
-
+/**
+ * The worker of a player.
+ */
 public class Worker {
 
-
-    private ArrayList<ViewObserver> workerObservers;
 
     private final Player player;
     private final Sex sex;
@@ -17,6 +13,8 @@ public class Worker {
     private final WorkerBuildMap buildMap;
     private int level;
     private int levelVariation; //level before moving - level after moving
+
+
     /** Creates a worker.
      * @param player The worker's owner.
      * @param sex A worker can be Male or Female.
@@ -36,17 +34,16 @@ public class Worker {
      * @param x Coordinate of the new position of the worker.
      * @param y Coordinate of the new position of the worker.
      */
-    //prima di chiamare fare check se posso andare (isOccupied)
     public void setPosition(int x, int y) {
         Cell newPosition = player.getGame().getBoard().findCell(x,y);
         int newLevel = newPosition.getLevel();
 
-        //vado via da cella precedente e Position nella nuova
+        //moveOut of previous cell and moveIn new one
         if(position != null) {
             position.moveOut();
         }
         newPosition.moveIn(this);
-        //newPosition.getLevel() > level
+
         levelVariation = newLevel - level;
         level = newLevel;
         position = newPosition;
@@ -59,7 +56,7 @@ public class Worker {
     public void setPosition(Cell newPosition) {
         int newLevel = newPosition.getLevel();
 
-        //vado via da cella precedente e Position nella nuova
+        //moveOut of previous cell and moveIn new one
         if(position != null) {
             position.moveOut();
         }
@@ -75,7 +72,7 @@ public class Worker {
      * @param x Coordinate of the position to build in.
      * @param y Coordinate of the position to build in.
      */
-    //prima di chiamare faccio check se posso costruire block (canBuildBlock)
+
     public void buildBlock(int x, int y) {
         Cell buildPosition = player.getGame().getBoard().findCell(x,y);
         buildPosition.buildBlock();
@@ -86,7 +83,7 @@ public class Worker {
      * @param x Coordinate of the position to build in.
      * @param y Coordinate of the position to build in.
      */
-    //prima di chiamare faccio check se posso costruire dome (canBuildDome)
+
     public void buildDome(int x, int y) {
         Cell buildPosition = player.getGame().getBoard().findCell(x,y);
         buildPosition.buildDome();

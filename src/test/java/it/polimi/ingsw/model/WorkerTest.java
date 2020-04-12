@@ -16,8 +16,8 @@ public class WorkerTest {
     @Before
     public void setUp() {
         game = new Game(2);
-        game.addPlayer("nickname1");
-        game.addPlayer("nickname2");
+        game.addPlayer("nick1");
+        game.addPlayer("nick2");
         board = game.getBoard();
         player = game.getPlayers().get(0);
         worker = player.getWorkers().get(0);
@@ -70,7 +70,7 @@ public class WorkerTest {
 
     @Test
     public void testGetPlayer() {
-        assertEquals("nickname1",worker.getPlayer().getNickname());
+        assertEquals(player,worker.getPlayer());
     }
 
     @Test

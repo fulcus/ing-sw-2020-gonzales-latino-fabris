@@ -1,9 +1,8 @@
 package it.polimi.ingsw.model;
 
 /**
- * This class represents the structure where the players can play their game
+ * Represents the Board of the game.
  */
-
 public class Board {
     private final Cell[][] board;
     public static final int SIDE = 5;

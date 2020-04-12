@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+/**
+ * The color of the worker.
+ */
 public enum Color {
     BEIGE,
     WHITE,

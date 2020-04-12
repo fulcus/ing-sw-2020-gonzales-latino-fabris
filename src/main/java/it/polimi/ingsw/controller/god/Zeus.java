@@ -24,7 +24,6 @@ public class Zeus extends God{
         //but canBuildUnderneath overwrites the previous rule to allow worker to build underneath him
         buildMap.canBuildUnderneath();
         buildMap.cannotBuildInDomeCell();
-        buildMap.updateCellsOutOfMap();
 
         if(!buildMap.anyTrueCell())
             throw new UnableToBuildException();

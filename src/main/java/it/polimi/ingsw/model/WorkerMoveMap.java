@@ -1,7 +1,8 @@
 package it.polimi.ingsw.model;
 
 /**
- * Matrix that represents the adjacent positions the player can move to.
+ * Matrix that represents positions adjacent to the worker, in which he
+ * may or may not move, depending on the boolean value of the cell.
  */
 public class WorkerMoveMap extends WorkerMap {
 
@@ -64,7 +65,7 @@ public class WorkerMoveMap extends WorkerMap {
     }
 
     /**
-     *
+     * Checks if the worker can move.
      * @return Returns true if there is a cell the worker can move in, false otherwise.
      */
     public boolean anyAvailableMovePosition() {
