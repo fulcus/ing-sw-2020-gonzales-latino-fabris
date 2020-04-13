@@ -34,7 +34,7 @@ public class Triton extends God{
 
     private void moveAgain(Worker worker) {
 
-        if (!godController.getMoveAgain())
+        if (!godController.wantToMoveAgain())
             return;
 
         while (true) {

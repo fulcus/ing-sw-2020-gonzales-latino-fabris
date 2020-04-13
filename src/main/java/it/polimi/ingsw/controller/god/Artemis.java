@@ -32,14 +32,21 @@ public class Artemis extends God {
 
     private void moveAgain(Worker worker) throws UnableToMoveException {
 
-        if (!godController.getMoveAgain())
+        if (!godController.wantToMoveAgain())
             return;
 
         while (true) {
 
+            WorkerMoveMap moveMap;
+            try {
+                moveMap = updateMoveMap(worker);
+            } catch (UnableToMoveException ex) {
+                godController.errorMoveScreen();
+                return;
+            }
+
             int[] secondMovePosition = godController.getInputMove();
 
-            WorkerMoveMap moveMap = updateMoveMap(worker);
 
             int xMove = secondMovePosition[0] + worker.getPosition().getX();
             int yMove = secondMovePosition[1] + worker.getPosition().getY();

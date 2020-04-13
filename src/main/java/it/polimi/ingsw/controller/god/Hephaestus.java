@@ -28,7 +28,7 @@ public class Hephaestus extends God {
     public void evolveTurn(Worker worker) throws UnableToMoveException, UnableToBuildException {
         move(worker);
         win(worker);
-        firstBuildCell = buildCell(worker);
+        firstBuildCell = firstBuild(worker);
         secondBuild(worker);
     }
 
@@ -39,7 +39,7 @@ public class Hephaestus extends God {
      * @return The cell where has been built the first building.
      * @throws UnableToBuildException Says that the building cannot be built anywhere.
      */
-    public Cell buildCell(Worker worker) throws UnableToBuildException {
+    public Cell firstBuild(Worker worker) throws UnableToBuildException {
         WorkerBuildMap buildMap = updateBuildMap(worker);
         Board board = worker.getPlayer().getGame().getBoard();
 
@@ -88,9 +88,8 @@ public class Hephaestus extends God {
         if(firstBuildCell.getLevel() >= 3)
             return;
 
-        boolean buildAgainInSamePosition = godController.getBuildAgain(this);  //true if player wants to build again
-
-        if(!buildAgainInSamePosition)
+        //true if player wants to build again
+        if(!godController.wantToBuildAgain(this))
             return;
 
         //check is useless because worker is certainly allowed to build in first build cell

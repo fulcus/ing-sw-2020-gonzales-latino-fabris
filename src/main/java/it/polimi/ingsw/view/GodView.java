@@ -201,7 +201,8 @@ public class GodView {
      */
     public String askBuildAgainHephaestus(){
 
-        System.out.println("You are allowed to build another time, but ONLY in the same position you built before\n <Y> for Yes,  <N> for No :   ");
+        System.out.println("You are allowed to build another time, " +
+                "but ONLY in the same position you built before\n <Y> for Yes,  <N> for No :");
         return playerAnswerYN();
     }
 

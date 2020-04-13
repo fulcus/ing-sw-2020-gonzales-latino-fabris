@@ -104,19 +104,18 @@ public class GodController {
      *
      * @return True if the player wants to move again, False otherwise.
      */
-    public boolean getMoveAgain() {
+    public boolean wantToMoveAgain() {
         return godView.askMoveAgain().equals("Y");
     }
 
     /**
      * Allows to get the right input for the God if the player wants to move up or not.
-     *
      * @return True if the player with his worker doesn't want to jump to an higher level, False otherwise.
      */
     public boolean wantToMoveUp() {
 
         String answer = godView.askWantToMoveUp();
-        return !answer.equals("Y");
+        return answer.equals("Y");
 
     }
 
@@ -183,18 +182,18 @@ public class GodController {
      * @param god It's the specific god of the player.
      * @return True for the will of build, False otherwise.
      */
-    public boolean getBuildAgain(God god) {
+    public boolean wantToBuildAgain(God god) {
         String answer = null;
-        if (god.toString().equals("Hephaestus"))
+        if (god.getClass().getSimpleName().equals("Hephaestus"))
             answer = godView.askBuildAgainHephaestus();
 
-        if (god.toString().equals("Demeter"))
+        if (god.getClass().getSimpleName().equals("Demeter"))
             answer = godView.askBuildAgainDemeter();
 
-        if (god.toString().equals("Hestia"))
+        if (god.getClass().getSimpleName().equals("Hestia"))
             answer = godView.askBuildAgainHestia();
 
-        assert answer != null;
+
         return answer.equals("Y");
     }
 

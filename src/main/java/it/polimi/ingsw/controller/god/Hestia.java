@@ -32,7 +32,7 @@ public class Hestia extends God {
         WorkerBuildMap buildMap;
 
         //If I choose to not build again I can pass my turn
-        if (!godController.getBuildAgain(this))
+        if (!godController.wantToBuildAgain(this))
             return;
 
         while(true) {

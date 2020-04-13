@@ -8,19 +8,22 @@ import it.polimi.ingsw.model.Worker;
 
 public class Prometheus extends God {
 
-    public String description = "If your Worker does not move up, it may build both before and after moving.";
+    public String description =
+            "If your Worker does not move up, it may build both before and after moving.";
 
 
-    public Prometheus(GodController godController){
+    public Prometheus(GodController godController) {
         super(godController);
     }
 
     @Override
     public void evolveTurn(Worker worker) throws UnableToMoveException, UnableToBuildException {
         worker.getPlayer().setPermissionToMoveUp(true);
-        if (!getGodController().wantToMoveUp()) {
-            //should not lose with optional build
-            if(worker.getBuildMap().anyAvailableBuildPosition()) {
+
+        //should not lose with optional build
+        if (worker.getBuildMap().anyAvailableBuildPosition()) {
+
+            if (getGodController().wantToMoveUp()) {
                 build(worker);
                 worker.getPlayer().setPermissionToMoveUp(false);
             } else

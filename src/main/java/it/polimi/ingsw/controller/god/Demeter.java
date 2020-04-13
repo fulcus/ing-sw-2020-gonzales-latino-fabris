@@ -24,13 +24,14 @@ public class Demeter extends God {
     public void evolveTurn(Worker w) throws UnableToBuildException, UnableToMoveException {
         move(w);
         win(w);
-        firstBuildCell = buildCell(w);
+        firstBuildCell = firstBuild(w);
         buildAgain(w);
     }
 
 
-    public Cell buildCell(Worker worker) throws UnableToBuildException {
+    public Cell firstBuild(Worker worker) throws UnableToBuildException {
         WorkerBuildMap buildMap = updateBuildMap(worker);
+
         Board board = worker.getPlayer().getGame().getBoard();
 
         while (true) {
@@ -70,10 +71,11 @@ public class Demeter extends God {
 
 
     private void buildAgain(Worker worker) {
-        WorkerBuildMap buildMap;
 
-        if (godController.getBuildAgain(this))
+        if (!godController.wantToBuildAgain(this))
             return;
+
+        WorkerBuildMap buildMap;
 
         while (true) {
 
