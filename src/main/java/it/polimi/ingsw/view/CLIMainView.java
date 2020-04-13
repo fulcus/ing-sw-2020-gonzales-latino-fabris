@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.*;
 
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CLIMainView implements ViewObserver {
@@ -64,23 +65,23 @@ public class CLIMainView implements ViewObserver {
 
         int insertedNumberOfPlayers;
 
+
+        System.out.println("Insert the number of players.");
         while (true) {
+            try {
+                insertedNumberOfPlayers = intInput.nextInt();
 
-            System.out.println("Insert the number of players.");
-            insertedNumberOfPlayers = intInput.nextInt();
+                if (insertedNumberOfPlayers != 2 && insertedNumberOfPlayers != 3)
+                    System.out.println("You can only play with 2 or 3 players. Try again.");
+                else
+                    return insertedNumberOfPlayers;
 
-            if (insertedNumberOfPlayers != 2 && insertedNumberOfPlayers != 3)
-                System.out.println("You can only play with 2 or 3 players.");
-
-            else
-                break;
-
+            } catch (InputMismatchException ex) {
+                System.out.println("Invalid input: type 2 or 3. Try again.");
+                intInput.next();
+            }
         }
-
-        return insertedNumberOfPlayers;
-
     }
-
 
     /**
      * This method asks the player to set his worker initial position.
@@ -88,34 +89,42 @@ public class CLIMainView implements ViewObserver {
      * @param workerSex This is the sex of the worker to be placed on the board.
      * @return Array with x,y coordinates of the chosen position.
      */
-    public int[] askInitialWorkerPosition(Sex workerSex, String currentPlayerNickanme) {
+    public int[] askInitialWorkerPosition(Sex workerSex, String currentPlayerNickname)
+            throws InputMismatchException {
+        while (true) {
+            try {
+                int[] initialWorkerPosition = new int[2];
 
-        int[] initialWorkerPosition = new int[2];
+                if (workerSex == Sex.MALE) {
+                    System.out.println(currentPlayerNickname + ", set your male worker's position in coordinates.");
 
-        if (workerSex == Sex.MALE) {
-            System.out.println(currentPlayerNickanme+",set your male worker's position in coordinates.");
-            initialWorkerPosition[0] = intInput.nextInt();
-            initialWorkerPosition[1] = intInput.nextInt();
-        } else if (workerSex == Sex.FEMALE) {
-            System.out.println(currentPlayerNickanme+",set your female worker's position in coordinates.");
-            initialWorkerPosition[0] = intInput.nextInt();
-            initialWorkerPosition[1] = intInput.nextInt();
-        } else
-            System.out.println("Invalid worker's sex");
+                    initialWorkerPosition[0] = intInput.nextInt();
+                    initialWorkerPosition[1] = intInput.nextInt();
+                    return initialWorkerPosition;
+                } else if (workerSex == Sex.FEMALE) {
+                    System.out.println(currentPlayerNickname +
+                            ", set your female worker's position in coordinates.");
+                    initialWorkerPosition[0] = intInput.nextInt();
+                    initialWorkerPosition[1] = intInput.nextInt();
+                    return initialWorkerPosition;
+                } else
+                    System.out.println("Invalid worker's sex"); //never executed
 
-        return initialWorkerPosition;
-
+            } catch (InputMismatchException ex) {
+                System.out.println("You must type the coordinates separated by a space.");
+                intInput.next();
+            }
+        }
     }
 
     public void invalidInitialWorkerPosition() {
-
         System.out.println("Not valid or available position. Choose another place!");
+        intInput.next();
+        input.next();
     }
 
 
     public String askPlayerNickname() {
-        //Scanner in = new Scanner(System.in);
-
         System.out.println("Insert your nickname.");
         return input.nextLine();
     }
@@ -166,7 +175,7 @@ public class CLIMainView implements ViewObserver {
         System.out.println("Invalid nickname. It must be an existing nickname and different from the challenger's.");
     }
 
-    public void notAvailableColor(){
+    public void notAvailableColor() {
         System.out.println("This color is not available!");
     }
 
@@ -185,7 +194,7 @@ public class CLIMainView implements ViewObserver {
         while (true) {
             System.out.println("Insert MALE or FEMALE to choose one of your workers.");
 
-            chosenWorker = input.nextLine();
+            chosenWorker = input.nextLine().toUpperCase();
 
             if (chosenWorker.equals("MALE") || chosenWorker.equals("FEMALE"))
                 return chosenWorker;
@@ -337,13 +346,13 @@ public class CLIMainView implements ViewObserver {
 
     public void printChosenGods() {
 
-        System.out.println("Available Gods:");
+        System.out.print("Available Gods: ");
 
         for (God god : myController.getGame().getChosenGods()) {
 
-            System.out.println(god.getClass().getSimpleName());
+            System.out.print(god.getClass().getSimpleName() + " ");
         }
-
+        System.out.println("\n");
     }
 
 
