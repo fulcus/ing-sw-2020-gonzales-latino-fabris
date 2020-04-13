@@ -103,7 +103,7 @@ public class GameController {
                     player.setColor(Color.StringToColor(chosenColor));
                     colorCorrectlyChosen = true;
                 } else
-                    view.notAvailableNickname();
+                    view.notAvailableColor();
 
             }
         }

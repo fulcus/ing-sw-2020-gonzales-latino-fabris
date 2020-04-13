@@ -29,6 +29,7 @@ public class Cell {
         cellObservers = new ArrayList<>();
     }
 
+
     public int getLevel() {
         return level;
     }
