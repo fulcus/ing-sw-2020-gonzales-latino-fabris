@@ -145,12 +145,29 @@ public class CellTest {
     public void testGetX() {
 
         assertEquals(3, cell.getX());
-
+        assertEquals(2, cell.getY());
     }
 
     @Test
-    public void testGetY() {
-
-        assertEquals(2, cell.getY());
+    public void testSetLevel() {
+        cell.setLevel(2);
+        assertEquals(2, cell.getLevel());
     }
+
+    @Test
+    public void testSetDome() {
+        cell.setDome(true);
+        assertTrue(cell.hasDome());
+        cell.setDome(false);
+        assertFalse(cell.hasDome());
+    }
+
+    @Test
+    public void testSetWorker() {
+        cell.setWorker(worker);
+        assertEquals(worker,cell.getWorker());
+    }
+
+
+
 }

@@ -2,6 +2,12 @@ package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
 
+/**
+ * A 3x3 matrix that represents the cells adjacent to the worker.
+ * The worker is in the central cell of the matrix.
+ * This matrix is extended by WorkerMoveMap and WorkerBuildMap to represent
+ * the positions in which the worker may or may not respectively move or build.
+ */
 public class WorkerMap {
     private final Board board;
     private final Worker worker;
@@ -156,32 +162,7 @@ public class WorkerMap {
         int workersX = worker.getPosition().getX();
         int workersY = worker.getPosition().getY();
 
-        if (!board.isInBoard(workersX, workersY))
-            return null;
-
         return board.findCell(workersX - 1 + i, workersY - 1 + j);
-    }
-
-    /**
-     * Sets false cells not contained in Board.
-     */
-    //useless because getBooleanMap returns false if cell is out of board
-    //called in updateMap of God
-    public void updateCellsOutOfMap() {
-        Cell workersCell = worker.getPosition();
-        int workersX = worker.getPosition().getX();
-        int workersY = worker.getPosition().getY();
-
-        if (workersCell.isInPerimeter()) {
-            for (int i = 0; i < N; i++) {
-                for (int j = 0; j < N; j++) {
-
-                    if (!board.isInBoard(i - workersX + 1, j - workersY + 1))
-                        matrix[i][j] = false;
-
-                }
-            }
-        }
     }
 
     /**
@@ -226,8 +207,8 @@ public class WorkerMap {
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-
                 Cell adjacentCell = getAbsolutePosition(i,j);
+
                 if (adjacentCell != null && adjacentCell.hasWorker() &&
                         adjacentCell.getWorker().getPlayer() != worker.getPlayer())
                     neighboringWorkers.add(adjacentCell.getWorker());

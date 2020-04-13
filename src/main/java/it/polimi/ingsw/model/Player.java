@@ -4,7 +4,9 @@ import it.polimi.ingsw.controller.god.God;
 
 import java.util.ArrayList;
 
-
+/**
+ * A player of the game.
+ */
 public class Player {
 
     private final Game game;
@@ -23,7 +25,6 @@ public class Player {
      * @param game     Represents the belonging game of the player.
      * @param nickname The name chosen by the user for the belonging game.
      */
-
     public Player(Game game, String nickname) {
 
         this.game = game;

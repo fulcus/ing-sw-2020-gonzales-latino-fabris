@@ -4,6 +4,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
 public class WorkerMoveMapTest {
@@ -162,13 +164,40 @@ public class WorkerMoveMapTest {
         //set whole map false
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                moveMap.setBooleanCellWorkerMap(i,j,false);
+                moveMap.setBooleanCellWorkerMap(i, j, false);
             }
         }
 
 
         //relative to workers board
         assertFalse(moveMap.anyAvailableMovePosition());
+    }
+
+    @Test
+    public void testSetBooleanCellBoard() {
+        worker.setPosition(4, 4);
+        assertEquals(board.findCell(4,4),moveMap.getAbsolutePosition(1,1));
+
+        //access non existing cell
+        moveMap.setBooleanCellBoard(6, 0, false);
+        assertFalse(moveMap.getBooleanCellBoard(6, 0));
+
+        //out of map input
+        assertNull(moveMap.getAbsolutePosition(1,2));
+    }
+
+    @Test
+    public void testNeighboringEnemyWorkers() {
+        worker.setPosition(2, 1);
+        enemyWorker.setPosition(4,4);
+
+        assertTrue(moveMap.neighboringEnemyWorkers().isEmpty());
+
+        enemyWorker.setPosition(2,2);
+        moveMap.neighboringEnemyWorkers();
+
+        assertEquals(enemyWorker,moveMap.neighboringEnemyWorkers().get(0));
+
     }
 
 

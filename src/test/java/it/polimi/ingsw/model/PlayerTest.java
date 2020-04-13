@@ -1,30 +1,44 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.controller.GodController;
+import it.polimi.ingsw.controller.god.Apollo;
+import it.polimi.ingsw.controller.god.Pan;
+import it.polimi.ingsw.view.GodView;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
 
 public class PlayerTest {
 
-    private Worker worker;
-    private Worker worker2;
-    private Player player;
+    private Worker worker, worker2;
+    private Player player, player2;
     private Game game;
     private Board board;
+    private ArrayList<Player> players;
+    Integer numOfPlayers;
 
     @Before
     public void setUp() {
         game = new Game(2);
-        game.addPlayer("player");
-        game.addPlayer("player2");
+        game.addPlayer("nick1");
+        game.addPlayer("nick2");
         board = game.getBoard();
-        player = game.getPlayers().get(0);
+        players = game.getPlayers();
+        numOfPlayers = game.getNumberOfPlayers();
+
+        player = players.get(0);
+        player2 = players.get(1);
         worker = player.getWorkers().get(0);
         worker2 = player.getWorkers().get(1);
+        worker.setPosition(1,1);
+        worker2.setPosition(2,2);
     }
 
     @After
@@ -37,73 +51,20 @@ public class PlayerTest {
 
     @Test
     public void testGetNickname() {
-
-        assertEquals("player", player.getNickname());
+        //challenger is set as last in players
+        assertEquals(game.getChallenger().getNickname(),
+                players.get(numOfPlayers -1).getNickname());
     }
 
 
     @Test
-    public void testGetGod() {
-
-        assertNull(player.getGod());
-
-
-    }
-/*
-    @Test
-    public void testChooseGod() {
-
-        God apollo = new Apollo();
-        God artemis = new Artemis();
-        God athena = new Athena();
-        God chosengod;
-
-
-        ArrayList<God> gods = new ArrayList<God>(game.getNumberOfPlayers());
-        gods.add(apollo);
-        gods.add(artemis);
-        gods.add(athena);
-
-
-
-
-        int i=0, chosenOne;
-
-        //dalla lista dei chosenGods del gioco sceglierne uno dei 3 e assegnarlo al God di questo player
-        //todo:
-        //dal controller ricevo l'input che la view deve dare per poter scegliere uno dei god tra cui scegliere
-        //intanto lo faccio qui per semplicità
-
-        System.out.println("Choose one God among the following.");
-        Scanner input = new Scanner(System.in);
-        chosenOne = input.nextInt();   //scelgo il god della lista con un numero da 1 a 3
-        chosengod = gods.get(chosenOne-1);
-        while(i<game.getNumberOfPlayers()){
-            //Se il giocatore è diverso e il dio scelto è lo stesso allora faccio riscegliere il dio
-            if(!this.equals(game.getPlayers().get(i)) && chosengod.equals(game.getPlayers().get(i).getGod())){
-                System.out.println("This god has already been chosen. Pick another!\n");
-                chosenOne = input.nextInt();   //scelgo il god della lista con un numero da 1 a 3
-                chosengod = gods.get(chosenOne-1);
-            }
-            else{
-                i++;
-            }
-        }
-
-
-
-
-
-
-
+    public void testPlayerGod() {
+        Apollo apollo = new Apollo(new GodController(new GodView(),new GameController()));
+        player.setGod(apollo);
+        assertEquals(apollo, player.getGod());
 
     }
-*/
-    @Test
-    public void testChooseWorker() {
 
-
-    }
 
     @Test
     public void testGetColor() {
@@ -150,4 +111,58 @@ public class PlayerTest {
 
         assertEquals(game, player.getGame());
     }
+
+    @Test
+    public void testColor() {
+        player.setColor(Color.StringToColor("BLUE"));
+        assertEquals(player.getColor(),Color.StringToColor("BLUE"));
+
+        player.setColor(Color.StringToColor("WHITE"));
+        assertEquals(player.getColor(),Color.StringToColor("WHITE"));
+
+        player.setColor(Color.StringToColor("BEIGE"));
+        assertEquals(player.getColor(),Color.StringToColor("BEIGE"));
+
+
+    }
+
+    @Test
+    public void testPermissionToWinInPerimeter() {
+        player.setPermissionToWinInPerimeter(true);
+        assertTrue(player.getCanWinInPerimeter());
+
+        player.setPermissionToWinInPerimeter(false);
+        assertFalse(player.getCanWinInPerimeter());
+
+    }
+
+    @Test
+    public void testLose() {
+        Apollo apollo = new Apollo(new GodController(new GodView(),new GameController()));
+        Pan pan = new Pan(new GodController(new GodView(),new GameController()));
+
+        game.addGodChosenByChallenger(apollo);
+        game.addGodChosenByChallenger(pan);
+
+        player.setGod(apollo);
+        player2.setGod(pan);
+        assertTrue(game.getChosenGods().contains(apollo));
+        assertTrue(game.getChosenGods().contains(pan));
+        assertTrue(players.contains(player));
+        int nPlayersBefore = numOfPlayers;
+
+        player.lose();
+
+        for(Worker worker : player.getWorkers()) {
+            //removed workers from board
+            Cell workerCell = worker.getPosition();
+            assertFalse(workerCell.hasWorker());
+        }
+
+        assertFalse(game.getChosenGods().contains(apollo));
+        assertFalse(players.contains(player));
+        assertEquals(nPlayersBefore - 1,game.getNumberOfPlayers());
+    }
+
+
 }

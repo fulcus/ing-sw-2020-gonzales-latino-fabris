@@ -128,7 +128,6 @@ public abstract class God {
         moveMap.cannotStayStill();
         moveMap.cannotMoveInOccupiedCell();
         moveMap.updateMoveUpRestrictions();
-        moveMap.updateCellsOutOfMap();
 
         if(!moveMap.anyAvailableMovePosition())
             throw new UnableToMoveException();
@@ -145,7 +144,6 @@ public abstract class God {
         buildMap.cannotBuildUnderneath();
         buildMap.cannotBuildInWorkerCell();
         buildMap.cannotBuildInDomeCell();
-        buildMap.updateCellsOutOfMap();
 
         if(!buildMap.anyAvailableBuildPosition())
             throw new UnableToBuildException();
