@@ -222,6 +222,9 @@ public class CLIMainView implements ViewObserver {
         System.out.println("\n\n\n       " + myTurnHandler.getCurrentPlayer().getNickname() + "HAS WON THIS GAME!!!\n\n GAME ENDED\n\nSEE YOU!");
     }
 
+    public void currentPlayerLoses(String loserNickname){
+        System.out.println(loserNickname+ ", GameOver for you!");
+    }
 
     /**
      * This method prints an updated version of the Board, depending on the Class' parameter "mymap".
