@@ -56,6 +56,7 @@ public class Triton extends God{
 
             if (secondMoveCell != initialPosition && moveMap.isAllowedToMoveBoard(xMove,yMove)) {
                 worker.setPosition(xMove, yMove);
+                godController.displayBoard();
                 return;
             } else
                 godController.errorMoveScreen();

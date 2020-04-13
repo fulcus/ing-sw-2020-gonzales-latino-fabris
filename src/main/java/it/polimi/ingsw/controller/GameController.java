@@ -193,6 +193,7 @@ public class GameController {
         godsDeck.add(new Zeus(godController));
     }
 
+    public void currentPlayerLoses(String loserNickname){view.currentPlayerLoses(loserNickname);}
 
     public boolean getEndGame() {
         //todo

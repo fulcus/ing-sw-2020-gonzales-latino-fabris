@@ -41,6 +41,7 @@ public class Apollo extends God{
                     enemyWorker.setPosition(worker.getPosition());
                 }
                 worker.setPosition(xMove, yMove);
+                godController.displayBoard();
                 return;
             } else {
                 godController.errorMoveScreen();

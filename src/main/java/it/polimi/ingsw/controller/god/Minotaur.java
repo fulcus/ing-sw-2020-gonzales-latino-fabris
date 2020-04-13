@@ -53,6 +53,7 @@ public class Minotaur extends God {
                     if (newEnemyPosition != null && !newEnemyPosition.isOccupied()) {
                         enemyWorker.setPosition(newEnemyPosition);
                         worker.setPosition(moveCell);
+                        godController.displayBoard();
                         return;
                     } else { //cannot move in that cell
                         godController.errorMoveScreen();

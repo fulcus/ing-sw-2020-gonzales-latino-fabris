@@ -45,6 +45,7 @@ public class Atlas extends God{
 
                 if (buildMap.isAllowedToBuildBoard(xBuild, yBuild)) {
                     worker.buildDome(xBuild, yBuild);
+                    godController.displayBoard();
                     return;
                 } else
                     godController.errorBuildDomeScreen();
@@ -54,6 +55,7 @@ public class Atlas extends God{
 
                 if (buildMap.isAllowedToBuildBoard(xBuild, yBuild) && board.findCell(xBuild, yBuild).getLevel() < 3) {
                     worker.buildBlock(xBuild, yBuild);
+                    godController.displayBoard();
                     return;
                 } else
                     godController.errorBuildBlockScreen();

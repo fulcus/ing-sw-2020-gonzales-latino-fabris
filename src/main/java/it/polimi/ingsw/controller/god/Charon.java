@@ -72,6 +72,7 @@ public class Charon extends God {
             int newEnemyToMoveY = 2 * worker.getPosition().getY() - enemyToMove.getPosition().getY();
 
             enemyToMove.setPosition(newEnemyToMoveX,newEnemyToMoveY);// TODO SE ATHENA IMPEDISCE A TUTTI DI MUOVERSI IN ALTO, SPOSTANDO IL NEMICO IN DIREZIONE OPPOSTA; DEVO ASSICURARMI CHE NON SALGA. E poi una volta mosso il nemico non devo rifare update map?
+            godController.displayBoard();
 
         }
 

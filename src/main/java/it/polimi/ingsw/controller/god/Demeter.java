@@ -48,6 +48,7 @@ public class Demeter extends God {
 
                 if (buildMap.isAllowedToBuildBoard(xBuild, yBuild) && buildPosition.getLevel() == 3) {
                     worker.buildDome(xBuild, yBuild);
+                    godController.displayBoard();
                     return buildPosition;
                 } else {
                     godController.errorBuildDomeScreen();
@@ -56,6 +57,7 @@ public class Demeter extends God {
             } else if (buildType == 0) {    //build Block
                 if (buildMap.isAllowedToBuildBoard(xBuild, yBuild) && buildPosition.getLevel() < 3) {
                     worker.buildBlock(xBuild, yBuild);
+                    godController.displayBoard();
                     return buildPosition;
                 } else {
                     godController.errorBuildBlockScreen();
@@ -99,6 +101,7 @@ public class Demeter extends God {
 
                     if (buildMap.isAllowedToBuildBoard(xBuild, yBuild) && buildPosition.getLevel() == 3) {
                         worker.buildDome(xBuild, yBuild);
+                        godController.displayBoard();
                         return;
                     } else
                         godController.errorBuildDomeScreen();
@@ -107,6 +110,7 @@ public class Demeter extends God {
                 } else if (buildType == 0) {    //build Block
                     if (buildMap.isAllowedToBuildBoard(xBuild, yBuild) && buildPosition.getLevel() < 3) {
                         worker.buildBlock(xBuild, yBuild);
+                        godController.displayBoard();
                         return;
                     } else
                         godController.errorBuildBlockScreen();

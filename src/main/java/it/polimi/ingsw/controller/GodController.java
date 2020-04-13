@@ -12,6 +12,7 @@ import java.util.ArrayList;
  */
 public class GodController {
     private final GodView godView;
+
     private final GameController gameController;
 
 
@@ -20,6 +21,7 @@ public class GodController {
         this.godView = godView;
         this.gameController = gameController;
     }
+
 
 
     /**
@@ -150,6 +152,7 @@ public class GodController {
         return chosenEnemy;
     }
 
+    public void displayBoard(){gameController.getView().printMap();}
 
     /**
      * This method returns the coordinates where a player wants to build and the specific building.

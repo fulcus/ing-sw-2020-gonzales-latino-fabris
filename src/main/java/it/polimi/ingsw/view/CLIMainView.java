@@ -166,6 +166,10 @@ public class CLIMainView implements ViewObserver {
         System.out.println("Invalid nickname. It must be an existing nickname and different from the challenger's.");
     }
 
+    public void currentPlayerLoses(String loserNickname){
+        System.out.println(loserNickname+ ", GameOver for you");
+    }
+
     public void notAvailableColor(){
         System.out.println("This color is not available!");
     }
@@ -312,8 +316,6 @@ public class CLIMainView implements ViewObserver {
         cellUpdatedView.setDome(toBeUpdatedCell.hasDome());
         //update worker of the changed cell in the view
         cellUpdatedView.setWorker(toBeUpdatedCell.getWorker());
-
-        printMap();
     }
 
 

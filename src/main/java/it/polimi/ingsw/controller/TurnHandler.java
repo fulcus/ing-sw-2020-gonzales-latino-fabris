@@ -139,7 +139,11 @@ public class TurnHandler {
      */
     private void setInitialWorkersPosition() {
         boolean positionSet;
+
+        view.printMap();
+
         for (Player player : players) {
+
             for (Worker worker : player.getWorkers()) {
                 positionSet = false;
 
@@ -151,6 +155,7 @@ public class TurnHandler {
                     if (game.getBoard().findCell(x, y) != null && !game.getBoard().findCell(x, y).isOccupied()) {
                         worker.setPosition(x, y);
                         positionSet = true;
+                        view.printMap();
                     } else
                         view.invalidInitialWorkerPosition();
                 }
@@ -170,6 +175,7 @@ public class TurnHandler {
 
     }
 
+    public void displayBoard(){view.printMap();}
 
     protected void setUpTurns() {
         challengerChooseGods();
@@ -198,6 +204,7 @@ public class TurnHandler {
 
             Worker chosenWorker = chooseWorker();
 
+
             try {
                 currentPlayer.getGod().evolveTurn(chosenWorker);
             } catch (UnableToMoveException ex) {
@@ -205,11 +212,18 @@ public class TurnHandler {
                 /*if(cannotMoveCounter == 1)
                 //choose other worker
                 else*/
+
+                gameController.currentPlayerLoses(currentPlayer.getNickname());
                 currentPlayer.lose();
-                //todo display something from GodController (?)
+                displayBoard();
+
+
             } catch (UnableToBuildException ex) {
+
+                gameController.currentPlayerLoses(currentPlayer.getNickname());
                 currentPlayer.lose();
-                //todo display something from GodController (?)
+                displayBoard();
+
             } finally {
                 if (players.size() == 1)
                     players.get(0).getGod().getGodController().winGame();

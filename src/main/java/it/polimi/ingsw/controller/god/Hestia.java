@@ -59,6 +59,7 @@ public class Hestia extends God {
                         && !buildPosition.isInPerimeter()) {
 
                     worker.buildDome(xBuild, yBuild);
+                    godController.displayBoard();
                     return;
                 } else
                     godController.errorBuildDomeScreen();
@@ -69,6 +70,7 @@ public class Hestia extends God {
                         && !buildPosition.isInPerimeter()) {
 
                     worker.buildBlock(xBuild, yBuild);
+                    godController.displayBoard();
                     return;
                 } else
                     godController.errorBuildBlockScreen();

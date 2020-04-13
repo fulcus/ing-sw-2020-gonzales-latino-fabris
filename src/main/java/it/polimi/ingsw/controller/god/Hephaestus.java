@@ -58,6 +58,7 @@ public class Hephaestus extends God {
 
                 if (buildMap.isAllowedToBuildBoard(xBuild, yBuild) && buildPosition.getLevel() == 3) {
                     worker.buildDome(xBuild, yBuild);
+                    godController.displayBoard();
                     return buildPosition;
                 } else {
                     godController.errorBuildDomeScreen();
@@ -66,6 +67,7 @@ public class Hephaestus extends God {
             } else if (buildType == 0) {    //build Block
                 if (buildMap.isAllowedToBuildBoard(xBuild, yBuild) && buildPosition.getLevel() < 3) {
                     worker.buildBlock(xBuild, yBuild);
+                    godController.displayBoard();
                     return buildPosition;
                 } else {
                     godController.errorBuildBlockScreen();
@@ -93,6 +95,7 @@ public class Hephaestus extends God {
 
         //check is useless because worker is certainly allowed to build in first build cell
         worker.buildBlock(firstBuildCell.getX(), firstBuildCell.getY());
+        godController.displayBoard();
 
     }
 
