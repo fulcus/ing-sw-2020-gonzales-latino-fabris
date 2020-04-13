@@ -3,7 +3,6 @@ package it.polimi.ingsw.controller.god;
 import it.polimi.ingsw.controller.GodController;
 import it.polimi.ingsw.controller.UnableToBuildException;
 import it.polimi.ingsw.model.Board;
-import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.Worker;
 import it.polimi.ingsw.model.WorkerBuildMap;
 

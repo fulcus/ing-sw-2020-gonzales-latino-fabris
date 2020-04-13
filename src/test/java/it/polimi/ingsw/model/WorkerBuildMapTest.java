@@ -9,11 +9,8 @@ import static org.junit.Assert.*;
 public class WorkerBuildMapTest {
     private Worker worker;
     private Worker worker2;
-    private Worker enemyWorker;
-    private Worker enemyWorker2;
 
     private Player player;
-    private Player player2;
     private Game game;
     private WorkerBuildMap buildMap;
 
@@ -23,15 +20,10 @@ public class WorkerBuildMapTest {
         game.addPlayer("nickname1");
         game.addPlayer("nickname2");
         player = game.getPlayers().get(0);
-        player2 = game.getPlayers().get(1);
         worker = player.getWorkers().get(0);
         worker2 = player.getWorkers().get(1);
-        enemyWorker = player2.getWorkers().get(0);
-        enemyWorker2 = player2.getWorkers().get(1);
         worker.setPosition(0,0);
         worker2.setPosition(0,1);
-        enemyWorker.setPosition(0,0);
-        enemyWorker2.setPosition(0,1);
         buildMap = worker.getBuildMap();
     }
 
