@@ -85,7 +85,7 @@ public class GodView {
      */
     public String askMoveAgain() {
 
-        System.out.println("Do you want to move again your Worker? (Y = 'Yes', N = 'No'");
+        System.out.println("Do you want to move again your Worker? (Y = 'Yes', N = 'No')");
         return playerAnswerYN();
     }
 

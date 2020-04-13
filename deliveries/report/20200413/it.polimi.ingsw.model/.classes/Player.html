@@ -1,0 +1,196 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Player</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Player (it.polimi.ingsw.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Player</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (13/ 13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (28/ 28)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.controller.god.God;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import java.util.ArrayList;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;/**
+<i>8</i>&nbsp; * A player of the game.
+<i>9</i>&nbsp; */
+<i>10</i>&nbsp;public class Player {
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;    private final Game game;
+<i>13</i>&nbsp;    //private ArrayList&lt;PlayerObserver&gt; playerObservers;
+<i>14</i>&nbsp;    private final String nickname;
+<i>15</i>&nbsp;    private Color color;
+<i>16</i>&nbsp;    private God god;
+<i>17</i>&nbsp;    private final ArrayList&lt;Worker&gt; workers;
+<i>18</i>&nbsp;    private boolean canWinInPerimeter;  //true if can win on perimeter
+<i>19</i>&nbsp;    private boolean canMoveUp;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    /**
+<i>23</i>&nbsp;     * Creates a Player.
+<i>24</i>&nbsp;     *
+<i>25</i>&nbsp;     * @param game     Represents the belonging game of the player.
+<i>26</i>&nbsp;     * @param nickname The name chosen by the user for the belonging game.
+<i>27</i>&nbsp;     */
+<b class="fc"><i>28</i>&nbsp;    public Player(Game game, String nickname) {</b>
+<i>29</i>&nbsp;
+<b class="fc"><i>30</i>&nbsp;        this.game = game;</b>
+<b class="fc"><i>31</i>&nbsp;        this.nickname = nickname;</b>
+<b class="fc"><i>32</i>&nbsp;        god = null;</b>
+<b class="fc"><i>33</i>&nbsp;        canWinInPerimeter = true;</b>
+<b class="fc"><i>34</i>&nbsp;        canMoveUp = true;</b>
+<i>35</i>&nbsp;        //playerObservers = new ArrayList&lt;PlayerObserver&gt;();
+<b class="fc"><i>36</i>&nbsp;        workers = new ArrayList&lt;&gt;(2);</b>
+<b class="fc"><i>37</i>&nbsp;        workers.add(new Worker(this, Sex.MALE));</b>
+<b class="fc"><i>38</i>&nbsp;        workers.add(new Worker(this, Sex.FEMALE));</b>
+<b class="fc"><i>39</i>&nbsp;    }</b>
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    public String getNickname() {
+<b class="fc"><i>43</i>&nbsp;        return nickname;</b>
+<i>44</i>&nbsp;    }
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;    public God getGod() {
+<b class="fc"><i>48</i>&nbsp;        return god;</b>
+<i>49</i>&nbsp;    }
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    /**
+<i>53</i>&nbsp;     * Allows the player to choose a God from the available gods of the current game
+<i>54</i>&nbsp;     */
+<i>55</i>&nbsp;    public void setGod(God god) {
+<b class="fc"><i>56</i>&nbsp;        this.god = god;</b>
+<b class="fc"><i>57</i>&nbsp;    }</b>
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;    public Color getColor() {
+<b class="fc"><i>61</i>&nbsp;        return color;</b>
+<i>62</i>&nbsp;    }
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;
+<b class="fc"><i>65</i>&nbsp;    public void setColor(Color color) { this.color = color; }</b>
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;    /**
+<i>68</i>&nbsp;     *
+<i>69</i>&nbsp;     * @param value true allows the player to win in perimeter, false otherwise
+<i>70</i>&nbsp;     */
+<b class="fc"><i>71</i>&nbsp;    public void setPermissionToWinInPerimeter(boolean value) { canWinInPerimeter = value;}</b>
+<i>72</i>&nbsp;
+<i>73</i>&nbsp;    /**
+<i>74</i>&nbsp;     *
+<i>75</i>&nbsp;     * @param value true allows the player to move up, false otherwise
+<i>76</i>&nbsp;     */
+<b class="fc"><i>77</i>&nbsp;    public void setPermissionToMoveUp(boolean value) {canMoveUp = value;}</b>
+<i>78</i>&nbsp;
+<i>79</i>&nbsp;    /**
+<i>80</i>&nbsp;     * @return True if the Player can move up, false if this player can not move up for the current turn
+<i>81</i>&nbsp;     */
+<b class="fc"><i>82</i>&nbsp;    public boolean getCanMoveUp() { return canMoveUp;}</b>
+<i>83</i>&nbsp;
+<i>84</i>&nbsp;
+<i>85</i>&nbsp;    /**
+<i>86</i>&nbsp;     * @return True if the Player can win with a worker on the perimeter, false otherwise
+<i>87</i>&nbsp;     */
+<b class="fc"><i>88</i>&nbsp;    public boolean getCanWinInPerimeter() { return canWinInPerimeter; }</b>
+<i>89</i>&nbsp;
+<i>90</i>&nbsp;
+<i>91</i>&nbsp;    public ArrayList&lt;Worker&gt; getWorkers() {
+<b class="fc"><i>92</i>&nbsp;        return workers;</b>
+<i>93</i>&nbsp;    }
+<i>94</i>&nbsp;
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;    public Game getGame() {
+<b class="fc"><i>97</i>&nbsp;        return game;</b>
+<i>98</i>&nbsp;    }
+<i>99</i>&nbsp;
+<i>100</i>&nbsp;    public void lose() {
+<i>101</i>&nbsp;
+<i>102</i>&nbsp;        //remove workers from board
+<b class="fc"><i>103</i>&nbsp;        for(Worker worker : workers) {</b>
+<b class="fc"><i>104</i>&nbsp;            Cell workerCell = worker.getPosition();</b>
+<b class="fc"><i>105</i>&nbsp;            workerCell.moveOut();</b>
+<b class="fc"><i>106</i>&nbsp;        }</b>
+<i>107</i>&nbsp;
+<i>108</i>&nbsp;        //remove from players arraylist
+<b class="fc"><i>109</i>&nbsp;        game.removePlayer(this);</b>
+<b class="fc"><i>110</i>&nbsp;    }</b>
+<i>111</i>&nbsp;
+<i>112</i>&nbsp;
+<i>113</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-13 18:10</div>
+</div>
+</body>
+</html>

@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 public class Cell {
 
-    //todo sbagliato metterlo in Cell
     private final ArrayList<ViewObserver> cellObservers;
 
     private boolean dome;

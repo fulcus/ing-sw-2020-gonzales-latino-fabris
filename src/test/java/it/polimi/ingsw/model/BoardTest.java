@@ -8,18 +8,14 @@ import static org.junit.Assert.*;
 
 public class BoardTest {
 
-    int x, y;
-
-    private Player player;
-    private Game game;
-    private WorkerBuildMap buildMap;
     private Board board;
+
+
     @Before
     public void setUp() {
-        game = new Game(2);
+        Game game = new Game(2);
         game.addPlayer("nickname1");
         game.addPlayer("nickname2");
-        player = game.getPlayers().get(0);
         board = game.getBoard();
     }
 
@@ -39,19 +35,14 @@ public class BoardTest {
 
     @Test
     public void testFindCell() {
-        x=1; y=2;
-        assertNotNull(board.findCell(x,y));
-        x=7; y=2;
-        assertNull(board.findCell(x, y));
+        assertNotNull(board.findCell(1,2));
+        assertNull(board.findCell(7, 2));
     }
 
     @Test
     public void testIsInMap() {
-        x=1; y=3;
-        Assert.assertTrue(board.isInBoard(x,y));
-        x=7; y=-1;
-        Assert.assertFalse(board.isInBoard(x,y));
-        x=3; y=7;
-        Assert.assertFalse(board.isInBoard(x,y));
+        assertTrue(board.isInBoard(1,3));
+        assertFalse(board.isInBoard(7,-1));
+        assertFalse(board.isInBoard(3,7));
     }
 }
