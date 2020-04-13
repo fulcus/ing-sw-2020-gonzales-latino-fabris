@@ -110,12 +110,13 @@ public class TurnHandler {
         String startPlayerNick;
         boolean foundPlayer = false;
         Player startPlayer = null;
+        String challengerNickname = game.getChallenger().getNickname();
 
         while (startPlayer == null) {
 
             startPlayerNick = view.challengerChooseStartPlayer(game.getChallenger().getNickname());   //returns nickname of startPlayer
             for (Player player : players) {
-                if (startPlayerNick.equals(player.getNickname())) {
+                if (startPlayerNick.equals(player.getNickname()) && !startPlayerNick.equals(challengerNickname)) {
                     startPlayer = player;
                     break;
                 }
@@ -143,7 +144,7 @@ public class TurnHandler {
                 positionSet = false;
 
                 while (!positionSet) {
-                    int[] initialPosition = view.askInitialWorkerPosition(worker.getSex());
+                    int[] initialPosition = view.askInitialWorkerPosition(worker.getSex(),player.getNickname());
                     int x = initialPosition[0];
                     int y = initialPosition[1];
 

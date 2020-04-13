@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.view.CLIMainView;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,6 +15,8 @@ public class CellTest {
     private Player player;
     private Game game;
     private Board board;
+    private CLIMainView view;
+    private GameController controller;
 
 
     @Before
@@ -24,6 +28,9 @@ public class CellTest {
         player = game.getPlayers().get(0);
         worker = player.getWorkers().get(0);
         cell = board.findCell(3,2);
+        controller = new GameController();
+        view = new CLIMainView(controller);
+
     }
 
     @After
@@ -167,7 +174,5 @@ public class CellTest {
         cell.setWorker(worker);
         assertEquals(worker,cell.getWorker());
     }
-
-
 
 }

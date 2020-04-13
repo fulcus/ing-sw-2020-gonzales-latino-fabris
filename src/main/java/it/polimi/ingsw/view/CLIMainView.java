@@ -88,18 +88,18 @@ public class CLIMainView implements ViewObserver {
      * @param workerSex This is the sex of the worker to be placed on the board.
      * @return Array with x,y coordinates of the chosen position.
      */
-    public int[] askInitialWorkerPosition(Sex workerSex) {
+    public int[] askInitialWorkerPosition(Sex workerSex, String currentPlayerNickanme) {
 
         int[] initialWorkerPosition = new int[2];
 
         if (workerSex == Sex.MALE) {
-            System.out.println("Set your male worker's position in coordinates.");
-            initialWorkerPosition[0] = input.nextInt();
-            initialWorkerPosition[1] = input.nextInt();
+            System.out.println(currentPlayerNickanme+",set your male worker's position in coordinates.");
+            initialWorkerPosition[0] = intInput.nextInt();
+            initialWorkerPosition[1] = intInput.nextInt();
         } else if (workerSex == Sex.FEMALE) {
-            System.out.println("Set your female worker's position in coordinates.");
-            initialWorkerPosition[0] = input.nextInt();
-            initialWorkerPosition[1] = input.nextInt();
+            System.out.println(currentPlayerNickanme+",set your female worker's position in coordinates.");
+            initialWorkerPosition[0] = intInput.nextInt();
+            initialWorkerPosition[1] = intInput.nextInt();
         } else
             System.out.println("Invalid worker's sex");
 
@@ -163,9 +163,12 @@ public class CLIMainView implements ViewObserver {
     }
 
     public void invalidStartPlayer() {
-        System.out.println("This is player doesn't exist, insert another one!");
+        System.out.println("Invalid nickname. It must be an existing nickname and different from the challenger's.");
     }
 
+    public void notAvailableColor(){
+        System.out.println("This color is not available!");
+    }
 
     public void notAvailableNickname() {
         System.out.println("This nickname is not available!");
