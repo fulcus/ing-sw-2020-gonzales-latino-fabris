@@ -40,7 +40,7 @@ public class WorkerMap {
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                if (getAbsolutePosition(i,j) != null && getAbsolutePosition(i, j).hasDome())
+                if (getAbsolutePosition(i, j) != null && getAbsolutePosition(i, j).hasDome())
                     matrix[i][j] = false;
             }
         }
@@ -53,7 +53,7 @@ public class WorkerMap {
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                if (getAbsolutePosition(i,j) != null && getAbsolutePosition(i, j).hasWorker())
+                if (getAbsolutePosition(i, j) != null && getAbsolutePosition(i, j).hasWorker())
                     matrix[i][j] = false;
             }
         }
@@ -66,7 +66,7 @@ public class WorkerMap {
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                if (getAbsolutePosition(i,j) != null && getAbsolutePosition(i, j).isOccupied())
+                if (getAbsolutePosition(i, j) != null && getAbsolutePosition(i, j).isOccupied())
                     matrix[i][j] = false;
             }
         }
@@ -79,7 +79,7 @@ public class WorkerMap {
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                if (getAbsolutePosition(i,j) != null && getAbsolutePosition(i, j).hasWorker() &&
+                if (getAbsolutePosition(i, j) != null && getAbsolutePosition(i, j).hasWorker() &&
                         getAbsolutePosition(i, j).getWorker().getPlayer() == worker.getPlayer())
                     matrix[i][j] = false;
             }
@@ -109,7 +109,7 @@ public class WorkerMap {
         int relativeX = i - workersX + 1;
         int relativeY = j - workersY + 1;
 
-        if(relativeX < 0 || relativeX > 2 || relativeY < 0 || relativeY > 2 || !board.isInBoard(i,j))
+        if (relativeX < 0 || relativeX > 2 || relativeY < 0 || relativeY > 2 || !board.isInBoard(i, j))
             return;
 
         matrix[i - workersX + 1][j - workersY + 1] = value;
@@ -117,6 +117,7 @@ public class WorkerMap {
 
     /**
      * Returns a cell of the WorkerMap given its relative coordinates.
+     *
      * @param i Coordinate relative to the WorkerMap.
      * @param j Coordinate relative to the WorkerMap.
      * @return Selected cell of the WorkerMap.
@@ -133,6 +134,7 @@ public class WorkerMap {
     /**
      * Returns a cell of the WorkerMap given its absolute coordinates
      * i.e the coordinates of the Board.
+     *
      * @param i Coordinate relative to the Board.
      * @param j Coordinate relative to the Board.
      * @return Selected cell of the WorkerMap.
@@ -145,7 +147,7 @@ public class WorkerMap {
         int relativeX = i - workersX + 1;
         int relativeY = j - workersY + 1;
 
-        if(relativeX < 0 || relativeX > 2 || relativeY < 0 || relativeY > 2 || !board.isInBoard(i,j))
+        if (relativeX < 0 || relativeX > 2 || relativeY < 0 || relativeY > 2 || !board.isInBoard(i, j))
             return false;
 
         return matrix[i - workersX + 1][j - workersY + 1];
@@ -153,6 +155,7 @@ public class WorkerMap {
 
     /**
      * Returns the cell of the Board given its coordinates relative to the WorkerMap.
+     *
      * @param i Relative coordinate of MoveMatrix.
      * @param j Relative coordinate of MoveMatrix.
      * @return Returns Cell of Board given the relative coordinates of the worker,
@@ -181,6 +184,7 @@ public class WorkerMap {
 
     /**
      * Sets false cells that are above the worker more than x levels.
+     *
      * @param x Maximum level difference between any given cell of the WorkerMap and the Worker's cell.
      */
     public void levelDifferenceLessEqualThanX(int x) {
@@ -189,8 +193,8 @@ public class WorkerMap {
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
 
-                if (getAbsolutePosition(i,j) != null &&
-                        getAbsolutePosition(i,j).getLevel() - workersLevel > x)
+                if (getAbsolutePosition(i, j) != null &&
+                        getAbsolutePosition(i, j).getLevel() - workersLevel > x)
                     matrix[i][j] = false;
             }
         }
@@ -199,6 +203,7 @@ public class WorkerMap {
 
     /**
      * Finds all neighboring enemy Workers.
+     *
      * @return Returns all enemy Workers adjacent to the worker.
      */
     public ArrayList<Worker> neighboringEnemyWorkers() {
@@ -207,7 +212,7 @@ public class WorkerMap {
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                Cell adjacentCell = getAbsolutePosition(i,j);
+                Cell adjacentCell = getAbsolutePosition(i, j);
 
                 if (adjacentCell != null && adjacentCell.hasWorker() &&
                         adjacentCell.getWorker().getPlayer() != worker.getPlayer())
@@ -225,11 +230,25 @@ public class WorkerMap {
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                if(matrix[i][j])
+                if (matrix[i][j])
                     return true;
             }
         }
         return false;
+    }
+
+    /**
+     * Sets the whole map true.
+     */
+    public void resetMap() {
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+
+                matrix[i][j] = true;
+
+            }
+        }
+
     }
 
 }

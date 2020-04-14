@@ -52,6 +52,8 @@ public class Hestia extends God {
 
             Cell buildPosition = board.findCell(xBuild, yBuild);
 
+            if(buildMap.isAllowedToBuildBoard(xBuild, yBuild)) {
+
             //build Dome
             if (buildType == 1) {
 
@@ -74,8 +76,11 @@ public class Hestia extends God {
                     return;
                 } else
                     godController.errorBuildBlockScreen();
+            } else
+                godController.errorBuildScreen();
 
-            }
+            } else
+                godController.errorBuildScreen();
 
             // If I don't want to build anymore I quit the method
             if (!godController.errorBuildDecisionScreen())

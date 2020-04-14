@@ -66,7 +66,7 @@ public class CLIMainView implements ViewObserver {
         int insertedNumberOfPlayers;
 
 
-        System.out.println("Insert the number of players.");
+        System.out.println("Choose the number of players.");
         while (true) {
             try {
                 insertedNumberOfPlayers = intInput.nextInt();
@@ -126,7 +126,7 @@ public class CLIMainView implements ViewObserver {
 
 
     public String askPlayerNickname() {
-        System.out.println("Insert your nickname.");
+        System.out.println("Choose your nickname.");
         return input.nextLine();
     }
 
@@ -142,7 +142,7 @@ public class CLIMainView implements ViewObserver {
      */
     public String askPlayerGod(String playerNickname) {
 
-        System.out.println(playerNickname + ", choose your god by inserting his name.");
+        System.out.println(playerNickname + ", choose your god by typing his name.");
 
         return input.nextLine();
 
@@ -166,7 +166,7 @@ public class CLIMainView implements ViewObserver {
 
     public String challengerChooseStartPlayer(String challengerNickname) {
 
-        System.out.println(challengerNickname + ", you can choose the first player to start! Insert his nickname:");
+        System.out.println(challengerNickname + ", you can choose the first player to start! Type his nickname:");
 
         return input.nextLine();
 
@@ -193,7 +193,7 @@ public class CLIMainView implements ViewObserver {
         System.out.println(currentPlayerNickname + ", it's your turn!");
 
         while (true) {
-            System.out.println("Insert MALE or FEMALE to choose one of your workers.");
+            System.out.println("Type MALE or FEMALE to choose one of your workers.");
 
             chosenWorker = input.nextLine().toUpperCase();
 
@@ -232,14 +232,14 @@ public class CLIMainView implements ViewObserver {
     public void printMap() {
 
         final String LINE_SEPARATOR = "+------+------+------+------+------+%n";
-        final String SPACESEPARATOR = "+      +      +      +      +      +%n";
+        final String SPACE_SEPARATOR = "+      +      +      +      +      +%n";
 
         for (int i = 0; i < Board.SIDE; i++) {
 
             System.out.printf(LINE_SEPARATOR);//Border
-            System.out.printf(SPACESEPARATOR);//space
-            printMapLine(i);//contenuto game
-            System.out.printf(SPACESEPARATOR);//space
+            System.out.printf(SPACE_SEPARATOR);//space
+            printMapLine(i);//content of game
+            System.out.printf(SPACE_SEPARATOR);//space
         }
 
         System.out.printf(LINE_SEPARATOR);
@@ -249,9 +249,9 @@ public class CLIMainView implements ViewObserver {
     /**
      * Prints a line of the map, showing eventual buildings and workers of the line.
      *
-     * @param linenumber Represents the line which content will be displayed.
+     * @param lineNumber Represents the line which content will be displayed.
      */
-    public void printMapLine(int linenumber) {
+    public void printMapLine(int lineNumber) {
 
         for (int i = 0; i < Board.SIDE; i++) {
 
@@ -260,17 +260,17 @@ public class CLIMainView implements ViewObserver {
 
             //Place where eventual buildings will be printed
 
-            if (myBoard.findCell(linenumber, i).hasDome())//if cell has dome
+            if (myBoard.findCell(lineNumber, i).hasDome())//if cell has dome
                 System.out.printf("D");
 
             else {
                 //if cell has not dome
 
-                if (myBoard.findCell(linenumber, i).getLevel() == 0)
+                if (myBoard.findCell(lineNumber, i).getLevel() == 0)
                     System.out.printf(" ");//if there is no building, prints nothing
 
                 else
-                    System.out.printf("%d", myBoard.findCell(linenumber, i).getLevel());   // if there is a building, prints its level
+                    System.out.printf("%d", myBoard.findCell(lineNumber, i).getLevel());   // if there is a building, prints its level
             }
 
             //SPACE
@@ -281,22 +281,22 @@ public class CLIMainView implements ViewObserver {
             //PLACE of cell (4) that prints eventual presence of a worker with its parameter(SEX;COLOR)
 
 
-            if (myBoard.findCell(linenumber, i).getWorker() == null) {
+            if (myBoard.findCell(lineNumber, i).getWorker() == null) {
                 System.out.printf(" ");
                 System.out.printf(" ");//5
             } else {
 
-                if (myBoard.findCell(linenumber, i).getWorker().getPlayer().getColor() == Color.BLUE && myBoard.findCell(linenumber, i).getWorker().getSex() == Sex.MALE)
+                if (myBoard.findCell(lineNumber, i).getWorker().getPlayer().getColor() == Color.BLUE && myBoard.findCell(lineNumber, i).getWorker().getSex() == Sex.MALE)
                     System.out.printf("BM");
-                else if (myBoard.findCell(linenumber, i).getWorker().getPlayer().getColor() == Color.BLUE && myBoard.findCell(linenumber, i).getWorker().getSex() == Sex.FEMALE)
+                else if (myBoard.findCell(lineNumber, i).getWorker().getPlayer().getColor() == Color.BLUE && myBoard.findCell(lineNumber, i).getWorker().getSex() == Sex.FEMALE)
                     System.out.printf("BF");
-                else if (myBoard.findCell(linenumber, i).getWorker().getPlayer().getColor() == Color.WHITE && myBoard.findCell(linenumber, i).getWorker().getSex() == Sex.MALE)
+                else if (myBoard.findCell(lineNumber, i).getWorker().getPlayer().getColor() == Color.WHITE && myBoard.findCell(lineNumber, i).getWorker().getSex() == Sex.MALE)
                     System.out.printf("WM");
-                else if (myBoard.findCell(linenumber, i).getWorker().getPlayer().getColor() == Color.WHITE && myBoard.findCell(linenumber, i).getWorker().getSex() == Sex.FEMALE)
+                else if (myBoard.findCell(lineNumber, i).getWorker().getPlayer().getColor() == Color.WHITE && myBoard.findCell(lineNumber, i).getWorker().getSex() == Sex.FEMALE)
                     System.out.printf("WF");
-                else if (myBoard.findCell(linenumber, i).getWorker().getPlayer().getColor() == Color.BEIGE && myBoard.findCell(linenumber, i).getWorker().getSex() == Sex.MALE)
+                else if (myBoard.findCell(lineNumber, i).getWorker().getPlayer().getColor() == Color.BEIGE && myBoard.findCell(lineNumber, i).getWorker().getSex() == Sex.MALE)
                     System.out.printf("bM");
-                else if (myBoard.findCell(linenumber, i).getWorker().getPlayer().getColor() == Color.BEIGE && myBoard.findCell(linenumber, i).getWorker().getSex() == Sex.FEMALE)
+                else if (myBoard.findCell(lineNumber, i).getWorker().getPlayer().getColor() == Color.BEIGE && myBoard.findCell(lineNumber, i).getWorker().getSex() == Sex.FEMALE)
                     System.out.printf("bF");
 
             }

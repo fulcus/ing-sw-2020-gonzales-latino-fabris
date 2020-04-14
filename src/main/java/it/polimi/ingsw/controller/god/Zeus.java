@@ -18,14 +18,15 @@ public class Zeus extends God{
     @Override
     public WorkerBuildMap updateBuildMap(Worker worker) throws UnableToBuildException {
         WorkerBuildMap buildMap = worker.getBuildMap();
+        buildMap.resetMap();
 
         buildMap.cannotBuildInWorkerCell();
-        //WARNING: previous rule (cannotBuildInWorkerCell forbids worker to build in his own position
-        //but canBuildUnderneath overwrites the previous rule to allow worker to build underneath him
+        //WARNING: previous rule (cannotBuildInWorkerCell) forbids worker to build in his own position
+        //but canBuildUnderneath overwrites the previous rule to allow worker to build underneath himself
         buildMap.canBuildUnderneath();
         buildMap.cannotBuildInDomeCell();
 
-        if(!buildMap.anyTrueCell())
+        if(!buildMap.anyAvailableBuildPosition())
             throw new UnableToBuildException();
 
         return buildMap;

@@ -23,7 +23,7 @@ public class GodView {
 
         String[] selectedBuildingDirection = new String[2];
 
-        System.out.println("Where do you want to build? Insert compass points!");
+        System.out.println("Where do you want to build? Insert cardinal point!");
 
         while (true) {
             selectedBuildingDirection[0] = input.nextLine();

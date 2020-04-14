@@ -30,17 +30,18 @@ public class Apollo extends God{
 
             WorkerMoveMap moveMap = updateMoveMap(worker);
             Cell moveCell = worker.getPlayer().getGame().getBoard().findCell(xMove, yMove);
-            Worker enemyWorker;
 
-
-            if (moveMap.isAllowedToMoveBoard(xMove, yMove)) {   //if moveCell doesn't exist returns false
+            //if moveCell doesn't exist returns false
+            if (moveMap.isAllowedToMoveBoard(xMove, yMove)) {
 
                 //swaps enemy and worker
-                if (moveCell.hasWorker()) {    //moveMap rules assure that worker in moveCell is enemy
-                    enemyWorker = moveCell.getWorker();
-                    enemyWorker.setPosition(worker.getPosition());
+                //moveMap rules assure that worker in moveCell is enemy
+                if (moveCell.hasWorker()) {
+                    worker.swapPosition(moveCell);
                 }
-                worker.setPosition(xMove, yMove);
+                else
+                    worker.setPosition(xMove, yMove);
+
                 godController.displayBoard();
                 return;
             } else {
@@ -53,6 +54,7 @@ public class Apollo extends God{
 
     public WorkerMoveMap updateMoveMap(Worker worker) throws UnableToMoveException {
         WorkerMoveMap moveMap = worker.getMoveMap();
+        moveMap.resetMap();
 
         moveMap.cannotStayStill();
         moveMap.cannotMoveInDomeCell();

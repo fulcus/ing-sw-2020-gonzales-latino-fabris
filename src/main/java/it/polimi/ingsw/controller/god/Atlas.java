@@ -7,7 +7,7 @@ import it.polimi.ingsw.model.Worker;
 import it.polimi.ingsw.model.WorkerBuildMap;
 
 
-public class Atlas extends God{
+public class Atlas extends God {
 
     public String description = "Your Worker may build a dome at any level.";
 
@@ -18,11 +18,12 @@ public class Atlas extends God{
 
     /**
      * Allows to build in the correct way for the player who owns Atlas
+     *
      * @param worker This the current worker.
      */
     @Override
     public void build(Worker worker) throws UnableToBuildException {
-       buildAllowAnyLevelDome(worker);
+        buildAllowAnyLevelDome(worker);
     }
 
 
@@ -39,28 +40,27 @@ public class Atlas extends God{
             int yBuild = buildInput[1] + worker.getPosition().getY();
             int buildType = buildInput[2]; //0 is block, 1 is dome
 
+            if (buildMap.isAllowedToBuildBoard(xBuild, yBuild)) {
 
-            if (buildType == 1) {   //build Dome AT ANY LEVEL
+                if (buildType == 1) {   //build Dome AT ANY LEVEL
 
-                if (buildMap.isAllowedToBuildBoard(xBuild, yBuild)) {
                     worker.buildDome(xBuild, yBuild);
                     godController.displayBoard();
                     return;
+
+                } else if (buildType == 0) {   //build Block
+
+                    if (board.findCell(xBuild, yBuild).getLevel() < 3) {
+                        worker.buildBlock(xBuild, yBuild);
+                        godController.displayBoard();
+                        return;
+
+                    } else
+                        godController.errorBuildBlockScreen();
                 } else
-                    godController.errorBuildDomeScreen();
-
-
-            } else if (buildType == 0){   //build Block
-
-                if (buildMap.isAllowedToBuildBoard(xBuild, yBuild) && board.findCell(xBuild, yBuild).getLevel() < 3) {
-                    worker.buildBlock(xBuild, yBuild);
-                    godController.displayBoard();
-                    return;
-                } else
-                    godController.errorBuildBlockScreen();
-            }
-            else
-                godController.errorBuildScreen();
+                    godController.errorBuildScreen();   //wrong buildType input
+            } else
+                godController.errorBuildScreen();   //not allowed to move there
         }
     }
 

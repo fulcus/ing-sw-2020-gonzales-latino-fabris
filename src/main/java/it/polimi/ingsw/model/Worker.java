@@ -61,10 +61,31 @@ public class Worker {
             position.moveOut();
         }
         newPosition.moveIn(this);
-        //newPosition.getLevel() > level
+
         levelVariation = newLevel - level;
         level = newLevel;
         position = newPosition;
+    }
+
+
+    /**
+     * Swaps the Worker with the other worker in the newPosition.
+     * Assumes that there is a worker in the newPosition. //Else NullPointer!!!
+     * @param newPosition Cell the worker wants to move into.
+     */
+    //Else NullPointer!!!
+    public void swapPosition(Cell newPosition) {
+        int newLevel = newPosition.getLevel();
+        Worker workerInCell = newPosition.getWorker();
+
+        workerInCell.setPosition(position);
+        //NO moveOut of previous cell
+        newPosition.moveIn(this);
+
+        levelVariation = newLevel - level;
+        level = newLevel;
+        position = newPosition;
+
     }
 
     /**
@@ -72,7 +93,6 @@ public class Worker {
      * @param x Coordinate of the position to build in.
      * @param y Coordinate of the position to build in.
      */
-
     public void buildBlock(int x, int y) {
         Cell buildPosition = player.getGame().getBoard().findCell(x,y);
         buildPosition.buildBlock();
@@ -83,12 +103,10 @@ public class Worker {
      * @param x Coordinate of the position to build in.
      * @param y Coordinate of the position to build in.
      */
-
     public void buildDome(int x, int y) {
         Cell buildPosition = player.getGame().getBoard().findCell(x,y);
         buildPosition.buildDome();
     }
-
 
     public Player getPlayer() {
         return player;

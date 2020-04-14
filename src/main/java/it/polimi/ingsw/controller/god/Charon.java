@@ -81,6 +81,7 @@ public class Charon extends God {
 
     public WorkerMoveMap updateMoveMap(Worker worker) throws UnableToMoveException {
         WorkerMoveMap moveMap = worker.getMoveMap();
+        moveMap.resetMap();
 
         moveMap.cannotStayStill();
         moveMap.cannotMoveInDomeCell();

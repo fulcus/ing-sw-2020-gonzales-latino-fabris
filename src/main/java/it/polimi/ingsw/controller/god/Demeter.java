@@ -44,28 +44,31 @@ public class Demeter extends God {
 
             Cell buildPosition = board.findCell(xBuild, yBuild);
 
-            //build Dome
-            if (buildType == 1) {
+            if(buildMap.isAllowedToBuildBoard(xBuild, yBuild)) {
 
-                if (buildMap.isAllowedToBuildBoard(xBuild, yBuild) && buildPosition.getLevel() == 3) {
-                    worker.buildDome(xBuild, yBuild);
-                    godController.displayBoard();
-                    return buildPosition;
-                } else {
-                    godController.errorBuildDomeScreen();
-                }
+                //build Dome
+                if (buildType == 1) {
 
-            } else if (buildType == 0) {    //build Block
-                if (buildMap.isAllowedToBuildBoard(xBuild, yBuild) && buildPosition.getLevel() < 3) {
-                    worker.buildBlock(xBuild, yBuild);
-                    godController.displayBoard();
-                    return buildPosition;
-                } else {
-                    godController.errorBuildBlockScreen();
-                }
+                    if (buildPosition.getLevel() == 3) {
+                        worker.buildDome(xBuild, yBuild);
+                        godController.displayBoard();
+                        return buildPosition;
+                    } else {
+                        godController.errorBuildDomeScreen();
+                    }
+
+                } else if (buildType == 0) {    //build Block
+                    if (buildPosition.getLevel() < 3) {
+                        worker.buildBlock(xBuild, yBuild);
+                        godController.displayBoard();
+                        return buildPosition;
+                    } else {
+                        godController.errorBuildBlockScreen();
+                    }
+                } else
+                    godController.errorBuildScreen();
             } else
                 godController.errorBuildScreen();
-
         }
     }
 
@@ -98,26 +101,30 @@ public class Demeter extends God {
 
             if (buildPosition != firstBuildCell) {
 
-                //build Dome
-                if (buildType == 1) {
+                if(buildMap.isAllowedToBuildBoard(xBuild, yBuild)) {
+                    //build Dome
+                    if (buildType == 1) {
 
-                    if (buildMap.isAllowedToBuildBoard(xBuild, yBuild) && buildPosition.getLevel() == 3) {
-                        worker.buildDome(xBuild, yBuild);
-                        godController.displayBoard();
-                        return;
-                    } else
-                        godController.errorBuildDomeScreen();
+                        if (buildPosition.getLevel() == 3) {
+                            worker.buildDome(xBuild, yBuild);
+                            godController.displayBoard();
+                            return;
+                        } else
+                            godController.errorBuildDomeScreen();
 
+                    } else if (buildType == 0) {    //build Block
 
-                } else if (buildType == 0) {    //build Block
-                    if (buildMap.isAllowedToBuildBoard(xBuild, yBuild) && buildPosition.getLevel() < 3) {
-                        worker.buildBlock(xBuild, yBuild);
-                        godController.displayBoard();
-                        return;
-                    } else
-                        godController.errorBuildBlockScreen();
+                        if (buildPosition.getLevel() < 3) {
+                            worker.buildBlock(xBuild, yBuild);
+                            godController.displayBoard();
+                            return;
+                        } else
+                            godController.errorBuildBlockScreen();
 
-                }
+                    }
+                } else
+                    godController.errorBuildScreen();
+
             } else
                 godController.errorBuildInSamePosition();
 

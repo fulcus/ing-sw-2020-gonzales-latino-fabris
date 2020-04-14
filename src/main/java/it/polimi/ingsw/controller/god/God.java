@@ -21,6 +21,7 @@ public abstract class God {
 
     /**
      * Default evolution of the turn: move, checks if win condition is met, builds.
+     *
      * @param worker Selected worker that will act in the current turn.
      */
     public void evolveTurn(Worker worker) throws UnableToMoveException, UnableToBuildException {
@@ -32,6 +33,7 @@ public abstract class God {
 
     /**
      * Default rules to move the worker.
+     *
      * @param worker Selected worker that will move.
      */
     public void move(Worker worker) throws UnableToMoveException {
@@ -51,7 +53,6 @@ public abstract class God {
                 getGodController().errorMoveScreen();
             }
         }
-
 
 
     }
@@ -75,29 +76,33 @@ public abstract class God {
             int yBuild = worker.getPosition().getY() + buildInput[1];
             int buildType = buildInput[2]; //0 is block, 1 is dome
 
-            Cell buildPosition = board.findCell(xBuild, yBuild);
+            if (buildMap.isAllowedToBuildBoard(xBuild, yBuild)) {
 
-            //build Dome
-            if (buildType == 1) {
 
-                if (buildMap.isAllowedToBuildBoard(xBuild, yBuild) && buildPosition.getLevel() == 3) {
-                    worker.buildDome(xBuild, yBuild);
-                    godController.displayBoard();
-                    return;
+                Cell buildPosition = board.findCell(xBuild, yBuild);
+
+                //build Dome
+                if (buildType == 1) {
+
+                    if (buildPosition.getLevel() == 3) {
+                        worker.buildDome(xBuild, yBuild);
+                        godController.displayBoard();
+                        return;
+                    } else
+                        godController.errorBuildDomeScreen();
+
+                } else if (buildType == 0) {    //build Block
+                    if (buildPosition.getLevel() < 3) {
+                        worker.buildBlock(xBuild, yBuild);
+                        godController.displayBoard();
+                        return;
+                    } else
+                        godController.errorBuildBlockScreen();
+
                 } else
-                    godController.errorBuildDomeScreen();
-
-            } else if (buildType == 0) {    //build Block
-                if (buildMap.isAllowedToBuildBoard(xBuild, yBuild) && buildPosition.getLevel() < 3) {
-                    worker.buildBlock(xBuild, yBuild);
-                    godController.displayBoard();
-                    return;
-                } else
-                    godController.errorBuildBlockScreen();
-
+                    godController.errorBuildScreen();   //input different than 0 or 1
             } else
-                godController.errorBuildScreen();
-
+                godController.errorBuildScreen();   //not allowed to build (anything) there
         }
     }
 
@@ -131,12 +136,13 @@ public abstract class God {
             throws UnableToMoveException {
 
         WorkerMoveMap moveMap = worker.getMoveMap();
+        moveMap.resetMap();
 
         moveMap.cannotStayStill();
         moveMap.cannotMoveInOccupiedCell();
         moveMap.updateMoveUpRestrictions();
 
-        if(!moveMap.anyAvailableMovePosition())
+        if (!moveMap.anyAvailableMovePosition())
             throw new UnableToMoveException();
 
         return moveMap;
@@ -147,12 +153,14 @@ public abstract class God {
             throws UnableToBuildException {
 
         WorkerBuildMap buildMap = worker.getBuildMap();
+        buildMap.resetMap();
+
 
         buildMap.cannotBuildUnderneath();
         buildMap.cannotBuildInWorkerCell();
         buildMap.cannotBuildInDomeCell();
 
-        if(!buildMap.anyAvailableBuildPosition())
+        if (!buildMap.anyAvailableBuildPosition())
             throw new UnableToBuildException();
 
 
