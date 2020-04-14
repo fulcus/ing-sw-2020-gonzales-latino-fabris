@@ -43,12 +43,12 @@ public class GodController {
             }
             case "NE": {
                 result[0] = -1;
-                result[1] = -1;
+                result[1] = 1;
                 break;
             }
             case "NW": {
                 result[0] = -1;
-                result[1] = 1;
+                result[1] = -1;
                 break;
             }
             case "S": {

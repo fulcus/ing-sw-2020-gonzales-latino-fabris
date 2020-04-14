@@ -326,7 +326,6 @@ public class CLIMainView implements ViewObserver {
         //update worker of the changed cell in the view
         cellUpdatedView.setWorker(toBeUpdatedCell.getWorker());
 
-        printMap();
     }
 
 
