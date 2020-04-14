@@ -20,6 +20,7 @@ public class Zeus extends God{
         WorkerBuildMap buildMap = worker.getBuildMap();
         buildMap.resetMap();
 
+        buildMap.updateCellsOutOfMap();
         buildMap.cannotBuildInWorkerCell();
         //WARNING: previous rule (cannotBuildInWorkerCell) forbids worker to build in his own position
         //but canBuildUnderneath overwrites the previous rule to allow worker to build underneath himself

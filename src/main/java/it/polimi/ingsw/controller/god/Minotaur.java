@@ -75,6 +75,7 @@ public class Minotaur extends God {
         WorkerMoveMap moveMap = worker.getMoveMap();
         moveMap.resetMap();
 
+        moveMap.updateCellsOutOfMap();
         moveMap.cannotStayStill();
         moveMap.cannotMoveInDomeCell();
         moveMap.cannotMoveInFriendlyWorkerCell();

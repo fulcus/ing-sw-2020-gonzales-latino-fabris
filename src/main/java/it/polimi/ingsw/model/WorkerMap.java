@@ -251,4 +251,27 @@ public class WorkerMap {
 
     }
 
+
+    /**
+     * Sets false cells not contained in Board.
+     */
+    //only useful for the correct functioning of unableToMove/Build exceptions
+    public void updateCellsOutOfMap() {
+        Cell workersCell = worker.getPosition();
+        int workersX = worker.getPosition().getX();
+        int workersY = worker.getPosition().getY();
+
+        if (workersCell.isInPerimeter()) {
+            for (int i = 0; i < N; i++) {
+                for (int j = 0; j < N; j++) {
+
+                    if (!board.isInBoard(i - workersX + 1, j - workersY + 1))
+                        matrix[i][j] = false;
+
+                }
+            }
+        }
+    }
+
+
 }

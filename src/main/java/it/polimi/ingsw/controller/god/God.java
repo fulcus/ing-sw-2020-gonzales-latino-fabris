@@ -138,6 +138,7 @@ public abstract class God {
         WorkerMoveMap moveMap = worker.getMoveMap();
         moveMap.resetMap();
 
+        moveMap.updateCellsOutOfMap();
         moveMap.cannotStayStill();
         moveMap.cannotMoveInOccupiedCell();
         moveMap.updateMoveUpRestrictions();
@@ -155,7 +156,7 @@ public abstract class God {
         WorkerBuildMap buildMap = worker.getBuildMap();
         buildMap.resetMap();
 
-
+        buildMap.updateCellsOutOfMap();
         buildMap.cannotBuildUnderneath();
         buildMap.cannotBuildInWorkerCell();
         buildMap.cannotBuildInDomeCell();
