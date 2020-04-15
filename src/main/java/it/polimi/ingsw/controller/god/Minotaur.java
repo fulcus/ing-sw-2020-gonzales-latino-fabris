@@ -28,6 +28,9 @@ public class Minotaur extends God {
 
     private void movePushBack(Worker worker) throws UnableToMoveException {
 
+        WorkerMoveMap moveMap = updateMoveMap(worker);
+        Board map = worker.getPlayer().getGame().getBoard();
+
         while (true) {
             int[] movePosition = godController.getInputMove();
             int xMove = movePosition[0] + worker.getPosition().getX();
@@ -36,8 +39,7 @@ public class Minotaur extends God {
             int xWorker = worker.getPosition().getX();
             int yWorker = worker.getPosition().getY();
 
-            WorkerMoveMap moveMap = updateMoveMap(worker);
-            Board map = worker.getPlayer().getGame().getBoard();
+
             Cell moveCell = map.findCell(xMove, yMove);
 
             Worker enemyWorker;
@@ -59,8 +61,11 @@ public class Minotaur extends God {
                         godController.errorMoveScreen();
                     }
 
-                } else
-                    godController.errorMoveScreen();
+                } else {
+                    worker.setPosition(xMove, yMove);
+                    godController.displayBoard();
+                    return;
+                }
 
             } else
                 godController.errorMoveScreen();
