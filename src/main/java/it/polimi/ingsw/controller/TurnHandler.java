@@ -225,8 +225,11 @@ public class TurnHandler {
                 displayBoard();
 
             } finally {
-                if (players.size() == 1)
-                    players.get(0).getGod().getGodController().winGame();
+                //if everyone else has lost, only player left wins
+                if (players.size() == 1) {
+                    Player winner = players.get(0); //last player left has index 0
+                    winner.getGod().getGodController().winGame(winner.getNickname());
+                }
             }
 
 

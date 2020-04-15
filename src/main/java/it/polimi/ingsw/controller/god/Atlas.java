@@ -26,16 +26,16 @@ public class Atlas extends God {
         buildAllowAnyLevelDome(worker);
     }
 
-
+    //same as default build without "lvl == 3 condition" for buildDome
     private void buildAllowAnyLevelDome(Worker worker) throws UnableToBuildException {
 
-        while (true) {
-            //same as default build without "lvl == 3 condition" for buildDome
-            WorkerBuildMap buildMap = updateBuildMap(worker);
-            Board board = worker.getPlayer().getGame().getBoard();
+        WorkerBuildMap buildMap = updateBuildMap(worker);
+        Board board = worker.getPlayer().getGame().getBoard();
 
+        while (true) {
 
             int[] buildInput = godController.getBuildingInput();  //returns build position + type: block/dome
+
             int xBuild = buildInput[0] + worker.getPosition().getX();
             int yBuild = buildInput[1] + worker.getPosition().getY();
             int buildType = buildInput[2]; //0 is block, 1 is dome

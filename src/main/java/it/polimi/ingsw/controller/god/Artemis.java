@@ -30,20 +30,22 @@ public class Artemis extends God {
     }
 
 
-    private void moveAgain(Worker worker) throws UnableToMoveException {
+    private void moveAgain(Worker worker) {
 
         if (!godController.wantToMoveAgain())
             return;
 
-        while (true) {
+        WorkerMoveMap moveMap;
+        try {
+            moveMap = updateMoveMap(worker);
+        } catch (UnableToMoveException ex) {
+            godController.errorMoveScreen();
+            //todo print instead: you're not allowed to move again
+            // because cant move anywhere.
+            return;
+        }
 
-            WorkerMoveMap moveMap;
-            try {
-                moveMap = updateMoveMap(worker);
-            } catch (UnableToMoveException ex) {
-                godController.errorMoveScreen();
-                return;
-            }
+        while (true) {
 
             int[] secondMovePosition = godController.getInputMove();
 
@@ -54,9 +56,9 @@ public class Artemis extends God {
             Cell secondMoveCell = worker.getPlayer().getGame().getBoard().findCell(xMove, yMove);
 
             if (secondMoveCell != initialPosition && moveMap.isAllowedToMoveBoard(xMove, yMove)) {
-                    worker.setPosition(xMove, yMove);
-                    godController.displayBoard();
-                    return;
+                worker.setPosition(xMove, yMove);
+                godController.displayBoard();
+                return;
             }
 
             // Asks again to the player if he still wants to move again:

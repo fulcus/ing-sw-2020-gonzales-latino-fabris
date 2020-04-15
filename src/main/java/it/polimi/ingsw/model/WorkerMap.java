@@ -265,7 +265,7 @@ public class WorkerMap {
             for (int i = 0; i < N; i++) {
                 for (int j = 0; j < N; j++) {
 
-                    if (!board.isInBoard(i - workersX + 1, j - workersY + 1))
+                    if (!board.isInBoard(workersX - 1 + i, workersY - 1 + j))
                         matrix[i][j] = false;
 
                 }
@@ -273,5 +273,16 @@ public class WorkerMap {
         }
     }
 
+    public void printMap() {
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if(matrix[i][j])
+                    System.out.print("T ");
+                else
+                    System.out.print("F ");
+            }
+            System.out.println();
+        }
+    }
 
 }

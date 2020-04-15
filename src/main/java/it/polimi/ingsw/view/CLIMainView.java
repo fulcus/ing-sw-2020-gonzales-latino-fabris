@@ -218,8 +218,9 @@ public class CLIMainView implements ViewObserver {
     /**
      * Prints to screen that one of the player has won the game
      */
-    public void winningView() {
-        System.out.println("\n\n\n       " + myTurnHandler.getCurrentPlayer().getNickname() + "HAS WON THIS GAME!!!\n\n GAME ENDED\n\nSEE YOU!");
+    public void winningView(String winnerNickname) {
+        System.out.println("\n\n\n"
+                + winnerNickname + "HAS WON THIS GAME!!!\n\n GAME ENDED\n\nSEE YOU!");
     }
 
     public void currentPlayerLoses(String loserNickname){

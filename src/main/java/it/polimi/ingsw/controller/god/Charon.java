@@ -27,6 +27,9 @@ public class Charon extends God {
         build(worker);
     }
 
+
+    //note: 1) dove è il while?
+    //2) updateMoveMap sbagliata, la move è normale, forceMoveEnemy è un metodo a parte
     public void forceMoveEnemy(Worker worker) {
 
         if (!godController.wantToMoveEnemy())
@@ -52,13 +55,13 @@ public class Charon extends God {
 
             //for each neighboring enemy calculates opposite position
             //and removes them from arraylist if opposite position is occupied
-            for(Worker Enemy : neighboringEnemies) {
-                newEnemyX = 2 * worker.getPosition().getX() - Enemy.getPosition().getX();
-                newEnemyY = 2 * worker.getPosition().getY() - Enemy.getPosition().getY();
+            for(Worker enemy : neighboringEnemies) {
+                newEnemyX = 2 * worker.getPosition().getX() - enemy.getPosition().getX();
+                newEnemyY = 2 * worker.getPosition().getY() - enemy.getPosition().getY();
                 Cell newEnemyPosition = board.findCell(newEnemyX,newEnemyY);
 
                 if(newEnemyPosition.isOccupied() || newEnemyX>4 || newEnemyX<0 || newEnemyY<0 || newEnemyY>4)
-                    neighboringEnemies.remove(Enemy);
+                    neighboringEnemies.remove(enemy);
             }
 
             //now in neighboringEnemies there are only enemy workers that can be displaced
@@ -71,7 +74,10 @@ public class Charon extends God {
             int newEnemyToMoveX = 2 * worker.getPosition().getX() - enemyToMove.getPosition().getX();
             int newEnemyToMoveY = 2 * worker.getPosition().getY() - enemyToMove.getPosition().getY();
 
-            enemyToMove.setPosition(newEnemyToMoveX,newEnemyToMoveY);// TODO SE ATHENA IMPEDISCE A TUTTI DI MUOVERSI IN ALTO, SPOSTANDO IL NEMICO IN DIREZIONE OPPOSTA; DEVO ASSICURARMI CHE NON SALGA. E poi una volta mosso il nemico non devo rifare update map?
+            //TODO SE ATHENA IMPEDISCE A TUTTI DI MUOVERSI IN ALTO,
+            //SPOSTANDO IL NEMICO IN DIREZIONE OPPOSTA; DEVO ASSICURARMI
+            //CHE NON SALGA. E poi una volta mosso il nemico non devo rifare update map?
+            enemyToMove.setPosition(newEnemyToMoveX,newEnemyToMoveY);
             godController.displayBoard();
 
         }
@@ -84,10 +90,14 @@ public class Charon extends God {
         moveMap.resetMap();
 
         moveMap.updateCellsOutOfMap();
+        moveMap.updateMoveUpRestrictions();
+
         moveMap.cannotStayStill();
         moveMap.cannotMoveInDomeCell();
         moveMap.cannotMoveInFriendlyWorkerCell();
-        moveMap.updateMoveUpRestrictions();
+
+
+        moveMap.printMap();
 
         if(!moveMap.anyAvailableMovePosition())
             throw new UnableToMoveException();

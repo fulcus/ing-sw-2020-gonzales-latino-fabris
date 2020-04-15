@@ -3,7 +3,6 @@ package it.polimi.ingsw.controller.god;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.controller.*;
-import it.polimi.ingsw.view.CLIMainView;
 
 /**
  * This interface allows to see the Gods' main methods
@@ -37,8 +36,8 @@ public abstract class God {
      * @param worker Selected worker that will move.
      */
     public void move(Worker worker) throws UnableToMoveException {
-        WorkerMoveMap moveMap = updateMoveMap(worker);
 
+        WorkerMoveMap moveMap = updateMoveMap(worker);
 
         while (true) {
             int[] movePosition = getGodController().getInputMove();
@@ -122,7 +121,7 @@ public abstract class God {
 
 
         if (won)
-            godController.winGame();
+            godController.winGame(worker.getPlayer().getNickname());
     }
 
 
@@ -139,9 +138,13 @@ public abstract class God {
         moveMap.resetMap();
 
         moveMap.updateCellsOutOfMap();
+        moveMap.updateMoveUpRestrictions();
+
         moveMap.cannotStayStill();
         moveMap.cannotMoveInOccupiedCell();
-        moveMap.updateMoveUpRestrictions();
+
+        moveMap.printMap();    //debugging
+
 
         if (!moveMap.anyAvailableMovePosition())
             throw new UnableToMoveException();
@@ -160,6 +163,8 @@ public abstract class God {
         buildMap.cannotBuildUnderneath();
         buildMap.cannotBuildInWorkerCell();
         buildMap.cannotBuildInDomeCell();
+
+        buildMap.printMap();    //debugging
 
         if (!buildMap.anyAvailableBuildPosition())
             throw new UnableToBuildException();

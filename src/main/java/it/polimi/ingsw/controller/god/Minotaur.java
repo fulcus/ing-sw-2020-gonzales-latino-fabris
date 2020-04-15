@@ -76,10 +76,14 @@ public class Minotaur extends God {
         moveMap.resetMap();
 
         moveMap.updateCellsOutOfMap();
+        moveMap.updateMoveUpRestrictions();
+
         moveMap.cannotStayStill();
         moveMap.cannotMoveInDomeCell();
         moveMap.cannotMoveInFriendlyWorkerCell();
-        moveMap.updateMoveUpRestrictions();
+
+        moveMap.printMap();    //debugging
+
 
         if(!moveMap.anyAvailableMovePosition())
             throw new UnableToMoveException();

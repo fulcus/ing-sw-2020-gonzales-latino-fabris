@@ -70,10 +70,10 @@ public class Worker {
 
     /**
      * Swaps the Worker with the other worker in the newPosition.
-     * Assumes that there is a worker in the newPosition. //Else NullPointer!!!
+     * Assumes that there is a worker in the newPosition.
      * @param newPosition Cell the worker wants to move into.
      */
-    //Else NullPointer!!!
+    //...else NullPointer!!!
     public void swapPosition(Cell newPosition) {
         int newLevel = newPosition.getLevel();
         Worker workerInCell = newPosition.getWorker();

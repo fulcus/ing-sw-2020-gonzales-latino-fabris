@@ -7,7 +7,7 @@ import it.polimi.ingsw.model.Worker;
 import it.polimi.ingsw.model.WorkerMoveMap;
 
 
-public class Apollo extends God{
+public class Apollo extends God {
 
     public String description = "Your Worker may move into an opponent Worker’s space by forcing their Worker to the space yours just vacated.";
 
@@ -23,12 +23,13 @@ public class Apollo extends God{
 
     private void moveSwap(Worker worker) throws UnableToMoveException {
 
-        while(true) {
+        WorkerMoveMap moveMap = updateMoveMap(worker);
+
+        while (true) {
             int[] movePosition = godController.getInputMove();
             int xMove = movePosition[0] + worker.getPosition().getX();
             int yMove = movePosition[1] + worker.getPosition().getY();
 
-            WorkerMoveMap moveMap = updateMoveMap(worker);
             Cell moveCell = worker.getPlayer().getGame().getBoard().findCell(xMove, yMove);
 
             //if moveCell doesn't exist returns false
@@ -36,9 +37,8 @@ public class Apollo extends God{
 
                 //swaps enemy and worker
                 //moveMap rules assure that worker in moveCell is enemy
-                if (moveCell.hasWorker()) {
+                if (moveCell.hasWorker())
                     worker.swapPosition(moveCell);
-                }
                 else
                     worker.setPosition(xMove, yMove);
 
@@ -57,17 +57,19 @@ public class Apollo extends God{
         moveMap.resetMap();
 
         moveMap.updateCellsOutOfMap();
+        moveMap.updateMoveUpRestrictions();
+
         moveMap.cannotStayStill();
         moveMap.cannotMoveInDomeCell();
         moveMap.cannotMoveInFriendlyWorkerCell();
-        moveMap.updateMoveUpRestrictions();
 
-        if(!moveMap.anyAvailableMovePosition())
+        moveMap.printMap();    //debugging
+
+        if (!moveMap.anyAvailableMovePosition())
             throw new UnableToMoveException();
 
         return moveMap;
     }
-
 
 
     public GodController getGodController() {
