@@ -24,18 +24,21 @@ public class Triton extends God{
         win(worker);
         while(worker.getPosition().isInPerimeter()) {
             initialPosition = worker.getPosition();
+            if (!godController.wantToMoveAgain())
+                break;
             moveAgain(worker);
             win(worker);
         }
-        win(worker);
+        //win(worker);
         build(worker);
     }
 
 
     private void moveAgain(Worker worker) {
 
-        if (!godController.wantToMoveAgain())
+        /*if (!godController.wantToMoveAgain())
             return;
+         */
 
         while (true) {
 
