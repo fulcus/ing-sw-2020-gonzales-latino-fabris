@@ -193,6 +193,9 @@ public class GodController {
         if (god.getClass().getSimpleName().equals("Hestia"))
             answer = godView.askBuildAgainHestia();
 
+        if (god.getClass().getSimpleName().equals("Prometheus"))
+            answer = godView.askBuildPrometheus();
+
 
         return answer.equals("Y");
     }

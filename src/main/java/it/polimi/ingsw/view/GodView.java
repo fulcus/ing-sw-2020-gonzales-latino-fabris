@@ -236,6 +236,17 @@ public class GodView {
         return playerAnswerYN();
     }
 
+    /**
+     * The name of the method describes itself.
+     *
+     * @return The will of the player to build before moving.
+     */
+    public String askBuildPrometheus() {
+
+        System.out.println("You are allowed to build before you move\n <Y> for Yes,  <N> for No :   ");
+        return playerAnswerYN();
+    }
+
 
     /**
      * Allows to get the answer of a player to a question.
