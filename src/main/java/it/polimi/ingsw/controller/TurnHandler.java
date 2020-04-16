@@ -116,7 +116,7 @@ public class TurnHandler {
 
             startPlayerNick = view.challengerChooseStartPlayer(game.getChallenger().getNickname());   //returns nickname of startPlayer
             for (Player player : players) {
-                if (startPlayerNick.equals(player.getNickname()) && !startPlayerNick.equals(challengerNickname)) {
+                if (startPlayerNick.equals(player.getNickname())) {
                     startPlayer = player;
                     break;
                 }

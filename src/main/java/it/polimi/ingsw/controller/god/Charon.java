@@ -28,8 +28,9 @@ public class Charon extends God {
     }
 
 
-    //note: 1) dove è il while?
-    //2) updateMoveMap sbagliata, la move è normale, forceMoveEnemy è un metodo a parte
+    //ERRORI: 1) dove è il while?
+    //2) updateMoveMap sbagliata: non va modificata:
+    //la move è standard, forceMoveEnemy è un metodo a parte
     public void forceMoveEnemy(Worker worker) {
 
         if (!godController.wantToMoveEnemy())

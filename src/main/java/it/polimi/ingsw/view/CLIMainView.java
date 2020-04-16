@@ -166,14 +166,14 @@ public class CLIMainView implements ViewObserver {
 
     public String challengerChooseStartPlayer(String challengerNickname) {
 
-        System.out.println(challengerNickname + ", you can choose the first player to start! Type his nickname:");
+        System.out.println(challengerNickname + ", choose the first player to start! Type his nickname:");
 
         return input.nextLine();
 
     }
 
     public void invalidStartPlayer() {
-        System.out.println("Invalid nickname. It must be an existing nickname and different from the challenger's.");
+        System.out.println("Invalid nickname. It must be an existing nickname.");
     }
 
     public void notAvailableColor(){
@@ -220,11 +220,11 @@ public class CLIMainView implements ViewObserver {
      */
     public void winningView(String winnerNickname) {
         System.out.println("\n\n\n"
-                + winnerNickname + "HAS WON THIS GAME!!!\n\n GAME ENDED\n\nSEE YOU!");
+                + winnerNickname + " HAS WON THIS GAME!!!\n\nGAME ENDED\n\nSEE YOU!");
     }
 
     public void currentPlayerLoses(String loserNickname){
-        System.out.println(loserNickname+ ", GameOver for you!");
+        System.out.println(loserNickname+ ", Game Over for you!");
     }
 
     /**
