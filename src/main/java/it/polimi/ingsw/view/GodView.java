@@ -36,7 +36,8 @@ public class GodView {
                     || selectedBuildingDirection[0].equals("S")
                     || selectedBuildingDirection[0].equals("SW")
                     || selectedBuildingDirection[0].equals("W")
-                    || selectedBuildingDirection[0].equals("NW")) {
+                    || selectedBuildingDirection[0].equals("NW")
+                    || selectedBuildingDirection[0].equals("U")) {
 
                 while (true) {
                     System.out.println("Now tell me what do you want to build: type  <B> for Block or <D> for Dome: ");

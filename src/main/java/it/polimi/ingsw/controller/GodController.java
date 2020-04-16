@@ -76,9 +76,13 @@ public class GodController {
                 result[1] = 1;
                 break;
             }
-            default: {
+            case "U": {
                 result[0] = 0;
                 result[1] = 0;
+                break;
+            }
+            default: {
+                result = null;
                 break;
             }
 
