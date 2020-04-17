@@ -26,6 +26,7 @@ public class WorkerMoveMap extends WorkerMap {
         friendlyWorkerCellFalse();
     }
 
+    public boolean anyOneLevelHigherCell() { return reachNearHigherLevel(); }
 
     public void cannotStayStill() {
         centerPositionFalse();

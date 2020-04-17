@@ -202,6 +202,26 @@ public class WorkerMap {
 
 
     /**
+     * Says if there are any near Cells that are 1 level higher than the one where the worker stands.
+     *
+     * @return True if there's at least one cell 1 level higher, False otherwise.
+     */
+    public boolean reachNearHigherLevel(){
+        int workersLevel = worker.getPosition().getLevel();
+
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+
+                if (getAbsolutePosition(i, j) != null &&
+                        getAbsolutePosition(i, j).getLevel() - workersLevel == 1)
+                    return true;
+            }
+        }
+        return false;
+    }
+
+
+    /**
      * Finds all neighboring enemy Workers.
      *
      * @return Returns all enemy Workers adjacent to the worker.

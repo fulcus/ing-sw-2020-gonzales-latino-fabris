@@ -76,9 +76,13 @@ public class GodController {
                 result[1] = 1;
                 break;
             }
-            default: {
+            case "U": {
                 result[0] = 0;
                 result[1] = 0;
+                break;
+            }
+            default: {
+                result = null;
                 break;
             }
 
@@ -195,6 +199,9 @@ public class GodController {
 
         if (god.getClass().getSimpleName().equals("Hestia"))
             answer = godView.askBuildAgainHestia();
+
+        if (god.getClass().getSimpleName().equals("Prometheus"))
+            answer = godView.askBuildPrometheus();
 
 
         return answer.equals("Y");

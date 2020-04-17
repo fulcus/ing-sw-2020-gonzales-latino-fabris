@@ -36,7 +36,8 @@ public class GodView {
                     || selectedBuildingDirection[0].equals("S")
                     || selectedBuildingDirection[0].equals("SW")
                     || selectedBuildingDirection[0].equals("W")
-                    || selectedBuildingDirection[0].equals("NW")) {
+                    || selectedBuildingDirection[0].equals("NW")
+                    || selectedBuildingDirection[0].equals("U")) {
 
                 while (true) {
                     System.out.println("Now tell me what do you want to build: type  <B> for Block or <D> for Dome: ");
@@ -233,6 +234,17 @@ public class GodView {
     public String askBuildAgainHestia() {
 
         System.out.println("You are allowed to build another time, but NOT in the border position\n <Y> for Yes,  <N> for No :   ");
+        return playerAnswerYN();
+    }
+
+    /**
+     * The name of the method describes itself.
+     *
+     * @return The will of the player to build before moving.
+     */
+    public String askBuildPrometheus() {
+
+        System.out.println("You are allowed to build before you move\n <Y> for Yes,  <N> for No :   ");
         return playerAnswerYN();
     }
 
