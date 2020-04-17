@@ -28,7 +28,6 @@ public class Charon extends God {
     }
 
 
-    //ERRORI: 1) dove è il while(true) che sta i tutti gli dei?
     public void forceMoveEnemy(Worker worker) {
 
         Board board = worker.getPlayer().getGame().getBoard();
