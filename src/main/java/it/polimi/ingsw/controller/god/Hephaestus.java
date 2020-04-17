@@ -47,8 +47,8 @@ public class Hephaestus extends God {
             //returns build position + type: block/dome
             int[] buildInput = godController.getBuildingInput();
 
-            int xBuild = buildInput[0];
-            int yBuild = buildInput[1];
+            int xBuild = worker.getPosition().getX() + buildInput[0];
+            int yBuild =worker.getPosition().getY() + buildInput[1];
 
             Cell buildPosition = board.findCell(xBuild, yBuild);
 
@@ -83,8 +83,8 @@ public class Hephaestus extends God {
      */
     public void secondBuild(Worker worker) {
 
-        //todo print: you cannot build again in the same place as it's already max height
-        if(firstBuildCell.getLevel() >= 3)
+        //todo print: you cannot build again in the same place since it's already at max height
+        if(firstBuildCell.getLevel() == 3)
             return;
 
         //true if player wants to build again
