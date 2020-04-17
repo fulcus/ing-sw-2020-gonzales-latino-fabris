@@ -24,8 +24,7 @@ public class Zeus extends God{
         buildMap.cannotBuildInOccupiedCell();
         //WARNING: previous rule (cannotBuildInOccupiedCell) forbids worker to build in his own position
         //but canBuildUnderneath overwrites the previous rule to allow worker to build underneath himself
-        System.out.println("Remember that you can build underneath!\n" +
-                "To do that, the direction for the build is 'U'\n");
+        godController.allowBuildUnderneath();
         buildMap.canBuildUnderneath();
 
         buildMap.printMap();
