@@ -28,27 +28,13 @@ public class Charon extends God {
     }
 
 
-    //ERRORI: 1) dove è il while?
-    //2) updateMoveMap sbagliata: non va modificata:
-    //la move è standard, forceMoveEnemy è un metodo a parte
+    //ERRORI: 1) dove è il while(true) che sta i tutti gli dei?
     public void forceMoveEnemy(Worker worker) {
-
-        if (!godController.wantToMoveEnemy())
-            return;
-
-        WorkerMoveMap moveMap;
-
-        try {
-            moveMap = updateMoveMap(worker);
-        } catch (UnableToMoveException ex) {
-            godController.errorMoveScreen();
-            return;
-        }
-
 
         Board board = worker.getPlayer().getGame().getBoard();
 
-        ArrayList<Worker> neighboringEnemies = moveMap.neighboringEnemyWorkers();
+        ArrayList<Worker> neighboringEnemies = worker.getMoveMap().neighboringEnemyWorkers();
+        ArrayList<Worker> toDisplaceEnemies = new ArrayList<Worker>(6);
         int newEnemyX;
         int newEnemyY;
 
@@ -61,49 +47,33 @@ public class Charon extends God {
                 newEnemyY = 2 * worker.getPosition().getY() - enemy.getPosition().getY();
                 Cell newEnemyPosition = board.findCell(newEnemyX,newEnemyY);
 
-                if(newEnemyPosition.isOccupied() || newEnemyX>4 || newEnemyX<0 || newEnemyY<0 || newEnemyY>4)
-                    neighboringEnemies.remove(enemy);
+                if(!(newEnemyPosition.isOccupied() || newEnemyX>4 || newEnemyX<0 || newEnemyY<0 || newEnemyY>4))
+                    toDisplaceEnemies.add(enemy);
             }
 
-            //now in neighboringEnemies there are only enemy workers that can be displaced
+            //now toDisplaceEnemies there are only enemy workers that can be displaced
 
-            Worker enemyToMove = godController.ForceMoveEnemy(neighboringEnemies, worker);
+            if(!toDisplaceEnemies.isEmpty()) {
 
-            if(enemyToMove == null)
-                return;
+                if (!godController.wantToMoveEnemy())
+                    return;
 
-            int newEnemyToMoveX = 2 * worker.getPosition().getX() - enemyToMove.getPosition().getX();
-            int newEnemyToMoveY = 2 * worker.getPosition().getY() - enemyToMove.getPosition().getY();
+                Worker enemyToMove = godController.ForceMoveEnemy(toDisplaceEnemies, worker);
 
-            //TODO SE ATHENA IMPEDISCE A TUTTI DI MUOVERSI IN ALTO,
-            //SPOSTANDO IL NEMICO IN DIREZIONE OPPOSTA; DEVO ASSICURARMI
-            //CHE NON SALGA. E poi una volta mosso il nemico non devo rifare update map?
-            enemyToMove.setPosition(newEnemyToMoveX,newEnemyToMoveY);
-            godController.displayBoard();
+                if (enemyToMove == null)
+                    return;
 
+                int newEnemyToMoveX = 2 * worker.getPosition().getX() - enemyToMove.getPosition().getX();
+                int newEnemyToMoveY = 2 * worker.getPosition().getY() - enemyToMove.getPosition().getY();
+
+                //TODO SE ATHENA IMPEDISCE A TUTTI DI MUOVERSI IN ALTO,
+                //SPOSTANDO IL NEMICO IN DIREZIONE OPPOSTA; DEVO ASSICURARMI
+                //CHE NON SALGA. E poi una volta mosso il nemico non devo rifare update map?
+                enemyToMove.setPosition(newEnemyToMoveX, newEnemyToMoveY);
+                godController.displayBoard();
+            }
         }
 
-    }
-
-
-    public WorkerMoveMap updateMoveMap(Worker worker) throws UnableToMoveException {
-        WorkerMoveMap moveMap = worker.getMoveMap();
-        moveMap.resetMap();
-
-        moveMap.updateCellsOutOfMap();
-        moveMap.updateMoveUpRestrictions();
-
-        moveMap.cannotStayStill();
-        moveMap.cannotMoveInDomeCell();
-        moveMap.cannotMoveInFriendlyWorkerCell();
-
-
-        moveMap.printMap();
-
-        if(!moveMap.anyAvailableMovePosition())
-            throw new UnableToMoveException();
-
-        return moveMap;
     }
 
 

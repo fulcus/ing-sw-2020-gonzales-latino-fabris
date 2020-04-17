@@ -139,14 +139,17 @@ public class GodController {
      * @return The worker the player has chosen to move.
      */
     public Worker ForceMoveEnemy(ArrayList<Worker> enemyWorkers, Worker worker) {
-        String workerToMove = godView.askWorkerToMove(enemyWorkers, worker);
+        String workerToMoveCompassPosition = godView.askWorkerToMove(enemyWorkers, worker);//
 
-        if (workerToMove == null)
+        if (workerToMoveCompassPosition == null)
             return null;
 
-        int[] boardPosition = getInputInCoordinates(workerToMove);
+        int[] relativeBoardPosition = getInputInCoordinates(workerToMoveCompassPosition);
+        int enemyX = worker.getPosition().getX() + relativeBoardPosition[0];
+        int enemyY = worker.getPosition().getY() + relativeBoardPosition[1];
 
-        Worker chosenEnemy = worker.getPlayer().getGame().getBoard().findCell(boardPosition[0], boardPosition[1]).getWorker();
+
+        Worker chosenEnemy = worker.getPlayer().getGame().getBoard().findCell(enemyX,enemyY).getWorker();
 
         return chosenEnemy;
     }

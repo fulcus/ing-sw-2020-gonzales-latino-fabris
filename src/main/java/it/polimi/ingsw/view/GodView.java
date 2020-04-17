@@ -123,7 +123,7 @@ public class GodView {
      * @return The Worker to move selected by the player.
      */
     public String askWorkerToMove(ArrayList<Worker> enemyWorkers, Worker myWorker) {
-        System.out.println("The following directions are the ones you can use to force to move the enemyWorkers near you: ");
+        System.out.println("If there are enemy's workers around you, these are their directions.Choose one:  ");
 
         ArrayList<String> presentPositions = printFoundEnemiesPosition(enemyWorkers, myWorker);
         if (presentPositions.size() == 0) {
@@ -132,10 +132,10 @@ public class GodView {
         }
 
         while (true) {
-            String chosenEnemy = input.nextLine();
+            String chosenEnemyDirection = input.nextLine();
 
-            if (presentPositions.contains(chosenEnemy))
-                return chosenEnemy;
+            if (presentPositions.contains(chosenEnemyDirection))
+                return chosenEnemyDirection;
 
             System.out.println("Your choice must be between the ones above!\nOtherwise you can choose to let them stay where they are:\n'Y' to retry, 'N' to quit the forced move ");
             String playerAnswer = input.nextLine().toUpperCase();
@@ -280,7 +280,6 @@ public class GodView {
      * @return Y for a positive answer, N for a negative one.
      */
     public String printBuildDecisionError() {
-        printBuildGeneralErrorScreen();
         System.out.println("Do you still want to build? Y for yes, N for No:   ");
         return playerAnswerYN();
     }
