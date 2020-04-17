@@ -10,52 +10,64 @@ public class WorkerMoveMap extends WorkerMap {
         super(worker);
     }
 
+    /**
+     * Forbids worker to move in a cell occupied by a dome.
+     */
     public void cannotMoveInDomeCell() {
         DomeCellFalse();
     }
 
-    public void cannotMoveInWorkerCell() {
-        workerCellFalse();
-    }
-
+    /**
+     * Forbids worker to move in a cell occupied by a dome or another worker.
+     */
     public void cannotMoveInOccupiedCell() {
         occupiedCellFalse();
     }
 
+    /**
+     * Forbids worker to move in a cell occupied by the other worker of the same player.
+     */
     public void cannotMoveInFriendlyWorkerCell() {
         friendlyWorkerCellFalse();
     }
 
+    /**
+     * Says if there is any near Cell 1 level higher than the worker's.
+     *
+     * @return True if there is at least one cell 1 level higher, false otherwise.
+     */
     public boolean anyOneLevelHigherCell() { return reachNearHigherLevel(); }
 
+    /**
+     * Forbids worker to not move.
+     */
     public void cannotStayStill() {
-        centerPositionFalse();
-    }
-
-    public void canStayStill() {
-        centerPositionTrue();
+        setCenterPosition(false);
     }
 
     /**
-     * Returns if it is allowed to move in a given cell of the map.
+     * Finds out if worker is allowed to move in a given cell of the board.
      * @param i Board coordinate X.
      * @param j Board coordinate Y.
-     * @return True if it can move in position, false otherwise.
+     * @return True if it can move in cell, false otherwise.
      */
     public boolean isAllowedToMoveBoard(int i, int j) {
         return getBooleanCellBoard(i,j);
     }
 
+    /**
+     * Finds out if worker is allowed to move in a given cell of the moveMap.
+     * @param i moveMap coordinate X.
+     * @param j moveMap coordinate Y.
+     * @return True if it can move in position, false otherwise.
+     */
+    //maybe useless
     public boolean isAllowedToMoveWorkersMap(int i, int j) {
         return getBooleanCellWorkerMap(i, j);
     }
 
-    public void cannotMoveInPerimeter() {
-        cellsInPerimeterFalse();
-    }
-
     /**
-     * Sets if player can move up or not based on attribute of Player.
+     * Allows or forbids player to move up based on the canMoveUp attribute of Player.
      */
     public void updateMoveUpRestrictions() {
 

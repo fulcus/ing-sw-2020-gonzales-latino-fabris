@@ -202,6 +202,16 @@ public class GodView {
 
 
     /**
+     * Says that the worker can build under himself/herself.
+     * This is allowed only when playing with Zeus.
+     */
+    public void printBuildUnderneath(){
+        System.out.println("Remember that you can build underneath!\n" +
+                "To do that, the direction for the build is 'U'\n");
+    }
+
+
+    /**
      * The name of the method describes itself.
      *
      * @return The will of the player to build again.

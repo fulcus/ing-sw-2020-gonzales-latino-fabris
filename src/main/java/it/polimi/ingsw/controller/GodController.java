@@ -203,8 +203,12 @@ public class GodController {
         if (god.getClass().getSimpleName().equals("Prometheus"))
             answer = godView.askBuildPrometheus();
 
-
         return answer.equals("Y");
+    }
+
+
+    public void allowBuildUnderneath(){
+        godView.printBuildUnderneath();
     }
 
 

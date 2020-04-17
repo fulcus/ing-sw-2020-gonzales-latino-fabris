@@ -37,26 +37,19 @@ public class WorkerBuildMapTest {
     @Test
     public void testAllowedToBuildInPosition() {
         worker.setPosition(2,3);
-        buildMap.setBooleanCellBoard(2,4,false);
+        worker.buildDome(2,4);
+        buildMap.cannotBuildInOccupiedCell();
+        //cant build in cell occupied by dome
         assertFalse(buildMap.isAllowedToBuildBoard(2,4));
 
-        buildMap.setBooleanCellBoard(2,4,true);
-        assertTrue(buildMap.isAllowedToBuildBoard(2,4));
+        //can build in free cell
+        assertTrue(buildMap.isAllowedToBuildBoard(2,2));
 
     }
 
     @Test
     public void testGetWorker() {
         assertEquals(worker,buildMap.getWorker());
-    }
-
-    @Test
-    public void testCannotBuildInWorkerCell() {
-        worker.setPosition(2,1);
-        worker2.setPosition(2,2);
-        buildMap.cannotBuildInWorkerCell();
-        assertFalse(buildMap.isAllowedToBuildBoard(2,2));
-
     }
 
     @Test
@@ -71,21 +64,6 @@ public class WorkerBuildMapTest {
     }
 
     @Test
-    public void testCannotBuildInDomeCell() {
-        worker.setPosition(2,1);
-        worker2.setPosition(2,2);
-        worker.buildDome(2,0);
-        buildMap.cannotBuildInDomeCell();
-
-        //can build on worker
-        assertTrue(buildMap.isAllowedToBuildBoard(2,2));
-        //cannot build on dome
-        assertFalse(buildMap.isAllowedToBuildBoard(2,0));
-
-    }
-
-
-    @Test
     public void testCannotBuildUnderneath() {
         worker.setPosition(2,1);
         buildMap.cannotBuildUnderneath();
@@ -96,25 +74,17 @@ public class WorkerBuildMapTest {
     }
 
     @Test
-    public void testCannotBuildInPerimeter() {
-        worker.setPosition(3,3);
-        buildMap.cannotBuildInPerimeter();
-        assertFalse(buildMap.isAllowedToBuildBoard(4,3));
-
-    }
-
-    @Test
     public void testAnyAvailableBuildPosition() {
-        worker.setPosition(3, 3);
+        worker.setPosition(0, 0);
 
         assertTrue(buildMap.anyAvailableBuildPosition());
 
-        //set whole map false
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                buildMap.setBooleanCellWorkerMap(i, j, false);
-            }
-        }
+        //set all neighboring cells false. some already false bc out of map.
+        worker.buildDome(1,0);
+        worker.buildDome(1,1);
+        worker.buildDome(0,1);
+        buildMap.cannotBuildInOccupiedCell();
+        buildMap.updateCellsOutOfMap();
 
         //relative to workers board
         assertFalse(buildMap.anyAvailableBuildPosition());

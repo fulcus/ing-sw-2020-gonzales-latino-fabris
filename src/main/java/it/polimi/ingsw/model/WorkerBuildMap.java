@@ -10,32 +10,35 @@ public class WorkerBuildMap extends WorkerMap {
         super(worker);
     }
 
-    public void cannotBuildInWorkerCell() {
-        workerCellFalse();
-    }
-
-    public void cannotBuildInDomeCell() {
-        DomeCellFalse();
-    }
-
+    /**
+     * Forbids worker to build in a cell occupied by a dome or another worker.
+     */
     public void cannotBuildInOccupiedCell() {
         occupiedCellFalse();
     }
 
+    /**
+     * Forbids worker to build underneath himself.
+     */
     public void cannotBuildUnderneath() {
-        centerPositionFalse();
+        setCenterPosition(false);
     }
 
+    /**
+     * Allows worker to build underneath himself.
+     */
     public void canBuildUnderneath() {
-        centerPositionTrue();
+        setCenterPosition(true);
     }
 
+    /**
+     * Finds out if worker is allowed to build in a given cell of the board.
+     * @param i Board coordinate X.
+     * @param j Board coordinate Y.
+     * @return True if it can build in cell, false otherwise.
+     */
     public boolean isAllowedToBuildBoard(int i, int j) {
         return getBooleanCellBoard(i, j);
-    }
-
-    public void cannotBuildInPerimeter() {
-        cellsInPerimeterFalse();
     }
 
     /**

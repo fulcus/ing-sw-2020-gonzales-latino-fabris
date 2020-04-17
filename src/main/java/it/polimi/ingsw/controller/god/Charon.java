@@ -6,7 +6,6 @@ import it.polimi.ingsw.controller.UnableToMoveException;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.Worker;
-import it.polimi.ingsw.model.WorkerMoveMap;
 
 import java.util.ArrayList;
 
@@ -33,7 +32,7 @@ public class Charon extends God {
         Board board = worker.getPlayer().getGame().getBoard();
 
         ArrayList<Worker> neighboringEnemies = worker.getMoveMap().neighboringEnemyWorkers();
-        ArrayList<Worker> toDisplaceEnemies = new ArrayList<Worker>(6);
+        ArrayList<Worker> toDisplaceEnemies = new ArrayList<>(6);
         int newEnemyX;
         int newEnemyY;
 
@@ -65,9 +64,6 @@ public class Charon extends God {
                 int newEnemyToMoveX = 2 * worker.getPosition().getX() - enemyToMove.getPosition().getX();
                 int newEnemyToMoveY = 2 * worker.getPosition().getY() - enemyToMove.getPosition().getY();
 
-                //TODO SE ATHENA IMPEDISCE A TUTTI DI MUOVERSI IN ALTO,
-                //SPOSTANDO IL NEMICO IN DIREZIONE OPPOSTA; DEVO ASSICURARMI
-                //CHE NON SALGA. E poi una volta mosso il nemico non devo rifare update map?
                 enemyToMove.setPosition(newEnemyToMoveX, newEnemyToMoveY);
                 godController.displayBoard();
             }

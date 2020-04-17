@@ -58,14 +58,6 @@ public class WorkerMoveMapTest {
     }
 
     @Test
-    public void testCannotMoveInWorkerCell() {
-        worker.setPosition(2, 1);
-        worker2.setPosition(2, 2);
-        moveMap.cannotMoveInWorkerCell();
-        assertFalse(moveMap.isAllowedToMoveBoard(2, 2));
-    }
-
-    @Test
     public void testCannotMoveInOccupiedCell() {
         worker.setPosition(2, 1);
         worker2.setPosition(2, 2);
@@ -90,15 +82,6 @@ public class WorkerMoveMapTest {
         worker.setPosition(2, 1);
         moveMap.cannotStayStill();
         assertFalse(moveMap.isAllowedToMoveBoard(2, 1));
-        moveMap.canStayStill();
-        assertTrue(moveMap.isAllowedToMoveBoard(2, 1));
-    }
-
-    @Test
-    public void testCannotMoveInPerimeter() {
-        worker.setPosition(3, 3);
-        moveMap.cannotMoveInPerimeter();
-        assertFalse(moveMap.isAllowedToMoveBoard(4, 3));
     }
 
     @Test
@@ -157,46 +140,66 @@ public class WorkerMoveMapTest {
 
     @Test
     public void testAnyAvailableMovePosition() {
-        worker.setPosition(3, 3);
+        worker.setPosition(0, 0);
 
         assertTrue(moveMap.anyAvailableMovePosition());
 
-        //set whole map false
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                moveMap.setBooleanCellWorkerMap(i, j, false);
-            }
-        }
-
+        //set all neighboring cells false. some already false bc out of map.
+        worker.buildDome(1, 0);
+        worker.buildDome(1, 1);
+        worker.buildDome(0, 1);
+        moveMap.cannotMoveInOccupiedCell();
+        moveMap.updateCellsOutOfMap();
 
         //relative to workers board
         assertFalse(moveMap.anyAvailableMovePosition());
+
+        //test resetMap()
+        moveMap.resetMap();
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                assertTrue(moveMap.isAllowedToMoveWorkersMap(i, j));
+            }
+        }
+
     }
 
     @Test
     public void testSetBooleanCellBoard() {
         worker.setPosition(4, 4);
-        assertEquals(board.findCell(4,4),moveMap.getAbsolutePosition(1,1));
+        assertEquals(board.findCell(4, 4), moveMap.getAbsolutePosition(1, 1));
 
         //access non existing cell
-        moveMap.setBooleanCellBoard(6, 0, false);
         assertFalse(moveMap.getBooleanCellBoard(6, 0));
 
         //out of map input
-        assertNull(moveMap.getAbsolutePosition(1,2));
+        assertNull(moveMap.getAbsolutePosition(1, 2));
     }
 
     @Test
     public void testNeighboringEnemyWorkers() {
         worker.setPosition(2, 1);
-        enemyWorker.setPosition(4,4);
+        enemyWorker.setPosition(4, 4);
 
         assertTrue(moveMap.neighboringEnemyWorkers().isEmpty());
 
-        enemyWorker.setPosition(2,2);
+        enemyWorker.setPosition(2, 2);
         moveMap.neighboringEnemyWorkers();
 
-        assertEquals(enemyWorker,moveMap.neighboringEnemyWorkers().get(0));
+        assertEquals(enemyWorker, moveMap.neighboringEnemyWorkers().get(0));
+
+    }
+
+    @Test
+    public void testAnyOneLevelHigherCell() {
+        worker.setPosition(2, 1);
+
+        assertFalse(moveMap.anyOneLevelHigherCell());
+
+        worker.buildBlock(2, 2);
+
+        assertTrue(moveMap.anyOneLevelHigherCell());
 
     }
 
