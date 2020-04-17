@@ -161,8 +161,7 @@ public abstract class God {
 
         buildMap.updateCellsOutOfMap();
         buildMap.cannotBuildUnderneath();
-        buildMap.cannotBuildInWorkerCell();
-        buildMap.cannotBuildInDomeCell();
+        buildMap.cannotBuildInOccupiedCell();
 
         buildMap.printMap();    //debugging
 
