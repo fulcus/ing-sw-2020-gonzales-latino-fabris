@@ -16,19 +16,15 @@ public class GameController {
     private TurnHandler turnHandler;
     private CLIMainView view;
     private final ViewSelector viewSelector;
-    private boolean endGame;
     private GodController godController;
     private final ArrayList<God> godsDeck;
 
     public GameController() {
         game = null;
-        int numOfPlayers = 0;
         turnHandler = null;
         view = null;
         viewSelector = new ViewSelector();
-        endGame = false;
         godsDeck = new ArrayList<>(14);
-        endGame = false;
     }
 
     public static void main(String[] args) {
@@ -75,17 +71,14 @@ public class GameController {
         turnHandler.startTurnFlow();
     }
 
-    public void setUpObserverView() {
+    private void setUpObserverView() {
 
         for (int i = 0; i < Board.SIDE; i++) {
-
             for (int j = 0; j < Board.SIDE; j++) {
 
-                game.getBoard().findCell(i,j).register(view);
-
+                game.getBoard().findCell(i, j).register(view);
             }
         }
-
 
     }
 
@@ -109,7 +102,7 @@ public class GameController {
         }
     }
 
-    public void setPlayersNicknames(int numberOfPlayers) {
+    private void setPlayersNicknames(int numberOfPlayers) {
 
         int i = 0;
 
@@ -133,13 +126,13 @@ public class GameController {
 
     }
 
-    public boolean colorIsValid(String chosenColor) {
+    private boolean colorIsValid(String chosenColor) {
         return chosenColor.equals(Color.BLUE.name())
                 || chosenColor.equals(Color.BEIGE.name())
                 || chosenColor.equals(Color.WHITE.name());
     }
 
-    public boolean nicknameIsAvailable(String chosenNickname) {
+    private boolean nicknameIsAvailable(String chosenNickname) {
 
         for (Player player : game.getPlayers()) {
 
@@ -151,7 +144,7 @@ public class GameController {
 
     }
 
-    public boolean colorIsAvailable(String chosenColor) {
+    private boolean colorIsAvailable(String chosenColor) {
 
         for (Player player : game.getPlayers()) {
 
@@ -176,7 +169,7 @@ public class GameController {
     /**
      * Creates the deck where we can find the God cards of the game.
      */
-    public void createDeckGods() {
+    private void createDeckGods() {
         godsDeck.add(new Apollo(godController));
         godsDeck.add(new Artemis(godController));
         godsDeck.add(new Athena(godController));
@@ -191,13 +184,6 @@ public class GameController {
         godsDeck.add(new Prometheus(godController));
         godsDeck.add(new Triton(godController));
         godsDeck.add(new Zeus(godController));
-    }
-
-    public void currentPlayerLoses(String loserNickname){view.currentPlayerLoses(loserNickname);}
-
-    public boolean getEndGame() {
-        //todo
-        return endGame;
     }
 
     public Game getGame() {

@@ -223,9 +223,16 @@ public class CLIMainView implements ViewObserver {
                 + winnerNickname + " HAS WON THIS GAME!!!\n\nGAME ENDED\n\nSEE YOU!");
     }
 
-    public void currentPlayerLoses(String loserNickname){
-        System.out.println(loserNickname+ ", Game Over for you!");
+    public void unableToMoveLose(String loserNickname){
+        System.out.println(loserNickname + ", Game Over for you!");
     }
+
+    public void unableToBuildLose(String loserNickname){
+        System.out.println(loserNickname + ", both of your workers can't move anywhere.");
+        System.out.println("You have lose the game.");
+    }
+
+
 
     /**
      * This method prints an updated version of the Board, depending on the Class' parameter "mymap".
@@ -252,7 +259,7 @@ public class CLIMainView implements ViewObserver {
      *
      * @param lineNumber Represents the line which content will be displayed.
      */
-    public void printMapLine(int lineNumber) {
+    private void printMapLine(int lineNumber) {
 
         for (int i = 0; i < Board.SIDE; i++) {
 
@@ -281,23 +288,26 @@ public class CLIMainView implements ViewObserver {
 
             //PLACE of cell (4) that prints eventual presence of a worker with its parameter(SEX;COLOR)
 
+            Worker workerInCell = myBoard.findCell(lineNumber, i).getWorker();
 
-            if (myBoard.findCell(lineNumber, i).getWorker() == null) {
+            if (workerInCell == null) {
                 System.out.printf(" ");
                 System.out.printf(" ");//5
             } else {
 
-                if (myBoard.findCell(lineNumber, i).getWorker().getPlayer().getColor() == Color.BLUE && myBoard.findCell(lineNumber, i).getWorker().getSex() == Sex.MALE)
+                Color workerColor = workerInCell.getPlayer().getColor();
+
+                if (workerColor == Color.BLUE && workerInCell.getSex() == Sex.MALE)
                     System.out.printf("BM");
-                else if (myBoard.findCell(lineNumber, i).getWorker().getPlayer().getColor() == Color.BLUE && myBoard.findCell(lineNumber, i).getWorker().getSex() == Sex.FEMALE)
+                else if (workerColor == Color.BLUE && workerInCell.getSex() == Sex.FEMALE)
                     System.out.printf("BF");
-                else if (myBoard.findCell(lineNumber, i).getWorker().getPlayer().getColor() == Color.WHITE && myBoard.findCell(lineNumber, i).getWorker().getSex() == Sex.MALE)
+                else if (workerColor == Color.WHITE && workerInCell.getSex() == Sex.MALE)
                     System.out.printf("WM");
-                else if (myBoard.findCell(lineNumber, i).getWorker().getPlayer().getColor() == Color.WHITE && myBoard.findCell(lineNumber, i).getWorker().getSex() == Sex.FEMALE)
+                else if (workerColor == Color.WHITE && workerInCell.getSex() == Sex.FEMALE)
                     System.out.printf("WF");
-                else if (myBoard.findCell(lineNumber, i).getWorker().getPlayer().getColor() == Color.BEIGE && myBoard.findCell(lineNumber, i).getWorker().getSex() == Sex.MALE)
+                else if (workerColor == Color.BEIGE && workerInCell.getSex() == Sex.MALE)
                     System.out.printf("bM");
-                else if (myBoard.findCell(lineNumber, i).getWorker().getPlayer().getColor() == Color.BEIGE && myBoard.findCell(lineNumber, i).getWorker().getSex() == Sex.FEMALE)
+                else if (workerColor == Color.BEIGE && workerInCell.getSex() == Sex.FEMALE)
                     System.out.printf("bF");
 
             }
@@ -358,6 +368,34 @@ public class CLIMainView implements ViewObserver {
         }
         System.out.println("\n");
     }
+
+
+    public void selectedWorkerCannotMove(String sex) {
+        sex = sex.toLowerCase();
+        String otherSex;
+
+        if(sex.equals("male"))
+            otherSex = "female";
+        else
+            otherSex = "male";
+
+        System.out.println("Your " + sex + " worker cannot move anywhere. You must move with your "
+                + otherSex + " worker.");
+    }
+
+    public void selectedWorkerCannotBuild(String sex) {
+        sex = sex.toLowerCase();
+        String otherSex;
+
+        if(sex.equals("male"))
+            otherSex = "female";
+        else
+            otherSex = "male";
+
+        System.out.println("Your " + sex + " worker cannot build anywhere. You must build with your "
+                + otherSex + " worker.");
+    }
+
 
 
 }

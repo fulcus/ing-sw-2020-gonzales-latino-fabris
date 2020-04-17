@@ -16,6 +16,8 @@ public class TurnHandler {
     private final ArrayList<Player> players;
     private Player currentPlayer;
     private Integer numberOfPlayers;    //is it updated when game.numberOfPlayers is decreased?
+    int unableToMove;
+    int unableToBuild;
 
     public TurnHandler(Game game, CLIMainView view, GameController gameController) {
         this.game = game;
@@ -24,11 +26,6 @@ public class TurnHandler {
         this.gameController = gameController;
         this.players = game.getPlayers();
         numberOfPlayers = game.getNumberOfPlayers();
-    }
-
-
-    public Player getCurrentPlayer() {
-        return currentPlayer;
     }
 
 
@@ -45,7 +42,7 @@ public class TurnHandler {
         int i = 0;
         while (i < numberOfPlayers) {
 
-            String chosenGod = view.getGodFromChallenger(challenger.getNickname(),i);
+            String chosenGod = view.getGodFromChallenger(challenger.getNickname(), i);
             boolean foundGod = false;
 
             for (God god : godsDeck) {
@@ -78,8 +75,8 @@ public class TurnHandler {
     private void playersChooseGods() {
         //remember: Challenger must be last
         //challenger is the last of arraylist [see Game.randomChallenger()]
-        ArrayList<God> alreadyTakenGods = new ArrayList<God>(numberOfPlayers);
-        boolean foundGod = false;
+        ArrayList<God> alreadyTakenGods = new ArrayList<>(numberOfPlayers);
+        boolean foundGod;
 
         for (Player player : players) {
             foundGod = false;
@@ -108,9 +105,7 @@ public class TurnHandler {
      */
     private void challengerChooseStartPlayer() {
         String startPlayerNick;
-        boolean foundPlayer = false;
         Player startPlayer = null;
-        String challengerNickname = game.getChallenger().getNickname();
 
         while (startPlayer == null) {
 
@@ -148,7 +143,7 @@ public class TurnHandler {
                 positionSet = false;
 
                 while (!positionSet) {
-                    int[] initialPosition = view.askInitialWorkerPosition(worker.getSex(),player.getNickname());
+                    int[] initialPosition = view.askInitialWorkerPosition(worker.getSex(), player.getNickname());
                     int x = initialPosition[0];
                     int y = initialPosition[1];
 
@@ -175,7 +170,9 @@ public class TurnHandler {
 
     }
 
-    public void displayBoard(){view.printMap();}
+    private void displayBoard() {
+        view.printMap();
+    }
 
     protected void setUpTurns() {
         challengerChooseGods();
@@ -187,51 +184,23 @@ public class TurnHandler {
 
     protected void startTurnFlow() {
         int cyclicalCounter = 0;
-        //int cannotMoveCounter = 0;
 
+
+        //noinspection InfiniteLoopStatement
         while (true) {
-
             currentPlayer = players.get(cyclicalCounter);
-
-
-
-            /*
+            unableToMove = 0;
+            unableToBuild = 0;
+        /*
             //if none of currentPlayer's workers can move, lose
             if (!worker1.getMoveMap().anyAvailableMovePosition()
                     && !worker2.getMoveMap().anyAvailableMovePosition())
                 losePlayer();
-            */
+         */
 
             Worker chosenWorker = chooseWorker();
 
-
-            try {
-                currentPlayer.getGod().evolveTurn(chosenWorker);
-            } catch (UnableToMoveException ex) {
-                //cannotMoveCounter++;
-                /*if(cannotMoveCounter == 1)
-                //choose other worker
-                else*/
-
-                gameController.currentPlayerLoses(currentPlayer.getNickname());
-                currentPlayer.lose();
-                displayBoard();
-
-
-            } catch (UnableToBuildException ex) {
-
-                gameController.currentPlayerLoses(currentPlayer.getNickname());
-                currentPlayer.lose();
-                displayBoard();
-
-            } finally {
-                //if everyone else has lost, only player left wins
-                if (players.size() == 1) {
-                    Player winner = players.get(0); //last player left has index 0
-                    winner.getGod().getGodController().winGame(winner.getNickname());
-                }
-            }
-
+            turn(chosenWorker);
 
             cyclicalCounter++;
             if (cyclicalCounter == numberOfPlayers)
@@ -239,6 +208,61 @@ public class TurnHandler {
         }
     }
 
+
+    private void turn(Worker turnWorker) {
+
+        Worker otherWorker = null;
+
+        for (Worker worker : currentPlayer.getWorkers()) {
+            if (worker != turnWorker)
+                otherWorker = worker;
+        }
+
+
+        try {
+            currentPlayer.getGod().evolveTurn(turnWorker);
+        } catch (UnableToMoveException ex) {
+            unableToMove++;
+
+            if (unableToMove == 1) {
+
+                view.selectedWorkerCannotMove(turnWorker.getSex().name());
+                turn(otherWorker);
+
+            } else {
+
+                view.unableToMoveLose(currentPlayer.getNickname());
+                currentPlayer.lose();
+                displayBoard();
+            }
+
+        } catch (UnableToBuildException ex) {
+            unableToBuild++;
+
+            if (unableToBuild == 1) {
+
+                view.selectedWorkerCannotBuild(turnWorker.getSex().name());
+                turn(otherWorker);
+
+            } else {
+
+                view.unableToBuildLose(currentPlayer.getNickname());
+                currentPlayer.lose();   //specify why: unable to build
+                displayBoard();
+            }
+
+        } finally {
+            //if everyone else has lost, only player left wins
+            if (players.size() == 1) {
+                Player winner = players.get(0); //last player left has index 0
+                winner.getGod().getGodController().winGame(winner.getNickname());
+            }
+            unableToMove = 0;    //reset it
+            unableToBuild = 0;
+        }
+
+
+    }
 
 }
 
