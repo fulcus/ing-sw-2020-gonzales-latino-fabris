@@ -158,17 +158,22 @@ public class GodController {
         return chosenEnemy;
     }
 
+
+    /**
+     * The method describes itself
+     */
     public void displayBoard(){gameController.getView().printMap();}
+
 
     /**
      * This method returns the coordinates where a player wants to build and the specific building.
      *
      * @return Coordinates' variation and type of building.
      */
-    public int[] getBuildingInput() {
+    public int[] getBuildingInputAtlas() {
 
         int[] buildingInput = new int[3];
-        String[] playerInput = godView.askBuildingDirection();
+        String[] playerInput = godView.askBuildingDirectionAtlas();
 
         int[] playerInputCoord = getInputInCoordinates(playerInput[0]);
         buildingInput[0] = playerInputCoord[0];
@@ -178,6 +183,24 @@ public class GodController {
             buildingInput[2] = 0;
         else
             buildingInput[2] = 1;
+
+        return buildingInput;
+    }
+
+
+    /**
+     * This method returns the coordinates where a player wants to build and the specific building.
+     *
+     * @return Coordinates' variation and type of building.
+     */
+    public int[] getBuildingInput() {
+
+        int[] buildingInput = new int[2];
+        String playerInput = godView.askBuildingDirection();
+
+        int[] playerInputCoord = getInputInCoordinates(playerInput);
+        buildingInput[0] = playerInputCoord[0];
+        buildingInput[1] = playerInputCoord[1];
 
         return buildingInput;
     }
@@ -263,14 +286,6 @@ public class GodController {
      */
     public void errorBuildScreen() {
         godView.printBuildGeneralErrorScreen();
-    }
-
-
-    /**
-     * Allows to manage the error screen saw by the player when his dome cannot be built
-     */
-    public void errorBuildDomeScreen() {
-        godView.printBuildDomeErrorScreen();
     }
 
 

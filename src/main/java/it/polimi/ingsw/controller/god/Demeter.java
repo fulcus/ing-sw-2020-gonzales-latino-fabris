@@ -41,33 +41,28 @@ public class Demeter extends God {
 
             int xBuild = worker.getPosition().getX() + buildInput[0];
             int yBuild = worker.getPosition().getY() + buildInput[1];
-            int buildType = buildInput[2]; //0 is block, 1 is dome
 
             Cell buildPosition = board.findCell(xBuild, yBuild);
 
-            if(buildMap.isAllowedToBuildBoard(xBuild, yBuild)) {
+            if (buildMap.isAllowedToBuildBoard(xBuild, yBuild)) {
 
-                //build Dome
-                if (buildType == 1) {
 
-                    if (buildPosition.getLevel() == 3) {
-                        worker.buildDome(xBuild, yBuild);
-                        godController.displayBoard();
-                        return buildPosition;
-                    } else {
-                        godController.errorBuildDomeScreen();
-                    }
+                //build Dome  and fix the condition that if the worker wants to build underneath
+                //and the building will be a dome won't be allowed
 
-                } else if (buildType == 0) {    //build Block
-                    if (buildPosition.getLevel() < 3) {
-                        worker.buildBlock(xBuild, yBuild);
-                        godController.displayBoard();
-                        return buildPosition;
-                    } else {
-                        godController.errorBuildBlockScreen();
-                    }
-                } else
-                    godController.errorBuildScreen();
+                if (buildPosition.getLevel() == 3 && !buildPosition.equals(worker.getPosition())) {
+                    worker.buildDome(xBuild, yBuild);
+                    godController.displayBoard();
+                    return buildPosition;
+                }
+
+                //build Block
+                else if (buildPosition.getLevel() < 3) {
+                    worker.buildBlock(xBuild, yBuild);
+                    godController.displayBoard();
+                    return buildPosition;
+                }
+
             } else
                 godController.errorBuildScreen();
         }
@@ -96,35 +91,31 @@ public class Demeter extends God {
             int[] buildInput = godController.getBuildingInput();  //returns build position + type: block/dome
             int xBuild = worker.getPosition().getX() + buildInput[0];
             int yBuild = worker.getPosition().getY() + buildInput[1];
-            int buildType = buildInput[2]; //0 is block, 1 is dome
 
             Cell buildPosition = board.findCell(xBuild, yBuild);
 
             if (buildPosition != firstBuildCell) {
 
-                if(buildMap.isAllowedToBuildBoard(xBuild, yBuild)) {
-                    //build Dome
-                    if (buildType == 1) {
+                if (buildMap.isAllowedToBuildBoard(xBuild, yBuild)) {
 
-                        if (buildPosition.getLevel() == 3) {
-                            worker.buildDome(xBuild, yBuild);
-                            godController.displayBoard();
-                            return;
-                        } else
-                            godController.errorBuildDomeScreen();
+                    //build Dome  and fix the condition that if the worker wants to build underneath
+                    //and the building will be a dome won't be allowed
 
-                    } else if (buildType == 0) {    //build Block
-
-                        if (buildPosition.getLevel() < 3) {
-                            worker.buildBlock(xBuild, yBuild);
-                            godController.displayBoard();
-                            return;
-                        } else
-                            godController.errorBuildBlockScreen();
-
+                    if (buildPosition.getLevel() == 3) {
+                        worker.buildDome(xBuild, yBuild);
+                        godController.displayBoard();
+                        return;
                     }
+
+                    //build Block
+                    else if (buildPosition.getLevel() < 3) {
+                        worker.buildBlock(xBuild, yBuild);
+                        godController.displayBoard();
+                        return;
+                    }
+
                 } else
-                    godController.errorBuildScreen();
+                    godController.errorBuildScreen();   //input is not correct
 
             } else
                 godController.errorBuildInSamePosition();

@@ -73,37 +73,34 @@ public abstract class God {
 
             int xBuild = worker.getPosition().getX() + buildInput[0];
             int yBuild = worker.getPosition().getY() + buildInput[1];
-            int buildType = buildInput[2]; //0 is block, 1 is dome
+            //int buildType = buildInput[2]; //0 is block, 1 is dome
 
             if (buildMap.isAllowedToBuildBoard(xBuild, yBuild)) {
 
 
                 Cell buildPosition = board.findCell(xBuild, yBuild);
 
-                //build Dome
-                if (buildType == 1) {
+                //build Dome  and fix the condition that if the worker wants to build underneath
+                //and the building will be a dome won't be allowed
 
-                    if (buildPosition.getLevel() == 3) {
-                        worker.buildDome(xBuild, yBuild);
-                        godController.displayBoard();
-                        return;
-                    } else
-                        godController.errorBuildDomeScreen();
+                if (buildPosition.getLevel() == 3 && !buildPosition.equals(worker.getPosition())) {
+                    worker.buildDome(xBuild, yBuild);
+                    godController.displayBoard();
+                    return;
+                }
 
-                } else if (buildType == 0) {    //build Block
-                    if (buildPosition.getLevel() < 3) {
-                        worker.buildBlock(xBuild, yBuild);
-                        godController.displayBoard();
-                        return;
-                    } else
-                        godController.errorBuildBlockScreen();
+                //build Block
+                else if (buildPosition.getLevel() < 3) {
+                    worker.buildBlock(xBuild, yBuild);
+                    godController.displayBoard();
+                    return;
+                }
 
-                } else
-                    godController.errorBuildScreen();   //input different than 0 or 1
             } else
-                godController.errorBuildScreen();   //not allowed to build (anything) there
+                godController.errorBuildScreen();   //input different than 0 or 1
         }
     }
+
 
 
     /**

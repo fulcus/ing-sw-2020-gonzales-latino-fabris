@@ -20,7 +20,40 @@ public class GodView {
      *
      * @return The compass direction of the place where to build.
      */
-    public String[] askBuildingDirection() {
+    public String askBuildingDirection() {
+
+        String selectedBuildingDirection;
+
+        System.out.println("Where do you want to build? Insert a cardinal point!");
+
+        while (true) {
+            selectedBuildingDirection = input.nextLine().toUpperCase();
+
+            if (selectedBuildingDirection.equals("N")
+                    || selectedBuildingDirection.equals("NE")
+                    || selectedBuildingDirection.equals("E")
+                    || selectedBuildingDirection.equals("SE")
+                    || selectedBuildingDirection.equals("S")
+                    || selectedBuildingDirection.equals("SW")
+                    || selectedBuildingDirection.equals("W")
+                    || selectedBuildingDirection.equals("NW")
+                    || selectedBuildingDirection.equals("U")) {
+
+                return selectedBuildingDirection;
+
+            } else
+                System.out.println("Invalid Direction. You must use: N, NE, E, SE, S, SW, W, NW (or in special case 'U'");
+
+        }
+    }
+
+
+    /**
+     * This method asks to Atlas' owner to insert the position where he wants to build and what type of building.
+     *
+     * @return The compass direction of the place where to build.
+     */
+    public String[] askBuildingDirectionAtlas() {
 
         String[] selectedBuildingDirection = new String[2];
 
@@ -36,8 +69,7 @@ public class GodView {
                     || selectedBuildingDirection[0].equals("S")
                     || selectedBuildingDirection[0].equals("SW")
                     || selectedBuildingDirection[0].equals("W")
-                    || selectedBuildingDirection[0].equals("NW")
-                    || selectedBuildingDirection[0].equals("U")) {
+                    || selectedBuildingDirection[0].equals("NW")) {
 
                 while (true) {
                     System.out.println("Now tell me what do you want to build: type  <B> for Block or <D> for Dome: ");
@@ -313,14 +345,6 @@ public class GodView {
     public void printBuildGeneralErrorScreen() {
         System.out.println("You're not allowed to build!");
 
-    }
-
-
-    /**
-     * Points out a player is not allowed to build a dome in a certain position.
-     */
-    public void printBuildDomeErrorScreen() {
-        System.out.println("You're not allowed to build a DOME there.");
     }
 
 

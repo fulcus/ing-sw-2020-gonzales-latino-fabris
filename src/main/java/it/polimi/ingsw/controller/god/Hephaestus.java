@@ -49,32 +49,28 @@ public class Hephaestus extends God {
 
             int xBuild = buildInput[0];
             int yBuild = buildInput[1];
-            int buildType = buildInput[2]; //0 is block, 1 is dome
 
             Cell buildPosition = board.findCell(xBuild, yBuild);
 
-            if(buildMap.isAllowedToBuildBoard(xBuild, yBuild)) {
-                //build Dome
-                if (buildType == 1) {
+            if (buildMap.isAllowedToBuildBoard(xBuild, yBuild)) {
 
-                    if (buildPosition.getLevel() == 3) {
-                        worker.buildDome(xBuild, yBuild);
-                        godController.displayBoard();
-                        return buildPosition;
-                    } else {
-                        godController.errorBuildDomeScreen();
-                    }
 
-                } else if (buildType == 0) {    //build Block
-                    if (buildPosition.getLevel() < 3) {
-                        worker.buildBlock(xBuild, yBuild);
-                        godController.displayBoard();
-                        return buildPosition;
-                    } else {
-                        godController.errorBuildBlockScreen();
-                    }
-                } else
-                    godController.errorBuildScreen();
+                //build Dome  and fix the condition that if the worker wants to build underneath
+                //and the building will be a dome won't be allowed
+
+                if (buildPosition.getLevel() == 3) {
+                    worker.buildDome(xBuild, yBuild);
+                    godController.displayBoard();
+                    return buildPosition;
+                }
+
+                //build Block
+                else if (buildPosition.getLevel() < 3) {
+                    worker.buildBlock(xBuild, yBuild);
+                    godController.displayBoard();
+                    return buildPosition;
+                }
+
             } else
                 godController.errorBuildScreen();
         }
