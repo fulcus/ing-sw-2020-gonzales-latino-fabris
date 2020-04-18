@@ -240,8 +240,8 @@ public class CLIMainView implements ViewObserver {
      */
     public void printMap() {
 
-        final String LINE_SEPARATOR = CliColor.Background_Bright_Green + "+------+------+------+------+------+" +CliColor.BACKGROUND_RESET +"%n";
-        final String SPACE_SEPARATOR = CliColor.Background_Bright_Green + "+      +      +      +      +      +" + CliColor.BACKGROUND_RESET + "%n";
+        final String LINE_SEPARATOR = CliColor.ANSI_GREEN + "+-------+-------+-------+-------+-------+" +CliColor.COLOR_RESET +"%n";
+        final String SPACE_SEPARATOR = CliColor.ANSI_GREEN + "+       +       +       +       +       +" + CliColor.COLOR_RESET + "%n";
 
         for (int i = 0; i < Board.SIDE; i++) {
 
@@ -266,7 +266,7 @@ public class CLIMainView implements ViewObserver {
         for (int i = 0; i < Board.SIDE; i++) {
 
             boolean additionalSpace = true;
-            System.out.printf(CliColor.Background_Bright_Green + "+");
+            System.out.printf(CliColor.ANSI_GREEN + "+" +CliColor.COLOR_RESET);
             System.out.printf(" ");//1
 
             //Place where eventual buildings will be printed
@@ -287,6 +287,7 @@ public class CLIMainView implements ViewObserver {
             //SPACE
 
             System.out.printf(" ");//3
+            System.out.printf(" ");//3bis
 
 
             //PLACE of cell (4) that prints eventual presence of a worker with its parameter(SEX;COLOR)
@@ -302,27 +303,27 @@ public class CLIMainView implements ViewObserver {
                 Color workerColor = workerInCell.getPlayer().getColor();
 
                 if (workerColor == Color.BLUE && workerInCell.getSex() == Sex.MALE)
-                    System.out.printf(CliColor.Background_Bright_Blue + " M⃣ " + CliColor.BACKGROUND_RESET);
+                    System.out.printf(CliColor.ANSI_BLUE + " M⃣ " + CliColor.COLOR_RESET);
                 else if (workerColor == Color.BLUE && workerInCell.getSex() == Sex.FEMALE)
-                    System.out.printf(CliColor.Background_Bright_Blue + " F⃣ " + CliColor.BACKGROUND_RESET);
+                    System.out.printf(CliColor.ANSI_BLUE + " F⃣ " + CliColor.COLOR_RESET);
                 else if (workerColor == Color.WHITE && workerInCell.getSex() == Sex.MALE)
-                    System.out.printf(CliColor.Background_White + " M⃣ " + CliColor.BACKGROUND_RESET);
+                    System.out.printf(CliColor.ANSI_WHITE+ " M⃣ " + CliColor.COLOR_RESET);
                 else if (workerColor == Color.WHITE && workerInCell.getSex() == Sex.FEMALE)
-                    System.out.printf(CliColor.Background_White + " F⃣ " + CliColor.BACKGROUND_RESET);
+                    System.out.printf(CliColor.ANSI_WHITE + " F⃣ " + CliColor.COLOR_RESET);
                 else if (workerColor == Color.BEIGE && workerInCell.getSex() == Sex.MALE)
-                    System.out.printf(CliColor.Background_Beige + " M⃣ " + CliColor.BACKGROUND_RESET);
+                    System.out.printf(CliColor.ANSI_BEIGE + " M⃣ " + CliColor.COLOR_RESET);
                 else if (workerColor == Color.BEIGE && workerInCell.getSex() == Sex.FEMALE)
-                    System.out.printf(CliColor.Background_Beige + " F⃣ " + CliColor.BACKGROUND_RESET);
+                    System.out.printf(CliColor.ANSI_BEIGE + " F⃣ " + CliColor.COLOR_RESET);
 
             }
 
             if(additionalSpace)
-                System.out.printf(CliColor.Background_Bright_Green+" ");//6
+                System.out.printf(" ");//6
 
 
         }
 
-        System.out.printf(CliColor.Background_Bright_Green+ "+" + CliColor.BACKGROUND_RESET);
+        System.out.printf(CliColor.ANSI_GREEN+ "+" + CliColor.COLOR_RESET);
         System.out.printf("%n");
 
     }
