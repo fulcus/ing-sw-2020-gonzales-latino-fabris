@@ -47,7 +47,9 @@ public class CLIMainView implements ViewObserver {
 
         String startString;
 
-        System.out.println("WELCOME TO SANTORINI");
+        System.out.println("WELCOME TO ");
+
+        santoriniAscii();
 
         do {
 
@@ -83,6 +85,38 @@ public class CLIMainView implements ViewObserver {
             }
         }
     }
+
+
+
+    private void santoriniAscii() {
+        /*
+        System.out.println("      ___           ___           ___                       ___           ___                       ___                 ");
+        System.out.println("     /  /\\         /  /\\         /__/\\          ___        /  /\\         /  /\\        ___          /__/\\        ___     ");
+        System.out.println("    /  /:/_       /  /::\\        \\  \\:\\        /  /\\      /  /::\\       /  /::\\      /  /\\         \\  \\:\\      /  /\\    ");
+        System.out.println("   /  /:/ /\\     /  /:/\\:\\        \\  \\:\\      /  /:/     /  /:/\\:\\     /  /:/\\:\\    /  /:/          \\  \\:\\    /  /:/    ");
+        System.out.println("  /  /:/ /::\\   /  /:/~/::\\   _____\\__\\:\\    /  /:/     /  /:/  \\:\\   /  /:/~/:/   /__/::\\      _____\\__\\:\\  /__/::\\    ");
+        System.out.println(" /__/:/ /:/\\:\\ /__/:/ /:/\\:\\ /__/::::::::\\  /  /::\\    /__/:/ \\__\\:\\ /__/:/ /:/___ \\__\\/\\:\\__  /__/::::::::\\ \\__\\/\\:\\__ ");
+        System.out.println(" \\  \\:\\/:/~/:/ \\  \\:\\/:/__\\/ \\  \\:\\~~\\~~\\/ /__/:/\\:\\   \\  \\:\\ /  /:/ \\  \\:\\/:::::/    \\  \\:\\/\\ \\  \\:\\~~\\~~\\/    \\  \\:\\/\\");
+        System.out.println("  \\  \\::/ /:/   \\  \\::/       \\  \\:\\  ~~~  \\__\\/  \\:\\   \\  \\:\\  /:/   \\  \\::/~~~~      \\__\\::/  \\  \\:\\  ~~~      \\__\\::/");
+        System.out.println("   \\__\\/ /:/     \\  \\:\\        \\  \\:\\           \\  \\:\\   \\  \\:\\/:/     \\  \\:\\          /__/:/    \\  \\:\\          /__/:/ ");
+        System.out.println("     /__/:/       \\  \\:\\        \\  \\:\\           \\__\\/    \\  \\::/       \\  \\:\\         \\__\\/      \\  \\:\\         \\__\\/  ");
+        System.out.println("     \\__\\/         \\__\\/         \\__\\/                     \\__\\/         \\__\\/                     \\__\\/                ");
+        System.out.println("\n\n\n");
+*/
+        System.out.println("███████╗ █████╗ ███╗   ██╗████████╗ ██████╗ ██████╗ ██╗███╗   ██╗██╗");
+        System.out.println("██╔════╝██╔══██╗████╗  ██║╚══██╔══╝██╔═══██╗██╔══██╗██║████╗  ██║██║");
+        System.out.println("███████╗███████║██╔██╗ ██║   ██║   ██║   ██║██████╔╝██║██╔██╗ ██║██║");
+        System.out.println("╚════██║██╔══██║██║╚██╗██║   ██║   ██║   ██║██╔══██╗██║██║╚██╗██║██║");
+        System.out.println("███████║██║  ██║██║ ╚████║   ██║   ╚██████╔╝██║  ██║██║██║ ╚████║██║");
+        System.out.println("╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝╚═╝");
+        System.out.println("");
+
+
+
+
+    }
+
+
 
 
     /**
@@ -153,21 +187,24 @@ public class CLIMainView implements ViewObserver {
         System.out.println("Your god is not available or has been already chosen.");
     }
 
-
-    public String getGodFromChallenger(String nickname, int n) {
+    public void printChallenger(String challengerNickname) {
         int numOfPlayers = myController.getGame().getNumberOfPlayers();
-        System.out.println(nickname + ", you are the Challenger.\nSelect "
+        System.out.println(challengerNickname + ", you are the Challenger. Select "
                 + numOfPlayers + " Gods for this game.");
+
+    }
+
+    public String getGodFromChallenger(int n) {
+        int numOfPlayers = myController.getGame().getNumberOfPlayers();
         System.out.println(numOfPlayers - n + " Gods left to choose.");
 
         return input.nextLine();
-
 
     }
 
     public String challengerChooseStartPlayer(String challengerNickname) {
 
-        System.out.println(challengerNickname + ", choose the first player to start! Type his nickname:");
+        System.out.println("\n" +challengerNickname + ", choose the first player to start! Type his nickname:");
 
         return input.nextLine();
 
@@ -261,8 +298,6 @@ public class CLIMainView implements ViewObserver {
      */
     private void printMapLine(int lineNumber) {
 
-
-
         for (int i = 0; i < Board.SIDE; i++) {
 
             boolean additionalSpace = true;
@@ -350,7 +385,7 @@ public class CLIMainView implements ViewObserver {
 
         for (God god : godsDeck) {
 
-            System.out.println(god.getClass().getSimpleName() + ":");
+            System.out.println(god + ":");
             System.out.println(god.getDescription() + "\n");
 
         }
@@ -366,13 +401,21 @@ public class CLIMainView implements ViewObserver {
 
     public void printChosenGods() {
 
+        ArrayList<God> chosenGods = myController.getGame().getChosenGods();
         System.out.print("Available Gods: ");
 
-        for (God god : myController.getGame().getChosenGods()) {
+        int index = 0;
 
-            System.out.print(god.getClass().getSimpleName() + " ");
+        for (God god : chosenGods) {
+            index++;
+            System.out.print(god);
+
+            if(index < chosenGods.size())
+                System.out.print(", ");
+            else
+                System.out.println();
         }
-        System.out.println("\n");
+        System.out.println("");
     }
 
 

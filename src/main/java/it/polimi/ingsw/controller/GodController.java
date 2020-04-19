@@ -214,16 +214,16 @@ public class GodController {
      */
     public boolean wantToBuildAgain(God god) {
         String answer = null;
-        if (god.getClass().getSimpleName().equals("Hephaestus"))
+        if (god.toString().equals("Hephaestus"))
             answer = godView.askBuildAgainHephaestus();
 
-        if (god.getClass().getSimpleName().equals("Demeter"))
+        if (god.toString().equals("Demeter"))
             answer = godView.askBuildAgainDemeter();
 
-        if (god.getClass().getSimpleName().equals("Hestia"))
+        if (god.toString().equals("Hestia"))
             answer = godView.askBuildAgainHestia();
 
-        if (god.getClass().getSimpleName().equals("Prometheus"))
+        if (god.toString().equals("Prometheus"))
             answer = godView.askBuildPrometheus();
 
         return answer.equals("Y");
