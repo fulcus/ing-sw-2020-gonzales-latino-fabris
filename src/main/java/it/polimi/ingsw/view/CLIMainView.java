@@ -89,30 +89,14 @@ public class CLIMainView implements ViewObserver {
 
 
     private void santoriniAscii() {
-        /*
-        System.out.println("      ___           ___           ___                       ___           ___                       ___                 ");
-        System.out.println("     /  /\\         /  /\\         /__/\\          ___        /  /\\         /  /\\        ___          /__/\\        ___     ");
-        System.out.println("    /  /:/_       /  /::\\        \\  \\:\\        /  /\\      /  /::\\       /  /::\\      /  /\\         \\  \\:\\      /  /\\    ");
-        System.out.println("   /  /:/ /\\     /  /:/\\:\\        \\  \\:\\      /  /:/     /  /:/\\:\\     /  /:/\\:\\    /  /:/          \\  \\:\\    /  /:/    ");
-        System.out.println("  /  /:/ /::\\   /  /:/~/::\\   _____\\__\\:\\    /  /:/     /  /:/  \\:\\   /  /:/~/:/   /__/::\\      _____\\__\\:\\  /__/::\\    ");
-        System.out.println(" /__/:/ /:/\\:\\ /__/:/ /:/\\:\\ /__/::::::::\\  /  /::\\    /__/:/ \\__\\:\\ /__/:/ /:/___ \\__\\/\\:\\__  /__/::::::::\\ \\__\\/\\:\\__ ");
-        System.out.println(" \\  \\:\\/:/~/:/ \\  \\:\\/:/__\\/ \\  \\:\\~~\\~~\\/ /__/:/\\:\\   \\  \\:\\ /  /:/ \\  \\:\\/:::::/    \\  \\:\\/\\ \\  \\:\\~~\\~~\\/    \\  \\:\\/\\");
-        System.out.println("  \\  \\::/ /:/   \\  \\::/       \\  \\:\\  ~~~  \\__\\/  \\:\\   \\  \\:\\  /:/   \\  \\::/~~~~      \\__\\::/  \\  \\:\\  ~~~      \\__\\::/");
-        System.out.println("   \\__\\/ /:/     \\  \\:\\        \\  \\:\\           \\  \\:\\   \\  \\:\\/:/     \\  \\:\\          /__/:/    \\  \\:\\          /__/:/ ");
-        System.out.println("     /__/:/       \\  \\:\\        \\  \\:\\           \\__\\/    \\  \\::/       \\  \\:\\         \\__\\/      \\  \\:\\         \\__\\/  ");
-        System.out.println("     \\__\\/         \\__\\/         \\__\\/                     \\__\\/         \\__\\/                     \\__\\/                ");
-        System.out.println("\n\n\n");
-*/
+
         System.out.println("███████╗ █████╗ ███╗   ██╗████████╗ ██████╗ ██████╗ ██╗███╗   ██╗██╗");
         System.out.println("██╔════╝██╔══██╗████╗  ██║╚══██╔══╝██╔═══██╗██╔══██╗██║████╗  ██║██║");
         System.out.println("███████╗███████║██╔██╗ ██║   ██║   ██║   ██║██████╔╝██║██╔██╗ ██║██║");
         System.out.println("╚════██║██╔══██║██║╚██╗██║   ██║   ██║   ██║██╔══██╗██║██║╚██╗██║██║");
         System.out.println("███████║██║  ██║██║ ╚████║   ██║   ╚██████╔╝██║  ██║██║██║ ╚████║██║");
         System.out.println("╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝╚═╝");
-        System.out.println("");
-
-
-
+        System.out.println();
 
     }
 
@@ -204,7 +188,7 @@ public class CLIMainView implements ViewObserver {
 
     public String challengerChooseStartPlayer(String challengerNickname) {
 
-        System.out.println("\n" +challengerNickname + ", choose the first player to start! Type his nickname:");
+        System.out.println("\n" + challengerNickname + ", choose the first player to start! Type his nickname:");
 
         return input.nextLine();
 

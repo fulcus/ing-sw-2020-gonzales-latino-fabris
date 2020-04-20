@@ -160,9 +160,9 @@ public class GodController {
 
 
     /**
-     * The method describes itself
+     * Prompts the view to print the board.
      */
-    public void displayBoard(){gameController.getView().printMap();}
+    public void displayBoard(){gameController.getClientView().printMap();}
 
 
     /**
@@ -240,7 +240,7 @@ public class GodController {
      */
     //TODO forse questo è possibile rivederlo - da mettere che non si interfacci con la view direttamente, ma col gameController??
     public void winGame(String winnerNickname) {
-        gameController.getView().winningView(winnerNickname);
+        gameController.getClientView().winningView(winnerNickname);
         System.exit(0);
     }
 
