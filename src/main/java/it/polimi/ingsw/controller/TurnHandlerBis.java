@@ -1,7 +1,6 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.controller.god.God;
-
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Worker;
@@ -9,9 +8,9 @@ import it.polimi.ingsw.view.CLIMainView;
 
 import java.util.ArrayList;
 
-public class TurnHandler {
+public class TurnHandlerBis {
     private final Game game;
-    private final CLIMainView view;
+    private ClientView view;
     private final GameController gameController;
     private final ArrayList<Player> players;
     private Player currentPlayer;
@@ -19,10 +18,10 @@ public class TurnHandler {
     int unableToMove;
     int unableToBuild;
 
-    public TurnHandler(Game game, CLIMainView view, GameController gameController) {
+    public TurnHandlerBis(Game game, GameController gameController) {
         this.game = game;
         currentPlayer = null;
-        this.view = view;
+        this.view = null;
         this.gameController = gameController;
         this.players = game.getPlayers();
         numberOfPlayers = game.getNumberOfPlayers();
@@ -34,24 +33,26 @@ public class TurnHandler {
      */
     private void challengerChooseGods() {
         Player challenger = game.getChallenger();
-        view.printAllGods(gameController.getGodsDeck());
+        gameController.getGodController().updateCurrentClient();
+
+        ///////////////
+
+        currentPlayer.getVirtualClient().printAllGods(gameController.getGodsDeck());
 
         ArrayList<God> godsDeck = gameController.getGodsDeck();
 
         //lets challenger select the gods
         int i = 0;
-        view.printChallenger(challenger.getNickname());
-
         while (i < numberOfPlayers) {
 
-            String chosenGodName = view.getGodFromChallenger(i);
+            String chosenGod = view.getGodFromChallenger(challenger.getNickname(), i);
             boolean foundGod = false;
 
             for (God god : godsDeck) {
 
-                String godName = god.toString().toLowerCase();
+                String godName = god.getClass().getSimpleName().toLowerCase();
 
-                if (chosenGodName.toLowerCase().equals(godName)
+                if (chosenGod.toLowerCase().equals(godName)
                         && !game.getChosenGods().contains(god)) {
 
                     game.addGodChosenByChallenger(god);
@@ -63,10 +64,11 @@ public class TurnHandler {
             if (foundGod)
                 i++;
             else
-                view.challengerError(); //print: the god you typed doesnt exist
+                currentPlayer.getView().challengerError(); //print: the god you typed doesnt exist
         }
 
-        view.printChosenGods();
+        //forall players views
+        getView().printChosenGods();
         //print: these are the gods chosen by the challenger + list chosenGods
 
     }
@@ -83,10 +85,10 @@ public class TurnHandler {
         for (Player player : players) {
             foundGod = false;
             while (!foundGod) {
-                String inputGod = view.askPlayerGod(player.getNickname());
+                String inputGod = currentPlayer.getView().askPlayerGod(player.getNickname());
 
                 for (God god : game.getChosenGods()) {
-                    String godName = god.toString().toLowerCase();
+                    String godName = god.getClass().getSimpleName().toLowerCase();
                     if (inputGod.toLowerCase().equals(godName) && !alreadyTakenGods.contains(god)) {
                         player.setGod(god);
                         alreadyTakenGods.add(god);
@@ -95,7 +97,7 @@ public class TurnHandler {
 
                 }
                 if (!foundGod)
-                    view.playerChoseInvalidGod();
+                    currentPlayer.getView().playerChoseInvalidGod();
             }
         }
     }
@@ -201,6 +203,7 @@ public class TurnHandler {
          */
 
             Worker chosenWorker = chooseWorker();
+
             turn(chosenWorker);
 
             cyclicalCounter++;
@@ -270,4 +273,3 @@ public class TurnHandler {
         return currentPlayer;
     }
 }
-

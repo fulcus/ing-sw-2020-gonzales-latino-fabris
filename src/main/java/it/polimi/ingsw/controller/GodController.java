@@ -11,17 +11,24 @@ import java.util.ArrayList;
  * Manages IO of Gods.
  */
 public class GodController {
-    private final GodView godView;
 
+    private final GodView godView;
     private final GameController gameController;
+    private ClientView clientView;
+
 
 
     public GodController(GodView godView, GameController gameController) {
 
         this.godView = godView;
         this.gameController = gameController;
+        clientView = null;
     }
 
+
+    public void updateCurrentClient() {
+        clientView = gameController.getTurnHandler().getCurrentPlayer().getClient();
+    }
 
 
     /**
@@ -100,6 +107,7 @@ public class GodController {
     public int[] getInputMove() {
 
         return getInputInCoordinates(godView.askMovementDirection());
+        // return getInputInCoordinates(clientView.askMovementDirection());
     }
 
 
@@ -110,6 +118,7 @@ public class GodController {
      */
     public boolean wantToMoveAgain() {
         return godView.askMoveAgain().equals("Y");
+        //return clientView.askMoveAgain().equals("Y");
     }
 
     /**
@@ -119,6 +128,7 @@ public class GodController {
     public boolean wantToMoveUp() {
 
         String answer = godView.askWantToMoveUp();
+        //String answer = clientView.askWantToMoveUp();
         return answer.equals("Y");
 
     }
@@ -131,6 +141,7 @@ public class GodController {
      */
     public boolean wantToMoveEnemy() {
         String answer = godView.askWantToMoveEnemy();
+        //String answer = clientView.askWantToMoveEnemy();
         return answer.equals("Y");
     }
 
@@ -143,7 +154,8 @@ public class GodController {
      * @return The worker the player has chosen to move.
      */
     public Worker ForceMoveEnemy(ArrayList<Worker> enemyWorkers, Worker worker) {
-        String workerToMoveCompassPosition = godView.askWorkerToMove(enemyWorkers, worker);//
+        String workerToMoveCompassPosition = godView.askWorkerToMove(enemyWorkers, worker);
+        //String workerToMoveCompassPosition = clientView.askWorkerToMove(enemyWorkers, worker);
 
         if (workerToMoveCompassPosition == null)
             return null;
@@ -162,6 +174,8 @@ public class GodController {
     /**
      * Prompts the view to print the board.
      */
+    //TODO: probabilmente da modificare perchè c'è getView
+    public void displayBoard(){gameController.getView().printMap();}
     public void displayBoard(){gameController.getClientView().printMap();}
 
 
@@ -174,6 +188,7 @@ public class GodController {
 
         int[] buildingInput = new int[3];
         String[] playerInput = godView.askBuildingDirectionAtlas();
+        //String[] playerInput = clientView.askBuildingDirectionAtlas();
 
         int[] playerInputCoord = getInputInCoordinates(playerInput[0]);
         buildingInput[0] = playerInputCoord[0];
@@ -197,6 +212,7 @@ public class GodController {
 
         int[] buildingInput = new int[2];
         String playerInput = godView.askBuildingDirection();
+        //String playerInput = clientView.askBuildingDirection();
 
         int[] playerInputCoord = getInputInCoordinates(playerInput);
         buildingInput[0] = playerInputCoord[0];
@@ -216,15 +232,19 @@ public class GodController {
         String answer = null;
         if (god.toString().equals("Hephaestus"))
             answer = godView.askBuildAgainHephaestus();
+            // answer = clientView.askBuildAgainHephaestus();
 
         if (god.toString().equals("Demeter"))
             answer = godView.askBuildAgainDemeter();
+            // answer = clientView.askBuildAgainDemeter();
 
         if (god.toString().equals("Hestia"))
             answer = godView.askBuildAgainHestia();
+            // answer = clientView.askBuildAgainHestia();
 
         if (god.toString().equals("Prometheus"))
             answer = godView.askBuildPrometheus();
+            // answer = clientView.askBuildPrometheus();
 
         return answer.equals("Y");
     }
@@ -250,6 +270,7 @@ public class GodController {
      */
     public void errorMoveScreen() {
         godView.printMoveErrorScreen();
+        //clientView.printMoveErrorScreen();
     }
 
 
@@ -259,7 +280,9 @@ public class GodController {
      * @return True if the player wants to retry.
      */
     public boolean errorMoveDecisionScreen() {
+
         return godView.printMoveDecisionError().equals("Y");
+        // return clientView.printMoveDecisionError().equals("Y");
     }
 
 
@@ -270,6 +293,7 @@ public class GodController {
      */
     public boolean errorBuildDecisionScreen() {
         return godView.printBuildDecisionError().equals("Y");
+        // return clientView.printBuildDecisionError().equals("Y");
     }
 
 
@@ -278,6 +302,7 @@ public class GodController {
      */
     public void errorBuildInSamePosition() {
         godView.printBuildInSamePositionScreen();
+        // clientView.printBuildInSamePositionScreen();
     }
 
 
@@ -286,6 +311,7 @@ public class GodController {
      */
     public void errorBuildScreen() {
         godView.printBuildGeneralErrorScreen();
+        // clientView.printBuildGeneralErrorScreen();
     }
 
 
@@ -294,6 +320,7 @@ public class GodController {
      */
     public void errorBuildBlockScreen() {
         godView.printBuildBlockErrorScreen();
+        // clientView.printBuildBlockErrorScreen();
     }
 
 }

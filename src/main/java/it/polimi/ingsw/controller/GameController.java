@@ -33,7 +33,7 @@ public class GameController {
      */
     private void setUpGame() {
 
-        String viewType = viewSelector.askTypeofView();//TODO this method is directly called by the client
+        String viewType = viewSelector.askTypeofView();
 
         if (viewType.toUpperCase().equals("CLI"))
             clientView = new VirtualClient(this);
@@ -65,7 +65,6 @@ public class GameController {
 
         turnHandler.startTurnFlow();
     }
-
 
     private void setUpObserverView() {
 
