@@ -5,6 +5,7 @@ import it.polimi.ingsw.controller.god.*;
 import it.polimi.ingsw.view.*;
 
 
+import java.net.Socket;
 import java.util.ArrayList;
 
 /**
@@ -14,7 +15,6 @@ public class GameController {
 
     private Game game;
     private TurnHandler turnHandler;
-    private final ArrayList<VirtualClient> clientViews;
     private final ViewSelector viewSelector;
     private GodController godController;
     private final ArrayList<God> godsDeck;
@@ -22,7 +22,6 @@ public class GameController {
     public GameController() {
         game = null;
         turnHandler = null;
-        clientViews = new ArrayList<>(3);
         viewSelector = new ViewSelector();
         godsDeck = new ArrayList<>(14);
     }
@@ -34,7 +33,7 @@ public class GameController {
      */
     private void setUpGame() {
 
-        String viewType = viewSelector.askTypeofView();
+        String viewType = viewSelector.askTypeofView();//TODO this method is directly called by the client
 
         if (viewType.toUpperCase().equals("CLI"))
             clientView = new VirtualClient(this);
@@ -67,6 +66,7 @@ public class GameController {
         turnHandler.startTurnFlow();
     }
 
+
     private void setUpObserverView() {
 
         for (int i = 0; i < Board.SIDE; i++) {
@@ -78,6 +78,16 @@ public class GameController {
 
     }
 
+
+    public void firstClientSetsGame(VirtualClient firstClient){
+
+        firstClient.askTypeOfView();
+
+        int numberOfPlayers = firstClient.askNumberOfPlayers();
+
+        game = new Game(numberOfPlayers);
+
+    }
     public void setPlayersColors() {
 
         for (Player player : game.getPlayers()) {
@@ -98,7 +108,7 @@ public class GameController {
         }
     }
 
-    private void setPlayersNicknames(int numberOfPlayers) {
+    private void setPlayerNicknames() {
 
         int i = 0;
 
@@ -185,6 +195,10 @@ public class GameController {
     public Game getGame() {
         return game;
     }
+
+    public ArrayList<VirtualClient> getClientViews() { return clientViews; }
+
+
 
 }
 

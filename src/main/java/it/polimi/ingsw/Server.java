@@ -1,5 +1,6 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.view.VirtualClient;
 
 import java.io.IOException;
@@ -7,28 +8,43 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 
-public class Server
-{
+public class Server {
     public final static int SOCKET_PORT = 7777;
+    private static GameController gameController;
+    private int maxNumberOfClients;
+
+    public Server() {
+        gameController = new GameController();
+
+    }
 
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
+
+        int connectedClients = 0;
         ServerSocket socket;
+
         try {
             socket = new ServerSocket(SOCKET_PORT);
         } catch (IOException e) {
+
             System.out.println("cannot open server socket");
             System.exit(1);
             return;
+
         }
 
+
         while (true) {
+
             try {
                 /* accepts connections; for every connection we accept,
                  * create a new Thread executing a ClientHandler */
                 Socket client = socket.accept();
+                joinGame(client);
+
                 VirtualClient clientHandler = new VirtualClient(client);
+
 
                 //separate clienthandler class vs virtualClient
                 Thread thread = new Thread(clientHandler, "server_" + client.getInetAddress());
@@ -36,27 +52,24 @@ public class Server
             } catch (IOException e) {
                 System.out.println("connection dropped");
             }
+
         }
     }
 
 
-
     //called by server right after accept
-    public void joinGame() {
-        //create clientView
-        clientViews.add(new VirtualClient()); //fare check se può essere accolto da game o è full
+    private static int joinGame(Socket joiningClientSocket) {
 
-        //connect to existing game
-        //or create new one :
+        VirtualClient joiningClient = new VirtualClient(joiningClientSocket);
+
+        if (gameController.getGame() == null)
+            gameController.firstClientSetsGame(joiningClient);
 
 
+        else
+            gameController.getClientViews().add(joiningClient);
 
-        /*
-         * if(gameExists)
-         *   join();
-         * else
-         *   setUpGame();
-         * */
+
 
 
     }

@@ -20,6 +20,10 @@ public class VirtualClient implements Runnable {
     }
 
 
+    public String askTypeOfView(){
+
+    }
+
     /**
      * This method displays to the user Initial Game Interface
      */
