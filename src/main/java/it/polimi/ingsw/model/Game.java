@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.god.*;
+import it.polimi.ingsw.view.VirtualClient;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -30,13 +31,17 @@ public class Game {
     /**
      *  Adds a new player to the game and chooses challenger if target number of players has been reached.
      * @param nickname Nickname chosen by the player.
+     * @return player that was just created.
      */
     //view checks that nickname and color aren't already taken
-    public void addPlayer(String nickname) {
-        players.add(new Player(this, nickname));
+    public Player addPlayer(String nickname, VirtualClient clientView) {
+        Player newPlayer = new Player(this, nickname, clientView);
+        players.add(newPlayer);
 
         if(players.size() == numberOfPlayers)
             randomChallenger();
+
+        return newPlayer;
     }
 
     /**

@@ -5,7 +5,6 @@ import it.polimi.ingsw.controller.god.*;
 import it.polimi.ingsw.view.*;
 
 
-import java.net.Socket;
 import java.util.ArrayList;
 
 /**
@@ -15,121 +14,117 @@ public class GameController {
 
     private Game game;
     private TurnHandler turnHandler;
-    private final ViewSelector viewSelector;
+    //private final ViewSelector viewSelector;
     private GodController godController;
     private final ArrayList<God> godsDeck;
 
     public GameController() {
         game = null;
         turnHandler = null;
-        viewSelector = new ViewSelector();
+        //viewSelector = new ViewSelector();
         godsDeck = new ArrayList<>(14);
     }
-
 
 
     /**
      * Sets up game and starts the logic flow.
      */
-    private void setUpGame() {
+    public void setUpGame(VirtualClient firstClient) {
 
+
+        /*
         String viewType = viewSelector.askTypeofView();
 
         if (viewType.toUpperCase().equals("CLI"))
-            clientView = new VirtualClient(this);
-        /*
+
         else if(viewType.toUpperCase().equals("GUI"))
             view = new GUIMainView(this);
         else
             viewSelector.genericError();
         */
 
-        godController = new GodController(clientView.getGodView(), this);
+        godController = new GodController(this);
         createDeckGods();
 
-        clientView.beginningView();
+        firstClient.beginningView();
 
-        int numOfPlayers = clientView.askNumberOfPlayers();
+        int numOfPlayers = firstClient.askNumberOfPlayers();
 
         game = new Game(numOfPlayers);
 
-        turnHandler = new TurnHandler(game, clientView, this);
+        turnHandler = new TurnHandler(game, this);
 
-        setUpObserverView();
-
-        setPlayersNicknames(numOfPlayers);
-
-        setPlayersColors();
-
-        turnHandler.setUpTurns();
-
-        turnHandler.startTurnFlow();
+        addPlayer(firstClient);
     }
 
-    private void setUpObserverView() {
+
+    public void addPlayer(VirtualClient client) {
+        setUpObserverView(client);
+
+        setPlayerNickname(client);
+        setPlayerColor(client);
+
+        if(game.getPlayers().size() == game.getNumberOfPlayers()) {
+            turnHandler.setUpTurns();
+            turnHandler.startTurnFlow();
+        }
+    }
+
+
+
+
+
+
+
+
+    //todo alberto
+    private void setUpObserverView(VirtualClient client) {
 
         for (int i = 0; i < Board.SIDE; i++) {
             for (int j = 0; j < Board.SIDE; j++) {
 
-                game.getBoard().findCell(i, j).register(clientView);
+                game.getBoard().findCell(i, j).register(client);
             }
         }
 
     }
 
 
-    public void firstClientSetsGame(VirtualClient firstClient){
+    private void setPlayerNickname(VirtualClient client) {
 
-        firstClient.askTypeOfView();
+        while (true) {
 
-        int numberOfPlayers = firstClient.askNumberOfPlayers();
+            String chosenNickname = client.askPlayerNickname();
 
-        game = new Game(numberOfPlayers);
-
-    }
-    public void setPlayersColors() {
-
-        for (Player player : game.getPlayers()) {
-
-            boolean colorCorrectlyChosen = false;
-
-            while (!colorCorrectlyChosen) {
-
-                String chosenColor = clientView.askPlayerColor(player.getNickname());
-
-                if (colorIsAvailable(chosenColor) && colorIsValid(chosenColor)) {
-                    player.setColor(Color.StringToColor(chosenColor));
-                    colorCorrectlyChosen = true;
-                } else
-                    clientView.notAvailableColor();
-
+            if (nicknameIsAvailable(chosenNickname) && chosenNickname.length() > 0) {
+                Player newPlayer = game.addPlayer(chosenNickname, client);
+                client.setPlayer(newPlayer);
+                return;
             }
+
+            client.notAvailableNickname();
         }
     }
 
-    private void setPlayerNicknames() {
 
-        int i = 0;
+    public void setPlayerColor(VirtualClient client) {
 
-        while (i < numberOfPlayers) {
+        boolean colorCorrectlyChosen = false;
 
-            boolean nicknameCorrectlyChosen = false;
+        while (!colorCorrectlyChosen) {
 
-            while (!nicknameCorrectlyChosen) {
+            String chosenColor = client.askPlayerColor(client.getPlayer().getNickname());
 
-                String chosenNickname = clientView.askPlayerNickname();
+            if (colorIsAvailable(chosenColor) && colorIsValid(chosenColor)) {
+                client.getPlayer().setColor(Color.StringToColor(chosenColor));
+                colorCorrectlyChosen = true;
+            } else
+                client.notAvailableColor();
 
-                if (nicknameIsAvailable(chosenNickname) && chosenNickname.length() > 0) {
-                    game.addPlayer(chosenNickname);
-                    nicknameCorrectlyChosen = true;
-                    i++;
-                } else
-                    clientView.notAvailableNickname();
-
-            }
         }
 
     }
+
 
     private boolean colorIsValid(String chosenColor) {
         return chosenColor.equals(Color.BLUE.name())
@@ -146,7 +141,6 @@ public class GameController {
         }
 
         return true;
-
     }
 
     private boolean colorIsAvailable(String chosenColor) {
@@ -159,11 +153,6 @@ public class GameController {
         }
 
         return true;
-    }
-
-
-    public CLIMainView getClientView() {
-        return clientView;
     }
 
 
@@ -195,10 +184,9 @@ public class GameController {
         return game;
     }
 
-    public ArrayList<VirtualClient> getClientViews() { return clientViews; }
-
-
-
+    public TurnHandler getTurnHandler() {
+        return turnHandler;
+    }
 }
 
 

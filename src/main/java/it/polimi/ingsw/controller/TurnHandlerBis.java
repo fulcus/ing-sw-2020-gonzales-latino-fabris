@@ -5,12 +5,13 @@ import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Worker;
 import it.polimi.ingsw.view.CLIMainView;
+import it.polimi.ingsw.view.VirtualClient;
 
 import java.util.ArrayList;
 
 public class TurnHandlerBis {
     private final Game game;
-    private ClientView view;
+    private VirtualClient view;
     private final GameController gameController;
     private final ArrayList<Player> players;
     private Player currentPlayer;

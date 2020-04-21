@@ -4,6 +4,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.controller.god.God;
 import it.polimi.ingsw.model.Worker;
 import it.polimi.ingsw.view.GodView;
+import it.polimi.ingsw.view.VirtualClient;
 
 import java.util.ArrayList;
 
@@ -12,22 +13,20 @@ import java.util.ArrayList;
  */
 public class GodController {
 
-    private final GodView godView;
     private final GameController gameController;
-    private ClientView clientView;
+    private VirtualClient client; //assigned at the beginning of each turn
 
 
 
-    public GodController(GodView godView, GameController gameController) {
+    public GodController(GameController gameController) {
 
-        this.godView = godView;
         this.gameController = gameController;
-        clientView = null;
+        this.client = null;
     }
 
 
     public void updateCurrentClient() {
-        clientView = gameController.getTurnHandler().getCurrentPlayer().getClient();
+        client = gameController.getTurnHandler().getCurrentPlayer().getClient();
     }
 
 

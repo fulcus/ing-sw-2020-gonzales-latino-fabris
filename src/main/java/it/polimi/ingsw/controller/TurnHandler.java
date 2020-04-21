@@ -11,7 +11,6 @@ import java.util.ArrayList;
 
 public class TurnHandler {
     private final Game game;
-    private final CLIMainView view;
     private final GameController gameController;
     private final ArrayList<Player> players;
     private Player currentPlayer;
@@ -19,10 +18,9 @@ public class TurnHandler {
     int unableToMove;
     int unableToBuild;
 
-    public TurnHandler(Game game, CLIMainView view, GameController gameController) {
+    public TurnHandler(Game game, GameController gameController) {
         this.game = game;
         currentPlayer = null;
-        this.view = view;
         this.gameController = gameController;
         this.players = game.getPlayers();
         numberOfPlayers = game.getNumberOfPlayers();

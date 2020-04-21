@@ -46,7 +46,7 @@ public class Server {
                 VirtualClient clientHandler = new VirtualClient(client);
 
 
-                //separate clienthandler class vs virtualClient
+                //separate clientHandler class vs virtualClient
                 Thread thread = new Thread(clientHandler, "server_" + client.getInetAddress());
                 thread.start();
             } catch (IOException e) {
@@ -58,18 +58,15 @@ public class Server {
 
 
     //called by server right after accept
-    private static int joinGame(Socket joiningClientSocket) {
+    private static void joinGame(Socket joiningClientSocket) {
 
-        VirtualClient joiningClient = new VirtualClient(joiningClientSocket);
+        //new thread?
+        VirtualClient newClient = new VirtualClient(joiningClientSocket);
 
         if (gameController.getGame() == null)
-            gameController.firstClientSetsGame(joiningClient);
-
-
+            gameController.setUpGame(newClient);
         else
-            gameController.getClientViews().add(joiningClient);
-
-
+            gameController.addPlayer(newClient);
 
 
     }

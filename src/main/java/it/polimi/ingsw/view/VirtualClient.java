@@ -3,6 +3,9 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.controller.god.God;
 import it.polimi.ingsw.model.*;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -13,12 +16,20 @@ import java.util.InputMismatchException;
 public class VirtualClient implements Runnable {
 
     private Socket client;   //a virtual view instance for each client
-
+    private Player player;
 
     public VirtualClient(Socket client) {
         this.client = client;
     }
 
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
 
     public String askTypeOfView(){
 
@@ -371,7 +382,35 @@ public class VirtualClient implements Runnable {
 
 
     @Override
-    public void run() {
-        //assign
+    public void run()
+    {
+        try {
+            handleClientConnection();
+        } catch (IOException e) {
+            System.out.println("client " + client.getInetAddress() + " connection dropped");
+        }
     }
+
+
+    private void handleClientConnection() throws IOException
+    {
+        System.out.println("Connected to " + client.getInetAddress());
+
+        ObjectOutputStream output = new ObjectOutputStream(client.getOutputStream());
+        ObjectInputStream input = new ObjectInputStream(client.getInputStream());
+
+        try {
+            while (true) {
+                /* read a String from the stream and write an uppercase string in response */
+                Object next = input.readObject();
+                String str = (String)next;
+                output.writeObject(str.toUpperCase());
+            }
+        } catch (ClassNotFoundException | ClassCastException e) {
+            System.out.println("invalid stream from client");
+        }
+
+        client.close();
+    }
+
 }
