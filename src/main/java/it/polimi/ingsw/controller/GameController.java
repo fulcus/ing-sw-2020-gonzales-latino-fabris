@@ -29,7 +29,7 @@ public class GameController {
     /**
      * Sets up game and starts the logic flow.
      */
-    public void setUpGame(ClientView firstClient) {
+    public synchronized void setUpGame(ClientView firstClient) {
 
         //todo alberto
         /*
@@ -54,7 +54,6 @@ public class GameController {
 
         turnHandler = new TurnHandler(game, this);
 
-        addPlayer(firstClient);
     }
 
 
@@ -64,10 +63,7 @@ public class GameController {
         setPlayerNickname(client);
         setPlayerColor(client);
 
-        if(game.getPlayers().size() == game.getNumberOfPlayers()) {
-            turnHandler.setUpTurns();
-            turnHandler.startTurnFlow();
-        }
+
     }
 
 
@@ -184,6 +180,9 @@ public class GameController {
         return godController;
     }
 
+    public TurnHandler getTurnHandler() {
+        return turnHandler;
+    }
 
 }
 

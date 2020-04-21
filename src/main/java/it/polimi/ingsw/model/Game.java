@@ -18,7 +18,9 @@ public class Game {
     private final ArrayList<God> chosenGods;
     private Player challenger;
 
-    /** Creates a new game.
+    /**
+     * Creates a new game.
+     *
      * @param numberOfPlayers Number of players of the game.
      */
     public Game(int numberOfPlayers) {
@@ -29,7 +31,8 @@ public class Game {
     }
 
     /**
-     *  Adds a new player to the game and chooses challenger if target number of players has been reached.
+     * Adds a new player to the game and chooses challenger if target number of players has been reached.
+     *
      * @param nickname Nickname chosen by the player.
      * @return player that was just created.
      */
@@ -38,14 +41,14 @@ public class Game {
         Player newPlayer = new Player(this, nickname, clientView);
         players.add(newPlayer);
 
-        if(players.size() == numberOfPlayers)
+        if (players.size() == numberOfPlayers)
             randomChallenger();
 
         return newPlayer;
     }
 
     /**
-     *  Picks a challenger randomly.
+     * Picks a challenger randomly.
      */
     private void randomChallenger() {
         Random rand = new Random();
@@ -60,9 +63,9 @@ public class Game {
     }
 
 
-
     /**
      * Lets the Challenger choose the Gods that will be used in the game.
+     *
      * @param godChosenByChallenger God chosen by the Challenger.
      */
     public void addGodChosenByChallenger(God godChosenByChallenger) {
@@ -92,7 +95,9 @@ public class Game {
     public void removePlayer(Player loser) {
         chosenGods.remove(loser.getGod());
         players.remove(loser);
+        loser.getClient().killClient();
         numberOfPlayers--;
+
     }
 
 }

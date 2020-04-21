@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.view.ClientView;
 
 import java.io.IOException;
@@ -11,18 +12,14 @@ import java.net.Socket;
 public class Server {
     public final static int SOCKET_PORT = 7777;
     private static GameController gameController;
-    private int maxNumberOfClients;
-
-    public Server() {
-        gameController = new GameController();
-
-    }
+    private static int numberOfClients; //senza multipartita
 
 
     public static void main(String[] args) {
 
-        int connectedClients = 0;
         ServerSocket socket;
+        gameController = new GameController();
+        numberOfClients = 0;
 
         try {
             socket = new ServerSocket(SOCKET_PORT);
@@ -38,36 +35,44 @@ public class Server {
         while (true) {
 
             try {
-                /* accepts connections; for every connection we accept,
-                 * create a new Thread executing a ClientHandler */
+
+                if (numberOfClients == gameController.getGame().getNumberOfPlayers())
+                    break;
+
                 Socket client = socket.accept();
-                joinGame(client);
+                numberOfClients++;
+                createClientThread(client);
 
-                ClientView clientHandler = new ClientView(client);
-
-
-                //separate clientHandler class vs virtualClient
-                Thread thread = new Thread(clientHandler, "server_" + client.getInetAddress());
-                thread.start();
             } catch (IOException e) {
                 System.out.println("connection dropped");
             }
 
         }
+
+        Game game = gameController.getGame();
+
+        if (game.getPlayers().size() == game.getNumberOfPlayers()) {
+            gameController.getTurnHandler().setUpTurns();
+            gameController.getTurnHandler().startTurnFlow();
+        }
+
+
     }
 
 
     //called by server right after accept
-    private static void joinGame(Socket joiningClientSocket) {
-
+    private static void createClientThread(Socket joiningClientSocket) {
         //new thread?
-        ClientView newClient = new ClientView(joiningClientSocket);
+        ClientView newClient = new ClientView(joiningClientSocket, gameController);
+        newClient.connected();
+
 
         if (gameController.getGame() == null)
             gameController.setUpGame(newClient);
-        else
-            gameController.addPlayer(newClient);
 
+
+        Thread thread = new Thread(newClient, "server_" + joiningClientSocket.getInetAddress());
+        thread.start();
 
     }
 

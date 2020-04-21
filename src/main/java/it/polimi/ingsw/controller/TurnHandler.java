@@ -170,18 +170,8 @@ public class TurnHandler {
     }
 
 
-    private Worker chooseWorker() {
 
-        String inputSex = currentClient.askChosenWorker(currentPlayer.getNickname());
-
-        if (currentPlayer.getWorkers().get(0).getSex().toString().equals(inputSex))
-            return currentPlayer.getWorkers().get(0);
-        else
-            return currentPlayer.getWorkers().get(1);
-
-    }
-
-    protected void setUpTurns() {
+    public void setUpTurns() {
         challengerChooseGods();
         playersChooseGods();
         challengerChooseStartPlayer();
@@ -192,7 +182,7 @@ public class TurnHandler {
 
 
 
-    protected void startTurnFlow() {
+    public void startTurnFlow() {
         int cyclicalCounter = 0;
 
 
@@ -213,9 +203,7 @@ public class TurnHandler {
                 losePlayer();
          */
 
-            Worker chosenWorker = chooseWorker();
-
-            turn(chosenWorker);
+            currentClient.notify();
 
             cyclicalCounter++;
             if (cyclicalCounter == numberOfPlayers)
@@ -223,8 +211,27 @@ public class TurnHandler {
         }
     }
 
+    /**
+     * Allows the player to choose a worker to play the turn.
+     * @return the chosen worker.
+     */
+    public Worker chooseWorker() {
 
-    private void turn(Worker turnWorker) {
+        String inputSex = currentClient.askChosenWorker(currentPlayer.getNickname());
+
+        if (currentPlayer.getWorkers().get(0).getSex().toString().equals(inputSex))
+            return currentPlayer.getWorkers().get(0);
+        else
+            return currentPlayer.getWorkers().get(1);
+
+    }
+
+
+    /**
+     * The turn evolution of the worker.
+     * @param turnWorker The worker picked for the turn.
+     */
+    public void turn(Worker turnWorker) {
 
         Worker otherWorker = null;
 
@@ -276,11 +283,10 @@ public class TurnHandler {
             unableToBuild = 0;
         }
 
-
     }
-
 
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
+
 }

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.controller.TurnHandler;
 import it.polimi.ingsw.controller.god.God;
 import it.polimi.ingsw.model.*;
 
@@ -14,11 +16,18 @@ import java.util.ArrayList;
  */
 public class ClientView implements Runnable {
 
-    private final Socket client;   //a virtual view instance for each client
+    private final Socket socket;   //a virtual view instance for each client
     private Player player;
+    private final GameController gameController;
+    private ObjectOutputStream output;
+    private ObjectInputStream input;
+    private TurnHandler turnHandler;
+    private boolean inGame;
 
-    public ClientView(Socket client) {
-        this.client = client;
+    public ClientView(Socket socket, GameController gameController) {
+        this.socket = socket;
+        this.gameController = gameController;
+        inGame = true;
     }
 
     public void setPlayer(Player player) {
@@ -29,7 +38,7 @@ public class ClientView implements Runnable {
         return player;
     }
 
-    public String askTypeOfView(){
+    public String askTypeOfView() {
 
     }
 
@@ -49,13 +58,10 @@ public class ClientView implements Runnable {
     }
 
 
-
     private void santoriniAscii() {
 
 
     }
-
-
 
 
     /**
@@ -107,7 +113,7 @@ public class ClientView implements Runnable {
     public void invalidStartPlayer() {
     }
 
-    public void notAvailableColor(){
+    public void notAvailableColor() {
     }
 
     public void notAvailableNickname() {
@@ -130,12 +136,11 @@ public class ClientView implements Runnable {
     public void winningView(String winnerNickname) {
     }
 
-    public void unableToMoveLose(String loserNickname){
+    public void unableToMoveLose(String loserNickname) {
     }
 
-    public void unableToBuildLose(String loserNickname){
+    public void unableToBuildLose(String loserNickname) {
     }
-
 
 
     /**
@@ -173,14 +178,6 @@ public class ClientView implements Runnable {
 
     public void selectedWorkerCannotBuild(String sex) {
     }
-
-
-
-
-
-
-
-
 
 
     /**
@@ -272,7 +269,7 @@ public class ClientView implements Runnable {
      * Says that the worker can build under himself/herself.
      * This is allowed only when playing with Zeus.
      */
-    public void printBuildUnderneath(){
+    public void printBuildUnderneath() {
 
     }
 
@@ -378,37 +375,51 @@ public class ClientView implements Runnable {
 
     }
 
+    public void connected() {
+        //send to view:
+        //System.out.println("Connected to " + client.getInetAddress());
+    }
+
+    public void killClient() {
+        inGame = false;
+    }
+
 
     @Override
-    public void run()
-    {
+    public void run() {
         try {
-            handleClientConnection();
+            output = new ObjectOutputStream(socket.getOutputStream());
+            input = new ObjectInputStream(socket.getInputStream());
+
+            startClient();
         } catch (IOException e) {
-            System.out.println("client " + client.getInetAddress() + " connection dropped");
+            System.out.println("client " + socket.getInetAddress() + " connection dropped");
         }
     }
 
 
-    private void handleClientConnection() throws IOException
-    {
-        System.out.println("Connected to " + client.getInetAddress());
+    private void startClient() throws IOException {
 
-        ObjectOutputStream output = new ObjectOutputStream(client.getOutputStream());
-        ObjectInputStream input = new ObjectInputStream(client.getInputStream());
+        turnHandler = gameController.getTurnHandler();
+        gameController.addPlayer(this);
 
-        try {
-            while (true) {
-                /* read a String from the stream and write an uppercase string in response */
-                Object next = input.readObject();
-                String str = (String)next;
-                output.writeObject(str.toUpperCase());
-            }
-        } catch (ClassNotFoundException | ClassCastException e) {
-            System.out.println("invalid stream from client");
+
+        while (inGame) {
+            //waits until woken up by turnFlow
+            do {
+                try {
+                    wait();
+                } catch (InterruptedException e) { }
+
+            } while (turnHandler.getCurrentPlayer() != player);
+
+            Worker chosenWorker = turnHandler.chooseWorker();
+            turnHandler.turn(chosenWorker);
+
         }
-
-        client.close();
+        socket.close();
     }
 
 }
+
+
