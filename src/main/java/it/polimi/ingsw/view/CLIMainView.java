@@ -14,7 +14,6 @@ public class CLIMainView implements ViewObserver {
 
     private Scanner input;
     private Scanner intInput;
-    private TurnHandler myTurnHandler;
     private final GameController myController;
     private final GodView godView;
     private final Board myBoard;// this will contain a copy of the Model's map and each cell will be update if there are any changes

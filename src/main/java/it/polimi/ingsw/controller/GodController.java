@@ -3,8 +3,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.controller.god.God;
 import it.polimi.ingsw.model.Worker;
-import it.polimi.ingsw.view.GodView;
-import it.polimi.ingsw.view.VirtualClient;
+import it.polimi.ingsw.view.ClientView;
 
 import java.util.ArrayList;
 
@@ -14,19 +13,19 @@ import java.util.ArrayList;
 public class GodController {
 
     private final GameController gameController;
-    private VirtualClient client; //assigned at the beginning of each turn
+    private ClientView currentClient; //assigned at the beginning of each turn
 
 
 
     public GodController(GameController gameController) {
 
         this.gameController = gameController;
-        this.client = null;
+        this.currentClient = null;
     }
 
 
-    public void updateCurrentClient() {
-        client = gameController.getTurnHandler().getCurrentPlayer().getClient();
+    public void updateCurrentClient(ClientView client) {
+        this.currentClient = client;
     }
 
 
@@ -105,7 +104,7 @@ public class GodController {
      */
     public int[] getInputMove() {
 
-        return getInputInCoordinates(godView.askMovementDirection());
+        return getInputInCoordinates(currentClient.askMovementDirection());
         // return getInputInCoordinates(clientView.askMovementDirection());
     }
 
@@ -116,8 +115,7 @@ public class GodController {
      * @return True if the player wants to move again, False otherwise.
      */
     public boolean wantToMoveAgain() {
-        return godView.askMoveAgain().equals("Y");
-        //return clientView.askMoveAgain().equals("Y");
+        return currentClient.askMoveAgain().equals("Y");
     }
 
     /**
@@ -126,8 +124,7 @@ public class GodController {
      */
     public boolean wantToMoveUp() {
 
-        String answer = godView.askWantToMoveUp();
-        //String answer = clientView.askWantToMoveUp();
+        String answer = currentClient.askWantToMoveUp();
         return answer.equals("Y");
 
     }
@@ -139,8 +136,7 @@ public class GodController {
      * @return True if the player wants to do it.
      */
     public boolean wantToMoveEnemy() {
-        String answer = godView.askWantToMoveEnemy();
-        //String answer = clientView.askWantToMoveEnemy();
+        String answer = currentClient.askWantToMoveEnemy();
         return answer.equals("Y");
     }
 
@@ -153,8 +149,7 @@ public class GodController {
      * @return The worker the player has chosen to move.
      */
     public Worker ForceMoveEnemy(ArrayList<Worker> enemyWorkers, Worker worker) {
-        String workerToMoveCompassPosition = godView.askWorkerToMove(enemyWorkers, worker);
-        //String workerToMoveCompassPosition = clientView.askWorkerToMove(enemyWorkers, worker);
+        String workerToMoveCompassPosition = currentClient.askWorkerToMove(enemyWorkers, worker);
 
         if (workerToMoveCompassPosition == null)
             return null;
@@ -163,19 +158,15 @@ public class GodController {
         int enemyX = worker.getPosition().getX() + relativeBoardPosition[0];
         int enemyY = worker.getPosition().getY() + relativeBoardPosition[1];
 
-
-        Worker chosenEnemy = worker.getPlayer().getGame().getBoard().findCell(enemyX,enemyY).getWorker();
-
-        return chosenEnemy;
+        return worker.getPlayer().getGame().getBoard().findCell(enemyX,enemyY).getWorker();
     }
 
 
     /**
      * Prompts the view to print the board.
      */
-    //TODO: probabilmente da modificare perchè c'è getView
-    public void displayBoard(){gameController.getView().printMap();}
-    public void displayBoard(){gameController.getClientView().printMap();}
+    public void displayBoard(){
+        currentClient.printMap();}
 
 
     /**
@@ -186,7 +177,7 @@ public class GodController {
     public int[] getBuildingInputAtlas() {
 
         int[] buildingInput = new int[3];
-        String[] playerInput = godView.askBuildingDirectionAtlas();
+        String[] playerInput = currentClient.askBuildingDirectionAtlas();
         //String[] playerInput = clientView.askBuildingDirectionAtlas();
 
         int[] playerInputCoord = getInputInCoordinates(playerInput[0]);
@@ -210,7 +201,7 @@ public class GodController {
     public int[] getBuildingInput() {
 
         int[] buildingInput = new int[2];
-        String playerInput = godView.askBuildingDirection();
+        String playerInput = currentClient.askBuildingDirection();
         //String playerInput = clientView.askBuildingDirection();
 
         int[] playerInputCoord = getInputInCoordinates(playerInput);
@@ -230,19 +221,19 @@ public class GodController {
     public boolean wantToBuildAgain(God god) {
         String answer = null;
         if (god.toString().equals("Hephaestus"))
-            answer = godView.askBuildAgainHephaestus();
+            answer = currentClient.askBuildAgainHephaestus();
             // answer = clientView.askBuildAgainHephaestus();
 
         if (god.toString().equals("Demeter"))
-            answer = godView.askBuildAgainDemeter();
+            answer = currentClient.askBuildAgainDemeter();
             // answer = clientView.askBuildAgainDemeter();
 
         if (god.toString().equals("Hestia"))
-            answer = godView.askBuildAgainHestia();
+            answer = currentClient.askBuildAgainHestia();
             // answer = clientView.askBuildAgainHestia();
 
         if (god.toString().equals("Prometheus"))
-            answer = godView.askBuildPrometheus();
+            answer = currentClient.askBuildPrometheus();
             // answer = clientView.askBuildPrometheus();
 
         return answer.equals("Y");
@@ -250,7 +241,7 @@ public class GodController {
 
 
     public void allowBuildUnderneath(){
-        godView.printBuildUnderneath();
+        currentClient.printBuildUnderneath();
     }
 
 
@@ -259,7 +250,8 @@ public class GodController {
      */
     //TODO forse questo è possibile rivederlo - da mettere che non si interfacci con la view direttamente, ma col gameController??
     public void winGame(String winnerNickname) {
-        gameController.getClientView().winningView(winnerNickname);
+        currentClient.winningView(winnerNickname);
+
         System.exit(0);
     }
 
@@ -268,7 +260,7 @@ public class GodController {
      * Allows to call the view to print the error screen
      */
     public void errorMoveScreen() {
-        godView.printMoveErrorScreen();
+        currentClient.printMoveErrorScreen();
         //clientView.printMoveErrorScreen();
     }
 
@@ -280,7 +272,7 @@ public class GodController {
      */
     public boolean errorMoveDecisionScreen() {
 
-        return godView.printMoveDecisionError().equals("Y");
+        return currentClient.printMoveDecisionError().equals("Y");
         // return clientView.printMoveDecisionError().equals("Y");
     }
 
@@ -291,7 +283,7 @@ public class GodController {
      * @return True if the player wants to retry.
      */
     public boolean errorBuildDecisionScreen() {
-        return godView.printBuildDecisionError().equals("Y");
+        return currentClient.printBuildDecisionError().equals("Y");
         // return clientView.printBuildDecisionError().equals("Y");
     }
 
@@ -300,7 +292,7 @@ public class GodController {
      * Allows to manage the error screen saw when there's not the possibility to build in the same position.
      */
     public void errorBuildInSamePosition() {
-        godView.printBuildInSamePositionScreen();
+        currentClient.printBuildInSamePositionScreen();
         // clientView.printBuildInSamePositionScreen();
     }
 
@@ -309,7 +301,7 @@ public class GodController {
      * Allows to manage the error screen saw by the player when his building phase fails.
      */
     public void errorBuildScreen() {
-        godView.printBuildGeneralErrorScreen();
+        currentClient.printBuildGeneralErrorScreen();
         // clientView.printBuildGeneralErrorScreen();
     }
 
@@ -318,7 +310,7 @@ public class GodController {
      * Allows to manage the error screen saw by the player when his block cannot be built
      */
     public void errorBuildBlockScreen() {
-        godView.printBuildBlockErrorScreen();
+        currentClient.printBuildBlockErrorScreen();
         // clientView.printBuildBlockErrorScreen();
     }
 

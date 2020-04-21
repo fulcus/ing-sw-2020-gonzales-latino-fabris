@@ -14,7 +14,7 @@ public class GameController {
 
     private Game game;
     private TurnHandler turnHandler;
-    //private final ViewSelector viewSelector;
+    private final ViewSelector viewSelector;
     private GodController godController;
     private final ArrayList<God> godsDeck;
 
@@ -29,9 +29,9 @@ public class GameController {
     /**
      * Sets up game and starts the logic flow.
      */
-    public void setUpGame(VirtualClient firstClient) {
+    public void setUpGame(ClientView firstClient) {
 
-
+        //todo alberto
         /*
         String viewType = viewSelector.askTypeofView();
 
@@ -58,7 +58,7 @@ public class GameController {
     }
 
 
-    public void addPlayer(VirtualClient client) {
+    public void addPlayer(ClientView client) {
         setUpObserverView(client);
 
         setPlayerNickname(client);
@@ -73,12 +73,8 @@ public class GameController {
 
 
 
-
-
-
-
     //todo alberto
-    private void setUpObserverView(VirtualClient client) {
+    private void setUpObserverView(ClientView client) {
 
         for (int i = 0; i < Board.SIDE; i++) {
             for (int j = 0; j < Board.SIDE; j++) {
@@ -90,7 +86,7 @@ public class GameController {
     }
 
 
-    private void setPlayerNickname(VirtualClient client) {
+    private void setPlayerNickname(ClientView client) {
 
         while (true) {
 
@@ -107,7 +103,7 @@ public class GameController {
     }
 
 
-    public void setPlayerColor(VirtualClient client) {
+    public void setPlayerColor(ClientView client) {
 
         boolean colorCorrectlyChosen = false;
 
@@ -184,9 +180,11 @@ public class GameController {
         return game;
     }
 
-    public TurnHandler getTurnHandler() {
-        return turnHandler;
+    public GodController getGodController() {
+        return godController;
     }
+
+
 }
 
 

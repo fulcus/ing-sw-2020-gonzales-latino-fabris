@@ -1,7 +1,7 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.controller.GameController;
-import it.polimi.ingsw.view.VirtualClient;
+import it.polimi.ingsw.view.ClientView;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -43,7 +43,7 @@ public class Server {
                 Socket client = socket.accept();
                 joinGame(client);
 
-                VirtualClient clientHandler = new VirtualClient(client);
+                ClientView clientHandler = new ClientView(client);
 
 
                 //separate clientHandler class vs virtualClient
@@ -61,7 +61,7 @@ public class Server {
     private static void joinGame(Socket joiningClientSocket) {
 
         //new thread?
-        VirtualClient newClient = new VirtualClient(joiningClientSocket);
+        ClientView newClient = new ClientView(joiningClientSocket);
 
         if (gameController.getGame() == null)
             gameController.setUpGame(newClient);

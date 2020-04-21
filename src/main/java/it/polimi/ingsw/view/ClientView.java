@@ -8,20 +8,18 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 
 /**
  * Represents the interface of each client with the server.
  */
-public class VirtualClient implements Runnable {
+public class ClientView implements Runnable {
 
-    private Socket client;   //a virtual view instance for each client
+    private final Socket client;   //a virtual view instance for each client
     private Player player;
 
-    public VirtualClient(Socket client) {
+    public ClientView(Socket client) {
         this.client = client;
     }
-
 
     public void setPlayer(Player player) {
         this.player = player;

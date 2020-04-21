@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.god.*;
-import it.polimi.ingsw.view.VirtualClient;
+import it.polimi.ingsw.view.ClientView;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -34,7 +34,7 @@ public class Game {
      * @return player that was just created.
      */
     //view checks that nickname and color aren't already taken
-    public Player addPlayer(String nickname, VirtualClient clientView) {
+    public Player addPlayer(String nickname, ClientView clientView) {
         Player newPlayer = new Player(this, nickname, clientView);
         players.add(newPlayer);
 

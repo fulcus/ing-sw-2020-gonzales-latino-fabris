@@ -1,16 +1,16 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.controller.god.God;
-
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Worker;
-import it.polimi.ingsw.view.CLIMainView;
+import it.polimi.ingsw.view.ClientView;
 
 import java.util.ArrayList;
 
 public class TurnHandler {
     private final Game game;
+    private ClientView currentClient;
     private final GameController gameController;
     private final ArrayList<Player> players;
     private Player currentPlayer;
@@ -21,6 +21,7 @@ public class TurnHandler {
     public TurnHandler(Game game, GameController gameController) {
         this.game = game;
         currentPlayer = null;
+        this.currentClient = null;
         this.gameController = gameController;
         this.players = game.getPlayers();
         numberOfPlayers = game.getNumberOfPlayers();
@@ -31,25 +32,26 @@ public class TurnHandler {
      * Lets the Challenger choose Gods equal to the number of players.
      */
     private void challengerChooseGods() {
-        Player challenger = game.getChallenger();
-        view.printAllGods(gameController.getGodsDeck());
 
         ArrayList<God> godsDeck = gameController.getGodsDeck();
 
+        for (Player player : players)
+            player.getClient().printAllGods(godsDeck);
+
+        ClientView challengerClient = game.getChallenger().getClient();
+
         //lets challenger select the gods
         int i = 0;
-        view.printChallenger(challenger.getNickname());
-
         while (i < numberOfPlayers) {
 
-            String chosenGodName = view.getGodFromChallenger(i);
+            String chosenGod = challengerClient.getGodFromChallenger(i);
             boolean foundGod = false;
 
             for (God god : godsDeck) {
 
                 String godName = god.toString().toLowerCase();
 
-                if (chosenGodName.toLowerCase().equals(godName)
+                if (chosenGod.toLowerCase().equals(godName)
                         && !game.getChosenGods().contains(god)) {
 
                     game.addGodChosenByChallenger(god);
@@ -61,10 +63,12 @@ public class TurnHandler {
             if (foundGod)
                 i++;
             else
-                view.challengerError(); //print: the god you typed doesnt exist
+                challengerClient.challengerError(); //print: the god you typed doesnt exist
         }
 
-        view.printChosenGods();
+        //forall players views
+        for (Player player : players)
+            player.getClient().printChosenGods();
         //print: these are the gods chosen by the challenger + list chosenGods
 
     }
@@ -79,9 +83,11 @@ public class TurnHandler {
         boolean foundGod;
 
         for (Player player : players) {
+            ClientView playerClient = player.getClient();
             foundGod = false;
+
             while (!foundGod) {
-                String inputGod = view.askPlayerGod(player.getNickname());
+                String inputGod = playerClient.askPlayerGod(player.getNickname());
 
                 for (God god : game.getChosenGods()) {
                     String godName = god.toString().toLowerCase();
@@ -93,7 +99,7 @@ public class TurnHandler {
 
                 }
                 if (!foundGod)
-                    view.playerChoseInvalidGod();
+                    playerClient.playerChoseInvalidGod();
             }
         }
     }
@@ -104,12 +110,14 @@ public class TurnHandler {
      * and puts him in the first position of the arraylist players of game.
      */
     private void challengerChooseStartPlayer() {
+
+        ClientView challengerClient = game.getChallenger().getClient();
         String startPlayerNick;
         Player startPlayer = null;
 
         while (startPlayer == null) {
 
-            startPlayerNick = view.challengerChooseStartPlayer(game.getChallenger().getNickname());   //returns nickname of startPlayer
+            startPlayerNick = challengerClient.challengerChooseStartPlayer(game.getChallenger().getNickname());   //returns nickname of startPlayer
             for (Player player : players) {
                 if (startPlayerNick.equals(player.getNickname())) {
                     startPlayer = player;
@@ -117,7 +125,7 @@ public class TurnHandler {
                 }
             }
             if (startPlayer == null)
-                view.invalidStartPlayer();
+                challengerClient.invalidStartPlayer();
         }
 
         //set startPlayer as first of arraylist players.
@@ -135,24 +143,27 @@ public class TurnHandler {
     private void setInitialWorkersPosition() {
         boolean positionSet;
 
-        view.printMap();
-
         for (Player player : players) {
+            ClientView playerClient = player.getClient();
+            playerClient.printMap();
 
             for (Worker worker : player.getWorkers()) {
                 positionSet = false;
 
                 while (!positionSet) {
-                    int[] initialPosition = view.askInitialWorkerPosition(worker.getSex(), player.getNickname());
+                    int[] initialPosition = playerClient.askInitialWorkerPosition(worker.getSex(), player.getNickname());
                     int x = initialPosition[0];
                     int y = initialPosition[1];
 
-                    if (game.getBoard().findCell(x, y) != null && !game.getBoard().findCell(x, y).isOccupied()) {
+                    if (game.getBoard().findCell(x, y) != null
+                            && !game.getBoard().findCell(x, y).isOccupied()) {
+
                         worker.setPosition(x, y);
                         positionSet = true;
-                        view.printMap();
+                        playerClient.printMap();
+
                     } else
-                        view.invalidInitialWorkerPosition();
+                        playerClient.invalidInitialWorkerPosition();
                 }
             }
         }
@@ -161,17 +172,13 @@ public class TurnHandler {
 
     private Worker chooseWorker() {
 
-        String inputSex = view.askChosenWorker(currentPlayer.getNickname());
+        String inputSex = currentClient.askChosenWorker(currentPlayer.getNickname());
 
         if (currentPlayer.getWorkers().get(0).getSex().toString().equals(inputSex))
             return currentPlayer.getWorkers().get(0);
         else
             return currentPlayer.getWorkers().get(1);
 
-    }
-
-    private void displayBoard() {
-        view.printMap();
     }
 
     protected void setUpTurns() {
@@ -182,6 +189,9 @@ public class TurnHandler {
     }
 
 
+
+
+
     protected void startTurnFlow() {
         int cyclicalCounter = 0;
 
@@ -189,8 +199,13 @@ public class TurnHandler {
         //noinspection InfiniteLoopStatement
         while (true) {
             currentPlayer = players.get(cyclicalCounter);
+            currentClient = currentPlayer.getClient();
+            gameController.getGodController().updateCurrentClient(currentClient);
+
             unableToMove = 0;
             unableToBuild = 0;
+
+
         /*
             //if none of currentPlayer's workers can move, lose
             if (!worker1.getMoveMap().anyAvailableMovePosition()
@@ -199,6 +214,7 @@ public class TurnHandler {
          */
 
             Worker chosenWorker = chooseWorker();
+
             turn(chosenWorker);
 
             cyclicalCounter++;
@@ -225,14 +241,14 @@ public class TurnHandler {
 
             if (unableToMove == 1) {
 
-                view.selectedWorkerCannotMove(turnWorker.getSex().name());
+                currentClient.selectedWorkerCannotMove(turnWorker.getSex().name());
                 turn(otherWorker);
 
             } else {
 
-                view.unableToMoveLose(currentPlayer.getNickname());
+                currentClient.unableToMoveLose(currentPlayer.getNickname());
                 currentPlayer.lose();
-                displayBoard();
+                currentClient.printMap();
             }
 
         } catch (UnableToBuildException ex) {
@@ -240,14 +256,14 @@ public class TurnHandler {
 
             if (unableToBuild == 1) {
 
-                view.selectedWorkerCannotBuild(turnWorker.getSex().name());
+                currentClient.selectedWorkerCannotBuild(turnWorker.getSex().name());
                 turn(otherWorker);
 
             } else {
 
-                view.unableToBuildLose(currentPlayer.getNickname());
+                currentClient.unableToBuildLose(currentPlayer.getNickname());
                 currentPlayer.lose();   //specify why: unable to build
-                displayBoard();
+                currentClient.printMap();
             }
 
         } finally {
@@ -268,4 +284,3 @@ public class TurnHandler {
         return currentPlayer;
     }
 }
-
