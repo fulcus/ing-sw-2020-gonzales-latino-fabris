@@ -40,16 +40,18 @@ public class TurnHandler {
 
         //lets challenger select the gods
         int i = 0;
+        view.printChallenger(challenger.getNickname());
+
         while (i < numberOfPlayers) {
 
-            String chosenGod = view.getGodFromChallenger(challenger.getNickname(), i);
+            String chosenGodName = view.getGodFromChallenger(i);
             boolean foundGod = false;
 
             for (God god : godsDeck) {
 
-                String godName = god.getClass().getSimpleName().toLowerCase();
+                String godName = god.toString().toLowerCase();
 
-                if (chosenGod.toLowerCase().equals(godName)
+                if (chosenGodName.toLowerCase().equals(godName)
                         && !game.getChosenGods().contains(god)) {
 
                     game.addGodChosenByChallenger(god);
@@ -84,7 +86,7 @@ public class TurnHandler {
                 String inputGod = view.askPlayerGod(player.getNickname());
 
                 for (God god : game.getChosenGods()) {
-                    String godName = god.getClass().getSimpleName().toLowerCase();
+                    String godName = god.toString().toLowerCase();
                     if (inputGod.toLowerCase().equals(godName) && !alreadyTakenGods.contains(god)) {
                         player.setGod(god);
                         alreadyTakenGods.add(god);
@@ -199,7 +201,6 @@ public class TurnHandler {
          */
 
             Worker chosenWorker = chooseWorker();
-
             turn(chosenWorker);
 
             cyclicalCounter++;

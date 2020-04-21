@@ -172,10 +172,11 @@ public class GodController {
 
 
     /**
-     * The method describes itself
+     * Prompts the view to print the board.
      */
     //TODO: probabilmente da modificare perchè c'è getView
     public void displayBoard(){gameController.getView().printMap();}
+    public void displayBoard(){gameController.getClientView().printMap();}
 
 
     /**
@@ -229,19 +230,19 @@ public class GodController {
      */
     public boolean wantToBuildAgain(God god) {
         String answer = null;
-        if (god.getClass().getSimpleName().equals("Hephaestus"))
+        if (god.toString().equals("Hephaestus"))
             answer = godView.askBuildAgainHephaestus();
             // answer = clientView.askBuildAgainHephaestus();
 
-        if (god.getClass().getSimpleName().equals("Demeter"))
+        if (god.toString().equals("Demeter"))
             answer = godView.askBuildAgainDemeter();
             // answer = clientView.askBuildAgainDemeter();
 
-        if (god.getClass().getSimpleName().equals("Hestia"))
+        if (god.toString().equals("Hestia"))
             answer = godView.askBuildAgainHestia();
             // answer = clientView.askBuildAgainHestia();
 
-        if (god.getClass().getSimpleName().equals("Prometheus"))
+        if (god.toString().equals("Prometheus"))
             answer = godView.askBuildPrometheus();
             // answer = clientView.askBuildPrometheus();
 
@@ -259,7 +260,7 @@ public class GodController {
      */
     //TODO forse questo è possibile rivederlo - da mettere che non si interfacci con la view direttamente, ma col gameController??
     public void winGame(String winnerNickname) {
-        gameController.getView().winningView(winnerNickname);
+        gameController.getClientView().winningView(winnerNickname);
         System.exit(0);
     }
 

@@ -14,7 +14,7 @@ public class GameController {
 
     private Game game;
     private TurnHandler turnHandler;
-    private CLIMainView view;
+    private final ArrayList<VirtualClient> clientViews;
     private final ViewSelector viewSelector;
     private GodController godController;
     private final ArrayList<God> godsDeck;
@@ -22,15 +22,11 @@ public class GameController {
     public GameController() {
         game = null;
         turnHandler = null;
-        view = null;
+        clientViews = new ArrayList<>(3);
         viewSelector = new ViewSelector();
         godsDeck = new ArrayList<>(14);
     }
 
-    public static void main(String[] args) {
-        GameController gameController = new GameController();
-        gameController.setUpGame();
-    }
 
 
     public GodController getGodController(){
@@ -41,12 +37,12 @@ public class GameController {
     /**
      * Sets up game and starts the logic flow.
      */
-    public void setUpGame() {
+    private void setUpGame() {
 
         String viewType = viewSelector.askTypeofView();
 
         if (viewType.toUpperCase().equals("CLI"))
-            view = new CLIMainView(this);
+            clientView = new VirtualClient(this);
         /*
         else if(viewType.toUpperCase().equals("GUI"))
             view = new GUIMainView(this);
@@ -54,16 +50,16 @@ public class GameController {
             viewSelector.genericError();
         */
 
-        godController = new GodController(view.getGodView(), this);
+        godController = new GodController(clientView.getGodView(), this);
         createDeckGods();
 
-        view.beginningView();
+        clientView.beginningView();
 
-        int numOfPlayers = view.askNumberOfPlayers();
+        int numOfPlayers = clientView.askNumberOfPlayers();
 
         game = new Game(numOfPlayers);
 
-        turnHandler = new TurnHandler(game, view, this);
+        turnHandler = new TurnHandler(game, clientView, this);
 
         setUpObserverView();
 
@@ -81,7 +77,7 @@ public class GameController {
         for (int i = 0; i < Board.SIDE; i++) {
             for (int j = 0; j < Board.SIDE; j++) {
 
-                game.getBoard().findCell(i, j).register(view);
+                game.getBoard().findCell(i, j).register(clientView);
             }
         }
 
@@ -95,13 +91,13 @@ public class GameController {
 
             while (!colorCorrectlyChosen) {
 
-                String chosenColor = view.askPlayerColor(player.getNickname());
+                String chosenColor = clientView.askPlayerColor(player.getNickname());
 
                 if (colorIsAvailable(chosenColor) && colorIsValid(chosenColor)) {
                     player.setColor(Color.StringToColor(chosenColor));
                     colorCorrectlyChosen = true;
                 } else
-                    view.notAvailableColor();
+                    clientView.notAvailableColor();
 
             }
         }
@@ -117,14 +113,14 @@ public class GameController {
 
             while (!nicknameCorrectlyChosen) {
 
-                String chosenNickname = view.askPlayerNickname();
+                String chosenNickname = clientView.askPlayerNickname();
 
                 if (nicknameIsAvailable(chosenNickname) && chosenNickname.length() > 0) {
                     game.addPlayer(chosenNickname);
                     nicknameCorrectlyChosen = true;
                     i++;
                 } else
-                    view.notAvailableNickname();
+                    clientView.notAvailableNickname();
 
             }
         }
@@ -162,8 +158,8 @@ public class GameController {
     }
 
 
-    public CLIMainView getView() {
-        return view;
+    public CLIMainView getClientView() {
+        return clientView;
     }
 
 

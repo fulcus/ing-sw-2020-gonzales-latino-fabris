@@ -176,4 +176,9 @@ public abstract class God {
 
 
     public abstract String getDescription();
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName();
+    }
 }
