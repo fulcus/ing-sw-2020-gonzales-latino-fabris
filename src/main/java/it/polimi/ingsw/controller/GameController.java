@@ -33,6 +33,11 @@ public class GameController {
     }
 
 
+    public GodController getGodController(){
+        return godController;
+    }
+
+
     /**
      * Sets up game and starts the logic flow.
      */
@@ -189,6 +194,9 @@ public class GameController {
     public Game getGame() {
         return game;
     }
+
+
+    public TurnHandler getTurnHandler() { return turnHandler; }
 
 }
 

@@ -264,5 +264,9 @@ public class TurnHandler {
 
     }
 
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
 }
 
