@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.server.VittoServerView;
 import it.polimi.ingsw.server.controller.god.God;
 import it.polimi.ingsw.server.ClientView;
 
@@ -19,6 +20,7 @@ public class Player {
     private boolean canWinInPerimeter;  //true if can win on perimeter
     private boolean canMoveUp;
     private final ClientView client;
+    private final VittoServerView vittoClient;
 
 
     /**
@@ -32,6 +34,7 @@ public class Player {
         this.game = game;
         this.nickname = nickname;
         this.client = clientView;
+        this.vittoClient = null;    //********************
         god = null;
         canWinInPerimeter = true;
         canMoveUp = true;
@@ -44,6 +47,8 @@ public class Player {
     public ClientView getClient() {
         return client;
     }
+
+    public VittoServerView getVittoClient() { return vittoClient;}  //******************
 
 
 
