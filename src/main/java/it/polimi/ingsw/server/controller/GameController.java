@@ -91,7 +91,7 @@ public class GameController {
 
             if (nicknameIsAvailable(chosenNickname) && chosenNickname.length() > 0) {
                 Player newPlayer = game.addPlayer(chosenNickname, client);
-                client.setPlayer(newPlayer);
+                client.setPlayer(newPlayer, chosenNickname);
                 return;
             }
 

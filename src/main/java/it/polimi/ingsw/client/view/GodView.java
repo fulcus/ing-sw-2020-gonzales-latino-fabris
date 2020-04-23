@@ -42,8 +42,7 @@ public class GodView {
                 return selectedBuildingDirection;
 
             } else
-                System.out.println("Invalid Direction. You must use: N, NE, E, SE, S, SW, W, NW (or in special case 'U'");
-
+                System.out.println("Invalid Direction. You must use: N, NE, E, SE, S, SW, W, NW (or 'U' to build underneath");
         }
     }
 
@@ -106,9 +105,7 @@ public class GodView {
 
             else
                 System.out.println("Invalid Direction. You must type: N, NE, E, SE, S, SW, W, NW");
-
         }
-
     }
 
 
@@ -119,7 +116,7 @@ public class GodView {
      */
     public String askMoveAgain() {
 
-        System.out.println("Do you want to move again your Worker? (Y = 'Yes', N = 'No')");
+        System.out.println("Do you want to move again your Worker?");
         return playerAnswerYN();
     }
 
@@ -131,7 +128,7 @@ public class GodView {
      */
     public String askWantToMoveUp() {
 
-        System.out.println("Do you want to move up? \n Y for Yes, N for No\n");
+        System.out.println("Do you want to move up?");
         return playerAnswerYN();
     }
 
@@ -143,7 +140,7 @@ public class GodView {
      */
     public String askWantToMoveEnemy() {
 
-        System.out.println("Do you want to force your near enemy to move? \n Y for Yes, N for No\n");
+        System.out.println("Do you want to force your near enemy to move?");
         return playerAnswerYN();
     }
 
@@ -251,7 +248,7 @@ public class GodView {
     public String askBuildAgainHephaestus() {
 
         System.out.println("You are allowed to build another time, " +
-                "but ONLY in the same position you built before\n <Y> for Yes,  <N> for No :");
+                "but ONLY in the same position you built before");
         return playerAnswerYN();
     }
 
@@ -263,7 +260,7 @@ public class GodView {
      */
     public String askBuildAgainDemeter() {
 
-        System.out.println("You are allowed to build another time, but NOT in the same position you built before\n <Y> for Yes,  <N> for No :   ");
+        System.out.println("You are allowed to build another time, but NOT in the same position you built before");
         return playerAnswerYN();
     }
 
@@ -275,7 +272,7 @@ public class GodView {
      */
     public String askBuildAgainHestia() {
 
-        System.out.println("You are allowed to build another time, but NOT in the border position\n <Y> for Yes,  <N> for No :   ");
+        System.out.println("You are allowed to build another time, but NOT in the border position");
         return playerAnswerYN();
     }
 
@@ -286,7 +283,7 @@ public class GodView {
      */
     public String askBuildPrometheus() {
 
-        System.out.println("You are allowed to build before you move\n <Y> for Yes,  <N> for No :   ");
+        System.out.println("You are allowed to build before you move");
         return playerAnswerYN();
     }
 
@@ -298,6 +295,7 @@ public class GodView {
      */
     private String playerAnswerYN() {
         String answer;
+        System.out.println("Type <Y> for Yes,  <N> for No :");
 
         while (true) {
             answer = input.nextLine().toUpperCase();

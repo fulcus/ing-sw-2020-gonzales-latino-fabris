@@ -34,17 +34,22 @@ public class TurnHandler {
     private void challengerChooseGods() {
 
         ArrayList<God> godsDeck = gameController.getGodsDeck();
+        ArrayList<String> godsNameAndDescription = new ArrayList<>(14);
+
+        for (God god : godsDeck)
+            godsNameAndDescription.add(god.toString() + ": " + god.getDescription());
+
 
         for (Player player : players)
-            player.getClient().printAllGods(godsDeck);
+            player.getClient().printAllGods(godsNameAndDescription);
 
         ClientView challengerClient = game.getChallenger().getClient();
 
         //lets challenger select the gods
-        int i = 0;
-        while (i < numberOfPlayers) {
+        int alreadyChosenGods = 0;
+        while (alreadyChosenGods < numberOfPlayers) {
 
-            String chosenGod = challengerClient.getGodFromChallenger(i);
+            String chosenGod = challengerClient.getGodFromChallenger(numberOfPlayers,alreadyChosenGods);
             boolean foundGod = false;
 
             for (God god : godsDeck) {
@@ -61,7 +66,7 @@ public class TurnHandler {
             }
 
             if (foundGod)
-                i++;
+                alreadyChosenGods++;
             else
                 challengerClient.challengerError(); //print: the god you typed doesnt exist
         }
@@ -117,7 +122,7 @@ public class TurnHandler {
 
         while (startPlayer == null) {
 
-            startPlayerNick = challengerClient.challengerChooseStartPlayer(game.getChallenger().getNickname());   //returns nickname of startPlayer
+            startPlayerNick = challengerClient.challengerChooseStartPlayer();   //returns nickname of startPlayer
             for (Player player : players) {
                 if (startPlayerNick.equals(player.getNickname())) {
                     startPlayer = player;
@@ -151,7 +156,7 @@ public class TurnHandler {
                 positionSet = false;
 
                 while (!positionSet) {
-                    int[] initialPosition = playerClient.askInitialWorkerPosition(worker.getSex(), player.getNickname());
+                    int[] initialPosition = playerClient.askInitialWorkerPosition(worker.getSex());
                     int x = initialPosition[0];
                     int y = initialPosition[1];
 
@@ -253,7 +258,7 @@ public class TurnHandler {
 
             } else {
 
-                currentClient.unableToMoveLose(currentPlayer.getNickname());
+                currentClient.unableToMoveLose();
                 currentPlayer.lose();
                 currentClient.printMap();
             }
@@ -268,7 +273,7 @@ public class TurnHandler {
 
             } else {
 
-                currentClient.unableToBuildLose(currentPlayer.getNickname());
+                currentClient.unableToBuildLose();
                 currentPlayer.lose();   //specify why: unable to build
                 currentClient.printMap();
             }

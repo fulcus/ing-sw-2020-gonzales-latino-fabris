@@ -31,8 +31,10 @@ public class ClientView implements ClientViewObserver,Runnable {
     }
 
 
-    public void setPlayer(Player player) {
-        this.player = player;
+    public void setPlayer(Player player, String playerNickname) {
+        this.player = player; //????????
+
+        //send playerNickname to be assigned as attribute in CLIMainView
     }
 
     public Player getPlayer() {
@@ -71,7 +73,7 @@ public class ClientView implements ClientViewObserver,Runnable {
      * @param workerSex This is the sex of the worker to be placed on the board.
      * @return Array with x,y coordinates of the chosen position.
      */
-    public int[] askInitialWorkerPosition(Sex workerSex, String currentPlayerNickname) {
+    public int[] askInitialWorkerPosition(Sex workerSex) {
     }
 
     public void invalidInitialWorkerPosition() {
@@ -98,15 +100,15 @@ public class ClientView implements ClientViewObserver,Runnable {
 
     }
 
-    public void printChallenger(String challengerNickname) {
+    public void printChallenger(int numOfPlayers, String challengerNickname) {
 
     }
 
-    public String getGodFromChallenger(int n) {
+    public String getGodFromChallenger(int numOfPlayers, int alreadyChosenGods) {
 
     }
 
-    public String challengerChooseStartPlayer(String challengerNickname) {
+    public String challengerChooseStartPlayer() {
 
 
     }
@@ -137,10 +139,10 @@ public class ClientView implements ClientViewObserver,Runnable {
     public void winningView(String winnerNickname) {
     }
 
-    public void unableToMoveLose(String loserNickname) {
+    public void unableToMoveLose() {
     }
 
-    public void unableToBuildLose(String loserNickname) {
+    public void unableToBuildLose() {
     }
 
 
@@ -160,7 +162,7 @@ public class ClientView implements ClientViewObserver,Runnable {
     }
 
 
-    public void printAllGods(ArrayList<God> godsDeck) {
+    public void printAllGods(ArrayList<String> godsNameAndDescription) {
 
 
     }
