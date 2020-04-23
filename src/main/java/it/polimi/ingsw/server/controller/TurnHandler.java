@@ -71,11 +71,6 @@ public class TurnHandler {
                 challengerClient.challengerError(); //print: the god you typed doesnt exist
         }
 
-        //forall players views
-        for (Player player : players)
-            player.getClient().printChosenGods();
-        //print: these are the gods chosen by the challenger + list chosenGods
-
     }
 
     /**
@@ -89,10 +84,15 @@ public class TurnHandler {
 
         for (Player player : players) {
             ClientView playerClient = player.getClient();
+            ArrayList<String> chosenGods = new ArrayList<>();
+            for(God god : game.getChosenGods()){
+                chosenGods.add(god.toString().toLowerCase());
+            }
+            playerClient.printChosenGods(chosenGods);
             foundGod = false;
 
             while (!foundGod) {
-                String inputGod = playerClient.askPlayerGod(player.getNickname());
+                String inputGod = playerClient.askPlayerGod();
 
                 for (God god : game.getChosenGods()) {
                     String godName = god.toString().toLowerCase();

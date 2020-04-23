@@ -177,8 +177,8 @@ public class ClientView implements ClientViewObserver, Runnable {
     }
 
 
-    public void printChosenGods() {
-
+    public void printChosenGods(ArrayList<String> chosenGods) {
+        sendMessage(new Message("printChosenGods", chosenGods));
     }
 
 

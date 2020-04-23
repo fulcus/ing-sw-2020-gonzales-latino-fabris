@@ -392,17 +392,15 @@ public class CLIMainView implements ViewObserver {
     }
 
 
-    public void printChosenGods() {
+    public void printChosenGods(ArrayList<String> chosenGods) {
 
-        ArrayList<God> chosenGods = myController.getGame().getChosenGods();
         System.out.print("Available Gods: ");
 
         int index = 0;
 
-        for (God god : chosenGods) {
+        for (String god : chosenGods) {
             index++;
             System.out.print(god);
-
             if (index < chosenGods.size())
                 System.out.print(", ");
             else
