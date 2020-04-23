@@ -222,7 +222,7 @@ public class TurnHandler {
      */
     public Worker chooseWorker() {
 
-        String inputSex = currentClient.askChosenWorker(currentPlayer.getNickname());
+        String inputSex = currentClient.askChosenWorker();
 
         if (currentPlayer.getWorkers().get(0).getSex().toString().equals(inputSex))
             return currentPlayer.getWorkers().get(0);

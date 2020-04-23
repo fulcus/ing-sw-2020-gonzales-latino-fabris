@@ -3,7 +3,6 @@ package it.polimi.ingsw.server.controller;
 import it.polimi.ingsw.server.ClientView;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.controller.god.*;
-import it.polimi.ingsw.client.view.*;
 
 
 import java.util.ArrayList;
@@ -15,7 +14,6 @@ public class GameController {
 
     private Game game;
     private TurnHandler turnHandler;
-    private final ViewSelector viewSelector;
     private GodController godController;
     private final ArrayList<God> godsDeck;
 
@@ -32,7 +30,6 @@ public class GameController {
      */
     public synchronized void setUpGame(ClientView firstClient) {
 
-        //todo alberto
         /*
         String viewType = viewSelector.askTypeofView();
 
@@ -91,7 +88,7 @@ public class GameController {
 
             if (nicknameIsAvailable(chosenNickname) && chosenNickname.length() > 0) {
                 Player newPlayer = game.addPlayer(chosenNickname, client);
-                client.setPlayer(newPlayer, chosenNickname);
+                client.setPlayer(newPlayer);
                 return;
             }
 

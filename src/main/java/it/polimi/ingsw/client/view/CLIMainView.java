@@ -62,7 +62,7 @@ public class CLIMainView implements ViewObserver {
 
         System.out.println("WELCOME TO ");
 
-        santoriniAscii();
+        santoriniASCII();
 
         do {
 
@@ -72,6 +72,9 @@ public class CLIMainView implements ViewObserver {
         } while (!startString.equals("START"));
 
     }
+
+
+
 
 
     /**
@@ -100,7 +103,7 @@ public class CLIMainView implements ViewObserver {
     }
 
 
-    private void santoriniAscii() {
+    private void santoriniASCII() {
 
         System.out.println("███████╗ █████╗ ███╗   ██╗████████╗ ██████╗ ██████╗ ██╗███╗   ██╗██╗");
         System.out.println("██╔════╝██╔══██╗████╗  ██║╚══██╔══╝██╔═══██╗██╔══██╗██║████╗  ██║██║");
@@ -215,12 +218,12 @@ public class CLIMainView implements ViewObserver {
     }
 
 
-    public String askChosenWorker(String currentPlayerNickname) {
+    public String askChosenWorker() {
 
         String chosenWorkerSex;
         //Il fatto che la view per stampare il nickname del player debba andare chiamare
         // prima il controller che poi a sua volta chiama il model....boh?
-        System.out.println(currentPlayerNickname + ", it's your turn!");
+        System.out.println(playerNickname + ", it's your turn!");
 
         while (true) {
             System.out.println("Type MALE or FEMALE to choose one of your workers.");
@@ -434,7 +437,7 @@ public class CLIMainView implements ViewObserver {
         System.out.println("Your " + sex + " worker cannot build anywhere. You must build with your "
                 + otherSex + " worker.");
     }
-
+/*
     public String askTypeofView() {
 
         String selectedView;
@@ -455,6 +458,6 @@ public class CLIMainView implements ViewObserver {
         return selectedView;
 
     }
-
+*/
 
 }

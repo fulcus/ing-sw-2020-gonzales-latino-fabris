@@ -55,7 +55,6 @@ public class Server {
             gameController.getTurnHandler().startTurnFlow();
         }
 
-
     }
 
 

@@ -2,7 +2,6 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.controller.TurnHandler;
-import it.polimi.ingsw.server.controller.god.God;
 import it.polimi.ingsw.server.model.*;
 
 import java.io.IOException;
@@ -14,7 +13,7 @@ import java.util.ArrayList;
 /**
  * Represents the interface of each client with the server.
  */
-public class ClientView implements ClientViewObserver,Runnable {
+public class ClientView implements ClientViewObserver, Runnable {
 
     private final Socket socket;   //a virtual view instance for each client
     private Player player;
@@ -31,25 +30,30 @@ public class ClientView implements ClientViewObserver,Runnable {
     }
 
 
-    public void setPlayer(Player player, String playerNickname) {
-        this.player = player; //????????
-
-        //send playerNickname to be assigned as attribute in CLIMainView
-    }
-
     public Player getPlayer() {
         return player;
     }
 
+
+    public void setPlayer(Player player) {
+        this.player = player;   //used to assign player to class
+        //send playerNickname to be assigned as attribute in CLIMainView
+        String playerNickname = player.getNickname();
+        sendMessage(new Message("setPlayer", playerNickname));
+    }
+
+/*
     public String askTypeOfView() {
 
     }
+*/
+
 
     /**
      * This method displays to the user Initial Game Interface
      */
     public void beginningView() {
-
+        sendMessage(new Message("beginningView"));
     }
 
 
@@ -57,13 +61,12 @@ public class ClientView implements ClientViewObserver,Runnable {
      * @return The number of players.
      */
     public int askNumberOfPlayers() {
-
+        return (int) sendMessageWithReturn(new Message("askNumberOfPlayers"));
     }
 
 
-    private void santoriniAscii() {
-
-
+    private void santoriniASCII() {
+        sendMessage(new Message("santoriniASCII"));
     }
 
 
@@ -77,53 +80,53 @@ public class ClientView implements ClientViewObserver,Runnable {
     }
 
     public void invalidInitialWorkerPosition() {
+        sendMessage(new Message("invalidInitialWorkerPosition"));
     }
 
 
     public String askPlayerNickname() {
+        return (String) sendMessageWithReturn(new Message("askPlayerNickname"));
     }
 
-    public String askPlayerColor(String playerNickname) {
-
+    public String askPlayerColor() {
+        return (String) sendMessageWithReturn(new Message("askPlayerColor"));
     }
 
 
     /**
      * @return The name of the chosen God.
      */
-    public String askPlayerGod(String playerNickname) {
-
-
+    public String askPlayerGod() {
+        return (String) sendMessageWithReturn(new Message("askPlayerGod"));
     }
 
     public void playerChoseInvalidGod() {
-
-    }
-
-    public void printChallenger(int numOfPlayers, String challengerNickname) {
-
+        sendMessage(new Message("playerChoseInvalidGod"));
     }
 
     public String getGodFromChallenger(int numOfPlayers, int alreadyChosenGods) {
-
+        return (String) sendMessageWithReturn(new Message("getGodFromChallenger", numOfPlayers, alreadyChosenGods));
     }
 
     public String challengerChooseStartPlayer() {
-
-
+        return (String) sendMessageWithReturn(new Message("challengerChooseStartPlayer"));
     }
 
     public void invalidStartPlayer() {
+        sendMessage(new Message("invalidStartPlayer"));
     }
 
     public void notAvailableColor() {
+        sendMessage(new Message("notAvailableColor"));
     }
 
     public void notAvailableNickname() {
+        sendMessage(new Message("notAvailableNickname"));
+
     }
 
-    public String askChosenWorker(String currentPlayerNickname) {
-
+    public String askChosenWorker() {
+        return (String) sendMessageWithReturn(new Message("askChosenWorker"));
     }
 
 
@@ -131,18 +134,22 @@ public class ClientView implements ClientViewObserver,Runnable {
      * Allows to print the ERROR to the screen
      */
     public void printErrorScreen() {
+        sendMessage(new Message("printErrorScreen"));
     }
 
     /**
      * Prints to screen that one of the player has won the game
      */
     public void winningView(String winnerNickname) {
+        sendMessage(new Message("winningView", winnerNickname));
     }
 
     public void unableToMoveLose() {
+        sendMessage(new Message("unableToMoveLose"));
     }
 
     public void unableToBuildLose() {
+        sendMessage(new Message("unableToBuildLose"));
     }
 
 
@@ -150,8 +157,7 @@ public class ClientView implements ClientViewObserver,Runnable {
      * This method prints an updated version of the Board, depending on the Class' parameter "mymap".
      */
     public void printMap() {
-
-
+        sendMessage(new Message("printMap"));
     }
 
 
@@ -163,8 +169,7 @@ public class ClientView implements ClientViewObserver,Runnable {
 
 
     public void printAllGods(ArrayList<String> godsNameAndDescription) {
-
-
+        sendMessage(new Message("printAllGods", godsNameAndDescription));
     }
 
     public void challengerError() {
@@ -379,6 +384,33 @@ public class ClientView implements ClientViewObserver,Runnable {
 
     }
 
+    //always cast return of this method
+    private Object sendMessageWithReturn(Message message) {
+        try {
+            //flush?
+            output.writeObject(message);
+            return input.readObject();
+        } catch (IOException e) {
+            System.out.println("server has died");
+        } catch (ClassCastException | ClassNotFoundException e) {
+            System.out.println("protocol violation");
+        }
+
+        //todo handle exception better
+        return null;
+    }
+
+    private void sendMessage(Message message) {
+
+        try {
+            //flush?
+            output.writeObject(message);
+        } catch (IOException e) {
+            System.out.println("server has died");
+        }
+    }
+
+
     public void connected() {
         //send to view:
         //System.out.println("Connected to " + client.getInetAddress());
@@ -413,7 +445,8 @@ public class ClientView implements ClientViewObserver,Runnable {
             do {
                 try {
                     wait();
-                } catch (InterruptedException e) { }
+                } catch (InterruptedException e) {
+                }
 
             } while (turnHandler.getCurrentPlayer() != player);
 
