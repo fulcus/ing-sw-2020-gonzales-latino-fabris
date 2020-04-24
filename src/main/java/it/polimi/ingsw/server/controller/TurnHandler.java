@@ -156,7 +156,7 @@ public class TurnHandler {
                 positionSet = false;
 
                 while (!positionSet) {
-                    int[] initialPosition = playerClient.askInitialWorkerPosition(worker.getSex());
+                    int[] initialPosition = playerClient.askInitialWorkerPosition(worker.getSex().name());
                     int x = initialPosition[0];
                     int y = initialPosition[1];
 

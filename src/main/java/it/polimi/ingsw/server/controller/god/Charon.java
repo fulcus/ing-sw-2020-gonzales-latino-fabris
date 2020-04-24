@@ -32,7 +32,7 @@ public class Charon extends God {
         Board board = worker.getPlayer().getGame().getBoard();
 
         ArrayList<Worker> neighboringEnemies = worker.getMoveMap().neighboringEnemyWorkers();
-        ArrayList<Worker> toDisplaceEnemies = new ArrayList<>(6);
+        ArrayList<Worker> movableNeighboringEnemies = new ArrayList<>(6);
         int newEnemyX;
         int newEnemyY;
 
@@ -46,17 +46,17 @@ public class Charon extends God {
                 Cell newEnemyPosition = board.findCell(newEnemyX,newEnemyY);
 
                 if(!(newEnemyPosition.isOccupied() || newEnemyX>4 || newEnemyX<0 || newEnemyY<0 || newEnemyY>4))
-                    toDisplaceEnemies.add(enemy);
+                    movableNeighboringEnemies.add(enemy);
             }
 
-            //now toDisplaceEnemies there are only enemy workers that can be displaced
+            //now movableNeighboringEnemies there are only enemy workers that can be displaced
 
-            if(!toDisplaceEnemies.isEmpty()) {
+            if(!movableNeighboringEnemies.isEmpty()) {
 
                 if (!godController.wantToMoveEnemy())
                     return;
 
-                Worker enemyToMove = godController.ForceMoveEnemy(toDisplaceEnemies, worker);
+                Worker enemyToMove = godController.forceMoveEnemy(movableNeighboringEnemies, worker);
 
                 if (enemyToMove == null)
                     return;

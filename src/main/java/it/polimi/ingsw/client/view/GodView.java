@@ -153,13 +153,15 @@ public class GodView {
      * @return The Worker to move selected by the player.
      */
     public String askWorkerToMove(ArrayList<Worker> enemyWorkers, Worker myWorker) {
-        System.out.println("If there are enemy's workers around you, these are their directions.Choose one:  ");
 
         ArrayList<String> presentPositions = printFoundEnemiesPosition(enemyWorkers, myWorker);
+
         if (presentPositions.size() == 0) {
-            System.out.println("No enemy workers around...");
+            System.out.println("There are no enemy workers around...");
             return null;
         }
+
+        System.out.println("These are the positions of the enemy workers nearby. Choose one:");
 
         while (true) {
             String chosenEnemyDirection = input.nextLine();
@@ -185,7 +187,7 @@ public class GodView {
      * @param myWorker     It's the chosen worker of the current player.
      * @return The position of the selected worker to move.
      */
-    public ArrayList<String> printFoundEnemiesPosition(ArrayList<Worker> enemyWorkers, Worker myWorker) {
+    private ArrayList<String> printFoundEnemiesPosition(ArrayList<Worker> enemyWorkers, Worker myWorker) {
         int myWorkerX = myWorker.getPosition().getX();
         int myWorkerY = myWorker.getPosition().getY();
         ArrayList<String> presentPositions = new ArrayList<>();
@@ -321,7 +323,7 @@ public class GodView {
      */
     public String printMoveDecisionError() {
         printMoveErrorScreen();
-        System.out.println("Do you still want to move? Y for yes, N for No:   ");
+        System.out.println("Do you still want to move?");
         return playerAnswerYN();
     }
 
@@ -332,7 +334,7 @@ public class GodView {
      * @return Y for a positive answer, N for a negative one.
      */
     public String printBuildDecisionError() {
-        System.out.println("Do you still want to build? Y for yes, N for No:   ");
+        System.out.println("Do you still want to build?");
         return playerAnswerYN();
     }
 

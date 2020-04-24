@@ -65,18 +65,15 @@ public class ClientView implements ClientViewObserver, Runnable {
     }
 
 
-    private void santoriniASCII() {
-        sendMessage(new Message("santoriniASCII"));
-    }
-
-
     /**
      * This method asks the player to set his worker initial position.
      *
      * @param workerSex This is the sex of the worker to be placed on the board.
      * @return Array with x,y coordinates of the chosen position.
      */
-    public int[] askInitialWorkerPosition(Sex workerSex) {
+    public int[] askInitialWorkerPosition(String workerSex) {
+        //todo probabilmente sbagliato
+        return (int[])sendMessageWithReturn(new Message("askInitialWorkerPosition",workerSex));
     }
 
     public void invalidInitialWorkerPosition() {
@@ -173,7 +170,7 @@ public class ClientView implements ClientViewObserver, Runnable {
     }
 
     public void challengerError() {
-
+        sendMessage(new Message("challengerError"));
     }
 
 
@@ -183,9 +180,11 @@ public class ClientView implements ClientViewObserver, Runnable {
 
 
     public void selectedWorkerCannotMove(String sex) {
+
     }
 
     public void selectedWorkerCannotBuild(String sex) {
+
     }
 
 
@@ -195,7 +194,7 @@ public class ClientView implements ClientViewObserver, Runnable {
      * @return The compass direction of the place where to build.
      */
     public String askBuildingDirection() {
-
+        return (String) sendMessageWithReturn(new Message("askBuildingDirection"));
     }
 
 
@@ -205,7 +204,8 @@ public class ClientView implements ClientViewObserver, Runnable {
      * @return The compass direction of the place where to build.
      */
     public String[] askBuildingDirectionAtlas() {
-
+        //todo probabilmente sbagliato
+        return(String[])sendMessageWithReturn(new Message("askBuildingDirectionAtlas"));
     }
 
 
@@ -215,8 +215,7 @@ public class ClientView implements ClientViewObserver, Runnable {
      * @return The compass direction of the movement.
      */
     public String askMovementDirection() {
-
-
+        return (String) sendMessageWithReturn(new Message("askMovementDirection"));
     }
 
 
@@ -226,7 +225,7 @@ public class ClientView implements ClientViewObserver, Runnable {
      * @return The will of the player on keeping going moving his worker on the board.
      */
     public String askMoveAgain() {
-
+        return (String) sendMessageWithReturn(new Message("askMoveAgain"));
     }
 
 
@@ -236,7 +235,7 @@ public class ClientView implements ClientViewObserver, Runnable {
      * @return The will of the player to reach an higher level.
      */
     public String askWantToMoveUp() {
-
+        return (String) sendMessageWithReturn(new Message("askWantToMoveUp"));
     }
 
 
@@ -246,7 +245,7 @@ public class ClientView implements ClientViewObserver, Runnable {
      * @return The will of the player to move an enemy's worker
      */
     public String askWantToMoveEnemy() {
-
+        return (String) sendMessageWithReturn(new Message("askWantToMoveEnemy"));
     }
 
 
@@ -263,23 +262,11 @@ public class ClientView implements ClientViewObserver, Runnable {
 
 
     /**
-     * Helps to show the positions of the neighboring workers
-     *
-     * @param enemyWorkers It's the list of the neighbour movable enemy workers.
-     * @param myWorker     It's the chosen worker of the current player.
-     * @return The position of the selected worker to move.
-     */
-    public ArrayList<String> printFoundEnemiesPosition(ArrayList<Worker> enemyWorkers, Worker myWorker) {
-
-    }
-
-
-    /**
      * Says that the worker can build under himself/herself.
      * This is allowed only when playing with Zeus.
      */
     public void printBuildUnderneath() {
-
+        sendMessage(new Message("printBuildUnderneath"));
     }
 
 
@@ -289,7 +276,7 @@ public class ClientView implements ClientViewObserver, Runnable {
      * @return The will of the player to build again.
      */
     public String askBuildAgainHephaestus() {
-
+        return (String) sendMessageWithReturn(new Message("askBuildAgainHephaestus"));
     }
 
 
@@ -299,7 +286,7 @@ public class ClientView implements ClientViewObserver, Runnable {
      * @return The will of the player to build again.
      */
     public String askBuildAgainDemeter() {
-
+        return (String) sendMessageWithReturn(new Message("askBuildAgainDemeter"));
     }
 
 
@@ -309,7 +296,7 @@ public class ClientView implements ClientViewObserver, Runnable {
      * @return The will of the player to build again.
      */
     public String askBuildAgainHestia() {
-
+        return (String) sendMessageWithReturn(new Message("askBuildAgainHestia"));
     }
 
     /**
@@ -318,17 +305,7 @@ public class ClientView implements ClientViewObserver, Runnable {
      * @return The will of the player to build before moving.
      */
     public String askBuildPrometheus() {
-
-    }
-
-
-    /**
-     * Allows to get the answer of a player to a question.
-     *
-     * @return Y for a positive answer, N for a negative one.
-     */
-    private String playerAnswerYN() {
-
+        return (String) sendMessageWithReturn(new Message("askBuildPrometheus"));
     }
 
 
@@ -336,7 +313,7 @@ public class ClientView implements ClientViewObserver, Runnable {
      * Points out the player cannot move in a certain position.
      */
     public void printMoveErrorScreen() {
-
+        sendMessage(new Message("printMoveErrorScreen"));
     }
 
 
@@ -346,7 +323,7 @@ public class ClientView implements ClientViewObserver, Runnable {
      * @return Y for a positive answer, N for a negative one.
      */
     public String printMoveDecisionError() {
-
+        return (String) sendMessageWithReturn(new Message("printMoveDecisionError"));
     }
 
 
@@ -356,7 +333,7 @@ public class ClientView implements ClientViewObserver, Runnable {
      * @return Y for a positive answer, N for a negative one.
      */
     public String printBuildDecisionError() {
-
+        return (String) sendMessageWithReturn(new Message("printBuildDecisionError"));
     }
 
 
@@ -364,8 +341,7 @@ public class ClientView implements ClientViewObserver, Runnable {
      * Points out a player is not allowed to build.
      */
     public void printBuildGeneralErrorScreen() {
-
-
+        sendMessage(new Message("printBuildGeneralErrorScreen"));
     }
 
 
@@ -373,7 +349,7 @@ public class ClientView implements ClientViewObserver, Runnable {
      * Points out a player is not allowed to build a block in a certain position.
      */
     public void printBuildBlockErrorScreen() {
-
+        sendMessage(new Message("printBuildBlockErrorScreen"));
     }
 
 
@@ -381,7 +357,7 @@ public class ClientView implements ClientViewObserver, Runnable {
      * Points out that a player is not allowed to build again in a certain position.
      */
     public void printBuildInSamePositionScreen() {
-
+        sendMessage(new Message("printBuildInSamePositionScreen"));
     }
 
     //always cast return of this method

@@ -105,7 +105,6 @@ public class GodController {
     public int[] getInputMove() {
 
         return getInputInCoordinates(currentClient.askMovementDirection());
-        // return getInputInCoordinates(clientView.askMovementDirection());
     }
 
 
@@ -148,7 +147,7 @@ public class GodController {
      * @param worker       It's the worker has selected for this turn.
      * @return The worker the player has chosen to move.
      */
-    public Worker ForceMoveEnemy(ArrayList<Worker> enemyWorkers, Worker worker) {
+    public Worker forceMoveEnemy(ArrayList<Worker> enemyWorkers, Worker worker) {
         String workerToMoveCompassPosition = currentClient.askWorkerToMove(enemyWorkers, worker);
 
         if (workerToMoveCompassPosition == null)
@@ -178,7 +177,6 @@ public class GodController {
 
         int[] buildingInput = new int[3];
         String[] playerInput = currentClient.askBuildingDirectionAtlas();
-        //String[] playerInput = clientView.askBuildingDirectionAtlas();
 
         int[] playerInputCoord = getInputInCoordinates(playerInput[0]);
         buildingInput[0] = playerInputCoord[0];
@@ -194,15 +192,14 @@ public class GodController {
 
 
     /**
-     * This method returns the coordinates where a player wants to build and the specific building.
+     * This method returns the coordinates where a player wants to build.
      *
-     * @return Coordinates' variation and type of building.
+     * @return Coordinates' variation.
      */
     public int[] getBuildingInput() {
 
         int[] buildingInput = new int[2];
         String playerInput = currentClient.askBuildingDirection();
-        //String playerInput = clientView.askBuildingDirection();
 
         int[] playerInputCoord = getInputInCoordinates(playerInput);
         buildingInput[0] = playerInputCoord[0];
@@ -222,19 +219,15 @@ public class GodController {
         String answer = null;
         if (god.toString().equals("Hephaestus"))
             answer = currentClient.askBuildAgainHephaestus();
-            // answer = clientView.askBuildAgainHephaestus();
 
         if (god.toString().equals("Demeter"))
             answer = currentClient.askBuildAgainDemeter();
-            // answer = clientView.askBuildAgainDemeter();
 
         if (god.toString().equals("Hestia"))
             answer = currentClient.askBuildAgainHestia();
-            // answer = clientView.askBuildAgainHestia();
 
         if (god.toString().equals("Prometheus"))
             answer = currentClient.askBuildPrometheus();
-            // answer = clientView.askBuildPrometheus();
 
         return answer.equals("Y");
     }
@@ -261,7 +254,6 @@ public class GodController {
      */
     public void errorMoveScreen() {
         currentClient.printMoveErrorScreen();
-        //clientView.printMoveErrorScreen();
     }
 
 
@@ -273,7 +265,6 @@ public class GodController {
     public boolean errorMoveDecisionScreen() {
 
         return currentClient.printMoveDecisionError().equals("Y");
-        // return clientView.printMoveDecisionError().equals("Y");
     }
 
 
@@ -284,7 +275,6 @@ public class GodController {
      */
     public boolean errorBuildDecisionScreen() {
         return currentClient.printBuildDecisionError().equals("Y");
-        // return clientView.printBuildDecisionError().equals("Y");
     }
 
 
@@ -293,7 +283,6 @@ public class GodController {
      */
     public void errorBuildInSamePosition() {
         currentClient.printBuildInSamePositionScreen();
-        // clientView.printBuildInSamePositionScreen();
     }
 
 
@@ -302,7 +291,6 @@ public class GodController {
      */
     public void errorBuildScreen() {
         currentClient.printBuildGeneralErrorScreen();
-        // clientView.printBuildGeneralErrorScreen();
     }
 
 
@@ -311,7 +299,6 @@ public class GodController {
      */
     public void errorBuildBlockScreen() {
         currentClient.printBuildBlockErrorScreen();
-        // clientView.printBuildBlockErrorScreen();
     }
 
 }

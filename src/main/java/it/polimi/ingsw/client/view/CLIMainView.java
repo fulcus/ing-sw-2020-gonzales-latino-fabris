@@ -122,19 +122,20 @@ public class CLIMainView implements ViewObserver {
      * @param workerSex This is the sex of the worker to be placed on the board.
      * @return Array with x,y coordinates of the chosen position.
      */
-    public int[] askInitialWorkerPosition(Sex workerSex)
+    public int[] askInitialWorkerPosition(String workerSex)
             throws InputMismatchException {
+
         while (true) {
             try {
                 int[] initialWorkerPosition = new int[2];
 
-                if (workerSex == Sex.MALE) {
+                if (workerSex.equals("MALE")) {
                     System.out.println(playerNickname + ", set your male worker's position in coordinates.");
 
                     initialWorkerPosition[0] = intInput.nextInt();
                     initialWorkerPosition[1] = intInput.nextInt();
                     return initialWorkerPosition;
-                } else if (workerSex == Sex.FEMALE) {
+                } else if (workerSex.equals("FEMALE")) {
                     System.out.println(playerNickname +
                             ", set your female worker's position in coordinates.");
                     initialWorkerPosition[0] = intInput.nextInt();
