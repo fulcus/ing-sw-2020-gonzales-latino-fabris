@@ -1,15 +1,25 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.client.view.CLIMainView;
+import it.polimi.ingsw.client.view.GodView;
+import it.polimi.ingsw.server.Server;
+import it.polimi.ingsw.server.controller.GameController;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+
+import static java.lang.System.exit;
 
 
 public class NetworkHandler implements Runnable
 {
+
     private enum Commands {
 
     }
@@ -20,12 +30,36 @@ public class NetworkHandler implements Runnable
     private ObjectOutputStream outputStm;
     private ObjectInputStream inputStm;
 
+    private Scanner input;
+    private CLIMainView cliMainView;
+    private GodView godView;
+
     private List<ServerObserver> observers = new ArrayList<>();
 
 
-    public NetworkHandler(Socket server)
-    {
+    public NetworkHandler(Socket server) {
         this.server = server;
+        input = new Scanner(System.in);
+    }
+
+    public void init() {
+
+        //è la parte iniziale di codice che permette di selezionare il tipo di view che si vuole: cli o gui
+        String viewMode;
+        while(true) {
+
+            System.out.println("Choose your view mode: cli or gui? Type it here: ");
+            viewMode = input.nextLine();
+
+            if (viewMode.toLowerCase().equals("cli")) {
+                cliMainView = new CLIMainView();
+                godView = new GodView();
+            }
+            /*if (viewMode.toLowerCase().equals("gui"))
+               istanzia gui
+             */
+            System.out.println("Wrong input.\n\n");
+        }
     }
 
 
@@ -61,8 +95,10 @@ public class NetworkHandler implements Runnable
 
 
     @Override
-    public void run()
-    {
+    public void run() {
+
+        init();
+
         try {
             outputStm = new ObjectOutputStream(server.getOutputStream());
             inputStm = new ObjectInputStream(server.getInputStream());
@@ -91,6 +127,7 @@ public class NetworkHandler implements Runnable
             if (nextCommand == null)
                 continue;
 
+            // NEI CASE DI QUESTO SWITCH DOBBIAMO METTERE I METODI delle richieste del server
             switch (nextCommand) {
                 case CONVERT_STRING:
                     doStringConversion();

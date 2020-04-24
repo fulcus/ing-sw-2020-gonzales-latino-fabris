@@ -1,18 +1,39 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.server.Server;
+import it.polimi.ingsw.client.NetworkHandler;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Scanner;
 
+import static java.lang.System.exit;
 
-public class Client
-{
-    public static void main( String[] args )
+
+public class Client implements Runnable{
+
+    private String response = null;
+
+    public static void main(String[] args) {
+
+        /* Instantiate a new Client which will also receive events from
+         * the server by implementing the ServerObserver interface */
+        Client client = new Client();
+        client.run();
+
+    }
+
+
+    @Override
+    public void run()
     {
+        /*
+         * WARNING: this method executes IN THE CONTEXT OF THE MAIN THREAD
+         */
+
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("IP address of server?");
@@ -28,26 +49,19 @@ public class Client
         }
         System.out.println("Connected");
 
-        try {
-            ObjectOutputStream output = new ObjectOutputStream(server.getOutputStream());
-            ObjectInputStream input = new ObjectInputStream(server.getInputStream());
+        /* Create the adapter that will allow communication with the server
+         * in background, and start running its thread */
+        NetworkHandler networkHandler = new NetworkHandler(server);
+        networkHandler.addObserver((ServerObserver) this);
 
-            /* write a String to the server, and then get a String back */
-            String str = scanner.nextLine();
-            while (!"".equals(str)) {
-                output.writeObject(str);
-                String newStr = (String)input.readObject();
-                System.out.println(newStr);
-                str = scanner.nextLine();
-            }
-        } catch (IOException e) {
-            System.out.println("server has died");
-        } catch (ClassCastException | ClassNotFoundException e) {
-            System.out.println("protocol violation");
-        }
+        Thread serverAdapterThread = new Thread(networkHandler);
+        serverAdapterThread.start();
 
-        try {
-            server.close();
-        } catch (IOException e) { }
+
     }
+
+
+
+
+
 }

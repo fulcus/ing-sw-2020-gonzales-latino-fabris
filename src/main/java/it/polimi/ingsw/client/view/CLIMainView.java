@@ -1,10 +1,7 @@
 package it.polimi.ingsw.client.view;
 
-import it.polimi.ingsw.server.controller.GameController;
-import it.polimi.ingsw.server.controller.god.God;
+
 import it.polimi.ingsw.server.model.*;
-
-
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -13,7 +10,6 @@ public class CLIMainView implements ViewObserver {
 
     private Scanner input;
     private Scanner intInput;
-    private final GameController myController;
     private final GodView godView;
     private final ClientCell[][] myBoard;// this will contain a copy of the Model's map and each cell will be update if there are any changes
     private final int boardSize;
@@ -23,11 +19,10 @@ public class CLIMainView implements ViewObserver {
     /**
      * This is the CLIMainView constructor.
      *
-     * @param controller This is the controller that has created the game.
      */
 
 
-    public CLIMainView(GameController controller) {
+    public CLIMainView() {
 
         boardSize = 5;//TODO it should be passed as a parameter by the server
 
@@ -38,7 +33,6 @@ public class CLIMainView implements ViewObserver {
                 myBoard [i][j] = new ClientCell(i,j);
             }
 
-        myController = controller;
         input = new Scanner(System.in);
         intInput = new Scanner(System.in);
         godView = new GodView();
