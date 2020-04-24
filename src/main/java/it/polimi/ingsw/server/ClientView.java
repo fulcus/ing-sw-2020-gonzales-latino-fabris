@@ -1,5 +1,8 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.serializableObjects.ClientCell;
+import it.polimi.ingsw.serializableObjects.Message;
+import it.polimi.ingsw.serializableObjects.WorkerClient;
 import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.controller.TurnHandler;
 import it.polimi.ingsw.server.model.*;
@@ -73,7 +76,7 @@ public class ClientView implements ClientViewObserver, Runnable {
      */
     public int[] askInitialWorkerPosition(String workerSex) {
         //todo probabilmente sbagliato
-        return (int[])sendMessageWithReturn(new Message("askInitialWorkerPosition",workerSex));
+        return (int[]) sendMessageWithReturn(new Message("askInitialWorkerPosition", workerSex));
     }
 
     public void invalidInitialWorkerPosition() {
@@ -117,10 +120,7 @@ public class ClientView implements ClientViewObserver, Runnable {
         sendMessage(new Message("notAvailableColor"));
     }
 
-    public void notAvailableNickname() {
-        sendMessage(new Message("notAvailableNickname"));
-
-    }
+    public void notAvailableNickname() { sendMessage(new Message("notAvailableNickname")); }
 
     public String askChosenWorker() {
         return (String) sendMessageWithReturn(new Message("askChosenWorker"));
@@ -160,8 +160,7 @@ public class ClientView implements ClientViewObserver, Runnable {
 
     @Override
     public void update(Cell toUpdateCell) {
-
-        //TODO: write code that from the toUpdateCell, creates and sends the encoded cell.
+        sendMessage(new Message("update", new ClientCell(toUpdateCell)));
     }
 
 
@@ -179,13 +178,9 @@ public class ClientView implements ClientViewObserver, Runnable {
     }
 
 
-    public void selectedWorkerCannotMove(String sex) {
+    public void selectedWorkerCannotMove(String sex) { sendMessage(new Message("selectedWorkerCannotMove",sex)); }
 
-    }
-
-    public void selectedWorkerCannotBuild(String sex) {
-
-    }
+    public void selectedWorkerCannotBuild(String sex) { sendMessage(new Message("selectedWorkerCannotBuild",sex)); }
 
 
     /**
@@ -205,7 +200,7 @@ public class ClientView implements ClientViewObserver, Runnable {
      */
     public String[] askBuildingDirectionAtlas() {
         //todo probabilmente sbagliato
-        return(String[])sendMessageWithReturn(new Message("askBuildingDirectionAtlas"));
+        return (String[]) sendMessageWithReturn(new Message("askBuildingDirectionAtlas"));
     }
 
 
@@ -257,6 +252,14 @@ public class ClientView implements ClientViewObserver, Runnable {
      * @return The Worker to move selected by the player.
      */
     public String askWorkerToMove(ArrayList<Worker> enemyWorkers, Worker myWorker) {
+
+        ArrayList<WorkerClient> enemyWorkersClient = new ArrayList<WorkerClient>(enemyWorkers.size());
+
+        for (Worker worker : enemyWorkers)
+            enemyWorkersClient.add(new WorkerClient(worker));
+
+
+        return (String) sendMessageWithReturn(new Message("askWorkerToMove", enemyWorkersClient, new WorkerClient(myWorker)));
 
     }
 

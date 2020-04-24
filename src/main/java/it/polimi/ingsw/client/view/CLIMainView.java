@@ -1,18 +1,20 @@
 package it.polimi.ingsw.client.view;
 
+import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.server.controller.GameController;
+import it.polimi.ingsw.server.controller.god.God;
 
 import it.polimi.ingsw.server.model.*;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class CLIMainView implements ViewObserver {
+public class CLIMainView {
 
     private Scanner input;
     private Scanner intInput;
     private final GodView godView;
-    private final ClientCell[][] myBoard;// this will contain a copy of the Model's map and each cell will be update if there are any changes
-    private final int boardSize;
+    private final ClientBoard board;// this will contain a copy of the Model's map and each cell will be update if there are any changes
     private String playerNickname;
     //to be assigned when setPlayer of ClientView is deserialized
 
@@ -24,15 +26,7 @@ public class CLIMainView implements ViewObserver {
 
     public CLIMainView() {
 
-        boardSize = 5;//TODO it should be passed as a parameter by the server
-
-        myBoard = new ClientCell[boardSize][boardSize];
-
-        for (int i = 0; i < boardSize; i++)
-            for (int j = 0; j < boardSize; j++) {
-                myBoard [i][j] = new ClientCell(i,j);
-            }
-
+        board = new ClientBoard();
         input = new Scanner(System.in);
         intInput = new Scanner(System.in);
         godView = new GodView();
@@ -295,17 +289,17 @@ public class CLIMainView implements ViewObserver {
 
             //Place where eventual buildings will be printed
 
-            if (myBoard[lineNumber][i].HasDome())//if cell has dome
+            if (board.findCell(lineNumber,i).HasDome())//if cell has dome
                 System.out.printf("D");
 
             else {
                 //if cell has not dome
 
-                if (myBoard[lineNumber][i].getCellLevel() == 0)
+                if (board.findCell(lineNumber,i).getCellLevel() == 0)
                     System.out.printf(" ");//if there is no building, prints nothing
 
                 else
-                    System.out.printf("%d",myBoard[lineNumber][i].getCellLevel() );   // if there is a building, prints its level
+                    System.out.printf("%d",board.findCell(lineNumber,i).getCellLevel() );   // if there is a building, prints its level
             }
 
             //SPACE
@@ -317,14 +311,14 @@ public class CLIMainView implements ViewObserver {
             //PLACE of cell (4) that prints eventual presence of a worker with its parameter(SEX;COLOR)
 
 
-            if (!myBoard[lineNumber][i].HasWorker()) {
+            if (!board.findCell(lineNumber,i).HasWorker()) {
                 System.out.printf(" ");
                 System.out.printf(" ");//5
             } else {
 
                 additionalSpace = false;
-                String workerColor = myBoard[lineNumber][i].getWorkerColor();
-                String workerSex = myBoard[lineNumber][i].getWorkerSex();
+                String workerColor = board.findCell(lineNumber,i).getWorkerClient().getWorkerColor();
+                String workerSex = board.findCell(lineNumber,i).getWorkerClient().getWorkerSex();
 
                 if (workerColor.equals("BLUE") && workerSex.equals("MALE"))
                     System.out.printf(CliColor.ANSI_BLUE + " M⃣ " + CliColor.COLOR_RESET);
@@ -349,28 +343,6 @@ public class CLIMainView implements ViewObserver {
 
         System.out.printf(CliColor.ANSI_GREEN + "+" + CliColor.COLOR_RESET);
         System.out.printf("%n");
-
-    }
-
-
-    //TODO: in update si potrebbero passare inoltre dei parametri che specificano cosa ha fatto avvenire il cambiamento, ad esempio se per un movimento o per una costruzione. Intal modo posso far apparire all'utente: PLAYER1 si è mosso-->stampa mappa.
-    @Override
-    public void update(ClientCell toBeUpdatedCell) {
-
-        int xToUpdate = toBeUpdatedCell.getX();
-        int yToUpdate = toBeUpdatedCell.getY();
-        ClientCell cellUpdatedView = myBoard[xToUpdate][yToUpdate];
-
-        //update the level of the changed cell in the view
-        cellUpdatedView.setCellLevel(toBeUpdatedCell.getCellLevel());
-        //update dome of changed cell in the view
-        cellUpdatedView.setHasDome(toBeUpdatedCell.HasDome());
-        //update worker of the changed cell in the view
-        cellUpdatedView.setHasWorker(toBeUpdatedCell.HasWorker());
-
-        cellUpdatedView.setWorkerColor(toBeUpdatedCell.getWorkerColor());
-
-        cellUpdatedView.setWorkerSex(toBeUpdatedCell.getWorkerSex());
 
     }
 

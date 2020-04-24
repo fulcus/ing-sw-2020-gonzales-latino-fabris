@@ -103,7 +103,7 @@ public class GameController {
 
         while (!colorCorrectlyChosen) {
 
-            String chosenColor = client.askPlayerColor(client.getPlayer().getNickname());
+            String chosenColor = client.askPlayerColor();
 
             if (colorIsAvailable(chosenColor) && colorIsValid(chosenColor)) {
                 client.getPlayer().setColor(Color.StringToColor(chosenColor));
