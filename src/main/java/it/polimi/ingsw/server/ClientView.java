@@ -37,7 +37,11 @@ public class ClientView implements ClientViewObserver, Runnable {
         return player;
     }
 
-
+    /**
+     * Associates the ClientView to a player.
+     *
+     * @param player
+     */
     public void setPlayer(Player player) {
         this.player = player;   //used to assign player to class
         //send playerNickname to be assigned as attribute in CLIMainView
@@ -61,6 +65,8 @@ public class ClientView implements ClientViewObserver, Runnable {
 
 
     /**
+     * Asks the first player that connects the number of players of the game.
+     *
      * @return The number of players.
      */
     public int askNumberOfPlayers() {
@@ -120,7 +126,9 @@ public class ClientView implements ClientViewObserver, Runnable {
         sendMessage(new Message("notAvailableColor"));
     }
 
-    public void notAvailableNickname() { sendMessage(new Message("notAvailableNickname")); }
+    public void notAvailableNickname() {
+        sendMessage(new Message("notAvailableNickname"));
+    }
 
     public String askChosenWorker() {
         return (String) sendMessageWithReturn(new Message("askChosenWorker"));
@@ -178,9 +186,14 @@ public class ClientView implements ClientViewObserver, Runnable {
     }
 
 
-    public void selectedWorkerCannotMove(String sex) { sendMessage(new Message("selectedWorkerCannotMove",sex)); }
+    public void selectedWorkerCannotMove(String sex) {
+        sendMessage(new Message("selectedWorkerCannotMove", sex));
+    }
 
-    public void selectedWorkerCannotBuild(String sex) { sendMessage(new Message("selectedWorkerCannotBuild",sex)); }
+
+    public void selectedWorkerCannotBuild(String sex) {
+        sendMessage(new Message("selectedWorkerCannotBuild", sex));
+    }
 
 
     /**
@@ -395,6 +408,9 @@ public class ClientView implements ClientViewObserver, Runnable {
         //System.out.println("Connected to " + client.getInetAddress());
     }
 
+    /**
+     * Disconnects the client from the server.
+     */
     public void killClient() {
         inGame = false;
     }
@@ -412,7 +428,11 @@ public class ClientView implements ClientViewObserver, Runnable {
         }
     }
 
-
+    /**
+     * Lets the client play his turn.
+     *
+     * @throws IOException thrown by Socket.close()
+     */
     private void startClient() throws IOException {
 
         turnHandler = gameController.getTurnHandler();

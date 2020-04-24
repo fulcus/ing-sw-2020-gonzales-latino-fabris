@@ -12,7 +12,6 @@ import java.util.ArrayList;
 public class Player {
 
     private final Game game;
-    //private ArrayList<PlayerObserver> playerObservers;
     private final String nickname;
     private Color color;
     private God god;
@@ -70,30 +69,38 @@ public class Player {
     }
 
 
-    public void setColor(Color color) { this.color = color; }
+    public void setColor(Color color) {
+        this.color = color;
+    }
 
     /**
-     *
      * @param value true allows the player to win in perimeter, false otherwise
      */
-    public void setPermissionToWinInPerimeter(boolean value) { canWinInPerimeter = value;}
+    public void setPermissionToWinInPerimeter(boolean value) {
+        canWinInPerimeter = value;
+    }
 
     /**
-     *
      * @param value true allows the player to move up, false otherwise
      */
-    public void setPermissionToMoveUp(boolean value) {canMoveUp = value;}
+    public void setPermissionToMoveUp(boolean value) {
+        canMoveUp = value;
+    }
 
     /**
      * @return True if the Player can move up, false if this player can not move up for the current turn
      */
-    public boolean getCanMoveUp() { return canMoveUp;}
+    public boolean getCanMoveUp() {
+        return canMoveUp;
+    }
 
 
     /**
      * @return True if the Player can win with a worker on the perimeter, false otherwise
      */
-    public boolean getCanWinInPerimeter() { return canWinInPerimeter; }
+    public boolean getCanWinInPerimeter() {
+        return canWinInPerimeter;
+    }
 
 
     public ArrayList<Worker> getWorkers() {
@@ -105,10 +112,13 @@ public class Player {
         return game;
     }
 
+    /**
+     * States that the player has lost and removes him from the game.
+     */
     public void lose() {
 
         //remove workers from board
-        for(Worker worker : workers) {
+        for (Worker worker : workers) {
             Cell workerCell = worker.getPosition();
             workerCell.moveOut();
         }

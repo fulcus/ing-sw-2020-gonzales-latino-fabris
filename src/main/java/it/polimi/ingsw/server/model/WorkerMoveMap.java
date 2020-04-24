@@ -36,7 +36,9 @@ public class WorkerMoveMap extends WorkerMap {
      *
      * @return True if there is at least one cell 1 level higher, false otherwise.
      */
-    public boolean anyOneLevelHigherCell() { return reachNearHigherLevel(); }
+    public boolean anyOneLevelHigherCell() {
+        return reachNearHigherLevel();
+    }
 
     /**
      * Forbids worker to not move.
@@ -47,16 +49,18 @@ public class WorkerMoveMap extends WorkerMap {
 
     /**
      * Finds out if worker is allowed to move in a given cell of the board.
+     *
      * @param i Board coordinate X.
      * @param j Board coordinate Y.
      * @return True if it can move in cell, false otherwise.
      */
     public boolean isAllowedToMoveBoard(int i, int j) {
-        return getBooleanCellBoard(i,j);
+        return getBooleanCellBoard(i, j);
     }
 
     /**
      * Finds out if worker is allowed to move in a given cell of the moveMap.
+     *
      * @param i moveMap coordinate X.
      * @param j moveMap coordinate Y.
      * @return True if it can move in position, false otherwise.
@@ -71,7 +75,7 @@ public class WorkerMoveMap extends WorkerMap {
      */
     public void updateMoveUpRestrictions() {
 
-        if(getWorker().getPlayer().getCanMoveUp())
+        if (getWorker().getPlayer().getCanMoveUp())
             levelDifferenceLessEqualThanX(1);
         else
             levelDifferenceLessEqualThanX(0);
@@ -79,6 +83,7 @@ public class WorkerMoveMap extends WorkerMap {
 
     /**
      * Checks if the worker can move.
+     *
      * @return Returns true if there is a cell the worker can move in, false otherwise.
      */
     public boolean anyAvailableMovePosition() {

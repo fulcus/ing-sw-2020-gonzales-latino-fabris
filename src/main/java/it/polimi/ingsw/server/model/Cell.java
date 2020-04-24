@@ -6,7 +6,7 @@ import it.polimi.ingsw.server.ClientViewObserver;
 import java.util.ArrayList;
 
 /**
- * This class represents a map's cell structure
+ * This class represents a board's cell structure
  */
 
 public class Cell {
@@ -48,6 +48,9 @@ public class Cell {
         this.worker = worker;
     }
 
+    public boolean hasDome() {
+        return dome;
+    }
 
     /**
      * Builds 1 block more in this cell
@@ -55,10 +58,6 @@ public class Cell {
     public void buildBlock() {
         level++;
         notifyObservers();
-    }
-
-    public boolean hasDome() {
-        return dome;
     }
 
     /**
@@ -70,7 +69,7 @@ public class Cell {
     }
 
     /**
-     * Tells if in this cell there's a worker or not
+     * Finds out if in this cell there's a worker or not
      *
      * @return true if the cell contains a worker
      */
@@ -89,7 +88,7 @@ public class Cell {
     }
 
     /**
-     * States that a worker is no more in this cell
+     * States that a worker isn't in this cell anymore.
      */
     public void moveOut() {
         worker = null;
@@ -97,9 +96,9 @@ public class Cell {
     }
 
     /**
-     * States if the cell stays on the border of the map
+     * Finds out if the cell stays on the border of the board
      *
-     * @return true if the cell is on the border of the map
+     * @return true if the cell is on the border of the board
      */
     public boolean isInPerimeter() {
         return inPerimeter;

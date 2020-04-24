@@ -5,7 +5,6 @@ package it.polimi.ingsw.server.model;
  */
 public class Worker {
 
-
     private final Player player;
     private final Sex sex;
     private Cell position;
@@ -15,9 +14,11 @@ public class Worker {
     private int levelVariation; //level before moving - level after moving
 
 
-    /** Creates a worker.
+    /**
+     * Creates a worker.
+     *
      * @param player The worker's owner.
-     * @param sex A worker can be Male or Female.
+     * @param sex    A worker can be Male or Female.
      */
     public Worker(Player player, Sex sex) {
 
@@ -31,15 +32,16 @@ public class Worker {
 
     /**
      * Changes position of the worker and updates level and movedUp.
+     *
      * @param x Coordinate of the new position of the worker.
      * @param y Coordinate of the new position of the worker.
      */
     public void setPosition(int x, int y) {
-        Cell newPosition = player.getGame().getBoard().findCell(x,y);
+        Cell newPosition = player.getGame().getBoard().findCell(x, y);
         int newLevel = newPosition.getLevel();
 
         //moveOut of previous cell and moveIn new one
-        if(position != null) {
+        if (position != null) {
             position.moveOut();
         }
         newPosition.moveIn(this);
@@ -51,13 +53,14 @@ public class Worker {
 
     /**
      * Changes position of the worker and updates level and movedUp.
+     *
      * @param newPosition Cell the worker is moving into.
      */
     public void setPosition(Cell newPosition) {
         int newLevel = newPosition.getLevel();
 
         //moveOut of previous cell and moveIn new one
-        if(position != null) {
+        if (position != null) {
             position.moveOut();
         }
         newPosition.moveIn(this);
@@ -71,6 +74,7 @@ public class Worker {
     /**
      * Swaps the Worker with the other worker in the newPosition.
      * Assumes that there is a worker in the newPosition.
+     *
      * @param newPosition Cell the worker wants to move into.
      */
     //...else NullPointer!!!
@@ -90,21 +94,23 @@ public class Worker {
 
     /**
      * Builds a new block in the specified cell.
+     *
      * @param x Coordinate of the position to build in.
      * @param y Coordinate of the position to build in.
      */
     public void buildBlock(int x, int y) {
-        Cell buildPosition = player.getGame().getBoard().findCell(x,y);
+        Cell buildPosition = player.getGame().getBoard().findCell(x, y);
         buildPosition.buildBlock();
     }
 
     /**
      * Builds a new dome in the specified cell.
+     *
      * @param x Coordinate of the position to build in.
      * @param y Coordinate of the position to build in.
      */
     public void buildDome(int x, int y) {
-        Cell buildPosition = player.getGame().getBoard().findCell(x,y);
+        Cell buildPosition = player.getGame().getBoard().findCell(x, y);
         buildPosition.buildDome();
     }
 
@@ -135,7 +141,6 @@ public class Worker {
     public WorkerBuildMap getBuildMap() {
         return buildMap;
     }
-
 
 
 }

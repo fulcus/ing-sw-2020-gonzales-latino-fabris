@@ -32,26 +32,26 @@ public class Charon extends God {
         Board board = worker.getPlayer().getGame().getBoard();
 
         ArrayList<Worker> neighboringEnemies = worker.getMoveMap().neighboringEnemyWorkers();
-        ArrayList<Worker> movableNeighboringEnemies = new ArrayList<>(6);
+        ArrayList<Worker> movableNeighboringEnemies = new ArrayList<>(4);
         int newEnemyX;
         int newEnemyY;
 
-        if(!neighboringEnemies.isEmpty()) {
+        if (!neighboringEnemies.isEmpty()) {
 
             //for each neighboring enemy calculates opposite position
             //and removes them from arraylist if opposite position is occupied
-            for(Worker enemy : neighboringEnemies) {
+            for (Worker enemy : neighboringEnemies) {
                 newEnemyX = 2 * worker.getPosition().getX() - enemy.getPosition().getX();
                 newEnemyY = 2 * worker.getPosition().getY() - enemy.getPosition().getY();
-                Cell newEnemyPosition = board.findCell(newEnemyX,newEnemyY);
+                Cell newEnemyPosition = board.findCell(newEnemyX, newEnemyY);
 
-                if(!(newEnemyPosition.isOccupied() || newEnemyX>4 || newEnemyX<0 || newEnemyY<0 || newEnemyY>4))
+                if (!(newEnemyPosition.isOccupied() || newEnemyX > 4 || newEnemyX < 0 || newEnemyY < 0 || newEnemyY > 4))
                     movableNeighboringEnemies.add(enemy);
             }
 
             //now movableNeighboringEnemies there are only enemy workers that can be displaced
 
-            if(!movableNeighboringEnemies.isEmpty()) {
+            if (!movableNeighboringEnemies.isEmpty()) {
 
                 if (!godController.wantToMoveEnemy())
                     return;

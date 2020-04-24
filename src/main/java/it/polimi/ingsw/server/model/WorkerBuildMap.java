@@ -33,6 +33,7 @@ public class WorkerBuildMap extends WorkerMap {
 
     /**
      * Finds out if worker is allowed to build in a given cell of the board.
+     *
      * @param i Board coordinate X.
      * @param j Board coordinate Y.
      * @return True if it can build in cell, false otherwise.
@@ -43,6 +44,7 @@ public class WorkerBuildMap extends WorkerMap {
 
     /**
      * Checks if the worker can build.
+     *
      * @return Returns true if there is a cell the worker can build in, false otherwise.
      */
     public boolean anyAvailableBuildPosition() {

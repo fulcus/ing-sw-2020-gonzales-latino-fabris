@@ -8,7 +8,7 @@ import it.polimi.ingsw.server.controller.god.*;
 import java.util.ArrayList;
 
 /**
- * Handles the input given by the view and sends them to the model to change the Game status
+ * Controls the flow of the setup of the game.
  */
 public class GameController {
 
@@ -54,7 +54,11 @@ public class GameController {
 
     }
 
-
+    /**
+     * Adds a player to the game.
+     *
+     * @param client View of the new player.
+     */
     public void addPlayer(ClientView client) {
         setUpObserverView(client);
 
@@ -63,8 +67,6 @@ public class GameController {
 
 
     }
-
-
 
 
     //todo alberto
@@ -79,7 +81,11 @@ public class GameController {
 
     }
 
-
+    /**
+     * Lets the player choose his nickname.
+     *
+     * @param client view of the player.
+     */
     private void setPlayerNickname(ClientView client) {
 
         while (true) {
@@ -96,8 +102,12 @@ public class GameController {
         }
     }
 
-
-    public void setPlayerColor(ClientView client) {
+    /**
+     * Lets the player choose his color.
+     *
+     * @param client view of the player.
+     */
+    private void setPlayerColor(ClientView client) {
 
         boolean colorCorrectlyChosen = false;
 
@@ -145,13 +155,8 @@ public class GameController {
         return true;
     }
 
-
-    public ArrayList<God> getGodsDeck() {
-        return godsDeck;
-    }
-
     /**
-     * Creates the deck where we can find the God cards of the game.
+     * Creates the deck where we can find all the God cards.
      */
     private void createDeckGods() {
         godsDeck.add(new Apollo(godController));
@@ -168,6 +173,10 @@ public class GameController {
         godsDeck.add(new Prometheus(godController));
         godsDeck.add(new Triton(godController));
         godsDeck.add(new Zeus(godController));
+    }
+
+    public ArrayList<God> getGodsDeck() {
+        return godsDeck;
     }
 
     public Game getGame() {

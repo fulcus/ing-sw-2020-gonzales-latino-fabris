@@ -92,6 +92,11 @@ public class Game {
         return chosenGods;
     }
 
+    /**
+     * Removes a player from the game.
+     *
+     * @param loser The player that will be removed.
+     */
     public void removePlayer(Player loser) {
         chosenGods.remove(loser.getGod());
         players.remove(loser);

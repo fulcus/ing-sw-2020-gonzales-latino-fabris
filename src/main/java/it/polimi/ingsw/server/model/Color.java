@@ -8,11 +8,17 @@ public enum Color {
     WHITE,
     BLUE;
 
+    /**
+     * Given a string returns the Color.
+     *
+     * @param stringColor string representation of the color
+     * @return color object
+     */
     public static Color StringToColor(String stringColor) {
-        if(stringColor.equals("BLUE"))
+        if (stringColor.equals("BLUE"))
             return BLUE;
 
-        else if(stringColor.equals("WHITE"))
+        else if (stringColor.equals("WHITE"))
             return WHITE;
 
         else

@@ -1,5 +1,8 @@
 package it.polimi.ingsw.server.controller;
 
+/**
+ * Thrown when the selected worker is unable to move in his turn.
+ */
 public class UnableToBuildException extends Exception {
 
     public UnableToBuildException() {

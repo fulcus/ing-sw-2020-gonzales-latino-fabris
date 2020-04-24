@@ -1,9 +1,5 @@
 package it.polimi.ingsw.client.view;
 
-import it.polimi.ingsw.client.Client;
-import it.polimi.ingsw.server.controller.GameController;
-import it.polimi.ingsw.server.controller.god.God;
-
 import it.polimi.ingsw.server.model.*;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -289,7 +285,7 @@ public class CLIMainView {
 
             //Place where eventual buildings will be printed
 
-            if (board.findCell(lineNumber,i).HasDome())//if cell has dome
+            if (board.findCell(lineNumber,i).hasDome())//if cell has dome
                 System.out.printf("D");
 
             else {
@@ -311,7 +307,7 @@ public class CLIMainView {
             //PLACE of cell (4) that prints eventual presence of a worker with its parameter(SEX;COLOR)
 
 
-            if (!board.findCell(lineNumber,i).HasWorker()) {
+            if (!board.findCell(lineNumber,i).hasWorker()) {
                 System.out.printf(" ");
                 System.out.printf(" ");//5
             } else {

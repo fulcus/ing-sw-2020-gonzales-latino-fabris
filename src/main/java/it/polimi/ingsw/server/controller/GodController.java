@@ -16,7 +16,6 @@ public class GodController {
     private ClientView currentClient; //assigned at the beginning of each turn
 
 
-
     public GodController(GameController gameController) {
 
         this.gameController = gameController;
@@ -119,6 +118,7 @@ public class GodController {
 
     /**
      * Allows to get the right input for the God if the player wants to move up or not.
+     *
      * @return True if the player with his worker doesn't want to jump to an higher level, False otherwise.
      */
     public boolean wantToMoveUp() {
@@ -157,15 +157,16 @@ public class GodController {
         int enemyX = worker.getPosition().getX() + relativeBoardPosition[0];
         int enemyY = worker.getPosition().getY() + relativeBoardPosition[1];
 
-        return worker.getPlayer().getGame().getBoard().findCell(enemyX,enemyY).getWorker();
+        return worker.getPlayer().getGame().getBoard().findCell(enemyX, enemyY).getWorker();
     }
 
 
     /**
      * Prompts the view to print the board.
      */
-    public void displayBoard(){
-        currentClient.printMap();}
+    public void displayBoard() {
+        currentClient.printMap();
+    }
 
 
     /**
@@ -232,8 +233,10 @@ public class GodController {
         return answer.equals("Y");
     }
 
-
-    public void allowBuildUnderneath(){
+    /**
+     * Lets the player build underneath himself.
+     */
+    public void allowBuildUnderneath() {
         currentClient.printBuildUnderneath();
     }
 

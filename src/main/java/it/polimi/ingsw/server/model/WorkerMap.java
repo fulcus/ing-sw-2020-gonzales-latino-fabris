@@ -174,7 +174,7 @@ public class WorkerMap {
      */
     public ArrayList<Worker> neighboringEnemyWorkers() {
 
-        ArrayList<Worker> neighboringWorkers = new ArrayList<>(6);
+        ArrayList<Worker> neighboringWorkers = new ArrayList<>(4);
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
@@ -239,7 +239,7 @@ public class WorkerMap {
     }
 
     /**
-     * Temporary. Prints the map. Useful for debugging.
+     * Prints the map. Useful for debugging.
      */
     public void printMap() {
         for (int i = 0; i < N; i++) {

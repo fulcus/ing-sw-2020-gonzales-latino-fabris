@@ -10,10 +10,11 @@ public class ClientCell implements Serializable {
     private final int x;
     private final int y;
 
-    WorkerClient worker;
+    private WorkerClient worker;
 
-    boolean hasDome;
-    int cellLevel;
+    private boolean hasDome;
+    private int cellLevel;
+
 
     public ClientCell(int x, int y) {
         this.x = x;
@@ -23,7 +24,9 @@ public class ClientCell implements Serializable {
         cellLevel = 0;
     }
 
+    //used in server
     public ClientCell(Cell observedCell) {
+
         this.x = observedCell.getX();
         this.y = observedCell.getY();
 
@@ -36,6 +39,21 @@ public class ClientCell implements Serializable {
         this.cellLevel = observedCell.getLevel();
     }
 
+    /**
+     * Updates the clientCell of the view after receiving the cell from the server.
+     * @param cellFromServer cell received from the server.
+     */
+    public void updateCell(ClientCell cellFromServer) {
+        this.cellLevel = cellFromServer.getCellLevel();
+        this.hasDome = cellFromServer.hasDome();
+
+        if(cellFromServer.getWorkerClient() != null)
+            this.worker = new WorkerClient(cellFromServer.getWorkerClient());
+        else
+            this.worker = null;
+    }
+
+
     public int getY() {
         return y;
     }
@@ -44,17 +62,13 @@ public class ClientCell implements Serializable {
         return x;
     }
 
-    public void setWorker(WorkerClient worker) {
-        this.worker = worker;
-    }
-
     public WorkerClient getWorkerClient(){ return this.worker; }
 
-    public boolean HasWorker() {
+    public boolean hasWorker() {
         return worker != null;
     }
 
-    public boolean HasDome() {
+    public boolean hasDome() {
         return hasDome;
     }
 
@@ -62,12 +76,6 @@ public class ClientCell implements Serializable {
         return cellLevel;
     }
 
-    public void setHasDome(boolean hasDome) {
-        this.hasDome = hasDome;
-    }
 
-    public void setCellLevel(int cellLevel) {
-        this.cellLevel = cellLevel;
-    }
 
 }

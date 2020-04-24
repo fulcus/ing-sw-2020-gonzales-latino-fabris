@@ -34,7 +34,7 @@ public class NetworkHandler implements Runnable
     private CLIMainView cliMainView;
     private GodView godView;
 
-    private List<ServerObserver> observers = new ArrayList<>();
+    private final List<ServerObserver> observers = new ArrayList<>();
 
 
     public NetworkHandler(Socket server) {
@@ -51,12 +51,12 @@ public class NetworkHandler implements Runnable
             System.out.println("Choose your view mode: cli or gui? Type it here: ");
             viewMode = input.nextLine();
 
-            if (viewMode.toLowerCase().equals("cli")) {
+            if (viewMode.toUpperCase().equals("CLI")) {
                 cliMainView = new CLIMainView();
                 godView = new GodView();
             }
-            /*if (viewMode.toLowerCase().equals("gui"))
-               istanzia gui
+            /*if (viewMode.toUpperCase().equals("GUI"))
+               create gui
              */
             System.out.println("Wrong input.\n\n");
         }

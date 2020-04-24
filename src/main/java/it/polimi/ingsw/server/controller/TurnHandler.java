@@ -18,6 +18,7 @@ public class TurnHandler {
     int unableToMove;
     int unableToBuild;
 
+
     public TurnHandler(Game game, GameController gameController) {
         this.game = game;
         currentPlayer = null;
@@ -49,7 +50,7 @@ public class TurnHandler {
         int alreadyChosenGods = 0;
         while (alreadyChosenGods < numberOfPlayers) {
 
-            String chosenGod = challengerClient.getGodFromChallenger(numberOfPlayers,alreadyChosenGods);
+            String chosenGod = challengerClient.getGodFromChallenger(numberOfPlayers, alreadyChosenGods);
             boolean foundGod = false;
 
             for (God god : godsDeck) {
@@ -85,7 +86,7 @@ public class TurnHandler {
         for (Player player : players) {
             ClientView playerClient = player.getClient();
             ArrayList<String> chosenGods = new ArrayList<>();
-            for(God god : game.getChosenGods()){
+            for (God god : game.getChosenGods()) {
                 chosenGods.add(god.toString().toLowerCase());
             }
             playerClient.printChosenGods(chosenGods);
@@ -174,8 +175,9 @@ public class TurnHandler {
         }
     }
 
-
-
+    /**
+     * Executes the preparation of the game.
+     */
     public void setUpTurns() {
         challengerChooseGods();
         playersChooseGods();
@@ -183,10 +185,9 @@ public class TurnHandler {
         setInitialWorkersPosition();
     }
 
-
-
-
-
+    /**
+     * Executes the succession of turns by the players.
+     */
     public void startTurnFlow() {
         int cyclicalCounter = 0;
 
@@ -218,6 +219,7 @@ public class TurnHandler {
 
     /**
      * Allows the player to choose a worker to play the turn.
+     *
      * @return the chosen worker.
      */
     public Worker chooseWorker() {
@@ -234,6 +236,7 @@ public class TurnHandler {
 
     /**
      * The turn evolution of the worker.
+     *
      * @param turnWorker The worker picked for the turn.
      */
     public void turn(Worker turnWorker) {

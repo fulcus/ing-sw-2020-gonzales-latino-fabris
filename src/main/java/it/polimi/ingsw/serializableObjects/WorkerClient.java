@@ -6,10 +6,10 @@ import java.io.Serializable;
 
 public class WorkerClient implements Serializable {
 
-    String workerSex;
-    String workerColor;
-    int xPosition;
-    int yPosition;
+    private String workerSex;
+    private String workerColor;
+    private int xPosition;
+    private int yPosition;
 
 
     public String getWorkerSex() {
@@ -20,11 +20,11 @@ public class WorkerClient implements Serializable {
         return workerColor;
     }
 
-    public int getxPosition() {
+    public int getXPosition() {
         return xPosition;
     }
 
-    public int getyPosition() {
+    public int getYPosition() {
         return yPosition;
     }
 
@@ -37,4 +37,14 @@ public class WorkerClient implements Serializable {
         yPosition = worker.getPosition().getY();
 
     }
+
+    public WorkerClient(WorkerClient workerFromServer) {
+
+        this.workerColor = workerFromServer.getWorkerColor();
+        this.workerSex = workerFromServer.getWorkerSex();
+        this.xPosition = workerFromServer.getXPosition();
+        this.yPosition = workerFromServer.getYPosition();
+    }
+
+
 }
