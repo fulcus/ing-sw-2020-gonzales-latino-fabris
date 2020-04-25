@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view;
 
+import it.polimi.ingsw.serializableObjects.ClientCell;
 import it.polimi.ingsw.server.model.*;
 
 import java.util.ArrayList;
@@ -331,6 +332,9 @@ public class CLIView {
 
     }
 
+    public void update(ClientCell toUpdateCell){
+        board.update(toUpdateCell);
+    }
 
     public void printAllGods(ArrayList<String> godsNameAndDescription) {
 

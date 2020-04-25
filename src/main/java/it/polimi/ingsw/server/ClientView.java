@@ -30,6 +30,11 @@ public class ClientView implements ClientViewObserver, Runnable {
         this.socket = socket;
         this.gameController = gameController;
         inGame = true;
+
+        try{
+            output = new ObjectOutputStream(socket.getOutputStream());
+            input = new ObjectInputStream(socket.getInputStream());
+        }catch (IOException e){}
     }
 
 
@@ -412,16 +417,16 @@ public class ClientView implements ClientViewObserver, Runnable {
      * Disconnects the client from the server.
      */
     public void killClient() {
+
+        sendMessage(new Message("shutdownClient"));
         inGame = false;
+
     }
 
 
     @Override
     public void run() {
         try {
-            output = new ObjectOutputStream(socket.getOutputStream());
-            input = new ObjectInputStream(socket.getInputStream());
-
             startClient();
         } catch (IOException e) {
             System.out.println("client " + socket.getInetAddress() + " connection dropped");
@@ -453,6 +458,7 @@ public class ClientView implements ClientViewObserver, Runnable {
             turnHandler.turn(chosenWorker);
 
         }
+
         socket.close();
     }
 

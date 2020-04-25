@@ -35,7 +35,7 @@ public class Server {
 
             try {
 
-                if (numberOfClients == gameController.getGame().getNumberOfPlayers())
+                if (gameController.getGame() != null && numberOfClients == gameController.getGame().getNumberOfPlayers())
                     break;
 
                 Socket client = socket.accept();

@@ -19,6 +19,7 @@ public class NetworkHandler implements Runnable {
     private Commands nextCommand;
     private String convertStringParam;
 
+    private boolean keepConnected;
     private Socket server;
     private ObjectOutputStream outputStm;
     private ObjectInputStream inputStm;
@@ -27,7 +28,12 @@ public class NetworkHandler implements Runnable {
 
     public NetworkHandler(Socket server, Client client) {
         this.server = server;
+        keepConnected = true;
         addObserver(client);
+    }
+
+    public void shutDown() {
+        this.keepConnected = false;
     }
 
     public void init() {
@@ -59,27 +65,28 @@ public class NetworkHandler implements Runnable {
     }
 
 
-    public synchronized void stop() {
-        nextCommand = Commands.STOP;
-        notifyAll();
-    }
-
-
-    public synchronized void requestConversion(String input) {
-        nextCommand = Commands.CONVERT_STRING;
-        convertStringParam = input;
-        notifyAll();
-    }
-
 
     @Override
     public void run() {
 
         init();
 
-        while(true){
-            handleServerRequest();
-            handleClientResponse();
+        while (keepConnected) {
+
+            Object returnedValue;
+
+            try {
+
+                returnedValue = handleServerRequest();
+
+                handleClientResponse(returnedValue);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
         }
 
 
@@ -90,24 +97,36 @@ public class NetworkHandler implements Runnable {
     }
 
 
-    private synchronized void handleServerRequest() throws IOException, ClassNotFoundException {
+    private synchronized Object handleServerRequest() throws IOException, ClassNotFoundException {
 
         Message receivedMessage = null;
 
         receivedMessage = (Message) inputStm.readObject();
 
-        if(receivedMessage != null) {
-
-            for (ServerObserver observer : observers)
-                observer.update(receivedMessage);
+        if(receivedMessage.getMethod().equals("shutdownClient")) {
+            keepConnected = false;
+            return null;
         }
+
+        if (receivedMessage != null) {
+
+            return observers.get(0).update(receivedMessage);
+        }
+
+        return null;
 
     }
 
 
-    private synchronized void handleClientResponse() throws IOException, ClassNotFoundException {
-        /* wait for commands */
-        while (true) {
+    private synchronized void handleClientResponse(Object clientResponse) throws IOException, ClassNotFoundException {
+
+        if(clientResponse == null)
+            return;
+
+        outputStm.writeObject(clientResponse);
+
+
+      /*  while (true) {
 
             //TODO ONCE THE CLIENT FULFILL INFORMATION----->NOTIFYALL();
             //Wait until the clients gives information the server requested before
@@ -116,38 +135,9 @@ public class NetworkHandler implements Runnable {
             } catch (InterruptedException e) {
             }
 
-            if (nextCommand == null)
-                continue;
 
-            // NEI CASE DI QUESTO SWITCH DOBBIAMO METTERE I METODI delle richieste del server
-            switch (nextCommand) {
-                case CONVERT_STRING:
-                    doStringConversion();
-                    break;
-
-                case STOP:
-                    return;
-            }
-        }
+        }*/
     }
 
-
-    private synchronized void doStringConversion() throws IOException, ClassNotFoundException {
-        /* send the string to the server and get the new string back */
-        outputStm.writeObject(convertStringParam);
-        String newStr = (String) inputStm.readObject();
-
-        /* copy the list of observers in case some observers changes it from inside
-         * the notification method */
-        List<ServerObserver> observersCpy;
-        synchronized (observers) {
-            observersCpy = new ArrayList<>(observers);
-        }
-
-        /* notify the observers that we got the string */
-        for (ServerObserver observer : observersCpy) {
-            observer.didReceiveConvertedString(convertStringParam, newStr);
-        }
-    }
 
 }

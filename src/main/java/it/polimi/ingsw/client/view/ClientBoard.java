@@ -4,7 +4,7 @@ import it.polimi.ingsw.serializableObjects.ClientCell;
 import it.polimi.ingsw.serializableObjects.WorkerClient;
 import it.polimi.ingsw.server.model.Board;
 
-public class ClientBoard implements ViewObserver {
+public class ClientBoard  {
 
     private final ClientCell[][] board;
 
@@ -33,7 +33,7 @@ public class ClientBoard implements ViewObserver {
      * Updates the clientBoard of the view after receiving a cell from the server.
      * @param cellFromServer cell received from the server.
      */
-    @Override
+
     public void update(ClientCell cellFromServer) {
         //find cell position in clientBoard
         ClientCell cellInClient = this.findCell(cellFromServer.getX(),cellFromServer.getY());

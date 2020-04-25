@@ -86,12 +86,18 @@ public class Client implements Runnable, ServerObserver {
     }
 
     @Override
-    public void update(Message receivedMessage) {
+    public Object update(Message receivedMessage) {
 
-        callMethod(receivedMessage);
+        try {
+            return callMethod(receivedMessage);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+            return null;
+        }
+
     }
 
-    private void callMethod(Message receivedMessage) throws NoSuchMethodException {
+    private Object callMethod(Message receivedMessage) throws NoSuchMethodException {
 
         int typeOfMessage;
         Method method;
@@ -116,7 +122,7 @@ public class Client implements Runnable, ServerObserver {
 
                     //Invoke method in ClientCliView
                     try {
-                        method.invoke(clientCLIView);
+                        return method.invoke(clientCLIView);
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     } catch (InvocationTargetException e) {
@@ -144,7 +150,7 @@ public class Client implements Runnable, ServerObserver {
 
                     //Invoke method in ClientCliView
                     try {
-                        method.invoke(clientCLIView, receivedMessage.getStringParam());
+                        return method.invoke(clientCLIView, receivedMessage.getStringParam());
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     } catch (InvocationTargetException e) {
@@ -172,7 +178,7 @@ public class Client implements Runnable, ServerObserver {
 
                     //Invoke method in ClientCliView
                     try {
-                        method.invoke(clientCLIView, receivedMessage.getStringParam(), receivedMessage.getStringListParam());
+                        return method.invoke(clientCLIView, receivedMessage.getStringListParam());
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     } catch (InvocationTargetException e) {
@@ -200,7 +206,7 @@ public class Client implements Runnable, ServerObserver {
 
                     //Invoke method in ClientCliView
                     try {
-                        method.invoke(clientCLIView, receivedMessage.getIntParam1(), receivedMessage.getIntParam2());
+                        return method.invoke(clientCLIView, receivedMessage.getIntParam1(), receivedMessage.getIntParam2());
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     } catch (InvocationTargetException e) {
@@ -228,7 +234,7 @@ public class Client implements Runnable, ServerObserver {
 
                     //Invoke method in ClientCliView
                     try {
-                        method.invoke(clientCLIView, receivedMessage.getToUpdateCell());
+                        return method.invoke(clientCLIView, receivedMessage.getToUpdateCell());
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     } catch (InvocationTargetException e) {
@@ -255,7 +261,7 @@ public class Client implements Runnable, ServerObserver {
 
                     //Invoke method in ClientCliView
                     try {
-                        method.invoke(clientCLIView, receivedMessage.getWorkersParam(), receivedMessage.getWorker());
+                        return method.invoke(clientCLIView, receivedMessage.getWorkersParam(), receivedMessage.getWorker());
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     } catch (InvocationTargetException e) {
@@ -274,8 +280,11 @@ public class Client implements Runnable, ServerObserver {
 
             }
 
-
+            default:
+                return null;
         }
+
+
     }
 
 }
