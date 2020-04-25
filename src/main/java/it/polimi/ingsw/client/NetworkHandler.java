@@ -55,18 +55,17 @@ public class NetworkHandler implements Runnable {
 
 
     public void addObserver(ServerObserver observer) {
-        synchronized (observers) {
-            observers.add(observer);
-        }
+
+        observers.add(observer);
+
     }
 
 
     public void removeObserver(ServerObserver observer) {
-        synchronized (observers) {
-            observers.remove(observer);
-        }
-    }
 
+        observers.remove(observer);
+
+    }
 
 
     @Override
@@ -101,16 +100,17 @@ public class NetworkHandler implements Runnable {
 
     /**
      * Allows to manage the requests received.
+     *
      * @throws IOException
      * @throws ClassNotFoundException
      */
-    private synchronized Object handleServerRequest() throws IOException, ClassNotFoundException {
+    private Object handleServerRequest() throws IOException, ClassNotFoundException {
 
         Message receivedMessage = null;
 
         receivedMessage = (Message) inputStm.readObject();
 
-        if(receivedMessage.getMethod().equals("shutdownClient")) {
+        if (receivedMessage.getMethod().equals("shutdownClient")) {
             keepConnected = false;
             return null;
         }
@@ -125,9 +125,9 @@ public class NetworkHandler implements Runnable {
     }
 
 
-    private synchronized void handleClientResponse(Object clientResponse) throws IOException, ClassNotFoundException {
+    private void handleClientResponse(Object clientResponse) throws IOException, ClassNotFoundException {
 
-        if(clientResponse == null)
+        if (clientResponse == null)
             return;
 
         outputStm.writeObject(clientResponse);

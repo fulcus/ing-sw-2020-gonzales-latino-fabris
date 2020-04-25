@@ -531,7 +531,10 @@ public class ClientView implements ClientViewObserver, Runnable {
             //waits until woken up by turnFlow
             do {
                 try {
-                    wait();
+                    synchronized (this) {
+                        System.out.println("client \""+ player.getNickname() + "\" is waiting");
+                        wait();
+                    }
                 } catch (InterruptedException e) {
                 }
 

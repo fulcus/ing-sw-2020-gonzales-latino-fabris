@@ -57,13 +57,6 @@ public class Client implements Runnable, ServerObserver {
 
         networkHandlerThread.start();
 
-        //Client waits until further information from the networkHandler
-        try {
-            wait();
-        } catch (InterruptedException e) {
-        }
-
-
     }
 
 

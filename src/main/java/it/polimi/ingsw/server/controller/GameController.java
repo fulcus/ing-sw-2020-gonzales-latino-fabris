@@ -65,6 +65,7 @@ public class GameController {
         setPlayerNickname(client);
         setPlayerColor(client);
 
+        //
 
     }
 
@@ -86,7 +87,7 @@ public class GameController {
      *
      * @param client view of the player.
      */
-    private void setPlayerNickname(ClientView client) {
+    private synchronized void setPlayerNickname(ClientView client) {
 
         while (true) {
 
@@ -107,7 +108,7 @@ public class GameController {
      *
      * @param client view of the player.
      */
-    private void setPlayerColor(ClientView client) {
+    private synchronized void setPlayerColor(ClientView client) {
 
         boolean colorCorrectlyChosen = false;
 
