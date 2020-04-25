@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.view.CLIMainView;
 import it.polimi.ingsw.client.view.GodView;
+import it.polimi.ingsw.serializableObjects.Message;
 import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.controller.GameController;
 
@@ -17,77 +18,62 @@ import java.util.Scanner;
 import static java.lang.System.exit;
 
 
-public class NetworkHandler implements Runnable
-{
+public class NetworkHandler implements Runnable {
 
     private enum Commands {
 
     }
+
     private Commands nextCommand;
     private String convertStringParam;
 
     private Socket server;
     private ObjectOutputStream outputStm;
     private ObjectInputStream inputStm;
-
-    private Scanner input;
-    private CLIMainView cliMainView;
-    private GodView godView;
-
     private final List<ServerObserver> observers = new ArrayList<>();
 
 
-    public NetworkHandler(Socket server) {
+    public NetworkHandler(Socket server, Client client) {
         this.server = server;
-        input = new Scanner(System.in);
+        addObserver(client);
     }
 
     public void init() {
 
-        //è la parte iniziale di codice che permette di selezionare il tipo di view che si vuole: cli o gui
-        String viewMode;
-        while(true) {
-
-            System.out.println("Choose your view mode: cli or gui? Type it here: ");
-            viewMode = input.nextLine();
-
-            if (viewMode.toUpperCase().equals("CLI")) {
-                cliMainView = new CLIMainView();
-                godView = new GodView();
-            }
-            /*if (viewMode.toUpperCase().equals("GUI"))
-               create gui
-             */
-            System.out.println("Wrong input.\n\n");
+        try {
+            outputStm = new ObjectOutputStream(server.getOutputStream());
+            inputStm = new ObjectInputStream(server.getInputStream());
+        } catch (IOException e) {
+            System.out.println("server has died");
+        } catch (ClassCastException e) {
+            System.out.println("protocol violation");
         }
+
+
     }
 
 
-    public void addObserver(ServerObserver observer)
-    {
+    public void addObserver(ServerObserver observer) {
         synchronized (observers) {
             observers.add(observer);
         }
     }
 
 
-    public void removeObserver(ServerObserver observer)
-    {
+    public void removeObserver(ServerObserver observer) {
         synchronized (observers) {
             observers.remove(observer);
         }
     }
 
 
-    public synchronized void stop()
-    {
+    public synchronized void stop() {
         nextCommand = Commands.STOP;
         notifyAll();
     }
 
 
-    public synchronized void requestConversion(String input)
-    {
+    public synchronized void requestConversion(String input) {
         nextCommand = Commands.CONVERT_STRING;
         convertStringParam = input;
         notifyAll();
@@ -99,30 +85,44 @@ public class NetworkHandler implements Runnable
 
         init();
 
-        try {
-            outputStm = new ObjectOutputStream(server.getOutputStream());
-            inputStm = new ObjectInputStream(server.getInputStream());
-            handleServerConnection();
-        } catch (IOException e) {
-            System.out.println("server has died");
-        } catch (ClassCastException | ClassNotFoundException e) {
-            System.out.println("protocol violation");
+        while(true){
+            handleServerRequest();
+            handleClientResponse();
         }
+
 
         try {
             server.close();
-        } catch (IOException e) { }
+        } catch (IOException e) {
+        }
     }
 
 
-    private synchronized void handleServerConnection() throws IOException, ClassNotFoundException
-    {
+    private synchronized void handleServerRequest() throws IOException, ClassNotFoundException {
+
+        Message receivedMessage = null;
+
+        receivedMessage = (Message) inputStm.readObject();
+
+        if(receivedMessage != null) {
+
+            for (ServerObserver observer : observers)
+                observer.update(receivedMessage);
+        }
+
+    }
+
+
+    private synchronized void handleClientResponse() throws IOException, ClassNotFoundException {
         /* wait for commands */
         while (true) {
-            nextCommand = null;
+
+            //TODO ONCE THE CLIENT FULFILL INFORMATION----->NOTIFYALL();
+            //Wait until the clients gives information the server requested before
             try {
                 wait();
-            } catch (InterruptedException e) { }
+            } catch (InterruptedException e) {
+            }
 
             if (nextCommand == null)
                 continue;
@@ -140,11 +140,10 @@ public class NetworkHandler implements Runnable
     }
 
 
-    private synchronized void doStringConversion() throws IOException, ClassNotFoundException
-    {
+    private synchronized void doStringConversion() throws IOException, ClassNotFoundException {
         /* send the string to the server and get the new string back */
         outputStm.writeObject(convertStringParam);
-        String newStr = (String)inputStm.readObject();
+        String newStr = (String) inputStm.readObject();
 
         /* copy the list of observers in case some observers changes it from inside
          * the notification method */
@@ -154,7 +153,7 @@ public class NetworkHandler implements Runnable
         }
 
         /* notify the observers that we got the string */
-        for (ServerObserver observer: observersCpy) {
+        for (ServerObserver observer : observersCpy) {
             observer.didReceiveConvertedString(convertStringParam, newStr);
         }
     }

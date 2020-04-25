@@ -398,7 +398,7 @@ public class CLIMainView {
         System.out.println("Your " + sex + " worker cannot build anywhere. You must build with your "
                 + otherSex + " worker.");
     }
-/*
+
     public String askTypeofView() {
 
         String selectedView;
@@ -419,6 +419,6 @@ public class CLIMainView {
         return selectedView;
 
     }
-*/
+
 
 }

@@ -30,8 +30,8 @@ public class GameController {
      */
     public synchronized void setUpGame(ClientView firstClient) {
 
-        /*
-        String viewType = viewSelector.askTypeofView();
+
+        /*String viewType = viewSelector.askTypeofView();
 
         if (viewType.toUpperCase().equals("CLI"))
 
