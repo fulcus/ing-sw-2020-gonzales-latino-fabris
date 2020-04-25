@@ -6,12 +6,12 @@ import it.polimi.ingsw.serializableObjects.WorkerClient;
 import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.controller.TurnHandler;
 import it.polimi.ingsw.server.model.*;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+
 
 /**
  * Represents the interface of each client with the server.
@@ -26,6 +26,7 @@ public class ClientView implements ClientViewObserver, Runnable {
     private TurnHandler turnHandler;
     private boolean inGame;
 
+
     public ClientView(Socket socket, GameController gameController) {
         this.socket = socket;
         this.gameController = gameController;
@@ -37,10 +38,11 @@ public class ClientView implements ClientViewObserver, Runnable {
         return player;
     }
 
+
     /**
      * Associates the ClientView to a player.
      *
-     * @param player
+     * @param player Is the instance of the player associated to the client.
      */
     public void setPlayer(Player player) {
         this.player = player;   //used to assign player to class
@@ -48,12 +50,6 @@ public class ClientView implements ClientViewObserver, Runnable {
         String playerNickname = player.getNickname();
         sendMessage(new Message("setPlayer", playerNickname));
     }
-
-/*
-    public String askTypeOfView() {
-
-    }
-*/
 
 
     /**
@@ -85,51 +81,95 @@ public class ClientView implements ClientViewObserver, Runnable {
         return (int[]) sendMessageWithReturn(new Message("askInitialWorkerPosition", workerSex));
     }
 
+
+    /**
+     * The message sent by the method describes itself.
+     */
     public void invalidInitialWorkerPosition() {
         sendMessage(new Message("invalidInitialWorkerPosition"));
     }
 
 
+    /**
+     * The message sent by the method describes itself.
+     * @return The nickname of the player.
+     */
     public String askPlayerNickname() {
         return (String) sendMessageWithReturn(new Message("askPlayerNickname"));
     }
 
+
+    /**
+     * The message sent by the method describes itself.
+     * @return The color to choose.
+     */
     public String askPlayerColor() {
         return (String) sendMessageWithReturn(new Message("askPlayerColor"));
     }
 
 
     /**
+     * The method asks the God the player wants to play with.
      * @return The name of the chosen God.
      */
     public String askPlayerGod() {
         return (String) sendMessageWithReturn(new Message("askPlayerGod"));
     }
 
+
+    /**
+     * The name of the method describes itself
+     */
     public void playerChoseInvalidGod() {
         sendMessage(new Message("playerChoseInvalidGod"));
     }
 
+
+    /**
+     * The name of the method describes itself.
+     * @param numOfPlayers How many players play are connected to play the game.
+     * @param alreadyChosenGods How many Gods are already chosen.
+     * @return
+     */
     public String getGodFromChallenger(int numOfPlayers, int alreadyChosenGods) {
         return (String) sendMessageWithReturn(new Message("getGodFromChallenger", numOfPlayers, alreadyChosenGods));
     }
 
+    /**
+     * The name of the method describes itself.
+     * @return The player that will start the game.
+     */
     public String challengerChooseStartPlayer() {
         return (String) sendMessageWithReturn(new Message("challengerChooseStartPlayer"));
     }
 
+    /**
+     * The name of the method describes itself.
+     */
     public void invalidStartPlayer() {
         sendMessage(new Message("invalidStartPlayer"));
     }
 
+    /**
+     * The name of the method describes itself.
+     */
     public void notAvailableColor() {
         sendMessage(new Message("notAvailableColor"));
     }
 
+
+    /**
+     * The name of the method describes itself.
+     */
     public void notAvailableNickname() {
         sendMessage(new Message("notAvailableNickname"));
     }
 
+
+    /**
+     * The name of the method describes itself.
+     * @return The chosen worker.
+     */
     public String askChosenWorker() {
         return (String) sendMessageWithReturn(new Message("askChosenWorker"));
     }
@@ -142,6 +182,7 @@ public class ClientView implements ClientViewObserver, Runnable {
         sendMessage(new Message("printErrorScreen"));
     }
 
+
     /**
      * Prints to screen that one of the player has won the game
      */
@@ -149,10 +190,18 @@ public class ClientView implements ClientViewObserver, Runnable {
         sendMessage(new Message("winningView", winnerNickname));
     }
 
+
+    /**
+     * The name of the method describes itself.
+     */
     public void unableToMoveLose() {
         sendMessage(new Message("unableToMoveLose"));
     }
 
+
+    /**
+     * The name of the method describes itself.
+     */
     public void unableToBuildLose() {
         sendMessage(new Message("unableToBuildLose"));
     }
@@ -166,31 +215,55 @@ public class ClientView implements ClientViewObserver, Runnable {
     }
 
 
+    /**
+     * Allows to set the new version of the cell that has been changed during the last action.
+     * @param toUpdateCell The cell that has to be updated.
+     */
     @Override
     public void update(Cell toUpdateCell) {
         sendMessage(new Message("update", new ClientCell(toUpdateCell)));
     }
 
 
+    /**
+     * The name of the method describes itself.
+     * @param godsNameAndDescription The name pf the method describes itself.
+     */
     public void printAllGods(ArrayList<String> godsNameAndDescription) {
         sendMessage(new Message("printAllGods", godsNameAndDescription));
     }
 
+
+    /**
+     * The name of the method describes itself.
+     */
     public void challengerError() {
         sendMessage(new Message("challengerError"));
     }
 
 
+    /**
+     * The name of the method describes itself.
+     * @param chosenGods The gods that have been chosen for the game.
+     */
     public void printChosenGods(ArrayList<String> chosenGods) {
         sendMessage(new Message("printChosenGods", chosenGods));
     }
 
 
+    /**
+     * The name of the method describes itself.
+     * @param sex Allows to distinguish which one of the worker has been selected.
+     */
     public void selectedWorkerCannotMove(String sex) {
         sendMessage(new Message("selectedWorkerCannotMove", sex));
     }
 
 
+    /**
+     * The name of the method describes itself.
+     * @param sex Allows to distinguish which one of the worker has been selected.
+     */
     public void selectedWorkerCannotBuild(String sex) {
         sendMessage(new Message("selectedWorkerCannotBuild", sex));
     }
@@ -315,6 +388,7 @@ public class ClientView implements ClientViewObserver, Runnable {
         return (String) sendMessageWithReturn(new Message("askBuildAgainHestia"));
     }
 
+
     /**
      * The name of the method describes itself.
      *
@@ -376,6 +450,7 @@ public class ClientView implements ClientViewObserver, Runnable {
         sendMessage(new Message("printBuildInSamePositionScreen"));
     }
 
+
     //always cast return of this method
     private Object sendMessageWithReturn(Message message) {
         try {
@@ -392,6 +467,11 @@ public class ClientView implements ClientViewObserver, Runnable {
         return null;
     }
 
+
+    /**
+     * Writes a message to the server.
+     * @param message The message the player sends to the server during the game.
+     */
     private void sendMessage(Message message) {
 
         try {
@@ -403,10 +483,13 @@ public class ClientView implements ClientViewObserver, Runnable {
     }
 
 
+    /**
+     * Allows to print the fact the connection has been established.
+     */
     public void connected() {
-        //send to view:
-        //System.out.println("Connected to " + client.getInetAddress());
+        System.out.println("Connected to " + socket.getInetAddress());
     }
+
 
     /**
      * Disconnects the client from the server.
@@ -428,6 +511,7 @@ public class ClientView implements ClientViewObserver, Runnable {
         }
     }
 
+
     /**
      * Lets the client play his turn.
      *
@@ -437,7 +521,6 @@ public class ClientView implements ClientViewObserver, Runnable {
 
         turnHandler = gameController.getTurnHandler();
         gameController.addPlayer(this);
-
 
         while (inGame) {
             //waits until woken up by turnFlow
@@ -455,6 +538,7 @@ public class ClientView implements ClientViewObserver, Runnable {
         }
         socket.close();
     }
+
 
 }
 

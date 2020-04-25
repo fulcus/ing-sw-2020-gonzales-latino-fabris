@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * This class allows to handle the connection with the server
+ */
 public class NetworkHandler implements Runnable {
 
     private enum Commands {
@@ -23,6 +26,7 @@ public class NetworkHandler implements Runnable {
     private ObjectOutputStream outputStm;
     private ObjectInputStream inputStm;
     private final List<ServerObserver> observers = new ArrayList<>();
+
 
 
     public NetworkHandler(Socket server, Client client) {
@@ -78,10 +82,13 @@ public class NetworkHandler implements Runnable {
         init();
 
         while(true){
-            handleServerRequest();
-            handleClientResponse();
+            try {
+                handleServerRequest();
+                handleClientResponse();
+            } catch (ClassNotFoundException | IOException e) {
+                e.printStackTrace();
+            }
         }
-
 
         try {
             server.close();
@@ -90,6 +97,11 @@ public class NetworkHandler implements Runnable {
     }
 
 
+    /**
+     * Allows to manage the requests received.
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     private synchronized void handleServerRequest() throws IOException, ClassNotFoundException {
 
         Message receivedMessage = null;
@@ -131,23 +143,5 @@ public class NetworkHandler implements Runnable {
         }
     }
 
-
-    private synchronized void doStringConversion() throws IOException, ClassNotFoundException {
-        /* send the string to the server and get the new string back */
-        outputStm.writeObject(convertStringParam);
-        String newStr = (String) inputStm.readObject();
-
-        /* copy the list of observers in case some observers changes it from inside
-         * the notification method */
-        List<ServerObserver> observersCpy;
-        synchronized (observers) {
-            observersCpy = new ArrayList<>(observers);
-        }
-
-        /* notify the observers that we got the string */
-        for (ServerObserver observer : observersCpy) {
-            observer.didReceiveConvertedString(convertStringParam, newStr);
-        }
-    }
 
 }

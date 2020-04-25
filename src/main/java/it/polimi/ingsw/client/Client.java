@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 
+/**
+ * Client wants to play Santorini establishes a connection to the server.
+ */
 public class Client implements Runnable, ServerObserver {
 
     private String response = null;
@@ -63,6 +66,10 @@ public class Client implements Runnable, ServerObserver {
 
     }
 
+
+    /**
+     * Allows to choose the type of view: the player can choose between cli and view.
+     */
     public void setUpView() {
 
         String selectedView;
@@ -85,12 +92,23 @@ public class Client implements Runnable, ServerObserver {
         }
     }
 
+
     @Override
     public void update(Message receivedMessage) {
 
-        callMethod(receivedMessage);
+        try {
+            callMethod(receivedMessage);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
     }
 
+
+    /**
+     * Allows to manage the requests of the server, showing to the player the correct method of the cliView.
+     * @param receivedMessage Is what the server asks to the client.
+     * @throws NoSuchMethodException Handles the situation when no method received exists.
+     */
     private void callMethod(Message receivedMessage) throws NoSuchMethodException {
 
         int typeOfMessage;
