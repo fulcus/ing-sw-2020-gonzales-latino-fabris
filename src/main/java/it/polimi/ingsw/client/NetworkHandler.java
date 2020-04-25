@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * This class allows to handle the connection with the server
+ */
 public class NetworkHandler implements Runnable {
 
     private enum Commands {
@@ -96,7 +99,11 @@ public class NetworkHandler implements Runnable {
         }
     }
 
-
+    /**
+     * Allows to manage the requests received.
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     private synchronized Object handleServerRequest() throws IOException, ClassNotFoundException {
 
         Message receivedMessage = null;

@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 
+/**
+ * Client wants to play Santorini establishes a connection to the server.
+ */
 public class Client implements Runnable, ServerObserver {
 
     private String response = null;
@@ -63,6 +66,10 @@ public class Client implements Runnable, ServerObserver {
 
     }
 
+
+    /**
+     * Allows to choose the type of view: the player can choose between cli and view.
+     */
     public void setUpView() {
 
         String selectedView;
