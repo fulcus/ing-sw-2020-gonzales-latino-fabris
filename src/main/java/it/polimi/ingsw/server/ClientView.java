@@ -44,7 +44,7 @@ public class ClientView implements ClientViewObserver, Runnable {
      */
     public void setPlayer(Player player) {
         this.player = player;   //used to assign player to class
-        //send playerNickname to be assigned as attribute in CLIMainView
+        //send playerNickname to be assigned as attribute in CLIView
         String playerNickname = player.getNickname();
         sendMessage(new Message("setPlayer", playerNickname));
     }

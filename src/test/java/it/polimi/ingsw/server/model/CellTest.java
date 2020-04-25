@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.client.view.CLIView;
 import it.polimi.ingsw.server.controller.GameController;
-import it.polimi.ingsw.client.view.CLIMainView;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +15,7 @@ public class CellTest {
     private Player player;
     private Game game;
     private Board board;
-    private CLIMainView view;
+    private CLIView view;
     private GameController controller;
 
 
@@ -29,7 +29,7 @@ public class CellTest {
         worker = player.getWorkers().get(0);
         cell = board.findCell(3,2);
         controller = new GameController();
-        view = new CLIMainView(controller);
+        view = new CLIView(controller);
 
     }
 

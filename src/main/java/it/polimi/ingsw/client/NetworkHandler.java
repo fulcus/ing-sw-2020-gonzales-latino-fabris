@@ -1,21 +1,13 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.client.view.CLIMainView;
-import it.polimi.ingsw.client.view.GodView;
 import it.polimi.ingsw.serializableObjects.Message;
-import it.polimi.ingsw.server.Server;
-import it.polimi.ingsw.server.controller.GameController;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.ConnectException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-
-import static java.lang.System.exit;
 
 
 public class NetworkHandler implements Runnable {

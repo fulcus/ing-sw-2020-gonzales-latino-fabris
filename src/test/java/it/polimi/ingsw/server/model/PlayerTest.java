@@ -4,7 +4,6 @@ import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.controller.GodController;
 import it.polimi.ingsw.server.controller.god.Apollo;
 import it.polimi.ingsw.server.controller.god.Pan;
-import it.polimi.ingsw.client.view.GodView;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -59,7 +58,7 @@ public class PlayerTest {
 
     @Test
     public void testPlayerGod() {
-        Apollo apollo = new Apollo(new GodController(new GodView(),new GameController()));
+        Apollo apollo = new Apollo(new GodController(new GameController()));
         player.setGod(apollo);
         assertEquals(apollo, player.getGod());
 
@@ -138,8 +137,8 @@ public class PlayerTest {
 
     @Test
     public void testLose() {
-        Apollo apollo = new Apollo(new GodController(new GodView(),new GameController()));
-        Pan pan = new Pan(new GodController(new GodView(),new GameController()));
+        Apollo apollo = new Apollo(new GodController(new GameController()));
+        Pan pan = new Pan(new GodController(new GameController()));
 
         game.addGodChosenByChallenger(apollo);
         game.addGodChosenByChallenger(pan);

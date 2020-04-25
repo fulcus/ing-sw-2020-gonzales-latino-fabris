@@ -1,31 +1,23 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.client.view.CLIMainView;
-import it.polimi.ingsw.client.view.GodView;
+import it.polimi.ingsw.client.view.CLIView;
 import it.polimi.ingsw.serializableObjects.ClientCell;
 import it.polimi.ingsw.serializableObjects.Message;
 import it.polimi.ingsw.serializableObjects.WorkerClient;
 import it.polimi.ingsw.server.Server;
-import it.polimi.ingsw.client.NetworkHandler;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.ConnectException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
-
-import static java.lang.System.exit;
 
 
 public class Client implements Runnable, ServerObserver {
 
     private String response = null;
-    private CLIMainView clientCliView;
-    private GodView clientGodView;
+    private CLIView clientCLIView;
     private Scanner scanner;
 
     public static void main(String[] args) {
@@ -82,8 +74,7 @@ public class Client implements Runnable, ServerObserver {
             selectedView = scanner.nextLine();
 
             if (selectedView.toUpperCase().equals("CLI")) {
-                clientCliView = new CLIMainView();
-                clientGodView = new GodView();
+                clientCLIView = new CLIView();
                 return;
             }
             /*if (viewMode.toUpperCase().equals("GUI"))
@@ -121,11 +112,11 @@ public class Client implements Runnable, ServerObserver {
                 //Trying to find the method in ClientCliView
                 try {
 
-                    method = clientCliView.getClass().getMethod(receivedMessage.getMethod());
+                    method = clientCLIView.getClass().getMethod(receivedMessage.getMethod());
 
                     //Invoke method in ClientCliView
                     try {
-                        method.invoke(clientCliView);
+                        method.invoke(clientCLIView);
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     } catch (InvocationTargetException e) {
@@ -135,35 +126,53 @@ public class Client implements Runnable, ServerObserver {
 
                 } catch (SecurityException e) { /*PRIVATE EXCEPTION to complete*/}
 
-                //If there is no such method in clientCliView
+                //If there is no such method in clientCLIView
                 catch (NoSuchMethodException e) {
 
 
-                    method = clientGodView.getClass().getMethod(receivedMessage.getMethod());
-
-                    try {
-                        method.invoke(clientGodView);
-                    } catch (IllegalAccessException e1) {
-                        e.printStackTrace();
-                    } catch (InvocationTargetException e1) {
-                        e.printStackTrace();
-                    }
                 }
-
 
 
             }
 
-            case 2:{
+            case 2: {
+
+                //Trying to find the method in ClientCLIView
+                try {
+
+                    method = clientCLIView.getClass().getMethod(receivedMessage.getMethod(), String.class);
+
+                    //Invoke method in ClientCliView
+                    try {
+                        method.invoke(clientCLIView, receivedMessage.getStringParam());
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    }
+
+
+                } catch (SecurityException e) { /*PRIVATE EXCEPTION to complete*/}
+
+                //If there is no such method in clientCLIView
+                catch (NoSuchMethodException e) {
+
+
+                }
+
+
+            }
+
+            case 3: {
 
                 //Trying to find the method in ClientCliView
                 try {
 
-                    method = clientCliView.getClass().getMethod(receivedMessage.getMethod(), String.class);
+                    method = clientCLIView.getClass().getMethod(receivedMessage.getMethod(), ArrayList.class);
 
                     //Invoke method in ClientCliView
                     try {
-                        method.invoke(clientCliView,receivedMessage.getStringParam());
+                        method.invoke(clientCLIView, receivedMessage.getStringParam(), receivedMessage.getStringListParam());
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     } catch (InvocationTargetException e) {
@@ -173,35 +182,25 @@ public class Client implements Runnable, ServerObserver {
 
                 } catch (SecurityException e) { /*PRIVATE EXCEPTION to complete*/}
 
-                //If there is no such method in clientCliView
+                //If there is no such method in clientCLIView
                 catch (NoSuchMethodException e) {
 
-
-                    method = clientGodView.getClass().getMethod(receivedMessage.getMethod(),String.class);
-
-                    try {
-                        method.invoke(clientGodView,receivedMessage.getStringParam());
-                    } catch (IllegalAccessException e1) {
-                        e.printStackTrace();
-                    } catch (InvocationTargetException e1) {
-                        e.printStackTrace();
-                    }
                 }
-
 
 
             }
 
-            case 3:{
+
+            case 4: {
 
                 //Trying to find the method in ClientCliView
                 try {
 
-                    method = clientCliView.getClass().getMethod(receivedMessage.getMethod(), ArrayList.class );
+                    method = clientCLIView.getClass().getMethod(receivedMessage.getMethod(), int.class, int.class);
 
                     //Invoke method in ClientCliView
                     try {
-                        method.invoke(clientCliView,receivedMessage.getStringParam(),receivedMessage.getStringListParam());
+                        method.invoke(clientCLIView, receivedMessage.getIntParam1(), receivedMessage.getIntParam2());
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     } catch (InvocationTargetException e) {
@@ -214,33 +213,22 @@ public class Client implements Runnable, ServerObserver {
                 //If there is no such method in clientCliView
                 catch (NoSuchMethodException e) {
 
-
-                    method = clientGodView.getClass().getMethod(receivedMessage.getMethod(),ArrayList.class);
-
-                    try {
-                        method.invoke(clientGodView,receivedMessage.getStringParam(),receivedMessage.getStringListParam());
-                    } catch (IllegalAccessException e1) {
-                        e.printStackTrace();
-                    } catch (InvocationTargetException e1) {
-                        e.printStackTrace();
-                    }
                 }
-
 
 
             }
 
 
-            case 4:{
+            case 5: {
 
                 //Trying to find the method in ClientCliView
                 try {
 
-                    method = clientCliView.getClass().getMethod(receivedMessage.getMethod(), int.class,int.class);
+                    method = clientCLIView.getClass().getMethod(receivedMessage.getMethod(), ClientCell.class);
 
                     //Invoke method in ClientCliView
                     try {
-                        method.invoke(clientCliView,receivedMessage.getIntParam1(), receivedMessage.getIntParam2());
+                        method.invoke(clientCLIView, receivedMessage.getToUpdateCell());
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     } catch (InvocationTargetException e) {
@@ -253,33 +241,21 @@ public class Client implements Runnable, ServerObserver {
                 //If there is no such method in clientCliView
                 catch (NoSuchMethodException e) {
 
-
-                    method = clientGodView.getClass().getMethod(receivedMessage.getMethod(),int.class,int.class);
-
-                    try {
-                        method.invoke(clientGodView,receivedMessage.getIntParam1(), receivedMessage.getIntParam2());
-                    } catch (IllegalAccessException e1) {
-                        e.printStackTrace();
-                    } catch (InvocationTargetException e1) {
-                        e.printStackTrace();
-                    }
                 }
-
 
 
             }
 
-
-            case 5:{
+            case 6: {
 
                 //Trying to find the method in ClientCliView
                 try {
 
-                    method = clientCliView.getClass().getMethod(receivedMessage.getMethod(), ClientCell.class);
+                    method = clientCLIView.getClass().getMethod(receivedMessage.getMethod(), ArrayList.class, WorkerClient.class);
 
                     //Invoke method in ClientCliView
                     try {
-                        method.invoke(clientCliView,receivedMessage.getToUpdateCell());
+                        method.invoke(clientCLIView, receivedMessage.getWorkersParam(), receivedMessage.getWorker());
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     } catch (InvocationTargetException e) {
@@ -293,59 +269,10 @@ public class Client implements Runnable, ServerObserver {
                 catch (NoSuchMethodException e) {
 
 
-                    method = clientGodView.getClass().getMethod(receivedMessage.getMethod(),ClientCell.class);
-
-                    try {
-                        method.invoke(clientGodView,receivedMessage.getToUpdateCell());
-                    } catch (IllegalAccessException e1) {
-                        e.printStackTrace();
-                    } catch (InvocationTargetException e1) {
-                        e.printStackTrace();
-                    }
                 }
 
 
-
             }
-
-            case 6:{
-
-                //Trying to find the method in ClientCliView
-                try {
-
-                    method = clientCliView.getClass().getMethod(receivedMessage.getMethod(), ArrayList.class,WorkerClient.class);
-
-                    //Invoke method in ClientCliView
-                    try {
-                        method.invoke(clientCliView,receivedMessage.getWorkersParam(),receivedMessage.getWorker());
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    } catch (InvocationTargetException e) {
-                        e.printStackTrace();
-                    }
-
-
-                } catch (SecurityException e) { /*PRIVATE EXCEPTION to complete*/}
-
-                //If there is no such method in clientCliView
-                catch (NoSuchMethodException e) {
-
-
-                    method = clientGodView.getClass().getMethod(receivedMessage.getMethod(), ArrayList.class,WorkerClient.class);
-
-                    try {
-                        method.invoke(clientGodView,receivedMessage.getWorkersParam(),receivedMessage.getWorker());
-                    } catch (IllegalAccessException e1) {
-                        e.printStackTrace();
-                    } catch (InvocationTargetException e1) {
-                        e.printStackTrace();
-                    }
-                }
-
-
-
-            }
-
 
 
         }
