@@ -35,7 +35,7 @@ public class WorkerMap {
     /**
      * Sets false any cell containing a dome.
      */
-    protected void DomeCellFalse() {
+    protected void domeCellFalse() {
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {

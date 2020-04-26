@@ -14,7 +14,7 @@ public class WorkerMoveMap extends WorkerMap {
      * Forbids worker to move in a cell occupied by a dome.
      */
     public void cannotMoveInDomeCell() {
-        DomeCellFalse();
+        domeCellFalse();
     }
 
     /**
