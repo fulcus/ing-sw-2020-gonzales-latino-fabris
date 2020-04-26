@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller;
 
+import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.controller.god.God;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Player;
@@ -185,6 +186,7 @@ public class TurnHandler {
         setInitialWorkersPosition();
     }
 
+
     /**
      * Executes the succession of turns by the players.
      */
@@ -209,7 +211,12 @@ public class TurnHandler {
                 losePlayer();
          */
 
-            currentClient.notify();
+            //currentClient.notify();
+            Server.executorService.execute(() -> {
+                Worker chosenWorker = chooseWorker();
+                turn(chosenWorker);
+            });
+
 
             cyclicalCounter++;
             if (cyclicalCounter == numberOfPlayers)

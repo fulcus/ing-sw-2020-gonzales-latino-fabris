@@ -16,7 +16,7 @@ import java.util.ArrayList;
 /**
  * Represents the interface of each client with the server.
  */
-public class ClientView implements ClientViewObserver, Runnable {
+public class ClientView implements ClientViewObserver {
 
     private final Socket socket;   //a virtual view instance for each client
     private Player player;
@@ -507,16 +507,10 @@ public class ClientView implements ClientViewObserver, Runnable {
     }
 
 
-    @Override
-    public void run() {
-        try {
-            startClient();
-        } catch (IOException e) {
-            System.out.println("client " + socket.getInetAddress() + " connection dropped");
-        }
-    }
 
 
+
+    //useless with executors
     /**
      * Lets the client play his turn.
      *
@@ -525,7 +519,7 @@ public class ClientView implements ClientViewObserver, Runnable {
     private void startClient() throws IOException {
 
         turnHandler = gameController.getTurnHandler();
-        gameController.addPlayer(this);
+
 
         while (inGame) {
             //waits until woken up by turnFlow

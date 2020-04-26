@@ -1,21 +1,20 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.server.controller.GameController;
-import it.polimi.ingsw.server.model.Game;
-import it.polimi.ingsw.server.model.Player;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 
 public class Server implements Runnable {
     public final static int SOCKET_PORT = 7777;
     private static GameController gameController;
     private static int numberOfClients; //senza multipartita
-    private ExecutorService executorService;
+    public static ExecutorService executorService;
 
     public static void main(String[] args) {
         Thread serverThread = new Thread(new Server());
@@ -52,7 +51,7 @@ public class Server implements Runnable {
                 Socket client = socket.accept();
                 numberOfClients++;
                 System.out.println("client " + numberOfClients + " connected");
-                createClientThread(client);
+                createClient(client);
 
             } catch (IOException e) {
                 System.out.println("connection dropped");
@@ -60,12 +59,22 @@ public class Server implements Runnable {
 
         }
 
-        Game game = gameController.getGame();
 
+        //waits for all players to finish adding their player ie setting nickname and color
 
+        executorService.shutdown();
 
-        //asynchronous
-        //if both chose nick && color
+        boolean terminated;
+        try {
+
+            do {
+                terminated = executorService.awaitTermination(20, TimeUnit.SECONDS);
+            } while (!terminated);
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         gameController.getTurnHandler().setUpTurns();
         gameController.getTurnHandler().startTurnFlow();
 
@@ -74,7 +83,7 @@ public class Server implements Runnable {
 
 
     //called by server right after accept
-    private void createClientThread(Socket joiningClientSocket) {
+    private void createClient(Socket joiningClientSocket) {
         //new thread?
         ClientView newClient = new ClientView(joiningClientSocket, gameController);
         newClient.connected();
@@ -84,9 +93,9 @@ public class Server implements Runnable {
             gameController.setUpGame(newClient);
 
 
-        //Thread thread = new Thread(newClient, "server_" + joiningClientSocket.getInetAddress());
-        //thread.start();
-        executorService.execute(newClient);
+        executorService.execute(() -> {
+            gameController.addPlayer(newClient);
+        });
 
     }
 
