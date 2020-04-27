@@ -62,6 +62,7 @@ public class Server implements Runnable {
 
         //waits for all players to finish adding their player ie setting nickname and color
 
+
         executorService.shutdown();
 
         boolean terminated;

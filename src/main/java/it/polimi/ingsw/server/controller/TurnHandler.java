@@ -156,8 +156,11 @@ public class TurnHandler {
         boolean positionSet;
 
         for (Player player : players) {
+
             ViewClient playerClient = player.getClient();
-            playerClient.printMap();
+
+            if(players.indexOf(player)==0)
+                playerClient.printMap();
 
             for (Worker worker : player.getWorkers()) {
                 positionSet = false;
@@ -172,13 +175,22 @@ public class TurnHandler {
 
                         worker.setPosition(x, y);
                         positionSet = true;
+
                         playerClient.printMap();
 
                     } else
                         playerClient.invalidInitialWorkerPosition();
                 }
             }
+
+            //Once a player set his workers, others will receive the updated map
+            for (Player player_ : players) {
+                if (player_ != player)//TODO HERE WE CAN NOTIFY OTHERS PLAYERS THAT A PLAYER HAS PLACED HIS WORKERS
+                    player_.getClient().printMap();
+            }
         }
+
+
     }
 
     /**
@@ -201,6 +213,7 @@ public class TurnHandler {
 
         //noinspection InfiniteLoopStatement
         while (true) {
+
             currentPlayer = players.get(cyclicalCounter);
             currentClient = currentPlayer.getClient();
             gameController.getGodController().updateCurrentClient(currentClient);
@@ -217,10 +230,9 @@ public class TurnHandler {
          */
 
             //currentClient.notify();
-            Server.executorService.execute(() -> {
-                Worker chosenWorker = chooseWorker();
-                turn(chosenWorker);
-            });
+
+            Worker chosenWorker = chooseWorker();
+            turn(chosenWorker);
 
 
             cyclicalCounter++;

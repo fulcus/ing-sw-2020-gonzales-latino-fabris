@@ -68,7 +68,6 @@ public class GameController {
     }
 
 
-    //todo alberto
     private void setUpObserverView(ViewClient client) {
 
         for (int i = 0; i < Board.SIDE; i++) {

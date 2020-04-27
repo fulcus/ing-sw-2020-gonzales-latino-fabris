@@ -37,8 +37,9 @@ public class BoardClient {
     public void update(CellClient cellFromServer) {
         //find cell position in clientBoard
         CellClient cellInClient = findCell(cellFromServer.getX(), cellFromServer.getY());
-        //update cell
-        cellInClient.updateCell(cellInClient);
+
+        //update cell in client with cell from server parameters
+        cellInClient.updateCell(cellFromServer);
     }
 
 }

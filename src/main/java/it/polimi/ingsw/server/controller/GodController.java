@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.controller;
 
 
 import it.polimi.ingsw.server.controller.god.God;
+import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.Worker;
 import it.polimi.ingsw.server.ViewClient;
 
@@ -165,7 +166,11 @@ public class GodController {
      * Prompts the view to print the board.
      */
     public void displayBoard() {
-        currentClient.printMap();
+
+        ArrayList<Player> players = gameController.getGame().getPlayers();
+
+        for(Player player : players)
+            player.getClient().printMap();
     }
 
 
