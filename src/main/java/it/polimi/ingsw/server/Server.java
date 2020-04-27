@@ -13,7 +13,6 @@ import java.util.concurrent.TimeUnit;
 public class Server implements Runnable {
     public final static int SOCKET_PORT = 7777;
     private static GameController gameController;
-    private static int numberOfClients; //senza multipartita
     public static ExecutorService executorService;
 
     public static void main(String[] args) {
@@ -27,7 +26,8 @@ public class Server implements Runnable {
 
         ServerSocket socket;
         gameController = new GameController();
-        numberOfClients = 0;
+        //senza multipartita
+        int numberOfClients = 0;
         executorService = Executors.newCachedThreadPool();
 
         try {
@@ -51,6 +51,7 @@ public class Server implements Runnable {
                 Socket client = socket.accept();
                 numberOfClients++;
                 System.out.println("client " + numberOfClients + " connected");
+
                 createClient(client);
 
             } catch (IOException e) {
@@ -79,7 +80,6 @@ public class Server implements Runnable {
 
         gameController.getTurnHandler().setUpTurns();
         gameController.getTurnHandler().startTurnFlow();
-
 
     }
 

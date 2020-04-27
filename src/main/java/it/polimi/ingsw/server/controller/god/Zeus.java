@@ -27,7 +27,7 @@ public class Zeus extends God{
         godController.allowBuildUnderneath();
         buildMap.canBuildUnderneath();
 
-        buildMap.printMap();
+        //buildMap.printMap();
 
         if(!buildMap.anyAvailableBuildPosition())
             throw new UnableToBuildException();

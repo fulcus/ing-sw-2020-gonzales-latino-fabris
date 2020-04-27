@@ -140,7 +140,7 @@ public abstract class God {
         moveMap.cannotStayStill();
         moveMap.cannotMoveInOccupiedCell();
 
-        moveMap.printMap();    //debugging
+        //moveMap.printMap();    //debugging
 
 
         if (!moveMap.anyAvailableMovePosition())
@@ -160,7 +160,7 @@ public abstract class God {
         buildMap.cannotBuildUnderneath();
         buildMap.cannotBuildInOccupiedCell();
 
-        buildMap.printMap();    //debugging
+        //buildMap.printMap();    //debugging
 
         if (!buildMap.anyAvailableBuildPosition())
             throw new UnableToBuildException();

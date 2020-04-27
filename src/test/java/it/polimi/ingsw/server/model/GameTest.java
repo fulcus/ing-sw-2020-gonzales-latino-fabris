@@ -3,13 +3,13 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.ViewClient;
 import it.polimi.ingsw.server.controller.GameController;
+import it.polimi.ingsw.server.controller.GodController;
 import it.polimi.ingsw.server.controller.god.*;
 import org.junit.After;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.swing.text.View;
 import java.net.Socket;
 
 
@@ -17,16 +17,16 @@ public class GameTest {
 
     Game game;
     ViewClient clientView;
-    GameController gc;
+    GameController gameController;
     Socket socket;
+    GodController godController;
 
     @Before
     public void setUp() {
         socket = new Socket();
-        gc = new GameController();
-        clientView = new ViewClient(socket, gc);
-        gc.setUpGame(clientView);
-        game = gc.getGame();
+        gameController = new GameController();
+        game = new Game(2);
+        godController = new GodController(gameController);
     }
 
 
@@ -46,8 +46,8 @@ public class GameTest {
 
     @Test
     public void testRandomChallenger() {
-        ViewClient clientView1 = new ViewClient(socket, gc);
-        ViewClient clientView2 = new ViewClient(socket, gc);
+        ViewClient clientView1 = new ViewClient(socket, gameController);
+        ViewClient clientView2 = new ViewClient(socket, gameController);
 
         game.addPlayer("Pippo", clientView);
         game.addPlayer("Pluto", clientView1);
@@ -58,7 +58,7 @@ public class GameTest {
 
     @Test
     public void testAddGodChosenByChallenger(){
-        God godTest = new Pan(gc.getGodController());
+        God godTest = new Pan(godController);
 
         assertEquals(0, game.getChosenGods().size());
 
@@ -89,8 +89,8 @@ public class GameTest {
 
     @Test
     public void testGetChallenger() {
-        ViewClient clientView1 = new ViewClient(socket, gc);
-        ViewClient clientView2 = new ViewClient(socket, gc);
+        ViewClient clientView1 = new ViewClient(socket, gameController);
+        ViewClient clientView2 = new ViewClient(socket, gameController);
 
         assertNull(game.getChallenger());
         game.addPlayer("Pippo", clientView);
@@ -110,16 +110,10 @@ public class GameTest {
     public void testRemovePlayer() {
         game.addPlayer("Pippo", clientView);
 
-        ViewClient clientView1 = new ViewClient(socket, gc);
+        ViewClient clientView1 = new ViewClient(socket, gameController);
         game.addPlayer("Pluto", clientView1);
 
         assertEquals(2, game.getPlayers().size());
 
-        int numOfPlayers = game.getNumberOfPlayers();
-
-        game.removePlayer(game.getPlayers().get(0));
-
-        assertEquals(1, game.getPlayers().size());
-        assertTrue(game.getNumberOfPlayers() < numOfPlayers);
     }
 }
