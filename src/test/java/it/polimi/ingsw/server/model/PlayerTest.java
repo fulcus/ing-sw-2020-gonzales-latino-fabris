@@ -21,29 +21,24 @@ public class PlayerTest {
     private Worker worker, worker2;
     private Player player, player2;
     private Game game;
-    private Board board;
     private GameController gameController;
-    private Socket socket, socket1;
-    private ViewClient viewClient, viewClient1;
+    private ViewClient viewClient;
     private ArrayList<Player> players;
-    Integer numOfPlayers;
 
     @Before
     public void setUp() {
+        Socket socket, socket1;
         socket = new Socket();
         socket1 = new Socket();
         gameController = new GameController();
         viewClient = new ViewClient(socket, gameController);
-        viewClient1 = new ViewClient(socket, gameController);
+        ViewClient viewClient1 = new ViewClient(socket1, gameController);
         gameController.setUpGame(viewClient);
         game = gameController.getGame();
 
         game.addPlayer("nick1", viewClient);
         game.addPlayer("nick2", viewClient1);
-        board = game.getBoard();
         players = game.getPlayers();
-        // numOfPlayers = game.getNumberOfPlayers();
-
         player = players.get(0);
         player2 = players.get(1);
         worker = player.getWorkers().get(0);
@@ -55,28 +50,33 @@ public class PlayerTest {
     @After
     public void tearDown() {
         game = null;
-        board = null;
         player = null;
         player2 = null;
         worker = null;
         worker2 = null;
         gameController = null;
+        viewClient = null;
     }
+
+
+    @Test
+    public void testGetClient() {
+        assertEquals(game.getPlayers().get(0).getClient(), viewClient);
+    }
+
 
     @Test
     public void testGetNickname() {
-        //challenger is set as last in players
-        assertEquals(game.getChallenger().getNickname(),
-                players.get(numOfPlayers -1).getNickname());
+        assertEquals(game.getPlayers().get(0).getNickname(), "nick1");
     }
 
 
     @Test
-    public void testPlayerGod() {
-        Apollo apollo = new Apollo(new GodController(new GameController()));
+    public void testSetAndGetPlayerGod() {
+        Apollo apollo = new Apollo(new GodController(gameController));
+
         player.setGod(apollo);
         assertEquals(apollo, player.getGod());
-
     }
 
 
@@ -84,47 +84,44 @@ public class PlayerTest {
     public void testGetColor() {
 
         player.setColor(Color.BLUE);
-
         assertEquals(Color.BLUE, player.getColor());
 
         player.setColor(Color.WHITE);
-
         assertEquals(Color.WHITE, player.getColor());
 
         player.setColor(Color.BEIGE);
-
         assertEquals(Color.BEIGE, player.getColor());
-
     }
+
 
     @Test
     public void testSetColor() {
 
         player.setColor(Color.BLUE);
-
         assertEquals(Color.BLUE, player.getColor());
 
         player.setColor(Color.WHITE);
-
         assertEquals(Color.WHITE, player.getColor());
 
         player.setColor(Color.BEIGE);
-
         assertEquals(Color.BEIGE, player.getColor());
     }
 
 
     @Test
     public void testGetWorkers() {
+
         assertEquals(worker,player.getWorkers().get(0));
         assertEquals(worker2,player.getWorkers().get(1));
     }
+
 
     @Test
     public void testGetGame() {
 
         assertEquals(game, player.getGame());
     }
+
 
     @Test
     public void testColor() {
@@ -136,9 +133,8 @@ public class PlayerTest {
 
         player.setColor(Color.StringToColor("BEIGE"));
         assertEquals(player.getColor(),Color.StringToColor("BEIGE"));
-
-
     }
+
 
     @Test
     public void testPermissionToWinInPerimeter() {
@@ -147,13 +143,23 @@ public class PlayerTest {
 
         player.setPermissionToWinInPerimeter(false);
         assertFalse(player.getCanWinInPerimeter());
-
     }
+
+
+    @Test
+    public void testPermissionToMoveUp() {
+        player.setPermissionToMoveUp(true);
+        assertTrue(player.getCanMoveUp());
+
+        player.setPermissionToMoveUp(false);
+        assertFalse(player.getCanMoveUp());
+    }
+
 
     @Test
     public void testLose() {
-        Apollo apollo = new Apollo(new GodController(new GameController()));
-        Pan pan = new Pan(new GodController(new GameController()));
+        Apollo apollo = new Apollo(new GodController(gameController));
+        Pan pan = new Pan(new GodController(gameController));
 
         game.addGodChosenByChallenger(apollo);
         game.addGodChosenByChallenger(pan);
@@ -163,7 +169,7 @@ public class PlayerTest {
         assertTrue(game.getChosenGods().contains(apollo));
         assertTrue(game.getChosenGods().contains(pan));
         assertTrue(players.contains(player));
-        int nPlayersBefore = numOfPlayers;
+        int nPlayersBefore = game.getNumberOfPlayers();
 
         player.lose();
 

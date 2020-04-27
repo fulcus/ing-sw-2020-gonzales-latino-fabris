@@ -5,38 +5,35 @@ import it.polimi.ingsw.server.controller.GameController;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import java.net.Socket;
-import java.util.ArrayList;
-
 import static org.junit.Assert.*;
+
 
 public class WorkerBuildMapTest {
     private Worker worker;
     private Worker worker2;
-
-    private GameController gameController;
-    private Socket socket, socket1;
-    private ViewClient viewClient, viewClient1;
-    private ArrayList<Player> players;
     private Player player;
     private Game game;
     private WorkerBuildMap buildMap;
 
+
     @Before
     public void setUp() {
+        Socket socket, socket1;
+        ViewClient viewClient, viewClient1;
+        GameController gameController;
+
         socket = new Socket();
         socket1 = new Socket();
         gameController = new GameController();
         viewClient = new ViewClient(socket, gameController);
-        viewClient1 = new ViewClient(socket, gameController);
+        viewClient1 = new ViewClient(socket1, gameController);
         gameController.setUpGame(viewClient);
         game = gameController.getGame();
 
         game.addPlayer("nick1", viewClient);
         game.addPlayer("nick2", viewClient1);
 
-        players = game.getPlayers();
         player = game.getPlayers().get(0);
         worker = player.getWorkers().get(0);
         worker2 = player.getWorkers().get(1);
@@ -45,12 +42,15 @@ public class WorkerBuildMapTest {
         buildMap = worker.getBuildMap();
     }
 
+
     @After
     public void tearDown() {
         game = null;
         player = null;
         worker = null;
+        worker2 = null;
     }
+
 
     @Test
     public void testAllowedToBuildInPosition() {
@@ -65,10 +65,12 @@ public class WorkerBuildMapTest {
 
     }
 
+
     @Test
     public void testGetWorker() {
         assertEquals(worker,buildMap.getWorker());
     }
+
 
     @Test
     public void testCannotBuildInOccupiedCell() {
@@ -76,13 +78,14 @@ public class WorkerBuildMapTest {
         worker2.setPosition(2,2);
         worker.buildDome(2,0);
         buildMap.cannotBuildInOccupiedCell();
-        assertFalse(buildMap.isAllowedToBuildBoard(2,2));
+        assertFalse(buildMap.isAllowedToBuildBoard(2, 2));
         assertFalse(buildMap.isAllowedToBuildBoard(2,0));
 
     }
 
+
     @Test
-    public void testCannotBuildUnderneath() {
+    public void testBuildUnderneath() {
         worker.setPosition(2,1);
         buildMap.cannotBuildUnderneath();
         assertFalse(buildMap.isAllowedToBuildBoard(2,1));
@@ -90,6 +93,7 @@ public class WorkerBuildMapTest {
         assertTrue(buildMap.isAllowedToBuildBoard(2,1));
 
     }
+
 
     @Test
     public void testAnyAvailableBuildPosition() {
@@ -108,7 +112,6 @@ public class WorkerBuildMapTest {
         assertFalse(buildMap.anyAvailableBuildPosition());
 
     }
-
 
 
 }

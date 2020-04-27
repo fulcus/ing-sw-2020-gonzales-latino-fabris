@@ -5,56 +5,46 @@ import it.polimi.ingsw.server.controller.GameController;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import java.net.Socket;
-import java.util.ArrayList;
-
 import static org.junit.Assert.*;
+
 
 public class WorkerMoveMapTest {
 
     private Worker worker;
     private Worker worker2;
     private Worker enemyWorker;
-    private Worker enemyWorker2;
 
     private Player player;
-    private Player player2;
     private Game game;
     private Board board;
     private WorkerMoveMap moveMap;
 
-    private GameController gameController;
-    private Socket socket, socket1;
-    private ViewClient viewClient, viewClient1;
-    private ArrayList<Player> players;
 
     @Before
     public void setUp() {
-        socket = new Socket();
-        socket1 = new Socket();
-        gameController = new GameController();
-        viewClient = new ViewClient(socket, gameController);
-        viewClient1 = new ViewClient(socket, gameController);
+        Socket socket = new Socket();
+        Socket socket1 = new Socket();
+        GameController gameController = new GameController();
+        ViewClient viewClient = new ViewClient(socket, gameController);
+        ViewClient viewClient1 = new ViewClient(socket1, gameController);
         gameController.setUpGame(viewClient);
         game = gameController.getGame();
 
         game.addPlayer("nick1", viewClient);
         game.addPlayer("nick2", viewClient1);
         board = game.getBoard();
-        players = game.getPlayers();
         player = game.getPlayers().get(0);
-        player2 = game.getPlayers().get(1);
+        Player player2 = game.getPlayers().get(1);
         worker = player.getWorkers().get(0);
         worker2 = player.getWorkers().get(1);
         enemyWorker = player2.getWorkers().get(0);
-        enemyWorker2 = player2.getWorkers().get(1);
         worker.setPosition(0, 0);
         worker2.setPosition(0, 1);
         enemyWorker.setPosition(0, 0);
-        enemyWorker2.setPosition(0, 1);
         moveMap = worker.getMoveMap();
     }
+
 
     @After
     public void tearDown() {
@@ -65,6 +55,7 @@ public class WorkerMoveMapTest {
         moveMap = null;
     }
 
+
     @Test
     public void testCannotMoveInDomeCell() {
         worker.setPosition(2, 1);
@@ -72,6 +63,7 @@ public class WorkerMoveMapTest {
         moveMap.cannotMoveInDomeCell();
         assertFalse(moveMap.isAllowedToMoveBoard(2, 2));
     }
+
 
     @Test
     public void testCannotMoveInOccupiedCell() {
@@ -83,6 +75,7 @@ public class WorkerMoveMapTest {
         assertFalse(moveMap.isAllowedToMoveBoard(2, 0));
     }
 
+
     @Test
     public void testCannotMoveInFriendlyWorkerCell() {
         worker.setPosition(2, 1);
@@ -93,6 +86,7 @@ public class WorkerMoveMapTest {
         assertTrue(moveMap.isAllowedToMoveBoard(2, 0));//enemyworker
     }
 
+
     @Test
     public void testCannotStayStill() {
         worker.setPosition(2, 1);
@@ -100,10 +94,12 @@ public class WorkerMoveMapTest {
         assertFalse(moveMap.isAllowedToMoveBoard(2, 1));
     }
 
+
     @Test
     public void testGetWorker() {
         assertEquals(worker, moveMap.getWorker());
     }
+
 
     @Test
     public void testCannotMoveUpMoveThanOneLevel() {
@@ -132,6 +128,7 @@ public class WorkerMoveMapTest {
         assertFalse(moveMap.isAllowedToMoveBoard(3, 2));
     }
 
+
     @Test
     public void testIsAllowedToMoveOutOfMaps() {
         worker.setPosition(3, 3);
@@ -145,6 +142,7 @@ public class WorkerMoveMapTest {
 
     }
 
+
     @Test
     public void testGetBooleanCellWorkerMap() {
         worker.setPosition(3, 3);
@@ -153,6 +151,7 @@ public class WorkerMoveMapTest {
         //relative to workers board
         assertFalse(moveMap.isAllowedToMoveWorkersMap(0, 0));
     }
+
 
     @Test
     public void testAnyAvailableMovePosition() {
@@ -178,8 +177,8 @@ public class WorkerMoveMapTest {
                 assertTrue(moveMap.isAllowedToMoveWorkersMap(i, j));
             }
         }
-
     }
+
 
     @Test
     public void testSetBooleanCellBoard() {
@@ -192,6 +191,7 @@ public class WorkerMoveMapTest {
         //out of map input
         assertNull(moveMap.getAbsolutePosition(1, 2));
     }
+
 
     @Test
     public void testNeighboringEnemyWorkers() {
@@ -206,6 +206,7 @@ public class WorkerMoveMapTest {
         assertEquals(enemyWorker, moveMap.neighboringEnemyWorkers().get(0));
 
     }
+
 
     @Test
     public void testAnyOneLevelHigherCell() {
