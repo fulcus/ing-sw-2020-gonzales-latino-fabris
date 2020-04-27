@@ -5,10 +5,7 @@ import it.polimi.ingsw.server.controller.GameController;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import java.net.Socket;
-import java.util.ArrayList;
-
 import static org.junit.Assert.*;
 
 
@@ -21,17 +18,17 @@ public class WorkerTest {
     private Board board;
 
     private GameController gameController;
-    private Socket socket, socket1;
-    private ViewClient viewClient, viewClient1;
-    private ArrayList<Player> players;
+
 
     @Before
     public void setUp() {
+        Socket socket, socket1;
+        ViewClient viewClient, viewClient1;
         socket = new Socket();
         socket1 = new Socket();
         gameController = new GameController();
         viewClient = new ViewClient(socket, gameController);
-        viewClient1 = new ViewClient(socket, gameController);
+        viewClient1 = new ViewClient(socket1, gameController);
         gameController.setUpGame(viewClient);
         game = gameController.getGame();
 
@@ -43,13 +40,16 @@ public class WorkerTest {
         enemyWorker = game.getPlayers().get(1).getWorkers().get(0);
     }
 
+
     @After
     public void tearDown() {
         game = null;
         board = null;
         player = null;
         worker = null;
+        gameController = null;
     }
+
 
     @Test
     public void testSetPositionCoordinates() {
@@ -63,6 +63,7 @@ public class WorkerTest {
 
     }
 
+
     @Test
     public void testSetPositionCell() {
         Cell firstCell = board.findCell(2, 3);
@@ -70,11 +71,12 @@ public class WorkerTest {
         assertEquals(2, worker.getPosition().getX());
         assertEquals(3, worker.getPosition().getY());
 
-        Cell secondCell = board.findCell(3, 1);
-        worker.setPosition(secondCell);
+        //Cell secondCell = board.findCell(3, 1);
+        worker.setPosition(3, 1);
         assertEquals(3, worker.getPosition().getX());
         assertEquals(1, worker.getPosition().getY());
     }
+
 
     @Test
     public void testBuildBlock() {
@@ -82,16 +84,19 @@ public class WorkerTest {
         assertEquals(1, board.findCell(1, 2).getLevel());
     }
 
+
     @Test
     public void testBuildDome() {
         worker.buildDome(4, 4);
         assertTrue(board.findCell(4, 4).hasDome());
     }
 
+
     @Test
     public void testGetPlayer() {
         assertEquals(player, worker.getPlayer());
     }
+
 
     @Test
     public void testGetPosition() {
@@ -101,6 +106,7 @@ public class WorkerTest {
 
         assertEquals(board.findCell(4, 3), worker.getPosition());
     }
+
 
     @Test
     public void testGetLevel() {
@@ -113,6 +119,7 @@ public class WorkerTest {
         assertEquals(2, board.findCell(3, 4).getLevel());
     }
 
+
     @Test
     public void testGetLevelVariation() {
         worker.setPosition(0, 1);
@@ -121,11 +128,13 @@ public class WorkerTest {
         assertEquals(1, worker.getLevelVariation());
     }
 
+
     @Test
     public void testGetSex() {
         assertEquals(Sex.MALE, worker.getSex());
     }
 
+    /*
     @Test
     public void testGetAllowedMoveMatrix() {
         //edge case of worker in perimeter
@@ -140,9 +149,9 @@ public class WorkerTest {
                     assertTrue(matrix.isAllowedToMoveWorkersMap(i, j));
             }
         }
+    }*/
 
-    }
-
+    /*
     @Test
     public void testGetAllowedBuildMatrix() {
         worker.setPosition(3, 3);
@@ -156,7 +165,8 @@ public class WorkerTest {
                     assertTrue(matrix.getBooleanCellWorkerMap(i, j));
             }
         }
-    }
+    }*/
+
 
     @Test
     public void testSwap() {
@@ -171,4 +181,5 @@ public class WorkerTest {
         assertEquals(enemyPosition, worker.getPosition());
         assertEquals(workerPosition, enemyWorker.getPosition());
     }
+
 }
