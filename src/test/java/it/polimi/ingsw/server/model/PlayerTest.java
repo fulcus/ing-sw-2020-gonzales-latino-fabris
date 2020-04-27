@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.server.ViewClient;
 import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.controller.GodController;
 import it.polimi.ingsw.server.controller.god.Apollo;
@@ -9,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 
+import java.net.Socket;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
@@ -20,17 +22,27 @@ public class PlayerTest {
     private Player player, player2;
     private Game game;
     private Board board;
+    private GameController gameController;
+    private Socket socket, socket1;
+    private ViewClient viewClient, viewClient1;
     private ArrayList<Player> players;
     Integer numOfPlayers;
 
     @Before
     public void setUp() {
-        game = new Game(2);
-        game.addPlayer("nick1");
-        game.addPlayer("nick2");
+        socket = new Socket();
+        socket1 = new Socket();
+        gameController = new GameController();
+        viewClient = new ViewClient(socket, gameController);
+        viewClient1 = new ViewClient(socket, gameController);
+        gameController.setUpGame(viewClient);
+        game = gameController.getGame();
+
+        game.addPlayer("nick1", viewClient);
+        game.addPlayer("nick2", viewClient1);
         board = game.getBoard();
         players = game.getPlayers();
-        numOfPlayers = game.getNumberOfPlayers();
+        // numOfPlayers = game.getNumberOfPlayers();
 
         player = players.get(0);
         player2 = players.get(1);
@@ -45,7 +57,10 @@ public class PlayerTest {
         game = null;
         board = null;
         player = null;
+        player2 = null;
         worker = null;
+        worker2 = null;
+        gameController = null;
     }
 
     @Test

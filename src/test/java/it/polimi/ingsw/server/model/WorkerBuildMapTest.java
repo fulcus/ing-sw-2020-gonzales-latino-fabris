@@ -1,23 +1,42 @@
 package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.server.ViewClient;
+import it.polimi.ingsw.server.controller.GameController;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.net.Socket;
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
 public class WorkerBuildMapTest {
     private Worker worker;
     private Worker worker2;
 
+    private GameController gameController;
+    private Socket socket, socket1;
+    private ViewClient viewClient, viewClient1;
+    private ArrayList<Player> players;
     private Player player;
     private Game game;
     private WorkerBuildMap buildMap;
 
     @Before
     public void setUp() {
-        game = new Game(2);
-        game.addPlayer("nickname1");
-        game.addPlayer("nickname2");
+        socket = new Socket();
+        socket1 = new Socket();
+        gameController = new GameController();
+        viewClient = new ViewClient(socket, gameController);
+        viewClient1 = new ViewClient(socket, gameController);
+        gameController.setUpGame(viewClient);
+        game = gameController.getGame();
+
+        game.addPlayer("nick1", viewClient);
+        game.addPlayer("nick2", viewClient1);
+
+        players = game.getPlayers();
         player = game.getPlayers().get(0);
         worker = player.getWorkers().get(0);
         worker2 = player.getWorkers().get(1);

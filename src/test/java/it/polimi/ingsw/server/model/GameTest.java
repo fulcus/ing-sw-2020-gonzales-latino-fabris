@@ -1,20 +1,22 @@
 package it.polimi.ingsw.server.model;
 
 
-import it.polimi.ingsw.server.ClientView;
+import it.polimi.ingsw.server.ViewClient;
 import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.controller.god.*;
 import org.junit.After;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
+
+import javax.swing.text.View;
 import java.net.Socket;
 
 
 public class GameTest {
 
     Game game;
-    ClientView clientView;
+    ViewClient clientView;
     GameController gc;
     Socket socket;
 
@@ -22,7 +24,7 @@ public class GameTest {
     public void setUp() {
         socket = new Socket();
         gc = new GameController();
-        clientView = new ClientView(socket, gc);
+        clientView = new ViewClient(socket, gc);
         gc.setUpGame(clientView);
         game = gc.getGame();
     }
@@ -44,8 +46,8 @@ public class GameTest {
 
     @Test
     public void testRandomChallenger() {
-        ClientView clientView1 = new ClientView(socket, gc);
-        ClientView clientView2 = new ClientView(socket, gc);
+        ViewClient clientView1 = new ViewClient(socket, gc);
+        ViewClient clientView2 = new ViewClient(socket, gc);
 
         game.addPlayer("Pippo", clientView);
         game.addPlayer("Pluto", clientView1);
@@ -87,8 +89,8 @@ public class GameTest {
 
     @Test
     public void testGetChallenger() {
-        ClientView clientView1 = new ClientView(socket, gc);
-        ClientView clientView2 = new ClientView(socket, gc);
+        ViewClient clientView1 = new ViewClient(socket, gc);
+        ViewClient clientView2 = new ViewClient(socket, gc);
 
         assertNull(game.getChallenger());
         game.addPlayer("Pippo", clientView);
@@ -108,7 +110,7 @@ public class GameTest {
     public void testRemovePlayer() {
         game.addPlayer("Pippo", clientView);
 
-        ClientView clientView1 = new ClientView(socket, gc);
+        ViewClient clientView1 = new ViewClient(socket, gc);
         game.addPlayer("Pluto", clientView1);
 
         assertEquals(2, game.getPlayers().size());

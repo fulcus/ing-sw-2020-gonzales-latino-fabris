@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model;
 
 
-import it.polimi.ingsw.server.ClientView;
+import it.polimi.ingsw.server.ViewClient;
 import it.polimi.ingsw.server.controller.GameController;
 import org.junit.After;
 import org.junit.Before;
@@ -187,7 +187,7 @@ public class CellTest {
 
         GameController gc = new GameController();
         Socket socket = new Socket();
-        ClientView client = new ClientView(socket, gc);
+        ViewClient client = new ViewClient(socket, gc);
 
         assertEquals(0, cell.getCellObservers().size());
 
@@ -201,7 +201,7 @@ public class CellTest {
 
         GameController gc = new GameController();
         Socket socket = new Socket();
-        ClientView client = new ClientView(socket, gc);
+        ViewClient client = new ViewClient(socket, gc);
 
         cell.register(client);
         assertEquals(1, cell.getCellObservers().size());
