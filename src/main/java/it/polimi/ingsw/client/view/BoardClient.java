@@ -1,24 +1,23 @@
 package it.polimi.ingsw.client.view;
 
-import it.polimi.ingsw.serializableObjects.ClientCell;
-import it.polimi.ingsw.serializableObjects.WorkerClient;
+import it.polimi.ingsw.serializableObjects.CellClient;
 import it.polimi.ingsw.server.model.Board;
 
-public class ClientBoard  {
+public class BoardClient {
 
-    private final ClientCell[][] board;
+    private final CellClient[][] board;
 
-    public ClientBoard() {
-        this.board = new ClientCell[Board.SIDE][Board.SIDE];
+    public BoardClient() {
+        this.board = new CellClient[Board.SIDE][Board.SIDE];
 
         for (int i = 0; i < Board.SIDE; i++) {
             for (int j = 0; j < Board.SIDE; j++) {
-                board[i][j] = new ClientCell(i, j);
+                board[i][j] = new CellClient(i, j);
             }
         }
     }
 
-    public ClientCell findCell(int x, int y) {
+    public CellClient findCell(int x, int y) {
         if (isInBoard(x, y))
             return board[x][y];
         return null;
@@ -31,14 +30,16 @@ public class ClientBoard  {
 
     /**
      * Updates the clientBoard of the view after receiving a cell from the server.
+     *
      * @param cellFromServer cell received from the server.
      */
 
-    public void update(ClientCell cellFromServer) {
+    public void update(CellClient cellFromServer) {
         //find cell position in clientBoard
-        ClientCell cellInClient = this.findCell(cellFromServer.getX(),cellFromServer.getY());
-        //update cell
-        cellInClient.updateCell(cellInClient);
+        CellClient cellInClient = findCell(cellFromServer.getX(), cellFromServer.getY());
+
+        //update cell in client with cell from server parameters
+        cellInClient.updateCell(cellFromServer);
     }
 
 }

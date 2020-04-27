@@ -44,11 +44,13 @@ public class Worker {
         if (position != null) {
             position.moveOut();
         }
-        newPosition.moveIn(this);
+        //newPosition.moveIn(this);
 
         levelVariation = newLevel - level;
         level = newLevel;
         position = newPosition;
+
+        newPosition.moveIn(this);
     }
 
     /**

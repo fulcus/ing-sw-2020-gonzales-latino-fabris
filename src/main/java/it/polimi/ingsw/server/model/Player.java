@@ -1,8 +1,7 @@
 package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.server.*;
 import it.polimi.ingsw.server.controller.god.God;
-import it.polimi.ingsw.server.ClientView;
+import it.polimi.ingsw.server.ViewClient;
 
 import java.util.ArrayList;
 
@@ -18,7 +17,7 @@ public class Player {
     private final ArrayList<Worker> workers;
     private boolean canWinInPerimeter;  //true if can win on perimeter
     private boolean canMoveUp;
-    private final ClientView client;
+    private final ViewClient client;
 
 
     /**
@@ -27,11 +26,11 @@ public class Player {
      * @param game     Represents the belonging game of the player.
      * @param nickname The name chosen by the user for the belonging game.
      */
-    public Player(Game game, String nickname, ClientView clientView) {
+    public Player(Game game, String nickname, ViewClient viewClient) {
 
         this.game = game;
         this.nickname = nickname;
-        this.client = clientView;
+        this.client = viewClient;
         god = null;
         canWinInPerimeter = true;
         canMoveUp = true;
@@ -41,7 +40,7 @@ public class Player {
         workers.add(new Worker(this, Sex.FEMALE));
     }
 
-    public ClientView getClient() {
+    public ViewClient getClient() {
         return client;
     }
 

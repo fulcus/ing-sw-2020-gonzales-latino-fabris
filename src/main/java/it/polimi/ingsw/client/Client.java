@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.view.CLIView;
-import it.polimi.ingsw.serializableObjects.ClientCell;
+import it.polimi.ingsw.serializableObjects.CellClient;
 import it.polimi.ingsw.serializableObjects.Message;
 import it.polimi.ingsw.serializableObjects.WorkerClient;
 import it.polimi.ingsw.server.Server;
@@ -105,11 +105,11 @@ public class Client implements Runnable, ServerObserver {
         int intParam1;
         int intParam2;
         ArrayList<String> stringListParam;
-        ClientCell toUpdateCell;
+        CellClient toUpdateCell;
         ArrayList<WorkerClient> workersParam;
         WorkerClient worker;
 
-        typeOfMessage = receivedMessage.getTypeOfMessage();
+        typeOfMessage = receivedMessage.getMessageType();
 
         switch (typeOfMessage) {
 
@@ -230,7 +230,7 @@ public class Client implements Runnable, ServerObserver {
                 //Trying to find the method in ClientCliView
                 try {
 
-                    method = clientCLIView.getClass().getMethod(receivedMessage.getMethod(), ClientCell.class);
+                    method = clientCLIView.getClass().getMethod(receivedMessage.getMethod(), CellClient.class);
 
                     //Invoke method in ClientCliView
                     try {

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.serializableObjects.ClientCell;
+import it.polimi.ingsw.serializableObjects.CellClient;
 import it.polimi.ingsw.serializableObjects.Message;
 import it.polimi.ingsw.serializableObjects.WorkerClient;
 import it.polimi.ingsw.server.controller.GameController;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 /**
  * Represents the interface of each client with the server.
  */
-public class ClientView implements ClientViewObserver {
+public class ViewClient implements ClientViewObserver {
 
     private final Socket socket;   //a virtual view instance for each client
     private Player player;
@@ -27,7 +27,7 @@ public class ClientView implements ClientViewObserver {
     private boolean inGame;
 
 
-    public ClientView(Socket socket, GameController gameController) {
+    public ViewClient(Socket socket, GameController gameController) {
         this.socket = socket;
         this.gameController = gameController;
         inGame = true;
@@ -45,7 +45,7 @@ public class ClientView implements ClientViewObserver {
 
 
     /**
-     * Associates the ClientView to a player.
+     * Associates the ViewClient to a player.
      *
      * @param player Is the instance of the player associated to the client.
      */
@@ -226,7 +226,7 @@ public class ClientView implements ClientViewObserver {
      */
     @Override
     public void update(Cell toUpdateCell) {
-        sendMessage(new Message("update", new ClientCell(toUpdateCell)));
+        sendMessage(new Message("update", new CellClient(toUpdateCell)));
     }
 
 
@@ -344,7 +344,7 @@ public class ClientView implements ClientViewObserver {
      */
     public String askWorkerToMove(ArrayList<Worker> enemyWorkers, Worker myWorker) {
 
-        ArrayList<WorkerClient> enemyWorkersClient = new ArrayList<WorkerClient>(enemyWorkers.size());
+        ArrayList<WorkerClient> enemyWorkersClient = new ArrayList<>(enemyWorkers.size());
 
         for (Worker worker : enemyWorkers)
             enemyWorkersClient.add(new WorkerClient(worker));
