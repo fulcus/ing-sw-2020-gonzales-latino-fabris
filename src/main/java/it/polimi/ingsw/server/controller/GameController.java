@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.controller;
 
-import it.polimi.ingsw.server.ClientView;
+import it.polimi.ingsw.server.ViewClient;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.controller.god.*;
 
@@ -28,7 +28,7 @@ public class GameController {
     /**
      * Sets up game and starts the logic flow.
      */
-    public synchronized void setUpGame(ClientView firstClient) {
+    public synchronized void setUpGame(ViewClient firstClient) {
 
 
         /*String viewType = viewSelector.askTypeofView();
@@ -44,7 +44,7 @@ public class GameController {
         godController = new GodController(this);
         createDeckGods();
 
-        firstClient.beginningView();
+        //firstClient.beginningView();
 
         int numOfPlayers = firstClient.askNumberOfPlayers();
 
@@ -59,19 +59,17 @@ public class GameController {
      *
      * @param client View of the new player.
      */
-    public void addPlayer(ClientView client) {
+    public void addPlayer(ViewClient client) {
         setUpObserverView(client);
 
         setPlayerNickname(client);
         setPlayerColor(client);
 
-        //
-
     }
 
 
     //todo alberto
-    private void setUpObserverView(ClientView client) {
+    private void setUpObserverView(ViewClient client) {
 
         for (int i = 0; i < Board.SIDE; i++) {
             for (int j = 0; j < Board.SIDE; j++) {
@@ -87,7 +85,7 @@ public class GameController {
      *
      * @param client view of the player.
      */
-    private synchronized void setPlayerNickname(ClientView client) {
+    private synchronized void setPlayerNickname(ViewClient client) {
 
         while (true) {
 
@@ -108,7 +106,7 @@ public class GameController {
      *
      * @param client view of the player.
      */
-    private synchronized void setPlayerColor(ClientView client) {
+    private synchronized void setPlayerColor(ViewClient client) {
 
         boolean colorCorrectlyChosen = false;
 

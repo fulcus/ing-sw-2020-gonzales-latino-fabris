@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.view;
 
-import it.polimi.ingsw.serializableObjects.ClientCell;
+import it.polimi.ingsw.serializableObjects.CellClient;
 import it.polimi.ingsw.server.model.*;
 
 import java.util.ArrayList;
@@ -11,16 +11,16 @@ public class CLIView {
 
     private Scanner input;
     private Scanner intInput;
-    private final ClientBoard board;// this will contain a copy of the Model's map and each cell will be update if there are any changes
+    private final BoardClient board;// this will contain a copy of the Model's map and each cell will be update if there are any changes
     private String playerNickname;
-    //to be assigned when setPlayer of ClientView is deserialized
+    //to be assigned when setPlayer of ViewClient is deserialized
 
     /**
      * This is the CLIView constructor.
      */
     public CLIView() {
 
-        board = new ClientBoard();
+        board = new BoardClient();
         input = new Scanner(System.in);
         intInput = new Scanner(System.in);
     }
@@ -159,14 +159,17 @@ public class CLIView {
     }
 
     private void printChallenger(int numOfPlayers) {
+        System.out.println();
         System.out.println(playerNickname + ", you are the Challenger. Select "
                 + numOfPlayers + " Gods for this game.");
 
     }
 
     public String getGodFromChallenger(int numOfPlayers, int alreadyChosenGods) {
-        printChallenger(numOfPlayers);
-        System.out.println(numOfPlayers - alreadyChosenGods + " Gods left to choose.");
+        if (alreadyChosenGods == 0)
+            printChallenger(numOfPlayers);
+        else
+            System.out.println(numOfPlayers - alreadyChosenGods + " Gods left to choose.");
 
         return input.nextLine();
 
@@ -246,8 +249,8 @@ public class CLIView {
      */
     public void printMap() {
 
-        final String LINE_SEPARATOR = CliColor.ANSI_GREEN + "+-------+-------+-------+-------+-------+" + CliColor.COLOR_RESET + "%n";
-        final String SPACE_SEPARATOR = CliColor.ANSI_GREEN + "+       +       +       +       +       +" + CliColor.COLOR_RESET + "%n";
+        final String LINE_SEPARATOR = CLIColor.ANSI_GREEN + "+-------+-------+-------+-------+-------+" + CLIColor.COLOR_RESET + "%n";
+        final String SPACE_SEPARATOR = CLIColor.ANSI_GREEN + "+       +       +       +       +       +" + CLIColor.COLOR_RESET + "%n";
 
         for (int i = 0; i < Board.SIDE; i++) {
 
@@ -270,7 +273,7 @@ public class CLIView {
         for (int i = 0; i < Board.SIDE; i++) {
 
             boolean additionalSpace = true;
-            System.out.printf(CliColor.ANSI_GREEN + "+" + CliColor.COLOR_RESET);
+            System.out.printf(CLIColor.ANSI_GREEN + "+" + CLIColor.COLOR_RESET);
             System.out.printf(" ");//1
 
             //Place where eventual buildings will be printed
@@ -307,17 +310,17 @@ public class CLIView {
                 String workerSex = board.findCell(lineNumber, i).getWorkerClient().getWorkerSex();
 
                 if (workerColor.equals("BLUE") && workerSex.equals("MALE"))
-                    System.out.printf(CliColor.ANSI_BLUE + " M⃣ " + CliColor.COLOR_RESET);
+                    System.out.printf(CLIColor.ANSI_BLUE + " M⃣ " + CLIColor.COLOR_RESET);
                 else if (workerColor.equals("BLUE") && workerSex.equals("FEMALE"))
-                    System.out.printf(CliColor.ANSI_BLUE + " F⃣ " + CliColor.COLOR_RESET);
+                    System.out.printf(CLIColor.ANSI_BLUE + " F⃣ " + CLIColor.COLOR_RESET);
                 else if (workerColor.equals("WHITE") && workerSex.equals("MALE"))
-                    System.out.printf(CliColor.ANSI_WHITE + " M⃣ " + CliColor.COLOR_RESET);
+                    System.out.printf(CLIColor.ANSI_WHITE + " M⃣ " + CLIColor.COLOR_RESET);
                 else if (workerColor.equals("WHITE") && workerSex.equals("FEMALE"))
-                    System.out.printf(CliColor.ANSI_WHITE + " F⃣ " + CliColor.COLOR_RESET);
+                    System.out.printf(CLIColor.ANSI_WHITE + " F⃣ " + CLIColor.COLOR_RESET);
                 else if (workerColor.equals("BEIGE") && workerSex.equals("MALE"))
-                    System.out.printf(CliColor.ANSI_BEIGE + " M⃣ " + CliColor.COLOR_RESET);
+                    System.out.printf(CLIColor.ANSI_BEIGE + " M⃣ " + CLIColor.COLOR_RESET);
                 else if (workerColor.equals("BEIGE") && workerSex.equals("FEMALE"))
-                    System.out.printf(CliColor.ANSI_BEIGE + " F⃣ " + CliColor.COLOR_RESET);
+                    System.out.printf(CLIColor.ANSI_BEIGE + " F⃣ " + CLIColor.COLOR_RESET);
 
             }
 
@@ -327,16 +330,17 @@ public class CLIView {
 
         }
 
-        System.out.printf(CliColor.ANSI_GREEN + "+" + CliColor.COLOR_RESET);
+        System.out.printf(CLIColor.ANSI_GREEN + "+" + CLIColor.COLOR_RESET);
         System.out.printf("%n");
 
     }
 
-    public void update(ClientCell toUpdateCell){
+    public void update(CellClient toUpdateCell) {
         board.update(toUpdateCell);
     }
 
     public void printAllGods(ArrayList<String> godsNameAndDescription) {
+        System.out.println("\nThese are all the available gods:\n");
 
         for (String god : godsNameAndDescription)
             System.out.println(god);
@@ -350,7 +354,7 @@ public class CLIView {
 
     public void printChosenGods(ArrayList<String> chosenGods) {
 
-        System.out.print("Available Gods: ");
+        System.out.print("\nAvailable Gods: ");
 
         int index = 0;
 

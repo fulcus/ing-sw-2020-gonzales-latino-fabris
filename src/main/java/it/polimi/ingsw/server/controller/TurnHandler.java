@@ -1,17 +1,17 @@
 package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.server.Server;
+import it.polimi.ingsw.server.ViewClient;
 import it.polimi.ingsw.server.controller.god.God;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.Worker;
-import it.polimi.ingsw.server.ClientView;
 
 import java.util.ArrayList;
 
 public class TurnHandler {
     private final Game game;
-    private ClientView currentClient;
+    private ViewClient currentClient;
     private final GameController gameController;
     private final ArrayList<Player> players;
     private Player currentPlayer;
@@ -45,7 +45,7 @@ public class TurnHandler {
         for (Player player : players)
             player.getClient().printAllGods(godsNameAndDescription);
 
-        ClientView challengerClient = game.getChallenger().getClient();
+        ViewClient challengerClient = game.getChallenger().getClient();
 
         //lets challenger select the gods
         int alreadyChosenGods = 0;
@@ -70,7 +70,7 @@ public class TurnHandler {
             if (foundGod)
                 alreadyChosenGods++;
             else
-                challengerClient.challengerError(); //print: the god you typed doesnt exist
+                challengerClient.challengerError(); //print: the god you typed doesn't exist
         }
 
     }
@@ -85,12 +85,16 @@ public class TurnHandler {
         boolean foundGod;
 
         for (Player player : players) {
-            ClientView playerClient = player.getClient();
+
+            ViewClient playerClient = player.getClient();
             ArrayList<String> chosenGods = new ArrayList<>();
+
             for (God god : game.getChosenGods()) {
-                chosenGods.add(god.toString().toLowerCase());
+                chosenGods.add(god.toString());
             }
+
             playerClient.printChosenGods(chosenGods);
+
             foundGod = false;
 
             while (!foundGod) {
@@ -98,6 +102,7 @@ public class TurnHandler {
 
                 for (God god : game.getChosenGods()) {
                     String godName = god.toString().toLowerCase();
+
                     if (inputGod.toLowerCase().equals(godName) && !alreadyTakenGods.contains(god)) {
                         player.setGod(god);
                         alreadyTakenGods.add(god);
@@ -118,7 +123,7 @@ public class TurnHandler {
      */
     private void challengerChooseStartPlayer() {
 
-        ClientView challengerClient = game.getChallenger().getClient();
+        ViewClient challengerClient = game.getChallenger().getClient();
         String startPlayerNick;
         Player startPlayer = null;
 
@@ -151,7 +156,7 @@ public class TurnHandler {
         boolean positionSet;
 
         for (Player player : players) {
-            ClientView playerClient = player.getClient();
+            ViewClient playerClient = player.getClient();
             playerClient.printMap();
 
             for (Worker worker : player.getWorkers()) {

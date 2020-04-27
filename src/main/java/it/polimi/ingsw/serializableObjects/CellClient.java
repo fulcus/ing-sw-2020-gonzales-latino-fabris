@@ -4,7 +4,7 @@ import it.polimi.ingsw.server.model.Cell;
 
 import java.io.Serializable;
 
-public class ClientCell implements Serializable {
+public class CellClient implements Serializable {
 
 
     private final int x;
@@ -16,7 +16,7 @@ public class ClientCell implements Serializable {
     private int cellLevel;
 
 
-    public ClientCell(int x, int y) {
+    public CellClient(int x, int y) {
         this.x = x;
         this.y = y;
         this.worker = null;
@@ -25,7 +25,7 @@ public class ClientCell implements Serializable {
     }
 
     //used in server
-    public ClientCell(Cell observedCell) {
+    public CellClient(Cell observedCell) {
 
         this.x = observedCell.getX();
         this.y = observedCell.getY();
@@ -41,13 +41,14 @@ public class ClientCell implements Serializable {
 
     /**
      * Updates the clientCell of the view after receiving the cell from the server.
+     *
      * @param cellFromServer cell received from the server.
      */
-    public void updateCell(ClientCell cellFromServer) {
+    public void updateCell(CellClient cellFromServer) {
         this.cellLevel = cellFromServer.getCellLevel();
         this.hasDome = cellFromServer.hasDome();
 
-        if(cellFromServer.getWorkerClient() != null)
+        if (cellFromServer.getWorkerClient() != null)
             this.worker = new WorkerClient(cellFromServer.getWorkerClient());
         else
             this.worker = null;
@@ -62,7 +63,9 @@ public class ClientCell implements Serializable {
         return x;
     }
 
-    public WorkerClient getWorkerClient(){ return this.worker; }
+    public WorkerClient getWorkerClient() {
+        return this.worker;
+    }
 
     public boolean hasWorker() {
         return worker != null;
@@ -75,7 +78,6 @@ public class ClientCell implements Serializable {
     public int getCellLevel() {
         return cellLevel;
     }
-
 
 
 }

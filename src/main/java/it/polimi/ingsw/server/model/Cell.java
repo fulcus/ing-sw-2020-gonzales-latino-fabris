@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.server.ClientView;
 import it.polimi.ingsw.server.ClientViewObserver;
 
 import java.util.ArrayList;

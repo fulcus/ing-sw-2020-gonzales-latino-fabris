@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.view;
 
-public enum CliColor {
+public enum CLIColor {
     ANSI_MALE_WORKER( " M⃣ "),
     ANSI_FEMALE_WORKER(" F⃣ "),
     ANSI_WHITE("\u001B[231m"),
@@ -34,7 +34,7 @@ public enum CliColor {
 
     String currentColor;
 
-    CliColor(String currentColor) {this.currentColor = currentColor;}
+    CLIColor(String currentColor) {this.currentColor = currentColor;}
 
     public String getCurrentColor(){return currentColor;}
 

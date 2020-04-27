@@ -69,6 +69,7 @@ public class Server implements Runnable {
 
             do {
                 terminated = executorService.awaitTermination(20, TimeUnit.SECONDS);
+                //after x seconds print: waiting for other players to join
             } while (!terminated);
 
         } catch (InterruptedException e) {
@@ -85,17 +86,18 @@ public class Server implements Runnable {
     //called by server right after accept
     private void createClient(Socket joiningClientSocket) {
         //new thread?
-        ClientView newClient = new ClientView(joiningClientSocket, gameController);
+        ViewClient newClient = new ViewClient(joiningClientSocket, gameController);
         newClient.connected();
+
+        //cannot accept other clients before writing "start"
+        newClient.beginningView();
 
 
         if (gameController.getGame() == null)
             gameController.setUpGame(newClient);
 
 
-        executorService.execute(() -> {
-            gameController.addPlayer(newClient);
-        });
+        executorService.execute(() -> gameController.addPlayer(newClient));
 
     }
 
