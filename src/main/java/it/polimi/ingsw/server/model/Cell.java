@@ -1,18 +1,15 @@
 package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.server.ClientView;
 import it.polimi.ingsw.server.ClientViewObserver;
-
 import java.util.ArrayList;
+
 
 /**
  * This class represents a board's cell structure
  */
-
 public class Cell {
 
     private final ArrayList<ClientViewObserver> cellObservers;
-
     private boolean dome;
     private int level;
     private Worker worker;
@@ -35,6 +32,7 @@ public class Cell {
         return level;
     }
 
+
     public void setLevel(int level) {
         this.level = level;
     }
@@ -44,13 +42,16 @@ public class Cell {
         this.dome = dome;
     }
 
+
     public void setWorker(Worker worker) {
         this.worker = worker;
     }
 
+
     public boolean hasDome() {
         return dome;
     }
+
 
     /**
      * Builds 1 block more in this cell
@@ -60,6 +61,7 @@ public class Cell {
         notifyObservers();
     }
 
+
     /**
      * Build the dome in the cell
      */
@@ -67,6 +69,7 @@ public class Cell {
         dome = true;
         notifyObservers();
     }
+
 
     /**
      * Finds out if in this cell there's a worker or not
@@ -76,6 +79,7 @@ public class Cell {
     public boolean hasWorker() {
         return worker != null;
     }
+
 
     /**
      * States that a worker is moving in the cell
@@ -87,6 +91,7 @@ public class Cell {
         notifyObservers();//when a worker has moved in this Cell, it will be changed in the View
     }
 
+
     /**
      * States that a worker isn't in this cell anymore.
      */
@@ -94,6 +99,7 @@ public class Cell {
         worker = null;
         notifyObservers();//when a worker has moved out from this Cell, it will be changed in the View
     }
+
 
     /**
      * Finds out if the cell stays on the border of the board
@@ -104,6 +110,7 @@ public class Cell {
         return inPerimeter;
     }
 
+
     /**
      * Checks if cell has a worker or a dome on it.
      */
@@ -111,13 +118,16 @@ public class Cell {
         return hasWorker() || hasDome();
     }
 
+
     public Worker getWorker() {
         return worker;
     }
 
+
     public int getX() {
         return x;
     }
+
 
     public int getY() {
         return y;
@@ -147,6 +157,12 @@ public class Cell {
 
         this.cellObservers.remove(myObserver);
     }
+
+
+    public ArrayList<ClientViewObserver> getCellObservers(){
+        return this.cellObservers;
+    }
+
 
     /**
      * This method updates all the Observer of the Worker Class.

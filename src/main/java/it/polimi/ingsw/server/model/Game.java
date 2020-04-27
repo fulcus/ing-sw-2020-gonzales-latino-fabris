@@ -11,12 +11,12 @@ import java.util.Random;
  */
 public class Game {
 
-
     private final Board board;
     private Integer numberOfPlayers;
     private final ArrayList<Player> players;
     private final ArrayList<God> chosenGods;
     private Player challenger;
+
 
     /**
      * Creates a new game.
@@ -30,13 +30,13 @@ public class Game {
         chosenGods = new ArrayList<>(numberOfPlayers);
     }
 
+
     /**
      * Adds a new player to the game and chooses challenger if target number of players has been reached.
      *
      * @param nickname Nickname chosen by the player.
      * @return player that was just created.
      */
-    //view checks that nickname and color aren't already taken
     public Player addPlayer(String nickname, ClientView clientView) {
         Player newPlayer = new Player(this, nickname, clientView);
         players.add(newPlayer);

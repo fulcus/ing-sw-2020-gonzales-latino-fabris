@@ -13,10 +13,7 @@ public class BoardTest {
 
     @Before
     public void setUp() {
-        Game game = new Game(2);
-        game.addPlayer("nickname1");
-        game.addPlayer("nickname2");
-        board = game.getBoard();
+        board = new Board();
     }
 
     @After
@@ -39,10 +36,5 @@ public class BoardTest {
         assertNull(board.findCell(7, 2));
     }
 
-    @Test
-    public void testIsInMap() {
-        assertTrue(board.isInBoard(1,3));
-        assertFalse(board.isInBoard(7,-1));
-        assertFalse(board.isInBoard(3,7));
-    }
+
 }

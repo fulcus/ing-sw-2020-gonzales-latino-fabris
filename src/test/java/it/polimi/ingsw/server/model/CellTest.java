@@ -1,35 +1,33 @@
 package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.client.view.CLIView;
+
+import it.polimi.ingsw.server.ClientView;
 import it.polimi.ingsw.server.controller.GameController;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.net.Socket;
+
 import static org.junit.Assert.*;
 
-public class CellTest {
 
+public class CellTest {
 
     private Cell cell;
     private Worker worker;
     private Player player;
     private Game game;
     private Board board;
-    private CLIView view;
-    private GameController controller;
 
 
     @Before
     public void setUp() {
         game = new Game(2);
-        game.addPlayer("nickname1");
-        game.addPlayer("nickname2");
         board = game.getBoard();
         player = game.getPlayers().get(0);
         worker = player.getWorkers().get(0);
         cell = board.findCell(3,2);
-        controller = new GameController();
-        view = new CLIView(controller);
 
     }
 
@@ -39,34 +37,32 @@ public class CellTest {
         board = null;
         player = null;
         worker = null;
+        cell = null;
     }
+
 
     @Test
     public void testGetLevel() {
-
-
         cell.buildBlock();
-
         assertEquals(1, cell.getLevel());
     }
+
 
     @Test
     public void testBuildBlock() {
 
-        cell.buildBlock();
+        assertEquals(0, cell.getLevel());
 
+        cell.buildBlock();
         assertEquals(1, cell.getLevel());
 
         cell.buildBlock();
-
         assertEquals(2, cell.getLevel());
 
         cell.buildBlock();
-
         assertEquals(3, cell.getLevel());
-
-
     }
+
 
     @Test
     public void testHasDome() {
@@ -74,15 +70,14 @@ public class CellTest {
         assertFalse(cell.hasDome());
 
         cell.buildDome();
-
         assertTrue(cell.hasDome());
     }
+
 
     @Test
     public void testBuildDome() {
 
         assertFalse(cell.hasDome());
-
         cell.buildDome();
 
         assertTrue(cell.hasDome());
@@ -94,7 +89,11 @@ public class CellTest {
 
         assertFalse(cell.hasWorker());
 
+        cell.moveIn(worker);
+        assertTrue(cell.hasWorker());
+
     }
+
 
     @Test
     public void testMoveIn() {
@@ -102,31 +101,27 @@ public class CellTest {
         assertNull(cell.getWorker());
 
         cell.moveIn(worker);
-
         assertEquals(worker, cell.getWorker());
-
     }
+
 
     @Test
     public void testMoveOut() {
 
         cell.moveIn(worker);
+
         cell.moveOut();
-
         assertNull(cell.getWorker());
-
-
     }
+
 
     @Test
     public void testIsInPerimeter() {
 
         assertTrue((new Cell(4, 2).isInPerimeter()));
-
         assertFalse((new Cell(3, 2).isInPerimeter()));
-
-
     }
+
 
     @Test
     public void testIsOccupied() {
@@ -134,9 +129,9 @@ public class CellTest {
         assertFalse(cell.isOccupied());
 
         cell.moveIn(worker);
-
         assertTrue(cell.isOccupied());
     }
+
 
     @Test
     public void testGetWorker() {
@@ -144,9 +139,9 @@ public class CellTest {
         assertNull(cell.getWorker());
 
         cell.moveIn(worker);
-
         assertEquals(worker, cell.getWorker());
     }
+
 
     @Test
     public void testGetX() {
@@ -155,11 +150,21 @@ public class CellTest {
         assertEquals(2, cell.getY());
     }
 
+
+    @Test
+    public void testGetY(){
+
+        assertEquals(3, cell.getX());
+        assertEquals(2, cell.getY());
+    }
+
+
     @Test
     public void testSetLevel() {
         cell.setLevel(2);
         assertEquals(2, cell.getLevel());
     }
+
 
     @Test
     public void testSetDome() {
@@ -169,10 +174,47 @@ public class CellTest {
         assertFalse(cell.hasDome());
     }
 
+
     @Test
     public void testSetWorker() {
         cell.setWorker(worker);
         assertEquals(worker,cell.getWorker());
+    }
+
+
+    @Test
+    public void testRegister() {
+
+        GameController gc = new GameController();
+        Socket socket = new Socket();
+        ClientView client = new ClientView(socket, gc);
+
+        assertEquals(0, cell.getCellObservers().size());
+
+        cell.register(client);
+        assertEquals(1, cell.getCellObservers().size());
+    }
+
+
+    @Test
+    public void testUnregister() {
+
+        GameController gc = new GameController();
+        Socket socket = new Socket();
+        ClientView client = new ClientView(socket, gc);
+
+        cell.register(client);
+        assertEquals(1, cell.getCellObservers().size());
+
+        cell.unregister(client);
+        assertEquals(0, cell.getCellObservers().size());
+    }
+
+
+    @Test
+    public void testNotifyObservers() {
+
+        //do nothing?
     }
 
 }
