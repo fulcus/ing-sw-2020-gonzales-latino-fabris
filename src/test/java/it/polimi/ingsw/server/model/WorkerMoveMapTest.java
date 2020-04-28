@@ -5,7 +5,9 @@ import it.polimi.ingsw.server.controller.GameController;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 import java.net.Socket;
+
 import static org.junit.Assert.*;
 
 
@@ -17,7 +19,7 @@ public class WorkerMoveMapTest {
 
     private Player player;
     private Game game;
-    private Board board;
+    //private Board board;
     private WorkerMoveMap moveMap;
 
 
@@ -28,20 +30,24 @@ public class WorkerMoveMapTest {
         GameController gameController = new GameController();
         ViewClient viewClient = new ViewClient(socket, gameController);
         ViewClient viewClient1 = new ViewClient(socket1, gameController);
-        gameController.setUpGame(viewClient);
-        game = gameController.getGame();
+        //gameController.setUpGame(viewClient);
+        game = new Game(2);
 
-        game.addPlayer("nick1", viewClient);
-        game.addPlayer("nick2", viewClient1);
-        board = game.getBoard();
-        player = game.getPlayers().get(0);
-        Player player2 = game.getPlayers().get(1);
+        player = new Player(game, "nick", viewClient);
+        Player player2 = new Player(game, "nick2", viewClient1);
+        game.getPlayers().add(player);
+        game.getPlayers().add(player2);
+
+        //game.addPlayer("nick1", viewClient);
+        //game.addPlayer("nick2", viewClient1);
+        //board = game.getBoard();
+
         worker = player.getWorkers().get(0);
         worker2 = player.getWorkers().get(1);
         enemyWorker = player2.getWorkers().get(0);
         worker.setPosition(0, 0);
         worker2.setPosition(0, 1);
-        enemyWorker.setPosition(0, 0);
+        //enemyWorker.setPosition(0, 0);
         moveMap = worker.getMoveMap();
     }
 
@@ -49,7 +55,7 @@ public class WorkerMoveMapTest {
     @After
     public void tearDown() {
         game = null;
-        board = null;
+        //board = null;
         player = null;
         worker = null;
         moveMap = null;
@@ -183,7 +189,7 @@ public class WorkerMoveMapTest {
     @Test
     public void testSetBooleanCellBoard() {
         worker.setPosition(4, 4);
-        assertEquals(board.findCell(4, 4), moveMap.getAbsolutePosition(1, 1));
+        assertEquals(game.getBoard().findCell(4, 4), moveMap.getAbsolutePosition(1, 1));
 
         //access non existing cell
         assertFalse(moveMap.getBooleanCellBoard(6, 0));

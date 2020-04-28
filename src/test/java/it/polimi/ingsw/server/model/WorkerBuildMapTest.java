@@ -6,6 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import java.net.Socket;
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
 
@@ -19,22 +21,20 @@ public class WorkerBuildMapTest {
 
     @Before
     public void setUp() {
-        Socket socket, socket1;
-        ViewClient viewClient, viewClient1;
+        Socket socket;
+        ViewClient viewClient;
         GameController gameController;
 
         socket = new Socket();
-        socket1 = new Socket();
+
         gameController = new GameController();
         viewClient = new ViewClient(socket, gameController);
-        viewClient1 = new ViewClient(socket1, gameController);
-        gameController.setUpGame(viewClient);
-        game = gameController.getGame();
 
-        game.addPlayer("nick1", viewClient);
-        game.addPlayer("nick2", viewClient1);
+        game = new Game(2);
 
-        player = game.getPlayers().get(0);
+        player = new Player(game, "nick", viewClient);
+        game.getPlayers().add(player);
+
         worker = player.getWorkers().get(0);
         worker2 = player.getWorkers().get(1);
         worker.setPosition(0,0);

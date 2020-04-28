@@ -26,11 +26,12 @@ public class WorkerTest {
         ViewClient viewClient, viewClient1;
         socket = new Socket();
         socket1 = new Socket();
-        gameController = new GameController();
+        //gameController = new GameController();
+        game = new Game(2);
         viewClient = new ViewClient(socket, gameController);
         viewClient1 = new ViewClient(socket1, gameController);
-        gameController.setUpGame(viewClient);
-        game = gameController.getGame();
+        //gameController.setUpGame(viewClient);
+        //game = gameController.getGame();
 
         game.addPlayer("nick1", viewClient);
         game.addPlayer("nick2", viewClient1);
@@ -134,39 +135,6 @@ public class WorkerTest {
         assertEquals(Sex.MALE, worker.getSex());
     }
 
-    /*
-    @Test
-    public void testGetAllowedMoveMatrix() {
-        //edge case of worker in perimeter
-        worker.setPosition(4, 4);
-        WorkerMoveMap matrix = worker.getMoveMap();
-
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                if (!board.isInBoard(i, j))
-                    assertFalse(matrix.isAllowedToMoveWorkersMap(i, j));
-                else
-                    assertTrue(matrix.isAllowedToMoveWorkersMap(i, j));
-            }
-        }
-    }*/
-
-    /*
-    @Test
-    public void testGetAllowedBuildMatrix() {
-        worker.setPosition(3, 3);
-        WorkerBuildMap matrix = worker.getBuildMap();
-
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                if (!board.isInBoard(i, j))
-                    assertFalse(matrix.getBooleanCellWorkerMap(i, j));
-                else
-                    assertTrue(matrix.getBooleanCellWorkerMap(i, j));
-            }
-        }
-    }*/
-
 
     @Test
     public void testSwap() {
@@ -182,4 +150,15 @@ public class WorkerTest {
         assertEquals(workerPosition, enemyWorker.getPosition());
     }
 
+
+    @Test
+    public void testGetMoveMap() {
+        assertNotNull(worker.getMoveMap());
+    }
+
+
+    @Test
+    public void testGetBuildMap() {
+        assertNotNull(worker.getBuildMap());
+    }
 }

@@ -25,7 +25,9 @@ public class CellTest {
     public void setUp() {
         game = new Game(2);
         board = game.getBoard();
-        player = game.getPlayers().get(0);
+        ViewClient viewClient = new ViewClient(new Socket(), new GameController());
+        player = new Player(game, "nick", viewClient);
+        //player = game.getPlayers().get(0);
         worker = player.getWorkers().get(0);
         cell = board.findCell(3,2);
 
