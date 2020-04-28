@@ -15,39 +15,47 @@ public class Message implements Serializable {
     private ArrayList<WorkerClient> workersParam;
     private WorkerClient worker;
 
+    public static final int NO_PARAMETERS = 1;
+    public static final int STRING = 2;
+    public static final int STRING_ARRAYLIST = 3;
+    public static final int TWO_INT = 4;
+    public static final int CELL_CLIENT = 5;
+    public static final int WORKER_CLIENT_ARRAYLIST_WORKER_CLIENT = 6;
+
+
 
     public Message(String method) {
-        type = 1;
+        type = NO_PARAMETERS;
         this.method = method;
     }
 
     public Message(String method, String stringParam) {
-        type = 2;
+        type = STRING;
         this.method = method;
         this.stringParam = stringParam;
     }
 
     public Message(String method, ArrayList<String> stringListParam) {
-        type = 3;
+        type = STRING_ARRAYLIST;
         this.method = method;
         this.stringListParam = stringListParam;
     }
 
     public Message(String method, int intParam1, int intParam2) {
-        type = 4;
+        type = TWO_INT;
         this.method = method;
         this.intParam1 = intParam1;
         this.intParam2 = intParam2;
     }
 
     public Message(String method, CellClient toUpdateCell) {
-        type = 5;
+        type = CELL_CLIENT;
         this.method = method;
         this.toUpdateCell = toUpdateCell;
     }
 
     public Message(String method, ArrayList<WorkerClient> workersParam, WorkerClient worker) {
-        type = 6;
+        type = WORKER_CLIENT_ARRAYLIST_WORKER_CLIENT;
         this.method = method;
         this.workersParam = workersParam;
         this.worker = worker;

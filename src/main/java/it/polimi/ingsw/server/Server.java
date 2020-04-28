@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 public class Server implements Runnable {
     public final static int SOCKET_PORT = 7777;
     private static GameController gameController;
-    public static ExecutorService executorService;
+    private ExecutorService executorService;
 
     public static void main(String[] args) {
         Thread serverThread = new Thread(new Server());
@@ -62,7 +62,6 @@ public class Server implements Runnable {
 
 
         //waits for all players to finish adding their player ie setting nickname and color
-
 
         executorService.shutdown();
 
