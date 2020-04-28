@@ -229,7 +229,6 @@ public class TurnHandler {
                 losePlayer();
          */
 
-            //currentClient.notify();
 
             Worker chosenWorker = chooseWorker();
             turn(chosenWorker);

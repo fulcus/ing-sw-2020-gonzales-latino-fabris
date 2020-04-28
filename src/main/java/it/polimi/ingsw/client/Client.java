@@ -19,7 +19,6 @@ import java.util.Scanner;
  */
 public class Client implements Runnable, ServerObserver {
 
-    private String response = null;
     private CLIView clientCLIView;
     private Scanner scanner;
 
@@ -69,7 +68,7 @@ public class Client implements Runnable, ServerObserver {
 
         while (true) {
 
-            System.out.println("Choose your view mode: cli or gui? Type it here: ");
+            System.out.println("Choose your view mode: CLI or GUI? Type it here: ");
 
             selectedView = scanner.nextLine();
 
@@ -87,33 +86,18 @@ public class Client implements Runnable, ServerObserver {
 
     @Override
     public Object update(Message receivedMessage) {
-
-        try {
-            return callMethod(receivedMessage);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-            return null;
-        }
-
+        return callMethod(receivedMessage);
     }
 
-    private Object callMethod(Message receivedMessage) throws NoSuchMethodException {
 
-        int typeOfMessage;
+    private Object callMethod(Message receivedMessage) {
+
         Method method;
-        String stringParam;
-        int intParam1;
-        int intParam2;
-        ArrayList<String> stringListParam;
-        CellClient toUpdateCell;
-        ArrayList<WorkerClient> workersParam;
-        WorkerClient worker;
+        int messageType = receivedMessage.getMessageType();
 
-        typeOfMessage = receivedMessage.getMessageType();
+        switch (messageType) {
 
-        switch (typeOfMessage) {
-
-            case 1: {
+            case Message.NO_PARAMETERS: {
 
                 //Trying to find the method in ClientCliView
                 try {
@@ -129,19 +113,13 @@ public class Client implements Runnable, ServerObserver {
                         e.printStackTrace();
                     }
 
-
                 } catch (SecurityException e) { /*PRIVATE EXCEPTION to complete*/}
-
                 //If there is no such method in clientCLIView
                 catch (NoSuchMethodException e) {
-
-
                 }
-
-
             }
 
-            case 2: {
+            case Message.STRING: {
 
                 //Trying to find the method in ClientCLIView
                 try {
@@ -157,19 +135,15 @@ public class Client implements Runnable, ServerObserver {
                         e.printStackTrace();
                     }
 
-
                 } catch (SecurityException e) { /*PRIVATE EXCEPTION to complete*/}
 
                 //If there is no such method in clientCLIView
                 catch (NoSuchMethodException e) {
-
-
                 }
-
 
             }
 
-            case 3: {
+            case Message.STRING_ARRAYLIST: {
 
                 //Trying to find the method in ClientCliView
                 try {
@@ -185,19 +159,15 @@ public class Client implements Runnable, ServerObserver {
                         e.printStackTrace();
                     }
 
-
                 } catch (SecurityException e) { /*PRIVATE EXCEPTION to complete*/}
-
                 //If there is no such method in clientCLIView
                 catch (NoSuchMethodException e) {
-
                 }
-
 
             }
 
 
-            case 4: {
+            case Message.TWO_INT: {
 
                 //Trying to find the method in ClientCliView
                 try {
@@ -218,14 +188,11 @@ public class Client implements Runnable, ServerObserver {
 
                 //If there is no such method in clientCliView
                 catch (NoSuchMethodException e) {
-
                 }
-
-
             }
 
 
-            case 5: {
+            case Message.CELL_CLIENT: {
 
                 //Trying to find the method in ClientCliView
                 try {
@@ -246,13 +213,10 @@ public class Client implements Runnable, ServerObserver {
 
                 //If there is no such method in clientCliView
                 catch (NoSuchMethodException e) {
-
                 }
-
-
             }
 
-            case 6: {
+            case Message.WORKER_CLIENT_ARRAYLIST_WORKER_CLIENT: {
 
                 //Trying to find the method in ClientCliView
                 try {
@@ -268,16 +232,11 @@ public class Client implements Runnable, ServerObserver {
                         e.printStackTrace();
                     }
 
-
                 } catch (SecurityException e) { /*PRIVATE EXCEPTION to complete*/}
 
                 //If there is no such method in clientCliView
                 catch (NoSuchMethodException e) {
-
-
                 }
-
-
             }
 
             default:
