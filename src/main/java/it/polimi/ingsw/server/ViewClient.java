@@ -12,12 +12,13 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
  * Represents the interface of each client with the server.
  */
-public class ViewClient implements ClientViewObserver {
+public class ViewClient implements ClientViewObserver, Runnable {
 
     private final Socket socket;   //a virtual view instance for each client
     private Player player;
@@ -26,6 +27,7 @@ public class ViewClient implements ClientViewObserver {
     private ObjectInputStream input;
     private TurnHandler turnHandler;
     private boolean inGame;
+    //private final List<ClientViewObserver> observers = new ArrayList<>();
 
 
     public ViewClient(Socket socket, GameController gameController) {
@@ -570,6 +572,34 @@ public class ViewClient implements ClientViewObserver {
         } catch (IOException e) {
             System.out.println("server has died");
         }
+    }
+
+
+    @Override
+    public void run() {
+        if ( !turnHandler.getCurrentPlayer().equals(this.player) )
+            try {
+                handleOutOfTurnRequests();
+            } catch (IOException | ClassNotFoundException e) {
+                System.out.println("Client has died");
+            }
+    }
+
+
+    public void handleOutOfTurnRequests() throws IOException, ClassNotFoundException{
+        Message receivedMessage = (Message) input.readObject();
+
+        if (receivedMessage != null )
+            sendMessage(new Message("notYourTurn"));
+    }
+
+
+    public void startYourTurn() {
+        sendMessage(new Message("startYourTurn"));
+    }
+
+    public void endTurn() {
+        sendMessage(new Message("endTurn"));
     }
 
 
