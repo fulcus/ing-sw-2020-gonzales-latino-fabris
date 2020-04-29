@@ -8,6 +8,7 @@ public class Message implements Serializable {
     private final int type; //says which parameters the method takes
     private final String method;
     private String stringParam;
+    private String stringParam2;
     private int intParam1;
     private int intParam2;
     private ArrayList<String> stringListParam;
@@ -21,6 +22,7 @@ public class Message implements Serializable {
     public static final int TWO_INT = 4;
     public static final int CELL_CLIENT = 5;
     public static final int WORKER_CLIENT_ARRAYLIST_WORKER_CLIENT = 6;
+    public static final int TWO_STRING = 7;
 
 
 
@@ -61,12 +63,23 @@ public class Message implements Serializable {
         this.worker = worker;
     }
 
+    public Message(String method, String otherPlayer, String chosenGod) {
+        type = TWO_STRING;
+        this.method = method;
+        this.stringParam = otherPlayer;
+        this.stringParam2 = chosenGod;
+    }
+
     public String getMethod() {
         return method;
     }
 
     public String getStringParam() {
         return stringParam;
+    }
+
+    public String getStringParam2() {
+        return stringParam2;
     }
 
     public int getIntParam1() {

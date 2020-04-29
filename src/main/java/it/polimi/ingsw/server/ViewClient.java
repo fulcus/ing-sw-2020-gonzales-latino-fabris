@@ -6,6 +6,7 @@ import it.polimi.ingsw.serializableObjects.WorkerClient;
 import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.controller.TurnHandler;
 import it.polimi.ingsw.server.model.*;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -34,10 +35,11 @@ public class ViewClient implements ClientViewObserver {
         this.gameController = gameController;
         inGame = true;
 
-        try{
+        try {
             output = new ObjectOutputStream(socket.getOutputStream());
             input = new ObjectInputStream(socket.getInputStream());
-        }catch (IOException e){}
+        } catch (IOException e) {
+        }
     }
 
 
@@ -47,9 +49,9 @@ public class ViewClient implements ClientViewObserver {
 
 
     /**
-     * Associates the ViewClient to a player.
+     * Assigns the nickname of the player to the CLIView
      *
-     * @param player Is the instance of the player associated to the client.
+     * @param player nickname of the player associated with this instance of CLIView
      */
     public void setPlayer(Player player) {
         this.player = player;   //used to assign player to class
@@ -99,6 +101,7 @@ public class ViewClient implements ClientViewObserver {
 
     /**
      * The message sent by the method describes itself.
+     *
      * @return The nickname of the player.
      */
     public String askPlayerNickname() {
@@ -108,6 +111,7 @@ public class ViewClient implements ClientViewObserver {
 
     /**
      * The message sent by the method describes itself.
+     *
      * @return The color to choose.
      */
     public String askPlayerColor() {
@@ -117,6 +121,7 @@ public class ViewClient implements ClientViewObserver {
 
     /**
      * The method asks the God the player wants to play with.
+     *
      * @return The name of the chosen God.
      */
     public String askPlayerGod() {
@@ -133,10 +138,11 @@ public class ViewClient implements ClientViewObserver {
 
 
     /**
-     * The name of the method describes itself.
-     * @param numOfPlayers How many players play are connected to play the game.
+     * Lets the challenger choose the gods for the game.
+     *
+     * @param numOfPlayers      How many players play are connected to play the game.
      * @param alreadyChosenGods How many Gods are already chosen.
-     * @return
+     * @return One of the gods chosen by the challenger.
      */
     public String getGodFromChallenger(int numOfPlayers, int alreadyChosenGods) {
         return (String) sendMessageWithReturn(new Message("getGodFromChallenger", numOfPlayers, alreadyChosenGods));
@@ -144,6 +150,7 @@ public class ViewClient implements ClientViewObserver {
 
     /**
      * The name of the method describes itself.
+     *
      * @return The player that will start the game.
      */
     public String challengerChooseStartPlayer() {
@@ -175,6 +182,7 @@ public class ViewClient implements ClientViewObserver {
 
     /**
      * The name of the method describes itself.
+     *
      * @return The chosen worker.
      */
     public String askChosenWorker() {
@@ -193,8 +201,8 @@ public class ViewClient implements ClientViewObserver {
     /**
      * Prints to screen that one of the player has won the game
      */
-    public void winningView(String winnerNickname) {
-        sendMessage(new Message("winningView", winnerNickname));
+    public boolean winningView() {
+        return (boolean) sendMessageWithReturn(new Message("winningView"));
     }
 
 
@@ -224,6 +232,7 @@ public class ViewClient implements ClientViewObserver {
 
     /**
      * Allows to set the new version of the cell that has been changed during the last action.
+     *
      * @param toUpdateCell The cell that has to be updated.
      */
     @Override
@@ -234,6 +243,7 @@ public class ViewClient implements ClientViewObserver {
 
     /**
      * The name of the method describes itself.
+     *
      * @param godsNameAndDescription The name pf the method describes itself.
      */
     public void printAllGods(ArrayList<String> godsNameAndDescription) {
@@ -251,6 +261,7 @@ public class ViewClient implements ClientViewObserver {
 
     /**
      * The name of the method describes itself.
+     *
      * @param chosenGods The gods that have been chosen for the game.
      */
     public void printChosenGods(ArrayList<String> chosenGods) {
@@ -260,6 +271,7 @@ public class ViewClient implements ClientViewObserver {
 
     /**
      * The name of the method describes itself.
+     *
      * @param sex Allows to distinguish which one of the worker has been selected.
      */
     public void selectedWorkerCannotMove(String sex) {
@@ -269,6 +281,7 @@ public class ViewClient implements ClientViewObserver {
 
     /**
      * The name of the method describes itself.
+     *
      * @param sex Allows to distinguish which one of the worker has been selected.
      */
     public void selectedWorkerCannotBuild(String sex) {
@@ -458,6 +471,77 @@ public class ViewClient implements ClientViewObserver {
     }
 
 
+    /**
+     * Lets player know that the challenger is choosing the gods for the game.
+     *
+     * @param challenger nickname of the challenger
+     */
+    public void waitChallengerChooseGods(String challenger) {
+        sendMessage(new Message("waitChallengerChooseGods", challenger));
+    }
+
+    /**
+     * Lets player know that another player is choosing his god
+     *
+     * @param otherPlayer the player that is choosing his god
+     */
+    public void waitOtherPlayerChooseGod(String otherPlayer) {
+        sendMessage(new Message("waitOtherPlayerChooseGod", otherPlayer));
+    }
+
+    /**
+     * Lets player know the god chosen by another player
+     *
+     * @param otherPlayer player who chose the god
+     * @param chosenGod   god chosen by the otherPlayer
+     */
+    public void otherPlayerChoseGod(String otherPlayer, String chosenGod) {
+        sendMessage(new Message("otherPlayerChoseGod", otherPlayer, chosenGod));
+    }
+
+    /**
+     * Lets player know that the challenger is choosing the start player
+     */
+    public void waitChallengerStartPlayer() {
+        sendMessage(new Message("waitChallengerStartPlayer"));
+    }
+
+    /**
+     * Lets the player know who is the start player
+     *
+     * @param startPlayer start player nickname
+     */
+    public void printStartPlayer(String startPlayer) {
+        sendMessage(new Message("printStartPlayer", startPlayer));
+    }
+
+    /**
+     * Lets player know that another player is choosing the initial position for his workers
+     *
+     * @param player player who is performing the action
+     */
+    public void otherPlayerSettingInitialWorkerPosition(String player) {
+        sendMessage(new Message("otherPlayerSettingInitialWorkerPosition", player));
+    }
+
+    /**
+     * Lets player know that it's another player's turn
+     *
+     * @param currentPlayer nickname of the player that is playing his turn
+     */
+    public void otherPlayerTurn(String currentPlayer) {
+        sendMessage(new Message("otherPlayerTurn", currentPlayer));
+    }
+
+    /**
+     * Lets player know that he has lost, and who is the winner.
+     * @param winner nickname of the winner
+     */
+    public boolean losingView(String winner) {
+        return (boolean) sendMessageWithReturn(new Message("losingView", winner));
+    }
+
+
     //always cast return of this method
     private Object sendMessageWithReturn(Message message) {
         try {
@@ -477,6 +561,7 @@ public class ViewClient implements ClientViewObserver {
 
     /**
      * Writes a message to the server.
+     *
      * @param message The message the player sends to the server during the game.
      */
     private void sendMessage(Message message) {
@@ -535,12 +620,11 @@ public class ViewClient implements ClientViewObserver {
 
         sendMessage(new Message("shutdownClient"));
         inGame = false;
-
     }
 
 
-
     //useless with executors
+
     /**
      * Lets the client play his turn.
      *
@@ -556,7 +640,7 @@ public class ViewClient implements ClientViewObserver {
             do {
                 try {
                     synchronized (this) {
-                        System.out.println("client \""+ player.getNickname() + "\" is waiting");
+                        System.out.println("client \"" + player.getNickname() + "\" is waiting");
                         wait();
                     }
                 } catch (InterruptedException e) {

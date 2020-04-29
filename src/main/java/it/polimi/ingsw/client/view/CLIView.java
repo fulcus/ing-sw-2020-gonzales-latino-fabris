@@ -13,6 +13,7 @@ public class CLIView {
     private Scanner intInput;
     private final BoardClient board;// this will contain a copy of the Model's map and each cell will be update if there are any changes
     private String playerNickname;
+    private String challenger;
     //to be assigned when setPlayer of ViewClient is deserialized
 
     /**
@@ -38,7 +39,11 @@ public class CLIView {
         System.out.println("It's your turn!\n");
     }
 
-
+    /**
+     * Assigns the nickname of the player to the CLIView
+     *
+     * @param nickname nickname of the player associated with this instance of CLIView
+     */
     //called by clientView
     public void setPlayer(String nickname) {
         this.playerNickname = nickname;
@@ -51,7 +56,7 @@ public class CLIView {
 
         String startString;
 
-        System.out.println("WELCOME TO ");
+        System.out.println("\nWELCOME TO ");
 
         santoriniASCII();
 
@@ -114,8 +119,10 @@ public class CLIView {
             throws InputMismatchException {
 
         while (true) {
+
             try {
                 int[] initialWorkerPosition = new int[2];
+                System.out.println();
 
                 if (workerSex.equals("MALE")) {
                     System.out.println(playerNickname + ", set your male worker's position in coordinates.");
@@ -163,28 +170,36 @@ public class CLIView {
      * @return The name of the chosen God.
      */
     public String askPlayerGod() {
-
         System.out.println(playerNickname + ", choose your god by typing his name.");
         return input.nextLine();
     }
 
     public void playerChoseInvalidGod() {
-        System.out.println("Your god is not available or has already been chosen.");
+        System.out.println("Your god is not available or has already been chosen.\n");
     }
 
     private void printChallenger(int numOfPlayers) {
         System.out.println();
         System.out.println(playerNickname + ", you are the Challenger. Select "
-                + numOfPlayers + " Gods for this game.");
+                + numOfPlayers + " gods for this game.");
 
     }
 
     public String getGodFromChallenger(int numOfPlayers, int alreadyChosenGods) {
+        int godsLeftToChoose = numOfPlayers - alreadyChosenGods;
+
         if (alreadyChosenGods == 0)
             printChallenger(numOfPlayers);
-        else
-            System.out.println(numOfPlayers - alreadyChosenGods + " Gods left to choose.");
+        else {
+            System.out.print(godsLeftToChoose);
 
+            if (godsLeftToChoose == 1)
+                System.out.print(" god");
+            else
+                System.out.print("gods");
+
+            System.out.println(" left to choose.");
+        }
         return input.nextLine();
 
     }
@@ -213,12 +228,12 @@ public class CLIView {
     public String askChosenWorker() {
 
         String chosenWorkerSex;
-        //Il fatto che la view per stampare il nickname del player debba andare chiamare
-        // prima il controller che poi a sua volta chiama il model....boh?
+        System.out.println();
         System.out.println(playerNickname + ", it's your turn!");
 
         while (true) {
-            System.out.println("Type MALE or FEMALE to choose one of your workers.");
+
+            System.out.println("\nType MALE or FEMALE to choose one of your workers.");
 
             chosenWorkerSex = input.nextLine().toUpperCase();
 
@@ -243,25 +258,25 @@ public class CLIView {
     /**
      * Prints to screen that one of the player has won the game
      */
-    public void winningView(String winnerNickname) {
-        System.out.println("\n\n\n"
-                + winnerNickname + " HAS WON THIS GAME!!!\n\nGAME ENDED\n\nSEE YOU!");
+    public boolean winningView() {
+        System.out.println("You have won this game!");
+        System.out.println("Goodbye");
+        return true;
     }
 
     public void unableToMoveLose() {
-        System.out.println(playerNickname + ", Game Over for you!");
+        System.out.println("\nNone of your workers can move. You have lost this game.\nGoodbye");
     }
 
     public void unableToBuildLose() {
-        System.out.println(playerNickname + ", both of your workers can't move anywhere.");
-        System.out.println("You have lose the game.");
-    }
+        System.out.println("\nNone of your workers can build. You have lost this game.\nGoodbye");    }
 
 
     /**
      * This method prints an updated version of the Board, depending on the Class' parameter "mymap".
      */
     public void printMap() {
+        System.out.println("\n");
 
         final String LINE_SEPARATOR = CLIColor.ANSI_GREEN + "+-------+-------+-------+-------+-------+" + CLIColor.COLOR_RESET + "%n";
         final String SPACE_SEPARATOR = CLIColor.ANSI_GREEN + "+       +       +       +       +       +" + CLIColor.COLOR_RESET + "%n";
@@ -359,6 +374,7 @@ public class CLIView {
         for (String god : godsNameAndDescription)
             System.out.println(god);
 
+        System.out.println();
     }
 
     public void challengerError() {
@@ -368,7 +384,7 @@ public class CLIView {
 
     public void printChosenGods(ArrayList<String> chosenGods) {
 
-        System.out.print("\nAvailable Gods: ");
+        System.out.print("\nAvailable gods: ");
 
         int index = 0;
 
@@ -778,6 +794,86 @@ public class CLIView {
      */
     public void printBuildInSamePositionScreen() {
         System.out.println("You're not allowed to build again there.");
+    }
+
+    /**
+     * Lets player know that the challenger is choosing the gods for the game.
+     *
+     * @param challenger nickname of the challenger
+     */
+    public void waitChallengerChooseGods(String challenger) {
+        this.challenger = challenger;
+        System.out.print(challenger + " is the Challenger and is choosing the gods for this game...");
+    }
+
+    /**
+     * Lets player know that another player is choosing his god
+     *
+     * @param otherPlayer the player that is choosing his god
+     */
+    public void waitOtherPlayerChooseGod(String otherPlayer) {
+        System.out.println();
+        System.out.print(otherPlayer + " is choosing his god...");
+    }
+
+
+    /**
+     * Lets player know the god chosen by another player
+     *
+     * @param otherPlayer player who chose the god
+     * @param chosenGod   god chosen by the otherPlayer
+     */
+    public void otherPlayerChoseGod(String otherPlayer, String chosenGod) {
+        System.out.println();
+        System.out.println(otherPlayer + " has chosen " + chosenGod + ".\n");
+    }
+
+    /**
+     * Lets player know that the challenger is choosing the start player
+     */
+    public void waitChallengerStartPlayer() {
+        System.out.println();
+        System.out.println(challenger + " is choosing the start player...");
+    }
+
+    /**
+     * Lets player know who is the start player
+     *
+     * @param startPlayer start player nickname
+     */
+    public void printStartPlayer(String startPlayer) {
+        System.out.println();
+        System.out.println(startPlayer + " is the start player.");
+    }
+
+    /**
+     * Lets  player know that another player is choosing the initial position for his workers
+     *
+     * @param player player who is performing the action
+     */
+    public void otherPlayerSettingInitialWorkerPosition(String player) {
+        System.out.println();
+        System.out.print(player + " is placing his workers on the board...");
+    }
+
+    /**
+     * Lets player know that it's another player's turn
+     *
+     * @param currentPlayer nickname of the player that is playing his turn
+     */
+    public void otherPlayerTurn(String currentPlayer) {
+        System.out.println();
+        System.out.print(currentPlayer + " is playing his turn...");
+    }
+
+    /**
+     * Lets player know that he has lost, and who is the winner.
+     * @param winner nickname of the winner
+     */
+    public boolean losingView(String winner) {
+        System.out.println("\nYou have lost this game. The winner is " + winner);
+        System.out.println("Goodbye");
+        return true;
     }
 
 

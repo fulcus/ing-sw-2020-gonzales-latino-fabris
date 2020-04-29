@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.controller;
 
-import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.ViewClient;
 import it.polimi.ingsw.server.controller.god.God;
 import it.polimi.ingsw.server.model.Game;
@@ -35,17 +34,23 @@ public class TurnHandler {
      */
     private void challengerChooseGods() {
 
+        Player challenger = game.getChallenger();
+        ViewClient challengerClient = challenger.getClient();
         ArrayList<God> godsDeck = gameController.getGodsDeck();
         ArrayList<String> godsNameAndDescription = new ArrayList<>(14);
 
+        //create string arraylist to send to client
         for (God god : godsDeck)
             godsNameAndDescription.add(god.toString() + ": " + god.getDescription());
 
-
-        for (Player player : players)
+        //send arraylist with all gods to all players
+        for (Player player : players) {
             player.getClient().printAllGods(godsNameAndDescription);
 
-        ViewClient challengerClient = game.getChallenger().getClient();
+            if (player != challenger)
+                player.getClient().waitChallengerChooseGods(challenger.getNickname());
+        }
+
 
         challengerClient.startYourTurn();
 
@@ -86,9 +91,15 @@ public class TurnHandler {
         //remember: Challenger must be last
         //challenger is the last of arraylist [see Game.randomChallenger()]
         ArrayList<God> alreadyTakenGods = new ArrayList<>(numberOfPlayers);
-        boolean foundGod;
+
 
         for (Player player : players) {
+
+            for(Player otherPlayer : players) {
+                if(otherPlayer != player)
+                    otherPlayer.getClient().waitOtherPlayerChooseGod(player.getNickname());
+            }
+
 
             ViewClient playerClient = player.getClient();
             ArrayList<String> chosenGods = new ArrayList<>();
@@ -97,11 +108,12 @@ public class TurnHandler {
 
             for (God god : game.getChosenGods()) {
                 chosenGods.add(god.toString());
-            }
 
-            playerClient.printChosenGods(chosenGods);
+            if(player != game.getChallenger())
+                playerClient.printChosenGods(chosenGods);
 
-            foundGod = false;
+
+            boolean foundGod = false;
 
             while (!foundGod) {
                 String inputGod = playerClient.askPlayerGod();
@@ -113,6 +125,11 @@ public class TurnHandler {
                         player.setGod(god);
                         alreadyTakenGods.add(god);
                         foundGod = true;
+
+                        for(Player otherPlayer : players) {
+                            if(otherPlayer != player)
+                                otherPlayer.getClient().otherPlayerChoseGod(player.getNickname(),god.toString());
+                        }
                     }
 
                 }
@@ -131,6 +148,9 @@ public class TurnHandler {
      */
     private void challengerChooseStartPlayer() {
 
+        Player challenger = game.getChallenger();
+        ViewClient challengerClient = challenger.getClient();
+        String startPlayerNick = null;
         ViewClient challengerClient = game.getChallenger().getClient();
 
         challengerClient.startYourTurn();
@@ -138,17 +158,30 @@ public class TurnHandler {
         String startPlayerNick;
         Player startPlayer = null;
 
+        for(Player otherPlayer : players) {
+            if (otherPlayer != challenger)
+                otherPlayer.getClient().waitChallengerStartPlayer();
+        }
+
+
         while (startPlayer == null) {
 
             startPlayerNick = challengerClient.challengerChooseStartPlayer();   //returns nickname of startPlayer
             for (Player player : players) {
+
                 if (startPlayerNick.equals(player.getNickname())) {
                     startPlayer = player;
                     break;
                 }
             }
+
             if (startPlayer == null)
                 challengerClient.invalidStartPlayer();
+        }
+
+        for(Player otherPlayer : players) {
+            if (otherPlayer != challenger)
+                otherPlayer.getClient().printStartPlayer(startPlayerNick);
         }
 
         //set startPlayer as first of arraylist players.
@@ -170,6 +203,11 @@ public class TurnHandler {
         boolean positionSet;
 
         for (Player player : players) {
+
+            for(Player otherPlayer : players) {
+                if(otherPlayer != player)
+                    otherPlayer.getClient().otherPlayerSettingInitialWorkerPosition(player.getNickname());
+            }
 
             ViewClient playerClient = player.getClient();
 
@@ -208,7 +246,6 @@ public class TurnHandler {
             playerClient.endTurn();
         }
 
-
     }
 
     /**
@@ -226,6 +263,7 @@ public class TurnHandler {
      * Executes the succession of turns by the players.
      */
     public void startTurnFlow() {
+
         int cyclicalCounter = 0;
 
 
@@ -250,6 +288,10 @@ public class TurnHandler {
                 losePlayer();
          */
 
+            for(Player otherPlayer : players) {
+                if(otherPlayer != currentPlayer)
+                    otherPlayer.getClient().otherPlayerTurn(currentPlayer.getNickname());
+            }
 
             Worker chosenWorker = chooseWorker();
             turn(chosenWorker);
@@ -294,7 +336,9 @@ public class TurnHandler {
         }
 
         try {
+
             currentPlayer.getGod().evolveTurn(turnWorker);
+
         } catch (UnableToMoveException ex) {
             unableToMove++;
 
@@ -307,7 +351,7 @@ public class TurnHandler {
 
                 currentClient.unableToMoveLose();
                 currentPlayer.lose();
-                currentClient.printMap();
+                currentClient.killClient();
             }
 
         } catch (UnableToBuildException ex) {
@@ -321,16 +365,20 @@ public class TurnHandler {
             } else {
 
                 currentClient.unableToBuildLose();
-                currentPlayer.lose();   //specify why: unable to build
-                currentClient.printMap();
+                currentPlayer.lose();
+                currentClient.killClient();
             }
 
         } finally {
+
             //if everyone else has lost, only player left wins
             if (players.size() == 1) {
-                Player winner = players.get(0); //last player left has index 0
-                winner.getGod().getGodController().winGame(winner.getNickname());
+                //last player left has index 0
+                ViewClient winnerClient = players.get(0).getClient();
+                winnerClient.winningView();
+                winnerClient.killClient();
             }
+
             unableToMove = 0;    //reset it
             unableToBuild = 0;
         }
