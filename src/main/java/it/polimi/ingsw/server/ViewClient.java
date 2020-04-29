@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Represents the interface of each client with the server.
  */
-public class ViewClient implements ClientViewObserver, Runnable {
+public class ViewClient implements ClientViewObserver {
 
     private final Socket socket;   //a virtual view instance for each client
     private Player player;
@@ -489,7 +489,7 @@ public class ViewClient implements ClientViewObserver, Runnable {
         }
     }
 
-
+    /*
     @Override
     public void run() {
         if ( !turnHandler.getCurrentPlayer().equals(this.player) )
@@ -507,6 +507,8 @@ public class ViewClient implements ClientViewObserver, Runnable {
         if (receivedMessage != null )
             sendMessage(new Message("notYourTurn"));
     }
+
+     */
 
 
     public void startYourTurn() {

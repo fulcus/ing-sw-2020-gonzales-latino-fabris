@@ -65,8 +65,8 @@ public class GameController {
         setPlayerNickname(client);
         setPlayerColor(client);
 
-        Thread viewClient = new Thread(client);
-        viewClient.start();
+        //Thread viewClient = new Thread(client);
+        //viewClient.start();
     }
 
 

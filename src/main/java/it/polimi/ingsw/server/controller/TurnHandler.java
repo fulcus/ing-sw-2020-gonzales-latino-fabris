@@ -47,6 +47,8 @@ public class TurnHandler {
 
         ViewClient challengerClient = game.getChallenger().getClient();
 
+        challengerClient.startYourTurn();
+
         //lets challenger select the gods
         int alreadyChosenGods = 0;
         while (alreadyChosenGods < numberOfPlayers) {
@@ -73,6 +75,8 @@ public class TurnHandler {
                 challengerClient.challengerError(); //print: the god you typed doesn't exist
         }
 
+        challengerClient.endTurn();
+
     }
 
     /**
@@ -88,6 +92,8 @@ public class TurnHandler {
 
             ViewClient playerClient = player.getClient();
             ArrayList<String> chosenGods = new ArrayList<>();
+
+            playerClient.startYourTurn();
 
             for (God god : game.getChosenGods()) {
                 chosenGods.add(god.toString());
@@ -113,6 +119,8 @@ public class TurnHandler {
                 if (!foundGod)
                     playerClient.playerChoseInvalidGod();
             }
+
+            playerClient.endTurn();
         }
     }
 
@@ -124,6 +132,9 @@ public class TurnHandler {
     private void challengerChooseStartPlayer() {
 
         ViewClient challengerClient = game.getChallenger().getClient();
+
+        challengerClient.startYourTurn();
+
         String startPlayerNick;
         Player startPlayer = null;
 
@@ -147,7 +158,10 @@ public class TurnHandler {
         Player temp = players.get(0);
         players.set(0, startPlayer);
         players.set(startPlayerIndex, temp);
+
+        challengerClient.endTurn();
     }
+
 
     /**
      * All players set the position for all workers.
@@ -158,6 +172,8 @@ public class TurnHandler {
         for (Player player : players) {
 
             ViewClient playerClient = player.getClient();
+
+            playerClient.startYourTurn();
 
             if(players.indexOf(player)==0)
                 playerClient.printMap();
@@ -188,6 +204,8 @@ public class TurnHandler {
                 if (player_ != player)//TODO HERE WE CAN NOTIFY OTHERS PLAYERS THAT A PLAYER HAS PLACED HIS WORKERS
                     player_.getClient().printMap();
             }
+
+            playerClient.endTurn();
         }
 
 
@@ -216,6 +234,9 @@ public class TurnHandler {
 
             currentPlayer = players.get(cyclicalCounter);
             currentClient = currentPlayer.getClient();
+
+            currentClient.startYourTurn();
+
             gameController.getGodController().updateCurrentClient(currentClient);
 
             unableToMove = 0;
@@ -267,13 +288,10 @@ public class TurnHandler {
 
         Worker otherWorker = null;
 
-        currentClient.startYourTurn();
-
         for (Worker worker : currentPlayer.getWorkers()) {
             if (worker != turnWorker)
                 otherWorker = worker;
         }
-
 
         try {
             currentPlayer.getGod().evolveTurn(turnWorker);
