@@ -233,6 +233,7 @@ public class TurnHandler {
             Worker chosenWorker = chooseWorker();
             turn(chosenWorker);
 
+            currentClient.endTurn();
 
             cyclicalCounter++;
             if (cyclicalCounter == numberOfPlayers)
@@ -265,6 +266,8 @@ public class TurnHandler {
     public void turn(Worker turnWorker) {
 
         Worker otherWorker = null;
+
+        currentClient.startYourTurn();
 
         for (Worker worker : currentPlayer.getWorkers()) {
             if (worker != turnWorker)

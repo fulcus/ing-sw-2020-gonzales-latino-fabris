@@ -25,6 +25,20 @@ public class CLIView {
         intInput = new Scanner(System.in);
     }
 
+
+    public void notYourTurn(){
+        System.out.println("This is not your turn! Wait for the other player moves!!\n");
+    }
+
+    public void endTurn() {
+        System.out.println("Your turn is over now. No other actions possible! \nWait for the other player(s)...");
+    }
+
+    public void startYourTurn() {
+        System.out.println("It's your turn!\n");
+    }
+
+
     //called by clientView
     public void setPlayer(String nickname) {
         this.playerNickname = nickname;
