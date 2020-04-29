@@ -49,6 +49,7 @@ public class Server implements Runnable {
                     break;
 
                 Socket client = socket.accept();
+
                 numberOfClients++;
                 System.out.println("client " + numberOfClients + " connected");
 
@@ -95,7 +96,6 @@ public class Server implements Runnable {
 
         if (gameController.getGame() == null)
             gameController.setUpGame(newClient);
-
 
         executorService.execute(() -> gameController.addPlayer(newClient));
 

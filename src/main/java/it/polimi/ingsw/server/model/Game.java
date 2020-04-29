@@ -101,7 +101,7 @@ public class Game {
     public void removePlayer(Player loser) {
         chosenGods.remove(loser.getGod());
         players.remove(loser);
-        loser.getClient().killClient();
+        //loser.getClient().killClient();
         numberOfPlayers--;
 
     }

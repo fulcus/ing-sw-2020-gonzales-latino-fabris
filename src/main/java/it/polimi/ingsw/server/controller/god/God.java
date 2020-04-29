@@ -40,7 +40,9 @@ public abstract class God {
         WorkerMoveMap moveMap = updateMoveMap(worker);
 
         while (true) {
+
             int[] movePosition = getGodController().getInputMove();
+
             int xMove = movePosition[0] + worker.getPosition().getX();
             int yMove = movePosition[1] + worker.getPosition().getY();
 
@@ -118,7 +120,7 @@ public abstract class God {
 
 
         if (won)
-            godController.winGame(worker.getPlayer().getNickname());
+            godController.winGame(worker.getPlayer());
     }
 
 
