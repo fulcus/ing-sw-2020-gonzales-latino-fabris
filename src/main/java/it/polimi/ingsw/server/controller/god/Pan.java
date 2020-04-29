@@ -25,7 +25,7 @@ public class Pan extends God{
             won = normalCondition && !worker.getPosition().isInPerimeter();
 
         if (won)
-            godController.winGame(worker.getPlayer().getNickname());
+            godController.winGame(worker.getPlayer());
     }
 
     @Override
