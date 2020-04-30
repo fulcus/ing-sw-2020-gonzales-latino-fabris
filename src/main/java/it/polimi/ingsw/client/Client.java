@@ -10,10 +10,8 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.Socket;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.Timer;
 
 
 /**
@@ -22,7 +20,6 @@ import java.util.Timer;
 public class Client implements Runnable, ServerObserver {
 
     private CLIView clientCLIView;
-    private boolean myTurn;
     private final Scanner scanner;
     private Socket server;
 
@@ -59,49 +56,7 @@ public class Client implements Runnable, ServerObserver {
 
         NetworkHandler networkHandler = new NetworkHandler(server, this);
         Thread networkHandlerThread = new Thread(networkHandler);
-
         networkHandlerThread.start();
-
-
-        OutOfTurn type = new OutOfTurn();
-        Timer timer = new Timer();
-        type.run();
-
-
-        while (true) {
-
-            while (!myTurn) {
-
-                timer.scheduleAtFixedRate(type, 0, 1);
-                if (type.getClientWrites()!=null) {
-                    //System.out.println("It's not your turn! Wait for other player(s)...\n");
-                    type.setClientWritesNull();
-                }
-
-            }
-
-        }
-
-    }
-
-
-    @Override
-    public Object setMyTurn(Message turnStatus) {
-
-        if (turnStatus.getMethod().equals("startYourTurn")) {
-            myTurn = true;
-
-            update(turnStatus);
-        }
-
-        if (turnStatus.getMethod().equals("endTurn")) {
-            myTurn = false;
-
-            update(turnStatus);
-        }
-
-
-        return null;
     }
 
 
@@ -129,31 +84,6 @@ public class Client implements Runnable, ServerObserver {
             System.out.println("Wrong input.\n\n");
         }
     }
-
-    @Override
-    public Object update(Message receivedMessage) {
-        return callMethod(receivedMessage);
-    }
-
-
-    public Object setMyTurn(Message turnStatus) {
-
-        if (turnStatus.getMethod().equals("startYourTurn")) {
-            myTurn = true;
-
-            update(turnStatus);
-        }
-
-        if (turnStatus.getMethod().equals("endTurn")) {
-            myTurn = false;
-
-            update(turnStatus);
-        }
-
-
-        return null;
-    }
-
 
     private Object callMethod(Message receivedMessage) {
 
@@ -330,8 +260,11 @@ public class Client implements Runnable, ServerObserver {
             default:
                 return null;
         }
+    }
 
-
+    @Override
+    public Object update(Message receivedMessage) {
+        return callMethod(receivedMessage);
     }
 
 }

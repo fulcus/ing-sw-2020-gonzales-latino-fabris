@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 
 public class Server implements Runnable {
+
     public final static int SOCKET_PORT = 7777;
     private static GameController gameController;
     private ExecutorService executorService;

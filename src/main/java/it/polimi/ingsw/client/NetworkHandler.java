@@ -123,7 +123,10 @@ public class NetworkHandler implements Runnable {
 
         Message receivedMessage = (Message) inputStm.readObject();
 
-        if (receivedMessage != null && receivedMessage.getMethod().equals("shutdownClient")) {
+        if (receivedMessage == null)
+            return null;
+
+        if (receivedMessage.getMethod().equals("shutdownClient")) {
             keepConnected = false;
             return null;
         }
@@ -133,14 +136,10 @@ public class NetworkHandler implements Runnable {
             return observers.get(0).setMyTurn(receivedMessage);
         }
 
-        if (receivedMessage != null) {
-            return observers.get(0).update(receivedMessage);
-        }
 
-
-        return null;
-
+        return observers.get(0).update(receivedMessage);
     }
+
 
 
     private void handleClientResponse(Object clientResponse) throws IOException {

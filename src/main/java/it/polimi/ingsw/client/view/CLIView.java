@@ -12,31 +12,18 @@ public class CLIView {
     private Scanner input;
     private Scanner intInput;
     private final BoardClient board;// this will contain a copy of the Model's map and each cell will be update if there are any changes
-    private String playerNickname;
+    private String playerNickname; //to be assigned when setPlayer of ViewClient is deserialized
     private String challenger;
-    //to be assigned when setPlayer of ViewClient is deserialized
+    private volatile boolean myTurn;
 
     /**
      * This is the CLIView constructor.
      */
     public CLIView() {
-
+        myTurn = true;
         board = new BoardClient();
         input = new Scanner(System.in);
         intInput = new Scanner(System.in);
-    }
-
-
-    public void notYourTurn(){
-        System.out.println("This is not your turn! Wait for the other player moves!!\n");
-    }
-
-    public void endTurn() {
-        System.out.println("Your turn is over now. No other actions possible! \nWait for the other player(s)...");
-    }
-
-    public void startYourTurn() {
-        System.out.println("It's your turn!\n");
     }
 
     /**
@@ -119,6 +106,7 @@ public class CLIView {
             throws InputMismatchException {
 
         while (true) {
+
             try {
                 int[] initialWorkerPosition = new int[2];
                 System.out.println();
@@ -169,19 +157,20 @@ public class CLIView {
      * @return The name of the chosen God.
      */
     public String askPlayerGod() {
-
+        //startMyTurn();
         System.out.println(playerNickname + ", choose your god by typing his name.");
+
         return input.nextLine();
     }
 
     public void playerChoseInvalidGod() {
-        System.out.println("Your god is not available or has already been chosen.");
+        System.out.println("Your god is not available or has already been chosen.\n");
     }
 
     private void printChallenger(int numOfPlayers) {
         System.out.println();
         System.out.println(playerNickname + ", you are the Challenger. Select "
-                + numOfPlayers + " Gods for this game.");
+                + numOfPlayers + " gods for this game.");
 
     }
 
@@ -232,7 +221,8 @@ public class CLIView {
         System.out.println(playerNickname + ", it's your turn!");
 
         while (true) {
-            System.out.println("Type MALE or FEMALE to choose one of your workers.");
+
+            System.out.println("\nType MALE or FEMALE to choose one of your workers.");
 
             chosenWorkerSex = input.nextLine().toUpperCase();
 
@@ -268,13 +258,15 @@ public class CLIView {
     }
 
     public void unableToBuildLose() {
-        System.out.println("\nNone of your workers can build. You have lost this game.\nGoodbye");    }
+        System.out.println("\nNone of your workers can build. You have lost this game.\nGoodbye");
+    }
 
 
     /**
      * This method prints an updated version of the Board, depending on the Class' parameter "mymap".
      */
     public void printMap() {
+        System.out.println("\n");
 
         final String LINE_SEPARATOR = CLIColor.ANSI_GREEN + "+-------+-------+-------+-------+-------+" + CLIColor.COLOR_RESET + "%n";
         final String SPACE_SEPARATOR = CLIColor.ANSI_GREEN + "+       +       +       +       +       +" + CLIColor.COLOR_RESET + "%n";
@@ -382,7 +374,7 @@ public class CLIView {
 
     public void printChosenGods(ArrayList<String> chosenGods) {
 
-        System.out.print("\nAvailable Gods: ");
+        System.out.print("\n\nAvailable gods: ");
 
         int index = 0;
 
@@ -801,6 +793,7 @@ public class CLIView {
      */
     public void waitChallengerChooseGods(String challenger) {
         this.challenger = challenger;
+        //new Thread(this::endMyTurn).start();
         System.out.print(challenger + " is the Challenger and is choosing the gods for this game...");
     }
 
@@ -811,6 +804,7 @@ public class CLIView {
      */
     public void waitOtherPlayerChooseGod(String otherPlayer) {
         System.out.println();
+        //new Thread(this::endMyTurn).start();
         System.out.print(otherPlayer + " is choosing his god...");
     }
 
@@ -822,6 +816,7 @@ public class CLIView {
      * @param chosenGod   god chosen by the otherPlayer
      */
     public void otherPlayerChoseGod(String otherPlayer, String chosenGod) {
+
         System.out.println();
         System.out.println(otherPlayer + " has chosen " + chosenGod + ".\n");
     }
@@ -866,6 +861,7 @@ public class CLIView {
 
     /**
      * Lets player know that he has lost, and who is the winner.
+     *
      * @param winner nickname of the winner
      */
     public boolean losingView(String winner) {
@@ -874,5 +870,29 @@ public class CLIView {
         return true;
     }
 
+/*
+    private void endMyTurn() {
 
+        myTurn = false;
+
+        while (!myTurn) {
+
+            while (input.hasNextLine()) {
+
+                if (myTurn)
+                    return;
+
+                input.nextLine();
+
+                System.out.println("Your input is invalid. It's not your turn.");
+            }
+        }
+
+        System.out.println("exited thread");    //debug
+    }
+
+    private void startMyTurn() {
+        myTurn = true;
+    }
+*/
 }

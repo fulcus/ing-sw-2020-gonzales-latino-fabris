@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.controller;
 
-import it.polimi.ingsw.server.ClientViewObserver;
 import it.polimi.ingsw.server.ViewClient;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.controller.god.*;
