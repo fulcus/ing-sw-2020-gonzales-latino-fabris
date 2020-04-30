@@ -386,7 +386,7 @@ public class CLIView {
             else
                 System.out.println();
         }
-        System.out.println("");
+        System.out.println();
     }
 
 
@@ -826,7 +826,7 @@ public class CLIView {
      */
     public void waitChallengerStartPlayer() {
         System.out.println();
-        System.out.println(challenger + " is choosing the start player...");
+        System.out.print(challenger + " is choosing the start player...");
     }
 
     /**
@@ -895,4 +895,11 @@ public class CLIView {
         myTurn = true;
     }
 */
+    private void flush() {
+        while(input.hasNext()) {
+            input.next();
+        }
+    }
+
+
 }

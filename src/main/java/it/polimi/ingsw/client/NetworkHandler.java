@@ -8,7 +8,6 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 
 /**
@@ -22,14 +21,12 @@ public class NetworkHandler implements Runnable {
     private ObjectOutputStream outputStm;
     private ObjectInputStream inputStm;
     private final List<ServerObserver> observers = new ArrayList<>();
-    private boolean myTurn = false;
 
 
     public NetworkHandler(Socket server, Client client) {
         this.server = server;
         keepConnected = true;
         addObserver(client);
-        myTurn = false;
     }
 
     public void init() {
@@ -69,7 +66,6 @@ public class NetworkHandler implements Runnable {
 
             Object returnedValue;
 
-            //checkMyTurn();
 
             try {
 
@@ -93,26 +89,6 @@ public class NetworkHandler implements Runnable {
     }
 
 
-    private void checkMyTurn() {
-
-        Scanner scanner = new Scanner(System.in);
-
-        while (!myTurn) {
-
-            scanner.nextLine();
-            System.out.println("Invalid input, not your turn\n");
-
-            try {
-                if (handleServerRequest().equals("start"))
-                    myTurn= true;
-            } catch(IOException | ClassNotFoundException e ) {
-                e.printStackTrace();
-            }
-        }
-
-    }
-
-
     /**
      * Allows to manage the requests received.
      *
@@ -129,11 +105,6 @@ public class NetworkHandler implements Runnable {
         if (receivedMessage.getMethod().equals("shutdownClient")) {
             keepConnected = false;
             return null;
-        }
-
-        if (receivedMessage != null && (receivedMessage.getMethod().equals("startYourTurn") || receivedMessage.getMethod().equals("endTurn")) ) {
-            //myTurn = true;
-            return observers.get(0).setMyTurn(receivedMessage);
         }
 
 
