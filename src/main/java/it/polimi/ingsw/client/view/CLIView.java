@@ -119,7 +119,6 @@ public class CLIView {
             throws InputMismatchException {
 
         while (true) {
-
             try {
                 int[] initialWorkerPosition = new int[2];
                 System.out.println();
@@ -170,18 +169,19 @@ public class CLIView {
      * @return The name of the chosen God.
      */
     public String askPlayerGod() {
+
         System.out.println(playerNickname + ", choose your god by typing his name.");
         return input.nextLine();
     }
 
     public void playerChoseInvalidGod() {
-        System.out.println("Your god is not available or has already been chosen.\n");
+        System.out.println("Your god is not available or has already been chosen.");
     }
 
     private void printChallenger(int numOfPlayers) {
         System.out.println();
         System.out.println(playerNickname + ", you are the Challenger. Select "
-                + numOfPlayers + " gods for this game.");
+                + numOfPlayers + " Gods for this game.");
 
     }
 
@@ -232,8 +232,7 @@ public class CLIView {
         System.out.println(playerNickname + ", it's your turn!");
 
         while (true) {
-
-            System.out.println("\nType MALE or FEMALE to choose one of your workers.");
+            System.out.println("Type MALE or FEMALE to choose one of your workers.");
 
             chosenWorkerSex = input.nextLine().toUpperCase();
 
@@ -276,7 +275,6 @@ public class CLIView {
      * This method prints an updated version of the Board, depending on the Class' parameter "mymap".
      */
     public void printMap() {
-        System.out.println("\n");
 
         final String LINE_SEPARATOR = CLIColor.ANSI_GREEN + "+-------+-------+-------+-------+-------+" + CLIColor.COLOR_RESET + "%n";
         final String SPACE_SEPARATOR = CLIColor.ANSI_GREEN + "+       +       +       +       +       +" + CLIColor.COLOR_RESET + "%n";
@@ -384,7 +382,7 @@ public class CLIView {
 
     public void printChosenGods(ArrayList<String> chosenGods) {
 
-        System.out.print("\nAvailable gods: ");
+        System.out.print("\nAvailable Gods: ");
 
         int index = 0;
 

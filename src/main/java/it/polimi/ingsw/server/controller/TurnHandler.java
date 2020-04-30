@@ -108,6 +108,7 @@ public class TurnHandler {
 
             for (God god : game.getChosenGods()) {
                 chosenGods.add(god.toString());
+            }
 
             if(player != game.getChallenger())
                 playerClient.printChosenGods(chosenGods);
@@ -151,12 +152,12 @@ public class TurnHandler {
         Player challenger = game.getChallenger();
         ViewClient challengerClient = challenger.getClient();
         String startPlayerNick = null;
-        ViewClient challengerClient = game.getChallenger().getClient();
+        Player startPlayer = null;
 
         challengerClient.startYourTurn();
 
-        String startPlayerNick;
-        Player startPlayer = null;
+
+
 
         for(Player otherPlayer : players) {
             if (otherPlayer != challenger)
