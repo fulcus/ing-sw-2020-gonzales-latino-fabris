@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.controller;
 
-import it.polimi.ingsw.server.ClientViewObserver;
 import it.polimi.ingsw.server.ViewClient;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.controller.god.*;
@@ -172,28 +171,6 @@ public class GameController {
         godsDeck.add(new Prometheus(godController));
         godsDeck.add(new Triton(godController));
         godsDeck.add(new Zeus(godController));
-    }
-
-    public void winGame(Player winner) {
-        //winningView and losingView are blocking since they must return boolean (although unused)
-        ViewClient winnerClient = turnHandler.getCurrentPlayer().getClient();
-
-        //print "you have won" in winner view
-        winnerClient.winningView();
-        winnerClient.killClient();
-
-        //print "you have lost" in loser views
-        for(Player player : game.getPlayers()) {
-
-            if(player != winner) {
-                player.getClient().losingView(winner.getNickname());
-                player.getClient().killClient();
-            }
-        }
-
-
-
-        System.exit(0);
     }
 
     public ArrayList<God> getGodsDeck() {

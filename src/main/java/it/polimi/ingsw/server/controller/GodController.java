@@ -179,7 +179,6 @@ public class GodController {
      *
      * @return Coordinates' variation and type of building.
      */
-    @SuppressWarnings("ConstantConditions")
     public int[] getBuildingInputAtlas() {
 
         int[] buildingInput = new int[3];
@@ -236,7 +235,6 @@ public class GodController {
         if (god.toString().equals("Prometheus"))
             answer = currentClient.askBuildPrometheus();
 
-        assert answer != null;
         return answer.equals("Y");
     }
 
@@ -251,8 +249,9 @@ public class GodController {
     /**
      * Allows to call the GameController to notify that a player has  won the game.
      */
-    public void winGame(Player winner) {
-        gameController.winGame(winner);
+    //TODO forse questo è possibile rivederlo - da mettere che non si interfacci con la view direttamente, ma col gameController??
+    public void winGame(String winnerNickname) {
+        currentClient.winningView(winnerNickname);
 
         System.exit(0);
     }
