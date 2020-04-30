@@ -103,8 +103,8 @@ public class NetworkHandler implements Runnable {
             System.out.println("Invalid input, not your turn\n");
 
             try {
-            if (handleServerRequest().equals("start"))
-                myTurn= true;
+                if (handleServerRequest().equals("start"))
+                    myTurn= true;
             } catch(IOException | ClassNotFoundException e ) {
                 e.printStackTrace();
             }

@@ -82,7 +82,26 @@ public class Client implements Runnable, ServerObserver {
 
         }
 
+    }
 
+
+    @Override
+    public Object setMyTurn(Message turnStatus) {
+
+        if (turnStatus.getMethod().equals("startYourTurn")) {
+            myTurn = true;
+
+            update(turnStatus);
+        }
+
+        if (turnStatus.getMethod().equals("endTurn")) {
+            myTurn = false;
+
+            update(turnStatus);
+        }
+
+
+        return null;
     }
 
 
