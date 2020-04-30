@@ -567,33 +567,12 @@ public class ViewClient implements ClientViewObserver {
     private void sendMessage(Message message) {
 
         try {
-            //flush?
+
             output.writeObject(message);
         } catch (IOException e) {
             System.out.println("server has died");
         }
     }
-
-    /*
-    @Override
-    public void run() {
-        if ( !turnHandler.getCurrentPlayer().equals(this.player) )
-            try {
-                handleOutOfTurnRequests();
-            } catch (IOException | ClassNotFoundException e) {
-                System.out.println("Client has died");
-            }
-    }
-
-
-    public void handleOutOfTurnRequests() throws IOException, ClassNotFoundException{
-        Message receivedMessage = (Message) input.readObject();
-
-        if (receivedMessage != null )
-            sendMessage(new Message("notYourTurn"));
-    }
-
-     */
 
 
     public void startYourTurn() {
