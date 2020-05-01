@@ -20,6 +20,7 @@ import java.util.List;
  */
 public class ViewClient implements ClientViewObserver {
 
+
     private final Socket socket;   //a virtual view instance for each client
     private Player player;
     private final GameController gameController;
@@ -27,6 +28,7 @@ public class ViewClient implements ClientViewObserver {
     private ObjectInputStream input;
     private TurnHandler turnHandler;
     private boolean inGame;
+
     //private final List<ClientViewObserver> observers = new ArrayList<>();
 
 
@@ -40,11 +42,21 @@ public class ViewClient implements ClientViewObserver {
             input = new ObjectInputStream(socket.getInputStream());
         } catch (IOException e) {
         }
+
+
     }
 
 
     public Player getPlayer() {
         return player;
+    }
+
+    public Socket getSocket() {
+        return socket;
+    }
+
+    public ObjectInputStream getInput() {
+        return input;
     }
 
 

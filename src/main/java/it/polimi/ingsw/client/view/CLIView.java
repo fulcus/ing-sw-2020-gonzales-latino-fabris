@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.serializableObjects.CellClient;
+import it.polimi.ingsw.serializableObjects.WorkerClient;
 import it.polimi.ingsw.server.model.*;
 
 import java.util.ArrayList;
@@ -579,7 +580,7 @@ public class CLIView {
      * @param myWorker     It's the chosen worker of the current player.
      * @return The Worker to move selected by the player.
      */
-    public String askWorkerToMove(ArrayList<Worker> enemyWorkers, Worker myWorker) {
+    public String askWorkerToMove(ArrayList<WorkerClient> enemyWorkers, WorkerClient myWorker) {
 
         ArrayList<String> presentPositions = printFoundEnemiesPosition(enemyWorkers, myWorker);
 
@@ -614,28 +615,28 @@ public class CLIView {
      * @param myWorker     It's the chosen worker of the current player.
      * @return The position of the selected worker to move.
      */
-    private ArrayList<String> printFoundEnemiesPosition(ArrayList<Worker> enemyWorkers, Worker myWorker) {
-        int myWorkerX = myWorker.getPosition().getX();
-        int myWorkerY = myWorker.getPosition().getY();
+    private ArrayList<String> printFoundEnemiesPosition(ArrayList<WorkerClient> enemyWorkers, WorkerClient myWorker) {
+        int myWorkerX = myWorker.getXPosition();
+        int myWorkerY = myWorker.getYPosition();
         ArrayList<String> presentPositions = new ArrayList<>();
 
-        for (Worker enemyWorker : enemyWorkers) {
-            if (myWorkerX > enemyWorker.getPosition().getX()) {
-                if (myWorkerY > enemyWorker.getPosition().getY()) {
+        for (WorkerClient enemyWorker : enemyWorkers) {
+            if (myWorkerX > enemyWorker.getXPosition()) {
+                if (myWorkerY > enemyWorker.getYPosition()) {
                     System.out.println("NW");
                     presentPositions.add("NW");
-                } else if (myWorkerY == enemyWorker.getPosition().getY()) {
+                } else if (myWorkerY == enemyWorker.getYPosition()) {
                     System.out.println("N");
                     presentPositions.add("N");
                 } else {
                     System.out.println("NE");
                     presentPositions.add("NE");
                 }
-            } else if (myWorkerX == enemyWorker.getPosition().getX()) {
-                if (myWorkerY > enemyWorker.getPosition().getY()) {
+            } else if (myWorkerX == enemyWorker.getXPosition()) {
+                if (myWorkerY > enemyWorker.getYPosition()) {
                     System.out.println("W");
                     presentPositions.add("W");
-                } else if (myWorkerY < enemyWorker.getPosition().getY()) {
+                } else if (myWorkerY < enemyWorker.getYPosition()) {
                     System.out.println("E");
                     presentPositions.add("E");
                 } else {
@@ -643,10 +644,10 @@ public class CLIView {
                     return null;
                 }
             } else {
-                if (myWorkerY > enemyWorker.getPosition().getY()) {
+                if (myWorkerY > enemyWorker.getYPosition()) {
                     System.out.println("SW");
                     presentPositions.add("SW");
-                } else if (myWorkerY == enemyWorker.getPosition().getY()) {
+                } else if (myWorkerY == enemyWorker.getYPosition()) {
                     System.out.println("S");
                     presentPositions.add("S");
                 } else {
