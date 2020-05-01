@@ -53,7 +53,9 @@ public class Charon extends God {
 
             if (!movableNeighboringEnemies.isEmpty()) {
 
-                if (!godController.wantToMoveEnemy())
+                boolean moveEnemy = godController.wantToMoveEnemy();
+
+                if (!moveEnemy)
                     return;
 
                 Worker enemyToMove = godController.forceMoveEnemy(movableNeighboringEnemies, worker);

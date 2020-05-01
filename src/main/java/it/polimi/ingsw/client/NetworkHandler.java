@@ -73,9 +73,7 @@ public class NetworkHandler implements Runnable {
 
                 handleClientResponse(returnedValue);
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
+            } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
 
@@ -110,7 +108,6 @@ public class NetworkHandler implements Runnable {
 
         return observers.get(0).update(receivedMessage);
     }
-
 
 
     private void handleClientResponse(Object clientResponse) throws IOException {

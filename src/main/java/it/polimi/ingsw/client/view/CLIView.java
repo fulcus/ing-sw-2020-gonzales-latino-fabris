@@ -14,13 +14,12 @@ public class CLIView {
     private final BoardClient board;// this will contain a copy of the Model's map and each cell will be update if there are any changes
     private String playerNickname; //to be assigned when setPlayer of ViewClient is deserialized
     private String challenger;
-    private volatile boolean myTurn;
 
     /**
      * This is the CLIView constructor.
      */
     public CLIView() {
-        myTurn = true;
+
         board = new BoardClient();
         input = new Scanner(System.in);
         intInput = new Scanner(System.in);
@@ -157,8 +156,9 @@ public class CLIView {
      * @return The name of the chosen God.
      */
     public String askPlayerGod() {
-        //startMyTurn();
+
         System.out.println(playerNickname + ", choose your god by typing his name.");
+
 
         return input.nextLine();
     }
@@ -168,6 +168,7 @@ public class CLIView {
     }
 
     private void printChallenger(int numOfPlayers) {
+
         System.out.println();
         System.out.println(playerNickname + ", you are the Challenger. Select "
                 + numOfPlayers + " gods for this game.");
@@ -175,6 +176,7 @@ public class CLIView {
     }
 
     public String getGodFromChallenger(int numOfPlayers, int alreadyChosenGods) {
+
         int godsLeftToChoose = numOfPlayers - alreadyChosenGods;
 
         if (alreadyChosenGods == 0)
@@ -189,13 +191,15 @@ public class CLIView {
 
             System.out.println(" left to choose.");
         }
-        return input.nextLine();
 
+
+        return input.nextLine();
     }
 
     public String challengerChooseStartPlayer() {
 
         System.out.println("\n" + playerNickname + ", choose the first player to start! Type his nickname:");
+
 
         return input.nextLine();
 
@@ -792,8 +796,8 @@ public class CLIView {
      * @param challenger nickname of the challenger
      */
     public void waitChallengerChooseGods(String challenger) {
+
         this.challenger = challenger;
-        //new Thread(this::endMyTurn).start();
         System.out.print(challenger + " is the Challenger and is choosing the gods for this game...");
     }
 
@@ -804,7 +808,7 @@ public class CLIView {
      */
     public void waitOtherPlayerChooseGod(String otherPlayer) {
         System.out.println();
-        //new Thread(this::endMyTurn).start();
+
         System.out.print(otherPlayer + " is choosing his god...");
     }
 
@@ -868,37 +872,6 @@ public class CLIView {
         System.out.println("\nYou have lost this game. The winner is " + winner);
         System.out.println("Goodbye");
         return true;
-    }
-
-/*
-    private void endMyTurn() {
-
-        myTurn = false;
-
-        while (!myTurn) {
-
-            while (input.hasNextLine()) {
-
-                if (myTurn)
-                    return;
-
-                input.nextLine();
-
-                System.out.println("Your input is invalid. It's not your turn.");
-            }
-        }
-
-        System.out.println("exited thread");    //debug
-    }
-
-    private void startMyTurn() {
-        myTurn = true;
-    }
-*/
-    private void flush() {
-        while(input.hasNext()) {
-            input.next();
-        }
     }
 
 

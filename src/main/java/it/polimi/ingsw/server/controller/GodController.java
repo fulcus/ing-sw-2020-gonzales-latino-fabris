@@ -149,6 +149,7 @@ public class GodController {
      * @return The worker the player has chosen to move.
      */
     public Worker forceMoveEnemy(ArrayList<Worker> enemyWorkers, Worker worker) {
+
         String workerToMoveCompassPosition = currentClient.askWorkerToMove(enemyWorkers, worker);
 
         if (workerToMoveCompassPosition == null)
