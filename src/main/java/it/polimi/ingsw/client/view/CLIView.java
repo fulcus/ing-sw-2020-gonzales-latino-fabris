@@ -405,7 +405,7 @@ public class CLIView {
             otherSex = "male";
 
         System.out.println("Your " + sex + " worker cannot move anywhere. You must move with your "
-                + otherSex + " worker.");
+                + otherSex + " worker.\n");
     }
 
     public void selectedWorkerCannotBuild(String sex) {

@@ -27,7 +27,9 @@ public class Charon extends God {
     }
 
 
-    public void forceMoveEnemy(Worker worker) {
+    public void forceMoveEnemy(Worker worker) throws UnableToMoveException {
+
+        updateMoveMap(worker);
 
         Board board = worker.getPlayer().getGame().getBoard();
 
@@ -41,11 +43,12 @@ public class Charon extends God {
             //for each neighboring enemy calculates opposite position
             //and removes them from arraylist if opposite position is occupied
             for (Worker enemy : neighboringEnemies) {
+
                 newEnemyX = 2 * worker.getPosition().getX() - enemy.getPosition().getX();
                 newEnemyY = 2 * worker.getPosition().getY() - enemy.getPosition().getY();
                 Cell newEnemyPosition = board.findCell(newEnemyX, newEnemyY);
 
-                if (!(newEnemyPosition.isOccupied() || newEnemyX > 4 || newEnemyX < 0 || newEnemyY < 0 || newEnemyY > 4))
+                if (newEnemyPosition != null && !newEnemyPosition.isOccupied())
                     movableNeighboringEnemies.add(enemy);
             }
 

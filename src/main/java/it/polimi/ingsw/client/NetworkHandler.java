@@ -64,12 +64,9 @@ public class NetworkHandler implements Runnable {
 
         while (keepConnected) {
 
-            Object returnedValue;
-
-
             try {
 
-                returnedValue = handleServerRequest();
+                Object returnedValue = handleServerRequest();
 
                 handleClientResponse(returnedValue);
 

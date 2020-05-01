@@ -377,8 +377,9 @@ public class ViewClient implements ClientViewObserver {
             enemyWorkersClient.add(new WorkerClient(worker));
 
 
-        return (String) sendMessageWithReturn(new Message("askWorkerToMove", enemyWorkersClient, new WorkerClient(myWorker)));
+        String enemyToMovePosition = (String) sendMessageWithReturn(new Message("askWorkerToMove", enemyWorkersClient, new WorkerClient(myWorker)));
 
+        return enemyToMovePosition;
     }
 
 
