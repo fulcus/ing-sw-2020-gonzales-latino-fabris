@@ -11,7 +11,7 @@ import it.polimi.ingsw.server.model.WorkerBuildMap;
 
 public class Hephaestus extends God {
 
-    public String description = "Your Worker may build one additional block (not dome) on top of your first block.";
+    public final String description = "Your Worker may build one additional block (not dome) on top of your first block.";
 
     Cell firstBuildCell;
 

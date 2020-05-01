@@ -11,7 +11,7 @@ import it.polimi.ingsw.server.model.WorkerBuildMap;
 
 public class Demeter extends God {
 
-    public String description = "Your Worker may build one additional time, but not on the same space.";
+    public final String description = "Your Worker may build one additional time, but not on the same space.";
 
     Cell firstBuildCell;
 

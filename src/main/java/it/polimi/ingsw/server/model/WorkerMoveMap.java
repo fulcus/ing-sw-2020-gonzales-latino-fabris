@@ -32,15 +32,6 @@ public class WorkerMoveMap extends WorkerMap {
     }
 
     /**
-     * Says if there is any near Cell 1 level higher than the worker's.
-     *
-     * @return True if there is at least one cell 1 level higher, false otherwise.
-     */
-    public boolean anyOneLevelHigherCell() {
-        return reachNearHigherLevel();
-    }
-
-    /**
      * Forbids worker to not move.
      */
     public void cannotStayStill() {

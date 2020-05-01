@@ -284,7 +284,7 @@ public class CLIView {
         }
 
         System.out.printf(LINE_SEPARATOR);
-
+        System.out.println();
     }
 
     /**
@@ -713,7 +713,8 @@ public class CLIView {
      */
     public String askBuildPrometheus() {
 
-        System.out.println("You are allowed to build before you move");
+        System.out.println("Do you want to build before moving?\n" +
+                "Remember that if you do so, you won't be able to move up.");
         return playerAnswerYN();
     }
 
@@ -870,8 +871,8 @@ public class CLIView {
      * @param winner nickname of the winner
      */
     public boolean losingView(String winner) {
-        System.out.println("\nYou have lost this game. The winner is " + winner);
-        System.out.println("Goodbye");
+        System.out.println("\nYou have lost this game. The winner is " + winner + ".");
+        System.out.println("Goodbye.");
         return true;
     }
 

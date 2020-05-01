@@ -218,11 +218,11 @@ public class WorkerMoveMapTest {
     public void testAnyOneLevelHigherCell() {
         worker.setPosition(2, 1);
 
-        assertFalse(moveMap.anyOneLevelHigherCell());
+        assertFalse(moveMap.anyCellOneLevelHigher());
 
         worker.buildBlock(2, 2);
 
-        assertTrue(moveMap.anyOneLevelHigherCell());
+        assertTrue(moveMap.anyCellOneLevelHigher());
 
     }
 

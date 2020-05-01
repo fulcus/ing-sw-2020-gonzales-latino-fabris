@@ -8,7 +8,7 @@ import it.polimi.ingsw.server.model.WorkerBuildMap;
 
 public class Zeus extends God{
 
-    public String description = "Your Worker may build a block under itself.";
+    public final String description = "Your Worker may build a block under itself.";
 
     public Zeus(GodController godController) {
         super(godController);

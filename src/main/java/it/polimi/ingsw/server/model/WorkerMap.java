@@ -152,7 +152,7 @@ public class WorkerMap {
      *
      * @return True if there is at least one cell 1 level higher, false otherwise.
      */
-    public boolean reachNearHigherLevel() {
+    public boolean anyCellOneLevelHigher() {
         int workersLevel = worker.getPosition().getLevel();
 
         for (int i = 0; i < N; i++) {

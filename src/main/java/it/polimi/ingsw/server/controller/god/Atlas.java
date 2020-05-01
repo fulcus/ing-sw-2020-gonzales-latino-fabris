@@ -9,7 +9,7 @@ import it.polimi.ingsw.server.model.WorkerBuildMap;
 
 public class Atlas extends God {
 
-    public String description = "Your Worker may build a dome at any level.";
+    public final String description = "Your Worker may build a dome at any level.";
 
 
     public Atlas(GodController godController) {

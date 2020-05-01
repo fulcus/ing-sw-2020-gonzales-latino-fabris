@@ -10,7 +10,7 @@ import it.polimi.ingsw.server.model.WorkerMoveMap;
 
 public class Triton extends God{
 
-    public String description = "Each time your Worker moves into a perimeter space, it may immediately move again.";
+    public final String description = "Each time your Worker moves into a perimeter space, it may immediately move again.";
 
     private Cell initialPosition;
 

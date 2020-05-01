@@ -11,7 +11,7 @@ import it.polimi.ingsw.server.model.WorkerMoveMap;
 public class Artemis extends God {
 
     private Cell initialPosition;
-    public String description = "Your Worker may move one additional time, but not back to its initial space.";
+    public final String description = "Your Worker may move one additional time, but not back to its initial space.";
 
 
     public Artemis(GodController godController) {

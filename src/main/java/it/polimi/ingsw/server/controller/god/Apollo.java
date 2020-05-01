@@ -9,7 +9,7 @@ import it.polimi.ingsw.server.model.WorkerMoveMap;
 
 public class Apollo extends God {
 
-    public String description = "Your Worker may move into an opponent Worker’s space by forcing their Worker to the space yours just vacated.";
+    public final String description = "Your Worker may move into an opponent Worker’s space by forcing their Worker to the space yours just vacated.";
 
     public Apollo(GodController godController) {
         super(godController);

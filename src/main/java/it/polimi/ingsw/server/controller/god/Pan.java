@@ -5,7 +5,7 @@ import it.polimi.ingsw.server.model.Worker;
 
 public class Pan extends God{
 
-    public String description = "You also win if your Worker moves down two or more levels.";
+    public final String description = "You also win if your Worker moves down two or more levels.";
 
 
     public Pan(GodController godController) {

@@ -11,7 +11,7 @@ import it.polimi.ingsw.server.model.WorkerMoveMap;
 /**
  * This class is the one that describes the Minotaur behaviour
  */
-public class Minotaur extends God {
+public final class Minotaur extends God {
 
     public String description = "Your Worker may move into an opponent Worker’s space, if their Worker can be forced one space straight backwards to an unoccupied space at any level.";
 

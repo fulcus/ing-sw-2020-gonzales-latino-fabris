@@ -8,7 +8,7 @@ import it.polimi.ingsw.server.model.Worker;
 
 public class Hera extends God{
 
-    public String description = "An opponent cannot win by moving into a perimeter space.";
+    public final String description = "An opponent cannot win by moving into a perimeter space.";
 
 
     public Hera(GodController godController){

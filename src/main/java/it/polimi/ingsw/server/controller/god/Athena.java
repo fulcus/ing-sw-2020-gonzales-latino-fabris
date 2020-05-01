@@ -8,7 +8,7 @@ import it.polimi.ingsw.server.model.Worker;
 
 public class Athena extends God {
 
-    public String description = "If one of your Workers moved up on your last turn, opponent Workers cannot move up this turn.";
+    public final String description = "If one of your Workers moved up on your last turn, opponent Workers cannot move up this turn.";
 
 
     public Athena(GodController godController) {
