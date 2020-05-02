@@ -188,7 +188,7 @@ public class CLIView {
             if (godsLeftToChoose == 1)
                 System.out.print(" god");
             else
-                System.out.print("gods");
+                System.out.print(" gods");
 
             System.out.println(" left to choose.");
         }
@@ -677,8 +677,8 @@ public class CLIView {
      */
     public String askBuildAgainHephaestus() {
 
-        System.out.println("You are allowed to build another time, " +
-                "but ONLY in the same position you built before");
+        System.out.println("You can build another time, " +
+                "but ONLY on the same space you built before");
         return playerAnswerYN();
     }
 
@@ -690,7 +690,7 @@ public class CLIView {
      */
     public String askBuildAgainDemeter() {
 
-        System.out.println("You are allowed to build another time, but NOT in the same position you built before");
+        System.out.println("You can build another time, but NOT on the same space you built before");
         return playerAnswerYN();
     }
 
@@ -702,7 +702,7 @@ public class CLIView {
      */
     public String askBuildAgainHestia() {
 
-        System.out.println("You are allowed to build another time, but NOT in the border position");
+        System.out.println("You can build another time, but NOT on a perimeter space");
         return playerAnswerYN();
     }
 

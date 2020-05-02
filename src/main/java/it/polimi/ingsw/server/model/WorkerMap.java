@@ -239,6 +239,23 @@ public class WorkerMap {
     }
 
     /**
+     * Sets false Cells in perimeter
+     */
+    protected void setPerimeterFalse() {
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+
+                Cell position = getAbsolutePosition(i,j);
+
+                if (position != null && position.isInPerimeter())
+                    matrix[i][j] = false;
+
+            }
+        }
+
+    }
+
+    /**
      * Prints the map. Useful for debugging.
      */
     public void printMap() {

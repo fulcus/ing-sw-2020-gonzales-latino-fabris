@@ -74,7 +74,7 @@
           <configuration>
             <archive>
               <manifest>
-                <!-- main to execute for this jar -->
+                <!-- main the jar executes -->
                 <mainClass>it.polimi.ingsw.server.Server</mainClass>
               </manifest>
             </archive>

@@ -9,7 +9,6 @@ import it.polimi.ingsw.server.controller.*;
  */
 public abstract class God {
 
-
     protected GodController godController;
 
 
@@ -60,9 +59,9 @@ public abstract class God {
 
 
     /**
-     * The standard build action.
+     * Lets a worker build a block or a dome.
      *
-     * @param worker This is the current worker.
+     * @param worker worker playing the turn.
      */
     public void build(Worker worker) throws UnableToBuildException {
 
@@ -82,9 +81,11 @@ public abstract class God {
 
                 Cell buildPosition = board.findCell(xBuild, yBuild);
 
-                //build Dome  and fix the condition that if the worker wants to build underneath
-                //and the building will be a dome won't be allowed
+                //build Dome and check that in case the worker wants to build underneath
+                //building a dome won't be allowed
 
+                //todo if(buildPosition.equals(worker.getPosition()))
+                // print: cannot build a dome underneath
                 if (buildPosition.getLevel() == 3 && !buildPosition.equals(worker.getPosition())) {
                     worker.buildDome(xBuild, yBuild);
                     godController.displayBoard();
@@ -104,11 +105,10 @@ public abstract class God {
     }
 
 
-
     /**
      * Checks if win conditions are met.
      *
-     * @param worker The selected worker. Used to get his player.
+     * @param worker worker playing the turn.
      */
     public void win(Worker worker) {
         boolean won;
@@ -127,11 +127,11 @@ public abstract class God {
     /**
      * Sets the permissions to move of the selected worker.
      *
-     * @param worker Selected worker.
+     * @param worker worker playing the turn.
+     * @throws UnableToMoveException signals that the worker cannot move anywhere
      */
     //will be called at the beginning of each move, which will then comply with the matrix.
-    public WorkerMoveMap updateMoveMap(Worker worker)
-            throws UnableToMoveException {
+    public WorkerMoveMap updateMoveMap(Worker worker) throws UnableToMoveException {
 
         WorkerMoveMap moveMap = worker.getMoveMap();
         moveMap.resetMap();
@@ -151,9 +151,13 @@ public abstract class God {
         return moveMap;
     }
 
-
-    public WorkerBuildMap updateBuildMap(Worker worker)
-            throws UnableToBuildException {
+    /**
+     * Sets the permissions to build of the selected worker.
+     *
+     * @param worker worker playing the turn.
+     * @throws UnableToBuildException signals that the worker cannot build anywhere
+     */
+    public WorkerBuildMap updateBuildMap(Worker worker) throws UnableToBuildException {
 
         WorkerBuildMap buildMap = worker.getBuildMap();
         buildMap.resetMap();
@@ -167,7 +171,6 @@ public abstract class God {
         if (!buildMap.anyAvailableBuildPosition())
             throw new UnableToBuildException();
 
-
         return buildMap;
     }
 
@@ -176,10 +179,8 @@ public abstract class God {
         return godController;
     }
 
-
     public abstract String getDescription();
 
-    @Override
     public String toString() {
         return getClass().getSimpleName();
     }
