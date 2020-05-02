@@ -3,15 +3,14 @@ package it.polimi.ingsw.server.controller.god;
 import it.polimi.ingsw.server.controller.GodController;
 import it.polimi.ingsw.server.controller.UnableToBuildException;
 import it.polimi.ingsw.server.controller.UnableToMoveException;
-import it.polimi.ingsw.server.model.Board;
+import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.Worker;
-import it.polimi.ingsw.server.model.WorkerBuildMap;
-import it.polimi.ingsw.server.model.WorkerMoveMap;
 
 
 public class Prometheus extends God {
 
     public final String description = "If your Worker does not move up, it may build both before and after moving.";
+    private boolean canMoveUpBefore;
 
     public Prometheus(GodController godController) {
         super(godController);
@@ -24,12 +23,14 @@ public class Prometheus extends God {
         move(worker);
         win(worker);
         build(worker);
+
     }
 
 
     private void buildBefore(Worker worker) throws UnableToMoveException {
 
-        worker.getPlayer().setPermissionToMoveUp(true);
+        Player player = worker.getPlayer();
+        canMoveUpBefore = player.getCanMoveUp();
 
         //if worker cannot move, throw exception without waiting move()
         updateMoveMap(worker);
@@ -54,13 +55,20 @@ public class Prometheus extends God {
                 return;
             }
 
-
             //can't move up, bc he chose to build before moving
             worker.getPlayer().setPermissionToMoveUp(false);
 
         }
+    }
 
 
+    @Override
+    public void move(Worker worker) throws UnableToMoveException {
+
+        super.move(worker);
+
+        //reset canMoveUp permission to its original state (to avoid interference with Athena)
+        worker.getPlayer().setPermissionToMoveUp(canMoveUpBefore);
     }
 
     public GodController getGodController() {
