@@ -42,6 +42,7 @@ public class Server implements Runnable {
             return;
         }
 
+        System.out.println("Server Started");
 
         while (true) {
 

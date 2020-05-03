@@ -25,9 +25,9 @@ public class ViewClient implements ClientViewObserver {
     private Player player;
     private final GameController gameController;
     private ObjectOutputStream output;
-    private ObjectInputStream input;
     private TurnHandler turnHandler;
     private boolean inGame;
+    private ServerInputReader input;
 
     //private final List<ClientViewObserver> observers = new ArrayList<>();
 
@@ -36,13 +36,15 @@ public class ViewClient implements ClientViewObserver {
         this.socket = socket;
         this.gameController = gameController;
         inGame = true;
+        input = new ServerInputReader(socket);
 
         try {
             output = new ObjectOutputStream(socket.getOutputStream());
-            input = new ObjectInputStream(socket.getInputStream());
-        } catch (IOException e) {
-        }
+        } catch (IOException e) {}
 
+        Thread inputReaderThread = new Thread(input);
+
+        inputReaderThread.start();
 
     }
 
@@ -55,9 +57,6 @@ public class ViewClient implements ClientViewObserver {
         return socket;
     }
 
-    public ObjectInputStream getInput() {
-        return input;
-    }
 
 
     /**
@@ -87,7 +86,10 @@ public class ViewClient implements ClientViewObserver {
      * @return The number of players.
      */
     public int askNumberOfPlayers() {
-        return (int) sendMessageWithReturn(new Message("askNumberOfPlayers"));
+
+        int number =  (int) sendMessageWithReturn(new Message("askNumberOfPlayers"));
+        System.out.println("received number of players "+ number);
+        return number;
     }
 
 
@@ -557,13 +559,28 @@ public class ViewClient implements ClientViewObserver {
 
     //always cast return of this method
     private Object sendMessageWithReturn(Message message) {
+
+        Object receivedObject;
+
         try {
             //flush?
             output.writeObject(message);
-            return input.readObject();
+
+
+            do {
+
+                receivedObject = input.getReceivedObject();
+
+            } while (receivedObject == null);
+
+            System.out.println("received general view client object");
+            input.resetReceivedObject();
+
+            return receivedObject;
+
         } catch (IOException e) {
             System.out.println("server has died");
-        } catch (ClassCastException | ClassNotFoundException e) {
+        } catch (ClassCastException e) {
             System.out.println("protocol violation");
         }
 
@@ -580,7 +597,6 @@ public class ViewClient implements ClientViewObserver {
     private void sendMessage(Message message) {
 
         try {
-
             output.writeObject(message);
         } catch (IOException e) {
             System.out.println("server has died");

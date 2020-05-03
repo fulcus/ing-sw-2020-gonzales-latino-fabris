@@ -16,6 +16,7 @@ import java.util.List;
 public class NetworkHandler implements Runnable {
 
 
+
     private boolean keepConnected;
     private Socket server;
     private ObjectOutputStream outputStm;
@@ -42,6 +43,9 @@ public class NetworkHandler implements Runnable {
 
     }
 
+    public boolean isKeepConnected() {
+        return keepConnected;
+    }
 
     public void addObserver(ServerObserver observer) {
 
@@ -99,6 +103,7 @@ public class NetworkHandler implements Runnable {
 
         if (receivedMessage.getMethod().equals("shutdownClient")) {
             keepConnected = false;
+            //
             return null;
         }
 
@@ -107,7 +112,7 @@ public class NetworkHandler implements Runnable {
     }
 
 
-    private void handleClientResponse(Object clientResponse) throws IOException {
+    public synchronized void handleClientResponse(Object clientResponse) throws IOException {
 
         if (clientResponse == null)
             return;
