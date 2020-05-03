@@ -51,4 +51,8 @@ public class WorkerBuildMap extends WorkerMap {
         return anyTrueCell();
     }
 
+    public void cannotBuildInPerimeter() {
+        setPerimeterFalse();
+    }
+
 }

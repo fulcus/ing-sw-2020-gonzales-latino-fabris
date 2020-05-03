@@ -27,7 +27,11 @@ public class Hestia extends God {
         buildAgain(w);
     }
 
-
+    /**
+     * Same as normal build except that it calls special updateBuildMap and catches exception
+     *
+     * @param worker Worker playing the turn
+     */
     private void buildAgain(Worker worker) {
         WorkerBuildMap buildMap;
 
@@ -35,9 +39,9 @@ public class Hestia extends God {
         if (!godController.wantToBuildAgain(this))
             return;
 
-        while(true) {
+        while (true) {
             try {
-                buildMap = updateBuildMap(worker);
+                buildMap = updateBuildMapHestia(worker);
             } catch (UnableToBuildException ex) {
                 godController.errorBuildScreen();
                 return;
@@ -80,6 +84,27 @@ public class Hestia extends God {
         }
     }
 
+    //same as standard + sets perimeter false
+    private WorkerBuildMap updateBuildMapHestia(Worker worker) throws UnableToBuildException {
+        WorkerBuildMap buildMap = worker.getBuildMap();
+        buildMap.resetMap();
+
+        buildMap.updateCellsOutOfMap();
+        buildMap.cannotBuildUnderneath();
+        buildMap.cannotBuildInOccupiedCell();
+
+        //only difference
+        buildMap.cannotBuildInPerimeter();
+
+        //buildMap.printMap();    //debugging
+
+        if (!buildMap.anyAvailableBuildPosition())
+            throw new UnableToBuildException();
+
+
+        return buildMap;
+
+    }
 
 
     public GodController getGodController() {
