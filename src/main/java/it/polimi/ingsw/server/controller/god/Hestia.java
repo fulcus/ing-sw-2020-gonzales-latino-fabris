@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.controller.god;
 
 import it.polimi.ingsw.server.controller.UnableToBuildException;
 import it.polimi.ingsw.server.controller.UnableToMoveException;
+import it.polimi.ingsw.server.controller.WinException;
 import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Cell;
 import it.polimi.ingsw.server.controller.GodController;
@@ -20,7 +21,7 @@ public class Hestia extends God {
 
 
     @Override
-    public void evolveTurn(Worker w) throws UnableToMoveException, UnableToBuildException {
+    public void evolveTurn(Worker w) throws UnableToMoveException, UnableToBuildException, WinException {
         move(w);
         win(w);
         build(w);

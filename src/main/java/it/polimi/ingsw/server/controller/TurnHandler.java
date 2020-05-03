@@ -375,14 +375,19 @@ public class TurnHandler implements Runnable {
                 currentClient.killClient();
             }
 
+        } catch (WinException ex) {
+
+            gameController.winGame(currentPlayer);
+
         } finally {
 
             //if everyone else has lost, only player left wins
+            //if WinException is thrown, if is false
             if (players.size() == 1) {
+
                 //last player left has index 0
-                ViewClient winnerClient = players.get(0).getClient();
-                winnerClient.winningView();
-                winnerClient.killClient();
+                Player winner = players.get(0);
+                gameController.winGame(winner);
             }
 
             unableToMove = 0;    //reset it

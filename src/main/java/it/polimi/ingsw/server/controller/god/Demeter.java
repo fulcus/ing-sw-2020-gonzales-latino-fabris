@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.controller.god;
 import it.polimi.ingsw.server.controller.GodController;
 import it.polimi.ingsw.server.controller.UnableToBuildException;
 import it.polimi.ingsw.server.controller.UnableToMoveException;
+import it.polimi.ingsw.server.controller.WinException;
 import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Cell;
 import it.polimi.ingsw.server.model.Worker;
@@ -21,7 +22,7 @@ public class Demeter extends God {
     }
 
     @Override
-    public void evolveTurn(Worker w) throws UnableToBuildException, UnableToMoveException {
+    public void evolveTurn(Worker w) throws UnableToBuildException, UnableToMoveException, WinException {
         move(w);
         win(w);
         firstBuildCell = firstBuild(w);

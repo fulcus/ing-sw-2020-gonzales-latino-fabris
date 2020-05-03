@@ -250,16 +250,6 @@ public class GodController {
 
 
     /**
-     * Allows to call the GameController to notify that a player has  won the game.
-     */
-    public void winGame(Player winner) {
-        gameController.winGame(winner);
-
-        System.exit(0);
-    }
-
-
-    /**
      * Allows to call the view to print the error screen
      */
     public void errorMoveScreen() {

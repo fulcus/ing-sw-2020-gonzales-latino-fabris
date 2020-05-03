@@ -22,7 +22,7 @@ public abstract class God {
      *
      * @param worker Selected worker that will act in the current turn.
      */
-    public void evolveTurn(Worker worker) throws UnableToMoveException, UnableToBuildException {
+    public void evolveTurn(Worker worker) throws UnableToMoveException, UnableToBuildException, WinException {
         move(worker);
         win(worker);
         build(worker);
@@ -110,7 +110,8 @@ public abstract class God {
      *
      * @param worker worker playing the turn.
      */
-    public void win(Worker worker) {
+    public void win(Worker worker) throws WinException {
+
         boolean won;
         boolean normalCondition = worker.getLevel() == 3 && worker.getLevelVariation() == 1;
         if (worker.getPlayer().getCanWinInPerimeter())
@@ -120,7 +121,8 @@ public abstract class God {
 
 
         if (won)
-            godController.winGame(worker.getPlayer());
+            throw new WinException();
+
     }
 
 

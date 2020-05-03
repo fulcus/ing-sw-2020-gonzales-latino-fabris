@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.controller.god;
 
 import it.polimi.ingsw.server.controller.GodController;
+import it.polimi.ingsw.server.controller.WinException;
 import it.polimi.ingsw.server.model.Worker;
 
 public class Pan extends God{
@@ -14,7 +15,7 @@ public class Pan extends God{
 
 
     @Override
-    public void win(Worker worker){
+    public void win(Worker worker) throws WinException {
 
         boolean won;
         boolean normalCondition = worker.getLevel() == 3 && worker.getLevelVariation() == 1 || worker.getLevelVariation() <= -2;
@@ -25,7 +26,8 @@ public class Pan extends God{
             won = normalCondition && !worker.getPosition().isInPerimeter();
 
         if (won)
-            godController.winGame(worker.getPlayer());
+            throw new WinException();
+
     }
 
     @Override

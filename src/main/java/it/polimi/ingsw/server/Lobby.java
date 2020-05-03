@@ -8,9 +8,13 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Represents the lobby, where clients can join existing games or create new ones.
+ */
 public class Lobby {
+
     private final ArrayList<GameController> games;
-    private static GameController availableGame;
+    private GameController availableGame;
     private int connectedToAvailableGame;
 
     public Lobby() {
@@ -18,8 +22,12 @@ public class Lobby {
         availableGame = null;
     }
 
-
-    public void allocatePlayer(Socket clientSocket) {
+    /**
+     * Allocates to a game, or creates a new one if all games are full.
+     *
+     * @param clientSocket client to allocate to a game.
+     */
+    public void allocateClient(Socket clientSocket) {
 
 
         //no existing games available (full or first client to connect to server)
@@ -51,7 +59,7 @@ public class Lobby {
 
             //waits for all players to finish adding their player ie setting nickname and color
             //sets availableGame null
-            if(connectedToAvailableGame == availableGame.getGame().getNumberOfPlayers()) {
+            if (connectedToAvailableGame == availableGame.getGame().getNumberOfPlayers()) {
 
                 gameExecutor.shutdown();
 
@@ -69,8 +77,8 @@ public class Lobby {
                 }
 
                 TurnHandler gameTurnHandler = availableGame.getTurnHandler();
-                Thread turnThread = new Thread(gameTurnHandler);
-                turnThread.start();
+                new Thread(gameTurnHandler).start();
+
 
                 availableGame = null;
 

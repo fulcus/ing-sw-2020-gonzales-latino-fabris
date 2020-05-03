@@ -18,11 +18,11 @@ public class GameController {
     private TurnHandler turnHandler;
     private GodController godController;
     private final ArrayList<God> godsDeck;
-    private volatile int playersConnected;
+    //private volatile int playersConnected;
     private final ExecutorService executorPlayerAdder;
 
     public GameController() {
-        playersConnected = 0;
+        //playersConnected = 0;
         game = null;
         turnHandler = null;
         //viewSelector = new ViewSelector();
@@ -67,7 +67,7 @@ public class GameController {
      * @param client View of the new player.
      */
     public synchronized void addPlayer(ViewClient client) {
-        playersConnected++;
+        //playersConnected++;
 
         //prints client connected in server
         client.connected();
@@ -193,7 +193,7 @@ public class GameController {
 
     public void winGame(Player winner) {
         //winningView and losingView are blocking since they must return boolean (although unused)
-        ViewClient winnerClient = turnHandler.getCurrentPlayer().getClient();
+        ViewClient winnerClient = winner.getClient();
 
         //print "you have won" in winner view
         winnerClient.winningView();
@@ -207,10 +207,6 @@ public class GameController {
                 player.getClient().killClient();
             }
         }
-
-
-
-        System.exit(0);
     }
 
     public ArrayList<God> getGodsDeck() {
@@ -229,9 +225,10 @@ public class GameController {
         return turnHandler;
     }
 
+    /*
     public synchronized int getPlayersConnected() {
         return playersConnected;
-    }
+    }*/
 
     public ExecutorService getExecutorPlayerAdder() {
         return executorPlayerAdder;

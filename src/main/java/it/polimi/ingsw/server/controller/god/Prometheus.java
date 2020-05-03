@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.controller.god;
 import it.polimi.ingsw.server.controller.GodController;
 import it.polimi.ingsw.server.controller.UnableToBuildException;
 import it.polimi.ingsw.server.controller.UnableToMoveException;
+import it.polimi.ingsw.server.controller.WinException;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.Worker;
 
@@ -18,7 +19,7 @@ public class Prometheus extends God {
 
 
     @Override
-    public void evolveTurn(Worker worker) throws UnableToMoveException, UnableToBuildException {
+    public void evolveTurn(Worker worker) throws UnableToMoveException, UnableToBuildException, WinException {
         buildBefore(worker);
         move(worker);
         win(worker);

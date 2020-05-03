@@ -5,15 +5,19 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 
-
+/**
+ * Server of the game.
+ */
 public class Server implements Runnable {
 
     public final static int SOCKET_PORT = 7777;
+
     private final Lobby lobby;
     private int clientsConnected;
 
     public Server() {
         lobby = new Lobby();
+        clientsConnected = 0;
     }
 
     public static void main(String[] args) {
@@ -27,11 +31,10 @@ public class Server implements Runnable {
 
         ServerSocket socket;
 
-
         try {
             socket = new ServerSocket(SOCKET_PORT);
-        } catch (IOException e) {
 
+        } catch (IOException e) {
             System.out.println("cannot open server socket");
             System.exit(1);
             return;
@@ -43,26 +46,18 @@ public class Server implements Runnable {
 
             try {
 
-                //accept everyone, then put them in the first available game
+                //accept everyone, and put them in the first available game
                 //if all games are full, let him create a new one
                 Socket client = socket.accept();
-
 
                 clientsConnected++;
                 System.out.println("client " + clientsConnected + " connected");
 
-
-                lobby.allocatePlayer(client);
-
+                lobby.allocateClient(client);
 
             } catch (IOException e) {
                 System.out.println("connection dropped");
             }
-
         }
-
     }
-
-
-
 }
