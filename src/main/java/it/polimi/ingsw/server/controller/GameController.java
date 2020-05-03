@@ -6,6 +6,8 @@ import it.polimi.ingsw.server.controller.god.*;
 
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Controls the flow of the setup of the game.
@@ -16,12 +18,17 @@ public class GameController {
     private TurnHandler turnHandler;
     private GodController godController;
     private final ArrayList<God> godsDeck;
+    private volatile int playersConnected;
+    private final ExecutorService executorPlayerAdder;
 
     public GameController() {
+        playersConnected = 0;
         game = null;
         turnHandler = null;
         //viewSelector = new ViewSelector();
         godsDeck = new ArrayList<>(14);
+        executorPlayerAdder = Executors.newCachedThreadPool();
+
     }
 
 
@@ -59,7 +66,16 @@ public class GameController {
      *
      * @param client View of the new player.
      */
-    public void addPlayer(ViewClient client) {
+    public synchronized void addPlayer(ViewClient client) {
+        playersConnected++;
+
+        //prints client connected in server
+        client.connected();
+        //cannot accept other clients before writing "start"
+        client.beginningView();
+
+
+
         setUpObserverView(client);
 
         setPlayerNickname(client);
@@ -211,6 +227,14 @@ public class GameController {
 
     public TurnHandler getTurnHandler() {
         return turnHandler;
+    }
+
+    public synchronized int getPlayersConnected() {
+        return playersConnected;
+    }
+
+    public ExecutorService getExecutorPlayerAdder() {
+        return executorPlayerAdder;
     }
 
 }

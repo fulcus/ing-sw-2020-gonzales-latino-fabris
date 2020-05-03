@@ -8,7 +8,8 @@ import it.polimi.ingsw.server.model.Worker;
 
 import java.util.ArrayList;
 
-public class TurnHandler {
+public class TurnHandler implements Runnable {
+
     private final Game game;
     private ViewClient currentClient;
     private final GameController gameController;
@@ -26,6 +27,12 @@ public class TurnHandler {
         this.gameController = gameController;
         this.players = game.getPlayers();
         numberOfPlayers = game.getNumberOfPlayers();
+    }
+
+    @Override
+    public void run() {
+        setUpTurns();
+        startTurnFlow();
     }
 
 
@@ -95,8 +102,8 @@ public class TurnHandler {
 
         for (Player player : players) {
 
-            for(Player otherPlayer : players) {
-                if(otherPlayer != player)
+            for (Player otherPlayer : players) {
+                if (otherPlayer != player)
                     otherPlayer.getClient().waitOtherPlayerChooseGod(player.getNickname());
             }
 
@@ -110,7 +117,7 @@ public class TurnHandler {
                 chosenGods.add(god.toString());
             }
 
-            if(player != game.getChallenger())
+            if (player != game.getChallenger())
                 playerClient.printChosenGods(chosenGods);
 
 
@@ -127,9 +134,9 @@ public class TurnHandler {
                         alreadyTakenGods.add(god);
                         foundGod = true;
 
-                        for(Player otherPlayer : players) {
-                            if(otherPlayer != player)
-                                otherPlayer.getClient().otherPlayerChoseGod(player.getNickname(),god.toString());
+                        for (Player otherPlayer : players) {
+                            if (otherPlayer != player)
+                                otherPlayer.getClient().otherPlayerChoseGod(player.getNickname(), god.toString());
                         }
                     }
 
@@ -157,9 +164,7 @@ public class TurnHandler {
         challengerClient.startYourTurn();
 
 
-
-
-        for(Player otherPlayer : players) {
+        for (Player otherPlayer : players) {
             if (otherPlayer != challenger)
                 otherPlayer.getClient().waitChallengerStartPlayer();
         }
@@ -180,7 +185,7 @@ public class TurnHandler {
                 challengerClient.invalidStartPlayer();
         }
 
-        for(Player otherPlayer : players) {
+        for (Player otherPlayer : players) {
             if (otherPlayer != challenger)
                 otherPlayer.getClient().printStartPlayer(startPlayerNick);
         }
@@ -205,8 +210,8 @@ public class TurnHandler {
 
         for (Player player : players) {
 
-            for(Player otherPlayer : players) {
-                if(otherPlayer != player)
+            for (Player otherPlayer : players) {
+                if (otherPlayer != player)
                     otherPlayer.getClient().otherPlayerSettingInitialWorkerPosition(player.getNickname());
             }
 
@@ -214,7 +219,7 @@ public class TurnHandler {
 
             playerClient.startYourTurn();
 
-            if(players.indexOf(player)==0)
+            if (players.indexOf(player) == 0)
                 playerClient.printMap();
 
             for (Worker worker : player.getWorkers()) {
@@ -289,8 +294,8 @@ public class TurnHandler {
                 losePlayer();
          */
 
-            for(Player otherPlayer : players) {
-                if(otherPlayer != currentPlayer)
+            for (Player otherPlayer : players) {
+                if (otherPlayer != currentPlayer)
                     otherPlayer.getClient().otherPlayerTurn(currentPlayer.getNickname());
             }
 
