@@ -5,6 +5,7 @@ import it.polimi.ingsw.serializableObjects.WorkerClient;
 import it.polimi.ingsw.server.model.*;
 
 import java.util.ArrayList;
+import java.util.IllegalFormatException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -35,6 +36,33 @@ public class CLIView {
     public void setPlayer(String nickname) {
         this.playerNickname = nickname;
     }
+
+    public String getServerAddress() {
+
+        System.out.println("Insert Server IP");
+        return input.nextLine();
+
+       /* while (true) {
+
+            inputIP = input.nextLine();
+
+            String[] tokens = inputIP.split(".");
+
+            if(tokens.length != 4)
+                System.out.println("Invalid input.1");
+
+            try {
+                for (String t : tokens)
+                    if(!(t instanceof int))
+
+                return inputIP;
+            }catch(NumberFormatException e){
+                System.out.println("Invalid input2.");
+            }*/
+
+
+    }
+
 
     /**
      * This method displays to the user Initial Game Interface
