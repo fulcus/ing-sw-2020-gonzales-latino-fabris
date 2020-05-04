@@ -23,11 +23,10 @@ import java.util.concurrent.TimeUnit;
 public class Client implements Runnable, ServerObserver {
 
     private CLIView clientCLIView;
-    private final Scanner scanner;
     private Socket server;
 
     public Client() {
-        scanner = new Scanner(System.in);
+
         server = null;
         clientCLIView = null;
     }
@@ -43,19 +42,19 @@ public class Client implements Runnable, ServerObserver {
     @Override
     public void run() {
 
-        System.out.println("IP address of server?");
-        String ip = scanner.nextLine();
+        setUpView();
+
+        String IP = clientCLIView.getServerAddress();
+
 
         //open a connection to the server
         try {
-            server = new Socket(ip, Server.SOCKET_PORT);
+            server = new Socket(IP, Server.SOCKET_PORT);
         } catch (IOException e) {
             System.out.println("server unreachable");
             return;
         }
         System.out.println("Connected");
-
-        setUpView();
 
         NetworkHandler networkHandler = new NetworkHandler(server, this);
         Thread networkHandlerThread = new Thread(networkHandler);
@@ -66,6 +65,7 @@ public class Client implements Runnable, ServerObserver {
         Thread heartBeatThread = new Thread(heartBeat);
         heartBeatThread.start();
 
+
     }
 
 
@@ -75,6 +75,7 @@ public class Client implements Runnable, ServerObserver {
     public void setUpView() {
 
         String selectedView;
+        Scanner scanner = new Scanner(System.in);
 
         while (true) {
 

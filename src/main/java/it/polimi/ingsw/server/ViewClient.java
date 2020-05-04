@@ -566,15 +566,9 @@ public class ViewClient implements ClientViewObserver {
             //flush?
             output.writeObject(message);
 
-
-            do {
-
-                receivedObject = input.getReceivedObject();
-
-            } while (receivedObject == null);
+            receivedObject = input.getObjectsQueue().take();
 
             System.out.println("received general view client object");
-            input.resetReceivedObject();
 
             return receivedObject;
 
@@ -582,6 +576,8 @@ public class ViewClient implements ClientViewObserver {
             System.out.println("server has died");
         } catch (ClassCastException e) {
             System.out.println("protocol violation");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
         //todo handle exception better

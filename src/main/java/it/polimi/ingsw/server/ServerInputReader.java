@@ -7,11 +7,12 @@ import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.concurrent.SynchronousQueue;
 
 public class ServerInputReader implements Runnable {
 
     private final Socket clientSocket;
-    private volatile Object receivedObject;
+    private volatile SynchronousQueue<Object> receivedObjects;
     private boolean connected;
     private ObjectInputStream input;
     private int n;
@@ -19,8 +20,9 @@ public class ServerInputReader implements Runnable {
     public ServerInputReader(Socket clientSocket) {
 
         this.clientSocket = clientSocket;
-        receivedObject = null;
+        receivedObjects = new SynchronousQueue<>();
         connected = true;
+
 
 
         try {
@@ -30,13 +32,10 @@ public class ServerInputReader implements Runnable {
 
     }
 
-    public Object getReceivedObject() {
-        return receivedObject;
+    public SynchronousQueue<Object> getObjectsQueue() {
+        return receivedObjects;
     }
 
-    public void resetReceivedObject() {
-        receivedObject = null;
-    }
 
     @Override
     public void run() {
@@ -50,18 +49,13 @@ public class ServerInputReader implements Runnable {
 
 
         while (connected) {
-/*
-            while (receivedObject != null) {
-                //if a message has been received, wait sendMessageWithreturn to get it
-            }
-*/
+
 
             try {
 
-                //meglio mettere in una struttura tipo coda o stream
-
-
                 Object readObject = input.readObject();
+
+                clientSocket.setSoTimeout(15000);
 
 
                 if (readObject instanceof Message) {
@@ -69,7 +63,6 @@ public class ServerInputReader implements Runnable {
                     Message readMessage = (Message) readObject;
 
                     if (readMessage.getMethod().toUpperCase().equals("PING")) {
-                        clientSocket.setSoTimeout(15000);
                         System.out.println("Ping Received from " + clientSocket.getInetAddress());
                     }
 
@@ -78,10 +71,10 @@ public class ServerInputReader implements Runnable {
 
                 } else {
 
-                    clientSocket.setSoTimeout(15000);
 
                    // System.out.println("Thread reader received an object");
-                    receivedObject = readObject;
+                    receivedObjects.add(readObject);
+
                 //    System.out.println("Received:"+ receivedObject);
 
                 }
