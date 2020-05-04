@@ -58,8 +58,7 @@ public class Hestia extends God {
 
             if (buildMap.isAllowedToBuildBoard(xBuild, yBuild)) {
 
-
-                //build Dome  and fix the condition that if the worker wants to build underneath
+                //build Dome and fix the condition that if the worker wants to build underneath
                 //and the building will be a dome won't be allowed
 
                 if (buildPosition.getLevel() == 3) {
@@ -77,7 +76,6 @@ public class Hestia extends God {
 
             } else
                 godController.errorBuildScreen();
-
 
             // If I don't want to build anymore I quit the method
             if (!godController.errorBuildDecisionScreen())

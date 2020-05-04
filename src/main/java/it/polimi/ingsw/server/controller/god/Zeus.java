@@ -6,7 +6,7 @@ import it.polimi.ingsw.server.model.Worker;
 import it.polimi.ingsw.server.model.WorkerBuildMap;
 
 
-public class Zeus extends God{
+public class Zeus extends God {
 
     public final String description = "Your Worker may build a block under itself.";
 
@@ -24,13 +24,14 @@ public class Zeus extends God{
         buildMap.cannotBuildInOccupiedCell();
         //WARNING: previous rule (cannotBuildInOccupiedCell) forbids worker to build in his own position
         //but canBuildUnderneath overwrites the previous rule to allow worker to build underneath himself
-        godController.allowBuildUnderneath();
         buildMap.canBuildUnderneath();
 
-        //buildMap.printMap();
+        //buildMap.printMap();  //debug
 
-        if(!buildMap.anyAvailableBuildPosition())
+        if (!buildMap.anyAvailableBuildPosition())
             throw new UnableToBuildException();
+
+        godController.allowBuildUnderneath();
 
         return buildMap;
     }

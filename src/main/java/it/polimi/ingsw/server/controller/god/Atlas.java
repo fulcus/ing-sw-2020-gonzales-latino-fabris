@@ -11,7 +11,6 @@ public class Atlas extends God {
 
     public final String description = "Your Worker may build a dome at any level.";
 
-
     public Atlas(GodController godController) {
         super(godController);
     }

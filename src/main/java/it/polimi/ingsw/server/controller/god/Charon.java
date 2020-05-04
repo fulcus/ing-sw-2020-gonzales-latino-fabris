@@ -30,6 +30,7 @@ public class Charon extends God {
 
     public void forceMoveEnemy(Worker worker) throws UnableToMoveException {
 
+        //if worker cannot move, throw exception without waiting for move()
         updateMoveMap(worker);
 
         Board board = worker.getPlayer().getGame().getBoard();
@@ -53,13 +54,10 @@ public class Charon extends God {
                     movableNeighboringEnemies.add(enemy);
             }
 
-            //now movableNeighboringEnemies there are only enemy workers that can be displaced
-
+            //movableNeighboringEnemies are only enemy workers that can be displaced
             if (!movableNeighboringEnemies.isEmpty()) {
 
-                boolean moveEnemy = godController.wantToMoveEnemy();
-
-                if (!moveEnemy)
+                if (!godController.wantToMoveEnemy())
                     return;
 
                 Worker enemyToMove = godController.forceMoveEnemy(movableNeighboringEnemies, worker);

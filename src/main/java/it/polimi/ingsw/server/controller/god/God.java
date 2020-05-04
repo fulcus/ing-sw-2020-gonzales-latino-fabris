@@ -82,7 +82,7 @@ public abstract class God {
                 Cell buildPosition = board.findCell(xBuild, yBuild);
 
                 //build Dome and check that in case the worker wants to build underneath
-                //building a dome won't be allowed
+                //building a dome won't be allowed. for zeus.
 
                 //todo if(buildPosition.equals(worker.getPosition()))
                 // print: cannot build a dome underneath

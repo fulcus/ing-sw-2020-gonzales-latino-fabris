@@ -9,50 +9,48 @@ import it.polimi.ingsw.server.model.Worker;
 import it.polimi.ingsw.server.model.WorkerMoveMap;
 
 
-public class Triton extends God{
+public class Triton extends God {
 
     public final String description = "Each time your Worker moves into a perimeter space, it may immediately move again.";
-
     private Cell initialPosition;
 
     public Triton(GodController godController) {
         super(godController);
     }
 
+    @Override
     public void evolveTurn(Worker worker) throws UnableToMoveException, UnableToBuildException, WinException {
-
-        initialPosition = worker.getPosition();
 
         move(worker);
         win(worker);
 
-        while(worker.getPosition().isInPerimeter()) {
-            initialPosition = worker.getPosition();
+        initialPosition = worker.getPosition();
+
+        while (initialPosition.isInPerimeter()) {
+
             if (!godController.wantToMoveAgain())
                 break;
+
             moveAgain(worker);
+            initialPosition = worker.getPosition();
             win(worker);
         }
-        //win(worker);
+
         build(worker);
     }
 
 
     private void moveAgain(Worker worker) {
 
-        /*if (!godController.wantToMoveAgain())
+        WorkerMoveMap moveMap;
+        try {
+            moveMap = updateMoveMap(worker);
+        } catch (UnableToMoveException ex) {
+            godController.errorMoveScreen();
             return;
-         */
+        }
 
         while (true) {
-
-            WorkerMoveMap moveMap;
-            try {
-                moveMap = updateMoveMap(worker);
-            } catch (UnableToMoveException ex) {
-                godController.errorMoveScreen();
-                return;
-            }
 
             int[] secondMovePosition = godController.getInputMove();
             int xMove = secondMovePosition[0] + worker.getPosition().getX();
@@ -60,7 +58,8 @@ public class Triton extends God{
 
             Cell secondMoveCell = worker.getPlayer().getGame().getBoard().findCell(xMove, yMove);
 
-            if (secondMoveCell != initialPosition && moveMap.isAllowedToMoveBoard(xMove,yMove)) {
+            if (secondMoveCell != initialPosition && moveMap.isAllowedToMoveBoard(xMove, yMove)) {
+
                 worker.setPosition(xMove, yMove);
                 godController.displayBoard();
                 return;

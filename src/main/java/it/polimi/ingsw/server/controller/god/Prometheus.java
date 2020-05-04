@@ -31,9 +31,10 @@ public class Prometheus extends God {
     private void buildBefore(Worker worker) throws UnableToMoveException {
 
         Player player = worker.getPlayer();
+        //save canMoveUp in case athena set it to false
         canMoveUpBefore = player.getCanMoveUp();
 
-        //if worker cannot move, throw exception without waiting move()
+        //if worker cannot move, throw exception without waiting for move()
         updateMoveMap(worker);
 
 

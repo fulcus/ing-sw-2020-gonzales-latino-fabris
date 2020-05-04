@@ -16,7 +16,7 @@ public class Minotaur extends God {
     public final String description = "Your Worker may move into an opponent Worker’s space, if their Worker can be forced one space straight backwards to an unoccupied space at any level.";
 
 
-    public Minotaur(GodController godController){
+    public Minotaur(GodController godController) {
         super(godController);
     }
 
@@ -32,6 +32,7 @@ public class Minotaur extends God {
         Board map = worker.getPlayer().getGame().getBoard();
 
         while (true) {
+
             int[] movePosition = godController.getInputMove();
             int xMove = movePosition[0] + worker.getPosition().getX();
             int yMove = movePosition[1] + worker.getPosition().getY();
@@ -43,16 +44,18 @@ public class Minotaur extends God {
             Cell moveCell = map.findCell(xMove, yMove);
 
             Worker enemyWorker;
-
-            if (moveMap.isAllowedToMoveBoard(xMove, yMove)) {   //if moveCell doesn't exist returns false
+            //if moveCell doesn't exist returns false
+            if (moveMap.isAllowedToMoveBoard(xMove, yMove)) {
 
                 //forces enemy back and puts worker in its former place
                 if (moveCell.hasWorker()) {    //moveMap rules assure that worker in moveCell is enemy
+
                     enemyWorker = moveCell.getWorker();
                     Cell newEnemyPosition = map.findCell(2 * xMove - xWorker, 2 * yMove - yWorker);
 
                     //checks if enemy can move in cell
                     if (newEnemyPosition != null && !newEnemyPosition.isOccupied()) {
+
                         enemyWorker.setPosition(newEnemyPosition);
                         worker.setPosition(moveCell);
                         godController.displayBoard();
@@ -69,8 +72,6 @@ public class Minotaur extends God {
 
             } else
                 godController.errorMoveScreen();
-
-
 
         }
     }
@@ -90,7 +91,7 @@ public class Minotaur extends God {
         //moveMap.printMap();    //debugging
 
 
-        if(!moveMap.anyAvailableMovePosition())
+        if (!moveMap.anyAvailableMovePosition())
             throw new UnableToMoveException();
 
         return moveMap;

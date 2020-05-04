@@ -21,6 +21,7 @@ public class Apollo extends God {
         moveSwap(worker);
     }
 
+
     private void moveSwap(Worker worker) throws UnableToMoveException {
 
         WorkerMoveMap moveMap = updateMoveMap(worker);
