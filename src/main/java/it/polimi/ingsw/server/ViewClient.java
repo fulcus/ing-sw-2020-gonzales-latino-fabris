@@ -566,8 +566,6 @@ public class ViewClient implements ClientViewObserver {
 
             receivedObject = input.getObjectsQueue().take();
 
-            input.resetReceivedObject();
-
             return receivedObject;
 
         } catch (IOException e) {
