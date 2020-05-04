@@ -9,15 +9,14 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.concurrent.SynchronousQueue;
 
-public class ServerInputReader implements Runnable {
+public class ClientInputReader implements Runnable {
 
     private final Socket clientSocket;
     private volatile SynchronousQueue<Object> receivedObjects;
     private boolean connected;
     private ObjectInputStream input;
-    private int n;
 
-    public ServerInputReader(Socket clientSocket) {
+    public ClientInputReader(Socket clientSocket) {
 
         this.clientSocket = clientSocket;
         receivedObjects = new SynchronousQueue<>();
@@ -91,9 +90,9 @@ public class ServerInputReader implements Runnable {
                 //reset game senza il giocatore
                 //se il gioco è in 3, si riorganizza, notifica agli altri players
                 //se il gioco è in 2, il gioco non puo andare avanti
+                //MANCA DISCONNESSIONE: killClient e print other players
 
-
-                e.printStackTrace();
+                //e.printStackTrace();
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }

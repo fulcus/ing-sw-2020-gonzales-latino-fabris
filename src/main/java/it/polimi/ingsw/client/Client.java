@@ -12,9 +12,6 @@ import java.lang.reflect.Method;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -61,7 +58,7 @@ public class Client implements Runnable, ServerObserver {
         networkHandlerThread.start();
 
 
-        HeartBeat heartBeat = new HeartBeat(networkHandler);
+        Heartbeat heartBeat = new Heartbeat(networkHandler);
         Thread heartBeatThread = new Thread(heartBeat);
         heartBeatThread.start();
 

@@ -16,11 +16,13 @@ public class TurnHandler implements Runnable {
     private final ArrayList<Player> players;
     private Player currentPlayer;
     private Integer numberOfPlayers;    //is it updated when game.numberOfPlayers is decreased?
-    int unableToMove;
-    int unableToBuild;
+    private int unableToMove;
+    private int unableToBuild;
+    private boolean gameAlive;
 
 
     public TurnHandler(Game game, GameController gameController) {
+        gameAlive = true;
         this.game = game;
         currentPlayer = null;
         this.currentClient = null;
@@ -59,8 +61,6 @@ public class TurnHandler implements Runnable {
         }
 
 
-        challengerClient.startYourTurn();
-
         //lets challenger select the gods
         int alreadyChosenGods = 0;
         while (alreadyChosenGods < numberOfPlayers) {
@@ -87,8 +87,6 @@ public class TurnHandler implements Runnable {
                 challengerClient.challengerError(); //print: the god you typed doesn't exist
         }
 
-        challengerClient.endTurn();
-
     }
 
     /**
@@ -110,8 +108,6 @@ public class TurnHandler implements Runnable {
 
             ViewClient playerClient = player.getClient();
             ArrayList<String> chosenGods = new ArrayList<>();
-
-            playerClient.startYourTurn();
 
             for (God god : game.getChosenGods()) {
                 chosenGods.add(god.toString());
@@ -145,7 +141,6 @@ public class TurnHandler implements Runnable {
                     playerClient.playerChoseInvalidGod();
             }
 
-            playerClient.endTurn();
         }
     }
 
@@ -160,8 +155,6 @@ public class TurnHandler implements Runnable {
         ViewClient challengerClient = challenger.getClient();
         String startPlayerNick = null;
         Player startPlayer = null;
-
-        challengerClient.startYourTurn();
 
 
         for (Player otherPlayer : players) {
@@ -198,7 +191,6 @@ public class TurnHandler implements Runnable {
         players.set(0, startPlayer);
         players.set(startPlayerIndex, temp);
 
-        challengerClient.endTurn();
     }
 
 
@@ -216,8 +208,6 @@ public class TurnHandler implements Runnable {
             }
 
             ViewClient playerClient = player.getClient();
-
-            playerClient.startYourTurn();
 
             if (players.indexOf(player) == 0)
                 playerClient.printMap();
@@ -249,7 +239,6 @@ public class TurnHandler implements Runnable {
                     player_.getClient().printMap();
             }
 
-            playerClient.endTurn();
         }
 
     }
@@ -273,13 +262,10 @@ public class TurnHandler implements Runnable {
         int cyclicalCounter = 0;
 
 
-        //noinspection InfiniteLoopStatement
-        while (true) {
+        while (gameAlive) {
 
             currentPlayer = players.get(cyclicalCounter);
             currentClient = currentPlayer.getClient();
-
-            currentClient.startYourTurn();
 
             gameController.getGodController().updateCurrentClient(currentClient);
 
@@ -302,7 +288,6 @@ public class TurnHandler implements Runnable {
             Worker chosenWorker = chooseWorker();
             turn(chosenWorker);
 
-            currentClient.endTurn();
 
             cyclicalCounter++;
             if (cyclicalCounter == numberOfPlayers)
@@ -340,6 +325,10 @@ public class TurnHandler implements Runnable {
             if (worker != turnWorker)
                 otherWorker = worker;
         }
+
+
+
+
 
         try {
 
@@ -398,6 +387,10 @@ public class TurnHandler implements Runnable {
 
     public Player getCurrentPlayer() {
         return currentPlayer;
+    }
+
+    public void stopTurnFlow() {
+        gameAlive = false;
     }
 
 }

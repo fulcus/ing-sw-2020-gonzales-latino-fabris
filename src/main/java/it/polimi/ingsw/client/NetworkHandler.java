@@ -17,7 +17,7 @@ public class NetworkHandler implements Runnable {
 
 
 
-    private boolean keepConnected;
+    private boolean connected;
     private Socket server;
     private ObjectOutputStream outputStm;
     private ObjectInputStream inputStm;
@@ -26,7 +26,7 @@ public class NetworkHandler implements Runnable {
 
     public NetworkHandler(Socket server, Client client) {
         this.server = server;
-        keepConnected = true;
+        connected = true;
         addObserver(client);
     }
 
@@ -43,8 +43,8 @@ public class NetworkHandler implements Runnable {
 
     }
 
-    public boolean isKeepConnected() {
-        return keepConnected;
+    public boolean isConnected() {
+        return connected;
     }
 
     public void addObserver(ServerObserver observer) {
@@ -66,7 +66,7 @@ public class NetworkHandler implements Runnable {
 
         init();
 
-        while (keepConnected) {
+        while (connected) {
 
             try {
 
@@ -101,9 +101,11 @@ public class NetworkHandler implements Runnable {
         if (receivedMessage == null)
             return null;
 
+        //kills network handler thread
+        //todo kill ping thread
         if (receivedMessage.getMethod().equals("shutdownClient")) {
-            keepConnected = false;
-            //
+            connected = false;
+
             return null;
         }
 

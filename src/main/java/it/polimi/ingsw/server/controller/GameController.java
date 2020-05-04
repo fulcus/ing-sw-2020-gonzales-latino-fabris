@@ -207,6 +207,8 @@ public class GameController {
                 player.getClient().killClient();
             }
         }
+
+        turnHandler.stopTurnFlow();
     }
 
     public ArrayList<God> getGodsDeck() {
