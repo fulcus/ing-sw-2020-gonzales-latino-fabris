@@ -8,11 +8,9 @@ import it.polimi.ingsw.server.controller.TurnHandler;
 import it.polimi.ingsw.server.model.*;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -27,7 +25,7 @@ public class ViewClient implements ClientViewObserver {
     private ObjectOutputStream output;
     private TurnHandler turnHandler;
     private boolean inGame;
-    private ServerInputReader input;
+    private ClientInputReader input;
 
     //private final List<ClientViewObserver> observers = new ArrayList<>();
 
@@ -36,7 +34,7 @@ public class ViewClient implements ClientViewObserver {
         this.socket = socket;
         this.gameController = gameController;
         inGame = true;
-        input = new ServerInputReader(socket);
+        input = new ClientInputReader(socket);
 
         try {
             output = new ObjectOutputStream(socket.getOutputStream());
@@ -573,7 +571,6 @@ public class ViewClient implements ClientViewObserver {
 
             } while (receivedObject == null);
 
-            System.out.println("received general view client object");
             input.resetReceivedObject();
 
             return receivedObject;
@@ -601,15 +598,6 @@ public class ViewClient implements ClientViewObserver {
         } catch (IOException e) {
             System.out.println("server has died");
         }
-    }
-
-
-    public void startYourTurn() {
-        sendMessage(new Message("startYourTurn"));
-    }
-
-    public void endTurn() {
-        sendMessage(new Message("endTurn"));
     }
 
 
