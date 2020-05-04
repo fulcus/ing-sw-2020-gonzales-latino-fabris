@@ -29,6 +29,11 @@ public class GodController {
     }
 
 
+    public ViewClient getCurrentClient() {
+        return currentClient;
+    }
+
+
     /**
      * This method translates compass directions (N,S,E,...) into coordinates.
      *
