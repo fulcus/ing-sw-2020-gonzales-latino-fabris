@@ -385,12 +385,19 @@ public class TurnHandler implements Runnable {
 
     }
 
+
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
 
+
     public void stopTurnFlow() {
         gameAlive = false;
+    }
+
+    //Useful for testing
+    public boolean getGameAlive() {
+        return gameAlive;
     }
 
 }

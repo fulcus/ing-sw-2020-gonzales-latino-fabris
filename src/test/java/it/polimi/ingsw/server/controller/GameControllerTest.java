@@ -1,13 +1,10 @@
 package it.polimi.ingsw.server.controller;
 
-import it.polimi.ingsw.serializableObjects.Message;
-import it.polimi.ingsw.server.model.Game;
+import it.polimi.ingsw.server.model.Color;
 import it.polimi.ingsw.server.model.Player;
 import org.junit.*;
 import it.polimi.ingsw.server.ViewClient;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
@@ -23,9 +20,6 @@ public class GameControllerTest {
     private ViewClient client2;
 
     @Mock
-    private TurnHandler turnHandler;
-
-    @Mock
     private Player player1;
 
     @Mock
@@ -39,11 +33,13 @@ public class GameControllerTest {
 
     }
 
+
     @After
     public void tearDown() {
         gameController = null;
-
+        client = null;
     }
+
 
     @Test
     public void setUpGame() {
@@ -65,47 +61,74 @@ public class GameControllerTest {
         doNothing().when(client).connected();
         doNothing().when(client).beginningView();
 
-        when(client.askPlayerNickname()).thenReturn("Nick1", "");
-        when(client.askPlayerColor()).thenReturn("BLUE");
-        //when(gameController.nicknameIsAvailable("Nick1")).thenReturn(true);
-        //when(gameController.nicknameIsAvailable("")).thenReturn(false);
+        when(client.askPlayerNickname()).thenReturn("", "Nick1");
+        when(client.askPlayerColor()).thenReturn("BLACK", "BEIGE");
+
+        doNothing().when(client).setPlayer(any(Player.class));
+
+        player1 = mock(Player.class);
+        when(client.getPlayer()).thenReturn(player1);
+        doNothing().when(player1).setColor(any(Color.class));
+
         doNothing().when(client).notAvailableNickname();
+        doNothing().when(client).notAvailableColor();
 
         gameController.addPlayer(client);
 
-        verify(client).connected();
-        verify(client).beginningView();
-
-        //assertEquals(gameController.getPlayersConnected(), 1);
-        assertTrue(gameController.getGame().getPlayers().size() > 0);
+        verify(client, times(1)).connected();
+        verify(client, times(1)).beginningView();
+        verify(client, times(1)).setPlayer(any(Player.class));
+        verify(client, times(1)).notAvailableNickname();
+        verify(client, times(1)).notAvailableColor();
 
     }
 
+
     @Test
     public void winGame() {
-        when(client.askNumberOfPlayers()).thenReturn(2);
+        when(client.askNumberOfPlayers()).thenReturn(3);
         gameController.setUpGame(client);
 
-        client = mock(ViewClient.class);
         client2 = mock(ViewClient.class);
+        player1 = mock(Player.class);
+        player2 = mock(Player.class);
 
-
-        //when(gameController.getGame().addPlayer(anyString(), client)).
-        player1 = gameController.getGame().addPlayer("Nick1", client);
-        player2 = gameController.getGame().addPlayer("Nick2", client2);
-
-        //when(gameController.getTurnHandler()).thenReturn(turnHandler);
-        //when(gameController.getTurnHandler().getCurrentPlayer()).thenReturn(player1);
-        when(player1.getClient()).thenReturn(client);
-        when(player2.getClient()).thenReturn(client2);
         when(client.winningView()).thenReturn(true);
         doNothing().when(client).killClient();
-        when(client2.losingView("Nick1")).thenReturn(true);
+        doNothing().when(client2).killClient();
+        when(client2.losingView(player1.getNickname())).thenReturn(true);
+
+        when(player2.getClient()).thenReturn(client2);
+        when(player1.getClient()).thenReturn(client, client);
+
+
+        //Setting the configuration for 2 players of the game and adding them to the game
+        when(client.askPlayerNickname()).thenReturn("Nick1");
+        when(client.askPlayerColor()).thenReturn("BEIGE");
+        when(client.getPlayer()).thenReturn(player1);
+        when(player1.getNickname()).thenReturn("Nick1");
+        doNothing().when(player1).setColor(any(Color.class));
+        doNothing().when(client).setPlayer(any(Player.class));
+        doNothing().when(client).connected();
+        doNothing().when(client).beginningView();
+        doNothing().when(client).setPlayer(any(Player.class));
+
+        when(client2.askPlayerNickname()).thenReturn("Nick2");
+        when(client2.askPlayerColor()).thenReturn("WHITE");
+        when(client2.getPlayer()).thenReturn(player2);
+        doNothing().when(player2).setColor(any(Color.class));
+        doNothing().when(client2).setPlayer(any(Player.class));
+        doNothing().when(client2).connected();
+        doNothing().when(client2).beginningView();
+        doNothing().when(client2).setPlayer(any(Player.class));
+
+        gameController.addPlayer(client);
+        gameController.addPlayer(client2);
+
 
         gameController.winGame(player1);
 
-        assertNull(gameController);
-
+        assertFalse(gameController.getTurnHandler().getGameAlive());
     }
 
 
@@ -116,12 +139,14 @@ public class GameControllerTest {
         assertNotNull(gameController.getGodsDeck());
     }
 
+
     @Test
     public void getGame() {
         when(client.askNumberOfPlayers()).thenReturn(2);
         gameController.setUpGame(client);
         assertNotNull(gameController.getGame());
     }
+
 
     @Test
     public void getGodController() {
@@ -130,6 +155,7 @@ public class GameControllerTest {
         assertNotNull(gameController.getGodController());
 
     }
+
 
     @Test
     public void getTurnHandler() {
