@@ -5,17 +5,16 @@ import it.polimi.ingsw.server.controller.god.Demeter;
 import it.polimi.ingsw.server.controller.god.Hephaestus;
 import it.polimi.ingsw.server.controller.god.Hestia;
 import it.polimi.ingsw.server.controller.god.Prometheus;
+import it.polimi.ingsw.server.model.Color;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.Worker;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-
-import java.util.ArrayList;
-
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
+
 
 public class GodControllerTest {
 
@@ -24,6 +23,9 @@ public class GodControllerTest {
 
     @Mock
     private Worker worker;
+
+    @Mock
+    private Player player;
 
     private GameController gameController;
     private GodController godController;
@@ -36,14 +38,15 @@ public class GodControllerTest {
         when(client.askNumberOfPlayers()).thenReturn(2);
         gameController.setUpGame(client);
         godController = new GodController(gameController);
-
     }
+
 
     @After
     public void tearDown() {
         gameController = null;
         godController = null;
     }
+
 
     @Test
     public void updateCurrentClient() {
@@ -53,12 +56,14 @@ public class GodControllerTest {
         assertEquals(godController.getCurrentClient(), client);
     }
 
+
     @Test
     public void getCurrentClient() {
         assertNull(godController.getCurrentClient());
         godController.updateCurrentClient(client);
         assertNotNull(godController.getCurrentClient());
     }
+
 
     @Test
     public void getInputInCoordinates() {
@@ -76,6 +81,7 @@ public class GodControllerTest {
         assertNull(godController.getInputInCoordinates("notAvailable"));
     }
 
+
     @Test
     public void getInputMove() {
         godController.updateCurrentClient(client);
@@ -83,6 +89,7 @@ public class GodControllerTest {
 
         assertNotNull(godController.getInputMove());
     }
+
 
     @Test
     public void wantToMoveAgain() {
@@ -92,6 +99,7 @@ public class GodControllerTest {
         assertTrue(godController.wantToMoveAgain());
     }
 
+
     @Test
     public void wantToMoveUp() {
         godController.updateCurrentClient(client);
@@ -100,6 +108,7 @@ public class GodControllerTest {
         assertTrue(godController.wantToMoveUp());
     }
 
+
     @Test
     public void wantToMoveEnemy() {
         godController.updateCurrentClient(client);
@@ -107,6 +116,7 @@ public class GodControllerTest {
 
         assertTrue(godController.wantToMoveEnemy());
     }
+
 
     @Test
     public void forceMoveEnemy() {
@@ -118,14 +128,34 @@ public class GodControllerTest {
         assertTrue(godController.forceMoveEnemy(playerTest.getWorkers(), worker) == null);
     }
 
+
     @Test
     public void displayBoard() {
-        gameController.addPlayer(client);
-        gameController.getGodController().displayBoard();
 
-        //TODO: funzionerà quando sarà messa a posto la add anche nel gameControllerTest
+        //Setting one player in the game
+        player = mock(Player.class);
+        doNothing().when(client).connected();
+        doNothing().when(client).beginningView();
+
+        when(client.askPlayerNickname()).thenReturn("Nick1");
+        when(client.askPlayerColor()).thenReturn("BEIGE");
+
+        doNothing().when(client).setPlayer(any(Player.class));
+
+        when(client.getPlayer()).thenReturn(player);
+        when(player.getClient()).thenReturn(client);
+        doNothing().when(player).setColor(any(Color.class));
+
+        gameController.addPlayer(client);
+
+
+        doNothing().when(client).printMap();
+
+        godController.displayBoard();
+
         verify(client).printMap();
     }
+
 
     @Test
     public void getBuildingInputAtlas() {
@@ -142,6 +172,7 @@ public class GodControllerTest {
 
     }
 
+
     @Test
     public void getBuildingInput() {
         godController.updateCurrentClient(client);
@@ -149,6 +180,7 @@ public class GodControllerTest {
 
         assertNotNull(godController.getBuildingInput());
     }
+
 
     @Test
     public void wantToBuildAgain() {
@@ -165,17 +197,32 @@ public class GodControllerTest {
 
     }
 
-    @Test
-    public void allowBuildUnderneath() {
-    }
 
     @Test
-    public void winGame() {
+    public void allowBuildUnderneath() {
+        godController.updateCurrentClient(client);
+        assertNotNull(godController.getCurrentClient());
+
+        doNothing().when(client).printBuildUnderneath();
+
+        godController.allowBuildUnderneath();
+
+        verify(client).printBuildUnderneath();
     }
+
 
     @Test
     public void errorMoveScreen() {
+        godController.updateCurrentClient(client);
+        assertNotNull(godController.getCurrentClient());
+
+        doNothing().when(client).printMoveErrorScreen();
+
+        godController.errorMoveScreen();
+
+        verify(client).printMoveErrorScreen();
     }
+
 
     @Test
     public void errorMoveDecisionScreen() {
@@ -185,6 +232,7 @@ public class GodControllerTest {
         assertTrue(godController.errorMoveDecisionScreen());
     }
 
+
     @Test
     public void errorBuildDecisionScreen() {
         godController.updateCurrentClient(client);
@@ -193,15 +241,43 @@ public class GodControllerTest {
         assertTrue(godController.errorBuildDecisionScreen());
     }
 
+
     @Test
     public void errorBuildInSamePosition() {
+        godController.updateCurrentClient(client);
+        assertNotNull(godController.getCurrentClient());
+
+        doNothing().when(client).printBuildInSamePositionScreen();
+
+        godController.errorBuildInSamePosition();
+
+        verify(client).printBuildInSamePositionScreen();
     }
+
 
     @Test
     public void errorBuildScreen() {
+        godController.updateCurrentClient(client);
+        assertNotNull(godController.getCurrentClient());
+
+        doNothing().when(client).printBuildGeneralErrorScreen();
+
+        godController.errorBuildScreen();
+
+        verify(client).printBuildGeneralErrorScreen();
     }
+
 
     @Test
     public void errorBuildBlockScreen() {
+        godController.updateCurrentClient(client);
+        assertNotNull(godController.getCurrentClient());
+
+        doNothing().when(client).printBuildBlockErrorScreen();
+
+        godController.errorBuildBlockScreen();
+
+        verify(client).printBuildBlockErrorScreen();
     }
+    
 }
