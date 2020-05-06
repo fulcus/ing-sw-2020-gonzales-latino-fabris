@@ -68,7 +68,7 @@ public class CLIView {
      */
     public void notifyOtherPlayerDisconnection(){
 
-        System.out.println("The opponent player has disconnected, your game ends now!");
+        System.out.println("\nThe opponent player has disconnected, your game ends now!");
         System.out.println("Goodbye");
     }
 
@@ -837,7 +837,7 @@ public class CLIView {
     public void waitChallengerChooseGods(String challenger) {
 
         this.challenger = challenger;
-        System.out.print(challenger + " is the Challenger and is choosing the gods for this game...\n");
+        System.out.print(challenger + " is the Challenger and is choosing the gods for this game...");
     }
 
     /**
@@ -848,7 +848,7 @@ public class CLIView {
     public void waitOtherPlayerChooseGod(String otherPlayer) {
         System.out.println();
 
-        System.out.print(otherPlayer + " is choosing his god...\n");
+        System.out.print(otherPlayer + " is choosing his god...");
     }
 
 
@@ -869,7 +869,7 @@ public class CLIView {
      */
     public void waitChallengerStartPlayer() {
         System.out.println();
-        System.out.print(challenger + " is choosing the start player...\n");
+        System.out.print(challenger + " is choosing the start player...");
     }
 
     /**
@@ -889,7 +889,7 @@ public class CLIView {
      */
     public void otherPlayerSettingInitialWorkerPosition(String player) {
         System.out.println();
-        System.out.print(player + " is placing his workers on the board...\n");
+        System.out.print(player + " is placing his workers on the board...");
     }
 
     /**
@@ -899,7 +899,7 @@ public class CLIView {
      */
     public void otherPlayerTurn(String currentPlayer) {
         System.out.println();
-        System.out.print(currentPlayer + " is playing his turn...\n");
+        System.out.print(currentPlayer + " is playing his turn...");
     }
 
     /**
