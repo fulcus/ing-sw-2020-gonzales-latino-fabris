@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Represents the lobby, where clients can join existing games or create new ones.
  */
-public class Lobby {
+public class Lobby  {
 
     private final ArrayList<GameController> games;
     private GameController availableGame;
@@ -27,7 +27,7 @@ public class Lobby {
      *
      * @param clientSocket client to allocate to a game.
      */
-    public void allocateClient(Socket clientSocket) {
+    public void allocateClient(Socket clientSocket)  {
 
 
         //no existing games available (full or first client to connect to server)
@@ -51,6 +51,8 @@ public class Lobby {
             availableGame = games.get(games.size() - 1);
 
             ViewClient newClient = new ViewClient(clientSocket, availableGame);
+
+
 
             ExecutorService gameExecutor = availableGame.getExecutorPlayerAdder();
 

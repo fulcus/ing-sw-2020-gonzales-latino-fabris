@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.serializableObjects.Message;
 
+
 import java.io.IOException;
 import java.util.TimerTask;
 import java.util.concurrent.Executors;
@@ -37,10 +38,14 @@ public class Heartbeat extends TimerTask implements Runnable {
     }
 
     public void sendPing() {
-        try {
-            networkHandler.handleClientResponse(pingMessage);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(networkHandler.isConnected()) {
+            try {
+                networkHandler.handleClientResponse(pingMessage);
+            } catch (IOException e) {
+                System.out.println("SEND PING CATCH");
+                //CAUGHT WHEN TRYING TO PING WHILE THE SOCKED HAS BEEN ALREADY CLOSED BY SHUTDOWN
+                e.printStackTrace();
+            }
         }
     }
 

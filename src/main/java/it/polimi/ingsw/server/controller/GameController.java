@@ -75,7 +75,6 @@ public class GameController {
         client.beginningView();
 
 
-
         setUpObserverView(client);
 
         setPlayerNickname(client);
@@ -200,9 +199,9 @@ public class GameController {
         winnerClient.killClient();
 
         //print "you have lost" in loser views
-        for(Player player : game.getPlayers()) {
+        for (Player player : game.getPlayers()) {
 
-            if(player != winner) {
+            if (player != winner) {
                 player.getClient().losingView(winner.getNickname());
                 player.getClient().killClient();
             }
@@ -234,6 +233,31 @@ public class GameController {
 
     public ExecutorService getExecutorPlayerAdder() {
         return executorPlayerAdder;
+    }
+
+    public void handleGameDisconnection() {
+
+        if (game.getNumberOfPlayers() == 2) {
+
+            for (Player player : game.getPlayers()) {
+                ViewClient client = player.getClient();
+
+                if (client.isInGame()) {
+                    client.notifyOtherPlayerDisconnection();
+                    client.killClient();//Sends shut down and sets inGame=false;
+                }
+
+            }
+
+
+        }
+        else{
+
+            //IF GAME HAS 3 players
+
+
+
+        }
     }
 
 }

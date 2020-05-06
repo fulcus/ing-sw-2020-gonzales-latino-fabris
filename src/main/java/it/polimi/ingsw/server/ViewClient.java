@@ -26,6 +26,7 @@ public class ViewClient implements ClientViewObserver {
     private TurnHandler turnHandler;
     private boolean inGame;
     private ClientInputReader input;
+    private final Thread inputReader;
 
     //private final List<ClientViewObserver> observers = new ArrayList<>();
 
@@ -34,15 +35,15 @@ public class ViewClient implements ClientViewObserver {
         this.socket = socket;
         this.gameController = gameController;
         inGame = true;
-        input = new ClientInputReader(socket);
+        input = new ClientInputReader(this);
 
         try {
             output = new ObjectOutputStream(socket.getOutputStream());
         } catch (IOException e) {}
 
-        Thread inputReaderThread = new Thread(input);
+        inputReader = new Thread(input);
 
-        inputReaderThread.start();
+        inputReader.start();
 
     }
 
@@ -55,6 +56,17 @@ public class ViewClient implements ClientViewObserver {
         return socket;
     }
 
+    public GameController getGameController() {
+        return gameController;
+    }
+
+    public boolean isInGame() {
+        return inGame;
+    }
+
+    public void setInGame(boolean inGame) {
+        this.inGame = inGame;
+    }
 
 
     /**
@@ -611,6 +623,10 @@ public class ViewClient implements ClientViewObserver {
 
         sendMessage(new Message("shutdownClient"));
         inGame = false;
+    }
+
+    public void notifyOtherPlayerDisconnection(){
+        sendMessage(new Message("notifyOtherPlayerDisconnection"));
     }
 
 

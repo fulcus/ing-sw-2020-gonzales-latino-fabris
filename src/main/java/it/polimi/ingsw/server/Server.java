@@ -53,6 +53,7 @@ public class Server implements Runnable {
                 clientsConnected++;
                 System.out.println("client " + clientsConnected + " connected");
 
+
                 lobby.allocateClient(client);
 
             } catch (IOException e) {

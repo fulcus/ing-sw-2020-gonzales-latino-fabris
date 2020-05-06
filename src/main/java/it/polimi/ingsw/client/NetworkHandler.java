@@ -21,13 +21,13 @@ public class NetworkHandler implements Runnable {
     private Socket server;
     private ObjectOutputStream outputStm;
     private ObjectInputStream inputStm;
-    private final List<ServerObserver> observers = new ArrayList<>();
+    private final Client client;
 
 
     public NetworkHandler(Socket server, Client client) {
         this.server = server;
         connected = true;
-        addObserver(client);
+        this.client = client;
     }
 
     public void init() {
@@ -45,19 +45,6 @@ public class NetworkHandler implements Runnable {
 
     public boolean isConnected() {
         return connected;
-    }
-
-    public void addObserver(ServerObserver observer) {
-
-        observers.add(observer);
-
-    }
-
-
-    public void removeObserver(ServerObserver observer) {
-
-        observers.remove(observer);
-
     }
 
 
@@ -83,6 +70,7 @@ public class NetworkHandler implements Runnable {
         try {
             server.close();
         } catch (IOException e) {
+            System.out.println("CATCH SERVER CLOSE");
             e.printStackTrace();
         }
     }
@@ -101,16 +89,12 @@ public class NetworkHandler implements Runnable {
         if (receivedMessage == null)
             return null;
 
-        //kills network handler thread
-        //todo kill ping thread
         if (receivedMessage.getMethod().equals("shutdownClient")) {
             connected = false;
-
             return null;
         }
 
-
-        return observers.get(0).update(receivedMessage);
+        return client.update(receivedMessage);
     }
 
 
