@@ -66,7 +66,7 @@ public class GameController {
      *
      * @param client View of the new player.
      */
-    public synchronized void addPlayer(ViewClient client) {
+    public void addPlayer(ViewClient client) {
         //playersConnected++;
 
         //prints client connected in server
@@ -101,7 +101,7 @@ public class GameController {
      *
      * @param client view of the player.
      */
-    private synchronized void setPlayerNickname(ViewClient client) {
+    private void setPlayerNickname(ViewClient client) {
 
         while (true) {
 
@@ -122,7 +122,7 @@ public class GameController {
      *
      * @param client view of the player.
      */
-    private synchronized void setPlayerColor(ViewClient client) {
+    private void setPlayerColor(ViewClient client) {
 
         boolean colorCorrectlyChosen = false;
 
