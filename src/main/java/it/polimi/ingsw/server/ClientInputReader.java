@@ -11,21 +11,21 @@ import java.util.concurrent.SynchronousQueue;
 
 public class ClientInputReader implements Runnable {
 
-    private final Socket clientSocket;
+    private final ViewClient client;
     private volatile SynchronousQueue<Object> receivedObjects;
     private boolean connected;
     private ObjectInputStream input;
 
-    public ClientInputReader(Socket clientSocket) {
+    public ClientInputReader(ViewClient client) {
 
-        this.clientSocket = clientSocket;
+        this.client = client;
         receivedObjects = new SynchronousQueue<>();
         connected = true;
 
 
 
         try {
-            input = new ObjectInputStream(clientSocket.getInputStream());
+            input = new ObjectInputStream(client.getSocket().getInputStream());
         } catch (IOException e) {
         }
 
@@ -37,8 +37,10 @@ public class ClientInputReader implements Runnable {
 
 
     @Override
-    public void run() {
+    public void run(){
 
+
+        Socket clientSocket = client.getSocket();
 
         try {
             clientSocket.setSoTimeout(15000);
@@ -70,12 +72,7 @@ public class ClientInputReader implements Runnable {
 
                 } else {
 
-
-                   // System.out.println("Thread reader received an object");
                     receivedObjects.add(readObject);
-
-                //    System.out.println("Received:"+ receivedObject);
-
                 }
 
 
@@ -83,21 +80,27 @@ public class ClientInputReader implements Runnable {
 
                 connected = false;
 
+                client.setInGame(false);
+
+                client.getGameController().handleGameDisconnection();
+
+                System.out.println(client.getPlayer().getNickname() + "disconnected");
+
+
                 //TODO REQUISITI SPECIFICA,PIAZZA, SHUT DOWN,(ATHENA e simili),
                 //TODO WAIT FRA
-                //Se scade timeout.
-                //gestione disconnessione
+
                 //reset game senza il giocatore
                 //se il gioco è in 3, si riorganizza, notifica agli altri players
                 //se il gioco è in 2, il gioco non puo andare avanti
-                //MANCA DISCONNESSIONE: killClient e print other players
 
-                //e.printStackTrace();
+
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
 
         }
+
     }
 
 

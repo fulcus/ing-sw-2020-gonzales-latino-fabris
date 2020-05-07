@@ -66,14 +66,13 @@ public class GameController {
      *
      * @param client View of the new player.
      */
-    public synchronized void addPlayer(ViewClient client) {
+    public void addPlayer(ViewClient client) {
         //playersConnected++;
 
         //prints client connected in server
         client.connected();
         //cannot accept other clients before writing "start"
         client.beginningView();
-
 
 
         setUpObserverView(client);
@@ -102,7 +101,7 @@ public class GameController {
      *
      * @param client view of the player.
      */
-    private synchronized void setPlayerNickname(ViewClient client) {
+    private void setPlayerNickname(ViewClient client) {
 
         while (true) {
 
@@ -123,7 +122,7 @@ public class GameController {
      *
      * @param client view of the player.
      */
-    private synchronized void setPlayerColor(ViewClient client) {
+    private void setPlayerColor(ViewClient client) {
 
         boolean colorCorrectlyChosen = false;
 
@@ -200,9 +199,9 @@ public class GameController {
         winnerClient.killClient();
 
         //print "you have lost" in loser views
-        for(Player player : game.getPlayers()) {
+        for (Player player : game.getPlayers()) {
 
-            if(player != winner) {
+            if (player != winner) {
                 player.getClient().losingView(winner.getNickname());
                 player.getClient().killClient();
             }
@@ -234,6 +233,31 @@ public class GameController {
 
     public ExecutorService getExecutorPlayerAdder() {
         return executorPlayerAdder;
+    }
+
+    public void handleGameDisconnection() {
+
+        if (game.getNumberOfPlayers() == 2) {
+
+            for (Player player : game.getPlayers()) {
+                ViewClient client = player.getClient();
+
+                if (client.isInGame()) {
+                    client.notifyOtherPlayerDisconnection();
+                    client.killClient();//Sends shut down and sets inGame=false;
+                }
+
+            }
+
+
+        }
+        else{
+
+            //IF GAME HAS 3 players
+
+
+
+        }
     }
 
 }

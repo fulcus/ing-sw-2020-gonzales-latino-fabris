@@ -17,7 +17,7 @@ import java.util.Scanner;
 /**
  * Client wants to play Santorini establishes a connection to the server.
  */
-public class Client implements Runnable, ServerObserver {
+public class Client implements Runnable {
 
     private CLIView clientCLIView;
     private Socket server;
@@ -61,6 +61,8 @@ public class Client implements Runnable, ServerObserver {
         Heartbeat heartBeat = new Heartbeat(networkHandler);
         Thread heartBeatThread = new Thread(heartBeat);
         heartBeatThread.start();
+
+
 
 
     }
@@ -269,7 +271,7 @@ public class Client implements Runnable, ServerObserver {
         }
     }
 
-    @Override
+
     public Object update(Message receivedMessage) {
         return callMethod(receivedMessage);
     }
