@@ -41,8 +41,6 @@ public class Artemis extends God {
             moveMap = updateMoveMap(worker);
         } catch (UnableToMoveException ex) {
             godController.errorMoveScreen();
-            //todo print instead: you're not allowed to move again
-            // because cant move anywhere.
             return;
         }
 

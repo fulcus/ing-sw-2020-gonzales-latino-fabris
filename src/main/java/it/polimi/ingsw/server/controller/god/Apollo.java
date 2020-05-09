@@ -18,11 +18,6 @@ public class Apollo extends God {
 
     @Override
     public void move(Worker worker) throws UnableToMoveException {
-        moveSwap(worker);
-    }
-
-
-    private void moveSwap(Worker worker) throws UnableToMoveException {
 
         WorkerMoveMap moveMap = updateMoveMap(worker);
 
@@ -49,7 +44,6 @@ public class Apollo extends God {
                 godController.errorMoveScreen();
             }
         }
-
     }
 
 
