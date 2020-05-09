@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.view;
+package it.polimi.ingsw.client.cli;
 
 import it.polimi.ingsw.serializableObjects.CellClient;
 import it.polimi.ingsw.server.model.Board;

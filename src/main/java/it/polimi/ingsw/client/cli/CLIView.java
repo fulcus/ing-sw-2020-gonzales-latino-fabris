@@ -1,12 +1,10 @@
-package it.polimi.ingsw.client.view;
+package it.polimi.ingsw.client.cli;
 
 import it.polimi.ingsw.serializableObjects.CellClient;
-import it.polimi.ingsw.serializableObjects.Message;
 import it.polimi.ingsw.serializableObjects.WorkerClient;
 import it.polimi.ingsw.server.model.*;
 
 import java.util.ArrayList;
-import java.util.IllegalFormatException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -466,14 +464,14 @@ public class CLIView {
 
         String selectedView;
 
-        System.out.println("What kind of interface would you like to play with? CLI or GUI");
+        System.out.println("What kind of interface would you like to play with? CLI or Gui");
 
         while (true) {
 
             selectedView = input.nextLine().toUpperCase();
 
-            if (!(selectedView.equals("CLI") || selectedView.equals("GUI")))
-                System.out.println("Invalid interface. Type CLI or GUI");
+            if (!(selectedView.equals("CLI") || selectedView.equals("Gui")))
+                System.out.println("Invalid interface. Type CLI or Gui");
 
             else
                 break;

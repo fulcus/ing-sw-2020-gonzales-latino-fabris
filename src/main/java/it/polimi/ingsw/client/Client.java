@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.client.view.CLIView;
+import it.polimi.ingsw.client.cli.CLIView;
 import it.polimi.ingsw.serializableObjects.CellClient;
 import it.polimi.ingsw.serializableObjects.Message;
 import it.polimi.ingsw.serializableObjects.WorkerClient;
@@ -78,7 +78,7 @@ public class Client implements Runnable {
 
         while (true) {
 
-            System.out.println("Choose your view mode: CLI or GUI? Type it here: ");
+            System.out.println("Choose your view mode: CLI or Gui? Type it here: ");
 
             selectedView = scanner.nextLine();
 
@@ -86,7 +86,7 @@ public class Client implements Runnable {
                 clientCLIView = new CLIView();
                 return;
             }
-            /*if (viewMode.toUpperCase().equals("GUI"))
+            /*if (viewMode.toUpperCase().equals("Gui"))
                create gui
                return;
              */

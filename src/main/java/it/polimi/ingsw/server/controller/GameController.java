@@ -37,12 +37,11 @@ public class GameController {
      */
     public synchronized void setUpGame(ViewClient firstClient) {
 
-
         /*String viewType = viewSelector.askTypeofView();
 
         if (viewType.toUpperCase().equals("CLI"))
 
-        else if(viewType.toUpperCase().equals("GUI"))
+        else if(viewType.toUpperCase().equals("Gui"))
             view = new GUIMainView(this);
         else
             viewSelector.genericError();

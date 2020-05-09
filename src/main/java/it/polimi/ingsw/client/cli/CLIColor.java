@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.view;
+package it.polimi.ingsw.client.cli;
 
 public enum CLIColor {
     ANSI_MALE_WORKER( " M⃣ "),
