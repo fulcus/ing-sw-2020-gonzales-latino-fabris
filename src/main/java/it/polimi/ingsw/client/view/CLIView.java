@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.serializableObjects.CellClient;
+import it.polimi.ingsw.serializableObjects.Message;
 import it.polimi.ingsw.serializableObjects.WorkerClient;
 import it.polimi.ingsw.server.model.*;
 
@@ -303,6 +304,9 @@ public class CLIView {
         System.out.println("\nNone of your workers can build. You have lost this game.\nGoodbye");
     }
 
+    public void notifyPlayersOfLoss(String loserNickname){
+        System.out.println(loserNickname + " has lost, 2 players remained!");
+    }
 
     /**
      * This method prints an updated version of the Board, depending on the Class' parameter "mymap".

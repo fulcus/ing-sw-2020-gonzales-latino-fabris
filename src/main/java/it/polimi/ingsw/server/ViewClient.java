@@ -245,6 +245,10 @@ public class ViewClient implements ClientViewObserver {
         sendMessage(new Message("unableToBuildLose"));
     }
 
+    public void notifyPlayersOfLoss(String loserNickname){
+        sendMessage(new Message("notifyPlayersOfLoss",loserNickname));
+    }
+
 
     /**
      * This method prints an updated version of the Board, depending on the Class' parameter "mymap".
@@ -620,7 +624,8 @@ public class ViewClient implements ClientViewObserver {
      * Disconnects the client from the server.
      */
     public void killClient() {
-
+        gameController.removeClientObserver(this);
+        inputReader.stop();
         sendMessage(new Message("shutdownClient"));
         inGame = false;
     }

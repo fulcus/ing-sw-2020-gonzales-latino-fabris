@@ -124,6 +124,7 @@ public class Player {
 
         //remove from players arraylist
         game.removePlayer(this);
+
     }
 
 

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.ClientViewObserver;
+import it.polimi.ingsw.server.ViewClient;
+
 import java.util.ArrayList;
 
 
@@ -173,6 +175,10 @@ public class Cell {
             observer.update(this);
     }
 
+    public void remove(ViewClient client) {
+
+        cellObservers.remove(client);
+    }
 }
 
 

@@ -64,7 +64,6 @@ public class Apollo extends God {
         moveMap.cannotMoveInDomeCell();
         moveMap.cannotMoveInFriendlyWorkerCell();
 
-        //moveMap.printMap();    //debugging
 
         if (!moveMap.anyAvailableMovePosition())
             throw new UnableToMoveException();

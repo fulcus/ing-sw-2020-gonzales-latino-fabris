@@ -15,10 +15,11 @@ public class TurnHandler implements Runnable {
     private final GameController gameController;
     private final ArrayList<Player> players;
     private Player currentPlayer;
-    private Integer numberOfPlayers;    //is it updated when game.numberOfPlayers is decreased?
+    private Integer numberOfPlayers;
     private int unableToMove;
     private int unableToBuild;
     private boolean gameAlive;
+    private boolean numberOfPLayersHasChanged;
 
 
     public TurnHandler(Game game, GameController gameController) {
@@ -29,6 +30,7 @@ public class TurnHandler implements Runnable {
         this.gameController = gameController;
         this.players = game.getPlayers();
         numberOfPlayers = game.getNumberOfPlayers();
+        numberOfPLayersHasChanged = false;
     }
 
     @Override
@@ -264,6 +266,7 @@ public class TurnHandler implements Runnable {
 
         while (gameAlive) {
 
+
             currentPlayer = players.get(cyclicalCounter);
             currentClient = currentPlayer.getClient();
 
@@ -290,9 +293,37 @@ public class TurnHandler implements Runnable {
 
 
             cyclicalCounter++;
-            if (cyclicalCounter == numberOfPlayers)
-                cyclicalCounter = 0;
+
+
+            if (numberOfPLayersHasChanged) {
+                cyclicalCounter = handleCyclicalCounter(cyclicalCounter);
+                setNumberOfPLayersHasChanged(false);
+            } else {
+
+                if (cyclicalCounter == numberOfPlayers)
+                    cyclicalCounter = 0;
+            }
+
         }
+    }
+
+    /**
+     * Handles cyclical counter when number of Players changes.
+     *
+     * @param cyclicalCounter value of counter when numOfPlayers decreases.
+     * @return new balue of cyclicalCounter.
+     */
+    public int handleCyclicalCounter(int cyclicalCounter) {
+
+        if (cyclicalCounter == 1)
+            cyclicalCounter = 0;
+        else if (cyclicalCounter == 2)
+            cyclicalCounter = 1;
+        else
+            cyclicalCounter = 0;
+
+        return cyclicalCounter;
+
     }
 
     /**
@@ -320,14 +351,13 @@ public class TurnHandler implements Runnable {
     public void turn(Worker turnWorker) {
 
         Worker otherWorker = null;
+        String loserNickname = null;
+        boolean winException = false;
 
         for (Worker worker : currentPlayer.getWorkers()) {
             if (worker != turnWorker)
                 otherWorker = worker;
         }
-
-
-
 
 
         try {
@@ -343,10 +373,13 @@ public class TurnHandler implements Runnable {
                 turn(otherWorker);
 
             } else {
-
+                loserNickname = currentPlayer.getNickname();
                 currentClient.unableToMoveLose();
                 currentPlayer.lose();
                 currentClient.killClient();
+
+                if (players.size() == 2)
+                    handleGameChange(loserNickname);
             }
 
         } catch (UnableToBuildException ex) {
@@ -359,9 +392,14 @@ public class TurnHandler implements Runnable {
 
             } else {
 
+                loserNickname = currentPlayer.getNickname();
                 currentClient.unableToBuildLose();
                 currentPlayer.lose();
                 currentClient.killClient();
+
+                if (players.size() == 2)
+                    handleGameChange(loserNickname);
+
             }
 
         } catch (WinException ex) {
@@ -372,6 +410,7 @@ public class TurnHandler implements Runnable {
 
             //if everyone else has lost, only player left wins
             //if WinException is thrown, if is false
+
             if (players.size() == 1) {
 
                 //last player left has index 0
@@ -379,12 +418,23 @@ public class TurnHandler implements Runnable {
                 gameController.winGame(winner);
             }
 
+            //TODO what if 2 players lose at the same time
+
             unableToMove = 0;    //reset it
             unableToBuild = 0;
         }
 
     }
 
+    public void handleGameChange(String loserNickname) {
+
+        this.setNumberOfPLayersHasChanged(true);
+        this.setNumberOfPlayers(game.getNumberOfPlayers());
+        gameController.getGodController().displayBoard();
+        gameController.notifyPlayersOfLoss(loserNickname);
+
+
+    }
 
     public Player getCurrentPlayer() {
         return currentPlayer;
@@ -398,6 +448,18 @@ public class TurnHandler implements Runnable {
     //Useful for testing
     public boolean getGameAlive() {
         return gameAlive;
+    }
+
+    public void setNumberOfPLayersHasChanged(boolean numberOfPLayersHasChanged) {
+        this.numberOfPLayersHasChanged = numberOfPLayersHasChanged;
+    }
+
+    public boolean numberOfPLayersHasChanged() {
+        return numberOfPLayersHasChanged;
+    }
+
+    public void setNumberOfPlayers(Integer numberOfPlayers) {
+        this.numberOfPlayers = numberOfPlayers;
     }
 
 }
