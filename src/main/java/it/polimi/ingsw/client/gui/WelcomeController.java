@@ -6,7 +6,7 @@ import javafx.scene.control.TextField;
 public class WelcomeController {
 
     @FXML
-    private TextField IPTextInput;
+    private TextField IPText;
 
     public WelcomeController() {
     }
@@ -19,7 +19,7 @@ public class WelcomeController {
     @FXML
     private void clickConnect() {
         System.out.println("connect");
-        System.out.println(IPTextInput.getCharacters());
+        System.out.println(IPText.getCharacters());
     }
 
 }

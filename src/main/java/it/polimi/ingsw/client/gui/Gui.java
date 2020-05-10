@@ -23,6 +23,11 @@ public class Gui extends Application {
 
             stage.setTitle("Santorini");
             stage.setScene(scene);
+
+            //stage.setResizable(true);
+            stage.setMinWidth(500);
+            stage.setMinHeight(330);
+
             stage.show();
 
         } catch (IOException e) {
