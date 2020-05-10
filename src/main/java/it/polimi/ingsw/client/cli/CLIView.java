@@ -1,11 +1,10 @@
-package it.polimi.ingsw.client.view;
+package it.polimi.ingsw.client.cli;
 
 import it.polimi.ingsw.serializableObjects.CellClient;
 import it.polimi.ingsw.serializableObjects.WorkerClient;
 import it.polimi.ingsw.server.model.*;
 
 import java.util.ArrayList;
-import java.util.IllegalFormatException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -68,7 +67,7 @@ public class CLIView {
      */
     public void notifyOtherPlayerDisconnection(){
 
-        System.out.println("The opponent player has disconnected, your game ends now!");
+        System.out.println("\nThe opponent player has disconnected, your game ends now!");
         System.out.println("Goodbye");
     }
 
@@ -303,6 +302,9 @@ public class CLIView {
         System.out.println("\nNone of your workers can build. You have lost this game.\nGoodbye");
     }
 
+    public void notifyPlayersOfLoss(String loserNickname){
+        System.out.println(loserNickname + " has lost, 2 players remained!");
+    }
 
     /**
      * This method prints an updated version of the Board, depending on the Class' parameter "mymap".
@@ -462,14 +464,14 @@ public class CLIView {
 
         String selectedView;
 
-        System.out.println("What kind of interface would you like to play with? CLI or GUI");
+        System.out.println("What kind of interface would you like to play with? CLI or Gui");
 
         while (true) {
 
             selectedView = input.nextLine().toUpperCase();
 
-            if (!(selectedView.equals("CLI") || selectedView.equals("GUI")))
-                System.out.println("Invalid interface. Type CLI or GUI");
+            if (!(selectedView.equals("CLI") || selectedView.equals("Gui")))
+                System.out.println("Invalid interface. Type CLI or Gui");
 
             else
                 break;
@@ -837,7 +839,7 @@ public class CLIView {
     public void waitChallengerChooseGods(String challenger) {
 
         this.challenger = challenger;
-        System.out.print(challenger + " is the Challenger and is choosing the gods for this game...\n");
+        System.out.print(challenger + " is the Challenger and is choosing the gods for this game...");
     }
 
     /**
@@ -848,7 +850,7 @@ public class CLIView {
     public void waitOtherPlayerChooseGod(String otherPlayer) {
         System.out.println();
 
-        System.out.print(otherPlayer + " is choosing his god...\n");
+        System.out.print(otherPlayer + " is choosing his god...");
     }
 
 
@@ -869,7 +871,7 @@ public class CLIView {
      */
     public void waitChallengerStartPlayer() {
         System.out.println();
-        System.out.print(challenger + " is choosing the start player...\n");
+        System.out.print(challenger + " is choosing the start player...");
     }
 
     /**
@@ -889,7 +891,7 @@ public class CLIView {
      */
     public void otherPlayerSettingInitialWorkerPosition(String player) {
         System.out.println();
-        System.out.print(player + " is placing his workers on the board...\n");
+        System.out.print(player + " is placing his workers on the board...");
     }
 
     /**
@@ -899,7 +901,7 @@ public class CLIView {
      */
     public void otherPlayerTurn(String currentPlayer) {
         System.out.println();
-        System.out.print(currentPlayer + " is playing his turn...\n");
+        System.out.print(currentPlayer + " is playing his turn...");
     }
 
     /**

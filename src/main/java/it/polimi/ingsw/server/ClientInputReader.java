@@ -90,10 +90,6 @@ public class ClientInputReader implements Runnable {
                 //TODO REQUISITI SPECIFICA,PIAZZA, SHUT DOWN,(ATHENA e simili),
                 //TODO WAIT FRA
 
-                //reset game senza il giocatore
-                //se il gioco è in 3, si riorganizza, notifica agli altri players
-                //se il gioco è in 2, il gioco non puo andare avanti
-
 
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();

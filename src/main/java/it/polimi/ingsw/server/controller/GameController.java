@@ -37,12 +37,11 @@ public class GameController {
      */
     public synchronized void setUpGame(ViewClient firstClient) {
 
-
         /*String viewType = viewSelector.askTypeofView();
 
         if (viewType.toUpperCase().equals("CLI"))
 
-        else if(viewType.toUpperCase().equals("GUI"))
+        else if(viewType.toUpperCase().equals("Gui"))
             view = new GUIMainView(this);
         else
             viewSelector.genericError();
@@ -93,6 +92,18 @@ public class GameController {
                 game.getBoard().findCell(i, j).register(client);
             }
         }
+
+    }
+
+    public void removeClientObserver(ViewClient client){
+
+        for (int i = 0; i < Board.SIDE; i++) {
+            for (int j = 0; j < Board.SIDE; j++) {
+
+                game.getBoard().findCell(i, j).remove(client);
+            }
+        }
+
 
     }
 
@@ -197,7 +208,7 @@ public class GameController {
         //print "you have won" in winner view
         winnerClient.winningView();
         winnerClient.killClient();
-
+        //TODO AVOID TO DISCONNECT OTHERS
         //print "you have lost" in loser views
         for (Player player : game.getPlayers()) {
 
@@ -237,8 +248,7 @@ public class GameController {
 
     public void handleGameDisconnection() {
 
-        if (game.getNumberOfPlayers() == 2) {
-
+        //if disconnection is due to a player disconnection
             for (Player player : game.getPlayers()) {
                 ViewClient client = player.getClient();
 
@@ -248,17 +258,16 @@ public class GameController {
                 }
 
             }
-
-
-        }
-        else{
-
-            //IF GAME HAS 3 players
-
-
-
-        }
     }
+
+    public void notifyPlayersOfLoss(String loserNickname) {
+
+        for (Player player : game.getPlayers()) {
+            player.getClient().notifyPlayersOfLoss(loserNickname);
+        }
+
+    }
+
 
 }
 

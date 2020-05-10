@@ -81,6 +81,10 @@ public class Game {
         return numberOfPlayers;
     }
 
+    public void setNumberOfPlayers(Integer numberOfPlayers) {
+        this.numberOfPlayers = numberOfPlayers;
+    }
+
     public ArrayList<Player> getPlayers() {
         return players;
     }
