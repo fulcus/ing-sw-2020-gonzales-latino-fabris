@@ -1,0 +1,18 @@
+
+.button {
+    -fx-background-image:url('../buttons/btn_coral.png');
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.button:pressed {
+    -fx-background-image:url('../buttons/btn_coral_pressed.png');
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
+    -fx-border-color: transparent;
+}
