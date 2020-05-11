@@ -12,12 +12,12 @@ public class WelcomeController {
     }
 
     @FXML
-    private void clickPlay() {
+    private void play() {
         System.out.println("play");
     }
 
     @FXML
-    private void clickConnect() {
+    private void connect() {
         System.out.println("connect");
         System.out.println(IPText.getCharacters());
     }

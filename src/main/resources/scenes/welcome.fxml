@@ -22,7 +22,7 @@
    <children>
       <BorderPane prefHeight="130.0" prefWidth="581.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
          <right>
-            <Button mnemonicParsing="false" onMouseClicked="#clickConnect" text="Connect" BorderPane.alignment="CENTER">
+            <Button mnemonicParsing="false" onMouseClicked="#connect" text="Connect" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets bottom="20.0" right="70.0" />
                </BorderPane.margin>
@@ -39,7 +39,7 @@
             </TextField>
          </center>
          <bottom>
-            <Button minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#clickPlay" text="Play" BorderPane.alignment="CENTER" />
+            <Button minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#play" text="Play" BorderPane.alignment="CENTER" />
          </bottom>
          <padding>
             <Insets bottom="20.0" right="50.0" />

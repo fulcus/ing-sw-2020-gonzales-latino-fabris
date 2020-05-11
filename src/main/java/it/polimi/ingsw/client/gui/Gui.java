@@ -20,7 +20,7 @@ public class Gui extends Application {
             //Parent root = FXMLLoader.load(getClass().getResource("/scenes/welcome.fxml"));
             Parent root = FXMLLoader.load(getClass().getResource("/scenes/start-player.fxml"));
 
-            Scene scene = new Scene(root, 600, 400);
+            Scene scene = new Scene(root);
 
             stage.setTitle("Santorini");
             stage.setScene(scene);
