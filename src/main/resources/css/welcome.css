@@ -4,3 +4,31 @@
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
+
+.button {
+    -fx-background-image:url('../buttons/btn_blue.png');
+    -fx-background-size: 100%;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-color: transparent;
+}
+
+.button:pressed {
+    -fx-background-image:url('../buttons/btn_blue_pressed.png');
+    -fx-background-size: 100%;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-color: transparent;
+}
+
+.text-field {
+    -fx-background-image:url('../labels/clp_textbar.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-color: transparent;
+    -fx-background-size: 100%;
+}
+
+.text-field:focused {
+    -fx-background-color: -fx-focus-color, -fx-background ;
+}

@@ -1,22 +1,9 @@
-.frame-branch {
-    -fx-background-image:url('../frames/fg_panel2.png');
-    -fx-background-size: cover ;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-}
-
-.frame {
-    -fx-background-image:url('../frames/fg_panel4.png');
-    -fx-background-size: cover;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-}
-
 .button {
     -fx-background-image:url('../buttons/btn_blue.png');
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
+    -fx-background-color: transparent ;
 }
 
 .button:pressed {
@@ -24,6 +11,7 @@
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
+    -fx-background-color: transparent ;
 }
 
 .tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
