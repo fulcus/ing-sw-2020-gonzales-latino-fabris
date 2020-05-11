@@ -36,10 +36,13 @@
             <Insets />
          </GridPane.margin>
          <center>
-            <TextField fx:id="IPText" minWidth="9.0" prefHeight="31.0" prefWidth="73.0" BorderPane.alignment="CENTER">
+            <TextField fx:id="IPText" alignment="CENTER" minWidth="9.0" prefHeight="35.0" prefWidth="161.0" text="santorini.servegame.com" BorderPane.alignment="CENTER">
                <BorderPane.margin>
-                  <Insets bottom="12.0" left="200.0" right="20.0" />
+                  <Insets bottom="12.0" left="180.0" right="10.0" />
                </BorderPane.margin>
+               <font>
+                  <Font name="Negotiate Free" size="15.0" />
+               </font>
             </TextField>
          </center>
          <bottom>

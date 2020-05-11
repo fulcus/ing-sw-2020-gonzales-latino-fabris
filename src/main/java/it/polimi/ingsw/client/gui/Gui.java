@@ -17,10 +17,10 @@ public class Gui extends Application {
     @Override
     public void start(Stage stage) {
         try {
-            //Parent root = FXMLLoader.load(getClass().getResource("/scenes/welcome.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/scenes/welcome.fxml"));
             //Parent root = FXMLLoader.load(getClass().getResource("/scenes/start-player.fxml"));
             //Parent root = FXMLLoader.load(getClass().getResource("/scenes/choose-god.fxml"));
-            Parent root = FXMLLoader.load(getClass().getResource("/scenes/number-of-players.fxml"));
+            //Parent root = FXMLLoader.load(getClass().getResource("/scenes/number-of-players.fxml"));
 
 
             Scene scene = new Scene(root);
