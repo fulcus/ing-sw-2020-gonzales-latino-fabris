@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@../css/welcome.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.WelcomeController">
@@ -22,24 +23,30 @@
    <children>
       <BorderPane prefHeight="130.0" prefWidth="581.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
          <right>
-            <Button mnemonicParsing="false" onMouseClicked="#connect" text="Connect" BorderPane.alignment="CENTER">
+            <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#connect" prefHeight="24.0" prefWidth="96.0" text="Connect" textAlignment="CENTER" textFill="WHITE" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets bottom="20.0" right="70.0" />
                </BorderPane.margin>
+               <font>
+                  <Font name="Ink Blossoms" size="16.0" />
+               </font>
             </Button>
          </right>
          <GridPane.margin>
             <Insets />
          </GridPane.margin>
          <center>
-            <TextField fx:id="IPText" minWidth="130.0" prefHeight="24.0" prefWidth="159.0" BorderPane.alignment="CENTER">
+            <TextField fx:id="IPText" minWidth="9.0" prefHeight="31.0" prefWidth="73.0" BorderPane.alignment="CENTER">
                <BorderPane.margin>
-                  <Insets bottom="20.0" left="200.0" right="40.0" />
+                  <Insets bottom="12.0" left="200.0" right="20.0" />
                </BorderPane.margin>
             </TextField>
          </center>
          <bottom>
-            <Button minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#play" text="Play" BorderPane.alignment="CENTER" />
+            <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#play" prefHeight="26.0" prefWidth="99.0" text="Play" textAlignment="CENTER" textFill="WHITE" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="Ink Blossoms" size="15.0" />
+               </font></Button>
          </bottom>
          <padding>
             <Insets bottom="20.0" right="50.0" />
@@ -47,8 +54,11 @@
          <top>
             <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Insert server IP" BorderPane.alignment="CENTER">
                <BorderPane.margin>
-                  <Insets top="10.0" />
+                  <Insets left="10.0" top="10.0" />
                </BorderPane.margin>
+               <font>
+                  <Font name="Ink Blossoms" size="17.0" />
+               </font>
             </Text>
          </top>
       </BorderPane>
