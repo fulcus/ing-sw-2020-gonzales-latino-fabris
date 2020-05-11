@@ -64,7 +64,7 @@
       </BorderPane>
       <ImageView fitHeight="147.0" fitWidth="380.0" preserveRatio="true" GridPane.halignment="CENTER">
          <image>
-            <Image url="@../images/santorini-logo.png" />
+            <Image url="@../title/santorini-logo.png" />
          </image>
       </ImageView>
    </children>
