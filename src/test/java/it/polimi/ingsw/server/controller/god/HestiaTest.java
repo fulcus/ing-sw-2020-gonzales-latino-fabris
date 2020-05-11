@@ -110,7 +110,7 @@ public class HestiaTest {
         int[] build = {0, 1};
         when(godController.getBuildingInput()).thenReturn(build, build);
         //The getPosition of the worker and the getX and getY are already defined in the move part above
-        when(workerBuildMap.isAllowedToBuildBoard(any(int.class), any(int.class))).thenReturn(false, true).thenReturn(false, true);
+        when(workerBuildMap.isAllowedToBuildBoard(any(int.class), any(int.class))).thenReturn(true, false);
         doNothing().when(worker).buildBlock(any(int.class), any(int.class));
         doNothing().when(worker).buildDome(any(int.class), any(int.class));
         doNothing().when(godController).errorBuildScreen();
@@ -127,6 +127,10 @@ public class HestiaTest {
         //because of updateBuildMapHestia
         doNothing().when(workerBuildMap).cannotBuildInPerimeter();
 
+        //overridden this behaviour because otherwise an exception would be raised
+        when(workerBuildMap.isAllowedToBuildBoard(any(int.class), any(int.class))).thenReturn(true, true);
+
+
         //Setting the specific build behaviour
         Board board = mock(Board.class);
         when(game.getBoard()).thenReturn(board);
@@ -139,7 +143,7 @@ public class HestiaTest {
         hestia.evolveTurn(worker);
 
         verify(workerBuildMap, times(1)).cannotBuildInPerimeter();
-        verify(worker, times(1)).buildBlock(any(int.class), any(int.class));
+        verify(worker, times(2)).buildBlock(any(int.class), any(int.class));
     }
 
 
@@ -162,12 +166,14 @@ public class HestiaTest {
         hestia.evolveTurn(worker);
 
         verify(godController, times(1)).wantToBuildAgain(hestia);
+        //instead of before (2), now the build block is called one time.
+        verify(worker, times(1)).buildBlock(any(int.class), any(int.class));
 
     }
 
 
-    @Test (expected = UnableToBuildException.class)
-    public void evolveTurnFail() throws UnableToMoveException, UnableToBuildException, WinException {
+    @Test
+    public void evolveTurnFailHandled() throws UnableToMoveException, UnableToBuildException, WinException {
 
         settingUsualParameters();
 
@@ -189,29 +195,6 @@ public class HestiaTest {
         verify(workerBuildMap, times(1)).cannotBuildInPerimeter();
 
     }
-
-    /*
-    // need to make the method buildAgain Public
-    @Test
-    public void buildAgain() {
-        doNothing().when(workerBuildMap).cannotBuildInPerimeter();
-
-        when(godController.wantToBuildAgain(hestia)).thenReturn(true);
-        when(workerBuildMap.anyAvailableBuildPosition()).thenReturn(true, false);
-
-        //Setting the specific build behaviour
-        Board board = mock(Board.class);
-        when(game.getBoard()).thenReturn(board);
-        Cell cell2 = mock(Cell.class);
-        when(board.findCell(any(int.class), any(int.class))).thenReturn(cell2);
-        when(cell2.getLevel()).thenReturn(2);
-
-        hestia.buildAgain(worker);
-
-        verify(godController, times(1)).wantToBuildAgain(hestia);
-        verify(workerBuildMap, times(1)).cannotBuildInPerimeter();
-
-    }*/
 
 
     @Test
