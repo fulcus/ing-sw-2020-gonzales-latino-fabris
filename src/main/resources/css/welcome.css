@@ -5,12 +5,18 @@
     -fx-background-position: center;
 }
 
+@font-face {
+    -fx-font-family: 'Negotiate Free';
+    src: url('../fonts/negotiate-free.ttf');
+}
+
 .button {
     -fx-background-image:url('../buttons/btn_blue.png');
     -fx-background-size: 100%;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-background-color: transparent;
+    -fx-content-display: top;
 }
 
 .button:pressed {
@@ -28,4 +34,6 @@
     -fx-background-color: transparent;
     -fx-background-size: cover;
     -fx-text-inner-color: white;
+
+    -fx-font-family: "Negotiate Free";
 }

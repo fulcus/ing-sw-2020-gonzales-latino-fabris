@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<GridPane prefHeight="467.0" prefWidth="603.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.StartPlayerController">
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints maxHeight="83.0" minHeight="10.0" prefHeight="56.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="432.0" minHeight="10.0" prefHeight="415.0" vgrow="SOMETIMES" />
+   </rowConstraints>
+   <children>
+      <ImageView fitHeight="56.0" fitWidth="603.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+         <image>
+            <Image url="@../frames/upper_frame.png" />
+         </image>
+      </ImageView>
+      <Text fill="#60482a" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose the start player" wrappingWidth="216.71484375" GridPane.halignment="CENTER">
+         <font>
+            <Font name="Ink Blossoms" size="20.0" />
+         </font>
+         <GridPane.margin>
+            <Insets top="23.0" />
+         </GridPane.margin>
+      </Text>
+      <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="431.0" prefWidth="602.0" stylesheets="@../css/start-player.css" GridPane.rowIndex="1">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <ImageView fx:id="godImage1" fitHeight="304.0" preserveRatio="true" GridPane.halignment="CENTER">
+               <image>
+                  <Image url="@../gods/full_apollo.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="godImage2" fitHeight="304.0" preserveRatio="true" GridPane.columnIndex="1">
+               <image>
+                  <Image url="@../gods/full_artemis.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="300.0" fitWidth="200.0" preserveRatio="true" GridPane.columnIndex="2">
+               <image>
+                  <Image url="@../frames/bg_panelMid.png" />
+               </image>
+            </ImageView>
+            <StackPane prefHeight="150.0" prefWidth="201.0">
+               <children>
+                  <ImageView fitHeight="468.0" fitWidth="201.0" preserveRatio="true">
+                     <image>
+                        <Image url="@../frames/fg_panel2.png" />
+                     </image>
+                     <StackPane.margin>
+                        <Insets top="42.0" />
+                     </StackPane.margin>
+                  </ImageView>
+               </children>
+            </StackPane>
+            <StackPane prefHeight="451.0" prefWidth="273.0" GridPane.columnIndex="1">
+               <children>
+                  <ImageView fitHeight="468.0" fitWidth="201.0" preserveRatio="true">
+                     <image>
+                        <Image url="@../frames/fg_panel4.png" />
+                     </image>
+                     <StackPane.margin>
+                        <Insets top="42.0" />
+                     </StackPane.margin>
+                  </ImageView>
+               </children>
+            </StackPane>
+            <StackPane prefHeight="150.0" prefWidth="201.0" GridPane.columnIndex="2">
+               <children>
+                  <ImageView fitHeight="468.0" fitWidth="201.0" preserveRatio="true">
+                     <image>
+                        <Image url="@../frames/fg_panel4.png" />
+                     </image>
+                     <StackPane.margin>
+                        <Insets top="42.0" />
+                     </StackPane.margin>
+                  </ImageView>
+               </children>
+            </StackPane>
+            <GridPane prefHeight="411.0" prefWidth="201.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="71.0" minHeight="10.0" prefHeight="59.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="318.0" minHeight="10.0" prefHeight="297.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="127.0" minHeight="0.0" prefHeight="48.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Button fx:id="player1" mnemonicParsing="false" onMouseClicked="#choosePlayer" prefHeight="11.0" prefWidth="104.0" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets bottom="33.0" />
+                     </GridPane.margin>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </Button>
+                  <ImageView fitHeight="65.0" fitWidth="155.0" preserveRatio="true" GridPane.halignment="CENTER">
+                     <image>
+                        <Image url="@../labels/gameGodFrameName1.png" />
+                     </image>
+                     <GridPane.margin>
+                        <Insets top="30.0" />
+                     </GridPane.margin>
+                  </ImageView>
+                  <Label fx:id="playerName1" alignment="CENTER" contentDisplay="CENTER" prefHeight="25.0" prefWidth="65.0" text="stubNick1" textFill="WHITE" GridPane.halignment="CENTER">
+                     <GridPane.margin>
+                        <Insets top="10.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font name="Ink Blossoms" size="15.0" />
+                     </font>
+                  </Label>
+               </children>
+            </GridPane>
+            <GridPane prefHeight="411.0" prefWidth="201.0" GridPane.columnIndex="1">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="71.0" minHeight="10.0" prefHeight="59.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="318.0" minHeight="10.0" prefHeight="297.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="127.0" minHeight="0.0" prefHeight="48.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.rowIndex="1" />
+                  <ImageView fitHeight="65.0" fitWidth="155.0" preserveRatio="true" GridPane.halignment="CENTER">
+                     <image>
+                        <Image url="@../labels/gameGodFrameName1.png" />
+                     </image>
+                     <GridPane.margin>
+                        <Insets top="30.0" />
+                     </GridPane.margin>
+                  </ImageView>
+                  <Label fx:id="playerName2" alignment="CENTER" contentDisplay="CENTER" text="stubNick2" textFill="WHITE" GridPane.halignment="CENTER">
+                     <font>
+                        <Font name="Ink Blossoms" size="15.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets top="10.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Button fx:id="player2" mnemonicParsing="false" onMouseClicked="#choosePlayer" prefHeight="11.0" prefWidth="104.0" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets bottom="33.0" />
+                     </GridPane.margin>
+                  </Button>
+               </children>
+            </GridPane>
+            <GridPane prefHeight="411.0" prefWidth="201.0" GridPane.columnIndex="2">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="71.0" minHeight="10.0" prefHeight="59.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="318.0" minHeight="10.0" prefHeight="299.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="127.0" minHeight="0.0" prefHeight="50.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+         </children>
+      </GridPane>
+   </children>
+</GridPane>

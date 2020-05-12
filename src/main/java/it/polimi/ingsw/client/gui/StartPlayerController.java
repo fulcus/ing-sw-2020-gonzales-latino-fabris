@@ -41,7 +41,10 @@ public class StartPlayerController implements Initializable {
         //display player names
         playerName1.setText("nick1");
         playerName2.setText("nick2");
-        playerName3.setText("nick3");
+
+        //adapted for 2 players game
+        if(playerName3 != null)
+            playerName3.setText("nick3");
 
         //load god images
         //"charon" and other god names will be replaced with player.getGod
@@ -53,10 +56,12 @@ public class StartPlayerController implements Initializable {
         Image player2God = new Image(path2);
         godImage2.setImage(player2God);
 
-        String path3 = "/gods/full_" + "hephaestus" + ".png";
-        Image player3God = new Image(path3);
-        godImage3.setImage(player3God);
-
+        //adapted for 2 players game
+        if(playerName3 != null) {
+            String path3 = "/gods/full_" + "hephaestus" + ".png";
+            Image player3God = new Image(path3);
+            godImage3.setImage(player3God);
+        }
     }
 
     @FXML
