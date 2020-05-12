@@ -17,8 +17,8 @@ public class Gui extends Application {
     @Override
     public void start(Stage stage) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/scenes/welcome.fxml"));
-            //Parent root = FXMLLoader.load(getClass().getResource("/scenes/start-player-2.fxml"));
+            //Parent root = FXMLLoader.load(getClass().getResource("/scenes/welcome.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/scenes/start-player.fxml"));
             //Parent root = FXMLLoader.load(getClass().getResource("/scenes/choose-god.fxml"));
             //Parent root = FXMLLoader.load(getClass().getResource("/scenes/number-of-players.fxml"));
 
@@ -27,9 +27,9 @@ public class Gui extends Application {
             stage.setTitle("Santorini");
             stage.setScene(scene);
 
-            //stage.setResizable(true);
-            stage.setMinWidth(500);
-            stage.setMinHeight(330);
+            stage.setResizable(false);
+            //stage.setMinWidth(500);
+            //stage.setMinHeight(330);
 
             stage.show();
 

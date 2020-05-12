@@ -38,13 +38,20 @@ public class StartPlayerController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        int numberOfPlayers = 2;    //temporary, into will be stored in global variable of client
+
+        boolean threePlayers = numberOfPlayers == 3;
+
         //display player names
         playerName1.setText("nick1");
         playerName2.setText("nick2");
 
         //adapted for 2 players game
-        if(playerName3 != null)
+        if (threePlayers)
             playerName3.setText("nick3");
+        else {
+            playerName3.getParent().setVisible(false);
+        }
 
         //load god images
         //"charon" and other god names will be replaced with player.getGod
@@ -57,17 +64,22 @@ public class StartPlayerController implements Initializable {
         godImage2.setImage(player2God);
 
         //adapted for 2 players game
-        if(playerName3 != null) {
-            String path3 = "/gods/full_" + "hephaestus" + ".png";
-            Image player3God = new Image(path3);
-            godImage3.setImage(player3God);
-        }
+        String path3;
+
+        if (threePlayers)    //3 players
+            path3 = "/gods/full_" + "hephaestus" + ".png";
+        else   //2 players
+            path3 = "/frames/bg_panelMid.png";
+
+        Image player3God = new Image(path3);
+        godImage3.setImage(player3God);
+
     }
 
     @FXML
     private void choosePlayer(MouseEvent event) {
         //get which button was clicked ie which player was chosen
-        String playerId = ((Button)event.getSource()).getId();
+        String playerId = ((Button) event.getSource()).getId();
         System.out.println("chose " + playerId);
     }
 }
