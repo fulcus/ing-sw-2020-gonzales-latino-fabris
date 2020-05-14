@@ -7,13 +7,13 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 
-public class AddPlayerController implements Initializable {
+public class PlayerGeneralSettingsController implements Initializable {
 
-    public AddPlayerController() {
+    public PlayerGeneralSettingsController() {
     }
 
     @FXML
-    private TextField NickText;
+    private TextField nickname;
 
     @FXML
     private void blue() {
@@ -32,8 +32,7 @@ public class AddPlayerController implements Initializable {
 
     @FXML
     private void login() {
-        System.out.println("nick received: ");
-        System.out.println(NickText.getCharacters());
+        System.out.println("nick received: " + nickname.getCharacters());
     }
 
     @Override

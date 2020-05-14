@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="700.0" styleClass="background" stylesheets="@../css/welcome.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.PlayerGeneralSettingsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="700.0" styleClass="background" stylesheets="@../css/welcome.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.PlayerGeneralSettingsController">
    <children>
       <ImageView fitHeight="236.0" fitWidth="339.0" layoutX="422.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -50,7 +50,7 @@
       </ImageView>
       <BorderPane layoutX="93.0" layoutY="280.0" prefHeight="198.0" prefWidth="514.0">
          <top>
-            <Text fill="#673dff" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Color" textAlignment="CENTER" BorderPane.alignment="CENTER">
+            <Text fill="#2e1a80" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose your color" textAlignment="CENTER" wrappingWidth="165.65576171875" BorderPane.alignment="CENTER">
                <font>
                   <Font name="Negotiate Free" size="17.0" />
                </font>
@@ -67,7 +67,7 @@
                   <RowConstraints maxHeight="120.0" minHeight="10.0" prefHeight="120.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#beige" prefHeight="106.0" prefWidth="100.0" styleClass="buttonGold" stylesheets="@../css/choose-color.css" text="BEIGE" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2">
+                  <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#beige" prefHeight="106.0" prefWidth="100.0" styleClass="buttonGold" stylesheets="@../css/choose-color.css" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2">
                      <font>
                         <Font name="Ink Blossoms" size="13.0" />
                      </font>
@@ -75,12 +75,12 @@
                         <Insets left="40.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" onMouseClicked="#white" prefHeight="108.0" prefWidth="102.0" styleClass="buttonWhite" stylesheets="@../css/choose-color.css" text="WHITE" textFill="#837e7e" GridPane.columnIndex="1">
+                  <Button mnemonicParsing="false" onMouseClicked="#white" prefHeight="108.0" prefWidth="102.0" styleClass="buttonWhite" stylesheets="@../css/choose-color.css" textFill="#837e7e" GridPane.columnIndex="1">
                      <font>
                         <Font name="Ink Blossoms" size="13.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" onMouseClicked="#blue" prefHeight="108.0" prefWidth="102.0" styleClass="buttonBlue" stylesheets="@../css/choose-color.css" text="BLUE" textAlignment="RIGHT" textFill="WHITE">
+                  <Button mnemonicParsing="false" onMouseClicked="#blue" prefHeight="108.0" prefWidth="102.0" styleClass="buttonBlue" stylesheets="@../css/choose-color.css" textAlignment="RIGHT" textFill="WHITE">
                      <font>
                         <Font name="Ink Blossoms" size="13.0" />
                      </font>

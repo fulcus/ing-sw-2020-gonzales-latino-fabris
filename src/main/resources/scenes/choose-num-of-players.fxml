@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="700.0" styleClass="background" stylesheets="@../css/welcome.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.PlayerGeneralSettingsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="700.0" styleClass="background" stylesheets="@../css/welcome.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.PlayerGeneralSettingsController">
    <children>
       <ImageView fitHeight="236.0" fitWidth="339.0" layoutX="422.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -50,7 +50,7 @@
       </ImageView>
       <BorderPane layoutX="93.0" layoutY="275.0" prefHeight="77.0" prefWidth="514.0">
          <top>
-            <Text fill="#4618ff" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Number of Players" textAlignment="CENTER" BorderPane.alignment="CENTER">
+            <Text fill="#2a1b75" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose the number of players for the next game" textAlignment="CENTER" wrappingWidth="391.7170104980469" BorderPane.alignment="CENTER">
                <font>
                   <Font name="Negotiate Free" size="17.0" />
                </font>

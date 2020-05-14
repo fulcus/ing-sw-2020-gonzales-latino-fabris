@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="700.0" styleClass="background" stylesheets="@../css/welcome.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.PlayerGeneralSettingsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="700.0" styleClass="background" stylesheets="@../css/welcome.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.PlayerGeneralSettingsController">
    <children>
       <ImageView fitHeight="236.0" fitWidth="339.0" layoutX="422.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -51,7 +51,7 @@
       </ImageView>
       <BorderPane layoutX="105.0" layoutY="263.0" prefHeight="219.0" prefWidth="514.0">
          <top>
-            <Text fill="#673dff" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Nickname" textAlignment="CENTER" BorderPane.alignment="CENTER">
+            <Text fill="#2a1b75" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose your nickname" textAlignment="CENTER" BorderPane.alignment="CENTER">
                <font>
                   <Font name="Negotiate Free" size="17.0" />
                </font>
@@ -78,7 +78,7 @@
                         <Insets bottom="100.0" left="202.0" />
                      </GridPane.margin>
                   </Button>
-                  <TextField fx:id="NickText" alignment="CENTER" minWidth="9.0" pickOnBounds="false" prefHeight="38.0" prefWidth="194.0" promptText="type nick here">
+                  <TextField fx:id="nickname" alignment="CENTER" minWidth="9.0" pickOnBounds="false" prefHeight="38.0" prefWidth="194.0" promptText="type nick here">
                      <font>
                         <Font name="Negotiate Free" size="15.0" />
                      </font>
