@@ -13,7 +13,7 @@ public class PlayerGeneralSettingsController implements Initializable {
     }
 
     @FXML
-    private TextField NickText;
+    private TextField nickname;
 
     @FXML
     private void blue() {
@@ -32,8 +32,7 @@ public class PlayerGeneralSettingsController implements Initializable {
 
     @FXML
     private void login() {
-        System.out.println("nick received: ");
-        System.out.println(NickText.getCharacters());
+        System.out.println("nick received: " + nickname.getCharacters());
     }
 
     @Override
