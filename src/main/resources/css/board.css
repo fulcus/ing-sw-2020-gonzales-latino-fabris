@@ -1,0 +1,28 @@
+.background-board {
+    -fx-background-image: url('../board/SantoriniBoard.png');
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.background-bottom {
+    -fx-background-image: url('../frames/bg_panelMid.png');
+    -fx-background-size: 100%;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.column-top {
+    -fx-background-image: url('../frames/ps_bottom_bar_tile.png');
+    -fx-background-size: contain;
+    -fx-background-repeat: repeat;
+    -fx-background-position: center;
+}
+
+.column-bottom {
+    -fx-background-image: url('../frames/ps_bottom_bar_tile.png');
+    -fx-background-size: contain;
+    -fx-background-repeat: repeat;
+    -fx-background-position: center;
+    -fx-rotate: 180;
+}

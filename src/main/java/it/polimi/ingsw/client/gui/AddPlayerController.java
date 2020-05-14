@@ -7,9 +7,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 
-public class PlayerGeneralSettingsController implements Initializable {
+public class AddPlayerController implements Initializable {
 
-    public PlayerGeneralSettingsController() {
+    public AddPlayerController() {
     }
 
     @FXML
