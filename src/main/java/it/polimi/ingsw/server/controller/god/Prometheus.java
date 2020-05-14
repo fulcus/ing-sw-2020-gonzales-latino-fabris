@@ -42,6 +42,7 @@ public class Prometheus extends God {
         try {
             updateBuildMap(worker);
         } catch (UnableToBuildException ex) {
+            godController.errorBuildScreen();
             return;
         }
 
