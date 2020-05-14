@@ -1,0 +1,46 @@
+
+.buttonBlue {
+    -fx-background-image:url('../buttons/om_btnActive.png');
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.buttonGold {
+    -fx-background-image:url('../buttons/om_btnComplete.png');
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.buttonWhite {
+    -fx-background-image:url('../buttons/om_btn_color_white.png');
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.buttonGold:pressed {
+    -fx-background-image:url('../buttons/om_btn_gold_selected.png');
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.buttonWhite:pressed {
+    -fx-background-image:url('../buttons/om_btn_color_white_selected.png');
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.buttonBlue:pressed {
+    -fx-background-image:url('../buttons/om_btn_blue_selected.png');
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
+    -fx-border-color: transparent;
+}

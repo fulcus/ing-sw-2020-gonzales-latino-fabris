@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="700.0" styleClass="background" stylesheets="@../css/welcome.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.PlayerGeneralSettingsController">
+   <children>
+      <ImageView fitHeight="236.0" fitWidth="339.0" layoutX="422.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../title/title_cloud_back_right.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="397.0" fitWidth="472.0" layoutX="-92.0" layoutY="390.0" pickOnBounds="true" preserveRatio="true" rotate="18.4">
+         <image>
+            <Image url="@../title/title_cloud_back_horizon.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="291.0" fitWidth="419.0" layoutX="329.0" layoutY="215.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../title/title_FG_cloud.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="160.0" fitWidth="218.0" layoutX="-19.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../title/title_FG_cloud2.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="201.0" fitWidth="473.0" layoutX="125.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../title/santorini-logo.png" />
+         </image>
+         <effect>
+            <Lighting diffuseConstant="2.0" light="$null" specularConstant="0.38" specularExponent="40.0" surfaceScale="10.0">
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+            </Lighting>
+         </effect>
+      </ImageView>
+      <BorderPane layoutX="93.0" layoutY="280.0" prefHeight="198.0" prefWidth="514.0">
+         <top>
+            <Text fill="#673dff" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Color" textAlignment="CENTER" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="Negotiate Free" size="17.0" />
+               </font>
+            </Text>
+         </top>
+         <left>
+            <GridPane prefHeight="142.0" prefWidth="510.0" BorderPane.alignment="CENTER">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="370.0" minWidth="10.0" prefWidth="206.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="103.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="517.0" minWidth="10.0" prefWidth="201.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="120.0" minHeight="10.0" prefHeight="120.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#beige" prefHeight="106.0" prefWidth="100.0" styleClass="buttonGold" stylesheets="@../css/choose-color.css" text="BEIGE" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2">
+                     <font>
+                        <Font name="Ink Blossoms" size="13.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="40.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onMouseClicked="#white" prefHeight="108.0" prefWidth="102.0" styleClass="buttonWhite" stylesheets="@../css/choose-color.css" text="WHITE" textFill="#837e7e" GridPane.columnIndex="1">
+                     <font>
+                        <Font name="Ink Blossoms" size="13.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" onMouseClicked="#blue" prefHeight="108.0" prefWidth="102.0" styleClass="buttonBlue" stylesheets="@../css/choose-color.css" text="BLUE" textAlignment="RIGHT" textFill="WHITE">
+                     <font>
+                        <Font name="Ink Blossoms" size="13.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="70.0" />
+                     </GridPane.margin>
+                  </Button>
+               </children>
+               <BorderPane.margin>
+                  <Insets top="20.0" />
+               </BorderPane.margin>
+            </GridPane>
+         </left>
+      </BorderPane>
+   </children>
+</AnchorPane>
