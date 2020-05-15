@@ -67,7 +67,7 @@
                   <RowConstraints maxHeight="120.0" minHeight="10.0" prefHeight="120.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#beige" prefHeight="106.0" prefWidth="100.0" styleClass="buttonGold" stylesheets="@../css/choose-color.css" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2">
+                  <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#beige" prefHeight="106.0" prefWidth="100.0" styleClass="gold-button" stylesheets="@../css/choose-color.css" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2">
                      <font>
                         <Font name="Ink Blossoms" size="13.0" />
                      </font>
@@ -75,12 +75,12 @@
                         <Insets left="40.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" onMouseClicked="#white" prefHeight="108.0" prefWidth="102.0" styleClass="buttonWhite" stylesheets="@../css/choose-color.css" textFill="#837e7e" GridPane.columnIndex="1">
+                  <Button mnemonicParsing="false" onMouseClicked="#white" prefHeight="108.0" prefWidth="102.0" styleClass="white-button" stylesheets="@../css/choose-color.css" textFill="#837e7e" GridPane.columnIndex="1">
                      <font>
                         <Font name="Ink Blossoms" size="13.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" onMouseClicked="#blue" prefHeight="108.0" prefWidth="102.0" styleClass="buttonBlue" stylesheets="@../css/choose-color.css" textAlignment="RIGHT" textFill="WHITE">
+                  <Button mnemonicParsing="false" onMouseClicked="#blue" prefHeight="108.0" prefWidth="102.0" styleClass="blue-button" stylesheets="@../css/choose-color.css" textAlignment="RIGHT" textFill="WHITE">
                      <font>
                         <Font name="Ink Blossoms" size="13.0" />
                      </font>

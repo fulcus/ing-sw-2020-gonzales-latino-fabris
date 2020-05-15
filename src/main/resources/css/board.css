@@ -1,3 +1,8 @@
+@font-face {
+    -fx-font-family: 'Ink Blossoms';
+    src: url('../fonts/Ink-Blossoms.ttf');
+}
+
 .background-board {
     -fx-background-image: url('../board/SantoriniBoard.png');
     -fx-background-size: cover;
