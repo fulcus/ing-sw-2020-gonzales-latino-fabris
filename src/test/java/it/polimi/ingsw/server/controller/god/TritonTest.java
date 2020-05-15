@@ -73,7 +73,7 @@ public class TritonTest {
         doNothing().when(workerMoveMap).updateMoveUpRestrictions();
         doNothing().when(workerMoveMap).cannotStayStill();
         doNothing().when(workerMoveMap).cannotMoveInOccupiedCell();
-        when(workerMoveMap.anyAvailableMovePosition()).thenReturn(true);
+        when(workerMoveMap.anyAvailableMovePosition()).thenReturn(true, true, false);
 
         //setting the behaviour of the move
         int[] move = {1, 1};
@@ -125,6 +125,17 @@ public class TritonTest {
     public void evolveTurn() throws UnableToMoveException, UnableToBuildException, WinException {
 
         settingUsualParameters();
+
+        triton.evolveTurn(worker);
+    }
+
+
+    @Test
+    public void evolveTurnFail() throws UnableToMoveException, UnableToBuildException, WinException {
+
+        settingUsualParameters();
+        when(workerMoveMap.anyAvailableMovePosition()).thenReturn(true, false);
+
 
         triton.evolveTurn(worker);
     }
