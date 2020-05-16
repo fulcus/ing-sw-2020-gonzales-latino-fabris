@@ -25,6 +25,7 @@
 
 .text-area {
     -fx-background-color: rgba(53,89,119,0.0);
+    -fx-font-family: "Ink Blossoms";
 }
 
 .text-area .scroll-pane {
@@ -41,7 +42,6 @@
 }
 
 .text-area .text {
-    -fx-fill: #1e88e5;
     -fx-font-size: 32px;
 }
 

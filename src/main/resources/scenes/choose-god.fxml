@@ -252,7 +252,7 @@
                   <RowConstraints maxHeight="155.8791961669922" minHeight="10.0" prefHeight="68.45635986328125" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button alignment="CENTER" mnemonicParsing="false" onMouseClicked="#clickedNext" prefHeight="27.0" prefWidth="104.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#clickedNext" prefHeight="27.0" prefWidth="104.0"  text="Select"  textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
                </children>
             </GridPane>
             <GridPane>
