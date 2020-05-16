@@ -1,40 +1,44 @@
+@font-face {
+    -fx-font-family: 'Ink Blossoms';
+    src: url('../fonts/Ink-Blossoms.ttf');
+}
 
-.buttonBlue {
+.blue-button {
     -fx-background-image:url('../buttons/om_btnActive.png');
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 
-.buttonGold {
+.gold-button {
     -fx-background-image:url('../buttons/om_btnComplete.png');
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 
-.buttonWhite {
+.white-button {
     -fx-background-image:url('../buttons/om_btn_color_white.png');
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 
-.buttonGold:pressed {
+.gold-button:pressed {
     -fx-background-image:url('../buttons/om_btn_gold_selected.png');
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 
-.buttonWhite:pressed {
+.white-button:pressed {
     -fx-background-image:url('../buttons/om_btn_color_white_selected.png');
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 
-.buttonBlue:pressed {
+.blue-button:pressed {
     -fx-background-image:url('../buttons/om_btn_blue_selected.png');
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;

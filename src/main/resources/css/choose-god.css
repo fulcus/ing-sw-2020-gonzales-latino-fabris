@@ -1,9 +1,15 @@
+@font-face {
+    -fx-font-family: 'Ink Blossoms';
+    src: url('../fonts/Ink-Blossoms.ttf');
+}
 
 .button {
     -fx-background-image:url('../buttons/btn_coral.png');
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
+    -fx-background-color: transparent ;
+    -fx-font-family: "Ink Blossoms";
 }
 
 .button:pressed {
@@ -19,6 +25,7 @@
 
 .text-area {
     -fx-background-color: rgba(53,89,119,0.0);
+    -fx-font-family: "Ink Blossoms";
 }
 
 .text-area .scroll-pane {
@@ -35,6 +42,9 @@
 }
 
 .text-area .text {
-    -fx-fill: #1e88e5;
     -fx-font-size: 32px;
+}
+
+.label {
+    -fx-font-family: "Ink Blossoms";
 }

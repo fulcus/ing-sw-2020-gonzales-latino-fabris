@@ -18,12 +18,12 @@ public class Gui extends Application {
     public void start(Stage stage) {
         try {
             //Parent root = FXMLLoader.load(getClass().getResource("/scenes/welcome.fxml"));
-            //Parent root = FXMLLoader.load(getClass().getResource("/scenes/connect.fxml"));
-            Parent root = FXMLLoader.load(getClass().getResource("/scenes/choose-num-of-players.fxml"));
+           // Parent root = FXMLLoader.load(getClass().getResource("/scenes/connect.fxml"));
+            //Parent root = FXMLLoader.load(getClass().getResource("/scenes/choose-num-of-players.fxml"));
             //Parent root = FXMLLoader.load(getClass().getResource("/scenes/choose-nickname.fxml"));
             //Parent root = FXMLLoader.load(getClass().getResource("/scenes/choose-color.fxml"));
             //Parent root = FXMLLoader.load(getClass().getResource("/scenes/start-player.fxml"));
-            //Parent root = FXMLLoader.load(getClass().getResource("/scenes/choose-god.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/scenes/choose-god.fxml"));
             //Parent root = FXMLLoader.load(getClass().getResource("/scenes/board.fxml"));
 
             Scene scene = new Scene(root);
