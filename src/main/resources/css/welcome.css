@@ -16,17 +16,19 @@
 }
 
 .button {
-    -fx-background-image:url('../buttons/btn_blue.png');
+    -fx-background-image:url('../buttons/cm_btn_blue.png');
     -fx-background-size: 100%;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-background-color: transparent;
     -fx-content-display: top;
     -fx-font-family: "Ink Blossoms";
+    -fx-font-size: 15;
+
 }
 
 .button:pressed {
-    -fx-background-image:url('../buttons/btn_blue_pressed.png');
+    -fx-background-image:url('../buttons/cm_btn_blue_pressed.png');
     -fx-background-size: 100%;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;

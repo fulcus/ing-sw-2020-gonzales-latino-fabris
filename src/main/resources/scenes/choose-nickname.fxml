@@ -8,10 +8,6 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -49,46 +45,23 @@
             </Lighting>
          </effect>
       </ImageView>
-      <BorderPane layoutX="105.0" layoutY="263.0" prefHeight="219.0" prefWidth="514.0">
-         <top>
-            <Text fill="#2a1b75" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose your nickname" textAlignment="CENTER" BorderPane.alignment="CENTER">
-               <font>
-                  <Font name="Negotiate Free" size="17.0" />
-               </font>
-            </Text>
-         </top>
-         <center>
-            <GridPane prefHeight="100.0" prefWidth="514.0" BorderPane.alignment="CENTER">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints maxHeight="112.0" minHeight="10.0" prefHeight="49.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="0.0" prefHeight="149.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#login" prefHeight="36.0" prefWidth="106.0" text="Login" textAlignment="CENTER" textFill="WHITE" GridPane.rowIndex="1">
-                     <font>
-                        <Font name="Ink Blossoms" size="15.0" />
-                     </font>
-                     <padding>
-                        <Insets bottom="5.0" />
-                     </padding>
-                     <GridPane.margin>
-                        <Insets bottom="100.0" left="202.0" />
-                     </GridPane.margin>
-                  </Button>
-                  <TextField fx:id="nickname" alignment="CENTER" minWidth="9.0" pickOnBounds="false" prefHeight="38.0" prefWidth="194.0" promptText="type nick here">
-                     <font>
-                        <Font name="Negotiate Free" size="15.0" />
-                     </font>
-                     <GridPane.margin>
-                        <Insets left="160.0" right="160.0" />
-                     </GridPane.margin>
-                  </TextField>
-               </children>
-            </GridPane>
-         </center>
-      </BorderPane>
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="481.0" layoutY="326.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#login" prefHeight="38.0" prefWidth="58.0" text="Login" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Ink Blossoms" size="15.0" />
+         </font>
+         <padding>
+            <Insets bottom="5.0" />
+         </padding>
+      </Button>
+      <TextField fx:id="nickname" alignment="CENTER" layoutX="254.0" layoutY="325.0" minWidth="9.0" pickOnBounds="false" prefHeight="38.0" prefWidth="208.0" promptText="type nick here">
+         <font>
+            <Font name="Negotiate Free" size="15.0" />
+         </font>
+      </TextField>
+      <Text fill="#2a1b75" layoutX="285.0" layoutY="320.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose your nickname" textAlignment="CENTER">
+         <font>
+            <Font name="Negotiate Free" size="17.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>
