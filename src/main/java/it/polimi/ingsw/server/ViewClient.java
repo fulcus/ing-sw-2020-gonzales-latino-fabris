@@ -144,6 +144,25 @@ public class ViewClient implements ClientViewObserver {
 
 
     /**
+     * Allows to print to all the players waiting that someone is choosing his color.
+     *
+     * @param choosingPlayer It's the player that is choosing his color for this game.
+     */
+    public void printChoosingColor(String choosingPlayer) {
+        sendMessage(new Message("printChoosingColor", choosingPlayer));
+    }
+
+
+    /**
+     * Allows to print to all the players waiting that someone is choosing his nickname.
+     *
+     */
+    public void printChoosingNickname() {
+        sendMessage(new Message("printChoosingNickname"));
+    }
+
+
+    /**
      * The method asks the God the player wants to play with.
      *
      * @return The name of the chosen God.
