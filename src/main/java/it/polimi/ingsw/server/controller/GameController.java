@@ -20,6 +20,7 @@ public class GameController {
     private final ArrayList<God> godsDeck;
     //private volatile int playersConnected;
     private final ExecutorService executorPlayerAdder;
+    private ArrayList<ViewClient> gameClients;
 
     public GameController() {
         //playersConnected = 0;
@@ -28,7 +29,7 @@ public class GameController {
         //viewSelector = new ViewSelector();
         godsDeck = new ArrayList<>(14);
         executorPlayerAdder = Executors.newCachedThreadPool();
-
+        gameClients = new ArrayList<ViewClient>();
     }
 
 
@@ -37,15 +38,6 @@ public class GameController {
      */
     public synchronized void setUpGame(ViewClient firstClient) {
 
-        /*String viewType = viewSelector.askTypeofView();
-
-        if (viewType.toUpperCase().equals("CLI"))
-
-        else if(viewType.toUpperCase().equals("Gui"))
-            view = new GUIMainView(this);
-        else
-            viewSelector.genericError();
-        */
 
         godController = new GodController(this);
         createDeckGods();
@@ -72,6 +64,8 @@ public class GameController {
         client.connected();
         //cannot accept other clients before writing "start"
         client.beginningView();
+
+        gameClients.add(client);
 
 
         setUpObserverView(client);
@@ -114,6 +108,12 @@ public class GameController {
      */
     private synchronized void setPlayerNickname(ViewClient client) {
 
+
+        for(ViewClient otherClient : gameClients) {
+            if ( !otherClient.equals(client) )
+                otherClient.printChoosingNickname();
+        }
+
         while (true) {
 
             String chosenNickname = client.askPlayerNickname();
@@ -134,6 +134,11 @@ public class GameController {
      * @param client view of the player.
      */
     private synchronized void setPlayerColor(ViewClient client) {
+
+        for(ViewClient otherClient : gameClients) {
+            if ( !otherClient.equals(client) )
+                otherClient.printChoosingColor(client.getPlayer().getNickname());        }
+
 
         boolean colorCorrectlyChosen = false;
 

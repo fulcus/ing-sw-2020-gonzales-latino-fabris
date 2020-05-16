@@ -90,6 +90,8 @@ public class CLIView {
 
         } while (!startString.equals("START"));
 
+        System.out.println("\nMaybe waiting for other players to join...");
+
     }
 
 
@@ -169,6 +171,17 @@ public class CLIView {
         }
     }
 
+
+    public void printChoosingColor(String choosingPlayer) {
+        System.out.println(choosingPlayer + " is choosing his color, wait...");
+    }
+
+
+    public void printChoosingNickname() {
+        System.out.println("Someone is choosing his nickname, wait...");
+    }
+
+
     public void invalidInitialWorkerPosition() {
         System.out.println("Not valid or available position. Choose another place!");
         intInput.next();
@@ -181,6 +194,7 @@ public class CLIView {
         System.out.println("Choose your nickname.");
         return input.nextLine();
     }
+
 
     public String askPlayerColor() {
 
@@ -200,9 +214,11 @@ public class CLIView {
         return input.nextLine();
     }
 
+
     public void playerChoseInvalidGod() {
         System.out.println("Your god is not available or has already been chosen.\n");
     }
+
 
     private void printChallenger(int numOfPlayers) {
 
@@ -211,6 +227,7 @@ public class CLIView {
                 + numOfPlayers + " gods for this game.");
 
     }
+
 
     public String getGodFromChallenger(int numOfPlayers, int alreadyChosenGods) {
 
@@ -233,6 +250,7 @@ public class CLIView {
         return input.nextLine();
     }
 
+
     public String challengerChooseStartPlayer() {
 
         System.out.println("\n" + playerNickname + ", choose the first player to start! Type his nickname:");
@@ -242,13 +260,16 @@ public class CLIView {
 
     }
 
+
     public void invalidStartPlayer() {
         System.out.println("Invalid nickname. It must be an existing nickname.");
     }
 
+
     public void notAvailableColor() {
         System.out.println("This color is not available!");
     }
+
 
     public void notAvailableNickname() {
         System.out.println("This nickname is not available!");
@@ -285,6 +306,7 @@ public class CLIView {
         System.out.println("An error has occurred. Retry.");
     }
 
+
     /**
      * Prints to screen that one of the player has won the game
      */
@@ -294,17 +316,21 @@ public class CLIView {
         return true;
     }
 
+
     public void unableToMoveLose() {
         System.out.println("\nNone of your workers can move. You have lost this game.\nGoodbye");
     }
+
 
     public void unableToBuildLose() {
         System.out.println("\nNone of your workers can build. You have lost this game.\nGoodbye");
     }
 
+
     public void notifyPlayersOfLoss(String loserNickname){
         System.out.println(loserNickname + " has lost, 2 players remained!");
     }
+
 
     /**
      * This method prints an updated version of the Board, depending on the Class' parameter "mymap".
@@ -325,6 +351,7 @@ public class CLIView {
         System.out.printf(LINE_SEPARATOR);
         System.out.println();
     }
+
 
     /**
      * Prints a line of the map, showing eventual buildings and workers of the line.
@@ -398,9 +425,11 @@ public class CLIView {
 
     }
 
+
     public void update(CellClient toUpdateCell) {
         board.update(toUpdateCell);
     }
+
 
     public void printAllGods(ArrayList<String> godsNameAndDescription) {
         System.out.println("\nThese are all the available gods:\n");
@@ -410,6 +439,7 @@ public class CLIView {
 
         System.out.println();
     }
+
 
     public void challengerError() {
         System.out.println("This god doesn't exist.");
@@ -447,6 +477,7 @@ public class CLIView {
                 + otherSex + " worker.\n");
     }
 
+
     public void selectedWorkerCannotBuild(String sex) {
         sex = sex.toLowerCase();
         String otherSex;
@@ -459,6 +490,7 @@ public class CLIView {
         System.out.println("Your " + sex + " worker cannot build anywhere. You must build with your "
                 + otherSex + " worker.");
     }
+
 
     public String askTypeofView() {
 
@@ -745,6 +777,7 @@ public class CLIView {
         return playerAnswerYN();
     }
 
+
     /**
      * The name of the method describes itself.
      *
@@ -831,6 +864,7 @@ public class CLIView {
         System.out.println("You're not allowed to build again there.");
     }
 
+
     /**
      * Lets player know that the challenger is choosing the gods for the game.
      *
@@ -841,6 +875,7 @@ public class CLIView {
         this.challenger = challenger;
         System.out.print(challenger + " is the Challenger and is choosing the gods for this game...");
     }
+
 
     /**
      * Lets player know that another player is choosing his god
@@ -866,6 +901,7 @@ public class CLIView {
         System.out.println(otherPlayer + " has chosen " + chosenGod + ".\n");
     }
 
+
     /**
      * Lets player know that the challenger is choosing the start player
      */
@@ -873,6 +909,7 @@ public class CLIView {
         System.out.println();
         System.out.print(challenger + " is choosing the start player...");
     }
+
 
     /**
      * Lets player know who is the start player
@@ -884,6 +921,7 @@ public class CLIView {
         System.out.println(startPlayer + " is the start player.");
     }
 
+
     /**
      * Lets  player know that another player is choosing the initial position for his workers
      *
@@ -893,6 +931,7 @@ public class CLIView {
         System.out.println();
         System.out.print(player + " is placing his workers on the board...");
     }
+
 
     /**
      * Lets player know that it's another player's turn
@@ -904,6 +943,7 @@ public class CLIView {
         System.out.print(currentPlayer + " is playing his turn...");
     }
 
+    
     /**
      * Lets player know that he has lost, and who is the winner.
      *
