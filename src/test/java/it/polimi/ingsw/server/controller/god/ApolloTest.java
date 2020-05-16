@@ -7,6 +7,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import sun.misc.Unsafe;
+
+import java.lang.reflect.Field;
+
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 

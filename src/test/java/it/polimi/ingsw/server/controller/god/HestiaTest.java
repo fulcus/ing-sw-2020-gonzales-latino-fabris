@@ -110,7 +110,7 @@ public class HestiaTest {
         int[] build = {0, 1};
         when(godController.getBuildingInput()).thenReturn(build, build);
         //The getPosition of the worker and the getX and getY are already defined in the move part above
-        when(workerBuildMap.isAllowedToBuildBoard(any(int.class), any(int.class))).thenReturn(true, false);
+        when(workerBuildMap.isAllowedToBuildBoard(any(int.class), any(int.class))).thenReturn(true, false, true);
         doNothing().when(worker).buildBlock(any(int.class), any(int.class));
         doNothing().when(worker).buildDome(any(int.class), any(int.class));
         doNothing().when(godController).errorBuildScreen();
@@ -128,7 +128,8 @@ public class HestiaTest {
         doNothing().when(workerBuildMap).cannotBuildInPerimeter();
 
         //overridden this behaviour because otherwise an exception would be raised
-        when(workerBuildMap.isAllowedToBuildBoard(any(int.class), any(int.class))).thenReturn(true, true);
+        when(workerBuildMap.isAllowedToBuildBoard(any(int.class), any(int.class))).thenReturn(true, false, true);
+        when(godController.errorBuildDecisionScreen()).thenReturn(true);
 
 
         //Setting the specific build behaviour
@@ -142,7 +143,7 @@ public class HestiaTest {
 
         hestia.evolveTurn(worker);
 
-        verify(workerBuildMap, times(1)).cannotBuildInPerimeter();
+        verify(workerBuildMap, times(2)).cannotBuildInPerimeter();
         verify(worker, times(2)).buildBlock(any(int.class), any(int.class));
     }
 

@@ -41,6 +41,7 @@ public class ArtemisTest {
     public void tearDown() {
         godController = null;
         artemis = null;
+        workerMoveMap = null;
     }
 
 
@@ -145,15 +146,13 @@ public class ArtemisTest {
     public void evolveTurnErrorMoveAgain() throws UnableToBuildException, UnableToMoveException, WinException {
 
         settingUsualParameters();
-        when(workerMoveMap.isAllowedToMoveBoard(any(int.class), any(int.class))).thenReturn(true, false);
+        when(workerMoveMap.anyAvailableMovePosition()).thenReturn(true, false);
         when(godController.errorMoveDecisionScreen()).thenReturn(false);
 
         artemis.evolveTurn(worker);
 
         verify(worker, times(9)).getPosition();
         verify(godController, times(2)).getInputMove();
-        verify(godController, times(1)).wantToMoveAgain();
-        verify(godController, times(1)).errorMoveDecisionScreen();
         verify(workerMoveMap, times(2)).isAllowedToMoveBoard(any(int.class), any(int.class));
         verify(worker, times(1)).setPosition(any(int.class), any(int.class));
         verify(godController, times(2)).displayBoard();

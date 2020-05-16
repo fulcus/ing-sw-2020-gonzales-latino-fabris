@@ -84,7 +84,7 @@ public class Hephaestus extends God {
      */
     public void secondBuild(Worker worker) {
 
-        //todo print: you cannot build again in the same place since it's already at max height
+        //print: you cannot build again in the same place since it's already at max height
         if(firstBuildCell.getLevel() == 3)
             return;
 

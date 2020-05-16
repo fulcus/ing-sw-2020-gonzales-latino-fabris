@@ -3,18 +3,6 @@
     src: url('../fonts/Ink-Blossoms.ttf');
 }
 
-@font-face {
-    -fx-font-family: 'Negotiate Free';
-    src: url('../fonts/negotiate-free.ttf');
-}
-
-.background-board {
-    -fx-background-image: url('../title/title_sky.png');
-    -fx-background-size: cover;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-}
-
 .button {
     -fx-background-image:url('../buttons/btn_blue.png');
     -fx-background-size: 100%;
@@ -23,6 +11,7 @@
     -fx-background-color: transparent;
     -fx-content-display: top;
     -fx-font-family: "Ink Blossoms";
+    -fx-font-size: 20;
 }
 
 .button:pressed {
@@ -33,12 +22,28 @@
     -fx-background-color: transparent;
 }
 
-.text-field {
-    -fx-background-image:url('../labels/clp_textbar.png');
+.exit-button {
+    -fx-background-image:url('../buttons/clp_skip_btn.png');
+    -fx-background-size: 100%;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-background-color: transparent;
-    -fx-background-size: cover;
-    -fx-text-inner-color: white;
-    -fx-font-family: "Negotiate Free";
+    -fx-content-display: top;
+    -fx-font-family: "Ink Blossoms";
+    -fx-font-size: 15;
+}
+
+.exit-button:pressed {
+    -fx-background-image:url('../buttons/clp_skip_btn_pressed.png');
+    -fx-background-size: 100%;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-color: transparent;
+    -fx-font-family: "Ink Blossoms";
+}
+
+.text-win {
+    -fx-font-family: "Ink Blossoms";
+    -fx-font-size: 38;
+    -fx-font-color: white;
 }

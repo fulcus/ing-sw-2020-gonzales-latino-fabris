@@ -1,0 +1,50 @@
+@font-face {
+    -fx-font-family: 'Ink Blossoms';
+    src: url('../fonts/Ink-Blossoms.ttf');
+}
+
+.blue-button {
+    -fx-background-image:url('../buttons/om_btnActive.png');
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.gold-button {
+    -fx-background-image:url('../buttons/om_btnComplete.png');
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.white-button {
+    -fx-background-image:url('../buttons/om_btn_color_white.png');
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.gold-button:pressed {
+    -fx-background-image:url('../buttons/om_btn_gold_selected.png');
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.white-button:pressed {
+    -fx-background-image:url('../buttons/om_btn_color_white_selected.png');
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.blue-button:pressed {
+    -fx-background-image:url('../buttons/om_btn_blue_selected.png');
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
+    -fx-border-color: transparent;
+}
