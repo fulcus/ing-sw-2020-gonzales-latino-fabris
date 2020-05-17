@@ -237,7 +237,7 @@ public class TurnHandler implements Runnable {
 
             //Once a player set his workers, others will receive the updated map
             for (Player player_ : players) {
-                if (player_ != player)//TODO HERE WE CAN NOTIFY OTHERS PLAYERS THAT A PLAYER HAS PLACED HIS WORKERS
+                if (player_ != player)
                     player_.getClient().printMap();
             }
 
@@ -460,6 +460,11 @@ public class TurnHandler implements Runnable {
 
     public void setNumberOfPlayers(Integer numberOfPlayers) {
         this.numberOfPlayers = numberOfPlayers;
+    }
+
+    //useful for testing
+    public int getNumberOfPlayers() {
+        return numberOfPlayers;
     }
 
 }
