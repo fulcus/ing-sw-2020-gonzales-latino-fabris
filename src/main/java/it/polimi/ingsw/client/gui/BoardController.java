@@ -18,7 +18,6 @@ public class BoardController {
         Node source = (Node)event.getSource();
         Integer colIndex = GridPane.getColumnIndex(source);
         Integer rowIndex = GridPane.getRowIndex(source);
-        System.out.printf("Mouse clicked cell in [%d, %d]%n", colIndex, rowIndex);
+        System.out.printf("Mouse clicked cell in [%d, %d]%n", rowIndex,colIndex);
     }
-
 }
