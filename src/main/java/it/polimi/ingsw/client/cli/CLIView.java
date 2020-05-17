@@ -943,7 +943,7 @@ public class CLIView {
         System.out.print(currentPlayer + " is playing his turn...");
     }
 
-    
+
     /**
      * Lets player know that he has lost, and who is the winner.
      *

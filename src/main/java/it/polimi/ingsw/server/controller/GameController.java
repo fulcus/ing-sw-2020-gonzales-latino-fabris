@@ -42,13 +42,12 @@ public class GameController {
         godController = new GodController(this);
         createDeckGods();
 
-        //firstClient.beginningView();
 
         int numOfPlayers = firstClient.askNumberOfPlayers();
 
         game = new Game(numOfPlayers);
 
-        turnHandler = new TurnHandler(game, this);
+        turnHandler = new TurnHandler(getGame(), this);
 
     }
 
