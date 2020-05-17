@@ -94,14 +94,12 @@ public class ChooseGodController {
             e.printStackTrace();
         }
 
-
-
+        //
         if(godFrame != null)
             godFrame.setImage(whiteFrame);
 
         //get the ImageView godFrame attribute for the clicked god
         Field frame;
-        godFrame = null;
 
         try {
             frame = c.getDeclaredField(godId + "Frame");

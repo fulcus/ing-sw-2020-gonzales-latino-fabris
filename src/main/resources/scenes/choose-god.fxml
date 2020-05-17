@@ -275,7 +275,7 @@
                   <RowConstraints maxHeight="337.0" minHeight="10.0" prefHeight="104.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <TextArea fx:id="godDescriptionArea" prefHeight="227.0" prefWidth="196.0" text="Your Worker may move into an opponent Worker’s space by forcing their Worker to the space yours just vacated." wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <TextArea fx:id="godDescriptionArea" editable="false" prefHeight="227.0" prefWidth="196.0" text="Your Worker may move into an opponent Worker’s space by forcing their Worker to the space yours just vacated." wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <GridPane.margin>
                         <Insets top="15.0" />
                      </GridPane.margin></TextArea>
