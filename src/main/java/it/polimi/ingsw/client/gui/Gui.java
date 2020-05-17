@@ -24,8 +24,9 @@ public class Gui extends Application {
             //Parent root = FXMLLoader.load(getClass().getResource("/scenes/choose-color.fxml"));
             //Parent root = FXMLLoader.load(getClass().getResource("/scenes/start-player.fxml"));
             //Parent root = FXMLLoader.load(getClass().getResource("/scenes/choose-god.fxml"));
-            Parent root = FXMLLoader.load(getClass().getResource("/scenes/board.fxml"));
+            //Parent root = FXMLLoader.load(getClass().getResource("/scenes/board.fxml"));
             //Parent root = FXMLLoader.load(getClass().getResource("/scenes/lose.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/scenes/lobby.fxml"));
 
             Scene scene = new Scene(root);
 

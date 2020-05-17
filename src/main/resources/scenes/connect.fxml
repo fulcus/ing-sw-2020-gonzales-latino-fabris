@@ -3,8 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.Lighting?>
-<?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -23,7 +21,7 @@
             <Image url="@../title/title_cloud_back_horizon.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="291.0" fitWidth="419.0" layoutX="329.0" layoutY="215.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="291.0" fitWidth="419.0" layoutX="345.0" layoutY="232.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../title/title_FG_cloud.png" />
          </image>
@@ -37,15 +35,8 @@
          <image>
             <Image url="@../title/santorini-logo.png" />
          </image>
-         <effect>
-            <Lighting diffuseConstant="2.0" light="$null" specularConstant="0.38" specularExponent="40.0" surfaceScale="10.0">
-               <bumpInput>
-                  <Shadow />
-               </bumpInput>
-            </Lighting>
-         </effect>
       </ImageView>
-      <Text fill="#2a1b75" layoutX="287.0" layoutY="325.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Insert server IP" textAlignment="CENTER" wrappingWidth="131.5146484375">
+      <Text fill="#2a1b75" layoutX="280.0" layoutY="333.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Insert server IP" textAlignment="CENTER" wrappingWidth="160.5146484375">
          <font>
             <Font name="Negotiate Free" size="18.0" />
          </font>
