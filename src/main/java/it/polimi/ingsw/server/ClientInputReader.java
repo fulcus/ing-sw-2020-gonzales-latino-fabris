@@ -84,11 +84,11 @@ public class ClientInputReader implements Runnable {
 
                 client.getGameController().handleGameDisconnection();
 
+
                 System.out.println(client.getPlayer().getNickname() + "disconnected");
 
 
-                //TODO REQUISITI SPECIFICA,PIAZZA, SHUT DOWN,(ATHENA e simili),
-                //TODO WAIT FRA
+                //TODO VERIFICARE SE RIMUOVERE LA SOUT PERCHè IN INIZIALIZZAZIONE DEL GIOCO, NULL POINTER PERCHè NICK ANCORA NON ESISTE.
 
 
             } catch (ClassNotFoundException e) {

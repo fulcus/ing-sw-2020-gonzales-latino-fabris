@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -62,6 +63,11 @@
                    <Pane onMouseClicked="#chooseCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="4" />
                </children>
             </GridPane>
+            <ImageView fitHeight="200.0" fitWidth="195.0" layoutX="820.0" layoutY="383.0">
+               <image>
+                  <Image url="@../../../../../../Desktop/Progetto%20IngSw/RISORSE%20GRAFICHE/Texture2D/podium-characters-Morpheus.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
       <GridPane accessibleRole="NODE" prefHeight="173.0" prefWidth="1019.0" styleClass="background-bottom" stylesheets="@../css/board.css" GridPane.rowIndex="1">
@@ -74,8 +80,24 @@
           <RowConstraints maxHeight="38.0" minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="column-top" />
             <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="column-bottom" GridPane.rowIndex="2" />
+            <AnchorPane prefHeight="200.0" prefWidth="1000.0" styleClass="column-top" />
+            <ImageView fx:id="showDescriptionButton" fitHeight="34.0" fitWidth="25.0" onMouseClicked="#showGodDescription" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../buttons/full_0000s_0000_god_and_hero_cards_0058_Random.png" />
+               </image>
+               <GridPane.margin>
+                  <Insets bottom="12.0" left="114.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="playerGod" fitHeight="146.0" fitWidth="92.0" preserveRatio="true" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../gods/full_apollo.png" />
+               </image>
+               <GridPane.margin>
+                  <Insets left="18.0" />
+               </GridPane.margin>
+            </ImageView>
             <ImageView fitHeight="149.0" fitWidth="16.0" GridPane.rowIndex="1">
                <image>
                   <Image url="@../frames/column.png" />
@@ -85,6 +107,14 @@
                <image>
                   <Image url="@../frames/column.png" />
                </image>
+            </ImageView>
+            <ImageView fitHeight="155.0" fitWidth="129.0" preserveRatio="true" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../frames/gameGodFrame%20copia.png" />
+               </image>
+               <GridPane.margin>
+                  <Insets left="15.0" />
+               </GridPane.margin>
             </ImageView>
          </children>
       </GridPane>
