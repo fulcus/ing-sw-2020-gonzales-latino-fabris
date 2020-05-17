@@ -30,7 +30,6 @@ public class ViewClient implements ClientViewObserver {
 
     //private final List<ClientViewObserver> observers = new ArrayList<>();
 
-
     public ViewClient(Socket socket, GameController gameController) {
         this.socket = socket;
         this.gameController = gameController;
@@ -97,9 +96,7 @@ public class ViewClient implements ClientViewObserver {
      */
     public int askNumberOfPlayers() {
 
-        int number =  (int) sendMessageWithReturn(new Message("askNumberOfPlayers"));
-        System.out.println("received number of players "+ number);
-        return number;
+        return (int) sendMessageWithReturn(new Message("askNumberOfPlayers"));
     }
 
 
@@ -412,9 +409,7 @@ public class ViewClient implements ClientViewObserver {
             enemyWorkersClient.add(new WorkerClient(worker));
 
 
-        String enemyToMovePosition = (String) sendMessageWithReturn(new Message("askWorkerToMove", enemyWorkersClient, new WorkerClient(myWorker)));
-
-        return enemyToMovePosition;
+        return (String) sendMessageWithReturn(new Message("askWorkerToMove", enemyWorkersClient, new WorkerClient(myWorker)));
     }
 
 
