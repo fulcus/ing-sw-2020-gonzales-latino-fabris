@@ -79,6 +79,8 @@ public class TurnHandlerTest {
     @Test
     public void setUpTurns() {
 
+        //da rifare o rivedere
+
         ArrayList<God> godDeck = new ArrayList<>();
         GodController godController = mock(GodController.class);
         when(gameController.getGodController()).thenReturn(godController);
@@ -144,7 +146,48 @@ public class TurnHandlerTest {
     }
 
     @Test
-    public void startTurnFlow() {
+    public void startTurnFlow() throws UnableToMoveException, UnableToBuildException, WinException {
+
+        //da rifare o rivedere
+
+        when(player1.getClient()).thenReturn(client1);
+        when(player2.getClient()).thenReturn(client2);
+        when(player1.getNickname()).thenReturn("Nick1");
+        when(player2.getNickname()).thenReturn("Nick2");
+
+        GodController godController = mock(GodController.class);
+        when(gameController.getGodController()).thenReturn(godController);
+        doNothing().when(godController).updateCurrentClient(any(ViewClient.class));
+
+        when(client1.askChosenWorker()).thenReturn("MALE", "FEMALE");
+        when(client2.askChosenWorker()).thenReturn("MALE", "FEMALE");
+
+        Worker maleWorker1 = mock(Worker.class);
+        when(maleWorker1.getSex()).thenReturn(Sex.MALE);
+        Worker femaleWorker1 = mock(Worker.class);
+        when(femaleWorker1.getSex()).thenReturn(Sex.FEMALE);
+        Worker maleWorker2 = mock(Worker.class);
+        when(maleWorker2.getSex()).thenReturn(Sex.MALE);
+        Worker femaleWorker2 = mock(Worker.class);
+        when(femaleWorker2.getSex()).thenReturn(Sex.FEMALE);
+        ArrayList<Worker> workers1 = new ArrayList();
+        workers1.add(maleWorker1);
+        workers1.add(femaleWorker1);
+        ArrayList<Worker> workers2 = new ArrayList();
+        workers2.add(maleWorker2);
+        workers2.add(femaleWorker2);
+        when(player1.getWorkers()).thenReturn(workers1);
+        when(player2.getWorkers()).thenReturn(workers2);
+
+        Pan pan = mock(Pan.class);
+        when(player1.getGod()).thenReturn(pan);
+        Zeus zeus = mock(Zeus.class);
+        when(player2.getGod()).thenReturn(zeus);
+        doNothing().when(pan).evolveTurn(any(Worker.class));
+        doNothing().when(zeus).evolveTurn(any(Worker.class));
+
+
+
     }
 
     @Test
@@ -161,6 +204,17 @@ public class TurnHandlerTest {
 
     @Test
     public void handleGameChange() {
+
+        GodController godController = mock(GodController.class);
+        when(gameController.getGodController()).thenReturn(godController);
+
+        doNothing().when(gameController).notifyPlayersOfLoss(anyString());
+
+        turnHandler.handleGameChange("Nick1");
+
+        verify(godController, times(1)).displayBoard();
+        verify(gameController, times(1)).notifyPlayersOfLoss(anyString());
+
     }
 
     @Test
