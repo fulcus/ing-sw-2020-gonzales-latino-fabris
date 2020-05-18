@@ -181,4 +181,100 @@ public class GameControllerTest {
     }
 
 
+    @Test
+    public void removeClientObserver() {
+        //it's the same as when a player is added to the game, but then
+        //the test on the method allows to see that also the other
+        //things have been done correctly.
+
+        when(client.askNumberOfPlayers()).thenReturn(2);
+        gameController.setUpGame(client);
+
+        doNothing().when(client).connected();
+        doNothing().when(client).beginningView();
+
+        when(client.askPlayerNickname()).thenReturn("Nick1");
+        when(client.askPlayerColor()).thenReturn("BEIGE");
+
+        doNothing().when(client).setPlayer(any(Player.class));
+
+        player1 = mock(Player.class);
+        when(client.getPlayer()).thenReturn(player1);
+        doNothing().when(player1).setColor(any(Color.class));
+
+        doNothing().when(client).notAvailableNickname();
+        doNothing().when(client).notAvailableColor();
+
+        gameController.addPlayer(client);
+
+        gameController.removeClientObserver(client);
+    }
+
+
+    @Test
+    public void handleGameDisconnection() {
+
+        //preliminary settings to add one player to the game
+
+        when(client.askNumberOfPlayers()).thenReturn(2);
+        gameController.setUpGame(client);
+
+        doNothing().when(client).connected();
+        doNothing().when(client).beginningView();
+
+        when(client.askPlayerNickname()).thenReturn("Nick1");
+        when(client.askPlayerColor()).thenReturn("BEIGE");
+
+        doNothing().when(client).setPlayer(any(Player.class));
+
+        player1 = mock(Player.class);
+        when(client.getPlayer()).thenReturn(player1);
+        doNothing().when(player1).setColor(any(Color.class));
+
+        doNothing().when(client).notAvailableNickname();
+        doNothing().when(client).notAvailableColor();
+
+        gameController.addPlayer(client);
+        //end of preliminary settings
+
+        when(client.isInGame()).thenReturn(true);
+        doNothing().when(client).notifyOtherPlayerDisconnection();
+        doNothing().when(client).killClient();
+
+
+        gameController.handleGameDisconnection();
+
+        verify(client, times(1)).killClient();
+        verify(client, times(1)).notifyOtherPlayerDisconnection();
+    }
+
+
+    @Test
+    public void notifyPlayersOfLoss() {
+        when(client.askNumberOfPlayers()).thenReturn(2);
+        gameController.setUpGame(client);
+
+        doNothing().when(client).connected();
+        doNothing().when(client).beginningView();
+
+        when(client.askPlayerNickname()).thenReturn("Nick1");
+        when(client.askPlayerColor()).thenReturn("BEIGE");
+
+        doNothing().when(client).setPlayer(any(Player.class));
+
+        player1 = mock(Player.class);
+        when(client.getPlayer()).thenReturn(player1);
+        doNothing().when(player1).setColor(any(Color.class));
+
+        doNothing().when(client).notAvailableNickname();
+        doNothing().when(client).notAvailableColor();
+
+        gameController.addPlayer(client);
+
+        when(player1.getClient()).thenReturn(client);
+        doNothing().when(client).notifyPlayersOfLoss(anyString());
+
+        gameController.notifyPlayersOfLoss("Nick2");
+    }
+
 }
