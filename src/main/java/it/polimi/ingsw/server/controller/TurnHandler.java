@@ -22,6 +22,7 @@ public class TurnHandler implements Runnable {
     private boolean numberOfPLayersHasChanged;
     private volatile int turnCounter;
 
+
     public TurnHandler(Game game, GameController gameController) {
         gameAlive = true;
         this.game = game;
@@ -33,6 +34,7 @@ public class TurnHandler implements Runnable {
         numberOfPLayersHasChanged = false;
         turnCounter = 0;
     }
+
 
     @Override
     public void run() {
@@ -91,6 +93,7 @@ public class TurnHandler implements Runnable {
         }
 
     }
+
 
     /**
      * Lets players choose their own god among the ones chosen by the challenger.
@@ -246,10 +249,11 @@ public class TurnHandler implements Runnable {
 
     }
 
+
     /**
      * Executes the preparation of the game.
      */
-    private void setUpTurns() {
+    public void setUpTurns() {
         challengerChooseGods();
         playersChooseGods();
         challengerChooseStartPlayer();
@@ -306,13 +310,14 @@ public class TurnHandler implements Runnable {
         }
     }
 
+
     /**
      * Handles cyclical counter when number of Players changes.
      *
      * @param cyclicalCounter value of counter when numOfPlayers decreases.
-     * @return new balue of cyclicalCounter.
+     * @return new value of cyclicalCounter.
      */
-    private int handleCyclicalCounter(int cyclicalCounter) {
+    public int handleCyclicalCounter(int cyclicalCounter) {
 
         if (cyclicalCounter == 1)
             cyclicalCounter = 0;
@@ -324,6 +329,7 @@ public class TurnHandler implements Runnable {
         return cyclicalCounter;
 
     }
+
 
     /**
      * Allows the player to choose a worker to play the turn.
@@ -425,47 +431,55 @@ public class TurnHandler implements Runnable {
 
     }
 
-    private void handleGameChange(String loserNickname) {
+
+    public void handleGameChange(String loserNickname) {
 
         setNumberOfPLayersHasChanged(true);
         setNumberOfPlayers(game.getNumberOfPlayers());
         gameController.getGodController().displayBoard();
         gameController.notifyPlayersOfLoss(loserNickname);
 
-
     }
+
 
     public void stopTurnFlow() {
         gameAlive = false;
     }
 
-    //TESTING METHODS
 
     public boolean getGameAlive() {
         return gameAlive;
     }
 
+
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
+
 
     public void setNumberOfPLayersHasChanged(boolean numberOfPLayersHasChanged) {
         this.numberOfPLayersHasChanged = numberOfPLayersHasChanged;
     }
 
+
     public boolean numberOfPLayersHasChanged() {
         return numberOfPLayersHasChanged;
     }
+
 
     public void setNumberOfPlayers(Integer numberOfPlayers) {
         this.numberOfPlayers = numberOfPlayers;
     }
 
+
     public int getNumberOfPlayers() {
         return numberOfPlayers;
     }
 
+
     public int getTurnCounter() {
         return turnCounter;
     }
+
+
 }

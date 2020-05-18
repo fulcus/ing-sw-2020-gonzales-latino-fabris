@@ -19,7 +19,7 @@ import static org.mockito.Mockito.*;
 
 public class TurnHandlerTest {
 
-    private TurnHandler turnHandler;
+    private GameController gameController;
 
     @Mock
     private ViewClient client1;
@@ -28,245 +28,332 @@ public class TurnHandlerTest {
     private ViewClient client2;
 
     @Mock
-    private Game game;
-
-    @Mock
     private Player player1;
 
     @Mock
     private Player player2;
 
-    @Mock
-    private GameController gameController;
-
 
     @Before
     public void setUp() {
-        gameController = mock(GameController.class);
-        game = mock(Game.class);
+
+        gameController = new GameController();
         player1 = mock(Player.class);
         player2 = mock(Player.class);
         client1 = mock(ViewClient.class);
         client2 = mock(ViewClient.class);
 
-        ArrayList<Player> players = new ArrayList<>(2);
-        players.add(player1);
-        players.add(player2);
-        when(game.getPlayers()).thenReturn(players);
-        when(game.getNumberOfPlayers()).thenReturn(2);
-        when(gameController.getGame()).thenReturn(game);
-        //when(gameController.getTurnHandler()).thenReturn(turnHandler);
+        when(client1.askNumberOfPlayers()).thenReturn(2);
+        gameController.setUpGame(client1);
 
-        turnHandler = new TurnHandler(game, gameController);
+        when(client1.askPlayerNickname()).thenReturn("Nick1");
+        when(client2.askPlayerNickname()).thenReturn("Nick2");
+        when(client1.askPlayerColor()).thenReturn("BEIGE");
+        when(client2.askPlayerColor()).thenReturn("BLUE");
+
+        doNothing().when(client1).setPlayer(any(Player.class));
+        doNothing().when(client2).setPlayer(any(Player.class));
+
+        when(client1.getPlayer()).thenReturn(player1);
+        when(client2.getPlayer()).thenReturn(player2);
+        when(player1.getClient()).thenReturn(client1);
+        when(player2.getClient()).thenReturn(client2);
+
+        doNothing().when(player1).setColor(any(Color.class));
+        doNothing().when(player2).setColor(any(Color.class));
+
+        gameController.addPlayer(client1);
+        gameController.addPlayer(client2);
+
+
     }
 
 
     @After
     public void tearDown() {
         gameController = null;
-        game = null;
         client1 = null;
         client2 = null;
         player1 = null;
         player2 = null;
-        turnHandler = null;
     }
+
 
     @Test
     public void run() {
 
+
+        doNothing().when(client1).waitChallengerChooseGods(anyString());
+        doNothing().when(client2).waitChallengerChooseGods(anyString());
+
+        when(client1.getGodFromChallenger(any(int.class), any(int.class))).thenReturn("Apollo", "Apollo", "Pan");
+        when(client2.getGodFromChallenger(any(int.class), any(int.class))).thenReturn("Pan", "Pan", "Apollo");
+
+        //da qui comincia il playersChooseGods
+        when(client2.askPlayerGod()).thenReturn("Zeus", "Apollo");
+        when(client1.askPlayerGod()).thenReturn("Pan");
+
+        //
+        when(client1.challengerChooseStartPlayer()).thenReturn("Nick1");
+        when(client2.challengerChooseStartPlayer()).thenReturn("Nick2");
+
+        int[] input1 = {2, 2};
+        int[] input2 = {3, 3};
+        int[] input3 = {1, 1};
+        int[] input4 = {4, 4};
+        when(client1.askInitialWorkerPosition(anyString())).thenReturn(input1, input2);
+        when(client2.askInitialWorkerPosition(anyString())).thenReturn(input3, input4);
+
+
+        when(client1.askChosenWorker()).thenReturn("FEMALE", "MALE");
+        when(client2.askChosenWorker()).thenReturn("MALE", "FEMALE");
+
+        when(client1.askMovementDirection()).thenReturn("N");
+        when(client2.askMovementDirection()).thenReturn("N");
+
+        when(client1.askBuildingDirection()).thenReturn("E");
+        when(client2.askBuildingDirection()).thenReturn("E");
+
+
         //starting thread of turnhandler
-        new Thread(turnHandler).start();
+        new Thread(gameController.getTurnHandler()).start();
 
         //check periodically that the turnhandler thread has played a turn
         //ie has looped at least one time in startTurnFlow
         //then issues command to exit the loop with stopTurnFlow
         do {
             try {
-                Thread.sleep(2000);
+                Thread.sleep(7000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        } while(turnHandler.getTurnCounter() < 1);
+        } while(gameController.getTurnHandler().getTurnCounter() < 2);
 
-        turnHandler.stopTurnFlow();
+        gameController.getTurnHandler().stopTurnFlow();
     }
 
+
     @Test
-    public void setUpTurns() {
+    public void runMoveEx() {
 
-        //da rifare o rivedere
+/*
+        ViewClient client3 = mock(ViewClient.class);
+        Player player3 = mock(Player.class);
+        //when(client1.askNumberOfPlayers()).thenReturn(3);
+        when(client3.askPlayerNickname()).thenReturn("Nick3");
+        when(client3.askPlayerColor()).thenReturn("WHITE");
+        when(client3.getPlayer()).thenReturn(player3);
+        when(player3.getClient()).thenReturn(client3);
+        doNothing().when(player3).setColor(any(Color.class));
+        doNothing().when(player3).setColor(any(Color.class));
+        gameController.addPlayer(client3);*/
 
-        ArrayList<God> godDeck = new ArrayList<>();
-        GodController godController = mock(GodController.class);
-        when(gameController.getGodController()).thenReturn(godController);
-        Zeus zeus = new Zeus(gameController.getGodController());
-        godDeck.add(zeus);
-        when(gameController.getGodsDeck()).thenReturn(godDeck);
 
-        when(game.getChallenger()).thenReturn(player1);
-        when(player1.getClient()).thenReturn(client1);
-        when(player2.getClient()).thenReturn(client2);
-        when(player1.getNickname()).thenReturn("Nick1");
-        when(player2.getNickname()).thenReturn("Nick2");
+        doNothing().when(client1).waitChallengerChooseGods(anyString());
+        doNothing().when(client2).waitChallengerChooseGods(anyString());
 
         when(client1.getGodFromChallenger(any(int.class), any(int.class))).thenReturn("Apollo", "Apollo", "Pan");
-        ArrayList<God> chosenGods = mock(ArrayList.class);
-        when(game.getChosenGods()).thenReturn(chosenGods);
-        when(chosenGods.contains(any())).thenReturn(false);
+        when(client2.getGodFromChallenger(any(int.class), any(int.class))).thenReturn("Pan", "Pan", "Apollo");
+        //when(client3.getGodFromChallenger(any(int.class), any(int.class))).thenReturn("Zeus", "Pan", "Apollo");
 
-        chosenGods.add(new Apollo(gameController.getGodController()));
-        chosenGods.add(new Pan(gameController.getGodController()));
 
+        //da qui comincia il playersChooseGods
+        when(client2.askPlayerGod()).thenReturn("Apollo");
+        when(client1.askPlayerGod()).thenReturn("Pan");
+        //when(client3.askPlayerGod()).thenReturn("Zeus");
+
+
+        //
+        when(client1.challengerChooseStartPlayer()).thenReturn("Nick1");
+        when(client2.challengerChooseStartPlayer()).thenReturn("Nick2");
+        //when(client3.challengerChooseStartPlayer()).thenReturn("Nick3");
+
+        int[] input1 = {0, 0};
+        int[] input2 = {0, 1};
+        int[] input3 = {3, 3};
+        int[] input4 = {4, 4};
+        //int[] input5 = {4, 2};
+        //int[] input6 = {3, 1};
+        when(client1.askInitialWorkerPosition(anyString())).thenReturn(input1, input2);
+        when(client2.askInitialWorkerPosition(anyString())).thenReturn(input3, input4);
+        //when(client3.askInitialWorkerPosition(anyString())).thenReturn(input5, input6);
+
+
+        when(client1.askChosenWorker()).thenReturn("FEMALE", "MALE");
+        when(client2.askChosenWorker()).thenReturn("MALE", "FEMALE");
+        //when(client3.askChosenWorker()).thenReturn("MALE", "FEMALE");
+
+        when(client1.askMovementDirection()).thenReturn("N");
+        when(client2.askMovementDirection()).thenReturn("N");
+        //when(client3.askMovementDirection()).thenReturn("N");
+
+        when(client1.askBuildingDirection()).thenReturn("E");
+        when(client2.askBuildingDirection()).thenReturn("E");
+      //  when(client3.askBuildingDirection()).thenReturn("E");
+
+        Worker usefulWorker = gameController.getGame().getPlayers().get(0).getWorkers().get(0);
+        usefulWorker.buildBlock(0, 2);
+        usefulWorker.buildBlock(0, 2);
+        usefulWorker.buildBlock(1, 2);
+        usefulWorker.buildBlock(1, 2);
+        usefulWorker.buildBlock(1, 0);
+        usefulWorker.buildBlock(1, 0);
+        usefulWorker.buildBlock(1, 1);
+        usefulWorker.buildBlock(1, 1);
+
+        //starting thread of turnhandler
+        new Thread(gameController.getTurnHandler()).start();
+
+        //check periodically that the turnhandler thread has played a turn
+        //ie has looped at least one time in startTurnFlow
+        //then issues command to exit the loop with stopTurnFlow
+        do {
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        } while(gameController.getTurnHandler().getTurnCounter() < 1);
+
+        gameController.getTurnHandler().stopTurnFlow();
+    }
+
+
+    @Test
+    public void runBuildEx() {
+
+        doNothing().when(client1).waitChallengerChooseGods(anyString());
+        doNothing().when(client2).waitChallengerChooseGods(anyString());
+
+        when(client1.getGodFromChallenger(any(int.class), any(int.class))).thenReturn("Apollo", "Apollo", "Pan");
+        when(client2.getGodFromChallenger(any(int.class), any(int.class))).thenReturn("Pan", "Pan", "Apollo");
+
+        //da qui comincia il playersChooseGods
         when(client2.askPlayerGod()).thenReturn("Apollo");
         when(client1.askPlayerGod()).thenReturn("Pan");
 
-        when(client1.challengerChooseStartPlayer()).thenReturn(null, "Nick1");
+        //
+        when(client1.challengerChooseStartPlayer()).thenReturn("Nick1");
+        when(client2.challengerChooseStartPlayer()).thenReturn("Nick2");
 
-        Worker maleWorker1 = mock(Worker.class);
-        Worker femaleWorker1 = mock(Worker.class);
-        Worker maleWorker2 = mock(Worker.class);
-        Worker femaleWorker2 = mock(Worker.class);
-        ArrayList<Worker> workers1 = new ArrayList();
-        workers1.add(maleWorker1);
-        workers1.add(femaleWorker1);
-        ArrayList<Worker> workers2 = new ArrayList();
-        workers2.add(maleWorker2);
-        workers2.add(femaleWorker2);
-        when(player1.getWorkers()).thenReturn(workers1);
-        when(player2.getWorkers()).thenReturn(workers2);
-        int[] input = {2, 2};
-        when(client2.askInitialWorkerPosition(anyString())).thenReturn(input);
-        Board board = mock(Board.class);
-        Cell cell = mock(Cell.class);
-        when(game.getBoard()).thenReturn(board);
-        when(board.findCell(any(int.class), any(int.class))).thenReturn(cell);
-        when(cell.isOccupied()).thenReturn(true, false);
-        doNothing().when(maleWorker1).setPosition(any(int.class), any(int.class));
-        doNothing().when(maleWorker2).setPosition(any(int.class), any(int.class));
-        doNothing().when(femaleWorker1).setPosition(any(int.class), any(int.class));
-        doNothing().when(femaleWorker2).setPosition(any(int.class), any(int.class));
+        int[] input1 = {0, 0};
+        int[] input2 = {3, 2};
+        int[] input3 = {0, 1};
+        int[] input4 = {0, 4};
+        when(client1.askInitialWorkerPosition(anyString())).thenReturn(input1, input2);
+        when(client2.askInitialWorkerPosition(anyString())).thenReturn(input3, input4);
 
 
-        //turnHandler.setUpTurns();
-
-
-        verify(client1, times(1)).printAllGods(any());
-        verify(client2, times(1)).printAllGods(any());
-        verify(player1, times(1)).setGod(any(God.class));
-        verify(player2, times(1)).setGod(any(God.class));
-        verify(client1, times(2)).otherPlayerChoseGod(anyString(), anyString());
-
-        verify(client2, times(1)).waitChallengerStartPlayer();
-        verify(client1, times(2)).challengerChooseStartPlayer();
-    }
-
-    @Test
-    public void startTurnFlow() throws UnableToMoveException, UnableToBuildException, WinException {
-
-        //da rifare o rivedere
-
-        when(player1.getClient()).thenReturn(client1);
-        when(player2.getClient()).thenReturn(client2);
-        when(player1.getNickname()).thenReturn("Nick1");
-        when(player2.getNickname()).thenReturn("Nick2");
-
-        GodController godController = mock(GodController.class);
-        when(gameController.getGodController()).thenReturn(godController);
-        doNothing().when(godController).updateCurrentClient(any(ViewClient.class));
-
-        when(client1.askChosenWorker()).thenReturn("MALE", "FEMALE");
+        when(client1.askChosenWorker()).thenReturn("FEMALE", "MALE");
         when(client2.askChosenWorker()).thenReturn("MALE", "FEMALE");
 
-        Worker maleWorker1 = mock(Worker.class);
-        when(maleWorker1.getSex()).thenReturn(Sex.MALE);
-        Worker femaleWorker1 = mock(Worker.class);
-        when(femaleWorker1.getSex()).thenReturn(Sex.FEMALE);
-        Worker maleWorker2 = mock(Worker.class);
-        when(maleWorker2.getSex()).thenReturn(Sex.MALE);
-        Worker femaleWorker2 = mock(Worker.class);
-        when(femaleWorker2.getSex()).thenReturn(Sex.FEMALE);
-        ArrayList<Worker> workers1 = new ArrayList<>();
-        workers1.add(maleWorker1);
-        workers1.add(femaleWorker1);
-        ArrayList<Worker> workers2 = new ArrayList<>();
-        workers2.add(maleWorker2);
-        workers2.add(femaleWorker2);
-        when(player1.getWorkers()).thenReturn(workers1);
-        when(player2.getWorkers()).thenReturn(workers2);
+        when(client1.askMovementDirection()).thenReturn("N");
+        when(client2.askMovementDirection()).thenReturn("W");
 
-        Pan pan = mock(Pan.class);
-        when(player1.getGod()).thenReturn(pan);
-        Zeus zeus = mock(Zeus.class);
-        when(player2.getGod()).thenReturn(zeus);
-        doNothing().when(pan).evolveTurn(any(Worker.class));
-        doNothing().when(zeus).evolveTurn(any(Worker.class));
+        when(client1.askBuildingDirection()).thenReturn("S");
+        when(client2.askBuildingDirection()).thenReturn("E");
+
+        //It's useful because in this way I can easily test the
+        //Unable to build Exception and so to collect other lines of for the coverage.
+        Worker usefulWorker = gameController.getGame().getPlayers().get(0).getWorkers().get(0);
+        usefulWorker.buildDome(0, 2);
+        usefulWorker.buildDome(0, 3);
+        usefulWorker.buildDome(1, 0);
+        usefulWorker.buildDome(1, 1);
+        usefulWorker.buildDome(1, 2);
+        usefulWorker.buildDome(1, 3);
+        usefulWorker.buildDome(1, 4);
 
 
 
+        //starting thread of turnhandler
+        new Thread(gameController.getTurnHandler()).start();
+
+        //check periodically that the turnhandler thread has played a turn
+        //ie has looped at least one time in startTurnFlow
+        //then issues command to exit the loop with stopTurnFlow
+        do {
+            try {
+                Thread.sleep(7000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        } while(gameController.getTurnHandler().getTurnCounter() < 1);
+
+        gameController.getTurnHandler().stopTurnFlow();
     }
+
 
     @Test
     public void handleCyclicalCounter() {
+        assertEquals(gameController.getTurnHandler().handleCyclicalCounter(3), 0);
+        assertEquals(gameController.getTurnHandler().handleCyclicalCounter(2), 1);
+        assertEquals(gameController.getTurnHandler().handleCyclicalCounter(1), 0);
+
     }
 
-    @Test
-    public void chooseWorker() {
-    }
-
-    @Test
-    public void turn() {
-    }
 
     @Test
     public void handleGameChange() {
 
-        GodController godController = mock(GodController.class);
-        when(gameController.getGodController()).thenReturn(godController);
-
-        doNothing().when(gameController).notifyPlayersOfLoss(anyString());
-
-        //turnHandler.handleGameChange("Nick1");
-
-        verify(godController, times(1)).displayBoard();
-        verify(gameController, times(1)).notifyPlayersOfLoss(anyString());
+        gameController.getTurnHandler().handleGameChange("Nick1");
 
     }
+
 
     @Test
     public void getCurrentPlayer() {
-        assertNull(turnHandler.getCurrentPlayer());
+        assertNull(gameController.getTurnHandler().getCurrentPlayer());
     }
+
 
     @Test
     public void stopTurnFlow() {
-        assertTrue(turnHandler.getGameAlive());
-        turnHandler.stopTurnFlow();
-        assertFalse(turnHandler.getGameAlive());
+        assertTrue(gameController.getTurnHandler().getGameAlive());
+        gameController.getTurnHandler().stopTurnFlow();
+        assertFalse(gameController.getTurnHandler().getGameAlive());
     }
+
 
     @Test
     public void getGameAlive() {
-        assertTrue(turnHandler.getGameAlive());
+        assertTrue(gameController.getTurnHandler().getGameAlive());
     }
+
 
     @Test
     public void setNumberOfPLayersHasChanged() {
-        turnHandler.setNumberOfPLayersHasChanged(true);
-        assertTrue(turnHandler.numberOfPLayersHasChanged());
+        gameController.getTurnHandler().setNumberOfPLayersHasChanged(true);
+        assertTrue(gameController.getTurnHandler().numberOfPLayersHasChanged());
     }
+
 
     @Test
     public void numberOfPLayersHasChanged() {
-        assertFalse(turnHandler.numberOfPLayersHasChanged());
-        turnHandler.setNumberOfPLayersHasChanged(true);
-        assertTrue(turnHandler.numberOfPLayersHasChanged());
+        assertFalse(gameController.getTurnHandler().numberOfPLayersHasChanged());
+        gameController.getTurnHandler().setNumberOfPLayersHasChanged(true);
+        assertTrue(gameController.getTurnHandler().numberOfPLayersHasChanged());
 
     }
+
 
     @Test
     public void setNumberOfPlayers() {
-        turnHandler.setNumberOfPlayers(3);
-        assertEquals(turnHandler.getNumberOfPlayers(), 3);
+        gameController.getTurnHandler().setNumberOfPlayers(3);
+        assertEquals(gameController.getTurnHandler().getNumberOfPlayers(), 3);
     }
+
+
+    @Test
+    public void getTurnCounter() {
+        assertEquals(gameController.getTurnHandler().getTurnCounter(), 0);
+    }
+
+
+    @Test
+    public void getNumberOfPlayers() {
+        assertEquals(gameController.getTurnHandler().getNumberOfPlayers(), 2);
+    }
+
+
 }
