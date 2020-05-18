@@ -648,41 +648,6 @@ public class ViewClient implements ClientViewObserver {
         sendMessage(new Message("notifyOtherPlayerDisconnection"));
     }
 
-
-    //useless with executors
-
-    /**
-     * Lets the client play his turn.
-     *
-     * @throws IOException thrown by Socket.close()
-     */
-    private void startClient() throws IOException {
-
-        turnHandler = gameController.getTurnHandler();
-
-
-        while (inGame) {
-            //waits until woken up by turnFlow
-            do {
-                try {
-                    synchronized (this) {
-                        System.out.println("client \"" + player.getNickname() + "\" is waiting");
-                        wait();
-                    }
-                } catch (InterruptedException e) {
-                }
-
-            } while (turnHandler.getCurrentPlayer() != player);
-
-            Worker chosenWorker = turnHandler.chooseWorker();
-            turnHandler.turn(chosenWorker);
-
-        }
-
-        socket.close();
-    }
-
-
 }
 
 

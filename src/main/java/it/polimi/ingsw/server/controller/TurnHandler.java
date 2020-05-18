@@ -20,7 +20,7 @@ public class TurnHandler implements Runnable {
     private int unableToBuild;
     private boolean gameAlive;
     private boolean numberOfPLayersHasChanged;
-
+    private volatile int turnCounter;
 
     public TurnHandler(Game game, GameController gameController) {
         gameAlive = true;
@@ -31,6 +31,7 @@ public class TurnHandler implements Runnable {
         this.players = game.getPlayers();
         numberOfPlayers = game.getNumberOfPlayers();
         numberOfPLayersHasChanged = false;
+        turnCounter = 0;
     }
 
     @Override
@@ -248,7 +249,7 @@ public class TurnHandler implements Runnable {
     /**
      * Executes the preparation of the game.
      */
-    public void setUpTurns() {
+    private void setUpTurns() {
         challengerChooseGods();
         playersChooseGods();
         challengerChooseStartPlayer();
@@ -259,7 +260,7 @@ public class TurnHandler implements Runnable {
     /**
      * Executes the succession of turns by the players.
      */
-    public void startTurnFlow() {
+    private void startTurnFlow() {
 
         int cyclicalCounter = 0;
 
@@ -293,16 +294,14 @@ public class TurnHandler implements Runnable {
 
 
             cyclicalCounter++;
-
+            turnCounter++;
 
             if (numberOfPLayersHasChanged) {
                 cyclicalCounter = handleCyclicalCounter(cyclicalCounter);
                 setNumberOfPLayersHasChanged(false);
-            } else {
+            } else if (cyclicalCounter == numberOfPlayers)
+                cyclicalCounter = 0;
 
-                if (cyclicalCounter == numberOfPlayers)
-                    cyclicalCounter = 0;
-            }
 
         }
     }
@@ -313,7 +312,7 @@ public class TurnHandler implements Runnable {
      * @param cyclicalCounter value of counter when numOfPlayers decreases.
      * @return new balue of cyclicalCounter.
      */
-    public int handleCyclicalCounter(int cyclicalCounter) {
+    private int handleCyclicalCounter(int cyclicalCounter) {
 
         if (cyclicalCounter == 1)
             cyclicalCounter = 0;
@@ -331,7 +330,7 @@ public class TurnHandler implements Runnable {
      *
      * @return the chosen worker.
      */
-    public Worker chooseWorker() {
+    private Worker chooseWorker() {
 
         String inputSex = currentClient.askChosenWorker();
 
@@ -348,7 +347,7 @@ public class TurnHandler implements Runnable {
      *
      * @param turnWorker The worker picked for the turn.
      */
-    public void turn(Worker turnWorker) {
+    private void turn(Worker turnWorker) {
 
         Worker otherWorker = null;
         String loserNickname = null;
@@ -426,28 +425,28 @@ public class TurnHandler implements Runnable {
 
     }
 
-    public void handleGameChange(String loserNickname) {
+    private void handleGameChange(String loserNickname) {
 
-        this.setNumberOfPLayersHasChanged(true);
-        this.setNumberOfPlayers(game.getNumberOfPlayers());
+        setNumberOfPLayersHasChanged(true);
+        setNumberOfPlayers(game.getNumberOfPlayers());
         gameController.getGodController().displayBoard();
         gameController.notifyPlayersOfLoss(loserNickname);
 
 
     }
 
-    public Player getCurrentPlayer() {
-        return currentPlayer;
-    }
-
-
     public void stopTurnFlow() {
         gameAlive = false;
     }
 
-    //Useful for testing
+    //TESTING METHODS
+
     public boolean getGameAlive() {
         return gameAlive;
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
     }
 
     public void setNumberOfPLayersHasChanged(boolean numberOfPLayersHasChanged) {
@@ -462,9 +461,11 @@ public class TurnHandler implements Runnable {
         this.numberOfPlayers = numberOfPlayers;
     }
 
-    //useful for testing
     public int getNumberOfPlayers() {
         return numberOfPlayers;
     }
 
+    public int getTurnCounter() {
+        return turnCounter;
+    }
 }

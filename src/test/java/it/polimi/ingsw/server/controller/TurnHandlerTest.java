@@ -10,7 +10,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.Spy;
+
 
 import java.util.ArrayList;
 
@@ -74,6 +74,22 @@ public class TurnHandlerTest {
 
     @Test
     public void run() {
+
+        //starting thread of turnhandler
+        new Thread(turnHandler).start();
+
+        //check periodically that the turnhandler thread has played a turn
+        //ie has looped at least one time in startTurnFlow
+        //then issues command to exit the loop with stopTurnFlow
+        do {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        } while(turnHandler.getTurnCounter() < 1);
+
+        turnHandler.stopTurnFlow();
     }
 
     @Test
@@ -132,7 +148,7 @@ public class TurnHandlerTest {
         doNothing().when(femaleWorker2).setPosition(any(int.class), any(int.class));
 
 
-        turnHandler.setUpTurns();
+        //turnHandler.setUpTurns();
 
 
         verify(client1, times(1)).printAllGods(any());
@@ -170,10 +186,10 @@ public class TurnHandlerTest {
         when(maleWorker2.getSex()).thenReturn(Sex.MALE);
         Worker femaleWorker2 = mock(Worker.class);
         when(femaleWorker2.getSex()).thenReturn(Sex.FEMALE);
-        ArrayList<Worker> workers1 = new ArrayList();
+        ArrayList<Worker> workers1 = new ArrayList<>();
         workers1.add(maleWorker1);
         workers1.add(femaleWorker1);
-        ArrayList<Worker> workers2 = new ArrayList();
+        ArrayList<Worker> workers2 = new ArrayList<>();
         workers2.add(maleWorker2);
         workers2.add(femaleWorker2);
         when(player1.getWorkers()).thenReturn(workers1);
@@ -210,7 +226,7 @@ public class TurnHandlerTest {
 
         doNothing().when(gameController).notifyPlayersOfLoss(anyString());
 
-        turnHandler.handleGameChange("Nick1");
+        //turnHandler.handleGameChange("Nick1");
 
         verify(godController, times(1)).displayBoard();
         verify(gameController, times(1)).notifyPlayersOfLoss(anyString());
