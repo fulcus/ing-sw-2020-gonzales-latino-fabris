@@ -11,8 +11,8 @@ import java.util.concurrent.TimeUnit;
 
 public class Heartbeat extends TimerTask implements Runnable {
 
-    private NetworkHandler networkHandler;
-    private Message pingMessage;
+    private final NetworkHandler networkHandler;
+    private final Message pingMessage;
 
     public Heartbeat(NetworkHandler clientNetworkHandler) {
 

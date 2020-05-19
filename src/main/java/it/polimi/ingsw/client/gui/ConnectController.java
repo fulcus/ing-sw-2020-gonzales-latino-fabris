@@ -9,21 +9,37 @@ import java.util.ResourceBundle;
 
 public class ConnectController implements Initializable {
 
-    public ConnectController() {
-    }
-
     @FXML
     private TextField IPText;
 
-    @FXML
-    private void play() {
-        System.out.println("play");
+    private volatile String IPAddress;
+
+
+    public ConnectController() {
+        IPAddress = null;
     }
 
     @FXML
     private void connect() {
-        System.out.println("connect");
-        System.out.println(IPText.getCharacters());
+
+        IPAddress = IPText.getCharacters().toString();
+        /*
+        synchronized (this) {
+            notifyAll();
+        }*/
+        try {
+            GuiManager.queue.put(IPAddress);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("clicked connect " + IPAddress);
+
+
+    }
+
+    protected String getServerAddress() {
+        return IPAddress;
     }
 
     @Override

@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.cli.Cli;
 import it.polimi.ingsw.client.gui.Gui;
+import it.polimi.ingsw.client.gui.GuiManager;
 import it.polimi.ingsw.serializableObjects.CellClient;
 import it.polimi.ingsw.serializableObjects.Message;
 import it.polimi.ingsw.serializableObjects.WorkerClient;
@@ -18,34 +19,29 @@ import java.util.Scanner;
 /**
  * Client wants to play Santorini establishes a connection to the server.
  */
-public class Client implements Runnable {
+public class Client {
 
     private View view;
-    private Cli clientCli;
     private Socket server;
 
     public Client() {
-
         server = null;
-        clientCli = null;
+        view = null;
     }
 
 
     public static void main(String[] args) {
-
         Client client = new Client();
-        client.run();
+        client.setView();
+        client.setUpConnection();
     }
 
 
-    @Override
-    public void run() {
+    public void setUpConnection() {
 
-        setUpView();
+        String IP = view.getServerAddress();
 
-        String IP = clientCli.getServerAddress();
-
-        //open a connection to the server
+        //open connection with the server
         try {
             server = new Socket(IP, Server.SOCKET_PORT);
         } catch (IOException e) {
@@ -58,11 +54,9 @@ public class Client implements Runnable {
         Thread networkHandlerThread = new Thread(networkHandler);
         networkHandlerThread.start();
 
-
         Heartbeat heartBeat = new Heartbeat(networkHandler);
         Thread heartBeatThread = new Thread(heartBeat);
         heartBeatThread.start();
-
 
     }
 
@@ -70,21 +64,22 @@ public class Client implements Runnable {
     /**
      * Allows to choose the type of view: the player can choose between cli and view.
      */
-    public void setUpView() {
+    public void setView() {
 
         String selectedView;
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
 
-            System.out.println("Choose your view mode: CLI or Gui? Type it here: ");
+            System.out.println("Choose your view mode: CLI or GUI? Type it here: ");
 
             selectedView = scanner.nextLine();
 
             if (selectedView.toUpperCase().equals("CLI")) {
-                clientCli = new Cli();
+                view = new Cli();
                 break;
             } else if (selectedView.toUpperCase().equals("GUI")) {
+                view = new GuiManager();
                 new Thread(Gui::main).start();
                 break;
             }
@@ -105,11 +100,11 @@ public class Client implements Runnable {
                 //Trying to find the method in ClientCliView
                 try {
 
-                    method = clientCli.getClass().getMethod(receivedMessage.getMethod());
+                    method = view.getClass().getMethod(receivedMessage.getMethod());
 
                     //Invoke method in ClientCliView
                     try {
-                        return method.invoke(clientCli);
+                        return method.invoke(view);
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     } catch (InvocationTargetException e) {
@@ -127,11 +122,11 @@ public class Client implements Runnable {
                 //Trying to find the method in ClientCLIView
                 try {
 
-                    method = clientCli.getClass().getMethod(receivedMessage.getMethod(), String.class);
+                    method = view.getClass().getMethod(receivedMessage.getMethod(), String.class);
 
                     //Invoke method in ClientCliView
                     try {
-                        return method.invoke(clientCli, receivedMessage.getStringParam());
+                        return method.invoke(view, receivedMessage.getStringParam());
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     } catch (InvocationTargetException e) {
@@ -151,11 +146,11 @@ public class Client implements Runnable {
                 //Trying to find the method in ClientCliView
                 try {
 
-                    method = clientCli.getClass().getMethod(receivedMessage.getMethod(), ArrayList.class);
+                    method = view.getClass().getMethod(receivedMessage.getMethod(), ArrayList.class);
 
                     //Invoke method in ClientCliView
                     try {
-                        return method.invoke(clientCli, receivedMessage.getStringListParam());
+                        return method.invoke(view, receivedMessage.getStringListParam());
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     } catch (InvocationTargetException e) {
@@ -175,11 +170,11 @@ public class Client implements Runnable {
                 //Trying to find the method in ClientCliView
                 try {
 
-                    method = clientCli.getClass().getMethod(receivedMessage.getMethod(), int.class, int.class);
+                    method = view.getClass().getMethod(receivedMessage.getMethod(), int.class, int.class);
 
                     //Invoke method in ClientCliView
                     try {
-                        return method.invoke(clientCli, receivedMessage.getIntParam1(), receivedMessage.getIntParam2());
+                        return method.invoke(view, receivedMessage.getIntParam1(), receivedMessage.getIntParam2());
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     } catch (InvocationTargetException e) {
@@ -199,11 +194,11 @@ public class Client implements Runnable {
                 //Trying to find the method in ClientCliView
                 try {
 
-                    method = clientCli.getClass().getMethod(receivedMessage.getMethod(), CellClient.class);
+                    method = view.getClass().getMethod(receivedMessage.getMethod(), CellClient.class);
 
                     //Invoke method in ClientCliView
                     try {
-                        return method.invoke(clientCli, receivedMessage.getToUpdateCell());
+                        return method.invoke(view, receivedMessage.getToUpdateCell());
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     } catch (InvocationTargetException e) {
@@ -223,11 +218,11 @@ public class Client implements Runnable {
                 //Trying to find the method in ClientCliView
                 try {
 
-                    method = clientCli.getClass().getMethod(receivedMessage.getMethod(), ArrayList.class, WorkerClient.class);
+                    method = view.getClass().getMethod(receivedMessage.getMethod(), ArrayList.class, WorkerClient.class);
 
                     //Invoke method in ClientCliView
                     try {
-                        return method.invoke(clientCli, receivedMessage.getWorkersParam(), receivedMessage.getWorker());
+                        return method.invoke(view, receivedMessage.getWorkersParam(), receivedMessage.getWorker());
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     } catch (InvocationTargetException e) {
@@ -246,11 +241,11 @@ public class Client implements Runnable {
                 //Trying to find the method in ClientCLIView
                 try {
 
-                    method = clientCli.getClass().getMethod(receivedMessage.getMethod(), String.class, String.class);
+                    method = view.getClass().getMethod(receivedMessage.getMethod(), String.class, String.class);
 
                     //Invoke method in ClientCliView
                     try {
-                        return method.invoke(clientCli, receivedMessage.getStringParam(), receivedMessage.getStringParam2());
+                        return method.invoke(view, receivedMessage.getStringParam(), receivedMessage.getStringParam2());
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     } catch (InvocationTargetException e) {
