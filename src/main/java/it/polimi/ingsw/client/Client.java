@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.client.cli.CLIView;
+import it.polimi.ingsw.client.cli.Cli;
+import it.polimi.ingsw.client.gui.Gui;
 import it.polimi.ingsw.serializableObjects.CellClient;
 import it.polimi.ingsw.serializableObjects.Message;
 import it.polimi.ingsw.serializableObjects.WorkerClient;
@@ -19,13 +20,14 @@ import java.util.Scanner;
  */
 public class Client implements Runnable {
 
-    private CLIView clientCLIView;
+    private View view;
+    private Cli clientCli;
     private Socket server;
 
     public Client() {
 
         server = null;
-        clientCLIView = null;
+        clientCli = null;
     }
 
 
@@ -41,8 +43,7 @@ public class Client implements Runnable {
 
         setUpView();
 
-        String IP = clientCLIView.getServerAddress();
-
+        String IP = clientCli.getServerAddress();
 
         //open a connection to the server
         try {
@@ -63,8 +64,6 @@ public class Client implements Runnable {
         heartBeatThread.start();
 
 
-
-
     }
 
 
@@ -83,14 +82,14 @@ public class Client implements Runnable {
             selectedView = scanner.nextLine();
 
             if (selectedView.toUpperCase().equals("CLI")) {
-                clientCLIView = new CLIView();
-                return;
+                clientCli = new Cli();
+                break;
+            } else if (selectedView.toUpperCase().equals("GUI")) {
+                new Thread(Gui::main).start();
+                break;
             }
-            /*if (viewMode.toUpperCase().equals("Gui"))
-               create gui
-               return;
-             */
-            System.out.println("Wrong input.\n\n");
+            else
+                System.out.println("Invalid input.\n\n");
         }
     }
 
@@ -106,11 +105,11 @@ public class Client implements Runnable {
                 //Trying to find the method in ClientCliView
                 try {
 
-                    method = clientCLIView.getClass().getMethod(receivedMessage.getMethod());
+                    method = clientCli.getClass().getMethod(receivedMessage.getMethod());
 
                     //Invoke method in ClientCliView
                     try {
-                        return method.invoke(clientCLIView);
+                        return method.invoke(clientCli);
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     } catch (InvocationTargetException e) {
@@ -118,7 +117,7 @@ public class Client implements Runnable {
                     }
 
                 } catch (SecurityException e) { /*PRIVATE EXCEPTION to complete*/}
-                //If there is no such method in clientCLIView
+                //If there is no such method in clientCli
                 catch (NoSuchMethodException e) {
                 }
             }
@@ -128,11 +127,11 @@ public class Client implements Runnable {
                 //Trying to find the method in ClientCLIView
                 try {
 
-                    method = clientCLIView.getClass().getMethod(receivedMessage.getMethod(), String.class);
+                    method = clientCli.getClass().getMethod(receivedMessage.getMethod(), String.class);
 
                     //Invoke method in ClientCliView
                     try {
-                        return method.invoke(clientCLIView, receivedMessage.getStringParam());
+                        return method.invoke(clientCli, receivedMessage.getStringParam());
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     } catch (InvocationTargetException e) {
@@ -141,7 +140,7 @@ public class Client implements Runnable {
 
                 } catch (SecurityException e) { /*PRIVATE EXCEPTION to complete*/}
 
-                //If there is no such method in clientCLIView
+                //If there is no such method in clientCli
                 catch (NoSuchMethodException e) {
                 }
 
@@ -152,11 +151,11 @@ public class Client implements Runnable {
                 //Trying to find the method in ClientCliView
                 try {
 
-                    method = clientCLIView.getClass().getMethod(receivedMessage.getMethod(), ArrayList.class);
+                    method = clientCli.getClass().getMethod(receivedMessage.getMethod(), ArrayList.class);
 
                     //Invoke method in ClientCliView
                     try {
-                        return method.invoke(clientCLIView, receivedMessage.getStringListParam());
+                        return method.invoke(clientCli, receivedMessage.getStringListParam());
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     } catch (InvocationTargetException e) {
@@ -164,7 +163,7 @@ public class Client implements Runnable {
                     }
 
                 } catch (SecurityException e) { /*PRIVATE EXCEPTION to complete*/}
-                //If there is no such method in clientCLIView
+                //If there is no such method in clientCli
                 catch (NoSuchMethodException e) {
                 }
 
@@ -176,11 +175,11 @@ public class Client implements Runnable {
                 //Trying to find the method in ClientCliView
                 try {
 
-                    method = clientCLIView.getClass().getMethod(receivedMessage.getMethod(), int.class, int.class);
+                    method = clientCli.getClass().getMethod(receivedMessage.getMethod(), int.class, int.class);
 
                     //Invoke method in ClientCliView
                     try {
-                        return method.invoke(clientCLIView, receivedMessage.getIntParam1(), receivedMessage.getIntParam2());
+                        return method.invoke(clientCli, receivedMessage.getIntParam1(), receivedMessage.getIntParam2());
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     } catch (InvocationTargetException e) {
@@ -200,11 +199,11 @@ public class Client implements Runnable {
                 //Trying to find the method in ClientCliView
                 try {
 
-                    method = clientCLIView.getClass().getMethod(receivedMessage.getMethod(), CellClient.class);
+                    method = clientCli.getClass().getMethod(receivedMessage.getMethod(), CellClient.class);
 
                     //Invoke method in ClientCliView
                     try {
-                        return method.invoke(clientCLIView, receivedMessage.getToUpdateCell());
+                        return method.invoke(clientCli, receivedMessage.getToUpdateCell());
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     } catch (InvocationTargetException e) {
@@ -224,11 +223,11 @@ public class Client implements Runnable {
                 //Trying to find the method in ClientCliView
                 try {
 
-                    method = clientCLIView.getClass().getMethod(receivedMessage.getMethod(), ArrayList.class, WorkerClient.class);
+                    method = clientCli.getClass().getMethod(receivedMessage.getMethod(), ArrayList.class, WorkerClient.class);
 
                     //Invoke method in ClientCliView
                     try {
-                        return method.invoke(clientCLIView, receivedMessage.getWorkersParam(), receivedMessage.getWorker());
+                        return method.invoke(clientCli, receivedMessage.getWorkersParam(), receivedMessage.getWorker());
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     } catch (InvocationTargetException e) {
@@ -247,11 +246,11 @@ public class Client implements Runnable {
                 //Trying to find the method in ClientCLIView
                 try {
 
-                    method = clientCLIView.getClass().getMethod(receivedMessage.getMethod(), String.class, String.class);
+                    method = clientCli.getClass().getMethod(receivedMessage.getMethod(), String.class, String.class);
 
                     //Invoke method in ClientCliView
                     try {
-                        return method.invoke(clientCLIView, receivedMessage.getStringParam(), receivedMessage.getStringParam2());
+                        return method.invoke(clientCli, receivedMessage.getStringParam(), receivedMessage.getStringParam2());
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     } catch (InvocationTargetException e) {
@@ -260,7 +259,7 @@ public class Client implements Runnable {
 
                 } catch (SecurityException e) { /*PRIVATE EXCEPTION to complete*/}
 
-                //If there is no such method in clientCLIView
+                //If there is no such method in clientCli
                 catch (NoSuchMethodException e) {
                 }
 

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.cli;
 
+import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.serializableObjects.CellClient;
 import it.polimi.ingsw.serializableObjects.WorkerClient;
 import it.polimi.ingsw.server.model.*;
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class CLIView {
+public class Cli implements View {
 
     private Scanner input;
     private Scanner intInput;
@@ -17,9 +18,9 @@ public class CLIView {
     private String challenger;
 
     /**
-     * This is the CLIView constructor.
+     * This is the Cli constructor.
      */
-    public CLIView() {
+    public Cli() {
 
         board = new BoardClient();
         input = new Scanner(System.in);
@@ -27,9 +28,9 @@ public class CLIView {
     }
 
     /**
-     * Assigns the nickname of the player to the CLIView
+     * Assigns the nickname of the player to the Cli
      *
-     * @param nickname nickname of the player associated with this instance of CLIView
+     * @param nickname nickname of the player associated with this instance of Cli
      */
     //called by clientView
     public void setPlayer(String nickname) {
@@ -338,8 +339,8 @@ public class CLIView {
     public void printMap() {
         System.out.println("\n");
 
-        final String LINE_SEPARATOR = CLIColor.ANSI_GREEN + "+-------+-------+-------+-------+-------+" + CLIColor.COLOR_RESET + "%n";
-        final String SPACE_SEPARATOR = CLIColor.ANSI_GREEN + "+       +       +       +       +       +" + CLIColor.COLOR_RESET + "%n";
+        final String LINE_SEPARATOR = CliColor.ANSI_GREEN + "+-------+-------+-------+-------+-------+" + CliColor.COLOR_RESET + "%n";
+        final String SPACE_SEPARATOR = CliColor.ANSI_GREEN + "+       +       +       +       +       +" + CliColor.COLOR_RESET + "%n";
 
         for (int i = 0; i < Board.SIDE; i++) {
 
@@ -363,7 +364,7 @@ public class CLIView {
         for (int i = 0; i < Board.SIDE; i++) {
 
             boolean additionalSpace = true;
-            System.out.printf(CLIColor.ANSI_GREEN + "+" + CLIColor.COLOR_RESET);
+            System.out.printf(CliColor.ANSI_GREEN + "+" + CliColor.COLOR_RESET);
             System.out.printf(" ");//1
 
             //Place where eventual buildings will be printed
@@ -400,17 +401,17 @@ public class CLIView {
                 String workerSex = board.findCell(lineNumber, i).getWorkerClient().getWorkerSex();
 
                 if (workerColor.equals("BLUE") && workerSex.equals("MALE"))
-                    System.out.printf(CLIColor.ANSI_BLUE + " M⃣ " + CLIColor.COLOR_RESET);
+                    System.out.printf(CliColor.ANSI_BLUE + " M⃣ " + CliColor.COLOR_RESET);
                 else if (workerColor.equals("BLUE") && workerSex.equals("FEMALE"))
-                    System.out.printf(CLIColor.ANSI_BLUE + " F⃣ " + CLIColor.COLOR_RESET);
+                    System.out.printf(CliColor.ANSI_BLUE + " F⃣ " + CliColor.COLOR_RESET);
                 else if (workerColor.equals("WHITE") && workerSex.equals("MALE"))
-                    System.out.printf(CLIColor.ANSI_WHITE + " M⃣ " + CLIColor.COLOR_RESET);
+                    System.out.printf(CliColor.ANSI_WHITE + " M⃣ " + CliColor.COLOR_RESET);
                 else if (workerColor.equals("WHITE") && workerSex.equals("FEMALE"))
-                    System.out.printf(CLIColor.ANSI_WHITE + " F⃣ " + CLIColor.COLOR_RESET);
+                    System.out.printf(CliColor.ANSI_WHITE + " F⃣ " + CliColor.COLOR_RESET);
                 else if (workerColor.equals("BEIGE") && workerSex.equals("MALE"))
-                    System.out.printf(CLIColor.ANSI_BEIGE + " M⃣ " + CLIColor.COLOR_RESET);
+                    System.out.printf(CliColor.ANSI_BEIGE + " M⃣ " + CliColor.COLOR_RESET);
                 else if (workerColor.equals("BEIGE") && workerSex.equals("FEMALE"))
-                    System.out.printf(CLIColor.ANSI_BEIGE + " F⃣ " + CLIColor.COLOR_RESET);
+                    System.out.printf(CliColor.ANSI_BEIGE + " F⃣ " + CliColor.COLOR_RESET);
 
             }
 
@@ -420,7 +421,7 @@ public class CLIView {
 
         }
 
-        System.out.printf(CLIColor.ANSI_GREEN + "+" + CLIColor.COLOR_RESET);
+        System.out.printf(CliColor.ANSI_GREEN + "+" + CliColor.COLOR_RESET);
         System.out.printf("%n");
 
     }
