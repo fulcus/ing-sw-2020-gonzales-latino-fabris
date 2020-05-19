@@ -1,0 +1,200 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Hestia</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.server.controller.god</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Hestia (it.polimi.ingsw.server.controller.god)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Hestia</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90,9%
+  </span>
+  <span class="absValue">
+    (40/ 44)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.server.controller.god;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.server.controller.UnableToBuildException;
+<i>4</i>&nbsp;import it.polimi.ingsw.server.controller.UnableToMoveException;
+<i>5</i>&nbsp;import it.polimi.ingsw.server.controller.WinException;
+<i>6</i>&nbsp;import it.polimi.ingsw.server.model.Board;
+<i>7</i>&nbsp;import it.polimi.ingsw.server.model.Cell;
+<i>8</i>&nbsp;import it.polimi.ingsw.server.controller.GodController;
+<i>9</i>&nbsp;import it.polimi.ingsw.server.model.Worker;
+<i>10</i>&nbsp;import it.polimi.ingsw.server.model.WorkerBuildMap;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;public class Hestia extends God {
+<i>14</i>&nbsp;
+<b class="fc"><i>15</i>&nbsp;    public final String description = &quot;Your Worker may build one additional time, but this cannot be on a perimeter space.&quot;;</b>
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    public Hestia(GodController godController) {
+<b class="fc"><i>19</i>&nbsp;        super(godController);</b>
+<b class="fc"><i>20</i>&nbsp;    }</b>
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    @Override
+<i>24</i>&nbsp;    public void evolveTurn(Worker w) throws UnableToMoveException, UnableToBuildException, WinException {
+<b class="fc"><i>25</i>&nbsp;        move(w);</b>
+<b class="fc"><i>26</i>&nbsp;        win(w);</b>
+<b class="fc"><i>27</i>&nbsp;        build(w);</b>
+<b class="fc"><i>28</i>&nbsp;        buildAgain(w);</b>
+<b class="fc"><i>29</i>&nbsp;    }</b>
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    /**
+<i>32</i>&nbsp;     * Same as normal build except that it calls special updateBuildMap and catches exception
+<i>33</i>&nbsp;     *
+<i>34</i>&nbsp;     * @param worker Worker playing the turn
+<i>35</i>&nbsp;     */
+<i>36</i>&nbsp;    private void buildAgain(Worker worker) {
+<i>37</i>&nbsp;        WorkerBuildMap buildMap;
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;        //If I choose to not build again I can pass my turn
+<b class="fc"><i>40</i>&nbsp;        if (!godController.wantToBuildAgain(this))</b>
+<b class="fc"><i>41</i>&nbsp;            return;</b>
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;        while (true) {
+<i>44</i>&nbsp;            try {
+<b class="fc"><i>45</i>&nbsp;                buildMap = updateBuildMapHestia(worker);</b>
+<b class="fc"><i>46</i>&nbsp;            } catch (UnableToBuildException ex) {</b>
+<b class="fc"><i>47</i>&nbsp;                godController.errorBuildScreen();</b>
+<b class="fc"><i>48</i>&nbsp;                return;</b>
+<b class="fc"><i>49</i>&nbsp;            }</b>
+<i>50</i>&nbsp;
+<b class="fc"><i>51</i>&nbsp;            Board board = worker.getPlayer().getGame().getBoard();</b>
+<i>52</i>&nbsp;
+<b class="fc"><i>53</i>&nbsp;            int[] buildInput = godController.getBuildingInput();  //returns build position + type: block/dome</b>
+<b class="fc"><i>54</i>&nbsp;            int xBuild = buildInput[0] + worker.getPosition().getX();</b>
+<b class="fc"><i>55</i>&nbsp;            int yBuild = buildInput[1] + worker.getPosition().getY();</b>
+<i>56</i>&nbsp;
+<b class="fc"><i>57</i>&nbsp;            Cell buildPosition = board.findCell(xBuild, yBuild);</b>
+<i>58</i>&nbsp;
+<b class="fc"><i>59</i>&nbsp;            if (buildMap.isAllowedToBuildBoard(xBuild, yBuild)) {</b>
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;                //build Dome and fix the condition that if the worker wants to build underneath
+<i>62</i>&nbsp;                //and the building will be a dome won&#39;t be allowed
+<i>63</i>&nbsp;
+<b class="fc"><i>64</i>&nbsp;                if (buildPosition.getLevel() == 3) {</b>
+<b class="nc"><i>65</i>&nbsp;                    worker.buildDome(xBuild, yBuild);</b>
+<b class="nc"><i>66</i>&nbsp;                    godController.displayBoard();</b>
+<b class="nc"><i>67</i>&nbsp;                    return;</b>
+<i>68</i>&nbsp;                }
+<i>69</i>&nbsp;
+<i>70</i>&nbsp;                //build Block
+<b class="fc"><i>71</i>&nbsp;                else if (buildPosition.getLevel() &lt; 3) {</b>
+<b class="fc"><i>72</i>&nbsp;                    worker.buildBlock(xBuild, yBuild);</b>
+<b class="fc"><i>73</i>&nbsp;                    godController.displayBoard();</b>
+<b class="fc"><i>74</i>&nbsp;                    return;</b>
+<i>75</i>&nbsp;                }
+<i>76</i>&nbsp;
+<i>77</i>&nbsp;            } else
+<b class="fc"><i>78</i>&nbsp;                godController.errorBuildScreen();</b>
+<i>79</i>&nbsp;
+<i>80</i>&nbsp;            // If I don&#39;t want to build anymore I quit the method
+<b class="fc"><i>81</i>&nbsp;            if (!godController.errorBuildDecisionScreen())</b>
+<b class="nc"><i>82</i>&nbsp;                return;</b>
+<b class="fc"><i>83</i>&nbsp;        }</b>
+<i>84</i>&nbsp;    }
+<i>85</i>&nbsp;
+<i>86</i>&nbsp;    //same as standard + sets perimeter false
+<i>87</i>&nbsp;    private WorkerBuildMap updateBuildMapHestia(Worker worker) throws UnableToBuildException {
+<b class="fc"><i>88</i>&nbsp;        WorkerBuildMap buildMap = worker.getBuildMap();</b>
+<b class="fc"><i>89</i>&nbsp;        buildMap.resetMap();</b>
+<i>90</i>&nbsp;
+<b class="fc"><i>91</i>&nbsp;        buildMap.updateCellsOutOfMap();</b>
+<b class="fc"><i>92</i>&nbsp;        buildMap.cannotBuildUnderneath();</b>
+<b class="fc"><i>93</i>&nbsp;        buildMap.cannotBuildInOccupiedCell();</b>
+<i>94</i>&nbsp;
+<i>95</i>&nbsp;        //only difference
+<b class="fc"><i>96</i>&nbsp;        buildMap.cannotBuildInPerimeter();</b>
+<i>97</i>&nbsp;
+<i>98</i>&nbsp;        //buildMap.printMap();    //debugging
+<i>99</i>&nbsp;
+<b class="fc"><i>100</i>&nbsp;        if (!buildMap.anyAvailableBuildPosition())</b>
+<b class="fc"><i>101</i>&nbsp;            throw new UnableToBuildException();</b>
+<i>102</i>&nbsp;
+<i>103</i>&nbsp;
+<b class="fc"><i>104</i>&nbsp;        return buildMap;</b>
+<i>105</i>&nbsp;
+<i>106</i>&nbsp;    }
+<i>107</i>&nbsp;
+<i>108</i>&nbsp;
+<i>109</i>&nbsp;    public GodController getGodController() {
+<b class="fc"><i>110</i>&nbsp;        return godController;</b>
+<i>111</i>&nbsp;    }
+<i>112</i>&nbsp;
+<i>113</i>&nbsp;    public String getDescription() {
+<b class="fc"><i>114</i>&nbsp;        return description;</b>
+<i>115</i>&nbsp;    }
+<i>116</i>&nbsp;
+<i>117</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-19 19:04</div>
+</div>
+</body>
+</html>

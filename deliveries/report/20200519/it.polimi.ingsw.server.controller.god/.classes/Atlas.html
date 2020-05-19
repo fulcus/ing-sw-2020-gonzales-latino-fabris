@@ -1,0 +1,158 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Atlas</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.server.controller.god</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Atlas (it.polimi.ingsw.server.controller.god)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Atlas</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    96,3%
+  </span>
+  <span class="absValue">
+    (26/ 27)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.server.controller.god;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.server.controller.GodController;
+<i>4</i>&nbsp;import it.polimi.ingsw.server.controller.UnableToBuildException;
+<i>5</i>&nbsp;import it.polimi.ingsw.server.model.Board;
+<i>6</i>&nbsp;import it.polimi.ingsw.server.model.Worker;
+<i>7</i>&nbsp;import it.polimi.ingsw.server.model.WorkerBuildMap;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;public class Atlas extends God {
+<i>11</i>&nbsp;
+<b class="fc"><i>12</i>&nbsp;    public final String description = &quot;Your Worker may build a dome at any level.&quot;;</b>
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;    public Atlas(GodController godController) {
+<b class="fc"><i>15</i>&nbsp;        super(godController);</b>
+<b class="fc"><i>16</i>&nbsp;    }</b>
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    /**
+<i>19</i>&nbsp;     * Allows to build in the correct way for the player who owns Atlas
+<i>20</i>&nbsp;     *
+<i>21</i>&nbsp;     * @param worker This the current worker.
+<i>22</i>&nbsp;     */
+<i>23</i>&nbsp;    @Override
+<i>24</i>&nbsp;    public void build(Worker worker) throws UnableToBuildException {
+<b class="fc"><i>25</i>&nbsp;        buildAllowAnyLevelDome(worker);</b>
+<b class="fc"><i>26</i>&nbsp;    }</b>
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    //same as default build without &quot;lvl == 3 condition&quot; for buildDome
+<i>29</i>&nbsp;    private void buildAllowAnyLevelDome(Worker worker) throws UnableToBuildException {
+<i>30</i>&nbsp;
+<b class="fc"><i>31</i>&nbsp;        WorkerBuildMap buildMap = updateBuildMap(worker);</b>
+<b class="fc"><i>32</i>&nbsp;        Board board = worker.getPlayer().getGame().getBoard();</b>
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;        while (true) {
+<i>35</i>&nbsp;
+<b class="fc"><i>36</i>&nbsp;            int[] buildInput = godController.getBuildingInputAtlas();  //returns build position + type: block/dome</b>
+<i>37</i>&nbsp;
+<b class="fc"><i>38</i>&nbsp;            int xBuild = buildInput[0] + worker.getPosition().getX();</b>
+<b class="fc"><i>39</i>&nbsp;            int yBuild = buildInput[1] + worker.getPosition().getY();</b>
+<b class="fc"><i>40</i>&nbsp;            int buildType = buildInput[2]; //0 is block, 1 is dome</b>
+<i>41</i>&nbsp;
+<b class="fc"><i>42</i>&nbsp;            if (buildMap.isAllowedToBuildBoard(xBuild, yBuild)) {</b>
+<i>43</i>&nbsp;
+<b class="fc"><i>44</i>&nbsp;                if (buildType == 1) {   //build Dome AT ANY LEVEL</b>
+<i>45</i>&nbsp;
+<b class="fc"><i>46</i>&nbsp;                    worker.buildDome(xBuild, yBuild);</b>
+<b class="fc"><i>47</i>&nbsp;                    godController.displayBoard();</b>
+<b class="fc"><i>48</i>&nbsp;                    return;</b>
+<i>49</i>&nbsp;
+<b class="fc"><i>50</i>&nbsp;                } else if (buildType == 0) {   //build Block</b>
+<i>51</i>&nbsp;
+<b class="fc"><i>52</i>&nbsp;                    if (board.findCell(xBuild, yBuild).getLevel() &lt; 3) {</b>
+<b class="fc"><i>53</i>&nbsp;                        worker.buildBlock(xBuild, yBuild);</b>
+<b class="fc"><i>54</i>&nbsp;                        godController.displayBoard();</b>
+<b class="fc"><i>55</i>&nbsp;                        return;</b>
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;                    } else
+<b class="nc"><i>58</i>&nbsp;                        godController.errorBuildBlockScreen();</b>
+<i>59</i>&nbsp;                } else
+<b class="fc"><i>60</i>&nbsp;                    godController.errorBuildScreen();   //wrong buildType input</b>
+<i>61</i>&nbsp;            } else
+<b class="fc"><i>62</i>&nbsp;                godController.errorBuildScreen();   //not allowed to move there</b>
+<b class="fc"><i>63</i>&nbsp;        }</b>
+<i>64</i>&nbsp;    }
+<i>65</i>&nbsp;
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;    public GodController getGodController() {
+<b class="fc"><i>68</i>&nbsp;        return godController;</b>
+<i>69</i>&nbsp;    }
+<i>70</i>&nbsp;
+<i>71</i>&nbsp;    public String getDescription() {
+<b class="fc"><i>72</i>&nbsp;        return description;</b>
+<i>73</i>&nbsp;    }
+<i>74</i>&nbsp;
+<i>75</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-19 19:04</div>
+</div>
+</body>
+</html>

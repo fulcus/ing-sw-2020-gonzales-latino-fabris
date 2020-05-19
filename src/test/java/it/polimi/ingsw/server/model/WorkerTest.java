@@ -5,8 +5,11 @@ import it.polimi.ingsw.server.controller.GameController;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+
 import java.net.Socket;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
 
 
 public class WorkerTest {
@@ -17,21 +20,20 @@ public class WorkerTest {
     private Game game;
     private Board board;
 
-    private GameController gameController;
+
+    @Mock
+    private ViewClient viewClient;
+
+    @Mock
+    private ViewClient viewClient1;
 
 
     @Before
     public void setUp() {
-        Socket socket, socket1;
-        ViewClient viewClient, viewClient1;
-        socket = new Socket();
-        socket1 = new Socket();
-        //gameController = new GameController();
+
         game = new Game(2);
-        viewClient = new ViewClient(socket, gameController);
-        viewClient1 = new ViewClient(socket1, gameController);
-        //gameController.setUpGame(viewClient);
-        //game = gameController.getGame();
+        viewClient = mock(ViewClient.class);
+        viewClient1 = mock(ViewClient.class);
 
         game.addPlayer("nick1", viewClient);
         game.addPlayer("nick2", viewClient1);
@@ -48,7 +50,9 @@ public class WorkerTest {
         board = null;
         player = null;
         worker = null;
-        gameController = null;
+        viewClient = null;
+        viewClient1 = null;
+
     }
 
 

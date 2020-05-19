@@ -5,10 +5,12 @@ import it.polimi.ingsw.server.controller.GameController;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
 import java.net.Socket;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
 
 
 public class WorkerMoveMapTest {
@@ -16,38 +18,35 @@ public class WorkerMoveMapTest {
     private Worker worker;
     private Worker worker2;
     private Worker enemyWorker;
-
     private Player player;
     private Game game;
-    //private Board board;
     private WorkerMoveMap moveMap;
+
+    @Mock
+    private ViewClient viewClient;
+
+    @Mock
+    private ViewClient viewClient1;
 
 
     @Before
     public void setUp() {
-        Socket socket = new Socket();
-        Socket socket1 = new Socket();
-        GameController gameController = new GameController();
-        ViewClient viewClient = new ViewClient(socket, gameController);
-        ViewClient viewClient1 = new ViewClient(socket1, gameController);
-        //gameController.setUpGame(viewClient);
+
+        viewClient = mock(ViewClient.class);
+        viewClient1 = mock(ViewClient.class);
+
         game = new Game(2);
 
-        player = new Player(game, "nick", viewClient);
-        Player player2 = new Player(game, "nick2", viewClient1);
-        game.getPlayers().add(player);
-        game.getPlayers().add(player2);
+        game.addPlayer("nick1", viewClient);
+        game.addPlayer("nick2", viewClient1);
 
-        //game.addPlayer("nick1", viewClient);
-        //game.addPlayer("nick2", viewClient1);
-        //board = game.getBoard();
-
+        player = game.getPlayers().get(0);
         worker = player.getWorkers().get(0);
         worker2 = player.getWorkers().get(1);
-        enemyWorker = player2.getWorkers().get(0);
+        enemyWorker = game.getPlayers().get(1).getWorkers().get(0);
+
         worker.setPosition(0, 0);
         worker2.setPosition(0, 1);
-        //enemyWorker.setPosition(0, 0);
         moveMap = worker.getMoveMap();
     }
 
@@ -55,10 +54,12 @@ public class WorkerMoveMapTest {
     @After
     public void tearDown() {
         game = null;
-        //board = null;
         player = null;
         worker = null;
+        worker2 = null;
         moveMap = null;
+        viewClient = null;
+        viewClient1 = null;
     }
 
 
