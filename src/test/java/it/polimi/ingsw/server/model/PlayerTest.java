@@ -8,12 +8,14 @@ import it.polimi.ingsw.server.controller.god.Pan;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
 
 import java.net.Socket;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
 
 
 public class PlayerTest {
@@ -21,37 +23,32 @@ public class PlayerTest {
     private Worker worker, worker2;
     private Player player, player2;
     private Game game;
-    private GameController gameController;
+
+    @Mock
     private ViewClient viewClient;
-    private ArrayList<Player> players;
+
+    @Mock
+    private ViewClient viewClient1;
 
     @Before
     public void setUp() {
-        Socket socket, socket1;
-        socket = new Socket();
-        socket1 = new Socket();
-        gameController = new GameController();
-        viewClient = new ViewClient(socket, gameController);
-        ViewClient viewClient1 = new ViewClient(socket1, gameController);
-        //gameController.setUpGame(viewClient);
+
+        viewClient = mock(ViewClient.class);
+        viewClient1 = mock(ViewClient.class);
+
         game = new Game(2);
 
-        player = new Player(game, "nick1", viewClient);
-        player2 = new Player(game, "nick2", viewClient1);
-        players = new ArrayList<Player>(2);
-        players.add(player);
-        players.add(player2);
+        game.addPlayer("nick1", viewClient);
+        game.addPlayer("nick2", viewClient1);
 
-        game.getPlayers().add(player);
-        game.getPlayers().add(player2);
-        //players = game.getPlayers();
-        //player = players.get(0);
-        //player2 = players.get(1);
+        player = game.getPlayers().get(0);
+        player2 = game.getPlayers().get(1);
         worker = player.getWorkers().get(0);
         worker2 = player.getWorkers().get(1);
         worker.setPosition(1,1);
         worker2.setPosition(2,2);
     }
+
 
     @After
     public void tearDown() {
@@ -60,26 +57,27 @@ public class PlayerTest {
         player2 = null;
         worker = null;
         worker2 = null;
-        gameController = null;
         viewClient = null;
+        viewClient1 = null;
     }
 
 
     @Test
     public void testGetClient() {
-        assertEquals(players.get(0).getClient(), viewClient);
+        assertNotNull(game.getPlayers().get(0).getClient());
     }
 
 
     @Test
     public void testGetNickname() {
-        assertEquals(players.get(0).getNickname(), "nick1");
+
+        assertNotNull(player.getNickname());
     }
 
 
     @Test
     public void testSetAndGetPlayerGod() {
-        Apollo apollo = new Apollo(new GodController(gameController));
+        Apollo apollo = mock(Apollo.class);
 
         player.setGod(apollo);
         assertEquals(apollo, player.getGod());
@@ -164,38 +162,9 @@ public class PlayerTest {
 
     @Test
     public void testLose() {
-        /*
-        //Apollo apollo = new Apollo(new GodController(gameController));
-        //Pan pan = new Pan(new GodController(gameController));
-
-        //game.addGodChosenByChallenger(apollo);
-        //game.addGodChosenByChallenger(pan);
-
-        //player.setGod(apollo);
-        //player2.setGod(pan);
-        //assertTrue(game.getChosenGods().contains(apollo));
-        //assertTrue(game.getChosenGods().contains(pan));
-        assertTrue(players.contains(player));
-        int nPlayersBefore = game.getNumberOfPlayers();
-
-
-        game.getPlayers().add(player);
-        game.getPlayers().add(player2);
-        assertTrue(players.contains(player));
 
         player.lose();
-
-        for(Worker worker : player.getWorkers()) {
-            //removed workers from board
-            Cell workerCell = worker.getPosition();
-            assertFalse(workerCell.hasWorker());
-        }
-
-        //assertFalse(game.getChosenGods().contains(apollo));
-        //assertFalse(players.contains(player));
-        //assertEquals(nPlayersBefore - 1,game.getNumberOfPlayers());
-        */
-
+        assertEquals(game.getPlayers().size(), 1);
     }
 
 

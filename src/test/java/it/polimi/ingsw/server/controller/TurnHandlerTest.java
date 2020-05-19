@@ -146,8 +146,8 @@ public class TurnHandlerTest {
         when(player3.getClient()).thenReturn(client3);
         doNothing().when(player3).setColor(any(Color.class));
         doNothing().when(player3).setColor(any(Color.class));
-        gameController.addPlayer(client3);*/
-
+        gameController.addPlayer(client3);
+*/
 
         doNothing().when(client1).waitChallengerChooseGods(anyString());
         doNothing().when(client2).waitChallengerChooseGods(anyString());
@@ -209,14 +209,15 @@ public class TurnHandlerTest {
         //then issues command to exit the loop with stopTurnFlow
         do {
             try {
-                Thread.sleep(10000);
+                Thread.sleep(7000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        } while(gameController.getTurnHandler().getTurnCounter() < 1);
+        } while(gameController.getTurnHandler().getTurnCounter() < 2);
 
         gameController.getTurnHandler().stopTurnFlow();
     }
+/*
 
 
     @Test
@@ -225,8 +226,8 @@ public class TurnHandlerTest {
         doNothing().when(client1).waitChallengerChooseGods(anyString());
         doNothing().when(client2).waitChallengerChooseGods(anyString());
 
-        when(client1.getGodFromChallenger(any(int.class), any(int.class))).thenReturn("Apollo", "Apollo", "Pan");
-        when(client2.getGodFromChallenger(any(int.class), any(int.class))).thenReturn("Pan", "Pan", "Apollo");
+        when(client1.getGodFromChallenger(any(int.class), any(int.class))).thenReturn("Apollo", "Pan");
+        when(client2.getGodFromChallenger(any(int.class), any(int.class))).thenReturn("Pan", "Apollo");
 
         //da qui comincia il playersChooseGods
         when(client2.askPlayerGod()).thenReturn("Apollo");
@@ -245,7 +246,7 @@ public class TurnHandlerTest {
 
 
         when(client1.askChosenWorker()).thenReturn("FEMALE", "MALE");
-        when(client2.askChosenWorker()).thenReturn("MALE", "FEMALE");
+        when(client2.askChosenWorker()).thenReturn("MALE", "MALE", "FEMALE");
 
         when(client1.askMovementDirection()).thenReturn("N");
         when(client2.askMovementDirection()).thenReturn("W");
@@ -278,10 +279,10 @@ public class TurnHandlerTest {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        } while(gameController.getTurnHandler().getTurnCounter() < 1);
+        } while(gameController.getTurnHandler().getTurnCounter() < 2);
 
         gameController.getTurnHandler().stopTurnFlow();
-    }
+    }*/
 
 
     @Test

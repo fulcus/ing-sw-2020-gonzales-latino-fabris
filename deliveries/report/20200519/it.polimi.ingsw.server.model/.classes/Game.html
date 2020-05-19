@@ -1,0 +1,206 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Game</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.server.model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Game (it.polimi.ingsw.server.model)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Game</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (11/ 11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (32/ 32)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Game$$EnhancerByMockitoWithCGLIB$$15696e3d</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (11/ 11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (32/ 32)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.server.model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.server.ViewClient;
+<i>4</i>&nbsp;import it.polimi.ingsw.server.controller.god.*;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import java.util.ArrayList;
+<i>7</i>&nbsp;import java.util.Random;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;/**
+<i>10</i>&nbsp; * Represents the game with its main components.
+<i>11</i>&nbsp; */
+<i>12</i>&nbsp;public class Game {
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;    private final Board board;
+<i>15</i>&nbsp;    private Integer numberOfPlayers;
+<i>16</i>&nbsp;    private final ArrayList&lt;Player&gt; players;
+<i>17</i>&nbsp;    private final ArrayList&lt;God&gt; chosenGods;
+<i>18</i>&nbsp;    private Player challenger;
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    /**
+<i>22</i>&nbsp;     * Creates a new game.
+<i>23</i>&nbsp;     *
+<i>24</i>&nbsp;     * @param numberOfPlayers Number of players of the game.
+<i>25</i>&nbsp;     */
+<b class="fc"><i>26</i>&nbsp;    public Game(int numberOfPlayers) {</b>
+<b class="fc"><i>27</i>&nbsp;        board = new Board();</b>
+<b class="fc"><i>28</i>&nbsp;        this.numberOfPlayers = numberOfPlayers; //autoboxing</b>
+<b class="fc"><i>29</i>&nbsp;        players = new ArrayList&lt;&gt;(numberOfPlayers);</b>
+<b class="fc"><i>30</i>&nbsp;        chosenGods = new ArrayList&lt;&gt;(numberOfPlayers);</b>
+<b class="fc"><i>31</i>&nbsp;    }</b>
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    /**
+<i>35</i>&nbsp;     * Adds a new player to the game and chooses challenger if target number of players has been reached.
+<i>36</i>&nbsp;     *
+<i>37</i>&nbsp;     * @param nickname Nickname chosen by the player.
+<i>38</i>&nbsp;     * @return player that was just created.
+<i>39</i>&nbsp;     */
+<i>40</i>&nbsp;    //view checks that nickname and color aren&#39;t already taken
+<i>41</i>&nbsp;    public Player addPlayer(String nickname, ViewClient viewClient) {
+<b class="fc"><i>42</i>&nbsp;        Player newPlayer = new Player(this, nickname, viewClient);</b>
+<b class="fc"><i>43</i>&nbsp;        players.add(newPlayer);</b>
+<i>44</i>&nbsp;
+<b class="fc"><i>45</i>&nbsp;        if (players.size() == numberOfPlayers)</b>
+<b class="fc"><i>46</i>&nbsp;            randomChallenger();</b>
+<i>47</i>&nbsp;
+<b class="fc"><i>48</i>&nbsp;        return newPlayer;</b>
+<i>49</i>&nbsp;    }
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;    /**
+<i>52</i>&nbsp;     * Picks a challenger randomly.
+<i>53</i>&nbsp;     */
+<i>54</i>&nbsp;    private void randomChallenger() {
+<b class="fc"><i>55</i>&nbsp;        Random rand = new Random();</b>
+<b class="fc"><i>56</i>&nbsp;        int challengerIndex = rand.nextInt(numberOfPlayers);</b>
+<b class="fc"><i>57</i>&nbsp;        challenger = players.get(challengerIndex);</b>
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;        //set challenger as last of arraylist players
+<b class="fc"><i>60</i>&nbsp;        int lastIndex = numberOfPlayers - 1;</b>
+<b class="fc"><i>61</i>&nbsp;        Player temp = players.get(lastIndex);</b>
+<b class="fc"><i>62</i>&nbsp;        players.set(lastIndex, challenger);</b>
+<b class="fc"><i>63</i>&nbsp;        players.set(challengerIndex, temp);</b>
+<b class="fc"><i>64</i>&nbsp;    }</b>
+<i>65</i>&nbsp;
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;    /**
+<i>68</i>&nbsp;     * Lets the Challenger choose the Gods that will be used in the game.
+<i>69</i>&nbsp;     *
+<i>70</i>&nbsp;     * @param godChosenByChallenger God chosen by the Challenger.
+<i>71</i>&nbsp;     */
+<i>72</i>&nbsp;    public void addGodChosenByChallenger(God godChosenByChallenger) {
+<b class="fc"><i>73</i>&nbsp;        chosenGods.add(godChosenByChallenger);</b>
+<b class="fc"><i>74</i>&nbsp;    }</b>
+<i>75</i>&nbsp;
+<i>76</i>&nbsp;    public Board getBoard() {
+<b class="fc"><i>77</i>&nbsp;        return board;</b>
+<i>78</i>&nbsp;    }
+<i>79</i>&nbsp;
+<i>80</i>&nbsp;    public int getNumberOfPlayers() {
+<b class="fc"><i>81</i>&nbsp;        return numberOfPlayers;</b>
+<i>82</i>&nbsp;    }
+<i>83</i>&nbsp;
+<i>84</i>&nbsp;    public void setNumberOfPlayers(Integer numberOfPlayers) {
+<b class="fc"><i>85</i>&nbsp;        this.numberOfPlayers = numberOfPlayers;</b>
+<b class="fc"><i>86</i>&nbsp;    }</b>
+<i>87</i>&nbsp;
+<i>88</i>&nbsp;    public ArrayList&lt;Player&gt; getPlayers() {
+<b class="fc"><i>89</i>&nbsp;        return players;</b>
+<i>90</i>&nbsp;    }
+<i>91</i>&nbsp;
+<i>92</i>&nbsp;    public Player getChallenger() {
+<b class="fc"><i>93</i>&nbsp;        return challenger;</b>
+<i>94</i>&nbsp;    }
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;    public ArrayList&lt;God&gt; getChosenGods() {
+<b class="fc"><i>97</i>&nbsp;        return chosenGods;</b>
+<i>98</i>&nbsp;    }
+<i>99</i>&nbsp;
+<i>100</i>&nbsp;    /**
+<i>101</i>&nbsp;     * Removes a player from the game.
+<i>102</i>&nbsp;     *
+<i>103</i>&nbsp;     * @param loser The player that will be removed.
+<i>104</i>&nbsp;     */
+<i>105</i>&nbsp;    public void removePlayer(Player loser) {
+<b class="fc"><i>106</i>&nbsp;        chosenGods.remove(loser.getGod());</b>
+<b class="fc"><i>107</i>&nbsp;        players.remove(loser);</b>
+<i>108</i>&nbsp;        //loser.getClient().killClient();
+<b class="fc"><i>109</i>&nbsp;        numberOfPlayers--;</b>
+<i>110</i>&nbsp;
+<b class="fc"><i>111</i>&nbsp;    }</b>
+<i>112</i>&nbsp;
+<i>113</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-19 19:04</div>
+</div>
+</body>
+</html>
