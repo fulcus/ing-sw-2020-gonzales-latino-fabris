@@ -69,13 +69,13 @@ public class ViewClient implements ClientViewObserver {
 
 
     /**
-     * Assigns the nickname of the player to the CLIView
+     * Assigns the nickname of the player to the Cli
      *
-     * @param player nickname of the player associated with this instance of CLIView
+     * @param player nickname of the player associated with this instance of Cli
      */
     public void setPlayer(Player player) {
         this.player = player;   //used to assign player to class
-        //send playerNickname to be assigned as attribute in CLIView
+        //send playerNickname to be assigned as attribute in Cli
         String playerNickname = player.getNickname();
         sendMessage(new Message("setPlayer", playerNickname));
     }
