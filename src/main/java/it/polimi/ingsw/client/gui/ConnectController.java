@@ -1,36 +1,45 @@
 package it.polimi.ingsw.client.gui;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ConnectController implements Initializable {
 
-    public ConnectController() {
-    }
-
     @FXML
     private TextField IPText;
 
-    @FXML
-    private void play() {
-        System.out.println("play");
+    private volatile String IPAddress;
+
+
+    public ConnectController() {
+        IPAddress = null;
     }
 
     @FXML
     private void connect() {
-        System.out.println("connect");
-        System.out.println(IPText.getCharacters());
 
+        IPAddress = IPText.getCharacters().toString();
+        /*
+        synchronized (this) {
+            notifyAll();
+        }*/
+        try {
+            GuiManager.queue.put(IPAddress);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("clicked connect " + IPAddress);
+
+
+    }
+
+    protected String getServerAddress() {
+        return IPAddress;
     }
 
     @Override

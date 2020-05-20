@@ -2,14 +2,12 @@ package it.polimi.ingsw.server.model;
 
 
 import it.polimi.ingsw.server.ViewClient;
-import it.polimi.ingsw.server.controller.GameController;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.net.Socket;
-
+import org.mockito.Mock;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 
 public class CellTest {
@@ -20,14 +18,16 @@ public class CellTest {
     private Game game;
     private Board board;
 
+    @Mock
+    ViewClient client = mock(ViewClient.class);
+
 
     @Before
     public void setUp() {
         game = new Game(2);
         board = game.getBoard();
-        ViewClient viewClient = new ViewClient(new Socket(), new GameController());
-        player = new Player(game, "nick", viewClient);
-        //player = game.getPlayers().get(0);
+        player = new Player(game, "nick", client);
+        when(client.getPlayer()).thenReturn(player);
         worker = player.getWorkers().get(0);
         cell = board.findCell(3,2);
 
@@ -40,6 +40,7 @@ public class CellTest {
         player = null;
         worker = null;
         cell = null;
+        client = null;
     }
 
 
@@ -187,10 +188,6 @@ public class CellTest {
     @Test
     public void testRegister() {
 
-        GameController gc = new GameController();
-        Socket socket = new Socket();
-        ViewClient client = new ViewClient(socket, gc);
-
         assertEquals(0, cell.getCellObservers().size());
 
         cell.register(client);
@@ -200,10 +197,6 @@ public class CellTest {
 
     @Test
     public void testUnregister() {
-
-        GameController gc = new GameController();
-        Socket socket = new Socket();
-        ViewClient client = new ViewClient(socket, gc);
 
         cell.register(client);
         assertEquals(1, cell.getCellObservers().size());
@@ -216,7 +209,19 @@ public class CellTest {
     @Test
     public void testNotifyObservers() {
 
-        //do nothing?
+        cell.register(client);
+        doNothing().when(client).update(cell);
+
+        cell.notifyObservers();
+
+        verify(client, times(1)).update(cell);
+    }
+
+
+    @Test
+    public void testRemove() {
+        cell.remove(client);
+        assertEquals(cell.getCellObservers().size(), 0);
     }
 
 }

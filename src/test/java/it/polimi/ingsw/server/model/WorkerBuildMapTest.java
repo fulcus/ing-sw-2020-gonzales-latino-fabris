@@ -5,35 +5,36 @@ import it.polimi.ingsw.server.controller.GameController;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+
 import java.net.Socket;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
 
 
 public class WorkerBuildMapTest {
+
+    private WorkerBuildMap buildMap;
     private Worker worker;
     private Worker worker2;
     private Player player;
     private Game game;
-    private WorkerBuildMap buildMap;
+
+    @Mock
+    private ViewClient viewClient;
 
 
     @Before
     public void setUp() {
-        Socket socket;
-        ViewClient viewClient;
-        GameController gameController;
 
-        socket = new Socket();
-
-        gameController = new GameController();
-        viewClient = new ViewClient(socket, gameController);
+        viewClient = mock(ViewClient.class);
 
         game = new Game(2);
 
-        player = new Player(game, "nick", viewClient);
-        game.getPlayers().add(player);
+        game.addPlayer("nick", viewClient);
+        player = game.getPlayers().get(0);
 
         worker = player.getWorkers().get(0);
         worker2 = player.getWorkers().get(1);
@@ -49,6 +50,7 @@ public class WorkerBuildMapTest {
         player = null;
         worker = null;
         worker2 = null;
+        viewClient = null;
     }
 
 
@@ -68,7 +70,7 @@ public class WorkerBuildMapTest {
 
     @Test
     public void testGetWorker() {
-        assertEquals(worker,buildMap.getWorker());
+        assertEquals(worker, buildMap.getWorker());
     }
 
 
@@ -113,5 +115,12 @@ public class WorkerBuildMapTest {
 
     }
 
+
+    @Test
+    public void testCannotBuildInPerimeter() {
+        worker.setPosition(0, 0);
+
+        buildMap.cannotBuildInPerimeter();
+    }
 
 }

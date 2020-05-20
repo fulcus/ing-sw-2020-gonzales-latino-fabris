@@ -4,7 +4,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="700.0" styleClass="background" stylesheets="@../css/welcome.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.WelcomeController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="700.0" styleClass="background" stylesheets="@../css/welcome.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.WelcomeController">
    <children>
       <ImageView fitHeight="489.0" fitWidth="700.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -66,7 +66,7 @@
             <Image url="@../title/title_FG_cloud2.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="141.0" fitWidth="403.0" layoutX="147.0" layoutY="398.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="141.0" fitWidth="403.0" layoutX="147.0" layoutY="398.0" onMouseClicked="#next" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../title/santorini-logo.png" />
          </image>
