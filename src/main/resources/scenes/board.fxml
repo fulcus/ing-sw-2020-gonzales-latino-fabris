@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Text?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="1000.0" stylesheets="@../css/board.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.BoardController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="1000.0" stylesheets="@../css/board.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.BoardController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
@@ -58,6 +65,7 @@
                    <Pane onMouseClicked="#chooseCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="4" />
                </children>
             </GridPane>
+            <Button fx:id="menuButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#menuClicked" text="MENU" />
          </children>
       </AnchorPane>
       <GridPane accessibleRole="NODE" prefHeight="173.0" prefWidth="1019.0" styleClass="background-bottom" stylesheets="@../css/board.css" GridPane.rowIndex="1">
@@ -72,20 +80,28 @@
          <children>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="column-bottom" GridPane.rowIndex="2" />
             <AnchorPane prefHeight="200.0" prefWidth="1000.0" styleClass="column-top" />
-            <ImageView fx:id="showDescriptionButton" fitHeight="34.0" fitWidth="25.0" onMouseClicked="#showGodDescription" GridPane.rowIndex="1">
+            <ImageView fx:id="player2God" fitHeight="125.0" fitWidth="86.0" preserveRatio="true" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                <image>
-                  <Image url="@../buttons/full_0000s_0000_god_and_hero_cards_0058_Random.png" />
+                  <Image url="@../gods/small_hephaestus.png" />
                </image>
                <GridPane.margin>
-                  <Insets bottom="12.0" left="114.0" />
+                  <Insets bottom="21.0" right="105.0" />
                </GridPane.margin>
             </ImageView>
-            <ImageView fx:id="playerGod" fitHeight="146.0" fitWidth="92.0" preserveRatio="true" GridPane.rowIndex="1">
+            <ImageView fx:id="player1God" fitHeight="127.0" fitWidth="96.0" preserveRatio="true" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../gods/full_triton.png" />
+               </image>
+               <GridPane.margin>
+                  <Insets bottom="21.0" right="16.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="playerGod" fitHeight="135.0" fitWidth="81.0" preserveRatio="true" GridPane.rowIndex="1">
                <image>
                   <Image url="@../gods/full_apollo.png" />
                </image>
                <GridPane.margin>
-                  <Insets left="18.0" />
+                  <Insets bottom="21.0" left="18.0" />
                </GridPane.margin>
             </ImageView>
             <ImageView fitHeight="149.0" fitWidth="16.0" GridPane.rowIndex="1">
@@ -98,14 +114,79 @@
                   <Image url="@../frames/column.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="155.0" fitWidth="129.0" preserveRatio="true" GridPane.rowIndex="1">
+            <ImageView fitHeight="133.0" fitWidth="90.0" preserveRatio="true" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                <image>
-                  <Image url="@../frames/gameGodFrame%20copia.png" />
+                  <Image url="@../frames/gameGodFrame%20noInfo.png" />
                </image>
                <GridPane.margin>
-                  <Insets left="15.0" />
+                  <Insets bottom="21.0" right="15.0" />
                </GridPane.margin>
             </ImageView>
+            <ImageView fitHeight="133.0" fitWidth="90.0" preserveRatio="true" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../frames/gameGodFrame%20noInfo.png" />
+               </image>
+               <GridPane.margin>
+                  <Insets bottom="21.0" left="15.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="player2Frame" fitHeight="133.0" fitWidth="90.0" preserveRatio="true" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../frames/gameGodFrame%20noInfo.png" />
+               </image>
+               <GridPane.margin>
+                  <Insets bottom="21.0" right="104.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="player2Bar" fitHeight="29.0" fitWidth="87.0" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../frames/gameGodFrame%20withbackground.png" />
+               </image>
+               <GridPane.margin>
+                  <Insets right="104.0" top="137.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fitHeight="29.0" fitWidth="87.0" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../frames/gameGodFrame%20withbackground.png" />
+               </image>
+               <GridPane.margin>
+                  <Insets right="15.0" top="137.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fitHeight="29.0" fitWidth="87.0" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../frames/gameGodFrame%20withbackground.png" />
+               </image>
+               <GridPane.margin>
+                  <Insets left="15.0" top="137.0" />
+               </GridPane.margin>
+            </ImageView>
+            <Text fx:id="playerNickname" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="You" wrappingWidth="73.27805137634277" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets left="20.0" top="137.0" />
+               </GridPane.margin>
+            </Text>
+            <Text fx:id="player1Nickname" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Nickname1" wrappingWidth="72.31418418884277" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets right="25.0" top="137.0" />
+               </GridPane.margin>
+            </Text>
+            <Text fx:id="player2Nickname" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Nickname2" wrappingWidth="69.00479698181152" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets right="112.0" top="137.0" />
+               </GridPane.margin>
+            </Text>
+            <ImageView fitHeight="58.0" fitWidth="430.0" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../frames/clp_textbar.png" />
+               </image>
+            </ImageView>
+            <Text fx:id="mainText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="MOVE YOUR WORKER" wrappingWidth="372.9830722808838" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets bottom="8.0" />
+               </GridPane.margin>
+            </Text>
          </children>
       </GridPane>
    </children>

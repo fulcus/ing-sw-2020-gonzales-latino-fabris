@@ -31,3 +31,26 @@
     -fx-background-position: center;
     -fx-rotate: 180;
 }
+
+.text {
+    -fx-font-family: "Ink Blossoms";
+    -fx-text-alignment: center;
+}
+
+.button{
+    -fx-background-image:url('../buttons/cm_btn_coral.png');
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-font-family: "Ink Blossoms";
+    -fx-text-fill: white;
+}
+
+.button:pressed{
+    -fx-background-image:url('../buttons/cm_btn_coral_pressed.png');
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-font-family: "Ink Blossoms";
+    -fx-text-fill: white;
+}

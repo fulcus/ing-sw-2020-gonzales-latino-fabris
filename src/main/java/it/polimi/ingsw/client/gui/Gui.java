@@ -23,15 +23,15 @@ public class Gui extends Application implements View {
     public void start(Stage stage) {
         try {
             //Parent root = FXMLLoader.load(getClass().getResource("/scenes/welcome.fxml"));
-           // Parent root = FXMLLoader.load(getClass().getResource("/scenes/connect.fxml"));
+          //  Parent root2 = FXMLLoader.load(getClass().getResource("/scenes/connect.fxml"));
             //Parent root = FXMLLoader.load(getClass().getResource("/scenes/choose-num-of-players.fxml"));
             //Parent root = FXMLLoader.load(getClass().getResource("/scenes/choose-nickname.fxml"));
             //Parent root = FXMLLoader.load(getClass().getResource("/scenes/choose-color.fxml"));
             //Parent root = FXMLLoader.load(getClass().getResource("/scenes/start-player.fxml"));
             //Parent root = FXMLLoader.load(getClass().getResource("/scenes/choose-god.fxml"));
-            //Parent root = FXMLLoader.load(getClass().getResource("/scenes/board.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/scenes/board.fxml"));
             //Parent root = FXMLLoader.load(getClass().getResource("/scenes/lose.fxml"));
-            Parent root = FXMLLoader.load(getClass().getResource("/scenes/lobby.fxml"));
+            //Parent root = FXMLLoader.load(getClass().getResource("/scenes/lobby.fxml"));
 
             Scene scene = new Scene(root);
 
@@ -43,6 +43,9 @@ public class Gui extends Application implements View {
             //stage.setMinHeight(330);
 
             stage.show();
+
+
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -59,6 +62,9 @@ public class Gui extends Application implements View {
     }
 
     public String getServerAddress() {
+
+        //boolean true
+        //
         return null;
     }
 
