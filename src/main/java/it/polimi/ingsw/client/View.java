@@ -18,6 +18,8 @@ public interface View {
 
     String getServerAddress();
 
+    void connectionOutcome(boolean connected);
+
     /**
      * Displays that the player has been disconnected and reason.
      */

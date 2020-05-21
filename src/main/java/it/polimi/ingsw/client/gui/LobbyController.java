@@ -69,12 +69,12 @@ public class LobbyController implements Initializable {
         showPlayer("albe", "athena");
         //showPlayer("paperino", "atlas");
 
-
     }
 
     public void showPlayer(String nickname, String god) {
 
         if (playerName1.getText().equals("")) {
+
             playerName1.setText(nickname);
 
             String path = "/gods/full_" + god.toLowerCase() + ".png";
@@ -84,6 +84,7 @@ public class LobbyController implements Initializable {
             loadingText1.setVisible(false);
 
         } else if (playerName2.getText().equals("")) {
+
             playerName2.setText(nickname);
 
             String path = "/gods/full_" + god.toLowerCase() + ".png";
@@ -93,6 +94,7 @@ public class LobbyController implements Initializable {
             loadingText2.setVisible(false);
 
         } else if (playerName3.getText().equals("")) {
+
             playerName3.setText(nickname);
 
             String path = "/gods/full_" + god.toLowerCase() + ".png";
@@ -102,7 +104,7 @@ public class LobbyController implements Initializable {
             loadingText3.setVisible(false);
 
         } else
-            System.out.println("Error: cannot add more than three players");
+            System.out.println("Error: cannot add more than three players");    //debugging
 
         playersConnected++;
 

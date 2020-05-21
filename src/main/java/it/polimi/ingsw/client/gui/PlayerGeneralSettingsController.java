@@ -30,11 +30,12 @@ public class PlayerGeneralSettingsController implements Initializable {
     @FXML
     private TextField nickname;
 
-
+/*
     @FXML
     private void blue(MouseEvent e) {
 
         Stage window = (Stage)((Node) e.getSource()).getScene().getWindow();
+
 
         Parent lobby = null;
         try {
@@ -140,11 +141,11 @@ public class PlayerGeneralSettingsController implements Initializable {
             guiManager.notAvailableNickname();
         }
     }
-
+*/
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //IPText.setFont(Font.loadFont("/fonts/negotiate-free.tff",12));
+
     }
 
 

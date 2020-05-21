@@ -14,6 +14,7 @@ public class GuiManager implements View {
     private String challenger;
     private final ConnectController connectController;
     protected static final SynchronousQueue<String> queue = new SynchronousQueue<>();
+    protected static final SynchronousQueue<Boolean> booleans = new SynchronousQueue<Boolean>();
 
 
     public GuiManager() {
@@ -38,12 +39,17 @@ public class GuiManager implements View {
             e.printStackTrace();
         }
 
-        System.out.println("exited " + IP);
-
+        System.out.println("guimanager received: " + IP);
         return IP;
-
     }
 
+    public void connectionOutcome(boolean connected) {
+        try {
+            booleans.put(connected);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Displays that the player has been disconnected and reason.
@@ -63,7 +69,17 @@ public class GuiManager implements View {
      * @return The number of players.
      */
     public int askNumberOfPlayers() {
-        return 0;
+        String numString;
+        int numInt = 0;
+        try {
+            booleans.put(true); //creator = true
+            numString = queue.take();
+            numInt = Integer.parseInt(numString);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return numInt;
     }
 
     /**

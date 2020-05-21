@@ -60,6 +60,11 @@
     -fx-text-fill: white;
 }
 
+.text-question-mark {
+    -fx-font-family: "Ink Blossoms";
+    -fx-font-size: 50;
+}
+
 .tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
     -fx-border-color: transparent;
 }

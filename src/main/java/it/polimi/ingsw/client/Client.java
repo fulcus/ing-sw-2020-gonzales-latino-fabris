@@ -39,16 +39,20 @@ public class Client {
 
     public void setUpConnection() {
 
-        String IP = view.getServerAddress();
+        boolean connected = false;
 
-        //open connection with the server
-        try {
-            server = new Socket(IP, Server.SOCKET_PORT);
-        } catch (IOException e) {
-            System.out.println("server unreachable");
-            return;
+        while(!connected) {
+            String IP = view.getServerAddress();
+
+            connected = true;
+            //open connection with the server
+            try {
+                server = new Socket(IP, Server.SOCKET_PORT);
+            } catch (IOException e) {
+                connected = false;
+            }
+            view.connectionOutcome(connected);
         }
-        System.out.println("Connected");
 
         NetworkHandler networkHandler = new NetworkHandler(server, this);
         Thread networkHandlerThread = new Thread(networkHandler);

@@ -42,26 +42,15 @@ public class Cli implements View {
         System.out.println("Insert Server IP");
         return input.nextLine();
 
-       /* while (true) {
-
-            inputIP = input.nextLine();
-
-            String[] tokens = inputIP.split(".");
-
-            if(tokens.length != 4)
-                System.out.println("Invalid input.1");
-
-            try {
-                for (String t : tokens)
-                    if(!(t instanceof int))
-
-                return inputIP;
-            }catch(NumberFormatException e){
-                System.out.println("Invalid input2.");
-            }*/
-
-
     }
+
+    public void connectionOutcome(boolean connected) {
+        if(connected)
+            System.out.println("Connected to server");
+        else
+            System.out.println("Server unreachable");
+    }
+
 
     /**
      * Displays that the player has been disconnected and reason.
@@ -103,8 +92,7 @@ public class Cli implements View {
 
         int insertedNumberOfPlayers;
 
-
-        System.out.println("Choose the number of players.");
+        System.out.println("You are the creator of the game. Choose the number of players.");
         while (true) {
             try {
                 insertedNumberOfPlayers = intInput.nextInt();
