@@ -40,6 +40,8 @@ public class Lobby  {
 
 
             ViewClient newClient = new ViewClient(clientSocket, availableGame);
+            newClient.createGame();
+
 
             createGame(newClient);
         }

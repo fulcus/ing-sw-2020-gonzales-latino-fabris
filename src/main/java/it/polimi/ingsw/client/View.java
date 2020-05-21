@@ -20,6 +20,8 @@ public interface View {
 
     void joinGame();
 
+    void createGame();
+
     void connectionOutcome(boolean connected);
 
     /**

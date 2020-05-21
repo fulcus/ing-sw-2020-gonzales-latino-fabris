@@ -84,6 +84,10 @@ public class ViewClient implements ClientViewObserver {
         sendMessage(new Message("joinGame"));
     }
 
+    public void createGame() {
+        sendMessage(new Message("createGame"));
+    }
+
     /**
      * This method displays to the user Initial Game Interface
      */

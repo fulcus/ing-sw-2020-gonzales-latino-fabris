@@ -55,6 +55,10 @@ public class Cli implements View {
         System.out.println("You are joining a game.");
     }
 
+    public void createGame() {
+        System.out.println("You are creating a new game.");
+    }
+
 
     /**
      * Displays that the player has been disconnected and reason.
@@ -95,7 +99,7 @@ public class Cli implements View {
 
         int insertedNumberOfPlayers;
 
-        System.out.println("You are the creator of the game. Choose the number of players.");
+        System.out.println("Choose the number of players.");
         while (true) {
             try {
                 insertedNumberOfPlayers = intInput.nextInt();

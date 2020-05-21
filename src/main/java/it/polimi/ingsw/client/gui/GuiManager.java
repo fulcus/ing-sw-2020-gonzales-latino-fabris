@@ -3,7 +3,12 @@ package it.polimi.ingsw.client.gui;
 import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.serializableObjects.CellClient;
 import it.polimi.ingsw.serializableObjects.WorkerClient;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.concurrent.SynchronousQueue;
@@ -14,7 +19,6 @@ public class GuiManager implements View {
     private String challenger;
     private final ConnectController connectController;
     protected static final SynchronousQueue<String> queue = new SynchronousQueue<>();
-    protected static final SynchronousQueue<Boolean> booleans = new SynchronousQueue<>();
 
 
     public GuiManager() {
@@ -44,11 +48,9 @@ public class GuiManager implements View {
     }
 
     public void connectionOutcome(boolean connected) {
-        try {
-            booleans.put(connected);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        //todo popup error
+        if(!connected)
+            System.out.println("connection error");
     }
 
     /**
@@ -65,36 +67,53 @@ public class GuiManager implements View {
 
     }
 
+    //only called if joining game and NOT creating
     public void joinGame() {
-        System.out.println("joinGame");
-        try {
-            //wait for client to be ready to change scene
-            //ie already connected to server
-            booleans.take();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        System.out.println("joinGame guiManager"); //debug
 
         //change scene
+        try {
 
+            Parent root = FXMLLoader.load(getClass().getResource("/scenes/choose-nickname.fxml"));
+            Platform.runLater(()->Gui.getStage().setScene(new Scene(root)));
+
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
     }
+
+    public void createGame() {
+        System.out.println("createGame guiManager"); //debug
+
+        //change scene
+        try {
+
+            Parent root = FXMLLoader.load(getClass().getResource("/scenes/choose-num-of-players.fxml"));
+
+            Platform.runLater(()->Gui.getStage().setScene(new Scene(root)));
+
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+    }
+
 
     /**
      * @return The number of players.
      */
     public int askNumberOfPlayers() {
 
+        /*
         String numString;
         int numInt = 0;
         try {
-            booleans.put(true); //creator = true
             numString = queue.take();
             numInt = Integer.parseInt(numString);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
         return numInt;
+        */return 0;
     }
 
     /**

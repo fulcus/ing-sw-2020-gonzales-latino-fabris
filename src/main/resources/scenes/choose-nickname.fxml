@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="700.0" styleClass="background" stylesheets="@../css/welcome.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.PlayerGeneralSettingsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="700.0" styleClass="background" stylesheets="@../css/welcome.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.NicknameController">
    <children>
       <ImageView fitHeight="236.0" fitWidth="339.0" layoutX="422.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -53,7 +53,7 @@
             <Insets bottom="5.0" />
          </padding>
       </Button>
-      <TextField fx:id="nickname" alignment="CENTER" layoutX="254.0" layoutY="325.0" minWidth="9.0" pickOnBounds="false" prefHeight="38.0" prefWidth="208.0" promptText="type nick here">
+      <TextField fx:id="nicknameText" alignment="CENTER" layoutX="254.0" layoutY="325.0" minWidth="9.0" pickOnBounds="false" prefHeight="38.0" prefWidth="208.0" promptText="type nick here">
          <font>
             <Font name="Negotiate Free" size="15.0" />
          </font>

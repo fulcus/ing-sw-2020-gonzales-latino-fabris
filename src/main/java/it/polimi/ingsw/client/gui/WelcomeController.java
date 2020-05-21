@@ -39,7 +39,6 @@ public class WelcomeController implements Initializable {
     @FXML
     private void next() {
         //Stage window = (Stage)((Node) e.getSource()).getScene().getWindow();
-        Stage window = Gui.getStage();
 
         Parent connect = null;
         try {
@@ -48,7 +47,7 @@ public class WelcomeController implements Initializable {
             ioException.printStackTrace();
         }
 
-        window.setScene(new Scene(connect));
+        Gui.getStage().setScene(new Scene(connect));
     }
 
     @Override
