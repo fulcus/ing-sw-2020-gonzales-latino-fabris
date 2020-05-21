@@ -37,8 +37,9 @@ public class WelcomeController implements Initializable {
     }
 
     @FXML
-    private void next(MouseEvent e) {
-        Stage window = (Stage)((Node) e.getSource()).getScene().getWindow();
+    private void next() {
+        //Stage window = (Stage)((Node) e.getSource()).getScene().getWindow();
+        Stage window = Gui.getStage();
 
         Parent connect = null;
         try {
@@ -52,6 +53,6 @@ public class WelcomeController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        fadeIn();
+        //fadeIn();
     }
 }

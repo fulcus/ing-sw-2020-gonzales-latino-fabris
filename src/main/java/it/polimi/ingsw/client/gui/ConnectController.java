@@ -56,7 +56,6 @@ public class ConnectController implements Initializable {
             //todo print error
             System.out.println("connection error");
         }
-
     }
 
     @Override

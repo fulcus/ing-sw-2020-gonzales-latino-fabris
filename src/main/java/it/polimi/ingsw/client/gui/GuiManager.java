@@ -14,7 +14,7 @@ public class GuiManager implements View {
     private String challenger;
     private final ConnectController connectController;
     protected static final SynchronousQueue<String> queue = new SynchronousQueue<>();
-    protected static final SynchronousQueue<Boolean> booleans = new SynchronousQueue<Boolean>();
+    protected static final SynchronousQueue<Boolean> booleans = new SynchronousQueue<>();
 
 
     public GuiManager() {
@@ -105,7 +105,15 @@ public class GuiManager implements View {
     }
 
     public String askPlayerNickname() {
-        return null;
+        String nickname = null;
+        try {
+            nickname = queue.take();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("guimanager received: " + nickname);
+        return nickname;
     }
 
     public String askPlayerColor() {
