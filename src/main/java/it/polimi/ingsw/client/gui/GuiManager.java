@@ -65,10 +65,25 @@ public class GuiManager implements View {
 
     }
 
+    public void joinGame() {
+        System.out.println("joinGame");
+        try {
+            //wait for client to be ready to change scene
+            //ie already connected to server
+            booleans.take();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        //change scene
+
+    }
+
     /**
      * @return The number of players.
      */
     public int askNumberOfPlayers() {
+
         String numString;
         int numInt = 0;
         try {

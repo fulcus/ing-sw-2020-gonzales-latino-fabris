@@ -29,7 +29,7 @@ public class Lobby  {
      */
     public void allocateClient(Socket clientSocket)  {
 
-
+        //CREATE
         //no existing games available (full or first client to connect to server)
         if (availableGame == null) {
 
@@ -44,14 +44,14 @@ public class Lobby  {
             createGame(newClient);
         }
 
-
+        //JOIN
         //there is an available game to join (not full)
         else {
 
             availableGame = games.get(games.size() - 1);
 
             ViewClient newClient = new ViewClient(clientSocket, availableGame);
-
+            newClient.joinGame();
 
 
             ExecutorService gameExecutor = availableGame.getExecutorPlayerAdder();

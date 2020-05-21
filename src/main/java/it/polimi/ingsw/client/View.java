@@ -18,6 +18,8 @@ public interface View {
 
     String getServerAddress();
 
+    void joinGame();
+
     void connectionOutcome(boolean connected);
 
     /**

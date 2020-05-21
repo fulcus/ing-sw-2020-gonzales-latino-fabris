@@ -46,9 +46,13 @@ public class Cli implements View {
 
     public void connectionOutcome(boolean connected) {
         if(connected)
-            System.out.println("Connected to server");
+            System.out.println("Connected to server.");
         else
-            System.out.println("Server unreachable");
+            System.out.println("Server unreachable.");
+    }
+
+    public void joinGame() {
+        System.out.println("You are joining a game.");
     }
 
 
@@ -80,8 +84,7 @@ public class Cli implements View {
 
         } while (!startString.equals("START"));
 
-        System.out.println("\nMaybe waiting for other players to join...");
-
+        //System.out.println("\nWaiting for other players to join...");
     }
 
 
@@ -162,12 +165,12 @@ public class Cli implements View {
 
 
     public void printChoosingColor(String choosingPlayer) {
-        System.out.println(choosingPlayer + " is choosing his color, wait...");
+        System.out.print(choosingPlayer + " is choosing his color, wait...");
     }
 
 
     public void printChoosingNickname() {
-        System.out.println("Someone is choosing his nickname, wait...");
+        System.out.print("Someone is choosing his nickname, wait...");
     }
 
 

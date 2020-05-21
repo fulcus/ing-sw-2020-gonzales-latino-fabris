@@ -19,8 +19,7 @@ public class ConnectController implements Initializable {
     @FXML
     private TextField IPText;
 
-    private volatile String IPAddress;
-    private volatile boolean creator;
+    private String IPAddress;
 
     public ConnectController() {
         IPAddress = null;
@@ -33,24 +32,32 @@ public class ConnectController implements Initializable {
         boolean connected = false;
 
         try {
+            //give ip address to thread
             GuiManager.queue.put(IPAddress);
+
+            //wait for response from server
             connected = GuiManager.booleans.take();
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         }
 
-        if(connected) {
+        if (connected) {
 
-            //todo check if player is creator
-            //Stage window = (Stage)((Node) e.getSource()).getScene().getWindow();
-            Stage window = Gui.getStage();
+            //check if player is creator
             Parent root = null;
+
             try {
-                root = FXMLLoader.load(getClass().getResource("/scenes/choose-num-of-players.fxml"));
-            } catch (IOException ioException) {
+                System.out.println("before take");
+                boolean isCreator = GuiManager.booleans.take();
+                System.out.println("after take");
+
+                String path = isCreator ? "/scenes/choose-num-of-players.fxml" : "/scenes/choose-nickname.fxml";
+                root = FXMLLoader.load(getClass().getResource(path));
+
+            } catch (IOException | InterruptedException ioException) {
                 ioException.printStackTrace();
             }
-            window.setScene(new Scene(root));
+            Gui.getStage().setScene(new Scene(root));
 
         } else {
             //todo print error
