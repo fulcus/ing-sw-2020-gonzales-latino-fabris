@@ -14,7 +14,7 @@ public class ColorController {
     @FXML
     private void blue(MouseEvent e) {
 
-        Stage window = (Stage)((Node) e.getSource()).getScene().getWindow();
+        Stage window = (Stage) ((Node) e.getSource()).getScene().getWindow();
         /*
 
         Parent lobby = null;
@@ -100,8 +100,6 @@ public class ColorController {
         */
 
     }
-
-
 
 
 }

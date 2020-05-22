@@ -49,7 +49,7 @@ public class GuiManager implements View {
 
     public void connectionOutcome(boolean connected) {
         //todo popup error
-        if(!connected)
+        if (!connected)
             System.out.println("connection error");
     }
 
@@ -75,7 +75,7 @@ public class GuiManager implements View {
         try {
 
             Parent root = FXMLLoader.load(getClass().getResource("/scenes/choose-nickname.fxml"));
-            Platform.runLater(()->Gui.getStage().setScene(new Scene(root)));
+            Platform.runLater(() -> Gui.getStage().setScene(new Scene(root)));
 
         } catch (IOException ioException) {
             ioException.printStackTrace();
@@ -90,7 +90,7 @@ public class GuiManager implements View {
 
             Parent root = FXMLLoader.load(getClass().getResource("/scenes/choose-num-of-players.fxml"));
 
-            Platform.runLater(()->Gui.getStage().setScene(new Scene(root)));
+            Platform.runLater(() -> Gui.getStage().setScene(new Scene(root)));
 
         } catch (IOException ioException) {
             ioException.printStackTrace();
@@ -113,7 +113,8 @@ public class GuiManager implements View {
             e.printStackTrace();
         }
         return numInt;
-        */return 0;
+        */
+        return 0;
     }
 
     /**

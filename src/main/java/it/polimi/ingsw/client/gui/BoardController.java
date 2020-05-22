@@ -30,7 +30,7 @@ public class BoardController implements Initializable {
     private ImageView player1God;
 
     @FXML
-    private  ImageView player2God;
+    private ImageView player2God;
 
     @FXML
     private ImageView player2Bar;
@@ -42,9 +42,6 @@ public class BoardController implements Initializable {
     private Text mainText;
 
     private int numberOfPlayers;//TODO make a unique number of players inside gui, that will updates gui if it changes.
-
-
-
 
 
     @FXML
@@ -61,44 +58,37 @@ public class BoardController implements Initializable {
         String God1 = "Hera";
         String God2 = "Triton";
 
-        if(numberOfPlayers==2){
+        if (numberOfPlayers == 2) {
             player2Frame.setVisible(false);
             player2Bar.setVisible(false);
             player2Nickname.setVisible(false);
             player2God.setVisible(false);
-            setGodsImages(myGod,God1);
-            setPlayersNicknames("Alberto","Fra");
-        }
-
-        else {
+            setGodsImages(myGod, God1);
+            setPlayersNicknames("Alberto", "Fra");
+        } else {
             setGodsImages(myGod, God1, God2);
-            setPlayersNicknames("Alberto","Vitto","Fra");
+            setPlayersNicknames("Alberto", "Vitto", "Fra");
         }
 
         mainText.setText("WELCOME");
-
-
-
-
-
 
 
     }
 
     @FXML
     private void chooseCell(MouseEvent event) {
-        Node source = (Node)event.getSource();
+        Node source = (Node) event.getSource();
         Integer colIndex = GridPane.getColumnIndex(source);
         Integer rowIndex = GridPane.getRowIndex(source);
-        System.out.printf("Mouse clicked cell in [%d, %d]%n", rowIndex,colIndex);
+        System.out.printf("Mouse clicked cell in [%d, %d]%n", rowIndex, colIndex);
     }
 
     @FXML
-    private void showGodDescription(){
+    private void showGodDescription() {
         System.out.println("God description");
     }
 
-    private void setGodsImages(String myGod, String player1God, String player2God){
+    private void setGodsImages(String myGod, String player1God, String player2God) {
 
         Image myGodImage = new Image("/gods/full_" + myGod.toLowerCase() + ".png");
         Image player1GodImage = new Image("/gods/full_" + player1God.toLowerCase() + ".png");
@@ -110,7 +100,7 @@ public class BoardController implements Initializable {
 
     }
 
-    private void setGodsImages(String myGod, String player1God){
+    private void setGodsImages(String myGod, String player1God) {
 
         Image myGodImage = new Image("/gods/full_" + myGod.toLowerCase() + ".png");
         Image player1GodImage = new Image("/gods/full_" + player1God.toLowerCase() + ".png");
@@ -120,19 +110,19 @@ public class BoardController implements Initializable {
 
     }
 
-    private void setPlayersNicknames(String myNickname, String player1Nickname){
+    private void setPlayersNicknames(String myNickname, String player1Nickname) {
         playerNickname.setText(myNickname);
         this.player1Nickname.setText(player1Nickname);
     }
 
-    private void setPlayersNicknames(String myNickname, String player1Nickname,String player2Nickname){
+    private void setPlayersNicknames(String myNickname, String player1Nickname, String player2Nickname) {
         playerNickname.setText(myNickname);
         this.player1Nickname.setText(player1Nickname);
         this.player2Nickname.setText(player2Nickname);
     }
 
     @FXML
-    private void menuClicked(){
+    private void menuClicked() {
         System.out.println("MENU");
     }
 
