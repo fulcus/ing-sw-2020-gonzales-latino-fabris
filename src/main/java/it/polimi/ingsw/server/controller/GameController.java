@@ -18,18 +18,15 @@ public class GameController {
     private TurnHandler turnHandler;
     private GodController godController;
     private final ArrayList<God> godsDeck;
-    //private volatile int playersConnected;
     private final ExecutorService executorPlayerAdder;
-    private ArrayList<ViewClient> gameClients;
+    private final ArrayList<ViewClient> gameClients;
 
     public GameController() {
-        //playersConnected = 0;
         game = null;
         turnHandler = null;
-        //viewSelector = new ViewSelector();
         godsDeck = new ArrayList<>(14);
         executorPlayerAdder = Executors.newCachedThreadPool();
-        gameClients = new ArrayList<ViewClient>();
+        gameClients = new ArrayList<>();
     }
 
 
@@ -57,7 +54,6 @@ public class GameController {
      * @param client View of the new player.
      */
     public void addPlayer(ViewClient client) {
-        //playersConnected++;
 
         //prints client connected in server
         client.connected();
@@ -72,8 +68,15 @@ public class GameController {
         setPlayerNickname(client);
         setPlayerColor(client);
 
-        //Thread viewClient = new Thread(client);
-        //viewClient.start();
+        String clientNickname = client.getPlayer().getNickname();
+        String clientColor = client.getPlayer().getColor().name();
+
+        //send player nickname and color to all other clients
+        for (ViewClient otherClient : gameClients) {
+            if (!otherClient.equals(client))
+                otherClient.setOtherPlayersInfo(clientNickname,clientColor);
+        }
+
     }
 
 
@@ -88,7 +91,7 @@ public class GameController {
 
     }
 
-    public void removeClientObserver(ViewClient client){
+    public void removeClientObserver(ViewClient client) {
 
         for (int i = 0; i < Board.SIDE; i++) {
             for (int j = 0; j < Board.SIDE; j++) {
@@ -107,9 +110,8 @@ public class GameController {
      */
     private synchronized void setPlayerNickname(ViewClient client) {
 
-
-        for(ViewClient otherClient : gameClients) {
-            if ( !otherClient.equals(client) )
+        for (ViewClient otherClient : gameClients) {
+            if (!otherClient.equals(client))
                 otherClient.printChoosingNickname();
         }
 
@@ -134,10 +136,10 @@ public class GameController {
      */
     private synchronized void setPlayerColor(ViewClient client) {
 
-        for(ViewClient otherClient : gameClients) {
-            if ( !otherClient.equals(client) )
-                otherClient.printChoosingColor(client.getPlayer().getNickname());        }
-
+        for (ViewClient otherClient : gameClients) {
+            if (!otherClient.equals(client))
+                otherClient.printChoosingColor(client.getPlayer().getNickname());
+        }
 
         boolean colorCorrectlyChosen = false;
 
@@ -146,7 +148,7 @@ public class GameController {
             String chosenColor = client.askPlayerColor();
 
             if (colorIsAvailable(chosenColor) && colorIsValid(chosenColor)) {
-                client.getPlayer().setColor(Color.StringToColor(chosenColor));
+                client.getPlayer().setColor(Color.stringToColor(chosenColor));
                 colorCorrectlyChosen = true;
             } else
                 client.notAvailableColor();
@@ -253,15 +255,15 @@ public class GameController {
     public void handleGameDisconnection() {
 
         //if disconnection is due to a player disconnection
-            for (Player player : game.getPlayers()) {
-                ViewClient client = player.getClient();
+        for (Player player : game.getPlayers()) {
+            ViewClient client = player.getClient();
 
-                if (client.isInGame()) {
-                    client.notifyOtherPlayerDisconnection();
-                    client.killClient();//Sends shut down and sets inGame=false;
-                }
-
+            if (client.isInGame()) {
+                client.notifyOtherPlayerDisconnection();
+                client.killClient();//Sends shut down and sets inGame=false;
             }
+
+        }
     }
 
     public void notifyPlayersOfLoss(String loserNickname) {
@@ -269,8 +271,12 @@ public class GameController {
         for (Player player : game.getPlayers()) {
             player.getClient().notifyPlayersOfLoss(loserNickname);
         }
-
     }
+
+    public ArrayList<ViewClient> getGameClients() {
+        return gameClients;
+    }
+
 
 
 }

@@ -109,9 +109,7 @@ public class Client {
                     //Invoke method in ClientCliView
                     try {
                         return method.invoke(view);
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    } catch (InvocationTargetException e) {
+                    } catch (IllegalAccessException | InvocationTargetException e) {
                         e.printStackTrace();
                     }
 
@@ -131,9 +129,7 @@ public class Client {
                     //Invoke method in ClientCliView
                     try {
                         return method.invoke(view, receivedMessage.getStringParam());
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    } catch (InvocationTargetException e) {
+                    } catch (IllegalAccessException | InvocationTargetException e) {
                         e.printStackTrace();
                     }
 
@@ -155,9 +151,7 @@ public class Client {
                     //Invoke method in ClientCliView
                     try {
                         return method.invoke(view, receivedMessage.getStringListParam());
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    } catch (InvocationTargetException e) {
+                    } catch (IllegalAccessException | InvocationTargetException e) {
                         e.printStackTrace();
                     }
 
@@ -179,9 +173,7 @@ public class Client {
                     //Invoke method in ClientCliView
                     try {
                         return method.invoke(view, receivedMessage.getIntParam1(), receivedMessage.getIntParam2());
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    } catch (InvocationTargetException e) {
+                    } catch (IllegalAccessException | InvocationTargetException e) {
                         e.printStackTrace();
                     }
 
@@ -203,9 +195,7 @@ public class Client {
                     //Invoke method in ClientCliView
                     try {
                         return method.invoke(view, receivedMessage.getToUpdateCell());
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    } catch (InvocationTargetException e) {
+                    } catch (IllegalAccessException | InvocationTargetException e) {
                         e.printStackTrace();
                     }
 
@@ -227,9 +217,7 @@ public class Client {
                     //Invoke method in ClientCliView
                     try {
                         return method.invoke(view, receivedMessage.getWorkersParam(), receivedMessage.getWorker());
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    } catch (InvocationTargetException e) {
+                    } catch (IllegalAccessException | InvocationTargetException e) {
                         e.printStackTrace();
                     }
 
@@ -250,9 +238,7 @@ public class Client {
                     //Invoke method in ClientCliView
                     try {
                         return method.invoke(view, receivedMessage.getStringParam(), receivedMessage.getStringParam2());
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    } catch (InvocationTargetException e) {
+                    } catch (IllegalAccessException | InvocationTargetException e) {
                         e.printStackTrace();
                     }
 
@@ -263,6 +249,29 @@ public class Client {
                 }
 
             }
+
+            case Message.ONE_INT: {
+
+                //Trying to find the method in ClientCliView
+                try {
+
+                    method = view.getClass().getMethod(receivedMessage.getMethod(), int.class);
+
+                    //Invoke method in ClientCliView
+                    try {
+                        return method.invoke(view, receivedMessage.getIntParam1());
+                    } catch (IllegalAccessException | InvocationTargetException e) {
+                        e.printStackTrace();
+                    }
+
+
+                } catch (SecurityException e) { /*PRIVATE EXCEPTION to complete*/}
+
+                //If there is no such method in clientCliView
+                catch (NoSuchMethodException e) {
+                }
+            }
+
 
             default:
                 return null;

@@ -14,7 +14,7 @@ public enum Color {
      * @param stringColor string representation of the color
      * @return color object
      */
-    public static Color StringToColor(String stringColor) {
+    public static Color stringToColor(String stringColor) {
         if (stringColor.equals("BLUE"))
             return BLUE;
 

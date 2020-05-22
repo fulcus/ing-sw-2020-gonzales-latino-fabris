@@ -80,8 +80,8 @@ public class ViewClient implements ClientViewObserver {
         sendMessage(new Message("setPlayer", playerNickname));
     }
 
-    public void joinGame() {
-        sendMessage(new Message("joinGame"));
+    public void joinGame(int numberOfPlayers) {
+        sendMessage(new Message("joinGame",numberOfPlayers));
     }
 
     public void createGame() {
@@ -165,6 +165,9 @@ public class ViewClient implements ClientViewObserver {
         sendMessage(new Message("printChoosingNickname"));
     }
 
+    public void setOtherPlayersInfo(String nickname, String color) {
+        sendMessage(new Message("setOtherPlayersInfo",nickname,color));
+    }
 
     /**
      * The method asks the God the player wants to play with.

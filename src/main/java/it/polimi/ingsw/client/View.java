@@ -18,7 +18,7 @@ public interface View {
 
     String getServerAddress();
 
-    void joinGame();
+    void joinGame(int numberOfPlayers);
 
     void createGame();
 
@@ -56,6 +56,7 @@ public interface View {
 
     void printChoosingNickname();
 
+    void setOtherPlayersInfo(String nickname, String color);
 
     void invalidInitialWorkerPosition();
 

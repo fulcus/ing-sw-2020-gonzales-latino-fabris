@@ -52,8 +52,8 @@ public class Cli implements View {
             System.out.println("Server unreachable.");
     }
 
-    public void joinGame() {
-        System.out.println("You are joining a game.");
+    public void joinGame(int numberOfPlayers) {
+        System.out.println("You are joining a game for " + numberOfPlayers + " players.");
     }
 
     public void createGame() {
@@ -176,6 +176,11 @@ public class Cli implements View {
 
     public void printChoosingNickname() {
         System.out.print("Someone is choosing his nickname, wait...");
+    }
+
+    //todo
+    public void setOtherPlayersInfo(String nickname, String color) {
+
     }
 
 
@@ -611,7 +616,6 @@ public class Cli implements View {
      * @return The will of the player on keeping going moving his worker on the board.
      */
     public String askMoveAgain() {
-
         System.out.println("Do you want to move again your Worker?");
         return playerAnswerYN();
     }
@@ -623,7 +627,6 @@ public class Cli implements View {
      * @return The will of the player to reach an higher level.
      */
     public String askWantToMoveUp() {
-
         System.out.println("Do you want to move up?");
         return playerAnswerYN();
     }
@@ -635,7 +638,6 @@ public class Cli implements View {
      * @return The will of the player to move an enemy's worker
      */
     public String askWantToMoveEnemy() {
-
         System.out.println("Do you want to force your near enemy to move?");
         return playerAnswerYN();
     }
@@ -744,7 +746,6 @@ public class Cli implements View {
      * @return The will of the player to build again.
      */
     public String askBuildAgainHephaestus() {
-
         System.out.println("You can build another time, " +
                 "but ONLY on the same space you built before");
         return playerAnswerYN();
@@ -757,7 +758,6 @@ public class Cli implements View {
      * @return The will of the player to build again.
      */
     public String askBuildAgainDemeter() {
-
         System.out.println("You can build another time, but NOT on the same space you built before");
         return playerAnswerYN();
     }
@@ -769,7 +769,6 @@ public class Cli implements View {
      * @return The will of the player to build again.
      */
     public String askBuildAgainHestia() {
-
         System.out.println("You can build another time, but NOT on a perimeter space");
         return playerAnswerYN();
     }
@@ -781,7 +780,6 @@ public class Cli implements View {
      * @return The will of the player to build before moving.
      */
     public String askBuildPrometheus() {
-
         System.out.println("Do you want to build before moving?\n" +
                 "Remember that if you do so, you won't be able to move up.");
         return playerAnswerYN();

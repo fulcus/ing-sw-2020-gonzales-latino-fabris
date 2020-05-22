@@ -234,15 +234,12 @@
                   <Image url="@../frames/glory_bg_left.png" />
                </image>
             </ImageView>
+            <Text fill="WHITE" layoutX="272.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-upper" text="Lobby" textAlignment="CENTER">
+               <font>
+                  <Font name="Ink Blossoms" size="24.0" />
+               </font>
+            </Text>
          </children>
       </AnchorPane>
-      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-upper" text="Lobby" textAlignment="CENTER" GridPane.halignment="CENTER">
-         <font>
-            <Font name="Ink Blossoms" size="24.0" />
-         </font>
-         <GridPane.margin>
-            <Insets top="10.0" />
-         </GridPane.margin>
-      </Text>
    </children>
 </GridPane>

@@ -49,15 +49,27 @@ public class LobbyController implements Initializable {
     private ImageView worker3;
 
     private int playersConnected;
-    private int numberOfPlayers;
+    private volatile int numberOfPlayers;
+    private volatile String nickname1;
+    private volatile String nickname2;
+    private volatile String nickname3;
+    private volatile String color1;
+    private volatile String color2;
+    private volatile String color3;
+
 
     public LobbyController() {
         playersConnected = 0;
+        nickname1 = null;
+        nickname2 = null;
+        nickname3 = null;
+        color1 = null;
+        color2 = null;
+        color3 = null;
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        numberOfPlayers = 3;    //temporary, into will be stored in global variable of client
 
         //disable next button until all players are connected
         next.setDisable(true);
@@ -70,10 +82,20 @@ public class LobbyController implements Initializable {
             loadingText3.setVisible(false);
         }
 
-        //add client player as first
-        showPlayer("fra", "blue");
-        showPlayer("albe", "white");
-        showPlayer("vitto", "beige");
+        //todo add this client nickname and color
+        //call setPlayerInfo after color is set:
+        //to do so save nickname locally in NicknameController
+        //and do the same for color
+        //showPlayer(nicknameController.getNickname(), colorController.getColor());
+
+        //shows info already available when joining
+        if (nickname1 != null) {
+            showPlayer(nickname1, color1);
+        } else if (nickname2 != null) {
+            showPlayer(nickname2, color2);
+        } else if (nickname3 != null) {
+            showPlayer(nickname3, color3);
+        }
 
     }
 
@@ -82,11 +104,9 @@ public class LobbyController implements Initializable {
         String path = "/board/workers/male_worker_front_" + color + ".png";
         Image workerImage = new Image(path);
 
-
         if (playerName1.getText().equals("")) {
 
             playerName1.setText(nickname);
-
             worker1.setImage(workerImage);
             worker1.setVisible(true);
             loader1.setVisible(false);
@@ -96,7 +116,6 @@ public class LobbyController implements Initializable {
         } else if (playerName2.getText().equals("")) {
 
             playerName2.setText(nickname);
-
             worker2.setImage(workerImage);
             worker2.setVisible(true);
             loader2.setVisible(false);
@@ -106,7 +125,6 @@ public class LobbyController implements Initializable {
         } else if (playerName3.getText().equals("")) {
 
             playerName3.setText(nickname);
-
             worker3.setImage(workerImage);
             worker3.setVisible(true);
             loader3.setVisible(false);
@@ -125,5 +143,30 @@ public class LobbyController implements Initializable {
     @FXML
     private void next() {
         System.out.println("next");
+    }
+
+    public synchronized void setPlayerInfo(String nickname, String color) {
+
+        if (nickname1 == null) {
+            nickname1 = nickname;
+            color1 = color;
+
+        } else if (nickname2 == null) {
+            nickname2 = nickname;
+            color2 = color;
+        } else if (nickname3 == null) {
+            nickname3 = nickname;
+            color3 = color;
+        }
+
+        //if client is in lobby there's at least 1 player connected (him)
+        //RENDER
+        if (playersConnected > 0)
+            showPlayer(nickname, color);
+        //otherwise it has already been saved and will be rendered in initialize
+    }
+
+    public void setNumberOfPlayers(int numberOfPlayers) {
+        this.numberOfPlayers = numberOfPlayers;
     }
 }

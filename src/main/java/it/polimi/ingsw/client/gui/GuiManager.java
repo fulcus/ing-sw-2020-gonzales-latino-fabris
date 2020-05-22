@@ -16,18 +16,19 @@ import java.util.concurrent.SynchronousQueue;
 
 public class GuiManager implements View {
 
+    protected static final SynchronousQueue<Object> queue = new SynchronousQueue<>();
     private String playerNickname; //to be assigned when setPlayer of ViewClient is deserialized
     private String challenger;
-    private BoardClient board;
-    private final ConnectController connectController;
+    private final BoardClient board;
     private final BoardController boardController;
-    protected static final SynchronousQueue<Object> queue = new SynchronousQueue<>();
-
+    private final LobbyController lobbyController;
+    private final StartPlayerController startPlayerController;
 
     public GuiManager() {
         board = new BoardClient();
-        connectController = new ConnectController();
         boardController = new BoardController();
+        lobbyController = new LobbyController();
+        startPlayerController = new StartPlayerController();
     }
 
     /**
@@ -73,8 +74,11 @@ public class GuiManager implements View {
     }
 
     //only called if joining game and NOT creating
-    public void joinGame() {
+    public void joinGame(int numberOfPlayers) {
         System.out.println("joinGame guiManager"); //debug
+
+        lobbyController.setNumberOfPlayers(numberOfPlayers);
+        startPlayerController.setNumberOfPlayers(numberOfPlayers);
 
         //change scene
         try {
@@ -102,11 +106,11 @@ public class GuiManager implements View {
         }
     }
 
-
     /**
      * @return The number of players.
      */
     public int askNumberOfPlayers() {
+
 
         /*
         String numString;
@@ -119,6 +123,11 @@ public class GuiManager implements View {
         }
         return numInt;
         */
+
+        //todo set this attribute
+        //this.numberOfPlayers = numInt;
+
+
         return 0;
     }
 
@@ -153,6 +162,17 @@ public class GuiManager implements View {
 
     public void printChoosingNickname() {
 
+    }
+
+    /**
+     * Saves information about player that just joined the game.
+     *
+     * @param nickname nickname of other player
+     * @param color    color of other player
+     */
+    public void setOtherPlayersInfo(String nickname, String color) {
+        //using run later in case setPlayerInfo calls showPlayer
+        Platform.runLater(() -> lobbyController.setPlayerInfo(nickname, color));
     }
 
     public void invalidInitialWorkerPosition() {
@@ -244,7 +264,7 @@ public class GuiManager implements View {
 
     public void update(CellClient toUpdateCell) {
         board.update(toUpdateCell);
-}
+    }
 
     public void printAllGods(ArrayList<String> godsNameAndDescription) {
 
@@ -275,10 +295,10 @@ public class GuiManager implements View {
      *
      * @return The compass direction of the place where to build.
      */
-    public String askBuildingDirection(){
+    public String askBuildingDirection() {
 
         int[] chosenCell = new int[2];
-        String selectedBuildingDirection =null;
+        String selectedBuildingDirection = null;
 
         boardController.setCellRequested(true);
         boardController.askBuildingDirection();//TODO RUN LATER

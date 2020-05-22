@@ -1,18 +1,12 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.ViewClient;
-import it.polimi.ingsw.server.controller.GameController;
-import it.polimi.ingsw.server.controller.GodController;
 import it.polimi.ingsw.server.controller.god.Apollo;
-import it.polimi.ingsw.server.controller.god.Pan;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-
-import java.net.Socket;
-import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
@@ -129,14 +123,14 @@ public class PlayerTest {
 
     @Test
     public void testColor() {
-        player.setColor(Color.StringToColor("BLUE"));
-        assertEquals(player.getColor(),Color.StringToColor("BLUE"));
+        player.setColor(Color.stringToColor("BLUE"));
+        assertEquals(player.getColor(),Color.stringToColor("BLUE"));
 
-        player.setColor(Color.StringToColor("WHITE"));
-        assertEquals(player.getColor(),Color.StringToColor("WHITE"));
+        player.setColor(Color.stringToColor("WHITE"));
+        assertEquals(player.getColor(),Color.stringToColor("WHITE"));
 
-        player.setColor(Color.StringToColor("BEIGE"));
-        assertEquals(player.getColor(),Color.StringToColor("BEIGE"));
+        player.setColor(Color.stringToColor("BEIGE"));
+        assertEquals(player.getColor(),Color.stringToColor("BEIGE"));
     }
 
 

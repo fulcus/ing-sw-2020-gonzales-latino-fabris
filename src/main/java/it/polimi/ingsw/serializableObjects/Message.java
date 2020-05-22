@@ -23,6 +23,7 @@ public class Message implements Serializable {
     public static final int CELL_CLIENT = 5;
     public static final int WORKER_CLIENT_ARRAYLIST_WORKER_CLIENT = 6;
     public static final int TWO_STRING = 7;
+    public static final int ONE_INT = 8;
 
 
 
@@ -31,10 +32,10 @@ public class Message implements Serializable {
         this.method = method;
     }
 
-    public Message(String method, String stringParam) {
+    public Message(String method, String string1) {
         type = STRING;
         this.method = method;
-        this.stringParam = stringParam;
+        this.stringParam = string1;
     }
 
     public Message(String method, ArrayList<String> stringListParam) {
@@ -63,11 +64,17 @@ public class Message implements Serializable {
         this.worker = worker;
     }
 
-    public Message(String method, String otherPlayer, String chosenGod) {
+    public Message(String method, String string1, String string2) {
         type = TWO_STRING;
         this.method = method;
-        this.stringParam = otherPlayer;
-        this.stringParam2 = chosenGod;
+        this.stringParam = string1;
+        this.stringParam2 = string2;
+    }
+
+    public Message(String method, int numberOfPlayers) {
+        type = ONE_INT;
+        this.method = method;
+        this.intParam1 = numberOfPlayers;
     }
 
     public String getMethod() {
