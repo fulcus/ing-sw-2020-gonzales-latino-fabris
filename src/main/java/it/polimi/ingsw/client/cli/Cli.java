@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.cli;
 
+import it.polimi.ingsw.client.BoardClient;
 import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.serializableObjects.CellClient;
 import it.polimi.ingsw.serializableObjects.WorkerClient;
