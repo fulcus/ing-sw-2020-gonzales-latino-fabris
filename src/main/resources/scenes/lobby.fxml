@@ -22,7 +22,7 @@
       <RowConstraints maxHeight="507.0" minHeight="10.0" prefHeight="432.0" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-      <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="431.0" prefWidth="602.0" stylesheets="@../css/start-player.css" GridPane.rowIndex="1">
+      <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="431.0" prefWidth="602.0" styleClass="background-sky" stylesheets="@../css/start-player.css" GridPane.rowIndex="1">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

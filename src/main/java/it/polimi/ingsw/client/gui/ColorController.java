@@ -2,10 +2,19 @@ package it.polimi.ingsw.client.gui;
 
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class ColorController {
+
+    @FXML
+    private Button white;
+    @FXML
+    private Button blue;
+    @FXML
+    private Button beige;
+
 
     public ColorController() {
     }

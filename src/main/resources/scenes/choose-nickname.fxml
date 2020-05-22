@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.Lighting?>
-<?import javafx.scene.effect.Shadow?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="700.0" styleClass="background" stylesheets="@../css/welcome.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.NicknameController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="700.0" styleClass="background" stylesheets="@../css/welcome.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.NicknameController">
    <children>
       <ImageView fitHeight="236.0" fitWidth="339.0" layoutX="422.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -37,13 +32,6 @@
          <image>
             <Image url="@../title/santorini-logo.png" />
          </image>
-         <effect>
-            <Lighting diffuseConstant="2.0" light="$null" specularConstant="0.38" specularExponent="40.0" surfaceScale="10.0">
-               <bumpInput>
-                  <Shadow />
-               </bumpInput>
-            </Lighting>
-         </effect>
       </ImageView>
       <Button alignment="CENTER" contentDisplay="CENTER" layoutX="481.0" layoutY="326.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#login" prefHeight="38.0" prefWidth="58.0" text="Login" textAlignment="CENTER" textFill="WHITE">
          <font>
@@ -58,7 +46,7 @@
             <Font name="Negotiate Free" size="15.0" />
          </font>
       </TextField>
-      <Text fill="#2a1b75" layoutX="285.0" layoutY="320.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose your nickname" textAlignment="CENTER">
+      <Text fill="#2a1b75" layoutX="285.0" layoutY="320.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter your nickname:" textAlignment="CENTER">
          <font>
             <Font name="Negotiate Free" size="17.0" />
          </font>

@@ -23,7 +23,7 @@ public class Gui extends Application {
 
         Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("/scenes/lobby.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/scenes/welcome.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }

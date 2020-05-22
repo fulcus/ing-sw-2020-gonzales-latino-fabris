@@ -73,7 +73,7 @@ public class LobbyController implements Initializable {
         //add client player as first
         showPlayer("fra", "blue");
         showPlayer("albe", "white");
-        //showPlayer("paperino", "beige");
+        showPlayer("vitto", "beige");
 
     }
 
@@ -91,6 +91,7 @@ public class LobbyController implements Initializable {
             worker1.setVisible(true);
             loader1.setVisible(false);
             loadingText1.setVisible(false);
+            background1.setVisible(false);
 
         } else if (playerName2.getText().equals("")) {
 
@@ -100,6 +101,7 @@ public class LobbyController implements Initializable {
             worker2.setVisible(true);
             loader2.setVisible(false);
             loadingText2.setVisible(false);
+            background2.setVisible(false);
 
         } else if (playerName3.getText().equals("")) {
 
@@ -109,6 +111,7 @@ public class LobbyController implements Initializable {
             worker3.setVisible(true);
             loader3.setVisible(false);
             loadingText3.setVisible(false);
+            background3.setVisible(false);
 
         } else
             System.out.println("Error: cannot add more than three players");    //debugging
