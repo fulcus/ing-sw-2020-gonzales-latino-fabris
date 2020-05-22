@@ -32,17 +32,17 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <ImageView fx:id="godImage1" fitHeight="304.0" preserveRatio="true" GridPane.halignment="CENTER">
+            <ImageView fx:id="background1" fitHeight="304.0" preserveRatio="true" GridPane.halignment="CENTER">
                <image>
                   <Image url="@../frames/bg_panelMid.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="godImage2" fitHeight="304.0" preserveRatio="true" GridPane.columnIndex="1">
+            <ImageView fx:id="background2" fitHeight="304.0" preserveRatio="true" GridPane.columnIndex="1">
                <image>
                   <Image url="@../frames/bg_panelMid.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="godImage3" fitHeight="304.0" preserveRatio="true" GridPane.columnIndex="2">
+            <ImageView fx:id="background3" fitHeight="304.0" preserveRatio="true" GridPane.columnIndex="2">
                <image>
                   <Image url="@../frames/bg_panelMid.png" />
                </image>
@@ -119,6 +119,11 @@
                         <Insets bottom="100.0" />
                      </GridPane.margin>
                   </Text>
+                  <ImageView fx:id="worker1" fitHeight="190.0" fitWidth="132.0" preserveRatio="true" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                     <image>
+                        <Image url="@../board/workers/male_worker_front_white.png" />
+                     </image>
+                  </ImageView>
                </children>
             </GridPane>
             <GridPane prefHeight="411.0" prefWidth="201.0" GridPane.columnIndex="1">
@@ -157,6 +162,11 @@
                         <Insets bottom="100.0" />
                      </GridPane.margin>
                   </Text>
+                  <ImageView fx:id="worker2" fitHeight="190.0" fitWidth="132.0" preserveRatio="true" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                     <image>
+                        <Image url="@../board/workers/male_worker_front_white.png" />
+                     </image>
+                  </ImageView>
                </children>
             </GridPane>
             <GridPane prefHeight="411.0" prefWidth="201.0" GridPane.columnIndex="2">
@@ -203,6 +213,11 @@
                         <Insets bottom="100.0" />
                      </GridPane.margin>
                   </Text>
+                  <ImageView fx:id="worker3" fitHeight="190.0" fitWidth="132.0" preserveRatio="true" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                     <image>
+                        <Image url="@../board/workers/male_worker_front_white.png" />
+                     </image>
+                  </ImageView>
                </children>
             </GridPane>
          </children>

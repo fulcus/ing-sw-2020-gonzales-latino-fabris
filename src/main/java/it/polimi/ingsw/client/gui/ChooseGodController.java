@@ -12,34 +12,33 @@ import java.lang.reflect.Field;
 public class ChooseGodController {
 
     @FXML
-    ImageView apolloFrame;
+    private ImageView apolloFrame;
     @FXML
-    ImageView artemisFrame;
+    private ImageView artemisFrame;
     @FXML
-    ImageView athenaFrame;
+    private ImageView athenaFrame;
     @FXML
-    ImageView atlasFrame;
+    private ImageView atlasFrame;
     @FXML
-    ImageView charonFrame;
+    private ImageView charonFrame;
     @FXML
-    ImageView demeterFrame;
+    private ImageView demeterFrame;
     @FXML
-    ImageView hephaestusFrame;
+    private ImageView hephaestusFrame;
     @FXML
-    ImageView heraFrame;
+    private ImageView heraFrame;
     @FXML
-    ImageView hestiaFrame;
+    private ImageView hestiaFrame;
     @FXML
-    ImageView minotaurFrame;
+    private ImageView minotaurFrame;
     @FXML
-    ImageView panFrame;
+    private ImageView panFrame;
     @FXML
-    ImageView prometheusFrame;
+    private ImageView prometheusFrame;
     @FXML
-    ImageView tritonFrame;
+    private ImageView tritonFrame;
     @FXML
-    ImageView zeusFrame;
-
+    private ImageView zeusFrame;
     @FXML
     private Label godName;
     @FXML
@@ -95,7 +94,7 @@ public class ChooseGodController {
         }
 
         //
-        if(godFrame != null)
+        if (godFrame != null)
             godFrame.setImage(whiteFrame);
 
         //get the ImageView godFrame attribute for the clicked god

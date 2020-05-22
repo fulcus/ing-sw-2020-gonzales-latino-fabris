@@ -20,11 +20,11 @@ public class LobbyController implements Initializable {
     @FXML
     private Label playerName3;
     @FXML
-    private ImageView godImage1;
+    private ImageView background1;
     @FXML
-    private ImageView godImage2;
+    private ImageView background2;
     @FXML
-    private ImageView godImage3;
+    private ImageView background3;
     @FXML
     private ImageView loader1;
     @FXML
@@ -41,6 +41,12 @@ public class LobbyController implements Initializable {
     private Text loadingText2;
     @FXML
     private Text loadingText3;
+    @FXML
+    private ImageView worker1;
+    @FXML
+    private ImageView worker2;
+    @FXML
+    private ImageView worker3;
 
     private int playersConnected;
     private int numberOfPlayers;
@@ -65,21 +71,24 @@ public class LobbyController implements Initializable {
         }
 
         //add client player as first
-        showPlayer("fra", "apollo");
-        showPlayer("albe", "athena");
-        //showPlayer("paperino", "atlas");
+        showPlayer("fra", "blue");
+        showPlayer("albe", "white");
+        //showPlayer("paperino", "beige");
 
     }
 
-    public void showPlayer(String nickname, String god) {
+    public void showPlayer(String nickname, String color) {
+
+        String path = "/board/workers/male_worker_front_" + color + ".png";
+        Image workerImage = new Image(path);
+
 
         if (playerName1.getText().equals("")) {
 
             playerName1.setText(nickname);
 
-            String path = "/gods/full_" + god.toLowerCase() + ".png";
-            Image godImage = new Image(path);
-            godImage1.setImage(godImage);
+            worker1.setImage(workerImage);
+            worker1.setVisible(true);
             loader1.setVisible(false);
             loadingText1.setVisible(false);
 
@@ -87,9 +96,8 @@ public class LobbyController implements Initializable {
 
             playerName2.setText(nickname);
 
-            String path = "/gods/full_" + god.toLowerCase() + ".png";
-            Image godImage = new Image(path);
-            godImage2.setImage(godImage);
+            worker2.setImage(workerImage);
+            worker2.setVisible(true);
             loader2.setVisible(false);
             loadingText2.setVisible(false);
 
@@ -97,9 +105,8 @@ public class LobbyController implements Initializable {
 
             playerName3.setText(nickname);
 
-            String path = "/gods/full_" + god.toLowerCase() + ".png";
-            Image godImage = new Image(path);
-            godImage3.setImage(godImage);
+            worker3.setImage(workerImage);
+            worker3.setVisible(true);
             loader3.setVisible(false);
             loadingText3.setVisible(false);
 
