@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.gui;
 
+import it.polimi.ingsw.client.BoardClient;
 import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.serializableObjects.CellClient;
 import it.polimi.ingsw.serializableObjects.WorkerClient;
@@ -17,12 +18,16 @@ public class GuiManager implements View {
 
     private String playerNickname; //to be assigned when setPlayer of ViewClient is deserialized
     private String challenger;
+    private BoardClient board;
     private final ConnectController connectController;
-    protected static final SynchronousQueue<String> queue = new SynchronousQueue<>();
+    private final BoardController boardController;
+    protected static final SynchronousQueue<Object> queue = new SynchronousQueue<>();
 
 
     public GuiManager() {
+        board = new BoardClient();
         connectController = new ConnectController();
+        boardController = new BoardController();
     }
 
     /**
@@ -38,7 +43,7 @@ public class GuiManager implements View {
 
         String IP = null;
         try {
-            IP = queue.take();
+            IP = (String) queue.take();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -57,7 +62,7 @@ public class GuiManager implements View {
      * Displays that the player has been disconnected and reason.
      */
     public void notifyOtherPlayerDisconnection() {
-
+        //TODO POPUP
     }
 
     /**
@@ -124,7 +129,22 @@ public class GuiManager implements View {
      * @return Array with x,y coordinates of the chosen position.
      */
     public int[] askInitialWorkerPosition(String workerSex) throws InputMismatchException {
-        return new int[0];
+
+        int[] initialWorkerPosition = new int[2];
+
+        boardController.setCellRequested(true);
+        boardController.askInitialWorkerPosition(workerSex);//TODO RUN LATER
+
+        try {
+            initialWorkerPosition[0] = (Integer) queue.take();//row
+            initialWorkerPosition[1] = (Integer) queue.take();//col
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return initialWorkerPosition;
+
     }
 
     public void printChoosingColor(String choosingPlayer) {
@@ -136,13 +156,13 @@ public class GuiManager implements View {
     }
 
     public void invalidInitialWorkerPosition() {
-
+        //TODO POPUP
     }
 
     public String askPlayerNickname() {
         String nickname = null;
         try {
-            nickname = queue.take();
+            nickname = (String) queue.take();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -163,7 +183,6 @@ public class GuiManager implements View {
     }
 
     public void playerChoseInvalidGod() {
-
     }
 
     public String getGodFromChallenger(int numOfPlayers, int alreadyChosenGods) {
@@ -220,12 +239,12 @@ public class GuiManager implements View {
      * This method prints an updated version of the Board, depending on the Class' parameter "mymap".
      */
     public void printMap() {
-
+        boardController.printMap();
     }
 
     public void update(CellClient toUpdateCell) {
-
-    }
+        board.update(toUpdateCell);
+}
 
     public void printAllGods(ArrayList<String> godsNameAndDescription) {
 
@@ -256,8 +275,27 @@ public class GuiManager implements View {
      *
      * @return The compass direction of the place where to build.
      */
-    public String askBuildingDirection() {
-        return null;
+    public String askBuildingDirection(){
+
+        int[] chosenCell = new int[2];
+        String selectedBuildingDirection =null;
+
+        boardController.setCellRequested(true);
+        boardController.askBuildingDirection();//TODO RUN LATER
+
+
+        try {
+            chosenCell[0] = (Integer) queue.take();//column
+            chosenCell[1] = (Integer) queue.take();//row
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+        //CONVERT INTO COMPASS, HERE OR IN BOARD CONTROLLER
+
+        return selectedBuildingDirection;
     }
 
     /**
