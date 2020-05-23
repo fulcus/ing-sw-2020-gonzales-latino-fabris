@@ -48,9 +48,17 @@ public class Client {
             //open connection with the server
             try {
                 server = new Socket(IP, Server.SOCKET_PORT);
+
+                if(server == null)
+                    connected = false;
+
+                System.out.println("server " + server);
+
             } catch (IOException e) {
                 connected = false;
+                System.out.println("catch");
             }
+            System.out.println("out of try catch");
             view.connectionOutcome(connected);
         }
 

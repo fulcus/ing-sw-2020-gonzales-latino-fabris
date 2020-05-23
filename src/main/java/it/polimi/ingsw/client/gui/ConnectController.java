@@ -2,6 +2,8 @@ package it.polimi.ingsw.client.gui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 
 
@@ -16,18 +18,26 @@ public class ConnectController {
     }
 
     @FXML
-    private void connect() {
+    private void connect(KeyEvent ke) {
 
-        String IPAddress = IPText.getCharacters().toString();
+        if (ke.getCode().equals(KeyCode.ENTER)) {
 
-        try {
-            //give ip address to manager thread
-            GuiManager.queue.put(IPAddress);
+            error.setVisible(false);
 
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
+            String IPAddress = IPText.getCharacters().toString();
+
+            try {
+                //give ip address to manager thread
+                GuiManager.queue.put(IPAddress);
+
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
         }
+    }
 
+    public void displayError() {
+        error.setVisible(true);
     }
 
 }

@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.BoardClient;
 import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.serializableObjects.CellClient;
 import it.polimi.ingsw.serializableObjects.WorkerClient;
+import it.polimi.ingsw.server.Lobby;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,15 +21,41 @@ public class GuiManager implements View {
     private String playerNickname; //to be assigned when setPlayer of ViewClient is deserialized
     private String challenger;
     private final BoardClient board;
-    private final BoardController boardController;
+
+    protected static final FXMLLoader connectLoader = new FXMLLoader(GuiManager.class.getResource("/scenes/connect.fxml"));;
+    private final FXMLLoader numberOfPlayersLoader;
+    private final FXMLLoader nicknameLoader;
+    private final FXMLLoader colorLoader;
+    private final FXMLLoader lobbyLoader;
+    private final FXMLLoader startPlayerLoader;
+    private final FXMLLoader boardLoader;
+
+    private final ConnectController connectController;
+    private final NumberOfPlayersController numberOfPlayersController;
+    private final NicknameController nicknameController;
+    private final ColorController colorController;
     private final LobbyController lobbyController;
     private final StartPlayerController startPlayerController;
+    private final BoardController boardController;
 
     public GuiManager() {
+        numberOfPlayersLoader = new FXMLLoader(getClass().getResource("/scenes/choose-num-of-players.fxml"));
+        nicknameLoader = new FXMLLoader(getClass().getResource("/scenes/choose-nickname.fxml"));
+        colorLoader = new FXMLLoader(getClass().getResource("/scenes/choose-color.fxml"));
+        lobbyLoader = new FXMLLoader(getClass().getResource("/scenes/lobby.fxml"));
+        startPlayerLoader = new FXMLLoader(getClass().getResource("/scenes/start-player.fxml"));
+        boardLoader = new FXMLLoader(getClass().getResource("/scenes/board.fxml"));
+
+
+        connectController = connectLoader.getController();
+        numberOfPlayersController = numberOfPlayersLoader.getController();
+        nicknameController = nicknameLoader.getController();
+        colorController = colorLoader.getController();
+        lobbyController = lobbyLoader.getController();
+        startPlayerController = startPlayerLoader.getController();
+        boardController = boardLoader.getController();
+
         board = new BoardClient();
-        boardController = new BoardController();
-        lobbyController = new LobbyController();
-        startPlayerController = new StartPlayerController();
     }
 
     /**
@@ -54,9 +81,12 @@ public class GuiManager implements View {
     }
 
     public void connectionOutcome(boolean connected) {
-        //todo popup error
-        if (!connected)
+        System.out.println("connectionOutcome");
+
+        if (!connected) {
             System.out.println("connection error");
+            connectController.displayError();
+        }
     }
 
     /**
@@ -77,13 +107,14 @@ public class GuiManager implements View {
     public void joinGame(int numberOfPlayers) {
         System.out.println("joinGame guiManager"); //debug
 
+        //sets number of players attribute
         lobbyController.setNumberOfPlayers(numberOfPlayers);
         startPlayerController.setNumberOfPlayers(numberOfPlayers);
 
         //change scene
         try {
 
-            Parent root = FXMLLoader.load(getClass().getResource("/scenes/choose-nickname.fxml"));
+            Parent root = nicknameLoader.load();
             Platform.runLater(() -> Gui.getStage().setScene(new Scene(root)));
 
         } catch (IOException ioException) {
@@ -97,8 +128,7 @@ public class GuiManager implements View {
         //change scene
         try {
 
-            Parent root = FXMLLoader.load(getClass().getResource("/scenes/choose-num-of-players.fxml"));
-
+            Parent root = numberOfPlayersLoader.load();
             Platform.runLater(() -> Gui.getStage().setScene(new Scene(root)));
 
         } catch (IOException ioException) {
@@ -171,6 +201,7 @@ public class GuiManager implements View {
      * @param color    color of other player
      */
     public void setOtherPlayersInfo(String nickname, String color) {
+
         //using run later in case setPlayerInfo calls showPlayer
         Platform.runLater(() -> lobbyController.setPlayerInfo(nickname, color));
     }
