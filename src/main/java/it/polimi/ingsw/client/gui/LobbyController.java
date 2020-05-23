@@ -2,14 +2,19 @@ package it.polimi.ingsw.client.gui;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import static it.polimi.ingsw.client.gui.GuiManager.*;
 
 public class LobbyController implements Initializable {
 
@@ -48,24 +53,7 @@ public class LobbyController implements Initializable {
     @FXML
     private ImageView worker3;
 
-    private int playersConnected;
-    private volatile int numberOfPlayers;
-    private volatile String nickname1;
-    private volatile String nickname2;
-    private volatile String nickname3;
-    private volatile String color1;
-    private volatile String color2;
-    private volatile String color3;
-
-
     public LobbyController() {
-        playersConnected = 0;
-        nickname1 = null;
-        nickname2 = null;
-        nickname3 = null;
-        color1 = null;
-        color2 = null;
-        color3 = null;
     }
 
     @Override
@@ -75,7 +63,7 @@ public class LobbyController implements Initializable {
         next.setDisable(true);
 
         //hide label
-        if (numberOfPlayers == 2) {
+        if (numberOfPlayers.get() == 2) {
             playerName3.setVisible(false);
             banner3.setVisible(false);
             loader3.setVisible(false);
@@ -134,39 +122,21 @@ public class LobbyController implements Initializable {
         } else
             System.out.println("Error: cannot add more than three players");    //debugging
 
-        playersConnected++;
-
-        if (playersConnected == numberOfPlayers)
+        if (playersConnected.addAndGet(1) == numberOfPlayers.get())
             next.setDisable(false);
     }
 
     @FXML
     private void next() {
-        System.out.println("next");
-    }
 
-    public synchronized void setPlayerInfo(String nickname, String color) {
-
-        if (nickname1 == null) {
-            nickname1 = nickname;
-            color1 = color;
-
-        } else if (nickname2 == null) {
-            nickname2 = nickname;
-            color2 = color;
-        } else if (nickname3 == null) {
-            nickname3 = nickname;
-            color3 = color;
+        try {
+            Parent root = GuiManager.lobbyLoader.load();
+            Gui.getStage().setScene(new Scene(root));
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
         }
 
-        //if client is in lobby there's at least 1 player connected (him)
-        //RENDER
-        if (playersConnected > 0)
-            showPlayer(nickname, color);
-        //otherwise it has already been saved and will be rendered in initialize
     }
 
-    public void setNumberOfPlayers(int numberOfPlayers) {
-        this.numberOfPlayers = numberOfPlayers;
-    }
+
 }
