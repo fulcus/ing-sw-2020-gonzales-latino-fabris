@@ -13,7 +13,6 @@ public class Gui extends Application {
 
     private static Stage stage;
 
-
     public static void main() {
         launch();
     }

@@ -122,6 +122,7 @@ public class GameController {
             if (nicknameIsAvailable(chosenNickname) && chosenNickname.length() > 0) {
                 Player newPlayer = game.addPlayer(chosenNickname, client);
                 client.setPlayer(newPlayer);
+                client.notifyValidNick();
                 return;
             }
 
@@ -148,6 +149,7 @@ public class GameController {
             String chosenColor = client.askPlayerColor();
 
             if (colorIsAvailable(chosenColor) && colorIsValid(chosenColor)) {
+                client.notifyValidColor();
                 client.getPlayer().setColor(Color.stringToColor(chosenColor));
                 colorCorrectlyChosen = true;
             } else

@@ -21,6 +21,7 @@ public class GuiManager implements View {
     private String playerNickname; //to be assigned when setPlayer of ViewClient is deserialized
     private String challenger;
     private final BoardClient board;
+    private int numberOfPlayers;
 
     protected static final FXMLLoader connectLoader = new FXMLLoader(GuiManager.class.getResource("/scenes/connect.fxml"));;
     private final FXMLLoader numberOfPlayersLoader;
@@ -56,6 +57,7 @@ public class GuiManager implements View {
         boardController = boardLoader.getController();
 
         board = new BoardClient();
+        numberOfPlayers = 0;
     }
 
     /**
@@ -100,7 +102,7 @@ public class GuiManager implements View {
      * This method displays to the user Initial Game Interface
      */
     public void beginningView() {
-
+        //do Nothing here
     }
 
     //only called if joining game and NOT creating
@@ -141,24 +143,22 @@ public class GuiManager implements View {
      */
     public int askNumberOfPlayers() {
 
-
-        /*
         String numString;
         int numInt = 0;
         try {
-            numString = queue.take();
+            numString = (String) queue.take();
             numInt = Integer.parseInt(numString);
-        } catch (InterruptedException e) {
+
+            //change scene
+            Parent root = nicknameLoader.load();
+            Platform.runLater(() -> Gui.getStage().setScene(new Scene(root)));
+        } catch (InterruptedException | IOException e) {
             e.printStackTrace();
         }
+
+        this.numberOfPlayers = numInt;
+
         return numInt;
-        */
-
-        //todo set this attribute
-        //this.numberOfPlayers = numInt;
-
-
-        return 0;
     }
 
     /**
@@ -212,18 +212,69 @@ public class GuiManager implements View {
 
     public String askPlayerNickname() {
         String nickname = null;
+
         try {
+
             nickname = (String) queue.take();
+            System.out.println("nick taken");
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
         System.out.println("guimanager received: " + nickname);
+        setPlayer(nickname);
         return nickname;
     }
 
+    
+    public void notifyValidNick() {
+        //change scene
+        Parent root = null;
+        
+        try {
+            root = colorLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Parent finalRoot = root;
+        Platform.runLater(() -> Gui.getStage().setScene(new Scene(finalRoot)));
+    }
+
+
     public String askPlayerColor() {
-        return null;
+
+        String color = null;
+
+        try {
+
+            color = (String) queue.take();
+            System.out.println("color taken");
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("guimanager received: " + color);
+        return color;
+    }
+
+
+    public void notifyValidColor() {
+        //change scene
+        Parent root = null;
+
+        System.out.println("the color is valid");
+
+        try {
+            root = lobbyLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Parent finalRoot = root;
+        Platform.runLater(() -> Gui.getStage().setScene(new Scene(finalRoot)));
     }
 
     /**

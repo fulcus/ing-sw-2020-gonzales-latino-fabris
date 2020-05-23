@@ -205,6 +205,16 @@ public class Cli implements View {
     }
 
 
+    public void notifyValidNick() {
+        System.out.println("Nickname accepted");
+    }
+
+
+    public void notifyValidColor() {
+        System.out.println("Color accepted");
+    }
+
+
     /**
      * @return The name of the chosen God.
      */

@@ -138,6 +138,20 @@ public class ViewClient implements ClientViewObserver {
 
 
     /**
+     * Notifies the client that his nickname has been accepted.
+     */
+    public void notifyValidNick() {
+        sendMessage(new Message("notifyValidNick"));
+    }
+
+
+    /**
+     * Notifies the client that his color has been accepted.
+     */
+    public void notifyValidColor() { sendMessage(new Message("notifyValidColor"));}
+
+
+    /**
      * The message sent by the method describes itself.
      *
      * @return The color to choose.
