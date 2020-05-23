@@ -30,7 +30,7 @@ public class GuiManager implements View {
     private String playerNickname; //to be assigned when setPlayer of ViewClient is deserialized
     private String challenger;
     private final BoardClient board;
-    private int numberOfPlayers;
+    private int numOfPlayers;
 
     protected static final FXMLLoader connectLoader = new FXMLLoader(GuiManager.class.getResource("/scenes/connect.fxml"));;
     private final FXMLLoader numberOfPlayersLoader;
@@ -172,7 +172,7 @@ public class GuiManager implements View {
             e.printStackTrace();
         }
 
-        this.numberOfPlayers = numInt;
+        GuiManager.numberOfPlayers = new AtomicInteger(numInt);
 
         return numInt;
     }
