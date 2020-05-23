@@ -11,6 +11,8 @@ import javafx.scene.input.MouseEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static it.polimi.ingsw.client.gui.GuiManager.*;
+
 public class StartPlayerController implements Initializable {
 
     @FXML
@@ -32,8 +34,6 @@ public class StartPlayerController implements Initializable {
     @FXML
     private ImageView godImage3;
 
-    private volatile int numberOfPlayers;
-
     public StartPlayerController() {
     }
 
@@ -45,7 +45,7 @@ public class StartPlayerController implements Initializable {
         playerName2.setText("nick2");
 
         //adapted for 2 players game
-        if (numberOfPlayers == 3)
+        if (numberOfPlayers.get() == 3)
             playerName3.setText("nick3");
         else {
             playerName3.getParent().setVisible(false);
@@ -62,7 +62,7 @@ public class StartPlayerController implements Initializable {
         godImage2.setImage(player2God);
 
         //adapted for 2 players game
-        String path3 = numberOfPlayers == 3 ? "/gods/full_" + "hephaestus" + ".png" : "/frames/bg_panelMid.png";
+        String path3 = numberOfPlayers.get() == 3 ? "/gods/full_" + "hephaestus" + ".png" : "/frames/bg_panelMid.png";
 
         Image player3God = new Image(path3);
         godImage3.setImage(player3God);
@@ -72,12 +72,33 @@ public class StartPlayerController implements Initializable {
     @FXML
     private void choosePlayer(MouseEvent event) {
         //get which button was clicked ie which player was chosen
+
         String playerId = ((Button) event.getSource()).getId();
         System.out.println("chose " + playerId);
-    }
 
-    public void setNumberOfPlayers(int numberOfPlayers) {
-        this.numberOfPlayers = numberOfPlayers;
+        String nickname = null;
+
+        switch (playerId) {
+            case "player1":
+                nickname = nickname1;
+                break;
+            case "player2":
+                nickname = nickname2;
+                break;
+            case "player3":
+                nickname = nickname3;
+                break;
+            default:
+                System.out.println("error choosePlayer"); //debug
+                break;
+        }
+
+        try {
+            GuiManager.queue.put(nickname);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

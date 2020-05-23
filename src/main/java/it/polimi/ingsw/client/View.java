@@ -24,6 +24,10 @@ public interface View {
 
     void connectionOutcome(boolean connected);
 
+    void notifyValidNick();
+
+    void notifyValidColor();
+
     /**
      * Displays that the player has been disconnected and reason.
      */

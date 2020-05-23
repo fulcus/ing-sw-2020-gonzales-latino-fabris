@@ -19,14 +19,14 @@ public class WelcomeController implements Initializable {
     @FXML
     private void next() {
 
-        Parent root = null;
         try {
-            root = GuiManager.connectLoader.load();
+            Parent root = GuiManager.connectLoader.load();
+            Gui.getStage().setScene(new Scene(root));
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
 
-        Gui.getStage().setScene(new Scene(root));
+
     }
 
     @Override

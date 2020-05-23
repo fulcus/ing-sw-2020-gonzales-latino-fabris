@@ -7,7 +7,10 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -20,22 +23,42 @@ public class NicknameController {
     @FXML
     private TextField nicknameText;
 
+    @FXML
+    private Text error;
+
+
 
     public NicknameController() {
     }
 
+    protected Text getNickError() {
+        return error;
+    }
+
+
     @FXML
-    private void login() {
-        String nickname = nicknameText.getCharacters().toString();
+    private void login(KeyEvent ke) {
 
-        try {
-            //give nick to manager thread
-            GuiManager.queue.put(nickname);
+        if (ke.getCode().equals(KeyCode.ENTER)) {
 
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
+            System.out.println("entered method login");
+            //error.setVisible(false);
+
+            String nickname = nicknameText.getCharacters().toString();
+            System.out.println("taken nick  " + nickname);
+
+            try {
+                //give nick to manager thread
+                GuiManager.queue.put(nickname);
+
+                System.out.println("put nickname");
+
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
         }
 
     }
+
 
 }

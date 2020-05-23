@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="700.0" styleClass="background" stylesheets="@../css/welcome.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.NicknameController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="700.0" styleClass="background" stylesheets="@../css/welcome.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.NicknameController">
    <children>
       <ImageView fitHeight="236.0" fitWidth="339.0" layoutX="422.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -33,15 +34,7 @@
             <Image url="@../title/santorini-logo.png" />
          </image>
       </ImageView>
-      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="481.0" layoutY="326.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#login" prefHeight="38.0" prefWidth="58.0" text="Login" textAlignment="CENTER" textFill="WHITE">
-         <font>
-            <Font name="Ink Blossoms" size="15.0" />
-         </font>
-         <padding>
-            <Insets bottom="5.0" />
-         </padding>
-      </Button>
-      <TextField fx:id="nicknameText" alignment="CENTER" layoutX="254.0" layoutY="325.0" minWidth="9.0" pickOnBounds="false" prefHeight="38.0" prefWidth="208.0" promptText="type nick here">
+      <TextField fx:id="nicknameText" alignment="CENTER" layoutX="254.0" layoutY="325.0" minWidth="9.0" onKeyPressed="#login" pickOnBounds="false" prefHeight="38.0" prefWidth="208.0" promptText="type nick here">
          <font>
             <Font name="Negotiate Free" size="15.0" />
          </font>
