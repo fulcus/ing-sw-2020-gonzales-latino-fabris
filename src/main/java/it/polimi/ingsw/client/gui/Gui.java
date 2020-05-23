@@ -24,7 +24,7 @@ public class Gui extends Application {
 
         Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("/scenes/welcome.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/scenes/lobby.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }

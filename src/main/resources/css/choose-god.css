@@ -45,6 +45,13 @@
     -fx-font-size: 32px;
 }
 
+.text{
+    -fx-font-family: "Ink Blossoms";
+    -fx-text-alignment: center;
+}
+
 .label {
     -fx-font-family: "Ink Blossoms";
+    -fx-text-alignment: center;
+
 }

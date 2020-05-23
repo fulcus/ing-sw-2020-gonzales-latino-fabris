@@ -34,6 +34,7 @@ public class Client {
         Client client = new Client();
         client.setView();
         client.setUpConnection();
+
     }
 
 

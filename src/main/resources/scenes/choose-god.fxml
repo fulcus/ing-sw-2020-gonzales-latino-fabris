@@ -11,282 +11,313 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.ChooseGodController">
-  <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-  </columnConstraints>
-  <rowConstraints>
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-  </rowConstraints>
+<GridPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.ChooseGodController">
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints maxHeight="381.0" minHeight="0.0" prefHeight="52.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="510.0" minHeight="10.0" prefHeight="458.0" vgrow="SOMETIMES" />
+   </rowConstraints>
    <children>
-      <GridPane prefHeight="457.0" prefWidth="610.0" stylesheets="@../css/choose-god.css">
+      <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" GridPane.rowIndex="1">
         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="280.0" minWidth="10.0" prefWidth="215.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="387.0" minWidth="10.0" prefWidth="213.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="226.0" minWidth="0.0" prefWidth="213.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <ImageView fx:id="selectedGodImage" fitHeight="353.0" fitWidth="208.0" preserveRatio="true" GridPane.columnIndex="1">
-               <image>
-                  <Image url="@../gods/full_apollo.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="298.0" fitWidth="232.0">
-               <image>
-                  <Image url="@../frames/bg_panelMid.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="484.0" fitWidth="214.0" preserveRatio="true">
-               <image>
-                  <Image url="@../frames/fg_panel1.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="480.0" fitWidth="213.0" preserveRatio="true" GridPane.columnIndex="1">
-               <image>
-                  <Image url="@../frames/fg_panel2.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="483.0" fitWidth="214.0" preserveRatio="true" GridPane.columnIndex="2">
-               <image>
-                  <Image url="@../frames/fg_panel3.png" />
-               </image>
-            </ImageView>
-            <GridPane GridPane.columnIndex="2">
+            <GridPane prefHeight="457.0" prefWidth="610.0" stylesheets="@../css/choose-god.css">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="280.0" minWidth="10.0" prefWidth="215.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="387.0" minWidth="10.0" prefWidth="213.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="226.0" minWidth="0.0" prefWidth="213.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints maxHeight="259.0" minHeight="10.0" prefHeight="122.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="284.0" minHeight="10.0" prefHeight="255.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="107.0" minHeight="10.0" prefHeight="102.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <ImageView fitHeight="256.0" fitWidth="213.0" GridPane.rowIndex="1">
+                  <ImageView fx:id="selectedGodImage" fitHeight="353.0" fitWidth="208.0" preserveRatio="true" GridPane.columnIndex="1">
+                     <image>
+                        <Image url="@../gods/full_apollo.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="298.0" fitWidth="232.0">
                      <image>
                         <Image url="@../frames/bg_panelMid.png" />
                      </image>
                   </ImageView>
-                  <GridPane GridPane.rowIndex="1">
+                  <ImageView fitHeight="484.0" fitWidth="214.0" preserveRatio="true">
+                     <image>
+                        <Image url="@../frames/fg_panel1.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="480.0" fitWidth="213.0" preserveRatio="true" GridPane.columnIndex="1">
+                     <image>
+                        <Image url="@../frames/fg_panel2.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="483.0" fitWidth="214.0" preserveRatio="true" GridPane.columnIndex="2">
+                     <image>
+                        <Image url="@../frames/fg_panel3.png" />
+                     </image>
+                  </ImageView>
+                  <GridPane GridPane.columnIndex="2">
                     <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="197.0" minWidth="10.0" prefWidth="197.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="101.0" minWidth="10.0" prefWidth="16.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
                     <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="259.0" minHeight="10.0" prefHeight="122.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="284.0" minHeight="10.0" prefHeight="255.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="107.0" minHeight="10.0" prefHeight="102.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <ImageView fitHeight="255.0" fitWidth="17.0" GridPane.columnIndex="1">
+                        <ImageView fitHeight="256.0" fitWidth="213.0" GridPane.rowIndex="1">
                            <image>
-                              <Image url="@../frames/column.png" />
+                              <Image url="@../frames/bg_panelMid.png" />
                            </image>
                         </ImageView>
-                        <GridPane>
+                        <GridPane GridPane.rowIndex="1">
                           <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="197.0" minWidth="10.0" prefWidth="197.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="101.0" minWidth="10.0" prefWidth="16.0" />
                           </columnConstraints>
                           <rowConstraints>
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <ImageView fx:id="apollo" fitHeight="64.0" fitWidth="40.0" onMouseClicked="#selectedGod" preserveRatio="true" GridPane.halignment="CENTER">
+                              <ImageView fitHeight="255.0" fitWidth="17.0" GridPane.columnIndex="1">
                                  <image>
-                                    <Image url="@../gods/small_apollo.png" />
+                                    <Image url="@../frames/column.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fx:id="artemis" fitHeight="110.0" fitWidth="40.0" onMouseClicked="#selectedGod" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER">
-                                 <image>
-                                    <Image url="@../gods/small_atemis.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="athena" fitHeight="121.0" fitWidth="40.0" onMouseClicked="#selectedGod" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER">
-                                 <image>
-                                    <Image url="@../gods/small_athena.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="atlas" fitHeight="65.0" fitWidth="40.0" onMouseClicked="#selectedGod" GridPane.columnIndex="3" GridPane.halignment="CENTER">
-                                 <image>
-                                    <Image url="@../gods/small_atlas.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="charon" fitHeight="103.0" fitWidth="40.0" onMouseClicked="#selectedGod" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-                                 <image>
-                                    <Image url="@../gods/small_charon.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="demeter" fitHeight="137.0" fitWidth="40.0" onMouseClicked="#selectedGod" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-                                 <image>
-                                    <Image url="@../gods/small_demeter.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="hephaestus" fitHeight="64.0" fitWidth="40.0" onMouseClicked="#selectedGod" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-                                 <image>
-                                    <Image url="@../gods/small_hephaestus.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="hera" fitHeight="63.0" fitWidth="40.0" onMouseClicked="#selectedGod" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-                                 <image>
-                                    <Image url="@../gods/small_hera.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="hestia" fitHeight="113.0" fitWidth="40.0" onMouseClicked="#selectedGod" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="2">
-                                 <image>
-                                    <Image url="@../gods/small_hestia.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="minotaur" fitHeight="70.0" fitWidth="40.0" onMouseClicked="#selectedGod" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
-                                 <image>
-                                    <Image url="@../gods/small_minotaur.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="pan" fitHeight="89.0" fitWidth="40.0" onMouseClicked="#selectedGod" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
-                                 <image>
-                                    <Image url="@../gods/small_pan.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="prometheus" fitHeight="67.0" fitWidth="40.0" onMouseClicked="#selectedGod" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2">
-                                 <image>
-                                    <Image url="@../gods/small_prometheus.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="triton" fitHeight="137.0" fitWidth="40.0" onMouseClicked="#selectedGod" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="3">
-                                 <image>
-                                    <Image url="@../gods/small_triton.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="zeus" fitHeight="96.0" fitWidth="40.0" onMouseClicked="#selectedGod" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3">
-                                 <image>
-                                    <Image url="@../gods/small_zeus.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="apolloFrame" fitHeight="70.0" fitWidth="49.0" preserveRatio="true" GridPane.halignment="CENTER">
-                                 <image>
-                                    <Image url="@../frames/frame_white.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="artemisFrame" fitHeight="70.0" fitWidth="49.0" onMouseClicked="#selectedGod" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER">
-                                 <image>
-                                    <Image url="@../frames/frame_white.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="athenaFrame" fitHeight="70.0" fitWidth="49.0" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER">
-                                 <image>
-                                    <Image url="@../frames/frame_white.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="atlasFrame" fitHeight="70.0" fitWidth="49.0" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER">
-                                 <image>
-                                    <Image url="@../frames/frame_white.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="charonFrame" fitHeight="65.0" fitWidth="49.0" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-                                 <image>
-                                    <Image url="@../frames/frame_white.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="demeterFrame" fitHeight="70.0" fitWidth="49.0" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-                                 <image>
-                                    <Image url="@../frames/frame_white.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="hephaestusFrame" fitHeight="163.0" fitWidth="49.0" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-                                 <image>
-                                    <Image url="@../frames/frame_white.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="heraFrame" fitHeight="66.0" fitWidth="49.0" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-                                 <image>
-                                    <Image url="@../frames/frame_white.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="hestiaFrame" fitHeight="69.0" fitWidth="49.0" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="2">
-                                 <image>
-                                    <Image url="@../frames/frame_white.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="minotaurFrame" fitHeight="160.0" fitWidth="49.0" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
-                                 <image>
-                                    <Image url="@../frames/frame_white.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="panFrame" fitHeight="61.0" fitWidth="49.0" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
-                                 <image>
-                                    <Image url="@../frames/frame_white.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="prometheusFrame" fitHeight="68.0" fitWidth="49.0" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2">
-                                 <image>
-                                    <Image url="@../frames/frame_white.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="tritonFrame" fitHeight="66.0" fitWidth="49.0" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="3">
-                                 <image>
-                                    <Image url="@../frames/frame_white.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="zeusFrame" fitHeight="134.0" fitWidth="49.0" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3">
-                                 <image>
-                                    <Image url="@../frames/frame_white.png" />
-                                 </image>
-                              </ImageView>
+                              <GridPane>
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <ImageView fx:id="apollo" fitHeight="64.0" fitWidth="40.0" onMouseClicked="#selectedGod" preserveRatio="true" GridPane.halignment="CENTER">
+                                       <image>
+                                          <Image url="@../gods/small_apollo.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="artemis" fitHeight="110.0" fitWidth="40.0" onMouseClicked="#selectedGod" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                                       <image>
+                                          <Image url="@../gods/small_atemis.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="athena" fitHeight="121.0" fitWidth="40.0" onMouseClicked="#selectedGod" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+                                       <image>
+                                          <Image url="@../gods/small_athena.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="atlas" fitHeight="65.0" fitWidth="40.0" onMouseClicked="#selectedGod" GridPane.columnIndex="3" GridPane.halignment="CENTER">
+                                       <image>
+                                          <Image url="@../gods/small_atlas.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="charon" fitHeight="103.0" fitWidth="40.0" onMouseClicked="#selectedGod" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                                       <image>
+                                          <Image url="@../gods/small_charon.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="demeter" fitHeight="137.0" fitWidth="40.0" onMouseClicked="#selectedGod" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                                       <image>
+                                          <Image url="@../gods/small_demeter.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="hephaestus" fitHeight="64.0" fitWidth="40.0" onMouseClicked="#selectedGod" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                                       <image>
+                                          <Image url="@../gods/small_hephaestus.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="hera" fitHeight="63.0" fitWidth="40.0" onMouseClicked="#selectedGod" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                                       <image>
+                                          <Image url="@../gods/small_hera.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="hestia" fitHeight="113.0" fitWidth="40.0" onMouseClicked="#selectedGod" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                                       <image>
+                                          <Image url="@../gods/small_hestia.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="minotaur" fitHeight="70.0" fitWidth="40.0" onMouseClicked="#selectedGod" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                                       <image>
+                                          <Image url="@../gods/small_minotaur.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="pan" fitHeight="89.0" fitWidth="40.0" onMouseClicked="#selectedGod" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                                       <image>
+                                          <Image url="@../gods/small_pan.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="prometheus" fitHeight="67.0" fitWidth="40.0" onMouseClicked="#selectedGod" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                                       <image>
+                                          <Image url="@../gods/small_prometheus.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="triton" fitHeight="137.0" fitWidth="40.0" onMouseClicked="#selectedGod" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+                                       <image>
+                                          <Image url="@../gods/small_triton.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="zeus" fitHeight="96.0" fitWidth="40.0" onMouseClicked="#selectedGod" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+                                       <image>
+                                          <Image url="@../gods/small_zeus.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="apolloFrame" fitHeight="70.0" fitWidth="49.0" preserveRatio="true" GridPane.halignment="CENTER">
+                                       <image>
+                                          <Image url="@../frames/frame_white.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="artemisFrame" fitHeight="70.0" fitWidth="49.0" onMouseClicked="#selectedGod" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                                       <image>
+                                          <Image url="@../frames/frame_white.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="athenaFrame" fitHeight="70.0" fitWidth="49.0" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+                                       <image>
+                                          <Image url="@../frames/frame_white.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="atlasFrame" fitHeight="70.0" fitWidth="49.0" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER">
+                                       <image>
+                                          <Image url="@../frames/frame_white.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="charonFrame" fitHeight="65.0" fitWidth="49.0" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                                       <image>
+                                          <Image url="@../frames/frame_white.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="demeterFrame" fitHeight="70.0" fitWidth="49.0" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                                       <image>
+                                          <Image url="@../frames/frame_white.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="hephaestusFrame" fitHeight="163.0" fitWidth="49.0" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                                       <image>
+                                          <Image url="@../frames/frame_white.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="heraFrame" fitHeight="66.0" fitWidth="49.0" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                                       <image>
+                                          <Image url="@../frames/frame_white.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="hestiaFrame" fitHeight="69.0" fitWidth="49.0" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                                       <image>
+                                          <Image url="@../frames/frame_white.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="minotaurFrame" fitHeight="160.0" fitWidth="49.0" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                                       <image>
+                                          <Image url="@../frames/frame_white.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="panFrame" fitHeight="61.0" fitWidth="49.0" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                                       <image>
+                                          <Image url="@../frames/frame_white.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="prometheusFrame" fitHeight="68.0" fitWidth="49.0" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                                       <image>
+                                          <Image url="@../frames/frame_white.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="tritonFrame" fitHeight="66.0" fitWidth="49.0" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+                                       <image>
+                                          <Image url="@../frames/frame_white.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="zeusFrame" fitHeight="134.0" fitWidth="49.0" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+                                       <image>
+                                          <Image url="@../frames/frame_white.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </GridPane>
                            </children>
                         </GridPane>
                      </children>
                   </GridPane>
-               </children>
-            </GridPane>
-            <GridPane prefWidth="213.0" GridPane.columnIndex="1">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints maxHeight="391.26849365234375" minHeight="10.0" prefHeight="385.9395751953125" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="155.8791961669922" minHeight="0.0" prefHeight="29.0604248046875" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="155.8791961669922" minHeight="10.0" prefHeight="68.45635986328125" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#select" prefHeight="27.0" prefWidth="104.0" text="SELECT" textAlignment="CENTER" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-                     <GridPane.margin>
-                        <Insets />
-                     </GridPane.margin>
-                     <padding>
-                        <Insets bottom="5.0" />
-                     </padding></Button>
-               </children>
-            </GridPane>
-            <GridPane>
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="103.0" minWidth="10.0" prefWidth="36.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="188.0" minWidth="10.0" prefWidth="168.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="176.0" minWidth="10.0" prefWidth="16.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints maxHeight="186.0" minHeight="10.0" prefHeight="106.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="299.0" minHeight="10.0" prefHeight="31.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="337.0" minHeight="10.0" prefHeight="240.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="337.0" minHeight="10.0" prefHeight="104.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <TextArea fx:id="godDescriptionArea" editable="false" prefHeight="227.0" prefWidth="196.0" text="Your Worker may move into an opponent Worker’s space by forcing their Worker to the space yours just vacated." wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                     <GridPane.margin>
-                        <Insets top="15.0" />
-                     </GridPane.margin></TextArea>
-                  <Label fx:id="godName" alignment="CENTER" prefHeight="12.0" prefWidth="159.0" text="APOLLO" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                     <font>
-                        <Font size="17.0" />
-                     </font>
-                  </Label>
+                  <GridPane prefWidth="213.0" GridPane.columnIndex="1">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints maxHeight="391.26849365234375" minHeight="10.0" prefHeight="385.9395751953125" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="155.8791961669922" minHeight="0.0" prefHeight="29.0604248046875" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="155.8791961669922" minHeight="10.0" prefHeight="68.45635986328125" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#select" prefHeight="27.0" prefWidth="104.0" text="SELECT" textAlignment="CENTER" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                           <padding>
+                              <Insets bottom="5.0" />
+                           </padding>
+                        </Button>
+                     </children>
+                  </GridPane>
+                  <GridPane>
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="103.0" minWidth="10.0" prefWidth="36.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="188.0" minWidth="10.0" prefWidth="168.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="176.0" minWidth="10.0" prefWidth="16.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints maxHeight="186.0" minHeight="10.0" prefHeight="106.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="299.0" minHeight="10.0" prefHeight="31.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="337.0" minHeight="10.0" prefHeight="240.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="337.0" minHeight="10.0" prefHeight="104.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <TextArea fx:id="godDescriptionArea" editable="false" prefHeight="227.0" prefWidth="196.0" text="Your Worker may move into an opponent Worker’s space by forcing their Worker to the space yours just vacated." wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <GridPane.margin>
+                              <Insets top="15.0" />
+                           </GridPane.margin>
+                        </TextArea>
+                        <Label fx:id="godName" alignment="CENTER" prefHeight="12.0" prefWidth="159.0" text="APOLLO" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </GridPane>
                </children>
             </GridPane>
          </children>
       </GridPane>
+      <ImageView fitHeight="84.0" fitWidth="348.0" preserveRatio="true">
+         <image>
+            <Image url="@../frames/glory_bg_left.png" />
+         </image>
+         <GridPane.margin>
+            <Insets bottom="1.0" />
+         </GridPane.margin>
+      </ImageView>
+      <ImageView fitHeight="84.0" fitWidth="326.0" nodeOrientation="RIGHT_TO_LEFT" preserveRatio="true" GridPane.halignment="RIGHT">
+         <image>
+            <Image url="@../frames/glory_bg_left.png" />
+         </image>
+      </ImageView>
+      <Label alignment="CENTER" prefHeight="0.0" prefWidth="535.0" stylesheets="@../css/choose-god.css" text="CHALLENGER " textFill="WHITE" GridPane.halignment="CENTER">
+         <padding>
+            <Insets bottom="12.0" />
+         </padding>
+      </Label>
    </children>
 </GridPane>

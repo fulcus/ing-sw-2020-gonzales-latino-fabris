@@ -27,7 +27,8 @@ public class GuiManager implements View {
     private final FXMLLoader nicknameLoader;
     private final FXMLLoader colorLoader;
     private final FXMLLoader lobbyLoader;
-    private final FXMLLoader startPlayerLoader;
+    private final FXMLLoader choseGodLoader;
+    protected static final FXMLLoader startPlayerLoader = new FXMLLoader(GuiManager.class.getResource("/scenes/choose-god.fxml"));
     private final FXMLLoader boardLoader;
 
     private final ConnectController connectController;
@@ -35,6 +36,7 @@ public class GuiManager implements View {
     private final NicknameController nicknameController;
     private final ColorController colorController;
     private final LobbyController lobbyController;
+    private final ChooseGodController chooseGodController;
     private final StartPlayerController startPlayerController;
     private final BoardController boardController;
 
@@ -43,7 +45,7 @@ public class GuiManager implements View {
         nicknameLoader = new FXMLLoader(getClass().getResource("/scenes/choose-nickname.fxml"));
         colorLoader = new FXMLLoader(getClass().getResource("/scenes/choose-color.fxml"));
         lobbyLoader = new FXMLLoader(getClass().getResource("/scenes/lobby.fxml"));
-        startPlayerLoader = new FXMLLoader(getClass().getResource("/scenes/start-player.fxml"));
+        choseGodLoader = new FXMLLoader(getClass().getResource("/scenes/choose-god.fxml"));
         boardLoader = new FXMLLoader(getClass().getResource("/scenes/board.fxml"));
 
 
@@ -52,6 +54,7 @@ public class GuiManager implements View {
         nicknameController = nicknameLoader.getController();
         colorController = colorLoader.getController();
         lobbyController = lobbyLoader.getController();
+        chooseGodController = choseGodLoader.getController();
         startPlayerController = startPlayerLoader.getController();
         boardController = boardLoader.getController();
 
@@ -66,6 +69,7 @@ public class GuiManager implements View {
     public void setPlayer(String nickname) {
         playerNickname = nickname;
     }
+
 
     public String getServerAddress() {
 
@@ -237,7 +241,26 @@ public class GuiManager implements View {
     }
 
     public String getGodFromChallenger(int numOfPlayers, int alreadyChosenGods) {
-        return null;
+
+        String chosenGod = null;
+
+        Platform.runLater(() ->lobbyController.enableNextButton());
+
+        //lobbyController.enableNextButton();
+
+        chooseGodController.getGodFromChallenger(numOfPlayers,alreadyChosenGods);
+
+        try {
+            chosenGod = (String) queue.take();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Selected chosenGod");
+
+        return chosenGod;
+
     }
 
     public String challengerChooseStartPlayer() {

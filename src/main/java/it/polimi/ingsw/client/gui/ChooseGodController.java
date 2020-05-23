@@ -46,6 +46,9 @@ public class ChooseGodController {
     @FXML
     private ImageView selectedGodImage;
 
+    @FXML
+    private Label mainText;
+
     private final String apolloDescription = "Your Worker may move into an opponent Worker’s space by forcing their Worker to the space yours just vacated.";
     private final String artemisDescription = "Your Worker may move one additional time, but not back to its initial space.";
     private final String athenaDescription = "If one of your Workers moved up on your last turn, opponent Workers cannot move up this turn.";
@@ -65,10 +68,12 @@ public class ChooseGodController {
     private final Image blueFrame;
 
     private ImageView godFrame;
+    private String selectedGodID;
 
     public ChooseGodController() {
         whiteFrame = new Image("/frames/frame_white.png");
         blueFrame = new Image("/frames/frame_blue.png");
+        selectedGodID = null;
     }
 
     @FXML
@@ -119,11 +124,38 @@ public class ChooseGodController {
         godDescriptionArea.clear();
         godDescriptionArea.appendText(description);
 
+        selectedGodID = godId;
+
     }
 
     @FXML
     private void select() {
-        System.out.println("Select");
+
+        if (selectedGodID == null)
+            mainText.setText("Select a God!");
+        else {
+            mainText.setText("You chose " + selectedGodID);
+
+            try {
+                GuiManager.queue.put(selectedGodID);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+    }
+
+    public void getGodFromChallenger(int numOfPlayers, int alreadyChosenGods) {
+
+        int godsLeftToChoose = numOfPlayers - alreadyChosenGods;
+
+        if (godsLeftToChoose == 2 || godsLeftToChoose == 3)
+            mainText.setText("You are the Challenger! Select " + godsLeftToChoose + "gods");
+
+        else
+            mainText.setText("You are the Challenger! Select " + godsLeftToChoose + "god");
+
     }
 
 
