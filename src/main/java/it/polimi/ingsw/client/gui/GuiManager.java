@@ -8,37 +8,43 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class GuiManager implements View {
 
     protected static volatile AtomicInteger numberOfPlayers;
-    protected static volatile String nickname1;
-    protected static volatile String nickname2;
-    protected static volatile String nickname3;
-    protected static volatile String color1;
-    protected static volatile String color2;
-    protected static volatile String color3;
+    protected static volatile AtomicReference<String> nickname1;
+    protected static volatile AtomicReference<String> nickname2;
+    protected static volatile AtomicReference<String> nickname3;
+    protected static volatile AtomicReference<String> color1;
+    protected static volatile AtomicReference<String> color2;
+    protected static volatile AtomicReference<String> color3;
     protected static volatile AtomicInteger playersConnected;
 
     protected static final SynchronousQueue<Object> queue = new SynchronousQueue<>();
-    private String playerNickname; //to be assigned when setPlayer of ViewClient is deserialized
+    private String playerNickname;
+    private String playerColor;
     private String challenger;
     private final BoardClient board;
-    private int numOfPlayers;
+    protected static AtomicBoolean isInLobby;
 
-    protected static final FXMLLoader connectLoader = new FXMLLoader(GuiManager.class.getResource("/scenes/connect.fxml"));;
+
     private final FXMLLoader numberOfPlayersLoader;
     private final FXMLLoader nicknameLoader;
     private final FXMLLoader colorLoader;
-    protected static final FXMLLoader lobbyLoader = new FXMLLoader(GuiManager.class.getResource("/scenes/lobby.fxml"));;
     private final FXMLLoader startPlayerLoader;
     private final FXMLLoader boardLoader;
+    protected static final FXMLLoader lobbyLoader = new FXMLLoader(GuiManager.class.getResource("/scenes/lobby.fxml"));
+    protected static final FXMLLoader connectLoader = new FXMLLoader(GuiManager.class.getResource("/scenes/connect.fxml"));
+
 
     private final ConnectController connectController;
     private final NumberOfPlayersController numberOfPlayersController;
@@ -49,14 +55,25 @@ public class GuiManager implements View {
     private final BoardController boardController;
 
 
-
     public GuiManager() {
+
         numberOfPlayersLoader = new FXMLLoader(getClass().getResource("/scenes/choose-num-of-players.fxml"));
         nicknameLoader = new FXMLLoader(getClass().getResource("/scenes/choose-nickname.fxml"));
         colorLoader = new FXMLLoader(getClass().getResource("/scenes/choose-color.fxml"));
         startPlayerLoader = new FXMLLoader(getClass().getResource("/scenes/start-player.fxml"));
         boardLoader = new FXMLLoader(getClass().getResource("/scenes/board.fxml"));
 
+        try {
+            connectLoader.load();
+            numberOfPlayersLoader.load();
+            nicknameLoader.load();
+            colorLoader.load();
+            startPlayerLoader.load();
+            boardLoader.load();
+            lobbyLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         connectController = connectLoader.getController();
         numberOfPlayersController = numberOfPlayersLoader.getController();
@@ -65,6 +82,7 @@ public class GuiManager implements View {
         lobbyController = lobbyLoader.getController();
         startPlayerController = startPlayerLoader.getController();
         boardController = boardLoader.getController();
+
 
         board = new BoardClient();
         playersConnected = new AtomicInteger(0);
@@ -75,6 +93,8 @@ public class GuiManager implements View {
         color1 = null;
         color2 = null;
         color3 = null;
+
+        isInLobby = new AtomicBoolean(false);
     }
 
     /**
@@ -224,21 +244,28 @@ public class GuiManager implements View {
     private void setPlayerInfo(String nickname, String color) {
 
         if (nickname1 == null) {
-            nickname1 = nickname;
-            color1 = color;
+            nickname1 = new AtomicReference<>(nickname);
+            color1 = new AtomicReference<>(color);
 
         } else if (nickname2 == null) {
-            nickname2 = nickname;
-            color2 = color;
+            nickname2 = new AtomicReference<>(nickname);
+            color2 = new AtomicReference<>(color);
         } else if (nickname3 == null) {
-            nickname3 = nickname;
-            color3 = color;
+            nickname3 = new AtomicReference<>(nickname);
+            color3 = new AtomicReference<>(color);
         }
+
+
+        playersConnected.addAndGet(1);
 
         //if client is in lobby there's at least 1 player connected (him)
         //RENDER
-        if (playersConnected.get() > 0)
-            Platform.runLater(()->lobbyController.showPlayer(nickname, color));
+
+        Parent root = Gui.getStage().getScene().getRoot();
+        System.out.println(root);
+
+        if (isInLobby.get())
+            Platform.runLater(() -> lobbyController.showPlayer(nickname, color));
         //otherwise it has already been saved and will be rendered in initialize
     }
 
@@ -266,17 +293,15 @@ public class GuiManager implements View {
 
 
     public void notifyValidNick() {
-        //change scene
-        Parent root = null;
 
+        //change scene
         try {
-            root = colorLoader.load();
+            Parent root = colorLoader.load();
+            Platform.runLater(() -> Gui.getStage().setScene(new Scene(root)));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        Parent finalRoot = root;
-        Platform.runLater(() -> Gui.getStage().setScene(new Scene(finalRoot)));
     }
 
 
@@ -287,11 +312,12 @@ public class GuiManager implements View {
         try {
 
             color = (String) queue.take();
-            System.out.println("color taken");
 
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        playerColor = color;
 
         System.out.println("guimanager received: " + color);
         return color;
@@ -299,19 +325,17 @@ public class GuiManager implements View {
 
 
     public void notifyValidColor() {
+
+        setPlayerInfo(playerNickname, playerColor);  //adding this players info to "database"
+
         //change scene
-        Parent root = null;
-
-        System.out.println("the color is valid");
-
         try {
-            root = lobbyLoader.load();
+            Parent root = lobbyLoader.load();
+            Platform.runLater(() -> Gui.getStage().setScene(new Scene(root)));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        Parent finalRoot = root;
-        Platform.runLater(() -> Gui.getStage().setScene(new Scene(finalRoot)));
     }
 
     /**

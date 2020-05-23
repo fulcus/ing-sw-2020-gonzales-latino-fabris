@@ -106,6 +106,7 @@ public class Lobby {
     }
 
     private void sendOtherPlayersInfo(ViewClient newClient) {
+
         for(ViewClient otherClient : availableGame.getGameClients()) {
             if(otherClient != newClient) {  //always true bc newClient isn't in gameClients yet
 
