@@ -24,7 +24,7 @@ public class ColorController {
     private void blue(MouseEvent e) {
 
 
-        String color = "blue";
+        String color = "BLUE";
 
         System.out.println("controller: clicked blue");
 
@@ -41,7 +41,7 @@ public class ColorController {
     @FXML
     private void white(MouseEvent e) {
 
-        String color = "white";
+        String color = "WHITE";
 
         try {
             //give color to manager thread
@@ -80,7 +80,7 @@ public class ColorController {
     @FXML
     private void beige(MouseEvent e) {
 
-        String color = "beige";
+        String color = "BEIGE";
 
         try {
             //give color to manager thread
