@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static it.polimi.ingsw.client.gui.GuiManager.connectRoot;
+
 public class WelcomeController implements Initializable {
 
     public WelcomeController() {
@@ -19,13 +21,7 @@ public class WelcomeController implements Initializable {
     @FXML
     private void next() {
 
-        try {
-            Parent root = GuiManager.connectLoader.load();
-            Gui.getStage().setScene(new Scene(root));
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
-
+        Gui.getStage().setScene(new Scene(connectRoot));
 
     }
 

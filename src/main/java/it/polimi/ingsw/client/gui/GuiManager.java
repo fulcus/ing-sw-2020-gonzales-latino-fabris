@@ -8,7 +8,6 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,56 +35,48 @@ public class GuiManager implements View {
     private final BoardClient board;
     protected static AtomicBoolean isInLobby;
 
-
+    protected static final FXMLLoader connectLoader = new FXMLLoader(GuiManager.class.getResource("/scenes/connect.fxml"));
     private final FXMLLoader numberOfPlayersLoader;
     private final FXMLLoader nicknameLoader;
     private final FXMLLoader colorLoader;
-    private final FXMLLoader startPlayerLoader;
-    private final FXMLLoader choseGodLoader;
-    private final FXMLLoader boardLoader;
     protected static final FXMLLoader lobbyLoader = new FXMLLoader(GuiManager.class.getResource("/scenes/lobby.fxml"));
-    protected static final FXMLLoader connectLoader = new FXMLLoader(GuiManager.class.getResource("/scenes/connect.fxml"));
+    protected final FXMLLoader chooseGodLoader;
+    private final FXMLLoader startPlayerLoader;
+    private final FXMLLoader boardLoader;
 
 
-    private final ConnectController connectController;
-    private final NumberOfPlayersController numberOfPlayersController;
-    private final NicknameController nicknameController;
-    private final ColorController colorController;
-    private final LobbyController lobbyController;
-    private final ChooseGodController chooseGodController;
-    private final StartPlayerController startPlayerController;
-    private final BoardController boardController;
+    protected static Parent numberOfPlayersRoot;
+    protected static Parent nicknameRoot;
+    protected static Parent colorRoot;
+    protected static Parent chooseGodRoot;
+    protected static Parent startPlayerRoot;
+    protected static Parent boardRoot;
+    protected static Parent lobbyRoot;
+    protected static Parent connectRoot;
+
+
+    private ConnectController connectController;
+    private NumberOfPlayersController numberOfPlayersController;
+    private NicknameController nicknameController;
+    private ColorController colorController;
+    private LobbyController lobbyController;
+    private ChooseGodController chooseGodController;
+    private StartPlayerController startPlayerController;
+    private BoardController boardController;
 
 
     public GuiManager() {
+        //edit
+        numberOfPlayers = new AtomicInteger(0);
+
+        System.out.println("in GuiManager constructor");
 
         numberOfPlayersLoader = new FXMLLoader(getClass().getResource("/scenes/choose-num-of-players.fxml"));
         nicknameLoader = new FXMLLoader(getClass().getResource("/scenes/choose-nickname.fxml"));
         colorLoader = new FXMLLoader(getClass().getResource("/scenes/choose-color.fxml"));
         startPlayerLoader = new FXMLLoader(getClass().getResource("/scenes/start-player.fxml"));
-        choseGodLoader = new FXMLLoader(getClass().getResource("/scenes/choose-god.fxml"));
         boardLoader = new FXMLLoader(getClass().getResource("/scenes/board.fxml"));
-
-        try {
-            connectLoader.load();
-            numberOfPlayersLoader.load();
-            nicknameLoader.load();
-            colorLoader.load();
-            startPlayerLoader.load();
-            boardLoader.load();
-            lobbyLoader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        connectController = connectLoader.getController();
-        numberOfPlayersController = numberOfPlayersLoader.getController();
-        nicknameController = nicknameLoader.getController();
-        colorController = colorLoader.getController();
-        lobbyController = lobbyLoader.getController();
-        chooseGodController = choseGodLoader.getController();
-        startPlayerController = startPlayerLoader.getController();
-        boardController = boardLoader.getController();
+        chooseGodLoader = new FXMLLoader(getClass().getResource("/scenes/choose-god.fxml"));
 
 
         board = new BoardClient();
@@ -99,7 +90,46 @@ public class GuiManager implements View {
         color3 = null;
 
         isInLobby = new AtomicBoolean(false);
+
+        try {
+            queue.take();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+        createControllers();
     }
+
+
+    private void createControllers() {
+
+
+        try {
+            connectRoot = connectLoader.load();
+            numberOfPlayersRoot = numberOfPlayersLoader.load();
+            nicknameRoot = nicknameLoader.load();
+            colorRoot = colorLoader.load();
+            chooseGodRoot = chooseGodLoader.load();
+            startPlayerRoot = startPlayerLoader.load();
+            boardRoot = boardLoader.load();
+            lobbyRoot = lobbyLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        connectController = connectLoader.getController();
+        numberOfPlayersController = numberOfPlayersLoader.getController();
+        nicknameController = nicknameLoader.getController();
+        colorController = colorLoader.getController();
+        lobbyController = lobbyLoader.getController();
+        chooseGodController = chooseGodLoader.getController();
+        startPlayerController = startPlayerLoader.getController();
+        boardController = boardLoader.getController();
+
+    }
+
 
     /**
      * Assigns the nickname of the player to the View
@@ -109,7 +139,6 @@ public class GuiManager implements View {
     public void setPlayer(String nickname) {
         playerNickname = nickname;
     }
-
 
     public String getServerAddress() {
 
@@ -125,6 +154,9 @@ public class GuiManager implements View {
     }
 
     public void connectionOutcome(boolean connected) {
+
+        //createControllers();
+
         System.out.println("connectionOutcome");
 
         if (!connected) {
@@ -155,28 +187,17 @@ public class GuiManager implements View {
         GuiManager.numberOfPlayers = new AtomicInteger(numberOfPlayers);
 
         //change scene
-        try {
 
-            Parent root = nicknameLoader.load();
-            Platform.runLater(() -> Gui.getStage().setScene(new Scene(root)));
+        Platform.runLater(() -> Gui.getStage().setScene(new Scene(nicknameRoot)));
 
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
     }
 
     public void createGame() {
         System.out.println("createGame guiManager"); //debug
 
         //change scene
-        try {
+        Platform.runLater(() -> Gui.getStage().setScene(new Scene(numberOfPlayersRoot)));
 
-            Parent root = numberOfPlayersLoader.load();
-            Platform.runLater(() -> Gui.getStage().setScene(new Scene(root)));
-
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
     }
 
     /**
@@ -191,9 +212,8 @@ public class GuiManager implements View {
             numInt = Integer.parseInt(numString);
 
             //change scene
-            Parent root = nicknameLoader.load();
-            Platform.runLater(() -> Gui.getStage().setScene(new Scene(root)));
-        } catch (InterruptedException | IOException e) {
+            Platform.runLater(() -> Gui.getStage().setScene(new Scene(nicknameRoot)));
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
@@ -265,10 +285,6 @@ public class GuiManager implements View {
 
         //if client is in lobby there's at least 1 player connected (him)
         //RENDER
-
-        Parent root = Gui.getStage().getScene().getRoot();
-        System.out.println(root);
-
         if (isInLobby.get())
             Platform.runLater(() -> lobbyController.showPlayer(nickname, color));
         //otherwise it has already been saved and will be rendered in initialize
@@ -300,12 +316,7 @@ public class GuiManager implements View {
     public void notifyValidNick() {
 
         //change scene
-        try {
-            Parent root = colorLoader.load();
-            Platform.runLater(() -> Gui.getStage().setScene(new Scene(root)));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Platform.runLater(() -> Gui.getStage().setScene(new Scene(colorRoot)));
 
     }
 
@@ -334,12 +345,10 @@ public class GuiManager implements View {
         setPlayerInfo(playerNickname, playerColor);  //adding this players info to "database"
 
         //change scene
-        try {
-            Parent root = lobbyLoader.load();
-            Platform.runLater(() -> Gui.getStage().setScene(new Scene(root)));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Platform.runLater(() -> {
+            lobbyController.init();
+            Gui.getStage().setScene(new Scene(lobbyRoot));
+        });
 
     }
 
@@ -388,14 +397,7 @@ public class GuiManager implements View {
         System.out.println("guimanager received: " + challenger);   //debug
 
         //change scene
-        try {
-
-            Parent root = boardLoader.load();
-            Platform.runLater(() -> Gui.getStage().setScene(new Scene(root)));
-
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
+        Platform.runLater(() -> Gui.getStage().setScene(new Scene(boardRoot)));
 
         return challenger;
     }

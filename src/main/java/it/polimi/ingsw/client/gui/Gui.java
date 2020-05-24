@@ -34,26 +34,18 @@ public class Gui extends Application {
         stage.setResizable(false);
         stage.show();
 
+        try {
+            GuiManager.queue.put("done");
+            System.out.println("after put");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     protected static Stage getStage() {
         return stage;
     }
-
-    /*
-    protected static void setScene(String fxmlPath) {
-        Parent root = null;
-        try {
-            root = FXMLLoader.load(Gui.class.getResource(fxmlPath));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-
-    }
-    */
-
 
 }

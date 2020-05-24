@@ -2,7 +2,6 @@ package it.polimi.ingsw.client.gui;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -10,14 +9,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static it.polimi.ingsw.client.gui.GuiManager.*;
 
-public class LobbyController implements Initializable {
+public class LobbyController {
 
     @FXML
     private Label playerName1;
@@ -59,8 +57,8 @@ public class LobbyController implements Initializable {
 
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    public void init() {
 
         isInLobby.set(true);
 
@@ -74,12 +72,6 @@ public class LobbyController implements Initializable {
             loader3.setVisible(false);
             loadingText3.setVisible(false);
         }
-
-        //todo add this client nickname and color
-        //call setPlayerInfo after color is set:
-        //to do so save nickname locally in NicknameController
-        //and do the same for color
-        //showPlayer(nicknameController.getNickname(), colorController.getColor());
 
         //shows info already available when joining
         if (nickname1 != null) {
@@ -135,35 +127,8 @@ public class LobbyController implements Initializable {
 
     @FXML
     private void next() {
-
-        System.out.println("next");
-
-        /*Parent root = null;
-        try {
-            root = GuiManager.startPlayerLoader.load();
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
-
-        Gui.getStage().setScene(new Scene(root));*/
-
+        Gui.getStage().setScene(new Scene(chooseGodRoot));
     }
 
-    public void enableNextButton() {
-        next.setDisable(false);
-    }
-
-    //todo if challenger -> choose gods, if not choose your god
-        /*
-        try {
-            Parent root =
-            Gui.getStage().setScene(new Scene(root));
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
-         */
 
 }
-
-
-
