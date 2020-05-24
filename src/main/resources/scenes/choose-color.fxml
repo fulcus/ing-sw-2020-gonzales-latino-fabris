@@ -44,7 +44,7 @@
             <Font name="Negotiate Free" size="14.0" />
          </font>
       </Text>
-      <Text fx:id="waitingOther" fill="#4a1ab2" layoutX="243.0" layoutY="512.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SOMEONE IS CHOOSING HIS COLOR..." textAlignment="CENTER" visible="false">
+      <Text fx:id="waitingOther" fill="#4a1ab2" layoutX="243.0" layoutY="512.0" strokeType="OUTSIDE" strokeWidth="0.0" text="WAIT: Someone is choosing his color..." textAlignment="CENTER">
          <font>
             <Font name="Negotiate Free" size="14.0" />
          </font>
@@ -68,7 +68,7 @@
                   <RowConstraints maxHeight="120.0" minHeight="10.0" prefHeight="120.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Button fx:id="beige" alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#beige" prefHeight="106.0" prefWidth="100.0" styleClass="gold-button" stylesheets="@../css/choose-color.css" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2">
+                  <Button fx:id="beige" alignment="CENTER" contentDisplay="CENTER" disable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#beige" prefHeight="106.0" prefWidth="100.0" styleClass="gold-button" stylesheets="@../css/choose-color.css" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2">
                      <font>
                         <Font name="Ink Blossoms" size="13.0" />
                      </font>
@@ -76,12 +76,12 @@
                         <Insets left="40.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button fx:id="white" mnemonicParsing="false" onMouseClicked="#white" prefHeight="108.0" prefWidth="102.0" styleClass="white-button" stylesheets="@../css/choose-color.css" textFill="#837e7e" GridPane.columnIndex="1">
+                  <Button fx:id="white" disable="true" mnemonicParsing="false" onMouseClicked="#white" prefHeight="108.0" prefWidth="102.0" styleClass="white-button" stylesheets="@../css/choose-color.css" textFill="#837e7e" GridPane.columnIndex="1">
                      <font>
                         <Font name="Ink Blossoms" size="13.0" />
                      </font>
                   </Button>
-                  <Button fx:id="blue" mnemonicParsing="false" onMouseClicked="#blue" prefHeight="108.0" prefWidth="102.0" styleClass="blue-button" stylesheets="@../css/choose-color.css" textAlignment="RIGHT" textFill="WHITE">
+                  <Button fx:id="blue" disable="true" mnemonicParsing="false" onMouseClicked="#blue" prefHeight="108.0" prefWidth="102.0" styleClass="blue-button" stylesheets="@../css/choose-color.css" textAlignment="RIGHT" textFill="WHITE">
                      <font>
                         <Font name="Ink Blossoms" size="13.0" />
                      </font>

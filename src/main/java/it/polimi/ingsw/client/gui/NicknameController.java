@@ -77,5 +77,9 @@ public class NicknameController {
         waitingOther.setVisible(false);
     }
 
+    public void enableNicknameText () {
+        nicknameText.setDisable(false);
+    }
+
 
 }
