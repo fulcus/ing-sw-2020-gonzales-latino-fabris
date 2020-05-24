@@ -6,8 +6,10 @@ import it.polimi.ingsw.serializableObjects.CellClient;
 import it.polimi.ingsw.serializableObjects.WorkerClient;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -103,6 +105,18 @@ public class GuiManager implements View {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
+        ImageCursor cursor = new ImageCursor(new Image("/labels/cursor.png"));
+        connectRoot.setCursor(cursor);
+        numberOfPlayersRoot.setCursor(cursor);
+        nicknameRoot.setCursor(cursor);
+        colorRoot.setCursor(cursor);
+        chooseGodRoot.setCursor(cursor);
+        startPlayerRoot.setCursor(cursor);
+        boardRoot.setCursor(cursor);
+        lobbyRoot.setCursor(cursor);
+
 
 
         connectController = connectLoader.getController();
