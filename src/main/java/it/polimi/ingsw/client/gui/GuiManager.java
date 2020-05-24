@@ -19,32 +19,20 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class GuiManager implements View {
 
-    protected static volatile AtomicInteger numberOfPlayers;
-    protected static volatile AtomicReference<String> nickname1;
-    protected static volatile AtomicReference<String> nickname2;
-    protected static volatile AtomicReference<String> nickname3;
-    protected static volatile AtomicReference<String> color1;
-    protected static volatile AtomicReference<String> color2;
-    protected static volatile AtomicReference<String> color3;
-    protected static volatile AtomicInteger playersConnected;
-
+    protected static final AtomicInteger numberOfPlayers = new AtomicInteger(0); //overwritten by joinGame or asknumberofplayers
+    protected static final AtomicInteger playersConnected = new AtomicInteger(0);
+    protected static final AtomicBoolean isInLobby = new AtomicBoolean(false);;
     protected static final SynchronousQueue<Object> queue = new SynchronousQueue<>();
-    private String playerNickname;
-    private String playerColor;
-    private String challenger;
-    private final BoardClient board;
-    protected static AtomicBoolean isInLobby;
 
-    protected static final FXMLLoader connectLoader = new FXMLLoader(GuiManager.class.getResource("/scenes/connect.fxml"));
-    private final FXMLLoader numberOfPlayersLoader;
-    private final FXMLLoader nicknameLoader;
-    private final FXMLLoader colorLoader;
-    protected static final FXMLLoader lobbyLoader = new FXMLLoader(GuiManager.class.getResource("/scenes/lobby.fxml"));
-    protected final FXMLLoader chooseGodLoader;
-    private final FXMLLoader startPlayerLoader;
-    private final FXMLLoader boardLoader;
+    //data about players in game
+    protected static AtomicReference<String> nickname1;
+    protected static AtomicReference<String> nickname2;
+    protected static AtomicReference<String> nickname3;
+    protected static AtomicReference<String> color1;
+    protected static AtomicReference<String> color2;
+    protected static AtomicReference<String> color3;
 
-
+    //roots of scenes
     protected static Parent numberOfPlayersRoot;
     protected static Parent nicknameRoot;
     protected static Parent colorRoot;
@@ -54,7 +42,7 @@ public class GuiManager implements View {
     protected static Parent lobbyRoot;
     protected static Parent connectRoot;
 
-
+    //controllers of fxmls
     private ConnectController connectController;
     private NumberOfPlayersController numberOfPlayersController;
     private NicknameController nicknameController;
@@ -64,23 +52,15 @@ public class GuiManager implements View {
     private StartPlayerController startPlayerController;
     private BoardController boardController;
 
+    private final BoardClient board;
+    private String playerNickname;
+    private String playerColor;
+    private String challenger;
+
 
     public GuiManager() {
-        //edit
-        numberOfPlayers = new AtomicInteger(0);
-
-        System.out.println("in GuiManager constructor");
-
-        numberOfPlayersLoader = new FXMLLoader(getClass().getResource("/scenes/choose-num-of-players.fxml"));
-        nicknameLoader = new FXMLLoader(getClass().getResource("/scenes/choose-nickname.fxml"));
-        colorLoader = new FXMLLoader(getClass().getResource("/scenes/choose-color.fxml"));
-        startPlayerLoader = new FXMLLoader(getClass().getResource("/scenes/start-player.fxml"));
-        boardLoader = new FXMLLoader(getClass().getResource("/scenes/board.fxml"));
-        chooseGodLoader = new FXMLLoader(getClass().getResource("/scenes/choose-god.fxml"));
-
 
         board = new BoardClient();
-        playersConnected = new AtomicInteger(0);
 
         nickname1 = null;
         nickname2 = null;
@@ -89,20 +69,26 @@ public class GuiManager implements View {
         color2 = null;
         color3 = null;
 
-        isInLobby = new AtomicBoolean(false);
-
         try {
             queue.take();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-
         createControllers();
     }
 
 
     private void createControllers() {
+
+        FXMLLoader connectLoader = new FXMLLoader(getClass().getResource("/scenes/connect.fxml"));
+        FXMLLoader numberOfPlayersLoader = new FXMLLoader(getClass().getResource("/scenes/choose-num-of-players.fxml"));
+        FXMLLoader nicknameLoader = new FXMLLoader(getClass().getResource("/scenes/choose-nickname.fxml"));
+        FXMLLoader colorLoader = new FXMLLoader(getClass().getResource("/scenes/choose-color.fxml"));
+        FXMLLoader lobbyLoader = new FXMLLoader(getClass().getResource("/scenes/lobby.fxml"));
+        FXMLLoader chooseGodLoader = new FXMLLoader(getClass().getResource("/scenes/choose-god.fxml"));
+        FXMLLoader startPlayerLoader = new FXMLLoader(getClass().getResource("/scenes/start-player.fxml"));
+        FXMLLoader boardLoader = new FXMLLoader(getClass().getResource("/scenes/board.fxml"));
 
 
         try {
@@ -184,10 +170,9 @@ public class GuiManager implements View {
         System.out.println("joinGame guiManager"); //debug
 
         //sets number of players attribute
-        GuiManager.numberOfPlayers = new AtomicInteger(numberOfPlayers);
+        GuiManager.numberOfPlayers.set(numberOfPlayers);
 
         //change scene
-
         Platform.runLater(() -> Gui.getStage().setScene(new Scene(nicknameRoot)));
 
     }
@@ -205,19 +190,19 @@ public class GuiManager implements View {
      */
     public int askNumberOfPlayers() {
 
-        String numString;
         int numInt = 0;
         try {
-            numString = (String) queue.take();
+            String numString = (String) queue.take();
             numInt = Integer.parseInt(numString);
 
             //change scene
             Platform.runLater(() -> Gui.getStage().setScene(new Scene(nicknameRoot)));
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        GuiManager.numberOfPlayers = new AtomicInteger(numInt);
+        numberOfPlayers.set(numInt);
 
         return numInt;
     }

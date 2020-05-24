@@ -36,7 +36,6 @@ public class Gui extends Application {
 
         try {
             GuiManager.queue.put("done");
-            System.out.println("after put");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
