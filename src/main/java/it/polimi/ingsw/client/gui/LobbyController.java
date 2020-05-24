@@ -2,12 +2,15 @@ package it.polimi.ingsw.client.gui;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -135,22 +138,22 @@ public class LobbyController implements Initializable {
 
         System.out.println("next");
 
-        Parent root = null;
+        /*Parent root = null;
         try {
             root = GuiManager.startPlayerLoader.load();
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
 
-        Gui.getStage().setScene(new Scene(root));
+        Gui.getStage().setScene(new Scene(root));*/
 
     }
 
-    public void enableNextButton(){
+    public void enableNextButton() {
         next.setDisable(false);
     }
 
-        //todo if challenger -> choose gods, if not choose your god
+    //todo if challenger -> choose gods, if not choose your god
         /*
         try {
             Parent root =
@@ -160,7 +163,7 @@ public class LobbyController implements Initializable {
         }
          */
 
-    }
-
-
 }
+
+
+

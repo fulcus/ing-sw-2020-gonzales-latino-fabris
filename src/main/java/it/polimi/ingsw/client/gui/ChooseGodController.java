@@ -158,5 +158,9 @@ public class ChooseGodController {
 
     }
 
+    public void playerChoseInvalidGod(){
+
+        mainText.setText("Your god is not available or has already been chosen");
+    }
 
 }

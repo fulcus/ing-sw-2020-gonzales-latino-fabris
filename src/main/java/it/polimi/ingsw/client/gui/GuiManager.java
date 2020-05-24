@@ -41,9 +41,7 @@ public class GuiManager implements View {
     private final FXMLLoader nicknameLoader;
     private final FXMLLoader colorLoader;
     private final FXMLLoader startPlayerLoader;
-    private final FXMLLoader lobbyLoader;
     private final FXMLLoader choseGodLoader;
-    protected static final FXMLLoader startPlayerLoader = new FXMLLoader(GuiManager.class.getResource("/scenes/choose-god.fxml"));
     private final FXMLLoader boardLoader;
     protected static final FXMLLoader lobbyLoader = new FXMLLoader(GuiManager.class.getResource("/scenes/lobby.fxml"));
     protected static final FXMLLoader connectLoader = new FXMLLoader(GuiManager.class.getResource("/scenes/connect.fxml"));
@@ -65,7 +63,6 @@ public class GuiManager implements View {
         nicknameLoader = new FXMLLoader(getClass().getResource("/scenes/choose-nickname.fxml"));
         colorLoader = new FXMLLoader(getClass().getResource("/scenes/choose-color.fxml"));
         startPlayerLoader = new FXMLLoader(getClass().getResource("/scenes/start-player.fxml"));
-        lobbyLoader = new FXMLLoader(getClass().getResource("/scenes/lobby.fxml"));
         choseGodLoader = new FXMLLoader(getClass().getResource("/scenes/choose-god.fxml"));
         boardLoader = new FXMLLoader(getClass().getResource("/scenes/board.fxml"));
 
@@ -360,7 +357,7 @@ public class GuiManager implements View {
 
         String chosenGod = null;
 
-        Platform.runLater(() ->lobbyController.enableNextButton());
+       // Platform.runLater(() ->lobbyController.enableNextButton());
 
         //lobbyController.enableNextButton();
 
