@@ -248,10 +248,14 @@ public class GuiManager implements View {
 
     public void printChoosingColor(String choosingPlayer) {
 
+        System.out.println("print chhosing color other");
+        colorController.displayWaitingOther();
     }
 
     public void printChoosingNickname() {
 
+        System.out.println("print choosing nick other");
+        nicknameController.displayWaitingOther();
     }
 
     /**
@@ -297,6 +301,10 @@ public class GuiManager implements View {
     public String askPlayerNickname() {
         String nickname = null;
 
+        //nicknameController.removeErrorNickFromScreen();
+
+        //nicknameController.removeWaitingOtherFromScreen();
+
         try {
 
             nickname = (String) queue.take();
@@ -323,6 +331,11 @@ public class GuiManager implements View {
     public String askPlayerColor() {
 
         String color = null;
+
+        //colorController.removeWaitingOtherFromScreen();
+
+        //colorController.removeErrorColorFromScreen();
+
 
         try {
 
@@ -405,12 +418,16 @@ public class GuiManager implements View {
 
     }
 
+
     public void notAvailableColor() {
 
+        colorController.displayErrorColor();
     }
+
 
     public void notAvailableNickname() {
 
+        nicknameController.displayErrorNick();
     }
 
     public String askChosenWorker() {

@@ -24,16 +24,16 @@ public class NicknameController {
     private TextField nicknameText;
 
     @FXML
-    private Text error;
+    private Text errorNick;
+
+    @FXML
+    private Text waitingOther;
 
 
 
     public NicknameController() {
     }
 
-    protected Text getNickError() {
-        return error;
-    }
 
 
     @FXML
@@ -58,6 +58,23 @@ public class NicknameController {
             }
         }
 
+    }
+
+
+    public void displayErrorNick() {
+        errorNick.setVisible(true);
+    }
+
+    public void removeErrorNickFromScreen() {
+        errorNick.setVisible(false);
+    }
+
+    public void displayWaitingOther() {
+        waitingOther.setVisible(true);
+    }
+
+    public void removeWaitingOtherFromScreen() {
+        waitingOther.setVisible(false);
     }
 
 
