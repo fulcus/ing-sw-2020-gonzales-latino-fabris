@@ -80,13 +80,13 @@ public class StartPlayerController implements Initializable {
 
         switch (playerId) {
             case "player1":
-                nickname = nickname1;
+                nickname = nickname1.get();
                 break;
             case "player2":
-                nickname = nickname2;
+                nickname = nickname2.get();
                 break;
             case "player3":
-                nickname = nickname3;
+                nickname = nickname3.get();
                 break;
             default:
                 System.out.println("error choosePlayer"); //debug

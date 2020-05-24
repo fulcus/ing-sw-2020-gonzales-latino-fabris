@@ -2,17 +2,15 @@ package it.polimi.ingsw.client.gui;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static it.polimi.ingsw.client.gui.GuiManager.*;
 
@@ -53,11 +51,15 @@ public class LobbyController implements Initializable {
     @FXML
     private ImageView worker3;
 
+
     public LobbyController() {
+
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        isInLobby.set(true);
 
         //disable next button until all players are connected
         next.setDisable(true);
@@ -78,18 +80,20 @@ public class LobbyController implements Initializable {
 
         //shows info already available when joining
         if (nickname1 != null) {
-            showPlayer(nickname1, color1);
-        } else if (nickname2 != null) {
-            showPlayer(nickname2, color2);
-        } else if (nickname3 != null) {
-            showPlayer(nickname3, color3);
+            showPlayer(nickname1.get(), color1.get());
+        }
+        if (nickname2 != null) {
+            showPlayer(nickname2.get(), color2.get());
+        }
+        if (nickname3 != null) {
+            showPlayer(nickname3.get(), color3.get());
         }
 
     }
 
     public void showPlayer(String nickname, String color) {
 
-        String path = "/board/workers/male_worker_front_" + color + ".png";
+        String path = "/board/workers/male_worker_front_" + color.toLowerCase() + ".png";
         Image workerImage = new Image(path);
 
         if (playerName1.getText().equals("")) {
@@ -122,7 +126,7 @@ public class LobbyController implements Initializable {
         } else
             System.out.println("Error: cannot add more than three players");    //debugging
 
-        if (playersConnected.addAndGet(1) == numberOfPlayers.get())
+        if (playersConnected.get() == numberOfPlayers.get())
             next.setDisable(false);
     }
 
@@ -146,12 +150,15 @@ public class LobbyController implements Initializable {
         next.setDisable(false);
     }
 
+        //todo if challenger -> choose gods, if not choose your god
+        /*
         try {
-            Parent root = GuiManager.lobbyLoader.load();
+            Parent root =
             Gui.getStage().setScene(new Scene(root));
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
+         */
 
     }
 
