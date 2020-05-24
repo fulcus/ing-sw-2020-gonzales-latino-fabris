@@ -93,4 +93,10 @@ public class ColorController {
         waitingOther.setVisible(false);
     }
 
+    public void enableButtons() {
+        white.setDisable(false);
+        blue.setDisable(false);
+        beige.setDisable(false);
+    }
+
 }

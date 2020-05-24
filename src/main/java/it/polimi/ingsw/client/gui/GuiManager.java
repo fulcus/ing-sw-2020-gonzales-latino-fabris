@@ -248,14 +248,20 @@ public class GuiManager implements View {
 
     public void printChoosingColor(String choosingPlayer) {
 
-        System.out.println("print chhosing color other");
-        colorController.displayWaitingOther();
+        if (Gui.getStage().getScene().equals("/resources/choose-color.fxml")) {
+
+            System.out.println("print choosing color other");
+            colorController.displayWaitingOther();
+        }
     }
 
     public void printChoosingNickname() {
 
-        System.out.println("print choosing nick other");
-        nicknameController.displayWaitingOther();
+        if(Gui.getStage().getScene().equals("/resources/choose-player.fxml")) {
+
+            System.out.println("print choosing nick other");
+            nicknameController.displayWaitingOther();
+        }
     }
 
     /**
@@ -303,7 +309,9 @@ public class GuiManager implements View {
 
         //nicknameController.removeErrorNickFromScreen();
 
-        //nicknameController.removeWaitingOtherFromScreen();
+        nicknameController.removeWaitingOtherFromScreen();
+
+        nicknameController.enableNicknameText();
 
         try {
 
@@ -332,9 +340,11 @@ public class GuiManager implements View {
 
         String color = null;
 
-        //colorController.removeWaitingOtherFromScreen();
+        colorController.removeWaitingOtherFromScreen();
 
         //colorController.removeErrorColorFromScreen();
+
+        colorController.enableButtons();
 
 
         try {

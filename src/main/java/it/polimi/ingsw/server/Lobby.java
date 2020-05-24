@@ -62,6 +62,9 @@ public class Lobby {
         ExecutorService executor = availableGame.getExecutorPlayerAdder();
         executor.execute(() -> availableGame.addPlayer(newClient));
 
+        //send client nickname and color of all players that are already in
+        sendOtherPlayersInfo(newClient);
+
         connectedToAvailableGame++;
 
     }
@@ -72,10 +75,13 @@ public class Lobby {
         newClient.joinGame(availableGame.getGame().getNumberOfPlayers());   //send message to client
 
         //send client nickname and color of all players that are already in
-        sendOtherPlayersInfo(newClient);
+        //sendOtherPlayersInfo(newClient);
 
         ExecutorService gameExecutor = availableGame.getExecutorPlayerAdder();
         gameExecutor.execute(() -> availableGame.addPlayer(newClient));
+
+        //send client nickname and color of all players that are already in
+        sendOtherPlayersInfo(newClient);
 
         connectedToAvailableGame++;
 
@@ -114,6 +120,8 @@ public class Lobby {
                 String otherClientColor = otherClient.getPlayer().getColor().name();
 
                 newClient.setOtherPlayersInfo(otherClientNickname,otherClientColor);
+
+                System.out.println("l'otherClient color è " + otherClientColor);
             }
         }
     }
