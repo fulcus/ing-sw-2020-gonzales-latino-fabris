@@ -170,12 +170,12 @@ public class Cli implements View {
 
 
     public void printChoosingColor(String choosingPlayer) {
-        System.out.print("\n" + choosingPlayer + " is choosing his color, wait...");
+        System.out.print("\n" + choosingPlayer + " is choosing his color\n");
     }
 
 
     public void printChoosingNickname() {
-        System.out.print("Another player is choosing his nickname, wait...");
+        System.out.print("Another player is choosing his nickname\n");
     }
 
     //todo
@@ -212,6 +212,11 @@ public class Cli implements View {
 
     public void notifyValidColor() {
         System.out.println("Color accepted");
+    }
+
+
+    public void waitToBeAssigned() {
+        System.out.println("(If you're not the creator of the game it can happen you would wait a while\n)");
     }
 
 

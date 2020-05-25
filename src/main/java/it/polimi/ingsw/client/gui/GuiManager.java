@@ -175,6 +175,12 @@ public class GuiManager implements View {
         //TODO POPUP
     }
 
+
+    public void waitToBeAssigned() {
+        //do nothing here, the method is specifically useful for the cli.
+    }
+
+
     /**
      * This method displays to the user Initial Game Interface
      */

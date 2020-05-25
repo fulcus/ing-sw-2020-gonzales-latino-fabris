@@ -60,6 +60,8 @@ public class Client {
                 System.out.println("catch");
             }
             view.connectionOutcome(connected);
+
+            view.waitToBeAssigned();
         }
 
         NetworkHandler networkHandler = new NetworkHandler(server, this);
