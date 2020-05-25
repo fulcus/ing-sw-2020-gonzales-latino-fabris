@@ -3,8 +3,10 @@ package it.polimi.ingsw.client.gui;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -29,6 +31,8 @@ public class Gui extends Application {
         }
 
         Scene scene = new Scene(root);
+        ImageCursor cursor = new ImageCursor(new Image("/labels/cursor.png"));
+        scene.setCursor(cursor);
         stage.setTitle("Santorini");
         stage.setScene(scene);
         stage.setResizable(false);
@@ -36,7 +40,6 @@ public class Gui extends Application {
 
         try {
             GuiManager.queue.put("done");
-            System.out.println("after put");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class ColorController {
@@ -14,6 +15,12 @@ public class ColorController {
     private Button blue;
     @FXML
     private Button beige;
+
+    @FXML
+    private Text colorError;
+
+    @FXML
+    private Text waitingOther;
 
 
     public ColorController() {
@@ -51,29 +58,6 @@ public class ColorController {
             ex.printStackTrace();
         }
 
-        /*
-        Stage window = (Stage)((Node) e.getSource()).getScene().getWindow();
-
-        Parent lobby = null;
-        //ci sarà un modo per verificare dal server
-        //se il colore è già stato scelto da un altro player
-        //e che andrà a decidere se il risultato boolean del seguente if
-        if (colorAvailable) {
-            lobby = FXMLLoader.load(getClass().getResource("/scenes/lobby.fxml"));
-
-            window.setScene(new Scene(lobby));
-
-        }
-        else {
-            //dovrebbe essere una sorta di pop-up
-            //che esce sopra la scena.
-            //è un metodo dell'interfaccia implementata da GuiManager
-            //forse quindi serve un attributo ti tipo GuiManager in ogni classe controller della gui?
-            guiManager.notAvailableColor();
-        }
-
-        //window.setScene(new Scene(lobby));
-         */
     }
 
 
@@ -89,31 +73,30 @@ public class ColorController {
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         }
-        /*
-        Stage window = (Stage)((Node) e.getSource()).getScene().getWindow();
-
-        Parent lobby = null;
-        //ci sarà un modo per verificare dal server
-        //se il colore è già stato scelto da un altro player
-        //e che andrà a decidere se il risultato boolean del seguente if
-        if (colorAvailable) {
-            lobby = FXMLLoader.load(getClass().getResource("/scenes/lobby.fxml"));
-
-            window.setScene(new Scene(lobby));
-
-        }
-        else {
-            //dovrebbe essere una sorta di pop-up
-            //che esce sopra la scena.
-            //è un metodo dell'interfaccia implementata da GuiManager
-            //forse quindi serve un attributo ti tipo GuiManager in ogni classe controller della gui?
-            guiManager.notAvailableColor();
-        }
-
-        //window.setScene(new Scene(lobby));
-        */
 
     }
 
+
+    public void displayErrorColor() {
+        colorError.setVisible(true);
+    }
+
+    public void removeErrorColorFromScreen() {
+        colorError.setVisible(false);
+    }
+
+    public void displayWaitingOther() {
+        waitingOther.setVisible(true);
+    }
+
+    public void removeWaitingOtherFromScreen() {
+        waitingOther.setVisible(false);
+    }
+
+    public void enableButtons() {
+        white.setDisable(false);
+        blue.setDisable(false);
+        beige.setDisable(false);
+    }
 
 }

@@ -6,8 +6,10 @@ import it.polimi.ingsw.serializableObjects.CellClient;
 import it.polimi.ingsw.serializableObjects.WorkerClient;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,16 +41,8 @@ public class GuiManager implements View {
     private final BoardClient board;
     protected static AtomicBoolean isInLobby;
 
-    protected static final FXMLLoader connectLoader = new FXMLLoader(GuiManager.class.getResource("/scenes/connect.fxml"));
-    private final FXMLLoader numberOfPlayersLoader;
-    private final FXMLLoader nicknameLoader;
-    private final FXMLLoader colorLoader;
-    protected static final FXMLLoader lobbyLoader = new FXMLLoader(GuiManager.class.getResource("/scenes/lobby.fxml"));
-    protected final FXMLLoader chooseGodLoader;
-    private final FXMLLoader startPlayerLoader;
-    private final FXMLLoader boardLoader;
 
-
+    //roots of scenes
     protected static Parent numberOfPlayersRoot;
     protected static Parent nicknameRoot;
     protected static Parent colorRoot;
@@ -58,7 +52,7 @@ public class GuiManager implements View {
     protected static Parent lobbyRoot;
     protected static Parent connectRoot;
 
-
+    //controllers of fxmls
     private ConnectController connectController;
     private NumberOfPlayersController numberOfPlayersController;
     private NicknameController nicknameController;
@@ -70,21 +64,8 @@ public class GuiManager implements View {
 
 
     public GuiManager() {
-        //edit
-        numberOfPlayers = new AtomicInteger(0);
-
-        System.out.println("in GuiManager constructor");
-
-        numberOfPlayersLoader = new FXMLLoader(getClass().getResource("/scenes/choose-num-of-players.fxml"));
-        nicknameLoader = new FXMLLoader(getClass().getResource("/scenes/choose-nickname.fxml"));
-        colorLoader = new FXMLLoader(getClass().getResource("/scenes/choose-color.fxml"));
-        startPlayerLoader = new FXMLLoader(getClass().getResource("/scenes/start-player.fxml"));
-        boardLoader = new FXMLLoader(getClass().getResource("/scenes/board.fxml"));
-        chooseGodLoader = new FXMLLoader(getClass().getResource("/scenes/choose-god.fxml"));
-
 
         board = new BoardClient();
-        playersConnected = new AtomicInteger(0);
 
         nickname1 = null;
         nickname2 = null;
@@ -96,20 +77,26 @@ public class GuiManager implements View {
         god2=null;
         god3= null;
 
-        isInLobby = new AtomicBoolean(false);
-
         try {
             queue.take();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-
         createControllers();
     }
 
 
     private void createControllers() {
+
+        FXMLLoader connectLoader = new FXMLLoader(getClass().getResource("/scenes/connect.fxml"));
+        FXMLLoader numberOfPlayersLoader = new FXMLLoader(getClass().getResource("/scenes/choose-num-of-players.fxml"));
+        FXMLLoader nicknameLoader = new FXMLLoader(getClass().getResource("/scenes/choose-nickname.fxml"));
+        FXMLLoader colorLoader = new FXMLLoader(getClass().getResource("/scenes/choose-color.fxml"));
+        FXMLLoader lobbyLoader = new FXMLLoader(getClass().getResource("/scenes/lobby.fxml"));
+        FXMLLoader chooseGodLoader = new FXMLLoader(getClass().getResource("/scenes/choose-god.fxml"));
+        FXMLLoader startPlayerLoader = new FXMLLoader(getClass().getResource("/scenes/start-player.fxml"));
+        FXMLLoader boardLoader = new FXMLLoader(getClass().getResource("/scenes/board.fxml"));
 
 
         try {
@@ -124,6 +111,18 @@ public class GuiManager implements View {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
+        ImageCursor cursor = new ImageCursor(new Image("/labels/cursor.png"));
+        connectRoot.setCursor(cursor);
+        numberOfPlayersRoot.setCursor(cursor);
+        nicknameRoot.setCursor(cursor);
+        colorRoot.setCursor(cursor);
+        chooseGodRoot.setCursor(cursor);
+        startPlayerRoot.setCursor(cursor);
+        boardRoot.setCursor(cursor);
+        lobbyRoot.setCursor(cursor);
+
 
 
         connectController = connectLoader.getController();
@@ -191,10 +190,9 @@ public class GuiManager implements View {
         System.out.println("joinGame guiManager"); //debug
 
         //sets number of players attribute
-        GuiManager.numberOfPlayers = new AtomicInteger(numberOfPlayers);
+        GuiManager.numberOfPlayers.set(numberOfPlayers);
 
         //change scene
-
         Platform.runLater(() -> Gui.getStage().setScene(new Scene(nicknameRoot)));
 
     }
@@ -212,19 +210,19 @@ public class GuiManager implements View {
      */
     public int askNumberOfPlayers() {
 
-        String numString;
         int numInt = 0;
         try {
-            numString = (String) queue.take();
+            String numString = (String) queue.take();
             numInt = Integer.parseInt(numString);
 
             //change scene
             Platform.runLater(() -> Gui.getStage().setScene(new Scene(nicknameRoot)));
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        GuiManager.numberOfPlayers = new AtomicInteger(numInt);
+        numberOfPlayers.set(numInt);
 
         return numInt;
     }
@@ -256,10 +254,20 @@ public class GuiManager implements View {
 
     public void printChoosingColor(String choosingPlayer) {
 
+        if (Gui.getStage().getScene().equals("/resources/choose-color.fxml")) {
+
+            System.out.println("print choosing color other");
+            colorController.displayWaitingOther();
+        }
     }
 
     public void printChoosingNickname() {
 
+        if(Gui.getStage().getScene().equals("/resources/choose-player.fxml")) {
+
+            System.out.println("print choosing nick other");
+            nicknameController.displayWaitingOther();
+        }
     }
 
     /**
@@ -305,6 +313,12 @@ public class GuiManager implements View {
     public String askPlayerNickname() {
         String nickname = null;
 
+        //nicknameController.removeErrorNickFromScreen();
+
+        nicknameController.removeWaitingOtherFromScreen();
+
+        nicknameController.enableNicknameText();
+
         try {
 
             nickname = (String) queue.take();
@@ -331,6 +345,13 @@ public class GuiManager implements View {
     public String askPlayerColor() {
 
         String color = null;
+
+        colorController.removeWaitingOtherFromScreen();
+
+        //colorController.removeErrorColorFromScreen();
+
+        colorController.enableButtons();
+
 
         try {
 
@@ -429,12 +450,16 @@ public class GuiManager implements View {
 
     }
 
+
     public void notAvailableColor() {
 
+        colorController.displayErrorColor();
     }
+
 
     public void notAvailableNickname() {
 
+        nicknameController.displayErrorNick();
     }
 
     public String askChosenWorker() {

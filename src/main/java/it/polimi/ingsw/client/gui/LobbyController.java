@@ -131,5 +131,4 @@ public class LobbyController {
         Gui.getStage().setScene(new Scene(chooseGodRoot));
     }
 
-
 }
