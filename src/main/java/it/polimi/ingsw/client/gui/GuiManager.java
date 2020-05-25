@@ -113,7 +113,7 @@ public class GuiManager implements View {
             e.printStackTrace();
         }
 
-
+/*
         ImageCursor cursor = new ImageCursor(new Image("/labels/cursor.png"));
         connectRoot.setCursor(cursor);
         numberOfPlayersRoot.setCursor(cursor);
@@ -123,7 +123,7 @@ public class GuiManager implements View {
         startPlayerRoot.setCursor(cursor);
         boardRoot.setCursor(cursor);
         lobbyRoot.setCursor(cursor);
-
+*/
 
         connectController = connectLoader.getController();
         numberOfPlayersController = numberOfPlayersLoader.getController();
@@ -173,6 +173,12 @@ public class GuiManager implements View {
     public void notifyOtherPlayerDisconnection() {
         //TODO POPUP
     }
+
+
+    public void waitToBeAssigned() {
+        //do nothing here, the method is specifically useful for the cli.
+    }
+
 
     /**
      * This method displays to the user Initial Game Interface
@@ -248,21 +254,11 @@ public class GuiManager implements View {
     }
 
     public void printChoosingColor(String choosingPlayer) {
-
-        if (Gui.getStage().getScene().equals("/resources/choose-color.fxml")) {
-
-            System.out.println("print choosing color other");
-            colorController.displayWaitingOther();
-        }
+        //can do nothing
     }
 
     public void printChoosingNickname() {
-
-        if (Gui.getStage().getScene().equals("/resources/choose-player.fxml")) {
-
-            System.out.println("print choosing nick other");
-            nicknameController.displayWaitingOther();
-        }
+        //can do nothing
     }
 
     /**

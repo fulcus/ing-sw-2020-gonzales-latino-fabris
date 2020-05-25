@@ -20,6 +20,9 @@ public class GameController {
     private final ArrayList<God> godsDeck;
     private final ExecutorService executorPlayerAdder;
     private final ArrayList<ViewClient> gameClients;
+    private NickSetting nickSetting;
+    private ColorSetting colorSetting;
+
 
     public GameController() {
         game = null;
@@ -27,6 +30,8 @@ public class GameController {
         godsDeck = new ArrayList<>(14);
         executorPlayerAdder = Executors.newCachedThreadPool();
         gameClients = new ArrayList<>();
+        nickSetting = new NickSetting();
+        colorSetting = new ColorSetting();
     }
 
 
@@ -35,10 +40,9 @@ public class GameController {
      */
     public synchronized void setUpGame(ViewClient firstClient) {
 
-
         godController = new GodController(this);
-        createDeckGods();
 
+        createDeckGods();
 
         int numOfPlayers = firstClient.askNumberOfPlayers();
 
@@ -47,6 +51,7 @@ public class GameController {
         turnHandler = new TurnHandler(getGame(), this);
 
     }
+
 
     /**
      * Adds a player to the game.
@@ -91,6 +96,7 @@ public class GameController {
 
     }
 
+
     public void removeClientObserver(ViewClient client) {
 
         for (int i = 0; i < Board.SIDE; i++) {
@@ -100,15 +106,15 @@ public class GameController {
             }
         }
 
-
     }
+
 
     /**
      * Lets the player choose his nickname.
      *
      * @param client view of the player.
      */
-    private synchronized void setPlayerNickname(ViewClient client) {
+    private void setPlayerNickname(ViewClient client) {
 
         for (ViewClient otherClient : gameClients) {
             if (!otherClient.equals(client))
@@ -119,10 +125,7 @@ public class GameController {
 
             String chosenNickname = client.askPlayerNickname();
 
-            if (nicknameIsAvailable(chosenNickname) && chosenNickname.length() > 0) {
-                Player newPlayer = game.addPlayer(chosenNickname, client);
-                client.setPlayer(newPlayer);
-                client.notifyValidNick();
+            if (nickSetting.checkNicknameValidity(chosenNickname, client, game, this)) {
                 return;
             }
 
@@ -135,7 +138,7 @@ public class GameController {
      *
      * @param client view of the player.
      */
-    private synchronized void setPlayerColor(ViewClient client) {
+    private void setPlayerColor(ViewClient client) {
 
         for (ViewClient otherClient : gameClients) {
             if (!otherClient.equals(client))
@@ -148,9 +151,7 @@ public class GameController {
 
             String chosenColor = client.askPlayerColor();
 
-            if (colorIsAvailable(chosenColor) && colorIsValid(chosenColor)) {
-                client.notifyValidColor();
-                client.getPlayer().setColor(Color.stringToColor(chosenColor));
+            if (colorSetting.checkColorValidity(chosenColor, client, this)) {
                 colorCorrectlyChosen = true;
             } else
                 client.notAvailableColor();
@@ -160,13 +161,14 @@ public class GameController {
     }
 
 
-    private boolean colorIsValid(String chosenColor) {
+    protected boolean colorIsValid(String chosenColor) {
         return chosenColor.equals(Color.BLUE.name())
                 || chosenColor.equals(Color.BEIGE.name())
                 || chosenColor.equals(Color.WHITE.name());
     }
 
-    private boolean nicknameIsAvailable(String chosenNickname) {
+
+    protected boolean nicknameIsAvailable(String chosenNickname) {
 
         for (Player player : game.getPlayers()) {
 
@@ -177,7 +179,8 @@ public class GameController {
         return true;
     }
 
-    private boolean colorIsAvailable(String chosenColor) {
+
+    protected boolean colorIsAvailable(String chosenColor) {
 
         for (Player player : game.getPlayers()) {
 
@@ -188,6 +191,7 @@ public class GameController {
 
         return true;
     }
+
 
     /**
      * Creates the deck where we can find all the God cards.
@@ -209,6 +213,7 @@ public class GameController {
         godsDeck.add(new Zeus(godController));
     }
 
+
     public void winGame(Player winner) {
         //winningView and losingView are blocking since they must return boolean (although unused)
         ViewClient winnerClient = winner.getClient();
@@ -228,6 +233,7 @@ public class GameController {
 
         turnHandler.stopTurnFlow();
     }
+
 
     public ArrayList<God> getGodsDeck() {
         return godsDeck;

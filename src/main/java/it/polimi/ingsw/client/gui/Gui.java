@@ -31,8 +31,8 @@ public class Gui extends Application {
         }
 
         Scene scene = new Scene(root);
-        ImageCursor cursor = new ImageCursor(new Image("/labels/cursor.png"));
-        scene.setCursor(cursor);
+        //ImageCursor cursor = new ImageCursor(new Image("/labels/cursor_rotated.png"));
+        //scene.setCursor(cursor);
         stage.setTitle("Santorini");
         stage.setScene(scene);
         stage.setResizable(false);
