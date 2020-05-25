@@ -30,7 +30,7 @@ public class NetworkHandler implements Runnable {
         this.client = client;
     }
 
-    public void init() {
+    protected void init() {
 
         try {
             outputStm = new ObjectOutputStream(server.getOutputStream());

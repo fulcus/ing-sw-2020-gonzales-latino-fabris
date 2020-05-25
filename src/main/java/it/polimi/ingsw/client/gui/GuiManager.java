@@ -35,9 +35,8 @@ public class GuiManager implements View {
     protected static final AtomicInteger numberOfPlayers = new AtomicInteger(0); //overwritten by joinGame or asknumberofplayers
     protected static final AtomicInteger playersConnected = new AtomicInteger(0);
     protected static final AtomicBoolean isInLobby = new AtomicBoolean(false);
-
     protected static final SynchronousQueue<Object> queue = new SynchronousQueue<>();
-    private String playerNickname;
+    protected static String playerNickname;
     private String playerColor;
     private String challenger;
     private final BoardClient board;
@@ -232,9 +231,10 @@ public class GuiManager implements View {
     public int[] askInitialWorkerPosition(String workerSex) throws InputMismatchException {
 
         int[] initialWorkerPosition = new int[2];
-
-        boardController.setCellRequested(true);
-        boardController.askInitialWorkerPosition(workerSex);//TODO RUN LATER
+        Platform.runLater(() -> {
+            boardController.setCellRequested(true);
+            boardController.askInitialWorkerPosition(workerSex);
+        });
 
         try {
             initialWorkerPosition[0] = (Integer) queue.take();//row
@@ -245,7 +245,6 @@ public class GuiManager implements View {
         }
 
         return initialWorkerPosition;
-
     }
 
     public void printChoosingColor(String choosingPlayer) {
@@ -277,13 +276,17 @@ public class GuiManager implements View {
     }
 
 
+    private void setMyInfo(String nickname, String color) {
+        nickname1 = new AtomicReference<>(nickname);
+        color1 = new AtomicReference<>(color);
+
+        playersConnected.addAndGet(1);
+
+    }
+
     private void setPlayerInfo(String nickname, String color) {
 
-        if (nickname1 == null) {
-            nickname1 = new AtomicReference<>(nickname);
-            color1 = new AtomicReference<>(color);
-
-        } else if (nickname2 == null) {
+        if (nickname2 == null) {
             nickname2 = new AtomicReference<>(nickname);
             color2 = new AtomicReference<>(color);
         } else if (nickname3 == null) {
@@ -294,8 +297,7 @@ public class GuiManager implements View {
 
         playersConnected.addAndGet(1);
 
-        //if client is in lobby there's at least 1 player connected (him)
-        //RENDER
+        //if client is in lobby RENDER
         if (isInLobby.get())
             Platform.runLater(() -> lobbyController.showPlayer(nickname, color));
         //otherwise it has already been saved and will be rendered in initialize
@@ -303,16 +305,13 @@ public class GuiManager implements View {
 
     private void setPlayerGod(String nickname, String god) {
 
-        if (nickname.equals(nickname1.get())) {
-            god1 = new AtomicReference<>(god);
 
-        } else if (nickname.equals(nickname2.get())) {
+        if (nickname.equals(nickname2.get())) {
             god2 = new AtomicReference<>(god);
         } else if (nickname.equals(nickname3.get())) {
             god3 = new AtomicReference<>(god);
         }
     }
-
 
     public void invalidInitialWorkerPosition() {
         //TODO POPUP
@@ -378,7 +377,7 @@ public class GuiManager implements View {
 
     public void notifyValidColor() {
         //adding this players info to "database"
-        setPlayerInfo(playerNickname, playerColor);
+        setMyInfo(playerNickname, playerColor);
 
         //change scene
         Platform.runLater(() -> {
@@ -400,7 +399,7 @@ public class GuiManager implements View {
 
         try {
             chosenGod = (String) queue.take();
-            setPlayerGod(playerNickname, chosenGod);
+            god1 = new AtomicReference<>(chosenGod);
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -450,6 +449,14 @@ public class GuiManager implements View {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        //assumes start player is always correct
+        Platform.runLater(() -> {
+            Gui.getStage().setScene(new Scene(boardRoot));
+            boardController.init();
+        });
+
+
 
         return startPlayer;
     }
@@ -753,7 +760,10 @@ public class GuiManager implements View {
      * Lets player know that the challenger is choosing the start player
      */
     public void waitChallengerStartPlayer() {
-
+        Platform.runLater(() -> {
+            Gui.getStage().setScene(new Scene(boardRoot));
+            boardController.waitChallengerStartPlayer();
+        });
     }
 
     /**

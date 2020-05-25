@@ -58,7 +58,7 @@ public class LobbyController {
     }
 
 
-    public void init() {
+    protected void init() {
 
         isInLobby.set(true);
 

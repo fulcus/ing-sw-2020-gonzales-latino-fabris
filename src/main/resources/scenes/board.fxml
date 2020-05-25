@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="1000.0" stylesheets="@../css/board.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.BoardController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" stylesheets="@../css/board.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.BoardController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
@@ -65,7 +65,7 @@
                    <Pane onMouseClicked="#chooseCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="4" />
                </children>
             </GridPane>
-            <Button fx:id="menuButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#menuClicked" prefHeight="82.0" prefWidth="87.0" />
+            <Button fx:id="menuButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#menu" prefHeight="82.0" prefWidth="87.0" />
          </children>
       </AnchorPane>
       <GridPane accessibleRole="NODE" prefHeight="173.0" prefWidth="1019.0" styleClass="background-bottom" stylesheets="@../css/board.css" GridPane.rowIndex="1">
@@ -80,15 +80,15 @@
          <children>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="column-bottom" GridPane.rowIndex="2" />
             <AnchorPane prefHeight="200.0" prefWidth="1000.0" styleClass="column-top" />
-            <ImageView fx:id="player2God" fitHeight="125.0" fitWidth="86.0" preserveRatio="true" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+            <ImageView fx:id="otherGodLeft" fitHeight="125.0" fitWidth="86.0" preserveRatio="true" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                <image>
-                  <Image url="@../gods/small_hephaestus.png" />
+                  <Image url="@../gods/full_hephaestus.png" />
                </image>
                <GridPane.margin>
                   <Insets bottom="21.0" right="105.0" />
                </GridPane.margin>
             </ImageView>
-            <ImageView fx:id="player1God" fitHeight="127.0" fitWidth="96.0" preserveRatio="true" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+            <ImageView fx:id="otherGodRight" fitHeight="127.0" fitWidth="96.0" preserveRatio="true" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                <image>
                   <Image url="@../gods/full_triton.png" />
                </image>
@@ -96,7 +96,7 @@
                   <Insets bottom="21.0" right="16.0" />
                </GridPane.margin>
             </ImageView>
-            <ImageView fx:id="playerGod" fitHeight="135.0" fitWidth="81.0" preserveRatio="true" GridPane.rowIndex="1">
+            <ImageView fx:id="myGod" fitHeight="135.0" fitWidth="81.0" preserveRatio="true" GridPane.rowIndex="1">
                <image>
                   <Image url="@../gods/full_apollo.png" />
                </image>
@@ -130,7 +130,7 @@
                   <Insets bottom="21.0" left="15.0" />
                </GridPane.margin>
             </ImageView>
-            <ImageView fx:id="player2Frame" fitHeight="133.0" fitWidth="90.0" preserveRatio="true" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+            <ImageView fx:id="godLeftFrame" fitHeight="133.0" fitWidth="90.0" preserveRatio="true" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                <image>
                   <Image url="@../frames/gameGodFrame%20noInfo.png" />
                </image>
@@ -138,7 +138,7 @@
                   <Insets bottom="21.0" right="104.0" />
                </GridPane.margin>
             </ImageView>
-            <ImageView fx:id="player2Bar" fitHeight="29.0" fitWidth="87.0" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+            <ImageView fx:id="godLeftBar" fitHeight="29.0" fitWidth="87.0" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                <image>
                   <Image url="@../frames/gameGodFrame%20withbackground.png" />
                </image>
@@ -162,22 +162,22 @@
                   <Insets left="15.0" top="137.0" />
                </GridPane.margin>
             </ImageView>
-            <Text fx:id="playerNickname" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="You" wrappingWidth="73.27805137634277" GridPane.rowIndex="1">
+            <Text fx:id="myNickname" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="You" wrappingWidth="73.27805137634277" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="20.0" top="137.0" />
                </GridPane.margin>
             </Text>
-            <Text fx:id="player1Nickname" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Nickname1" wrappingWidth="72.31418418884277" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+            <Text fx:id="otherNicknameRight" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Nickname1" wrappingWidth="77.31418418884277" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets right="25.0" top="137.0" />
                </GridPane.margin>
             </Text>
-            <Text fx:id="player2Nickname" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Nickname2" wrappingWidth="69.00479698181152" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+            <Text fx:id="otherNicknameLeft" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Nickname2" wrappingWidth="89.00479698181152" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets right="112.0" top="137.0" />
                </GridPane.margin>
             </Text>
-            <Text fx:id="mainText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="MOVE YOUR WORKER" wrappingWidth="580.9830722808838" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+            <Text fx:id="mainText" fill="#654f3e" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit," GridPane.halignment="CENTER" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets bottom="8.0" />
                </GridPane.margin>

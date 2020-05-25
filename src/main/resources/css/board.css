@@ -32,11 +32,6 @@
     -fx-rotate: 180;
 }
 
-.text {
-    -fx-font-family: "Ink Blossoms";
-    -fx-text-alignment: center;
-}
-
 .button{
     -fx-background-image:url('../buttons/menu_button.png');
     -fx-background-size: contain;
@@ -52,3 +47,10 @@
     -fx-background-position: center;
     -fx-background-color: transparent ;
 }
+
+.text {
+    -fx-font-family: "Ink Blossoms";
+    -fx-text-alignment: center;
+    -fx-font-size: 16;
+}
+
