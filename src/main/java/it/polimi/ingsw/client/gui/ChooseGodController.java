@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.gui;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
@@ -8,8 +9,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 
-public class ChooseGodController {
+public class ChooseGodController  {
 
     @FXML
     private ImageView apolloFrame;
@@ -49,6 +51,9 @@ public class ChooseGodController {
     @FXML
     private Label mainText;
 
+    @FXML
+    private Button select;
+
     private final String apolloDescription = "Your Worker may move into an opponent Worker’s space by forcing their Worker to the space yours just vacated.";
     private final String artemisDescription = "Your Worker may move one additional time, but not back to its initial space.";
     private final String athenaDescription = "If one of your Workers moved up on your last turn, opponent Workers cannot move up this turn.";
@@ -66,14 +71,31 @@ public class ChooseGodController {
 
     private final Image whiteFrame;
     private final Image blueFrame;
+    private final Image redFrame;
 
     private ImageView godFrame;
     private String selectedGodID;
 
+    private boolean challenger;
+    private boolean keepRedFrame;
+    private boolean previouslyRed;
+
     public ChooseGodController() {
         whiteFrame = new Image("/frames/frame_white.png");
         blueFrame = new Image("/frames/frame_blue.png");
+        redFrame = new Image("/frames/frame_coral.png");
         selectedGodID = null;
+        challenger = false;
+        keepRedFrame = false;
+        previouslyRed = false;
+    }
+
+    public void init() {
+        //  select.setDisable(true);
+    }
+
+    public void setKeepRedFrame() {
+        keepRedFrame = true;
     }
 
     @FXML
@@ -98,9 +120,20 @@ public class ChooseGodController {
             e.printStackTrace();
         }
 
+
+
         //
-        if (godFrame != null)
-            godFrame.setImage(whiteFrame);
+        if (godFrame != null) {
+
+            if (godFrame.getImage().equals(redFrame))
+                previouslyRed = true;
+
+            if (keepRedFrame && godFrame.getImage().equals(blueFrame) && previouslyRed) {
+                godFrame.setImage(redFrame);
+                previouslyRed = false;
+            } else
+                godFrame.setImage(whiteFrame);
+        }
 
         //get the ImageView godFrame attribute for the clicked god
         Field frame;
@@ -112,6 +145,10 @@ public class ChooseGodController {
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
+
+        if (godFrame.getImage().equals(redFrame))
+            previouslyRed = true;
+
 
         godFrame.setImage(blueFrame);
 
@@ -134,7 +171,6 @@ public class ChooseGodController {
         if (selectedGodID == null)
             mainText.setText("Select a God!");
         else {
-            mainText.setText("You chose " + selectedGodID);
 
             try {
                 GuiManager.queue.put(selectedGodID);
@@ -148,6 +184,10 @@ public class ChooseGodController {
 
     public void getGodFromChallenger(int numOfPlayers, int alreadyChosenGods) {
 
+        setChallenger();
+
+        select.setDisable(false);
+
         int godsLeftToChoose = numOfPlayers - alreadyChosenGods;
 
         if (godsLeftToChoose == 2 || godsLeftToChoose == 3)
@@ -158,9 +198,65 @@ public class ChooseGodController {
 
     }
 
-    public void playerChoseInvalidGod(){
 
-        mainText.setText("Your god is not available or has already been chosen");
+    public void setChallenger() {
+        challenger = true;
     }
+
+    public void waitOtherPlayerChooseGod(String otherPlayer) {
+
+        select.setDisable(true);
+
+        mainText.setText(otherPlayer + " is choosing his god...");
+    }
+
+    public void waitChallengerChooseGods(String challenger) {
+
+        mainText.setText(challenger + " is the Challenger and is choosing gods...");
+    }
+
+    public void askPlayerGod() {
+        mainText.setText("Choose your god!.");
+        select.setDisable(false);
+    }
+
+
+    public void printChosenGods(ArrayList<String> chosenGods) {
+
+        Class<?> c = getClass();
+        Field godFrame;
+        ImageView frame;
+
+
+        for (String godId : chosenGods) {
+
+
+
+            try {
+                godFrame = c.getDeclaredField(godId.toLowerCase() + "Frame");
+                godFrame.setAccessible(true);
+                frame = (ImageView) godFrame.get(this);
+                frame.setImage(redFrame);
+                setKeepRedFrame();
+
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+    }
+
+    public void otherPlayerChoseGod(String otherPlayer, String chosenGod) {
+
+        mainText.setText(otherPlayer + " has chosen " + chosenGod);
+
+    }
+
+    public void playerChoseInvalidGod() {
+        mainText.setText("This god has already been chosen");
+    }
+
+
 
 }

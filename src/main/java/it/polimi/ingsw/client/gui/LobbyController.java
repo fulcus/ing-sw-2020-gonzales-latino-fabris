@@ -127,6 +127,7 @@ public class LobbyController {
 
     @FXML
     private void next() {
+        GuiManager.chooseGodController.init();
         Gui.getStage().setScene(new Scene(chooseGodRoot));
     }
 

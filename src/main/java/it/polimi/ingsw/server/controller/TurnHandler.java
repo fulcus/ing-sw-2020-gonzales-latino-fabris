@@ -119,8 +119,8 @@ public class TurnHandler implements Runnable {
                 chosenGods.add(god.toString());
             }
 
-            if (player != game.getChallenger())
-                playerClient.printChosenGods(chosenGods);
+
+            playerClient.printChosenGods(chosenGods);
 
 
             boolean foundGod = false;

@@ -26,6 +26,10 @@ public class GuiManager implements View {
     protected static volatile AtomicReference<String> color1;
     protected static volatile AtomicReference<String> color2;
     protected static volatile AtomicReference<String> color3;
+    protected static volatile String god1;
+    protected static volatile String god2;
+    protected static volatile String god3;
+
     protected static volatile AtomicInteger playersConnected;
 
     protected static final SynchronousQueue<Object> queue = new SynchronousQueue<>();
@@ -60,7 +64,7 @@ public class GuiManager implements View {
     private NicknameController nicknameController;
     private ColorController colorController;
     private LobbyController lobbyController;
-    private ChooseGodController chooseGodController;
+    protected static ChooseGodController chooseGodController;
     private StartPlayerController startPlayerController;
     private BoardController boardController;
 
@@ -88,6 +92,9 @@ public class GuiManager implements View {
         color1 = null;
         color2 = null;
         color3 = null;
+        god1= null;
+        god2=null;
+        god3= null;
 
         isInLobby = new AtomicBoolean(false);
 
@@ -356,21 +363,11 @@ public class GuiManager implements View {
      * @return The name of the chosen God.
      */
     public String askPlayerGod() {
-        return null;
-    }
-
-    public void playerChoseInvalidGod() {
-    }
-
-    public String getGodFromChallenger(int numOfPlayers, int alreadyChosenGods) {
 
         String chosenGod = null;
 
-       // Platform.runLater(() ->lobbyController.enableNextButton());
+        Platform.runLater(()->chooseGodController.askPlayerGod());
 
-        //lobbyController.enableNextButton();
-
-        chooseGodController.getGodFromChallenger(numOfPlayers,alreadyChosenGods);
 
         try {
             chosenGod = (String) queue.take();
@@ -379,7 +376,31 @@ public class GuiManager implements View {
             e.printStackTrace();
         }
 
-        System.out.println("Selected chosenGod");
+        System.out.println("Selected " +chosenGod);
+
+        return chosenGod;
+    }
+
+    public void playerChoseInvalidGod() {
+
+        Platform.runLater(()->chooseGodController.playerChoseInvalidGod());
+
+    }
+
+    public String getGodFromChallenger(int numOfPlayers, int alreadyChosenGods) {
+
+        String chosenGod = null;
+
+        Platform.runLater(() ->chooseGodController.getGodFromChallenger(numOfPlayers,alreadyChosenGods));
+
+        try {
+            chosenGod = (String) queue.take();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Selected " +chosenGod);
 
         return chosenGod;
 
@@ -387,19 +408,21 @@ public class GuiManager implements View {
 
     public String challengerChooseStartPlayer() {
 
-        String challenger = null;
+        String startPlayer = null;
+
+        Platform.runLater(() -> Gui.getStage().setScene(new Scene(startPlayerRoot)));
+
         try {
-            challenger = (String) queue.take();
+             startPlayer = (String) queue.take();
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        System.out.println("guimanager received: " + challenger);   //debug
 
-        //change scene
-        Platform.runLater(() -> Gui.getStage().setScene(new Scene(boardRoot)));
+        return startPlayer;
 
-        return challenger;
+
     }
 
     public void invalidStartPlayer() {
@@ -457,6 +480,8 @@ public class GuiManager implements View {
 
     public void printAllGods(ArrayList<String> godsNameAndDescription) {
 
+
+
     }
 
     public void challengerError() {
@@ -464,6 +489,8 @@ public class GuiManager implements View {
     }
 
     public void printChosenGods(ArrayList<String> chosenGods) {
+
+        Platform.runLater(()->chooseGodController.printChosenGods(chosenGods));
 
     }
 
@@ -660,6 +687,8 @@ public class GuiManager implements View {
      */
     public void waitChallengerChooseGods(String challenger) {
 
+        Platform.runLater(()->chooseGodController.waitChallengerChooseGods(challenger));
+
     }
 
     /**
@@ -668,6 +697,8 @@ public class GuiManager implements View {
      * @param otherPlayer the player that is choosing his god
      */
     public void waitOtherPlayerChooseGod(String otherPlayer) {
+
+        Platform.runLater(()->chooseGodController.waitOtherPlayerChooseGod(otherPlayer));
 
     }
 
@@ -678,6 +709,13 @@ public class GuiManager implements View {
      * @param chosenGod   god chosen by the otherPlayer
      */
     public void otherPlayerChoseGod(String otherPlayer, String chosenGod) {
+
+        Platform.runLater(()->chooseGodController.otherPlayerChoseGod(otherPlayer , chosenGod));
+
+        if(otherPlayer.equals(nickname2))
+            god2 = chosenGod;
+        else if(otherPlayer.equals(nickname3))
+            god3 = chosenGod;
 
     }
 
