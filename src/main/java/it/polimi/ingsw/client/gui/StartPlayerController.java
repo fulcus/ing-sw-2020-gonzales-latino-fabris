@@ -1,19 +1,16 @@
 package it.polimi.ingsw.client.gui;
 
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import static it.polimi.ingsw.client.gui.GuiManager.*;
 
-public class StartPlayerController implements Initializable {
+public class StartPlayerController {
 
     @FXML
     private Label playerName1;
@@ -37,32 +34,31 @@ public class StartPlayerController implements Initializable {
     public StartPlayerController() {
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void init() {
 
         //display player names
-        playerName1.setText("nick1");
-        playerName2.setText("nick2");
+        playerName1.setText(nickname1.get());
+        playerName2.setText(nickname2.get());
 
         //adapted for 2 players game
         if (numberOfPlayers.get() == 3)
-            playerName3.setText("nick3");
+            playerName3.setText(nickname3.get());
         else {
             playerName3.getParent().setVisible(false);
         }
 
         //load god images
         //"charon" and other god names will be replaced with player.getGod
-        String path1 = "/gods/full_" + "charon" + ".png";
+        String path1 = "/gods/full_" + god1.get().toLowerCase() + ".png";
         Image player1God = new Image(path1);
         godImage1.setImage(player1God);
 
-        String path2 = "/gods/full_" + "demeter" + ".png";
+        String path2 = "/gods/full_" + god2.get().toLowerCase() + ".png";
         Image player2God = new Image(path2);
         godImage2.setImage(player2God);
 
         //adapted for 2 players game
-        String path3 = numberOfPlayers.get() == 3 ? "/gods/full_" + "hephaestus" + ".png" : "/frames/bg_panelMid.png";
+        String path3 = numberOfPlayers.get() == 3 ? "/gods/full_" + god3.get().toLowerCase() + ".png" : "/frames/bg_panelMid.png";
 
         Image player3God = new Image(path3);
         godImage3.setImage(player3God);
@@ -71,10 +67,9 @@ public class StartPlayerController implements Initializable {
 
     @FXML
     private void choosePlayer(MouseEvent event) {
-        //get which button was clicked ie which player was chosen
 
         String playerId = ((Button) event.getSource()).getId();
-        System.out.println("chose " + playerId);
+        System.out.println("chose " + playerId);    //debug
 
         String nickname = null;
 
@@ -98,6 +93,8 @@ public class StartPlayerController implements Initializable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        Gui.getStage().setScene(new Scene(boardRoot));
 
     }
 

@@ -62,9 +62,6 @@ public class Lobby {
         ExecutorService executor = availableGame.getExecutorPlayerAdder();
         executor.execute(() -> availableGame.addPlayer(newClient));
 
-        //send client nickname and color of all players that are already in
-        sendOtherPlayersInfo(newClient);
-
         connectedToAvailableGame++;
 
     }
@@ -75,13 +72,13 @@ public class Lobby {
         newClient.joinGame(availableGame.getGame().getNumberOfPlayers());   //send message to client
 
         //send client nickname and color of all players that are already in
-        //sendOtherPlayersInfo(newClient);
+        sendOtherPlayersInfo(newClient);
 
         ExecutorService gameExecutor = availableGame.getExecutorPlayerAdder();
         gameExecutor.execute(() -> availableGame.addPlayer(newClient));
 
         //send client nickname and color of all players that are already in
-        sendOtherPlayersInfo(newClient);
+        //sendOtherPlayersInfo(newClient);
 
         connectedToAvailableGame++;
 
@@ -113,13 +110,17 @@ public class Lobby {
 
     private void sendOtherPlayersInfo(ViewClient newClient) {
 
-        for(ViewClient otherClient : availableGame.getGameClients()) {
-            if(otherClient != newClient) {  //always true bc newClient isn't in gameClients yet
+        for (ViewClient otherClient : availableGame.getGameClients()) {
+
+            //first condition always true bc newClient isn't in gameClients yet
+            if (otherClient != newClient
+                    && otherClient.getPlayer() != null
+                    && otherClient.getPlayer().getColor() != null) {
 
                 String otherClientNickname = otherClient.getPlayer().getNickname();
                 String otherClientColor = otherClient.getPlayer().getColor().name();
 
-                newClient.setOtherPlayersInfo(otherClientNickname,otherClientColor);
+                newClient.setOtherPlayersInfo(otherClientNickname, otherClientColor);
 
                 System.out.println("l'otherClient color è " + otherClientColor);
             }

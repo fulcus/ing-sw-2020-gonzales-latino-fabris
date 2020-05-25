@@ -53,13 +53,12 @@ public class Client {
                 if(server == null)
                     connected = false;
 
-                System.out.println("server " + server);
+                //System.out.println("server " + server);
 
             } catch (IOException e) {
                 connected = false;
                 System.out.println("catch");
             }
-            System.out.println("out of try catch");
             view.connectionOutcome(connected);
         }
 
@@ -97,7 +96,7 @@ public class Client {
                 break;
             }
             else
-                System.out.println("Invalid input.\n\n");
+                System.out.println("Invalid input.\n");
         }
     }
 

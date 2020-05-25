@@ -21,25 +21,26 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class GuiManager implements View {
 
-    protected static volatile AtomicInteger numberOfPlayers;
-    protected static volatile AtomicReference<String> nickname1;
-    protected static volatile AtomicReference<String> nickname2;
-    protected static volatile AtomicReference<String> nickname3;
-    protected static volatile AtomicReference<String> color1;
-    protected static volatile AtomicReference<String> color2;
-    protected static volatile AtomicReference<String> color3;
-    protected static volatile String god1;
-    protected static volatile String god2;
-    protected static volatile String god3;
+    protected static AtomicReference<String> nickname1;
+    protected static AtomicReference<String> nickname2;
+    protected static AtomicReference<String> nickname3;
+    protected static AtomicReference<String> color1;
+    protected static AtomicReference<String> color2;
+    protected static AtomicReference<String> color3;
+    protected static AtomicReference<String> god1;
+    protected static AtomicReference<String> god2;
+    protected static AtomicReference<String> god3;
 
-    protected static volatile AtomicInteger playersConnected;
+
+    protected static final AtomicInteger numberOfPlayers = new AtomicInteger(0); //overwritten by joinGame or asknumberofplayers
+    protected static final AtomicInteger playersConnected = new AtomicInteger(0);
+    protected static final AtomicBoolean isInLobby = new AtomicBoolean(false);
 
     protected static final SynchronousQueue<Object> queue = new SynchronousQueue<>();
     private String playerNickname;
     private String playerColor;
     private String challenger;
     private final BoardClient board;
-    protected static AtomicBoolean isInLobby;
 
 
     //roots of scenes
@@ -73,10 +74,11 @@ public class GuiManager implements View {
         color1 = null;
         color2 = null;
         color3 = null;
-        god1= null;
-        god2=null;
-        god3= null;
+        god1 = null;
+        god2 = null;
+        god3 = null;
 
+        //wait for graphics to initialize
         try {
             queue.take();
         } catch (InterruptedException e) {
@@ -124,7 +126,6 @@ public class GuiManager implements View {
         lobbyRoot.setCursor(cursor);
 
 
-
         connectController = connectLoader.getController();
         numberOfPlayersController = numberOfPlayersLoader.getController();
         nicknameController = nicknameLoader.getController();
@@ -155,15 +156,11 @@ public class GuiManager implements View {
             e.printStackTrace();
         }
 
-        System.out.println("guimanager received: " + IP);   //debug
+        //System.out.println("guimanager received: " + IP);   //debug
         return IP;
     }
 
     public void connectionOutcome(boolean connected) {
-
-        //createControllers();
-
-        System.out.println("connectionOutcome");
 
         if (!connected) {
             System.out.println("connection error");
@@ -198,7 +195,6 @@ public class GuiManager implements View {
     }
 
     public void createGame() {
-        System.out.println("createGame guiManager"); //debug
 
         //change scene
         Platform.runLater(() -> Gui.getStage().setScene(new Scene(numberOfPlayersRoot)));
@@ -263,7 +259,7 @@ public class GuiManager implements View {
 
     public void printChoosingNickname() {
 
-        if(Gui.getStage().getScene().equals("/resources/choose-player.fxml")) {
+        if (Gui.getStage().getScene().equals("/resources/choose-player.fxml")) {
 
             System.out.println("print choosing nick other");
             nicknameController.displayWaitingOther();
@@ -303,6 +299,18 @@ public class GuiManager implements View {
         if (isInLobby.get())
             Platform.runLater(() -> lobbyController.showPlayer(nickname, color));
         //otherwise it has already been saved and will be rendered in initialize
+    }
+
+    private void setPlayerGod(String nickname, String god) {
+
+        if (nickname.equals(nickname1.get())) {
+            god1 = new AtomicReference<>(god);
+
+        } else if (nickname.equals(nickname2.get())) {
+            god2 = new AtomicReference<>(god);
+        } else if (nickname.equals(nickname3.get())) {
+            god3 = new AtomicReference<>(god);
+        }
     }
 
 
@@ -369,8 +377,8 @@ public class GuiManager implements View {
 
 
     public void notifyValidColor() {
-
-        setPlayerInfo(playerNickname, playerColor);  //adding this players info to "database"
+        //adding this players info to "database"
+        setPlayerInfo(playerNickname, playerColor);
 
         //change scene
         Platform.runLater(() -> {
@@ -387,24 +395,25 @@ public class GuiManager implements View {
 
         String chosenGod = null;
 
-        Platform.runLater(()->chooseGodController.askPlayerGod());
+        Platform.runLater(() -> chooseGodController.askPlayerGod());
 
 
         try {
             chosenGod = (String) queue.take();
+            setPlayerGod(playerNickname, chosenGod);
 
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        System.out.println("Selected " +chosenGod);
+        System.out.println("Selected " + chosenGod);
 
         return chosenGod;
     }
 
     public void playerChoseInvalidGod() {
 
-        Platform.runLater(()->chooseGodController.playerChoseInvalidGod());
+        Platform.runLater(() -> chooseGodController.playerChoseInvalidGod());
 
     }
 
@@ -412,7 +421,7 @@ public class GuiManager implements View {
 
         String chosenGod = null;
 
-        Platform.runLater(() ->chooseGodController.getGodFromChallenger(numOfPlayers,alreadyChosenGods));
+        Platform.runLater(() -> chooseGodController.getGodFromChallenger(numOfPlayers, alreadyChosenGods));
 
         try {
             chosenGod = (String) queue.take();
@@ -421,7 +430,7 @@ public class GuiManager implements View {
             e.printStackTrace();
         }
 
-        System.out.println("Selected " +chosenGod);
+        System.out.println("Selected " + chosenGod);
 
         return chosenGod;
 
@@ -431,19 +440,18 @@ public class GuiManager implements View {
 
         String startPlayer = null;
 
-        Platform.runLater(() -> Gui.getStage().setScene(new Scene(startPlayerRoot)));
+        Platform.runLater(() -> {
+            Gui.getStage().setScene(new Scene(startPlayerRoot));
+            startPlayerController.init();
+        });
 
         try {
-             startPlayer = (String) queue.take();
-
+            startPlayer = (String) queue.take();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-
         return startPlayer;
-
-
     }
 
     public void invalidStartPlayer() {
@@ -506,7 +514,6 @@ public class GuiManager implements View {
     public void printAllGods(ArrayList<String> godsNameAndDescription) {
 
 
-
     }
 
     public void challengerError() {
@@ -515,7 +522,7 @@ public class GuiManager implements View {
 
     public void printChosenGods(ArrayList<String> chosenGods) {
 
-        Platform.runLater(()->chooseGodController.printChosenGods(chosenGods));
+        Platform.runLater(() -> chooseGodController.printChosenGods(chosenGods));
 
     }
 
@@ -712,7 +719,7 @@ public class GuiManager implements View {
      */
     public void waitChallengerChooseGods(String challenger) {
 
-        Platform.runLater(()->chooseGodController.waitChallengerChooseGods(challenger));
+        Platform.runLater(() -> chooseGodController.waitChallengerChooseGods(challenger));
 
     }
 
@@ -723,7 +730,7 @@ public class GuiManager implements View {
      */
     public void waitOtherPlayerChooseGod(String otherPlayer) {
 
-        Platform.runLater(()->chooseGodController.waitOtherPlayerChooseGod(otherPlayer));
+        Platform.runLater(() -> chooseGodController.waitOtherPlayerChooseGod(otherPlayer));
 
     }
 
@@ -735,13 +742,11 @@ public class GuiManager implements View {
      */
     public void otherPlayerChoseGod(String otherPlayer, String chosenGod) {
 
-        Platform.runLater(()->chooseGodController.otherPlayerChoseGod(otherPlayer , chosenGod));
+        System.out.println("otherPlayer: " + otherPlayer);
 
-        if(otherPlayer.equals(nickname2))
-            god2 = chosenGod;
-        else if(otherPlayer.equals(nickname3))
-            god3 = chosenGod;
+        Platform.runLater(() -> chooseGodController.otherPlayerChoseGod(otherPlayer, chosenGod));
 
+        setPlayerGod(otherPlayer, chosenGod);
     }
 
     /**

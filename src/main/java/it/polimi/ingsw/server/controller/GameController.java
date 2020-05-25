@@ -68,10 +68,10 @@ public class GameController {
         setPlayerNickname(client);
         setPlayerColor(client);
 
+        //send player nickname and color to all other clients
         String clientNickname = client.getPlayer().getNickname();
         String clientColor = client.getPlayer().getColor().name();
 
-        //send player nickname and color to all other clients
         for (ViewClient otherClient : gameClients) {
             if (!otherClient.equals(client))
                 otherClient.setOtherPlayersInfo(clientNickname,clientColor);

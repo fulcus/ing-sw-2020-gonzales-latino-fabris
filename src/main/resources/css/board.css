@@ -38,19 +38,17 @@
 }
 
 .button{
-    -fx-background-image:url('../buttons/cm_btn_coral.png');
+    -fx-background-image:url('../buttons/menu_button.png');
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
-    -fx-font-family: "Ink Blossoms";
-    -fx-text-fill: white;
+    -fx-background-color: transparent ;
 }
 
 .button:pressed{
-    -fx-background-image:url('../buttons/cm_btn_coral_pressed.png');
+    -fx-background-image:url('../buttons/menu_button_pressed.png');
     -fx-background-size: contain;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
-    -fx-font-family: "Ink Blossoms";
-    -fx-text-fill: white;
+    -fx-background-color: transparent ;
 }

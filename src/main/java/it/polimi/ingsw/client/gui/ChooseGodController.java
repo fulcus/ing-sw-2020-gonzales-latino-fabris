@@ -11,7 +11,7 @@ import javafx.scene.input.MouseEvent;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
-public class ChooseGodController  {
+public class ChooseGodController {
 
     @FXML
     private ImageView apolloFrame;
@@ -121,8 +121,6 @@ public class ChooseGodController  {
         }
 
 
-
-        //
         if (godFrame != null) {
 
             if (godFrame.getImage().equals(redFrame))
@@ -170,16 +168,14 @@ public class ChooseGodController  {
 
         if (selectedGodID == null)
             mainText.setText("Select a God!");
-        else {
 
+        else {
             try {
                 GuiManager.queue.put(selectedGodID);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
         }
-
     }
 
     public void getGodFromChallenger(int numOfPlayers, int alreadyChosenGods) {
@@ -231,7 +227,6 @@ public class ChooseGodController  {
         for (String godId : chosenGods) {
 
 
-
             try {
                 godFrame = c.getDeclaredField(godId.toLowerCase() + "Frame");
                 godFrame.setAccessible(true);
@@ -256,7 +251,6 @@ public class ChooseGodController  {
     public void playerChoseInvalidGod() {
         mainText.setText("This god has already been chosen");
     }
-
 
 
 }

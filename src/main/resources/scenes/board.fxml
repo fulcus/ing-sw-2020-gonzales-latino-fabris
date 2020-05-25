@@ -65,7 +65,7 @@
                    <Pane onMouseClicked="#chooseCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="4" />
                </children>
             </GridPane>
-            <Button fx:id="menuButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#menuClicked" text="MENU" />
+            <Button fx:id="menuButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#menuClicked" prefHeight="82.0" prefWidth="87.0" />
          </children>
       </AnchorPane>
       <GridPane accessibleRole="NODE" prefHeight="173.0" prefWidth="1019.0" styleClass="background-bottom" stylesheets="@../css/board.css" GridPane.rowIndex="1">
@@ -177,12 +177,7 @@
                   <Insets right="112.0" top="137.0" />
                </GridPane.margin>
             </Text>
-            <ImageView fitHeight="58.0" fitWidth="430.0" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-               <image>
-                  <Image url="@../frames/clp_textbar.png" />
-               </image>
-            </ImageView>
-            <Text fx:id="mainText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="MOVE YOUR WORKER" wrappingWidth="372.9830722808838" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+            <Text fx:id="mainText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="MOVE YOUR WORKER" wrappingWidth="580.9830722808838" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets bottom="8.0" />
                </GridPane.margin>

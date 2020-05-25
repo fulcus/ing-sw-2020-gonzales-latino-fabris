@@ -47,13 +47,13 @@ public class Cli implements View {
 
     public void connectionOutcome(boolean connected) {
         if(connected)
-            System.out.println("Connected to server.");
+            System.out.println("Connected to the server.\n");
         else
-            System.out.println("Server unreachable.");
+            System.out.println("Server unreachable.\n");
     }
 
     public void joinGame(int numberOfPlayers) {
-        System.out.println("You are joining a game for " + numberOfPlayers + " players.");
+        System.out.print("You are joining a game for " + numberOfPlayers + " players.");
     }
 
     public void createGame() {
@@ -170,12 +170,12 @@ public class Cli implements View {
 
 
     public void printChoosingColor(String choosingPlayer) {
-        System.out.print(choosingPlayer + " is choosing his color, wait...");
+        System.out.print("\n" + choosingPlayer + " is choosing his color, wait...");
     }
 
 
     public void printChoosingNickname() {
-        System.out.print("Someone is choosing his nickname, wait...");
+        System.out.print("Another player is choosing his nickname, wait...");
     }
 
     //todo
@@ -193,14 +193,14 @@ public class Cli implements View {
 
     public String askPlayerNickname() {
 
-        System.out.println("Choose your nickname.");
+        System.out.println("\nChoose your nickname.");
         return input.nextLine();
     }
 
 
     public String askPlayerColor() {
 
-        System.out.println(playerNickname + ", choose your color.");
+        System.out.println("\n" + playerNickname + ", choose your color.");
         return input.nextLine().toUpperCase();
     }
 
