@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="700.0" stylesheets="@../css/welcome.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.ConnectController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="700.0" stylesheets="@../css/welcome.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.ConnectController">
    <children>
       <ImageView fitHeight="236.0" fitWidth="339.0" layoutX="422.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -45,6 +47,11 @@
       <Text fx:id="error" fill="#b50000" layoutX="316.0" layoutY="392.0" strokeType="OUTSIDE" strokeWidth="0.0" text="wrong address!" textAlignment="CENTER" visible="false">
          <font>
             <Font name="Negotiate Free" size="14.0" />
+         </font>
+      </Text>
+      <Text fx:id="waitForGame" fill="#2a1b75" layoutX="241.0" layoutY="434.0" strokeType="OUTSIDE" strokeWidth="0.0" text="If you're not the creator of a game it can happen you have to wait a while" textAlignment="CENTER" visible="false" wrappingWidth="240.03997802734375">
+         <font>
+            <Font name="Negotiate Free" size="16.0" />
          </font>
       </Text>
    </children>

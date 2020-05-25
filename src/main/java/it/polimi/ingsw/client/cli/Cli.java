@@ -216,7 +216,7 @@ public class Cli implements View {
 
 
     public void waitToBeAssigned() {
-        System.out.println("(If you're not the creator of the game it can happen you would wait a while\n)");
+        System.out.println("(If you're not the creator of the game it can happen you would wait a while)\n");
     }
 
 

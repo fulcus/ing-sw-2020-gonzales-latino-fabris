@@ -34,7 +34,7 @@
             <Image url="@../title/santorini-logo.png" />
          </image>
       </ImageView>
-      <TextField fx:id="nicknameText" alignment="CENTER" disable="true" layoutX="254.0" layoutY="325.0" minWidth="9.0" onKeyPressed="#login" pickOnBounds="false" prefHeight="38.0" prefWidth="208.0" promptText="type nick here">
+      <TextField fx:id="nicknameText" alignment="CENTER" layoutX="254.0" layoutY="325.0" minWidth="9.0" onKeyPressed="#login" pickOnBounds="false" prefHeight="38.0" prefWidth="208.0" promptText="type nick here">
          <font>
             <Font name="Negotiate Free" size="15.0" />
          </font>
@@ -49,7 +49,7 @@
             <Font name="Negotiate Free" size="14.0" />
          </font>
       </Text>
-      <Text fx:id="waitingOther" fill="#2a1b75" layoutX="207.0" layoutY="428.0" strokeType="OUTSIDE" strokeWidth="0.0" text="WAIT: Someone is choosing his nickname..." textAlignment="CENTER">
+      <Text fx:id="waitingOther" fill="#2a1b75" layoutX="207.0" layoutY="428.0" strokeType="OUTSIDE" strokeWidth="0.0" text="WAIT: Someone is choosing his nickname..." textAlignment="CENTER" visible="false">
          <font>
             <Font name="Negotiate Free" size="17.0" />
          </font>

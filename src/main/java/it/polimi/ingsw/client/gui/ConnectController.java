@@ -11,8 +11,12 @@ public class ConnectController {
 
     @FXML
     private TextField IPText;
+
     @FXML
     private Text error;     //todo
+
+    @FXML
+    private Text waitForGame;
 
     public ConnectController() {
     }
@@ -33,6 +37,9 @@ public class ConnectController {
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
+
+            //if not the creator, display a "be patient" message
+            waitForGame.setVisible(true);
         }
     }
 
