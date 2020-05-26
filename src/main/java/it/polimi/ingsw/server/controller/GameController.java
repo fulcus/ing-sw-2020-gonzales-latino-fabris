@@ -20,9 +20,10 @@ public class GameController {
     private final ArrayList<God> godsDeck;
     private final ExecutorService executorPlayerAdder;
     private final ArrayList<ViewClient> gameClients;
-    private NickSetting nickSetting;
-    private ColorSetting colorSetting;
-
+    //private NickSetting nickSetting;
+    //private ColorSetting colorSetting;
+    private final Object nicknameLock;
+    private final Object colorLock;
 
     public GameController() {
         game = null;
@@ -30,8 +31,10 @@ public class GameController {
         godsDeck = new ArrayList<>(14);
         executorPlayerAdder = Executors.newCachedThreadPool();
         gameClients = new ArrayList<>();
-        nickSetting = new NickSetting();
-        colorSetting = new ColorSetting();
+        //nickSetting = new NickSetting();
+        //colorSetting = new ColorSetting();
+        nicknameLock = new Object();
+        colorLock = new Object();
     }
 
 
@@ -79,7 +82,7 @@ public class GameController {
 
         for (ViewClient otherClient : gameClients) {
             if (!otherClient.equals(client))
-                otherClient.setOtherPlayersInfo(clientNickname,clientColor);
+                otherClient.setOtherPlayersInfo(clientNickname, clientColor);
         }
 
     }
@@ -125,13 +128,28 @@ public class GameController {
 
             String chosenNickname = client.askPlayerNickname();
 
-            if (nickSetting.checkNicknameValidity(chosenNickname, client, game, this)) {
-                return;
+            synchronized (nicknameLock) {
+                if (checkNicknameValidity(chosenNickname, client, game)) {
+                    return;
+                }
             }
 
             client.notAvailableNickname();
         }
     }
+
+    private boolean checkNicknameValidity(String chosenNickname, ViewClient client, Game game) {
+
+        if (nicknameIsAvailable(chosenNickname) && chosenNickname.length() > 0) {
+            Player newPlayer = game.addPlayer(chosenNickname, client);
+            client.setPlayer(newPlayer);
+            client.notifyValidNick();
+            return true;
+        }
+
+        return false;
+    }
+
 
     /**
      * Lets the player choose his color.
@@ -145,19 +163,30 @@ public class GameController {
                 otherClient.printChoosingColor(client.getPlayer().getNickname());
         }
 
-        boolean colorCorrectlyChosen = false;
-
-        while (!colorCorrectlyChosen) {
+        while (true) {
 
             String chosenColor = client.askPlayerColor();
 
-            if (colorSetting.checkColorValidity(chosenColor, client, this)) {
-                colorCorrectlyChosen = true;
-            } else
-                client.notAvailableColor();
+            //edited
+            synchronized (colorLock) {
+                if (checkColorValidity(chosenColor, client))
+                    return;
+            }
 
+            client.notAvailableColor();
         }
 
+    }
+
+    private boolean checkColorValidity(String chosenColor, ViewClient client) {
+
+        if (colorIsAvailable(chosenColor) && colorIsValid(chosenColor)) {
+            client.notifyValidColor();
+            client.getPlayer().setColor(Color.stringToColor(chosenColor));
+            return true;
+        }
+
+        return false;
     }
 
 
@@ -284,7 +313,6 @@ public class GameController {
     public ArrayList<ViewClient> getGameClients() {
         return gameClients;
     }
-
 
 
 }

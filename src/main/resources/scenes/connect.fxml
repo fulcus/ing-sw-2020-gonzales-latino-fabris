@@ -20,7 +20,7 @@
             <Image url="@../title/title_cloud_back_horizon.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="291.0" fitWidth="419.0" layoutX="345.0" layoutY="232.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="291.0" fitWidth="419.0" layoutX="362.0" layoutY="290.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../title/title_FG_cloud.png" />
          </image>
@@ -35,16 +35,16 @@
             <Image url="@../title/santorini-logo.png" />
          </image>
       </ImageView>
-      <Text fill="#2a1b75" layoutX="303.0" layoutY="339.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter server IP:" textAlignment="CENTER" wrappingWidth="117.04000854492188">
+      <Text fill="#2a1b75" layoutX="303.0" layoutY="295.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter server IP:" textAlignment="CENTER" wrappingWidth="117.04000854492188">
          <font>
             <Font name="Negotiate Free" size="16.0" />
          </font>
       </Text>
-      <TextField fx:id="IPText" alignment="CENTER" layoutX="265.0" layoutY="343.0" minWidth="9.0" onKeyPressed="#connect" prefHeight="41.0" prefWidth="193.0" text="santorini.servegame.com">
+      <TextField fx:id="IPText" alignment="CENTER" layoutX="265.0" layoutY="304.0" minWidth="9.0" onKeyPressed="#connect" prefHeight="41.0" prefWidth="193.0" text="santorini.servegame.com">
          <padding>
             <Insets bottom="7.0" />
          </padding></TextField>
-      <Text fx:id="error" fill="#b50000" layoutX="316.0" layoutY="392.0" strokeType="OUTSIDE" strokeWidth="0.0" text="wrong address!" textAlignment="CENTER" visible="false">
+      <Text fx:id="error" fill="#b50000" layoutX="316.0" layoutY="372.0" strokeType="OUTSIDE" strokeWidth="0.0" text="wrong address!" textAlignment="CENTER" visible="false">
          <font>
             <Font name="Negotiate Free" size="14.0" />
          </font>

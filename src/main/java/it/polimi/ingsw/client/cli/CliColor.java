@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.cli;
 public enum CliColor {
     ANSI_MALE_WORKER( " M⃣ "),
     ANSI_FEMALE_WORKER(" F⃣ "),
+    ANSI_BLACK  ("\u001B[30m"),
     ANSI_WHITE("\u001B[231m"),
     ANSI_RED("\u001B[31m"),
     ANSI_GREEN("\u001B[38;5;34m"),
@@ -26,7 +27,10 @@ public enum CliColor {
     Background_Bright_Blue("\u001b[44;1m"),
     Background_Bright_Magenta("\u001b[45;1m"),
     Background_Bright_Cyan("\u001b[46;1m"),
-    Background_Bright_White("\u001b[47;1m");
+    Background_Bright_White("\u001b[47;1m"),
+    BLACK_BOLD ("\033[1;30m"),
+    WHITE_BOLD ("\033[1;37m"),
+    RESET("\033[0m");
 
 
     static final String COLOR_RESET = "\u001B[0m";

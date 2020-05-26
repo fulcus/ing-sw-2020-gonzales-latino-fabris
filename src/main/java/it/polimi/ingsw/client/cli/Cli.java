@@ -16,7 +16,16 @@ public class Cli implements View {
     private Scanner intInput;
     private final BoardClient board;// this will contain a copy of the Model's map and each cell will be update if there are any changes
     private String playerNickname; //to be assigned when setPlayer of ViewClient is deserialized
+    private String playerColor;
     private String challenger;
+
+    private String bluePlayer;
+    private String whitePlayer;
+    private String beigePlayer;
+    private String blueGod;
+    private String whiteGod;
+    private String beigeGod;
+
 
     /**
      * This is the Cli constructor.
@@ -178,9 +187,23 @@ public class Cli implements View {
         System.out.print("Another player is choosing his nickname\n");
     }
 
-    //todo
-    public void setOtherPlayersInfo(String nickname, String color) {
 
+    public void setOtherPlayersInfo(String nickname, String color) {
+        if ( bluePlayer == null  && color.equals("BLUE")){
+            bluePlayer = nickname;
+        }
+        else if ( whitePlayer == null  && color.equals("WHITE")) {
+            whitePlayer = nickname;
+        }
+        else if ( beigePlayer == null && color.equals("BEIGE"))
+            beigePlayer = nickname;
+
+        if (this.playerColor!=null && (this.playerColor.equals("BLUE") || this.playerColor.equals("blue")))
+            bluePlayer = playerNickname;
+        else if (this.playerColor!=null && (this.playerColor.equals("WHITE") || this.playerColor.equals("white") ))
+            whitePlayer = playerNickname;
+        else if (this.playerColor!=null && (this.playerColor.equals("BEIGE") || this.playerColor.equals("beige") ))
+            beigePlayer = playerNickname;
     }
 
 
@@ -201,7 +224,9 @@ public class Cli implements View {
     public String askPlayerColor() {
 
         System.out.println("\n" + playerNickname + ", choose your color.");
-        return input.nextLine().toUpperCase();
+        String color = input.nextLine().toUpperCase();
+        playerColor = color;
+        return color;
     }
 
 
@@ -227,8 +252,16 @@ public class Cli implements View {
 
         System.out.println(playerNickname + ", choose your god by typing his name.");
 
+        String god = input.nextLine();
 
-        return input.nextLine();
+        if (this.playerNickname.equals(bluePlayer))
+            blueGod = god;
+        else if (this.playerNickname.equals(whitePlayer))
+            whiteGod = god;
+        else if (this.playerNickname.equals(beigePlayer))
+            beigeGod = god;
+
+        return god;
     }
 
 
@@ -356,11 +389,26 @@ public class Cli implements View {
         System.out.println("\n");
 
         final String LINE_SEPARATOR = CliColor.ANSI_GREEN + "+-------+-------+-------+-------+-------+" + CliColor.COLOR_RESET + "%n";
-        final String SPACE_SEPARATOR = CliColor.ANSI_GREEN + "+       +       +       +       +       +" + CliColor.COLOR_RESET + "%n";
+        final String SPACE_SEPARATOR = CliColor.ANSI_GREEN + "|       |       |       |       |       |" + CliColor.COLOR_RESET + "%n";
+        final String LINE_SEPARATOR_PLAYER_BLUE = CliColor.ANSI_GREEN + "+-------+-------+-------+-------+-------+         " + CliColor.COLOR_RESET + CliColor.Background_Blue + CliColor.BLACK_BOLD + bluePlayer + " plays with " + blueGod + CliColor.RESET + CliColor.BACKGROUND_RESET + "%n";
+        final String LINE_SEPARATOR_PLAYER_WHITE = CliColor.ANSI_GREEN + "+-------+-------+-------+-------+-------+         " + CliColor.COLOR_RESET + CliColor.Background_White + CliColor.BLACK_BOLD + whitePlayer + " plays with " + whiteGod + CliColor.RESET + CliColor.BACKGROUND_RESET + "%n";
+        final String LINE_SEPARATOR_PLAYER_BEIGE = CliColor.ANSI_GREEN + "+-------+-------+-------+-------+-------+         " + CliColor.COLOR_RESET + CliColor.Background_Beige + CliColor.WHITE_BOLD + beigePlayer + " plays with " + beigeGod + CliColor.RESET + CliColor.BACKGROUND_RESET + "%n";
+
 
         for (int i = 0; i < Board.SIDE; i++) {
 
-            System.out.printf(LINE_SEPARATOR);//Border
+            if (i == 0 && bluePlayer!=null) {
+                System.out.printf(LINE_SEPARATOR_PLAYER_BLUE);
+            }
+            else if (i == 1 && whitePlayer!=null) {
+                System.out.printf(LINE_SEPARATOR_PLAYER_WHITE);
+            }
+            else if (i == 2 && beigePlayer!=null) {
+                System.out.printf(LINE_SEPARATOR_PLAYER_BEIGE);
+            }
+            else
+                System.out.printf(LINE_SEPARATOR);//Border
+
             printMapLine(i);//content of game
             System.out.printf(SPACE_SEPARATOR);//space
         }
@@ -380,13 +428,13 @@ public class Cli implements View {
         for (int i = 0; i < Board.SIDE; i++) {
 
             boolean additionalSpace = true;
-            System.out.printf(CliColor.ANSI_GREEN + "+" + CliColor.COLOR_RESET);
+            System.out.printf(CliColor.ANSI_GREEN + "|" + CliColor.COLOR_RESET);
             System.out.printf(" ");//1
 
             //Place where eventual buildings will be printed
 
             if (board.findCell(lineNumber, i).hasDome())//if cell has dome
-                System.out.printf("D");
+                System.out.printf(CliColor.ANSI_BLUE + "D" + CliColor.COLOR_RESET);
 
             else {
                 //if cell has not dome
@@ -437,7 +485,7 @@ public class Cli implements View {
 
         }
 
-        System.out.printf(CliColor.ANSI_GREEN + "+" + CliColor.COLOR_RESET);
+        System.out.printf(CliColor.ANSI_GREEN + "|" + CliColor.COLOR_RESET);
         System.out.printf("%n");
 
     }
@@ -909,6 +957,13 @@ public class Cli implements View {
 
         System.out.println();
         System.out.println(otherPlayer + " has chosen " + chosenGod + ".\n");
+
+        if (otherPlayer.equals(bluePlayer))
+            blueGod = chosenGod;
+        else if (otherPlayer.equals(whitePlayer))
+            whiteGod = chosenGod;
+        else if (otherPlayer.equals(beigePlayer))
+            beigeGod = chosenGod;
     }
 
 
