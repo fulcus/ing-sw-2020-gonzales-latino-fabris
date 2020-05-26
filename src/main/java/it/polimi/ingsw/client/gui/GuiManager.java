@@ -6,10 +6,11 @@ import it.polimi.ingsw.serializableObjects.CellClient;
 import it.polimi.ingsw.serializableObjects.WorkerClient;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,6 +52,7 @@ public class GuiManager implements View {
     protected static Parent boardRoot;
     protected static Parent lobbyRoot;
     protected static Parent connectRoot;
+    protected static Parent disconnectionRoot;
 
     //controllers of fxmls
     private ConnectController connectController;
@@ -61,6 +63,7 @@ public class GuiManager implements View {
     protected static ChooseGodController chooseGodController;
     private StartPlayerController startPlayerController;
     private BoardController boardController;
+    private DisconnectionController disconnectionController;
 
 
     public GuiManager() {
@@ -98,6 +101,7 @@ public class GuiManager implements View {
         FXMLLoader chooseGodLoader = new FXMLLoader(getClass().getResource("/scenes/choose-god.fxml"));
         FXMLLoader startPlayerLoader = new FXMLLoader(getClass().getResource("/scenes/start-player.fxml"));
         FXMLLoader boardLoader = new FXMLLoader(getClass().getResource("/scenes/board.fxml"));
+        FXMLLoader disconnectionLoader = new FXMLLoader(getClass().getResource("/scenes/disconnection.fxml"));
 
 
         try {
@@ -109,6 +113,7 @@ public class GuiManager implements View {
             startPlayerRoot = startPlayerLoader.load();
             boardRoot = boardLoader.load();
             lobbyRoot = lobbyLoader.load();
+            disconnectionRoot = disconnectionLoader.load();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -133,6 +138,7 @@ public class GuiManager implements View {
         chooseGodController = chooseGodLoader.getController();
         startPlayerController = startPlayerLoader.getController();
         boardController = boardLoader.getController();
+        disconnectionController = disconnectionLoader.getController();
 
     }
 
@@ -171,7 +177,32 @@ public class GuiManager implements View {
      * Displays that the player has been disconnected and reason.
      */
     public void notifyOtherPlayerDisconnection() {
-        //TODO POPUP
+
+        Platform.runLater(()->{
+
+            Scene currentScene = Gui.getStage().getScene();
+
+            int height = (int) currentScene.getHeight();
+            int width = (int) currentScene.getWidth();
+
+            WritableImage wi = new WritableImage(width,height);
+            Image image = currentScene.snapshot(wi);
+
+
+
+           // disconnectionRoot.getChildren().add(new ImageView(image));
+            Scene disconnectionScene = new Scene(disconnectionRoot , width, height);
+
+
+            Gui.getStage().setScene(disconnectionScene);
+
+            disconnectionController.setBackground(image);
+
+
+
+        });
+
+
     }
 
 
