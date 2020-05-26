@@ -1,6 +1,9 @@
 package it.polimi.ingsw.client.gui;
 
+import it.polimi.ingsw.client.BoardClient;
+import it.polimi.ingsw.serializableObjects.CellClient;
 import it.polimi.ingsw.serializableObjects.WorkerClient;
+import it.polimi.ingsw.server.model.Board;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -38,10 +41,31 @@ public class BoardController {
 
     private WorkerClient selectedWorker;//Useful to make conversion from coordinates to compass points
 
+    private Image blueMale;
+    private Image blueFemale;
+    private Image whiteMale;
+    private Image whiteFemale;
+    private Image beigeMale;
+    private Image beigeFemale;
+    private Image level1;
+    private Image level2;
+    private Image level3;
+    private Image dome;
+
 
     public BoardController() {
         selectedWorker = null;
         cellRequested = false;
+        blueMale = new Image("/board/workers/male_worker_blue.png");
+        blueFemale = new Image("/board/workers/female_worker_blue.png");
+        whiteMale = new Image("/board/workers/male_worker_white.png");
+        whiteFemale = new Image("/board/workers/female_worker_white.png");
+        beigeMale = new Image("/board/workers/male_worker_beige.png");
+        beigeFemale = new Image("/board/workers/female_worker_beige.png");
+        level1 = new Image("/board/level1/alto/level1_light.png");
+        level2 = new Image("/board/level2/alto/level2_light.png");
+        level3 = new Image("/board/level3/alto/level3_light.png");
+        dome = new Image("/board/dome/alto/dome_light.png");
     }
 
     protected void init() {
@@ -98,8 +122,20 @@ public class BoardController {
         System.out.println("MENU");
     }
 
+    public void update(CellClient toUpdateCell) {
+
+    }
+
     protected void printMap() {
-        //SHOULD Be updated only image views that refer to changed objects(workers, buildings)
+
+        for (int i = 0; i < Board.SIDE; i++) {
+            for (int j = 0; j < Board.SIDE; i++) {
+
+                //TODO SHOW IMAGES
+
+            }
+        }
+
 
     }
 

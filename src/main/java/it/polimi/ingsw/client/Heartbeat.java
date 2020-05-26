@@ -44,7 +44,7 @@ public class Heartbeat extends TimerTask implements Runnable {
             } catch (IOException e) {
                 System.out.println("SEND PING CATCH");
                 //CAUGHT WHEN TRYING TO PING WHILE THE SOCKED HAS BEEN ALREADY CLOSED BY SHUTDOWN
-                e.printStackTrace();
+                //TODO VA IN LOOP LA CATCH, FIXARE.
             }
         }
     }

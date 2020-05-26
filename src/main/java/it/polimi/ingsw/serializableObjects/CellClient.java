@@ -1,6 +1,9 @@
 package it.polimi.ingsw.serializableObjects;
 
+import it.polimi.ingsw.client.gui.GuiManager;
+import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Cell;
+import it.polimi.ingsw.server.model.Worker;
 
 import java.io.Serializable;
 
@@ -45,6 +48,7 @@ public class CellClient implements Serializable {
      * @param cellFromServer cell received from the server.
      */
     public void updateCell(CellClient cellFromServer) {
+
         this.cellLevel = cellFromServer.getCellLevel();
         this.hasDome = cellFromServer.hasDome();
 
@@ -52,8 +56,20 @@ public class CellClient implements Serializable {
             this.worker = new WorkerClient(cellFromServer.getWorkerClient());
         else
             this.worker = null;
+
     }
 
+    /*private void removeWorker (WorkerClient movedWorker){
+
+        for(int i=0; i < Board.SIDE; i++){
+            for(int j=0; j < Board.SIDE; j++){
+
+
+            }
+
+        }
+
+    }*/
 
     public int getY() {
         return y;
