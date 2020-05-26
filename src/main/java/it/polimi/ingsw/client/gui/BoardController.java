@@ -1,8 +1,10 @@
 package it.polimi.ingsw.client.gui;
 
+import it.polimi.ingsw.client.BoardClient;
+import it.polimi.ingsw.serializableObjects.CellClient;
 import it.polimi.ingsw.serializableObjects.WorkerClient;
+import it.polimi.ingsw.server.model.Board;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -10,89 +12,83 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+import static it.polimi.ingsw.client.gui.GuiManager.*;
 
-public class BoardController implements Initializable {
-
-    @FXML
-    private Text playerNickname;
+public class BoardController {
 
     @FXML
-    private Text player1Nickname;
-
+    private Text myNickname;
     @FXML
-    private Text player2Nickname;
-
+    private Text otherNicknameLeft;
     @FXML
-    private ImageView playerGod;
-
+    private Text otherNicknameRight;
     @FXML
-    private ImageView player1God;
-
+    private ImageView myGod;
     @FXML
-    private ImageView player2God;
-
+    private ImageView otherGodLeft;
     @FXML
-    private ImageView player2Bar;
-
+    private ImageView otherGodRight;
     @FXML
-    private ImageView player2Frame;
-
+    private ImageView godLeftBar;
+    @FXML
+    private ImageView godLeftFrame;
     @FXML
     private Text mainText;
-
-    private int numberOfPlayers;//TODO make a unique number of players inside gui, that will updates gui if it changes.
-
+    @FXML
+    private GridPane board;
 
     private boolean cellRequested;
 
     private WorkerClient selectedWorker;//Useful to make conversion from coordinates to compass points
 
+    private Image blueMale;
+    private Image blueFemale;
+    private Image whiteMale;
+    private Image whiteFemale;
+    private Image beigeMale;
+    private Image beigeFemale;
+    private Image level1;
+    private Image level2;
+    private Image level3;
+    private Image dome;
 
-    @FXML
-    private GridPane board;
 
     public BoardController() {
         selectedWorker = null;
-        numberOfPlayers = 3;
         cellRequested = false;
+        blueMale = new Image("/board/workers/male_worker_blue.png");
+        blueFemale = new Image("/board/workers/female_worker_blue.png");
+        whiteMale = new Image("/board/workers/male_worker_white.png");
+        whiteFemale = new Image("/board/workers/female_worker_white.png");
+        beigeMale = new Image("/board/workers/male_worker_beige.png");
+        beigeFemale = new Image("/board/workers/female_worker_beige.png");
+        level1 = new Image("/board/level1/alto/level1_light.png");
+        level2 = new Image("/board/level2/alto/level2_light.png");
+        level3 = new Image("/board/level3/alto/level3_light.png");
+        dome = new Image("/board/dome/alto/dome_light.png");
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    protected void init() {
 
-        String myGod = "Apollo";
-        String God1 = "Hera";
-        String God2 = "Triton";
+        myNickname.setText(nickname1.get());
+        otherNicknameRight.setText(nickname2.get());
+        Image myGodImage = new Image("/gods/full_" + god1.get().toLowerCase() + ".png");
+        Image godRightImage = new Image("/gods/full_" + god2.get().toLowerCase() + ".png");
+        myGod.setImage(myGodImage);
+        otherGodRight.setImage(godRightImage);
 
-        if (numberOfPlayers == 2) {
-            player2Frame.setVisible(false);
-            player2Bar.setVisible(false);
-            player2Nickname.setVisible(false);
-            player2God.setVisible(false);
-            setGodsImages(myGod, God1);
-            setPlayersNicknames("Alberto", "Fra");
+        if (numberOfPlayers.get() == 2) {
+            godLeftFrame.setVisible(false);
+            godLeftBar.setVisible(false);
+            otherNicknameLeft.setVisible(false);
+            otherGodLeft.setVisible(false);
         } else {
-            setGodsImages(myGod, God1, God2);
-            setPlayersNicknames("Alberto", "Vitto", "Fra");
+            otherNicknameRight.setText(nickname3.get());
+            Image godLeftImage = new Image("/gods/full_" + god3.get().toLowerCase() + ".png");
+            otherGodLeft.setImage(godLeftImage);
         }
 
         mainText.setText("WELCOME");
-
-
-    }
-
-    public void askInitialWorkerPosition(String workerSex) {
-        mainText.setText("Place your" + workerSex + "worker!");
-    }
-
-    public void askBuildingDirection() {
-        mainText.setText("Move your worker!");
-    }
-
-    public void setCellRequested(boolean cellRequested) {
-        this.cellRequested = cellRequested;
     }
 
     @FXML
@@ -103,7 +99,7 @@ public class BoardController implements Initializable {
         System.out.printf("Mouse clicked cell in [%d, %d]%n", rowIndex, colIndex);
 
         //if user clicks on a cell, and a method has requested a cell,
-        //coordinates are sent to gi manager
+        //coordinates are sent to gui manager
         if (cellRequested) {
             try {
                 GuiManager.queue.put(rowIndex);
@@ -121,48 +117,42 @@ public class BoardController implements Initializable {
         System.out.println("God description");
     }
 
-    private void setGodsImages(String myGod, String player1God, String player2God) {
-
-        Image myGodImage = new Image("/gods/full_" + myGod.toLowerCase() + ".png");
-        Image player1GodImage = new Image("/gods/full_" + player1God.toLowerCase() + ".png");
-        Image player2GodImage = new Image("/gods/full_" + player2God.toLowerCase() + ".png");
-
-        playerGod.setImage(myGodImage);
-        this.player1God.setImage(player1GodImage);
-        this.player2God.setImage(player2GodImage);
-
-    }
-
-    private void setGodsImages(String myGod, String player1God) {
-
-        Image myGodImage = new Image("/gods/full_" + myGod.toLowerCase() + ".png");
-        Image player1GodImage = new Image("/gods/full_" + player1God.toLowerCase() + ".png");
-
-        playerGod.setImage(myGodImage);
-        this.player1God.setImage(player1GodImage);
-
-    }
-
-    private void setPlayersNicknames(String myNickname, String player1Nickname) {
-        playerNickname.setText(myNickname);
-        this.player1Nickname.setText(player1Nickname);
-    }
-
-    private void setPlayersNicknames(String myNickname, String player1Nickname, String player2Nickname) {
-        playerNickname.setText(myNickname);
-        this.player1Nickname.setText(player1Nickname);
-        this.player2Nickname.setText(player2Nickname);
-    }
-
-    public void printMap() {
-        //SHOULD Be updated only image views that refer to changed objects(workers, buildings)
-
-    }
-
     @FXML
-    private void menuClicked() {
+    private void menu() {
         System.out.println("MENU");
     }
 
+    public void update(CellClient toUpdateCell) {
+
+    }
+
+    protected void printMap() {
+
+        for (int i = 0; i < Board.SIDE; i++) {
+            for (int j = 0; j < Board.SIDE; i++) {
+
+                //TODO SHOW IMAGES
+
+            }
+        }
+
+
+    }
+
+    protected void askInitialWorkerPosition(String workerSex) {
+        mainText.setText("Place your " + workerSex.toLowerCase() + " worker!");
+    }
+
+    protected void askBuildingDirection() {
+        mainText.setText("Move your worker!");
+    }
+
+    protected void setCellRequested(boolean cellRequested) {
+        this.cellRequested = cellRequested;
+    }
+
+    protected void waitChallengerStartPlayer() {
+
+    }
 
 }

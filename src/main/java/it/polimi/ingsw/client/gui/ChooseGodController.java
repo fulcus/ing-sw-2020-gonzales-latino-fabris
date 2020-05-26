@@ -90,7 +90,7 @@ public class ChooseGodController {
         previouslyRed = false;
     }
 
-    public void init() {
+    protected void init() {
         //  select.setDisable(true);
     }
 
@@ -222,7 +222,6 @@ public class ChooseGodController {
         Class<?> c = getClass();
         Field godFrame;
         ImageView frame;
-
 
         for (String godId : chosenGods) {
 

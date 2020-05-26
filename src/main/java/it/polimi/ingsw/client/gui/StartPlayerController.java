@@ -34,7 +34,7 @@ public class StartPlayerController {
     public StartPlayerController() {
     }
 
-    public void init() {
+    protected void init() {
 
         //display player names
         playerName1.setText(nickname1.get());
@@ -94,7 +94,6 @@ public class StartPlayerController {
             e.printStackTrace();
         }
 
-        Gui.getStage().setScene(new Scene(boardRoot));
 
     }
 

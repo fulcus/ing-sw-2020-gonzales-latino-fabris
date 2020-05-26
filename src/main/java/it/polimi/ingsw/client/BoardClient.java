@@ -40,6 +40,8 @@ public class BoardClient {
 
         //update cell in client with cell from server parameters
         cellInClient.updateCell(cellFromServer);
+
+
     }
 
 }

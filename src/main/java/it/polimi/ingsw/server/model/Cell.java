@@ -86,10 +86,10 @@ public class Cell {
     /**
      * States that a worker is moving in the cell
      *
-     * @param w Is the worker arriving in the cell
+     * @param worker Is the worker arriving in the cell
      */
-    public void moveIn(Worker w) {
-        worker = w;
+    public void moveIn(Worker worker) {
+        this.worker = worker;
         notifyObservers();//when a worker has moved in this Cell, it will be changed in the View
     }
 

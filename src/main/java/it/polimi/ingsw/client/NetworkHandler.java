@@ -17,7 +17,7 @@ public class NetworkHandler implements Runnable {
 
 
 
-    private boolean connected;
+    private volatile boolean connected;
     private final Socket server;
     private ObjectOutputStream outputStm;
     private ObjectInputStream inputStm;
@@ -30,7 +30,7 @@ public class NetworkHandler implements Runnable {
         this.client = client;
     }
 
-    public void init() {
+    protected void init() {
 
         try {
             outputStm = new ObjectOutputStream(server.getOutputStream());
