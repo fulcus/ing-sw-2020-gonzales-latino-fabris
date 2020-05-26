@@ -17,7 +17,7 @@ public class NetworkHandler implements Runnable {
 
 
 
-    private boolean connected;
+    private volatile boolean connected;
     private final Socket server;
     private ObjectOutputStream outputStm;
     private ObjectInputStream inputStm;
