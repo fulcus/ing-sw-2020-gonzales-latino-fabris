@@ -8,7 +8,7 @@
     src: url('../fonts/negotiate-free.ttf');
 }
 
-.background-board {
+.background {
     -fx-background-image: url('../title/title_sky.png');
     -fx-background-size: cover;
     -fx-background-repeat: no-repeat;
