@@ -85,7 +85,7 @@ public class ClientInputReader implements Runnable {
                 client.getGameController().handleGameDisconnection();
 
 
-                System.out.println(client.getPlayer().getNickname() + "disconnected");
+                System.out.println(client.getPlayer().getNickname() + " disconnected");
 
 
                 //TODO VERIFICARE SE RIMUOVERE LA SOUT PERCHè IN INIZIALIZZAZIONE DEL GIOCO, NULL POINTER PERCHè NICK ANCORA NON ESISTE.

@@ -22,7 +22,7 @@ public class CellClient implements Serializable {
     public CellClient(int x, int y) {
         this.x = x;
         this.y = y;
-        this.worker = null;
+        worker = null;
         hasDome = false;
         cellLevel = 0;
     }
@@ -64,11 +64,8 @@ public class CellClient implements Serializable {
         for(int i=0; i < Board.SIDE; i++){
             for(int j=0; j < Board.SIDE; j++){
 
-
             }
-
         }
-
     }*/
 
     public int getY() {
@@ -80,7 +77,7 @@ public class CellClient implements Serializable {
     }
 
     public WorkerClient getWorkerClient() {
-        return this.worker;
+        return worker;
     }
 
     public boolean hasWorker() {

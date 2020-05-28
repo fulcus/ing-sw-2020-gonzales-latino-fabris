@@ -9,7 +9,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 
 import java.io.IOException;
@@ -32,15 +31,19 @@ public class GuiManager implements View {
     protected static AtomicReference<String> god2;
     protected static AtomicReference<String> god3;
 
+    protected static final AtomicReference<BoardClient> boardClient = new AtomicReference<>(new BoardClient());
+
+    private final AtomicReference<WorkerClient> selectedWorker = new AtomicReference<>();
 
     protected static final AtomicInteger numberOfPlayers = new AtomicInteger(0); //overwritten by joinGame or asknumberofplayers
     protected static final AtomicInteger playersConnected = new AtomicInteger(0);
     protected static final AtomicBoolean isInLobby = new AtomicBoolean(false);
+
+
     protected static final SynchronousQueue<Object> queue = new SynchronousQueue<>();
     protected static String playerNickname;
     private String playerColor;
     private String challenger;
-    private final BoardClient board;
 
 
     //roots of scenes
@@ -67,8 +70,6 @@ public class GuiManager implements View {
 
 
     public GuiManager() {
-
-        board = new BoardClient();
 
         nickname1 = null;
         nickname2 = null;
@@ -178,26 +179,24 @@ public class GuiManager implements View {
      */
     public void notifyOtherPlayerDisconnection() {
 
-        Platform.runLater(()->{
+        Platform.runLater(() -> {
 
             Scene currentScene = Gui.getStage().getScene();
 
             int height = (int) currentScene.getHeight();
             int width = (int) currentScene.getWidth();
 
-            WritableImage wi = new WritableImage(width,height);
+            WritableImage wi = new WritableImage(width, height);
             Image image = currentScene.snapshot(wi);
 
 
-
-           // disconnectionRoot.getChildren().add(new ImageView(image));
-            Scene disconnectionScene = new Scene(disconnectionRoot , width, height);
+            // disconnectionRoot.getChildren().add(new ImageView(image));
+            Scene disconnectionScene = new Scene(disconnectionRoot, width, height);
 
 
             Gui.getStage().setScene(disconnectionScene);
 
             disconnectionController.setBackground(image);
-
 
 
         });
@@ -250,8 +249,8 @@ public class GuiManager implements View {
             //change scene
             Platform.runLater(() -> Gui.getStage().setScene(new Scene(nicknameRoot)));
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        } catch (InterruptedException | NumberFormatException ex) {
+            numInt = askNumberOfPlayers();
         }
 
         numberOfPlayers.set(numInt);
@@ -274,8 +273,8 @@ public class GuiManager implements View {
         });
 
         try {
-            initialWorkerPosition[0] = (Integer) queue.take();//row
-            initialWorkerPosition[1] = (Integer) queue.take();//col
+            initialWorkerPosition[0] = (int) queue.take();  //row
+            initialWorkerPosition[1] = (int) queue.take();  //col
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -331,7 +330,6 @@ public class GuiManager implements View {
     }
 
     private void setPlayerGod(String nickname, String god) {
-
 
         if (nickname.equals(nickname2.get())) {
             god2 = new AtomicReference<>(god);
@@ -479,10 +477,9 @@ public class GuiManager implements View {
 
         //assumes start player is always correct
         Platform.runLater(() -> {
-            Gui.getStage().setScene(new Scene(boardRoot));
             boardController.init();
+            Gui.getStage().setScene(new Scene(boardRoot));
         });
-
 
 
         return startPlayer;
@@ -505,7 +502,37 @@ public class GuiManager implements View {
     }
 
     public String askChosenWorker() {
-        return null;
+
+        int[] chosenCell = new int[2];
+
+        while (true) {
+            Platform.runLater(() -> {
+                boardController.setCellRequested(true);
+                boardController.askSelectedWorker();
+            });
+
+            try {
+                chosenCell[0] = (Integer) queue.take();//column
+                chosenCell[1] = (Integer) queue.take();//row
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            //check if cell contains worker
+
+            WorkerClient workerClient = boardClient.get().findCell(chosenCell[0], chosenCell[1]).getWorkerClient();
+
+            if (workerClient != null && workerClient.getWorkerColor().toLowerCase().equals(color1.get().toLowerCase())) {
+                selectedWorker.set(workerClient);
+                return workerClient.getWorkerSex();
+            }
+
+            Platform.runLater(() -> boardController.invalidWorkerSelection());
+
+        }
+
+
     }
 
     /**
@@ -538,11 +565,11 @@ public class GuiManager implements View {
      * This method prints an updated version of the Board, depending on the Class' parameter "mymap".
      */
     public void printMap() {
-        boardController.printMap();
+        Platform.runLater(() -> boardController.printMap());
     }
 
     public void update(CellClient toUpdateCell) {
-        board.update(toUpdateCell);
+        boardController.update(toUpdateCell);
     }
 
     public void printAllGods(ArrayList<String> godsNameAndDescription) {
@@ -582,8 +609,10 @@ public class GuiManager implements View {
         int[] chosenCell = new int[2];
         String selectedBuildingDirection = null;
 
-        boardController.setCellRequested(true);
-        boardController.askBuildingDirection();//TODO RUN LATER
+        Platform.runLater(() -> {
+            boardController.setCellRequested(true);
+            boardController.askBuildingDirection();
+        });
 
 
         try {
@@ -593,9 +622,6 @@ public class GuiManager implements View {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-
-        //CONVERT INTO COMPASS, HERE OR IN BOARD CONTROLLER
 
         return selectedBuildingDirection;
     }
@@ -615,7 +641,26 @@ public class GuiManager implements View {
      * @return The compass direction of the movement.
      */
     public String askMovementDirection() {
-        return null;
+
+        int[] chosenCell = new int[2];
+
+        Platform.runLater(() -> {
+            boardController.setCellRequested(true);
+            boardController.askMovementDirection();
+        });
+
+        try {
+            chosenCell[0] = (Integer) queue.take();//column
+            chosenCell[1] = (Integer) queue.take();//row
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+        return boardClient.get()
+                .workerCellRelativePositionCompass(selectedWorker.get(), chosenCell[0], chosenCell[1]);
+
     }
 
     /**
@@ -788,6 +833,7 @@ public class GuiManager implements View {
      */
     public void waitChallengerStartPlayer() {
         Platform.runLater(() -> {
+            boardController.init();
             Gui.getStage().setScene(new Scene(boardRoot));
             boardController.waitChallengerStartPlayer();
         });
