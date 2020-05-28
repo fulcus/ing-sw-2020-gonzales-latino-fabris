@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
 import java.lang.reflect.Field;
@@ -152,6 +153,11 @@ public class BoardController {
     @FXML
     private void chooseCell(MouseEvent event) {
         Node source = (Node) event.getSource();
+
+        //for imageview of worker
+        if (source instanceof ImageView)
+            source = source.getParent();
+
         Integer colIndex = GridPane.getColumnIndex(source);
         Integer rowIndex = GridPane.getRowIndex(source);
         System.out.printf("Mouse clicked cell in [%d, %d]%n", rowIndex, colIndex);
@@ -182,31 +188,55 @@ public class BoardController {
 
     protected void printMap() {
 
+        System.out.println("in printmap");
+
         //iterate on all cells of cellclient and render them correctly
         //based on the corresponding content of boardclient
-        for (int row = 0; row < Board.SIDE; row++) {
-            for (int col = 0; col < Board.SIDE; col++) {
+        //for (int row = 0; row < Board.SIDE; row++) {
+        //for (int col = 0; col < Board.SIDE; col++) {
 
-                CellClient cell = boardClient.get().findCell(row, col);
+        for (Node node : boardGrid.getChildren()) {
 
-                //cell contains building
-                switch (cell.getCellLevel()) {
-                    case 0:
-                        //nothing, ground level
-                        break;
-                    case 1:
-                        boardGrid.add(new ImageView(level1), col, row);
-                        break;
-                    case 2:
-                        boardGrid.add(new ImageView(level2), col, row);
-                        break;
-                    case 3:
-                        boardGrid.add(new ImageView(level3), col, row);
-                        break;
+            Pane pane = (Pane) node;
 
-                    default:
-                        System.out.println("building level error");
-                }
+            int row = GridPane.getRowIndex(node);
+            int col = GridPane.getColumnIndex(node);
+
+            CellClient cell = boardClient.get().findCell(row, col);
+
+            //cell contains building
+            switch (cell.getCellLevel()) {
+                case 0:
+                    //nothing, ground level
+                    break;
+                case 1:
+                    ImageView building1 = new ImageView(level1);
+                    building1.setFitWidth(80);
+                    building1.setFitHeight(80);
+                    //boardGrid.add(building1, col, row);
+                    pane.getChildren().add(building1);
+                    System.out.println("lev1: " + row + "," + col);
+                    break;
+                case 2:
+                    ImageView building2 = new ImageView(level2);
+                    building2.setFitWidth(80);
+                    building2.setFitHeight(80);
+                    //boardGrid.add(building2, col, row);
+                    pane.getChildren().add(building2);
+
+                    break;
+                case 3:
+                    ImageView building3 = new ImageView(level3);
+                    building3.setFitWidth(80);
+                    building3.setFitHeight(80);
+                    //boardGrid.add(building3, col, row);
+                    pane.getChildren().add(building3);
+
+                    break;
+
+                default:
+                    System.out.println("building level error");
+            }
 
                 /*
                     1) aggiungere tutti i building dinamicamente uno sopra l'altro
@@ -217,80 +247,67 @@ public class BoardController {
                 */
 
 
-                //cell contains dome
-                if (cell.hasDome())
-                    boardGrid.add(new ImageView(dome), col, row);
+            //cell contains dome
+            if (cell.hasDome()) {
+                //boardGrid.add(new ImageView(dome), col, row);
+                ImageView domeBuilding = new ImageView(dome);
+                domeBuilding.setFitWidth(80);
+                domeBuilding.setFitHeight(80);
+                pane.getChildren().add(domeBuilding);
+            }
+
+            //get ImageView attribute of cell
+            Class<?> c = getClass();
+            Field field;
+            ImageView workerImageView = null;
+
+            try {
+
+                field = c.getDeclaredField("c" + col + "r" + row);
+                workerImageView = (ImageView) field.get(this);
+
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
 
 
-                //get ImageView attribute of cell
-                Class<?> c = getClass();
-                Field field;
-                ImageView workerImageView = null;
+            //cell contains worker
+            if (cell.hasWorker()) {
+
+                String sex = cell.getWorkerClient().getWorkerSex();
+                String color = cell.getWorkerClient().getWorkerColor();
+
+
+                //get image of worker in cell
+                Field field2;
+                Image workerImage = null;
 
                 try {
-
-                    field = c.getDeclaredField("c" + col + "r" + row);
-                    workerImageView = (ImageView) field.get(this);
+                    String workerId = color + sex;
+                    field2 = c.getDeclaredField(workerId.toLowerCase());
+                    workerImage = (Image) field2.get(this);
 
                 } catch (NoSuchFieldException | IllegalAccessException e) {
                     e.printStackTrace();
                 }
+                //workerImageView.toFront();
+                workerImageView.setViewOrder(-1.0);
+                workerImageView.setImage(workerImage);
 
-
-                //cell contains worker
-                if (cell.hasWorker()) {
-
-                    String sex = cell.getWorkerClient().getWorkerSex();
-                    String color = cell.getWorkerClient().getWorkerColor();
-
-
-                    //get image of worker in cell
-                    Field field2;
-                    Image workerImage = null;
-
-                    try {
-                        String workerId = color + sex;
-                        field2 = c.getDeclaredField(workerId.toLowerCase());
-                        workerImage = (Image) field2.get(this);
-
-                    } catch (NoSuchFieldException | IllegalAccessException e) {
-                        e.printStackTrace();
-                    }
-
-                    workerImageView.setImage(workerImage);
-
-                } else {
-                    workerImageView.setImage(null);
-                }
+            } else {
+                workerImageView.setImage(null);
             }
         }
+        //}
     }
 
-    protected void askInitialWorkerPosition(String workerSex) {
-        mainText.setText("Place your " + workerSex.toLowerCase() + " worker!");
+    protected void printToMainText(String text) {
+        mainText.setText(text);
     }
-
-    protected void askBuildingDirection() {
-        mainText.setText("Build!");
-    }
-
-    protected void askMovementDirection() {
-        mainText.setText("Move your worker!");
-    }
-
-    protected void askSelectedWorker() {
-        mainText.setText("Select one of your workers!");
-    }
-
 
     protected void setCellRequested(boolean cellRequested) {
         this.cellRequested = cellRequested;
     }
-
-    protected void invalidWorkerSelection() {
-        mainText.setText("You have to select one of your workers!\nTry Again");
-    }
-
 
     protected void waitChallengerStartPlayer() {
 

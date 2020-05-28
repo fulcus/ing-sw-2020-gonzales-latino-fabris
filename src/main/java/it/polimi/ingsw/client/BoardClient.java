@@ -26,14 +26,13 @@ public class BoardClient {
 
     /**
      * Calculates position of cell relative to worker position.
-     * @param worker worker
      * @param x x coordinate of cell
      * @param y y coordinate of cell
      * @return relative position
      */
-    private int[] workerCellRelativePosition(WorkerClient worker, int x, int y) {
-        int xWorker = worker.getXPosition();
-        int yWorker = worker.getYPosition();
+    private int[] workerCellRelativePosition(int xWorker, int yWorker, int x, int y) {
+
+        System.out.println("worker position: "+ xWorker +","+ yWorker);
 
         int[] position = new int[2];
 
@@ -43,11 +42,12 @@ public class BoardClient {
         return position;
     }
 
-    public String workerCellRelativePositionCompass(WorkerClient worker, int x, int y) {
-        int[] position = workerCellRelativePosition(worker,x,y);
+    public String workerCellRelativePositionCompass(int xWorker, int yWorker, int xTo, int yTo) {
+        int[] position = workerCellRelativePosition(xWorker,yWorker,xTo,yTo);
 
         int relativeX = position[0];
         int relativeY = position[1];
+        System.out.println("relativeX,Y: "+relativeX+","+relativeY);
 
         String resultX = null;
         String resultY = null;

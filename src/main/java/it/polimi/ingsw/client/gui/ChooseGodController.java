@@ -187,10 +187,10 @@ public class ChooseGodController {
         int godsLeftToChoose = numOfPlayers - alreadyChosenGods;
 
         if (godsLeftToChoose == 2 || godsLeftToChoose == 3)
-            mainText.setText("You are the Challenger! Select " + godsLeftToChoose + "gods");
+            mainText.setText("You are the Challenger! Select " + godsLeftToChoose + " gods");
 
         else
-            mainText.setText("You are the Challenger! Select " + godsLeftToChoose + "god");
+            mainText.setText("You are the Challenger! Select " + godsLeftToChoose + " god");
 
     }
 
