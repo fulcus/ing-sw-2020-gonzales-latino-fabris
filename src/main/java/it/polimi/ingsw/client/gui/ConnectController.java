@@ -2,6 +2,8 @@ package it.polimi.ingsw.client.gui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
@@ -13,10 +15,10 @@ public class ConnectController {
     private TextField IPText;
 
     @FXML
-    private Text error;     //todo
+    private Text error;
 
     @FXML
-    private Text waitForGame;
+    private ImageView waitForGame;
 
     public ConnectController() {
     }
