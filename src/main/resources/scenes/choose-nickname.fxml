@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -7,51 +8,54 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="700.0" styleClass="background" stylesheets="@../css/welcome.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.NicknameController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="507.0" prefWidth="603.0" styleClass="background" stylesheets="@../css/choose-num-of-players.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.NicknameController">
    <children>
-      <ImageView fitHeight="236.0" fitWidth="339.0" layoutX="422.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="236.0" fitWidth="339.0" layoutX="316.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../title/title_cloud_back_right.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="397.0" fitWidth="472.0" layoutX="-92.0" layoutY="390.0" pickOnBounds="true" preserveRatio="true" rotate="18.4">
+      <ImageView fitHeight="332.0" fitWidth="427.0" layoutX="-102.0" layoutY="363.0" pickOnBounds="true" preserveRatio="true" rotate="18.4">
          <image>
             <Image url="@../title/title_cloud_back_horizon.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="291.0" fitWidth="419.0" layoutX="362.0" layoutY="311.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="269.0" fitWidth="351.0" layoutX="317.0" layoutY="291.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../title/title_FG_cloud.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="160.0" fitWidth="218.0" layoutX="-19.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="135.0" fitWidth="193.0" layoutX="-19.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../title/title_FG_cloud2.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="201.0" fitWidth="473.0" layoutX="125.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" fitWidth="450.0" layoutX="98.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../title/santorini-logo.png" />
          </image>
       </ImageView>
-      <TextField fx:id="nicknameText" alignment="CENTER" layoutX="254.0" layoutY="325.0" minWidth="9.0" onKeyPressed="#login" pickOnBounds="false" prefHeight="38.0" prefWidth="208.0" promptText="type nick here">
+      <TextField fx:id="nicknameText" alignment="CENTER" layoutX="220.0" layoutY="268.0" minWidth="9.0" onKeyPressed="#login" pickOnBounds="false" prefHeight="41.0" prefWidth="193.0" promptText="type nick here">
          <font>
             <Font name="Negotiate Free" size="15.0" />
          </font>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
       </TextField>
-      <Text fill="#2a1b75" layoutX="285.0" layoutY="320.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter your nickname:" textAlignment="CENTER">
+      <Text fill="#2a1b75" layoutX="240.0" layoutY="259.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter your nickname:" textAlignment="CENTER">
          <font>
             <Font name="Negotiate Free" size="17.0" />
          </font>
       </Text>
-      <Text fx:id="errorNick" fill="RED" layoutX="254.0" layoutY="389.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ERROR: NOT AVAILABLE NICKNAME" textAlignment="CENTER" visible="false">
+      <Text fx:id="errorNick" fill="RED" layoutX="212.0" layoutY="325.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ERROR: NOT AVAILABLE NICKNAME" textAlignment="CENTER" wrappingWidth="208.64202880859375">
+         <font>
+            <Font name="Negotiate Free" size="13.0" />
+         </font>
+      </Text>
+      <Text fx:id="waitingOther" fill="#2a1b75" layoutX="192.0" layoutY="350.0" strokeType="OUTSIDE" strokeWidth="0.0" text="WAIT: Someone is choosing his nickname..." textAlignment="CENTER">
          <font>
             <Font name="Negotiate Free" size="14.0" />
-         </font>
-      </Text>
-      <Text fx:id="waitingOther" fill="#2a1b75" layoutX="207.0" layoutY="428.0" strokeType="OUTSIDE" strokeWidth="0.0" text="WAIT: Someone is choosing his nickname..." textAlignment="CENTER" visible="false">
-         <font>
-            <Font name="Negotiate Free" size="17.0" />
          </font>
       </Text>
    </children>

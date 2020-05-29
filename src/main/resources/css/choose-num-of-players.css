@@ -9,31 +9,38 @@
 }
 
 .background {
-    -fx-image: url('../title/title_sky.png');
+    -fx-background-image: url('../title/title_sky.png');
     -fx-background-size: cover;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 
-
-.buttonTitle:hover {
-    -fx-image: url('../title/santorini-logo.png');
+.button {
+    -fx-background-image:url('../buttons/cm_btn_blue.png');
     -fx-background-size: 100%;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-background-color: transparent;
     -fx-content-display: top;
+    -fx-font-family: "Ink Blossoms";
     -fx-font-size: 15;
+
 }
 
-
-.buttonTitle {
-    -fx-background-image: url('../title/santorini-logo.png');
+.button:pressed {
+    -fx-background-image:url('../buttons/cm_btn_blue_pressed.png');
     -fx-background-size: 100%;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-background-color: transparent;
-    -fx-content-display: top;
-    -fx-font-size: 15;
 }
 
+.text-field {
+    -fx-background-image:url('../labels/clp_textbar.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-color: transparent;
+    -fx-background-size: cover;
+    -fx-text-inner-color: white;
+    -fx-font-family: "Negotiate Free";
+}

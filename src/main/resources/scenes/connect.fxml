@@ -8,48 +8,48 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="700.0" styleClass="background" stylesheets="@../css/welcome.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.ConnectController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="507.0" prefWidth="603.0" styleClass="background" stylesheets="@../css/choose-num-of-players.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.ConnectController">
    <children>
-      <ImageView fitHeight="236.0" fitWidth="339.0" layoutX="422.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="236.0" fitWidth="339.0" layoutX="316.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../title/title_cloud_back_right.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="397.0" fitWidth="472.0" layoutX="-92.0" layoutY="390.0" pickOnBounds="true" preserveRatio="true" rotate="18.4">
+      <ImageView fitHeight="322.0" fitWidth="427.0" layoutX="-102.0" layoutY="363.0" pickOnBounds="true" preserveRatio="true" rotate="18.4">
          <image>
             <Image url="@../title/title_cloud_back_horizon.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="291.0" fitWidth="419.0" layoutX="362.0" layoutY="311.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="269.0" fitWidth="351.0" layoutX="317.0" layoutY="291.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../title/title_FG_cloud.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="160.0" fitWidth="218.0" layoutX="-19.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="135.0" fitWidth="193.0" layoutX="-19.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../title/title_FG_cloud2.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="201.0" fitWidth="473.0" layoutX="125.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" fitWidth="450.0" layoutX="98.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../title/santorini-logo.png" />
          </image>
       </ImageView>
-      <Text fill="#2a1b75" layoutX="303.0" layoutY="295.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter server IP:" textAlignment="CENTER" wrappingWidth="117.04000854492188">
+      <Text fill="#2a1b75" layoutX="257.0" layoutY="258.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter server IP:" textAlignment="CENTER" wrappingWidth="117.04000854492188">
          <font>
             <Font name="Negotiate Free" size="16.0" />
          </font>
       </Text>
-      <TextField fx:id="IPText" alignment="CENTER" layoutX="265.0" layoutY="304.0" minWidth="9.0" onKeyPressed="#connect" prefHeight="41.0" prefWidth="193.0" text="santorini.servegame.com">
+      <TextField fx:id="IPText" alignment="CENTER" layoutX="220.0" layoutY="270.0" minWidth="9.0" onKeyPressed="#connect" prefHeight="41.0" prefWidth="193.0" text="santorini.servegame.com">
          <padding>
             <Insets bottom="7.0" />
          </padding></TextField>
-      <Text fx:id="error" fill="#b50000" layoutX="316.0" layoutY="372.0" strokeType="OUTSIDE" strokeWidth="0.0" text="wrong address!" textAlignment="CENTER" visible="false">
+      <Text fx:id="error" fill="#b50000" layoutX="263.0" layoutY="326.0" strokeType="OUTSIDE" strokeWidth="0.0" text="WRONG ADDRESS" textAlignment="CENTER">
          <font>
-            <Font name="Negotiate Free" size="14.0" />
+            <Font name="Negotiate Free" size="13.0" />
          </font>
       </Text>
-      <ImageView fx:id="waitForGame" fitHeight="48.0" fitWidth="47.0" layoutX="339.0" layoutY="393.0" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fx:id="waitForGame" fitHeight="48.0" fitWidth="47.0" layoutX="292.0" layoutY="344.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@../labels/connect_load.gif" />
          </image>

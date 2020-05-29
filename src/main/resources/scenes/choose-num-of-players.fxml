@@ -8,39 +8,39 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="700.0" styleClass="background" stylesheets="@../css/welcome.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.NumberOfPlayersController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="507.0" prefWidth="603.0" styleClass="background" stylesheets="@../css/choose-num-of-players.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.NumberOfPlayersController">
    <children>
-      <ImageView fitHeight="236.0" fitWidth="339.0" layoutX="422.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="236.0" fitWidth="339.0" layoutX="316.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../title/title_cloud_back_right.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="397.0" fitWidth="472.0" layoutX="-103.0" layoutY="376.0" pickOnBounds="true" preserveRatio="true" rotate="18.4">
+      <ImageView fitHeight="332.0" fitWidth="472.0" layoutX="-102.0" layoutY="363.0" pickOnBounds="true" preserveRatio="true" rotate="18.4">
          <image>
             <Image url="@../title/title_cloud_back_horizon.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="291.0" fitWidth="419.0" layoutX="362.0" layoutY="280.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="269.0" fitWidth="351.0" layoutX="317.0" layoutY="291.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../title/title_FG_cloud.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="160.0" fitWidth="218.0" layoutX="-19.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="135.0" fitWidth="193.0" layoutX="-19.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../title/title_FG_cloud2.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="201.0" fitWidth="473.0" layoutX="125.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" fitWidth="450.0" layoutX="98.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../title/santorini-logo.png" />
          </image>
       </ImageView>
-      <Text fill="#2a1b75" layoutX="208.0" layoutY="308.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose the number of players for the game">
+      <Text fill="#2a1b75" layoutX="162.0" layoutY="258.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose the number of players for the game">
          <font>
             <Font name="Negotiate Free" size="17.0" />
          </font>
       </Text>
-      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="394.0" layoutY="328.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#three" prefHeight="48.0" prefWidth="81.0" stylesheets="@../css/welcome.css" text="3" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="184.0" AnchorPane.leftAnchor="394.0" AnchorPane.topAnchor="328.0">
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="347.0" layoutY="275.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#three" prefHeight="48.0" prefWidth="81.0" stylesheets="@../css/welcome.css" text="3" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="184.0" AnchorPane.leftAnchor="347.0" AnchorPane.topAnchor="275.0">
          <font>
             <Font name="Ink Blossoms" size="16.0" />
          </font>
@@ -48,7 +48,7 @@
             <Insets bottom="10.0" />
          </padding>
       </Button>
-      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="242.0" layoutY="328.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#two" prefHeight="48.0" prefWidth="81.0" stylesheets="@../css/welcome.css" text="2" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="184.0" AnchorPane.leftAnchor="242.0" AnchorPane.rightAnchor="377.0" AnchorPane.topAnchor="328.0">
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="211.0" layoutY="275.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#two" prefHeight="48.0" prefWidth="81.0" stylesheets="@../css/welcome.css" text="2" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="184.0" AnchorPane.leftAnchor="211.0" AnchorPane.rightAnchor="311.0" AnchorPane.topAnchor="275.0">
          <font>
             <Font name="Ink Blossoms" size="16.0" />
          </font>
