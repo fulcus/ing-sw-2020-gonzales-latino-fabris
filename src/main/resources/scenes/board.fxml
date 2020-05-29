@@ -45,103 +45,103 @@
       
       
       
-                              <ImageView fx:id="c0r0" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" />
+                              <ImageView fx:id="c0r0" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" onMouseEntered="#glowWorker00" onMouseExited="#normalWorker00" />
                      </children></Pane>
                         <Pane onMouseClicked="#chooseCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
                      <children>
-                              <ImageView fx:id="c1r0" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" />
+                              <ImageView fx:id="c1r0" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" onMouseEntered="#glowWorker10" onMouseExited="#normalWorker10" />
                      </children></Pane>
                         <Pane onMouseClicked="#chooseCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="0">
                      <children>
-                              <ImageView fx:id="c2r0" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" />
+                              <ImageView fx:id="c2r0" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" onMouseEntered="#glowWorker20" onMouseExited="#normalWorker20" />
                      </children></Pane>
                         <Pane onMouseClicked="#chooseCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="0">
                      <children>
-                              <ImageView fx:id="c3r0" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" />
+                              <ImageView fx:id="c3r0" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" onMouseEntered="#glowWorker30" onMouseExited="#normalWorker30" />
                      </children></Pane>
                         <Pane onMouseClicked="#chooseCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="0">
                      <children>
-                              <ImageView fx:id="c4r0" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" />
+                              <ImageView fx:id="c4r0" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" onMouseEntered="#glowWorker40" onMouseExited="#normalWorker40" />
                      </children></Pane>
                         <Pane onMouseClicked="#chooseCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
                      <children>
-                              <ImageView fx:id="c0r1" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" />
+                              <ImageView fx:id="c0r1" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" onMouseEntered="#glowWorker01" onMouseExited="#normalWorker01" />
                      </children></Pane>
                         <Pane onMouseClicked="#chooseCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
-                              <ImageView fx:id="c1r1" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" />
+                              <ImageView fx:id="c1r1" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" onMouseEntered="#glowWorker11" onMouseExited="#normalWorker11" />
                      </children></Pane>
                         <Pane onMouseClicked="#chooseCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                      <children>
-                              <ImageView fx:id="c2r1" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" />
+                              <ImageView fx:id="c2r1" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" onMouseEntered="#glowWorker21" onMouseExited="#normalWorker21" />
                      </children></Pane>
                         <Pane onMouseClicked="#chooseCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
                      <children>
-                              <ImageView fx:id="c3r1" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" />
+                              <ImageView fx:id="c3r1" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" onMouseEntered="#glowWorker31" onMouseExited="#normalWorker31" />
                      </children></Pane>
                         <Pane onMouseClicked="#chooseCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
                      <children>
-                              <ImageView fx:id="c4r1" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" />
+                              <ImageView fx:id="c4r1" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" onMouseEntered="#glowWorker41" onMouseExited="#normalWorker41" />
                      </children></Pane>
                         <Pane onMouseClicked="#chooseCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
                      <children>
-                              <ImageView fx:id="c0r2" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" />
+                              <ImageView fx:id="c0r2" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" onMouseEntered="#glowWorker02" onMouseExited="#normalWorker02" />
                      </children></Pane>
                         <Pane onMouseClicked="#chooseCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <children>
-                              <ImageView fx:id="c1r2" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" />
+                              <ImageView fx:id="c1r2" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" onMouseEntered="#glowWorker12" onMouseExited="#normalWorker12" />
                      </children></Pane>
                         <Pane onMouseClicked="#chooseCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                      <children>
-                              <ImageView fx:id="c2r2" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" />
+                              <ImageView fx:id="c2r2" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" onMouseEntered="#glowWorker22" onMouseExited="#normalWorker22" />
                      </children></Pane>
                         <Pane onMouseClicked="#chooseCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
                      <children>
-                              <ImageView fx:id="c3r2" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" />
+                              <ImageView fx:id="c3r2" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" onMouseEntered="#glowWorker32" onMouseExited="#normalWorker32" />
                      </children></Pane>
                         <Pane onMouseClicked="#chooseCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="2">
                      <children>
-                              <ImageView fx:id="c4r2" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" />
+                              <ImageView fx:id="c4r2" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" onMouseEntered="#glowWorker42" onMouseExited="#normalWorker42" />
                      </children></Pane>
                         <Pane onMouseClicked="#chooseCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="3">
                      <children>
-                              <ImageView fx:id="c0r3" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" />
+                              <ImageView fx:id="c0r3" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" onMouseEntered="#glowWorker03" onMouseExited="#normalWorker03" />
                      </children></Pane>
                         <Pane onMouseClicked="#chooseCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <children>
-                              <ImageView fx:id="c1r3" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" />
+                              <ImageView fx:id="c1r3" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" onMouseEntered="#glowWorker13" onMouseExited="#normalWorker13" />
                      </children></Pane>
                         <Pane onMouseClicked="#chooseCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
                      <children>
-                              <ImageView fx:id="c2r3" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" />
+                              <ImageView fx:id="c2r3" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" onMouseEntered="#glowWorker23" onMouseExited="#normalWorker23" />
                      </children></Pane>
                         <Pane onMouseClicked="#chooseCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="3">
                      <children>
-                              <ImageView fx:id="c3r3" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" />
+                              <ImageView fx:id="c3r3" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" onMouseEntered="#glowWorker33" onMouseExited="#normalWorker33" />
                      </children></Pane>
                         <Pane onMouseClicked="#chooseCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="3">
                      <children>
-                              <ImageView fx:id="c4r3" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" />
+                              <ImageView fx:id="c4r3" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" onMouseEntered="#glowWorker43" onMouseExited="#normalWorker43" />
                      </children></Pane>
                         <Pane onMouseClicked="#chooseCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="4">
                      <children>
-                              <ImageView fx:id="c0r4" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" />
+                              <ImageView fx:id="c0r4" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" onMouseEntered="#glowWorker04" onMouseExited="#normalWorker04" />
                      </children></Pane>
                         <Pane onMouseClicked="#chooseCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <children>
-                              <ImageView fx:id="c1r4" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" />
+                              <ImageView fx:id="c1r4" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" onMouseEntered="#glowWorker14" onMouseExited="#normalWorker14" />
                      </children></Pane>
                         <Pane onMouseClicked="#chooseCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
                      <children>
-                              <ImageView fx:id="c2r4" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" />
+                              <ImageView fx:id="c2r4" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" onMouseEntered="#glowWorker24" onMouseExited="#normalWorker24" />
                      </children></Pane>
                         <Pane onMouseClicked="#chooseCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
                      <children>
-                              <ImageView fx:id="c3r4" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" />
+                              <ImageView fx:id="c3r4" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" onMouseEntered="#glowWorker34" onMouseExited="#normalWorker34" />
                      </children></Pane>
                         <Pane onMouseClicked="#chooseCell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="4">
                      <children>
-                              <ImageView fx:id="c4r4" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" />
+                              <ImageView fx:id="c4r4" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#chooseCell" onMouseEntered="#glowWorker44" onMouseExited="#normalWorker44" />
                      </children></Pane>
                     </children>
                 </GridPane>
@@ -242,17 +242,17 @@
                         <Insets bottom="14.0" left="15.0" top="137.0" />
                     </GridPane.margin>
                 </ImageView>
-                <Text fx:id="myNickname" fill="#654f3e" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="You" wrappingWidth="73.27805137634277" GridPane.rowIndex="1">
+                <Text fx:id="myNickname" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="You" wrappingWidth="73.27805137634277" GridPane.rowIndex="1">
                     <GridPane.margin>
                         <Insets bottom="15.0" left="20.0" top="137.0" />
                     </GridPane.margin>
                 </Text>
-                <Text fx:id="otherNicknameRight" fill="#654f3e" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Nickname1" wrappingWidth="77.31418418884277" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                <Text fx:id="otherNicknameRight" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Nick1" wrappingWidth="77.31418418884277" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                     <GridPane.margin>
                         <Insets bottom="15.0" right="20.0" top="137.0" />
                     </GridPane.margin>
                 </Text>
-                <Text fx:id="otherNicknameLeft" fill="#654f3e" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Nickname2" wrappingWidth="89.00479698181152" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                <Text fx:id="otherNicknameLeft" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Nick2" wrappingWidth="89.00479698181152" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                     <GridPane.margin>
                         <Insets bottom="15.0" right="103.0" top="137.0" />
                     </GridPane.margin>
