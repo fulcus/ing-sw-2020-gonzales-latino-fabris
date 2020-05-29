@@ -36,30 +36,30 @@
       </ImageView>
       <Text fill="#2e1a80" layoutX="233.0" layoutY="258.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose your color:" textAlignment="CENTER" wrappingWidth="165.65576171875">
          <font>
-            <Font name="Negotiate Free" size="14.0" />
+            <Font name="Negotiate Free" size="15.0" />
          </font>
       </Text>
-      <Text fx:id="colorError" fill="RED" layoutX="223.0" layoutY="405.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ERROR: NOT AVAILABLE COLOR" textAlignment="CENTER">
+      <Text fx:id="colorError" fill="RED" layoutX="223.0" layoutY="405.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ERROR: NOT AVAILABLE COLOR" textAlignment="CENTER" visible="false">
          <font>
             <Font name="Negotiate Free" size="14.0" />
          </font>
       </Text>
-      <Text fx:id="waitingOther" fill="#4a1ab2" layoutX="207.0" layoutY="427.0" strokeType="OUTSIDE" strokeWidth="0.0" text="WAIT: Someone is choosing his color..." textAlignment="CENTER">
+      <Text fx:id="waitingOther" fill="#4a1ab2" layoutX="207.0" layoutY="427.0" strokeType="OUTSIDE" strokeWidth="0.0" text="WAIT: Someone is choosing his color..." textAlignment="CENTER" visible="false">
          <font>
             <Font name="Negotiate Free" size="14.0" />
          </font>
       </Text>
-      <Button fx:id="beige" alignment="CENTER" contentDisplay="CENTER" disable="true" layoutX="415.0" layoutY="272.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#beige" prefHeight="106.0" prefWidth="100.0" styleClass="gold-button" stylesheets="@../css/choose-color.css" textAlignment="CENTER" textFill="WHITE">
+      <Button fx:id="beige" alignment="CENTER" contentDisplay="CENTER" disable="true" layoutX="399.0" layoutY="271.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#beige" prefHeight="95.0" prefWidth="100.0" styleClass="gold-button" stylesheets="@../css/choose-color.css" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="Ink Blossoms" size="13.0" />
          </font>
       </Button>
-      <Button fx:id="white" disable="true" layoutX="265.0" layoutY="271.0" mnemonicParsing="false" onMouseClicked="#white" prefHeight="108.0" prefWidth="102.0" styleClass="white-button" stylesheets="@../css/choose-color.css" textFill="#837e7e">
+      <Button fx:id="white" disable="true" layoutX="265.0" layoutY="271.0" mnemonicParsing="false" onMouseClicked="#white" prefHeight="95.0" prefWidth="100.0" styleClass="white-button" stylesheets="@../css/choose-color.css" textFill="#837e7e">
          <font>
             <Font name="Ink Blossoms" size="13.0" />
          </font>
       </Button>
-      <Button fx:id="blue" disable="true" layoutX="117.0" layoutY="271.0" mnemonicParsing="false" onMouseClicked="#blue" prefHeight="108.0" prefWidth="102.0" styleClass="blue-button" stylesheets="@../css/choose-color.css" textAlignment="RIGHT" textFill="WHITE">
+      <Button fx:id="blue" disable="true" layoutX="141.0" layoutY="271.0" mnemonicParsing="false" onMouseClicked="#blue" prefHeight="95.0" prefWidth="92.0" styleClass="blue-button" stylesheets="@../css/choose-color.css" textAlignment="RIGHT" textFill="WHITE">
          <font>
             <Font name="Ink Blossoms" size="13.0" />
          </font>

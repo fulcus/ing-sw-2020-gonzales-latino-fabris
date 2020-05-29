@@ -35,9 +35,9 @@
             <Image url="@../title/santorini-logo.png" />
          </image>
       </ImageView>
-      <Text fill="#2a1b75" layoutX="162.0" layoutY="258.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose the number of players for the game">
+      <Text fill="#2a1b75" layoutX="185.0" layoutY="258.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose the number of players for the game">
          <font>
-            <Font name="Negotiate Free" size="17.0" />
+            <Font name="Negotiate Free" size="15.0" />
          </font>
       </Text>
       <Button alignment="CENTER" contentDisplay="CENTER" layoutX="347.0" layoutY="275.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#three" prefHeight="48.0" prefWidth="81.0" stylesheets="@../css/welcome.css" text="3" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="184.0" AnchorPane.leftAnchor="347.0" AnchorPane.topAnchor="275.0">

@@ -37,14 +37,14 @@
       </ImageView>
       <Text fill="#2a1b75" layoutX="257.0" layoutY="258.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter server IP:" textAlignment="CENTER" wrappingWidth="117.04000854492188">
          <font>
-            <Font name="Negotiate Free" size="16.0" />
+            <Font name="Negotiate Free" size="15.0" />
          </font>
       </Text>
       <TextField fx:id="IPText" alignment="CENTER" layoutX="220.0" layoutY="270.0" minWidth="9.0" onKeyPressed="#connect" prefHeight="41.0" prefWidth="193.0" text="santorini.servegame.com">
          <padding>
             <Insets bottom="7.0" />
          </padding></TextField>
-      <Text fx:id="error" fill="#b50000" layoutX="263.0" layoutY="326.0" strokeType="OUTSIDE" strokeWidth="0.0" text="WRONG ADDRESS" textAlignment="CENTER">
+      <Text fx:id="error" fill="#b50000" layoutX="263.0" layoutY="326.0" strokeType="OUTSIDE" strokeWidth="0.0" text="WRONG ADDRESS" textAlignment="CENTER" visible="false">
          <font>
             <Font name="Negotiate Free" size="13.0" />
          </font>
