@@ -10,6 +10,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -552,7 +554,15 @@ public class GuiManager implements View {
      * Prints to screen that one of the player has won the game
      */
     public boolean winningView() {
-        return false;
+
+        try {
+            AnchorPane win = FXMLLoader.load(getClass().getResource("/scenes/win.fxml"));
+            Platform.runLater(()->((GridPane)boardRoot).getChildren().add(win));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return true;
     }
 
     public void unableToMoveLose() {
@@ -923,13 +933,19 @@ public class GuiManager implements View {
     }
 
     /**
-     * Lets player know that he has lost, and who is the winner.
+     * Lets player know that he has lost, and who is the winner
      *
      * @param winner nickname of the winner
      */
     public boolean losingView(String winner) {
-        return false;
+
+        try {
+            AnchorPane lose = FXMLLoader.load(getClass().getResource("/scenes/lose.fxml"));
+            Platform.runLater(()->((GridPane)boardRoot).getChildren().add(lose));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return true;
     }
-
-
 }

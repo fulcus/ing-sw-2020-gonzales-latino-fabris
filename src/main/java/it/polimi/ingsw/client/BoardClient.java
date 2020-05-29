@@ -49,8 +49,8 @@ public class BoardClient {
         int relativeY = position[1];
         System.out.println("relativeX,Y: "+relativeX+","+relativeY);
 
-        String resultX = null;
-        String resultY = null;
+        String resultX;
+        String resultY;
 
         switch (relativeX) {
             case -1:
@@ -82,8 +82,12 @@ public class BoardClient {
                 return "FALSE";
         }
 
-        return resultX + resultY;
+        String result = resultX + resultY;
 
+        if(result.equals(""))
+            return "U";
+
+        return result;
     }
 
     public boolean isInBoard(int x, int y) {

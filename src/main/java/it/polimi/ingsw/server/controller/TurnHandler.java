@@ -356,8 +356,7 @@ public class TurnHandler implements Runnable {
     private void turn(Worker turnWorker) {
 
         Worker otherWorker = null;
-        String loserNickname = null;
-        boolean winException = false;
+        String loserNickname;
 
         for (Worker worker : currentPlayer.getWorkers()) {
             if (worker != turnWorker)
