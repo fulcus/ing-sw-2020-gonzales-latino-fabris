@@ -22,15 +22,13 @@ public class WelcomeController {
 
     @FXML
     private void glow() {
-        Glow glow = new Glow();
-        glow.setLevel(3);
+        Glow glow = new Glow(0.5);
         start.setEffect(glow);
     }
 
     @FXML
     private void normal() {
-        Glow glow = new Glow();
-        glow.setLevel(0);
+        Glow glow = new Glow(0);
         start.setEffect(glow);
     }
 
