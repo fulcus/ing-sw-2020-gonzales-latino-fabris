@@ -33,7 +33,7 @@ public class GuiManager implements View {
 
     protected static final AtomicReference<BoardClient> boardClient = new AtomicReference<>(new BoardClient());
 
-    private final AtomicReference<WorkerClient> selectedWorker = new AtomicReference<>();
+
     private final AtomicInteger xWorker = new AtomicInteger();
     private final AtomicInteger yWorker = new AtomicInteger();
 
@@ -41,12 +41,9 @@ public class GuiManager implements View {
     protected static final AtomicInteger playersConnected = new AtomicInteger(0);
     protected static final AtomicBoolean isInLobby = new AtomicBoolean(false);
 
-
     protected static final SynchronousQueue<Object> queue = new SynchronousQueue<>();
     protected static String playerNickname;
     private String playerColor;
-    private String challenger;
-
 
     //roots of scenes
     protected static Parent numberOfPlayersRoot;
@@ -614,7 +611,10 @@ public class GuiManager implements View {
      * @return The compass direction of the place where to build.
      */
     public String askBuildingDirection() {
+        return build();
+    }
 
+    private String build() {
         int[] chosenCell = new int[2];
 
 
@@ -632,14 +632,13 @@ public class GuiManager implements View {
             e.printStackTrace();
         }
 
-        System.out.println("building cell selected: " + chosenCell[0] +","+ chosenCell[1]);
+        System.out.println("building cell selected: " + chosenCell[0] + "," + chosenCell[1]);
 
         String result = boardClient.get()
-                .workerCellRelativePositionCompass(xWorker.get(),yWorker.get(), chosenCell[0], chosenCell[1]);
+                .workerCellRelativePositionCompass(xWorker.get(), yWorker.get(), chosenCell[0], chosenCell[1]);
 
 
         System.out.println("converted in: " + result);
-
 
         return result;
     }
@@ -650,8 +649,16 @@ public class GuiManager implements View {
      * @return The compass direction of the place where to build.
      */
     public String[] askBuildingDirectionAtlas() {
-        return new String[0];
+
+        String[] selectedBuildingDirection = new String[2];
+
+        selectedBuildingDirection[0] = build(); //choose building direction (N,S,W,E..)
+        selectedBuildingDirection[1] = askToUseGodPower(); //building type (B or D)
+
+        return selectedBuildingDirection;
+
     }
+
 
     /**
      * This method asks the user to insert the direction of his next movement.
@@ -659,6 +666,10 @@ public class GuiManager implements View {
      * @return The compass direction of the movement.
      */
     public String askMovementDirection() {
+        return move();
+    }
+
+    private String move() {
 
         int[] chosenCell = new int[2];
 
@@ -675,9 +686,8 @@ public class GuiManager implements View {
             e.printStackTrace();
         }
 
-        //todo verificare row column
         String result = boardClient.get()
-                .workerCellRelativePositionCompass(xWorker.get(),yWorker.get(), chosenCell[0], chosenCell[1]);
+                .workerCellRelativePositionCompass(xWorker.get(), yWorker.get(), chosenCell[0], chosenCell[1]);
 
         System.out.println("converted in: " + result);
 
@@ -685,7 +695,6 @@ public class GuiManager implements View {
         yWorker.set(chosenCell[1]);
 
         return result;
-
     }
 
     /**
@@ -694,7 +703,24 @@ public class GuiManager implements View {
      * @return The will of the player on keeping going moving his worker on the board.
      */
     public String askMoveAgain() {
-        return null;
+        return askToUseGodPower();
+    }
+
+    private String askToUseGodPower() {
+        Platform.runLater(() -> {
+            boardController.setGodPowerRequested(true);
+            boardController.printToMainText("Choose if you want to use your god power");
+        });
+
+        String answer = null;
+
+        try {
+            answer = (String) queue.take();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return answer;
     }
 
     /**
@@ -703,7 +729,7 @@ public class GuiManager implements View {
      * @return The will of the player to reach an higher level.
      */
     public String askWantToMoveUp() {
-        return null;
+        return null;                //todo delete everywhere
     }
 
     /**
@@ -731,7 +757,6 @@ public class GuiManager implements View {
      * This is allowed only when playing with Zeus.
      */
     public void printBuildUnderneath() {
-
     }
 
     /**
@@ -740,7 +765,7 @@ public class GuiManager implements View {
      * @return The will of the player to build again.
      */
     public String askBuildAgainHephaestus() {
-        return null;
+        return askToUseGodPower();
     }
 
     /**
@@ -749,7 +774,7 @@ public class GuiManager implements View {
      * @return The will of the player to build again.
      */
     public String askBuildAgainDemeter() {
-        return null;
+        return askToUseGodPower();
     }
 
     /**
@@ -758,7 +783,7 @@ public class GuiManager implements View {
      * @return The will of the player to build again.
      */
     public String askBuildAgainHestia() {
-        return null;
+        return askToUseGodPower();
     }
 
     /**
@@ -767,7 +792,7 @@ public class GuiManager implements View {
      * @return The will of the player to build before moving.
      */
     public String askBuildPrometheus() {
-        return null;
+        return askToUseGodPower();
     }
 
     /**
@@ -859,8 +884,8 @@ public class GuiManager implements View {
     public void waitChallengerStartPlayer() {
         Platform.runLater(() -> {
             boardController.init();
+            boardController.printToMainText("Waiting for challenger to choose the start player...");
             Gui.getStage().setScene(new Scene(boardRoot));
-            boardController.waitChallengerStartPlayer();
         });
     }
 
@@ -870,7 +895,7 @@ public class GuiManager implements View {
      * @param startPlayer start player nickname
      */
     public void printStartPlayer(String startPlayer) {
-        Platform.runLater(()-> {
+        Platform.runLater(() -> {
             //first if is useless: will be immediately overwritten by initial worker position
             if (startPlayer.equals(playerNickname))
                 boardController.printToMainText("You are the start player!");

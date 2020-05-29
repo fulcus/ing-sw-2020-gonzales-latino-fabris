@@ -39,7 +39,6 @@ public class ClientInputReader implements Runnable {
     @Override
     public void run(){
 
-
         Socket clientSocket = client.getSocket();
 
         try {
@@ -48,9 +47,7 @@ public class ClientInputReader implements Runnable {
             e.printStackTrace();
         }
 
-
         while (connected) {
-
 
             try {
 
@@ -58,16 +55,13 @@ public class ClientInputReader implements Runnable {
 
                 clientSocket.setSoTimeout(15000);
 
-
                 if (readObject instanceof Message) {
 
                     Message readMessage = (Message) readObject;
 
                     if (readMessage.getMethod().toUpperCase().equals("PING")) {
                         System.out.println("Ping Received from " + clientSocket.getInetAddress());
-                    }
-
-                    else
+                    } else
                         System.out.println("Received message different from ping");
 
                 } else {

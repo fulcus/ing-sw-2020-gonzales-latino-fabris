@@ -54,20 +54,20 @@ public class ChooseGodController {
     @FXML
     private Button select;
 
-    private final String apolloDescription = "Your Worker may move into an opponent Worker’s space by forcing their Worker to the space yours just vacated.";
-    private final String artemisDescription = "Your Worker may move one additional time, but not back to its initial space.";
-    private final String athenaDescription = "If one of your Workers moved up on your last turn, opponent Workers cannot move up this turn.";
-    private final String atlasDescription = "Your Worker may build a dome at any level.";
-    private final String charonDescription = "Before your Worker moves, you may force a neighboring opponent Worker to the space directly on the other side of your Worker, if that space is unoccupied.";
-    private final String demeterDescription = "Your Worker may build one additional time, but not on the same space.";
-    private final String hephaestusDescription = "Your Worker may build one additional block (not dome) on top of your first block.";
-    private final String heraDescription = "An opponent cannot win by moving into a perimeter space.";
-    private final String hestiaDescription = "Your Worker may build one additional time, but this cannot be on a perimeter space.";
-    private final String minotaurDescription = "Your Worker may move into an opponent Worker’s space, if their Worker can be forced one space straight backwards to an unoccupied space at any level.";
-    private final String panDescription = "You also win if your Worker moves down two or more levels.";
-    private final String prometheusDescription = "If your Worker does not move up, it may build both before and after moving.";
-    private final String tritonDescription = "Each time your Worker moves into a perimeter space, it may immediately move again.";
-    private final String zeusDescription = "Your Worker may build a block under itself.";
+    protected static final String apolloDescription = "Your Worker may move into an opponent Worker’s space by forcing their Worker to the space yours just vacated.";
+    protected static final String artemisDescription = "Your Worker may move one additional time, but not back to its initial space.";
+    protected static final String athenaDescription = "If one of your Workers moved up on your last turn, opponent Workers cannot move up this turn.";
+    protected static final String atlasDescription = "Your Worker may build a dome at any level.";
+    protected static final String charonDescription = "Before your Worker moves, you may force a neighboring opponent Worker to the space directly on the other side of your Worker, if that space is unoccupied.";
+    protected static final String demeterDescription = "Your Worker may build one additional time, but not on the same space.";
+    protected static final String hephaestusDescription = "Your Worker may build one additional block (not dome) on top of your first block.";
+    protected static final String heraDescription = "An opponent cannot win by moving into a perimeter space.";
+    protected static final String hestiaDescription = "Your Worker may build one additional time, but this cannot be on a perimeter space.";
+    protected static final String minotaurDescription = "Your Worker may move into an opponent Worker’s space, if their Worker can be forced one space straight backwards to an unoccupied space at any level.";
+    protected static final String panDescription = "You also win if your Worker moves down two or more levels.";
+    protected static final String prometheusDescription = "If your Worker does not move up, it may build both before and after moving.";
+    protected static final String tritonDescription = "Each time your Worker moves into a perimeter space, it may immediately move again.";
+    protected static final String zeusDescription = "Your Worker may build a block under itself.";
 
     private final Image whiteFrame;
     private final Image blueFrame;

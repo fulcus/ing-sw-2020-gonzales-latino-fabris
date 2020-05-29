@@ -31,7 +31,6 @@ public class Cli implements View {
      * This is the Cli constructor.
      */
     public Cli() {
-
         board = new BoardClient();
         input = new Scanner(System.in);
         intInput = new Scanner(System.in);

@@ -1,10 +1,6 @@
 package it.polimi.ingsw.client.gui;
 
-import it.polimi.ingsw.client.BoardClient;
 import it.polimi.ingsw.serializableObjects.CellClient;
-import it.polimi.ingsw.serializableObjects.WorkerClient;
-import it.polimi.ingsw.server.model.Board;
-import it.polimi.ingsw.server.model.Worker;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -15,7 +11,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
 import java.lang.reflect.Field;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static it.polimi.ingsw.client.gui.GuiManager.*;
 
@@ -72,7 +67,6 @@ public class BoardController {
     @FXML
     public ImageView c4r4;
 
-
     @FXML
     private Text myNickname;
     @FXML
@@ -90,11 +84,13 @@ public class BoardController {
     @FXML
     private ImageView godLeftFrame;
     @FXML
+    private ImageView godPowerOnImage;
+    @FXML
+    private ImageView godPowerOffImage;
+    @FXML
     private Text mainText;
     @FXML
     private GridPane boardGrid;
-
-    private boolean cellRequested;
 
     private final Image bluemale;
     private final Image bluefemale;
@@ -107,6 +103,13 @@ public class BoardController {
     private final Image level3;
     private final Image dome;
 
+    private boolean cellRequested;
+    private boolean godPowerRequested;
+    private String myGodDescription;
+    private String godRightDescription;
+    private String godLeftDescription;
+    private String godPowerOffAnswer;
+    private String godPowerOnAnswer;
 
     public BoardController() {
         cellRequested = false;
@@ -131,6 +134,9 @@ public class BoardController {
         myGod.setImage(myGodImage);
         otherGodRight.setImage(godRightImage);
 
+        myGod.setOnMouseClicked(e -> showGodDescription(god1.get()));
+        otherGodRight.setOnMouseClicked(e -> showGodDescription(god2.get()));
+
         if (numberOfPlayers.get() == 2) {
             godLeftFrame.setVisible(false);
             godLeftBar.setVisible(false);
@@ -140,7 +146,11 @@ public class BoardController {
             otherNicknameRight.setText(nickname3.get());
             Image godLeftImage = new Image("/gods/full_" + god3.get().toLowerCase() + ".png");
             otherGodLeft.setImage(godLeftImage);
+
+            otherGodLeft.setOnMouseClicked(e -> showGodDescription(god3.get()));
         }
+
+        showGodPowers();
 
         mainText.setText("WELCOME");
     }
@@ -149,6 +159,180 @@ public class BoardController {
         System.out.println("update");
         boardClient.get().update(cell);
     }
+
+    private void showGodPowers() {
+
+        godPowerOnImage.setVisible(false);
+        godPowerOffImage.setVisible(false);
+
+        String godPowerOnName = "";
+        String godPowerOffName = "";
+
+        //always Y N except for atlas
+        godPowerOnAnswer = "Y";
+        godPowerOffAnswer = "N";
+
+        switch (god1.get().toLowerCase()) {
+            case "apollo":
+                break;
+            case "artemis":
+                godPowerOnName = "movefast";
+                godPowerOffName = "skipmove";
+                break;
+            case "athena":
+                break;
+            case "atlas":
+                godPowerOnName = "builddome";
+                godPowerOffName = "bothbuild";
+                godPowerOnAnswer = "D";
+                godPowerOffAnswer = "B";
+                break;
+            case "charon":
+                break;
+            case "demeter":
+                godPowerOnName = "bothbuild";
+                godPowerOffName = "skipbuild";
+                break;
+            case "hephaestus":
+                godPowerOnName = "bothbuild";
+                godPowerOffName = "skipbuild";
+                break;
+            case "hera":
+                break;
+            case "hestia":
+                godPowerOnName = "bothbuild";
+                godPowerOffName = "skipbuild";
+                break;
+            case "minotaur":
+                break;
+            case "pan":
+                break;
+            case "prometheus": //buildbeforemove
+                godPowerOnName = "buildbeforemove";
+                godPowerOffName = "buildbeforemove"; //todo change to striked out image
+                break;
+            case "triton":
+                godPowerOnName = "movefast";
+                godPowerOffName = "skipmove";
+                break;
+            case "zeus":
+                break;
+        }
+
+        if(!godPowerOnName.equals("")) {
+            godPowerOnImage.setImage(new Image("/board/god_powers/gp_" + godPowerOnName + ".png"));
+            godPowerOnImage.setVisible(true);
+        }
+
+        if(!godPowerOffName.equals("")) {
+            godPowerOffImage.setImage(new Image("/board/god_powers/gp_" + godPowerOffName + ".png"));
+            godPowerOffImage.setVisible(true);
+        }
+    }
+
+    protected void printMap() {
+
+        //iterate on all panes of boardGrid and render them correctly
+        //based on the corresponding content of boardclient
+        for (Node node : boardGrid.getChildren()) {
+
+            Pane pane = (Pane) node;
+
+            int row = GridPane.getRowIndex(node);
+            int col = GridPane.getColumnIndex(node);
+
+            CellClient cell = boardClient.get().findCell(row, col);
+
+            //cell contains building
+            switch (cell.getCellLevel()) {
+                case 0:
+                    //nothing, ground level
+                    break;
+                case 1:
+                    ImageView building1 = new ImageView(level1);
+                    building1.setFitWidth(80);
+                    building1.setFitHeight(80);
+                    pane.getChildren().add(building1);
+                    break;
+                case 2:
+                    ImageView building2 = new ImageView(level2);
+                    building2.setFitWidth(80);
+                    building2.setFitHeight(80);
+                    pane.getChildren().add(building2);
+                    break;
+                case 3:
+                    ImageView building3 = new ImageView(level3);
+                    building3.setFitWidth(80);
+                    building3.setFitHeight(80);
+                    pane.getChildren().add(building3);
+                    break;
+
+                default:
+                    System.out.println("building level error");
+            }
+
+            //cell contains dome
+            if (cell.hasDome()) {
+                ImageView domeBuilding = new ImageView(dome);
+                domeBuilding.setFitWidth(80);
+                domeBuilding.setFitHeight(80);
+                pane.getChildren().add(domeBuilding);
+            }
+
+            //get ImageView attribute of cell
+            Class<?> c = getClass();
+            Field field;
+            ImageView workerImageView = null;
+
+            try {
+
+                field = c.getDeclaredField("c" + col + "r" + row);
+                workerImageView = (ImageView) field.get(this);
+
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+
+            //cell contains worker
+            if (cell.hasWorker()) {
+
+                String sex = cell.getWorkerClient().getWorkerSex();
+                String color = cell.getWorkerClient().getWorkerColor();
+
+                //get image of worker in cell
+                Field field2;
+                Image workerImage = null;
+
+                try {
+                    String workerId = color + sex;
+                    field2 = c.getDeclaredField(workerId.toLowerCase());
+                    workerImage = (Image) field2.get(this);
+
+                } catch (NoSuchFieldException | IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+
+                workerImageView.setViewOrder(-1.0);
+                workerImageView.setImage(workerImage);
+
+            } else {
+                workerImageView.setImage(null);
+            }
+        }
+    }
+
+    protected void printToMainText(String text) {
+        mainText.setText(text);
+    }
+
+    protected void setCellRequested(boolean cellRequested) {
+        this.cellRequested = cellRequested;
+    }
+
+    protected void setGodPowerRequested(boolean godPowerRequested) {
+        this.godPowerRequested = godPowerRequested;
+    }
+
 
     @FXML
     private void chooseCell(MouseEvent event) {
@@ -177,7 +361,25 @@ public class BoardController {
     }
 
     @FXML
-    private void showGodDescription() {
+    private void showGodDescription(String god) {
+
+        String godDescriptionField = god.toLowerCase() + "Description";
+
+        Class<?> c = ChooseGodController.class;
+        Field field;
+        String godDescription = null;
+
+        try {
+
+            field = c.getDeclaredField(godDescriptionField);
+            godDescription = (String) field.get(null);  //null because the field retrieved is static
+
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        printToMainText(godDescription);
+
         System.out.println("God description");
     }
 
@@ -186,130 +388,35 @@ public class BoardController {
         System.out.println("MENU");
     }
 
-    protected void printMap() {
+    @FXML
+    private void godPowerOnClick() {
 
-        System.out.println("in printmap");
-
-        //iterate on all cells of cellclient and render them correctly
-        //based on the corresponding content of boardclient
-        //for (int row = 0; row < Board.SIDE; row++) {
-        //for (int col = 0; col < Board.SIDE; col++) {
-
-        for (Node node : boardGrid.getChildren()) {
-
-            Pane pane = (Pane) node;
-
-            int row = GridPane.getRowIndex(node);
-            int col = GridPane.getColumnIndex(node);
-
-            CellClient cell = boardClient.get().findCell(row, col);
-
-            //cell contains building
-            switch (cell.getCellLevel()) {
-                case 0:
-                    //nothing, ground level
-                    break;
-                case 1:
-                    ImageView building1 = new ImageView(level1);
-                    building1.setFitWidth(80);
-                    building1.setFitHeight(80);
-                    //boardGrid.add(building1, col, row);
-                    pane.getChildren().add(building1);
-                    System.out.println("lev1: " + row + "," + col);
-                    break;
-                case 2:
-                    ImageView building2 = new ImageView(level2);
-                    building2.setFitWidth(80);
-                    building2.setFitHeight(80);
-                    //boardGrid.add(building2, col, row);
-                    pane.getChildren().add(building2);
-
-                    break;
-                case 3:
-                    ImageView building3 = new ImageView(level3);
-                    building3.setFitWidth(80);
-                    building3.setFitHeight(80);
-                    //boardGrid.add(building3, col, row);
-                    pane.getChildren().add(building3);
-
-                    break;
-
-                default:
-                    System.out.println("building level error");
-            }
-
-                /*
-                    1) aggiungere tutti i building dinamicamente uno sopra l'altro
-                     e mettere in ogni cella una imageview per workers
-
-                    2) mettere in ogni cella due imageview: una per worker una per building
-                    e se ne può aggiungere una dinamicamente per dome
-                */
-
-
-            //cell contains dome
-            if (cell.hasDome()) {
-                //boardGrid.add(new ImageView(dome), col, row);
-                ImageView domeBuilding = new ImageView(dome);
-                domeBuilding.setFitWidth(80);
-                domeBuilding.setFitHeight(80);
-                pane.getChildren().add(domeBuilding);
-            }
-
-            //get ImageView attribute of cell
-            Class<?> c = getClass();
-            Field field;
-            ImageView workerImageView = null;
-
+        if (godPowerRequested) {
             try {
-
-                field = c.getDeclaredField("c" + col + "r" + row);
-                workerImageView = (ImageView) field.get(this);
-
-            } catch (NoSuchFieldException | IllegalAccessException e) {
+                GuiManager.queue.put(godPowerOnAnswer);
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-
-            //cell contains worker
-            if (cell.hasWorker()) {
-
-                String sex = cell.getWorkerClient().getWorkerSex();
-                String color = cell.getWorkerClient().getWorkerColor();
-
-
-                //get image of worker in cell
-                Field field2;
-                Image workerImage = null;
-
-                try {
-                    String workerId = color + sex;
-                    field2 = c.getDeclaredField(workerId.toLowerCase());
-                    workerImage = (Image) field2.get(this);
-
-                } catch (NoSuchFieldException | IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-                //workerImageView.toFront();
-                workerImageView.setViewOrder(-1.0);
-                workerImageView.setImage(workerImage);
-
-            } else {
-                workerImageView.setImage(null);
-            }
+            printToMainText("You used your god power");
         }
-        //}
+
+        setGodPowerRequested(false);
+
     }
 
-    protected void printToMainText(String text) {
-        mainText.setText(text);
-    }
+    @FXML
+    private void godPowerOffClick() {
 
-    protected void setCellRequested(boolean cellRequested) {
-        this.cellRequested = cellRequested;
-    }
+        if (godPowerRequested) {
+            try {
+                GuiManager.queue.put(godPowerOffAnswer);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            printToMainText("You didn't use your god power");
+        }
+        setGodPowerRequested(false);
 
-    protected void waitChallengerStartPlayer() {
 
     }
 

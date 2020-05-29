@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" stylesheets="@../css/board.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.BoardController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" stylesheets="@../css/board.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.BoardController">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     </columnConstraints>
@@ -242,17 +242,17 @@
                         <Insets bottom="14.0" left="15.0" top="137.0" />
                     </GridPane.margin>
                 </ImageView>
-                <Text fx:id="myNickname" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="You" wrappingWidth="73.27805137634277" GridPane.rowIndex="1">
+                <Text fx:id="myNickname" fill="#654f3e" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="You" wrappingWidth="73.27805137634277" GridPane.rowIndex="1">
                     <GridPane.margin>
                         <Insets bottom="15.0" left="20.0" top="137.0" />
                     </GridPane.margin>
                 </Text>
-                <Text fx:id="otherNicknameRight" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Nickname1" wrappingWidth="77.31418418884277" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                <Text fx:id="otherNicknameRight" fill="#654f3e" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Nickname1" wrappingWidth="77.31418418884277" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                     <GridPane.margin>
                         <Insets bottom="15.0" right="20.0" top="137.0" />
                     </GridPane.margin>
                 </Text>
-                <Text fx:id="otherNicknameLeft" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Nickname2" wrappingWidth="89.00479698181152" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                <Text fx:id="otherNicknameLeft" fill="#654f3e" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Nickname2" wrappingWidth="89.00479698181152" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                     <GridPane.margin>
                         <Insets bottom="15.0" right="103.0" top="137.0" />
                     </GridPane.margin>
@@ -262,6 +262,22 @@
                         <Insets bottom="8.0" />
                     </GridPane.margin>
                 </Text>
+            <ImageView fx:id="godPowerOnImage" fitHeight="43.0" fitWidth="91.0" onMouseClicked="#godPowerOnClick" preserveRatio="true" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../board/god_powers/gp_movefast.png" />
+               </image>
+               <GridPane.margin>
+                  <Insets bottom="43.0" left="110.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="godPowerOffImage" fitHeight="43.0" fitWidth="91.0" onMouseClicked="#godPowerOffClick" preserveRatio="true" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../board/god_powers/gp_skipmove.png" />
+               </image>
+               <GridPane.margin>
+                  <Insets left="110.0" top="47.0" />
+               </GridPane.margin>
+            </ImageView>
             </children>
         </GridPane>
     </children>
