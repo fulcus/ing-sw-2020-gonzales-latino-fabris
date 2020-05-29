@@ -7,6 +7,7 @@ import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Worker;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -312,5 +313,357 @@ public class BoardController {
     protected void waitChallengerStartPlayer() {
 
     }
+
+    @FXML
+    private void glowWorker00() {
+        Glow glow = new Glow();
+        glow.setLevel(3);
+        c0r0.setEffect(glow);
+    }
+
+    @FXML
+    private void normalWorker00() {
+        Glow glow = new Glow();
+        glow.setLevel(0);
+        c0r0.setEffect(glow);
+    }
+
+    @FXML
+    private void glowWorker10() {
+        Glow glow = new Glow();
+        glow.setLevel(3);
+        c1r0.setEffect(glow);
+    }
+
+    @FXML
+    private void normalWorker10() {
+        Glow glow = new Glow();
+        glow.setLevel(0);
+        c1r0.setEffect(glow);
+    }
+
+    @FXML
+    private void glowWorker20() {
+        Glow glow = new Glow();
+        glow.setLevel(3);
+        c2r0.setEffect(glow);
+    }
+
+    @FXML
+    private void normalWorker20() {
+        Glow glow = new Glow();
+        glow.setLevel(0);
+        c2r0.setEffect(glow);
+    }
+
+    @FXML
+    private void glowWorker30() {
+        Glow glow = new Glow();
+        glow.setLevel(3);
+        c3r0.setEffect(glow);
+    }
+
+    @FXML
+    private void normalWorker30() {
+        Glow glow = new Glow();
+        glow.setLevel(0);
+        c3r0.setEffect(glow);
+    }
+
+    @FXML
+    private void glowWorker40() {
+        Glow glow = new Glow();
+        glow.setLevel(3);
+        c4r0.setEffect(glow);
+    }
+
+    @FXML
+    private void normalWorker40() {
+        Glow glow = new Glow();
+        glow.setLevel(0);
+        c4r0.setEffect(glow);
+    }
+
+    @FXML
+    private void glowWorker01() {
+        Glow glow = new Glow();
+        glow.setLevel(3);
+        c0r1.setEffect(glow);
+    }
+
+    @FXML
+    private void normalWorker01() {
+        Glow glow = new Glow();
+        glow.setLevel(0);
+        c0r1.setEffect(glow);
+    }
+
+    @FXML
+    private void glowWorker11() {
+        Glow glow = new Glow();
+        glow.setLevel(3);
+        c1r1.setEffect(glow);
+    }
+
+    @FXML
+    private void normalWorker11() {
+        Glow glow = new Glow();
+        glow.setLevel(0);
+        c1r1.setEffect(glow);
+    }
+
+    @FXML
+    private void glowWorker21() {
+        Glow glow = new Glow();
+        glow.setLevel(3);
+        c2r1.setEffect(glow);
+    }
+
+    @FXML
+    private void normalWorker21() {
+        Glow glow = new Glow();
+        glow.setLevel(0);
+        c2r1.setEffect(glow);
+    }
+
+    @FXML
+    private void glowWorker31() {
+        Glow glow = new Glow();
+        glow.setLevel(3);
+        c3r1.setEffect(glow);
+    }
+
+    @FXML
+    private void normalWorker31() {
+        Glow glow = new Glow();
+        glow.setLevel(0);
+        c3r1.setEffect(glow);
+    }
+
+    @FXML
+    private void glowWorker41() {
+        Glow glow = new Glow();
+        glow.setLevel(3);
+        c4r1.setEffect(glow);
+    }
+
+    @FXML
+    private void normalWorker41() {
+        Glow glow = new Glow();
+        glow.setLevel(0);
+        c4r1.setEffect(glow);
+    }
+
+    @FXML
+    private void glowWorker02() {
+        Glow glow = new Glow();
+        glow.setLevel(3);
+        c0r2.setEffect(glow);
+    }
+
+    @FXML
+    private void normalWorker02() {
+        Glow glow = new Glow();
+        glow.setLevel(0);
+        c0r2.setEffect(glow);
+    }
+
+    @FXML
+    private void glowWorker12() {
+        Glow glow = new Glow();
+        glow.setLevel(3);
+        c1r2.setEffect(glow);
+    }
+
+    @FXML
+    private void normalWorker12() {
+        Glow glow = new Glow();
+        glow.setLevel(0);
+        c1r2.setEffect(glow);
+    }
+
+    @FXML
+    private void glowWorker22() {
+        Glow glow = new Glow();
+        glow.setLevel(3);
+        c2r2.setEffect(glow);
+    }
+
+    @FXML
+    private void normalWorker22() {
+        Glow glow = new Glow();
+        glow.setLevel(0);
+        c2r2.setEffect(glow);
+    }
+
+    @FXML
+    private void glowWorker32() {
+        Glow glow = new Glow();
+        glow.setLevel(3);
+        c3r2.setEffect(glow);
+    }
+
+    @FXML
+    private void normalWorker32() {
+        Glow glow = new Glow();
+        glow.setLevel(0);
+        c3r2.setEffect(glow);
+    }
+
+    @FXML
+    private void glowWorker42() {
+        Glow glow = new Glow();
+        glow.setLevel(3);
+        c4r2.setEffect(glow);
+    }
+
+    @FXML
+    private void normalWorker42() {
+        Glow glow = new Glow();
+        glow.setLevel(0);
+        c4r2.setEffect(glow);
+    }
+
+    @FXML
+    private void glowWorker03() {
+        Glow glow = new Glow();
+        glow.setLevel(3);
+        c0r3.setEffect(glow);
+    }
+
+    @FXML
+    private void normalWorker03() {
+        Glow glow = new Glow();
+        glow.setLevel(0);
+        c0r3.setEffect(glow);
+    }
+
+    @FXML
+    private void glowWorker13() {
+        Glow glow = new Glow();
+        glow.setLevel(3);
+        c1r3.setEffect(glow);
+    }
+
+    @FXML
+    private void normalWorker13() {
+        Glow glow = new Glow();
+        glow.setLevel(0);
+        c1r3.setEffect(glow);
+    }
+
+    @FXML
+    private void glowWorker23() {
+        Glow glow = new Glow();
+        glow.setLevel(3);
+        c2r3.setEffect(glow);
+    }
+
+    @FXML
+    private void normalWorker23() {
+        Glow glow = new Glow();
+        glow.setLevel(0);
+        c2r3.setEffect(glow);
+    }
+
+    @FXML
+    private void glowWorker33() {
+        Glow glow = new Glow();
+        glow.setLevel(3);
+        c3r3.setEffect(glow);
+    }
+
+    @FXML
+    private void normalWorker33() {
+        Glow glow = new Glow();
+        glow.setLevel(0);
+        c3r3.setEffect(glow);
+    }
+
+    @FXML
+    private void glowWorker43() {
+        Glow glow = new Glow();
+        glow.setLevel(3);
+        c4r3.setEffect(glow);
+    }
+
+    @FXML
+    private void normalWorker43() {
+        Glow glow = new Glow();
+        glow.setLevel(0);
+        c4r3.setEffect(glow);
+    }
+
+    @FXML
+    private void glowWorker04() {
+        Glow glow = new Glow();
+        glow.setLevel(3);
+        c0r4.setEffect(glow);
+    }
+
+    @FXML
+    private void normalWorker04() {
+        Glow glow = new Glow();
+        glow.setLevel(0);
+        c0r4.setEffect(glow);
+    }
+
+    @FXML
+    private void glowWorker14() {
+        Glow glow = new Glow();
+        glow.setLevel(3);
+        c1r4.setEffect(glow);
+    }
+
+    @FXML
+    private void normalWorker14() {
+        Glow glow = new Glow();
+        glow.setLevel(0);
+        c1r4.setEffect(glow);
+    }
+
+    @FXML
+    private void glowWorker24() {
+        Glow glow = new Glow();
+        glow.setLevel(3);
+        c2r4.setEffect(glow);
+    }
+
+    @FXML
+    private void normalWorker24() {
+        Glow glow = new Glow();
+        glow.setLevel(0);
+        c2r4.setEffect(glow);
+    }
+
+    @FXML
+    private void glowWorker34() {
+        Glow glow = new Glow();
+        glow.setLevel(3);
+        c3r4.setEffect(glow);
+    }
+
+    @FXML
+    private void normalWorker34() {
+        Glow glow = new Glow();
+        glow.setLevel(0);
+        c3r4.setEffect(glow);
+    }
+
+    @FXML
+    private void glowWorker44() {
+        Glow glow = new Glow();
+        glow.setLevel(3);
+        c4r4.setEffect(glow);
+    }
+
+    @FXML
+    private void normalWorker44() {
+        Glow glow = new Glow();
+        glow.setLevel(0);
+        c4r4.setEffect(glow);
+    }
+
+
 
 }
