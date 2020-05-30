@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.geometry.Point3D?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.image.Image?>
@@ -7,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="1000.0" stylesheets="@../css/win-lose.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="1000.0" stylesheets="@../css/win-lose.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.WinLoseController">
    <children>
       <ImageView fitHeight="305.0" fitWidth="297.0" layoutX="132.0" layoutY="241.0" preserveRatio="true">
          <image>
@@ -30,8 +31,10 @@
             <Image url="@../endgame/endgame_windowdefeat.png" />
          </image>
       </ImageView>
-      <Button layoutX="420.0" layoutY="379.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="198.0" text="REPLAY" textFill="WHITE" />
-      <Button layoutX="468.0" layoutY="521.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="101.0" styleClass="exit-button" text="EXIT" textFill="WHITE" />
+      <Button layoutX="416.0" layoutY="370.0" mnemonicParsing="false" onMouseClicked="#playAgain" prefHeight="48.0" prefWidth="198.0" text="PLAY AGAIN" textFill="WHITE">
+         <padding>
+            <Insets bottom="10.0" />
+         </padding></Button>
       <ImageView fitHeight="133.0" fitWidth="200.0" layoutX="255.0" layoutY="452.0">
          <image>
             <Image url="@../endgame/endgame_defeatcloudleft.png" />
@@ -43,5 +46,10 @@
          </image>
       </ImageView>
       <Text fill="WHITE" layoutX="427.0" layoutY="284.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-win" text="DEFEAT" textAlignment="CENTER" wrappingWidth="176.0000000000001" />
+      <Button layoutX="416.0" layoutY="441.0" mnemonicParsing="false" onMouseClicked="#exit" prefHeight="48.0" prefWidth="200.0" text="EXIT" textFill="WHITE">
+         <padding>
+            <Insets bottom="10.0" />
+         </padding>
+      </Button>
    </children>
 </AnchorPane>

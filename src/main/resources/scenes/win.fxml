@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="1000.0" stylesheets="@../css/win-lose.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="1000.0" stylesheets="@../css/win-lose.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.WinLoseController">
    <children>
       <ImageView fitHeight="305.0" fitWidth="297.0" layoutX="147.0" layoutY="230.0" nodeOrientation="RIGHT_TO_LEFT" preserveRatio="true">
          <image>
@@ -29,11 +29,10 @@
             <Image url="@../labels/gameGodFrameName2.png" />
          </image>
       </ImageView>
-      <Button layoutX="446.0" layoutY="370.0" mnemonicParsing="false" prefHeight="81.0" prefWidth="146.0" text="REPLAY" textFill="WHITE">
+      <Button layoutX="417.0" layoutY="367.0" mnemonicParsing="false" onMouseClicked="#playAgain" prefHeight="48.0" prefWidth="198.0" text="PLAY AGAIN" textFill="WHITE">
          <padding>
-            <Insets bottom="5.0" />
+            <Insets bottom="10.0" />
          </padding></Button>
-      <Button layoutX="468.0" layoutY="521.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="101.0" styleClass="exit-button" text="EXIT" />
       <ImageView fitHeight="133.0" fitWidth="200.0" layoutX="255.0" layoutY="452.0">
          <image>
             <Image url="@../endgame/endgame_victorycloudleft.png" />
@@ -45,5 +44,10 @@
          </image>
       </ImageView>
       <Text fill="WHITE" layoutX="434.0" layoutY="285.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-win" text="VICTORY" textAlignment="CENTER" wrappingWidth="176.0000000000001" />
+      <Button layoutX="417.0" layoutY="441.0" mnemonicParsing="false" onMouseClicked="#exit" prefHeight="48.0" prefWidth="198.0" text="EXIT" textFill="WHITE">
+         <padding>
+            <Insets bottom="10.0" />
+         </padding>
+      </Button>
    </children>
 </AnchorPane>

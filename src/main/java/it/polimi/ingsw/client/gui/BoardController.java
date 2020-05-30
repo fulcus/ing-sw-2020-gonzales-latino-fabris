@@ -2,15 +2,18 @@ package it.polimi.ingsw.client.gui;
 
 import it.polimi.ingsw.serializableObjects.CellClient;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 
 import static it.polimi.ingsw.client.gui.GuiManager.*;
@@ -234,7 +237,7 @@ public class BoardController {
     protected void printMap() {
 
         //iterate on all panes of boardGrid and render them correctly
-        //based on the corresponding content of boardclient
+        //based on the corresponding content of boardClient
         for (Node node : boardGrid.getChildren()) {
 
             Pane pane = (Pane) node;
@@ -395,6 +398,16 @@ public class BoardController {
     @FXML
     private void menu() {
         System.out.println("MENU");
+
+
+        AnchorPane win = null;
+        try {
+            win = FXMLLoader.load(getClass().getResource("/scenes/win.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ((GridPane)boardRoot).getChildren().add(win);
     }
 
     @FXML
@@ -410,7 +423,6 @@ public class BoardController {
         }
 
         setGodPowerRequested(false);
-
     }
 
     @FXML
@@ -425,9 +437,8 @@ public class BoardController {
             printToMainText("You didn't use your god power");
         }
         setGodPowerRequested(false);
-
-
     }
+
 
 
     private void glowLevel(double value, Node source) {

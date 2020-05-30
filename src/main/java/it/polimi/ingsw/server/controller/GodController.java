@@ -92,7 +92,9 @@ public class GodController {
                 break;
             }
             default: {
-                result = null;
+                //to signal wrong input
+                result[0] = -100;
+                result[1] = -100;
                 break;
             }
 
