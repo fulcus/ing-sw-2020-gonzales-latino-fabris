@@ -44,8 +44,8 @@ public class GuiManager implements View {
     protected static final AtomicBoolean isInLobby = new AtomicBoolean(false);
 
     protected static final SynchronousQueue<Object> queue = new SynchronousQueue<>();
-    protected static String playerNickname;
-    private String playerColor;
+    protected static String myNickname;
+    private String myColor;
 
     //roots of scenes
     protected static Parent numberOfPlayersRoot;
@@ -151,7 +151,7 @@ public class GuiManager implements View {
      * @param nickname nickname of the player associated with this instance of Cli
      */
     public void setPlayer(String nickname) {
-        playerNickname = nickname;
+        myNickname = nickname;
     }
 
     public String getServerAddress() {
@@ -394,7 +394,7 @@ public class GuiManager implements View {
             e.printStackTrace();
         }
 
-        playerColor = color;
+        myColor = color;
 
         System.out.println("guimanager received: " + color);
         return color;
@@ -403,7 +403,7 @@ public class GuiManager implements View {
 
     public void notifyValidColor() {
         //adding this players info to "database"
-        setMyInfo(playerNickname, playerColor);
+        setMyInfo(myNickname, myColor);
 
         //change scene
         Platform.runLater(() -> {
@@ -480,8 +480,8 @@ public class GuiManager implements View {
         Platform.runLater(() -> {
             boardController.init();
             Gui.getStage().setScene(new Scene(boardRoot));
+            isInLobby.set(false); //for "play again" feature
         });
-
 
         return startPlayer;
     }
@@ -907,7 +907,7 @@ public class GuiManager implements View {
     public void printStartPlayer(String startPlayer) {
         Platform.runLater(() -> {
             //first if is useless: will be immediately overwritten by initial worker position
-            if (startPlayer.equals(playerNickname))
+            if (startPlayer.equals(myNickname))
                 boardController.printToMainText("You are the start player!");
             else
                 boardController.printToMainText(startPlayer + " is the start player!");

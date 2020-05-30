@@ -2,7 +2,6 @@ package it.polimi.ingsw.client.gui;
 
 import it.polimi.ingsw.serializableObjects.CellClient;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
@@ -13,7 +12,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
 
 import static it.polimi.ingsw.client.gui.GuiManager.*;
@@ -95,6 +93,8 @@ public class BoardController {
     private Text mainText;
     @FXML
     private GridPane boardGrid;
+    @FXML
+    private AnchorPane menu;
 
     private final Image bluemale;
     private final Image bluefemale;
@@ -109,9 +109,6 @@ public class BoardController {
 
     private boolean cellRequested;
     private boolean godPowerRequested;
-    private String myGodDescription;
-    private String godRightDescription;
-    private String godLeftDescription;
     private String godPowerOffAnswer;
     private String godPowerOnAnswer;
 
@@ -123,13 +120,14 @@ public class BoardController {
         whitefemale = new Image("/board/workers/female_worker_white.png");
         beigemale = new Image("/board/workers/male_worker_beige.png");
         beigefemale = new Image("/board/workers/female_worker_beige.png");
-        level1 = new Image("/board/board_buildings/level1.png");
-        level2 = new Image("/board/board_buildings/level2.png");
-        level3 = new Image("/board/board_buildings/level3.png");
-        dome = new Image("/board/board_buildings/dome_light.png");
+        level1 = new Image("/board/buildings/level1.png");
+        level2 = new Image("/board/buildings/level2.png");
+        level3 = new Image("/board/buildings/level3.png");
+        dome = new Image("/board/buildings/dome_light.png");
     }
 
     protected void init() {
+        menu.setVisible(false);
 
         myNickname.setText(nickname1.get());
         otherNicknameRight.setText(nickname2.get());
@@ -223,12 +221,12 @@ public class BoardController {
                 break;
         }
 
-        if(!godPowerOnName.equals("")) {
+        if (!godPowerOnName.equals("")) {
             godPowerOnImage.setImage(new Image("/board/god_powers/gp_" + godPowerOnName + ".png"));
             godPowerOnImage.setVisible(true);
         }
 
-        if(!godPowerOffName.equals("")) {
+        if (!godPowerOffName.equals("")) {
             godPowerOffImage.setImage(new Image("/board/god_powers/gp_" + godPowerOffName + ".png"));
             godPowerOffImage.setVisible(true);
         }
@@ -396,18 +394,18 @@ public class BoardController {
     }
 
     @FXML
-    private void menu() {
-        System.out.println("MENU");
+    private void openMenu() {
+        menu.setVisible(true);
+    }
 
+    @FXML
+    private void resume() {
+        menu.setVisible(false);
+    }
 
-        AnchorPane win = null;
-        try {
-            win = FXMLLoader.load(getClass().getResource("/scenes/win.fxml"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        ((GridPane)boardRoot).getChildren().add(win);
+    @FXML
+    private void exit() {
+        System.exit(0);
     }
 
     @FXML
@@ -438,7 +436,6 @@ public class BoardController {
         }
         setGodPowerRequested(false);
     }
-
 
 
     private void glowLevel(double value, Node source) {
