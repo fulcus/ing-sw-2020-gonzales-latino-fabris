@@ -623,7 +623,7 @@ public class ViewClient implements ClientViewObserver {
             return receivedObject;
 
         } catch (IOException e) {
-            System.out.println("server has died");
+            System.out.println("server has died while sending with return");
         } catch (ClassCastException e) {
             System.out.println("protocol violation");
         } catch (InterruptedException e) {
@@ -645,7 +645,7 @@ public class ViewClient implements ClientViewObserver {
         try {
             output.writeObject(message);
         } catch (IOException e) {
-            System.out.println("server has died");
+            System.out.println("server has died while sending");
         }
     }
 

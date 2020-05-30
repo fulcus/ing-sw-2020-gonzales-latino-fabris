@@ -74,17 +74,21 @@ public class Lobby {
         //send client nickname and color of all players that are already in
         sendOtherPlayersInfo(newClient);
 
-        ExecutorService gameExecutor = availableGame.getExecutorPlayerAdder();
-        gameExecutor.execute(() -> availableGame.addPlayer(newClient));
+        GameController currentGame = availableGame;
+
+        ExecutorService gameExecutor = currentGame.getExecutorPlayerAdder();
+        gameExecutor.execute(() -> currentGame.addPlayer(newClient));
 
         //send client nickname and color of all players that are already in
         //sendOtherPlayersInfo(newClient);
 
         connectedToAvailableGame++;
 
+        availableGame = null;
+
         //waits for all players to finish adding their player ie setting nickname and color
         //sets availableGame null
-        if (connectedToAvailableGame == availableGame.getGame().getNumberOfPlayers()) {
+        if (connectedToAvailableGame == currentGame.getGame().getNumberOfPlayers()) {
 
             gameExecutor.shutdown();
 
@@ -101,10 +105,10 @@ public class Lobby {
                 e.printStackTrace();
             }
 
-            TurnHandler gameTurnHandler = availableGame.getTurnHandler();
+            TurnHandler gameTurnHandler = currentGame.getTurnHandler();
             new Thread(gameTurnHandler).start();
 
-            availableGame = null;
+
         }
     }
 

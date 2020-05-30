@@ -54,7 +54,7 @@ public class Server implements Runnable {
                 System.out.println("client " + clientsConnected + " connected");
 
 
-                lobby.allocateClient(client);
+                new Thread(()->lobby.allocateClient(client)).start();
 
             } catch (IOException e) {
                 System.out.println("connection dropped");

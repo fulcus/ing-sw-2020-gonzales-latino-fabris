@@ -70,7 +70,6 @@ public class GameController {
 
         gameClients.add(client);
 
-
         setUpObserverView(client);
 
         setPlayerNickname(client);
@@ -291,13 +290,14 @@ public class GameController {
 
     public void handleGameDisconnection() {
 
-        //if disconnection is due to a player disconnection
-        for (Player player : game.getPlayers()) {
-            ViewClient client = player.getClient();
 
-            if (client.isInGame()) {
-                client.notifyOtherPlayerDisconnection();
-                client.killClient();//Sends shut down and sets inGame=false;
+
+        //if disconnection is due to a player disconnection
+        for (ViewClient connectedClient : gameClients) {
+
+            if (connectedClient.isInGame()) {
+                connectedClient.notifyOtherPlayerDisconnection();
+                connectedClient.killClient();//Sends shut down and sets inGame=false;
             }
 
         }

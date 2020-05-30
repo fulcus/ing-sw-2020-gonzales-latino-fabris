@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.SynchronousQueue;
 
 
 /**
@@ -22,6 +23,7 @@ public class NetworkHandler implements Runnable {
     private ObjectOutputStream outputStm;
     private ObjectInputStream inputStm;
     private final Client client;
+
 
 
     public NetworkHandler(Socket server, Client client) {
@@ -63,6 +65,7 @@ public class NetworkHandler implements Runnable {
 
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
+
             }
 
         }
@@ -90,6 +93,7 @@ public class NetworkHandler implements Runnable {
             return null;
 
         if (receivedMessage.getMethod().equals("shutdownClient")) {
+            System.out.println("Received shutdown from server");
             connected = false;
             return null;
         }
