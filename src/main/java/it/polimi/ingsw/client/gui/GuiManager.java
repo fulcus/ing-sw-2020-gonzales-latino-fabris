@@ -545,7 +545,7 @@ public class GuiManager implements View {
      * Allows to print the ERROR to the screen
      */
     public void printErrorScreen() {
-
+        Platform.runLater(() -> boardController.printToMainText("Error: you're not allowed to do this!"));
     }
 
     /**
@@ -594,11 +594,11 @@ public class GuiManager implements View {
     }
 
     public void selectedWorkerCannotMove(String sex) {
-
+        Platform.runLater(() -> boardController.printToMainText("Selected Worker cannot move!"));
     }
 
     public void selectedWorkerCannotBuild(String sex) {
-
+        Platform.runLater(() -> boardController.printToMainText("Selected Worker cannot build!"));
     }
 
     public String askTypeofView() {
