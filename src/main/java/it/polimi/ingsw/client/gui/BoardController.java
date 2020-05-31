@@ -452,6 +452,7 @@ public class BoardController {
         confirmButton.setVisible(false);
     }
 
+
     public void setConfirmButtonVisible() {
         confirmButton.setVisible(true);
     }
