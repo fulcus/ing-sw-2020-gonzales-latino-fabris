@@ -575,11 +575,21 @@ public class GuiManager implements View {
     }
 
     public void unableToMoveLose() {
+        Platform.runLater(() -> {
+            boardController.printToMainText("You cannot move anywhere!");
+            boardController.setConfirmButtonVisible();
+        });
 
+        acceptTextBarInfo();
     }
 
     public void unableToBuildLose() {
+        Platform.runLater(() -> {
+            boardController.printToMainText("You cannot build anywhere!");
+            boardController.setConfirmButtonVisible();
+        });
 
+        acceptTextBarInfo();
     }
 
     public void notifyPlayersOfLoss(String loserNickname) {
@@ -855,8 +865,7 @@ public class GuiManager implements View {
      * @return Y for a positive answer, N for a negative one.
      */
     public String printMoveDecisionError() {
-        return null;
-    }
+        return askToUseGodPower();    }
 
     /**
      * Asks the player if he still wants to build during this turn.
@@ -864,8 +873,7 @@ public class GuiManager implements View {
      * @return Y for a positive answer, N for a negative one.
      */
     public String printBuildDecisionError() {
-        return null;
-    }
+        return askToUseGodPower();    }
 
     /**
      * Points out a player is not allowed to build.
