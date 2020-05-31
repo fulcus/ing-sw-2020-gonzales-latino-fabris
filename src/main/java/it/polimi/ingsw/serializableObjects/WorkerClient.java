@@ -6,8 +6,8 @@ import java.io.Serializable;
 
 public class WorkerClient implements Serializable {
 
-    private String workerSex;
-    private String workerColor;
+    private final String workerSex;
+    private final String workerColor;
     private int xPosition;
     private int yPosition;
 
@@ -30,7 +30,6 @@ public class WorkerClient implements Serializable {
 
 
     public WorkerClient(Worker worker) {
-
         workerSex = worker.getSex().toString();
         workerColor = worker.getPlayer().getColor().toString();
         xPosition = worker.getPosition().getX();
@@ -39,12 +38,26 @@ public class WorkerClient implements Serializable {
     }
 
     public WorkerClient(WorkerClient workerFromServer) {
-
         this.workerColor = workerFromServer.getWorkerColor();
         this.workerSex = workerFromServer.getWorkerSex();
         this.xPosition = workerFromServer.getXPosition();
         this.yPosition = workerFromServer.getYPosition();
     }
 
+    /**
+     * Updates the position of the local representation of the worker
+     *
+     * @param workerFromServer Worker received from the server
+     */
+    public void updateWorkerPosition(WorkerClient workerFromServer) {
+
+        System.out.println("updatedWorker: " + this);
+
+        System.out.println("updateWorkerPosition: "
+                + workerFromServer.getXPosition() + "," + workerFromServer.getYPosition());
+
+        this.xPosition = workerFromServer.getXPosition();
+        this.yPosition = workerFromServer.getYPosition();
+    }
 
 }

@@ -4,9 +4,17 @@ import it.polimi.ingsw.serializableObjects.CellClient;
 import it.polimi.ingsw.serializableObjects.WorkerClient;
 import it.polimi.ingsw.server.model.Board;
 
+import java.lang.reflect.Field;
+
 public class BoardClient {
 
     private final CellClient[][] board;
+    private WorkerClient bluemale;
+    private WorkerClient bluefemale;
+    private WorkerClient whitemale;
+    private WorkerClient whitefemale;
+    private WorkerClient beigemale;
+    private WorkerClient beigefemale;
 
     public BoardClient() {
         this.board = new CellClient[Board.SIDE][Board.SIDE];
@@ -42,8 +50,8 @@ public class BoardClient {
         return position;
     }
 
-    public String workerCellRelativePositionCompass(int xWorker, int yWorker, int xTo, int yTo) {
-        int[] position = workerCellRelativePosition(xWorker,yWorker,xTo,yTo);
+    public String workerCellRelativePositionCompass(WorkerClient selectedWorker, int xTo, int yTo) {
+        int[] position = workerCellRelativePosition(selectedWorker.getXPosition(),selectedWorker.getYPosition(),xTo,yTo);
 
         int relativeX = position[0];
         int relativeY = position[1];
@@ -104,9 +112,109 @@ public class BoardClient {
         //find cell position in clientBoard
         CellClient cellInClient = findCell(cellFromServer.getX(), cellFromServer.getY());
 
-        //update cell in client with cell from server parameters
-        cellInClient.updateCell(cellFromServer);
+        //updates level and dome of cell
+        cellInClient.updateBuildingCell(cellFromServer);
 
+        //updates local worker AND worker attribute of local cell
+        updateWorkerInCell(cellFromServer);
+
+    }
+
+    private void updateWorkerInCell(CellClient cellFromServer) {
+
+        WorkerClient workerFromServer = cellFromServer.getWorkerClient();
+        CellClient workerCell = findCell(cellFromServer.getX(),cellFromServer.getY());
+
+        //if cell from server doesn't contain worker, remove worker from corresponding local cell
+        if(workerFromServer == null) {
+            workerCell.removeWorker();
+            return;
+        }
+
+        //else update local worker and local cell
+        String sex = workerFromServer.getWorkerSex().toLowerCase();
+        String color = workerFromServer.getWorkerColor().toLowerCase();
+
+
+
+        if(sex.equals("male")) {
+            switch (color) {
+                case "white":
+                    if (whitemale == null)
+                        whitemale = new WorkerClient(workerFromServer);
+                    else
+                        whitemale.updateWorkerPosition(workerFromServer);
+
+                    workerCell.addWorker(whitemale);
+                    break;
+                case "blue":
+                    if (bluemale == null)
+                        bluemale = new WorkerClient(workerFromServer);
+                    else
+                        bluemale.updateWorkerPosition(workerFromServer);
+
+                    workerCell.addWorker(bluemale);
+                    break;
+                case "beige":
+                    if (beigemale == null)
+                        beigemale = new WorkerClient(workerFromServer);
+                    else
+                        beigemale.updateWorkerPosition(workerFromServer);
+
+                    workerCell.addWorker(beigemale);
+                    break;
+            }
+
+        } else if(sex.equals("female")){
+            switch (color) {
+                case "white":
+                    if (whitefemale == null)
+                        whitefemale = new WorkerClient(workerFromServer);
+                    else
+                        whitefemale.updateWorkerPosition(workerFromServer);
+
+                    workerCell.addWorker(whitefemale);
+                    break;
+                case "blue":
+                    if (bluefemale == null)
+                        bluefemale = new WorkerClient(workerFromServer);
+                    else
+                        bluefemale.updateWorkerPosition(workerFromServer);
+
+                    workerCell.addWorker(bluefemale);
+                    break;
+                case "beige":
+                    if (beigefemale == null)
+                        beigefemale = new WorkerClient(workerFromServer);
+                    else
+                        beigefemale.updateWorkerPosition(workerFromServer);
+
+                    workerCell.addWorker(beigefemale);
+                    break;
+            }
+        }
+
+        /*
+        //get local instance of workerClient of the corresponding color and sex
+        Class<?> c = getClass();
+        Field field;
+        WorkerClient localWorker = null;
+
+        try {
+            String workerId = color + sex;
+            field = c.getDeclaredField(workerId.toLowerCase());
+            localWorker = (WorkerClient) field.get(this);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        if(localWorker == null)
+            localWorker = new WorkerClient(workerFromServer);
+        else
+            localWorker.updateWorkerPosition(workerFromServer);
+
+
+        workerCell.addWorker(localWorker);*/
     }
 
 }

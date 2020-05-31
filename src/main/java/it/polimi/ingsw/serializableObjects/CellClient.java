@@ -27,7 +27,7 @@ public class CellClient implements Serializable {
         cellLevel = 0;
     }
 
-    //used in server
+    //used ONLY in server
     public CellClient(Cell observedCell) {
 
         this.x = observedCell.getX();
@@ -47,16 +47,25 @@ public class CellClient implements Serializable {
      *
      * @param cellFromServer cell received from the server.
      */
-    public void updateCell(CellClient cellFromServer) {
+    public void updateBuildingCell(CellClient cellFromServer) {
 
         this.cellLevel = cellFromServer.getCellLevel();
         this.hasDome = cellFromServer.hasDome();
-
+        /*
         if (cellFromServer.getWorkerClient() != null)
             this.worker = new WorkerClient(cellFromServer.getWorkerClient());
         else
             this.worker = null;
+       */
 
+    }
+
+    public void removeWorker() {
+        this.worker = null;
+    }
+
+    public void addWorker(WorkerClient worker) {
+        this.worker = worker;
     }
 
     /*private void removeWorker (WorkerClient movedWorker){

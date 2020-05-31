@@ -36,8 +36,8 @@ public class GuiManager implements View {
     protected static final AtomicReference<BoardClient> boardClient = new AtomicReference<>(new BoardClient());
 
 
-    private final AtomicInteger xWorker = new AtomicInteger();
-    private final AtomicInteger yWorker = new AtomicInteger();
+    //private final AtomicInteger xWorker = new AtomicInteger();
+    //private final AtomicInteger yWorker = new AtomicInteger();
 
     protected static final AtomicInteger numberOfPlayers = new AtomicInteger(0); //overwritten by joinGame or asknumberofplayers
     protected static final AtomicInteger playersConnected = new AtomicInteger(0);
@@ -46,6 +46,7 @@ public class GuiManager implements View {
     protected static final SynchronousQueue<Object> queue = new SynchronousQueue<>();
     protected static String myNickname;
     private String myColor;
+    private WorkerClient selectedWorker;
 
     //roots of scenes
     protected static Parent numberOfPlayersRoot;
@@ -521,16 +522,20 @@ public class GuiManager implements View {
             }
 
             //check if cell contains worker
-            WorkerClient workerClient = boardClient.get().findCell(chosenCell[0], chosenCell[1]).getWorkerClient();
+            WorkerClient clickedWorker = boardClient.get().findCell(chosenCell[0], chosenCell[1]).getWorkerClient();
 
-            if (workerClient != null && workerClient.getWorkerColor().toLowerCase().equals(color1.get().toLowerCase())) {
-                //selectedWorker.set(workerClient);
+            if (clickedWorker != null
+                    && clickedWorker.getWorkerColor().toLowerCase().equals(color1.get().toLowerCase())) {
+
+                System.out.println("clickedWorker: "+clickedWorker);
+
+                selectedWorker = clickedWorker;
 
                 //todo always enters if ?
-                xWorker.set(chosenCell[0]);
-                yWorker.set(chosenCell[1]);
+                //xWorker.set(chosenCell[0]);
+                //yWorker.set(chosenCell[1]);
 
-                return workerClient.getWorkerSex();
+                return clickedWorker.getWorkerSex();
             }
 
             System.out.println("cell doesn't contain worker");
@@ -645,7 +650,7 @@ public class GuiManager implements View {
         System.out.println("building cell selected: " + chosenCell[0] + "," + chosenCell[1]);
 
         String result = boardClient.get()
-                .workerCellRelativePositionCompass(xWorker.get(), yWorker.get(), chosenCell[0], chosenCell[1]);
+                .workerCellRelativePositionCompass(selectedWorker, chosenCell[0], chosenCell[1]);
 
 
         System.out.println("converted in: " + result);
@@ -689,20 +694,20 @@ public class GuiManager implements View {
         });
 
         try {
-            chosenCell[0] = (Integer) queue.take();//column
-            chosenCell[1] = (Integer) queue.take();//row
+            chosenCell[0] = (Integer) queue.take();//row
+            chosenCell[1] = (Integer) queue.take();//column
 
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
         String result = boardClient.get()
-                .workerCellRelativePositionCompass(xWorker.get(), yWorker.get(), chosenCell[0], chosenCell[1]);
+                .workerCellRelativePositionCompass(selectedWorker, chosenCell[0], chosenCell[1]);
 
         System.out.println("converted in: " + result);
 
-        xWorker.set(chosenCell[0]);
-        yWorker.set(chosenCell[1]);
+        //xWorker.set(chosenCell[0]);
+        //yWorker.set(chosenCell[1]);
 
         return result;
     }
