@@ -111,7 +111,7 @@
                   </Label>
                   <ImageView fx:id="loader1" fitHeight="38.0" fitWidth="39.0" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                      <image>
-                        <Image url="@../labels/loader.gif" />
+                        <Image url="@../labels/loader_lobby.gif" />
                      </image>
                   </ImageView>
                   <Text fx:id="loadingText1" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-loading" text="Waiting for player" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="1">
@@ -154,7 +154,7 @@
                   </Label>
                   <ImageView fx:id="loader2" fitHeight="41.0" fitWidth="39.0" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                      <image>
-                        <Image url="@../labels/loader.gif" />
+                        <Image url="@../labels/loader_lobby.gif" />
                      </image>
                   </ImageView>
                   <Text fx:id="loadingText2" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-loading" text="Waiting for player" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="1">
@@ -197,7 +197,7 @@
                   </Label>
                   <ImageView fx:id="loader3" fitHeight="39.0" fitWidth="39.0" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                      <image>
-                        <Image url="@../labels/loader.gif" />
+                        <Image url="@../labels/loader_lobby.gif" />
                      </image>
                   </ImageView>
                   <Button fx:id="next" onMouseClicked="#next" prefHeight="11.0" prefWidth="104.0" styleClass="button-red" stylesheets="@../css/start-player.css" text="NEXT" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="2">

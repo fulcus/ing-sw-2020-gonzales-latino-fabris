@@ -532,7 +532,7 @@ public class GuiManager implements View {
             if (clickedWorker != null
                     && clickedWorker.getWorkerColor().toLowerCase().equals(color1.get().toLowerCase())) {
 
-                System.out.println("clickedWorker: "+clickedWorker);
+                System.out.println("clickedWorker: " + clickedWorker);
 
                 selectedWorker = clickedWorker;
 
@@ -562,7 +562,8 @@ public class GuiManager implements View {
             boardController.setConfirmButtonVisible();
         });
 
-        acceptTextBarInfo();    }
+        acceptTextBarInfo();
+    }
 
     /**
      * Prints to screen that one of the player has won the game
@@ -571,7 +572,7 @@ public class GuiManager implements View {
 
         try {
             AnchorPane win = FXMLLoader.load(getClass().getResource("/scenes/win.fxml"));
-            Platform.runLater(()->((GridPane)boardRoot).getChildren().add(win));
+            Platform.runLater(() -> ((GridPane) boardRoot).getChildren().add(win));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -638,7 +639,8 @@ public class GuiManager implements View {
             boardController.setConfirmButtonVisible();
         });
 
-        acceptTextBarInfo();    }
+        acceptTextBarInfo();
+    }
 
     public void selectedWorkerCannotBuild(String sex) {
         Platform.runLater(() -> {
@@ -646,7 +648,8 @@ public class GuiManager implements View {
             boardController.setConfirmButtonVisible();
         });
 
-        acceptTextBarInfo();    }
+        acceptTextBarInfo();
+    }
 
     public String askTypeofView() {
         return null;
@@ -771,21 +774,12 @@ public class GuiManager implements View {
     }
 
     /**
-     * Allows to get the input of the player to jump to an higher level.
-     *
-     * @return The will of the player to reach an higher level.
-     */
-    public String askWantToMoveUp() {
-        return null;                //todo delete everywhere
-    }
-
-    /**
      * Allows to get the input of the player to move an enemy's worker.
      *
      * @return The will of the player to move an enemy's worker
      */
     public String askWantToMoveEnemy() {
-        return null;
+        return askToUseGodPower();
     }
 
     /**
@@ -796,7 +790,51 @@ public class GuiManager implements View {
      * @return The Worker to move selected by the player.
      */
     public String askWorkerToMove(ArrayList<WorkerClient> enemyWorkers, WorkerClient myWorker) {
-        return null;
+        return selectEnemyWorker();
+    }
+
+    private String selectEnemyWorker() {
+
+        int[] chosenCell = new int[2];
+
+        while (true) {
+            Platform.runLater(() -> {
+                boardController.setCellRequested(true);
+                boardController.printToMainText("Select a neighboring enemy worker!");
+            });
+
+            try {
+                chosenCell[0] = (Integer) queue.take(); //row
+                chosenCell[1] = (Integer) queue.take(); //column
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            //check if cell contains worker
+            WorkerClient clickedWorker = boardClient.get().findCell(chosenCell[0], chosenCell[1]).getWorkerClient();
+
+            if (clickedWorker != null
+                    && !clickedWorker.getWorkerColor().toLowerCase().equals(color1.get().toLowerCase())) {
+
+                System.out.println("clickedWorker: " + clickedWorker);    //debug
+
+                String result = boardClient.get()
+                        .workerCellRelativePositionCompass(selectedWorker, chosenCell[0], chosenCell[1]);
+
+                System.out.println("converted in: " + result);
+
+                if (!result.equals("FALSE") && !result.equals("U"))
+                    return result;
+            }
+
+            System.out.println("cell doesn't contain worker");
+
+            Platform.runLater(() ->
+                    boardController.printToMainText("You have to select an enemy worker!\nTry Again"));
+
+        }
+
     }
 
     /**
@@ -868,7 +906,8 @@ public class GuiManager implements View {
      * @return Y for a positive answer, N for a negative one.
      */
     public String printMoveDecisionError() {
-        return askToUseGodPower();    }
+        return askToUseGodPower();
+    }
 
     /**
      * Asks the player if he still wants to build during this turn.
@@ -876,7 +915,8 @@ public class GuiManager implements View {
      * @return Y for a positive answer, N for a negative one.
      */
     public String printBuildDecisionError() {
-        return askToUseGodPower();    }
+        return askToUseGodPower();
+    }
 
     /**
      * Points out a player is not allowed to build.
@@ -1009,7 +1049,7 @@ public class GuiManager implements View {
 
         try {
             AnchorPane lose = FXMLLoader.load(getClass().getResource("/scenes/lose.fxml"));
-            Platform.runLater(()->((GridPane)boardRoot).getChildren().add(lose));
+            Platform.runLater(() -> ((GridPane) boardRoot).getChildren().add(lose));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -1027,9 +1067,9 @@ public class GuiManager implements View {
 
         try {
 
-            while(true){
+            while (true) {
                 accept = (boolean) queue.take();
-                if(accept)
+                if (accept)
                     break;
             }
         } catch (InterruptedException e) {

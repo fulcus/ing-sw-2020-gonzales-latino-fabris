@@ -124,18 +124,6 @@ public class GodController {
         return currentClient.askMoveAgain().equals("Y");
     }
 
-    /**
-     * Allows to get the right input for the God if the player wants to move up or not.
-     *
-     * @return True if the player with his worker doesn't want to jump to an higher level, False otherwise.
-     */
-    public boolean wantToMoveUp() {
-
-        String answer = currentClient.askWantToMoveUp();
-        return answer.equals("Y");
-
-    }
-
 
     /**
      * Allows to manage the will of moving an enemy on the board.

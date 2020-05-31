@@ -192,29 +192,33 @@ public class BoardController {
                 godPowerOnAnswer = "D";
                 godPowerOffAnswer = "B";
                 break;
-            case "charon":
+            case "charon":  //todo
+                godPowerOnName = "selectplayer";
+                godPowerOffName = "skipselect";
+                godPowerOnAnswer = "Y";
+                godPowerOffAnswer = "N";
                 break;
             case "demeter":
                 godPowerOnName = "bothbuild";
-                godPowerOffName = "skipbuild";
+                godPowerOffName = "bothbuild_negate";
                 break;
             case "hephaestus":
                 godPowerOnName = "bothbuild";
-                godPowerOffName = "skipbuild";
+                godPowerOffName = "bothbuild_negate";
                 break;
             case "hera":
                 break;
             case "hestia":
                 godPowerOnName = "bothbuild";
-                godPowerOffName = "skipbuild";
+                godPowerOffName = "bothbuild_negate";
                 break;
             case "minotaur":
                 break;
             case "pan":
                 break;
-            case "prometheus": //buildbeforemove
+            case "prometheus":
                 godPowerOnName = "buildbeforemove";
-                godPowerOffName = "buildbeforemove"; //todo change to striked out image
+                godPowerOffName = "buildbeforemove_negate";
                 break;
             case "triton":
                 godPowerOnName = "movefast";

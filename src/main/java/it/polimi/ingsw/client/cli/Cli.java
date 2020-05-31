@@ -54,7 +54,7 @@ public class Cli implements View {
     }
 
     public void connectionOutcome(boolean connected) {
-        if(connected)
+        if (connected)
             System.out.println("Connected to the server.\n");
         else
             System.out.println("Server unreachable.\n");
@@ -72,7 +72,7 @@ public class Cli implements View {
     /**
      * Displays that the player has been disconnected and reason.
      */
-    public void notifyOtherPlayerDisconnection(){
+    public void notifyOtherPlayerDisconnection() {
 
         System.out.println("\nThe opponent player has disconnected, your game ends now!");
         System.out.println("Goodbye");
@@ -188,20 +188,18 @@ public class Cli implements View {
 
 
     public void setOtherPlayersInfo(String nickname, String color) {
-        if ( bluePlayer == null  && color.equals("BLUE")){
+        if (bluePlayer == null && color.equals("BLUE")) {
             bluePlayer = nickname;
-        }
-        else if ( whitePlayer == null  && color.equals("WHITE")) {
+        } else if (whitePlayer == null && color.equals("WHITE")) {
             whitePlayer = nickname;
-        }
-        else if ( beigePlayer == null && color.equals("BEIGE"))
+        } else if (beigePlayer == null && color.equals("BEIGE"))
             beigePlayer = nickname;
 
-        if (this.playerColor!=null && (this.playerColor.equals("BLUE") || this.playerColor.equals("blue")))
+        if (this.playerColor != null && (this.playerColor.equals("BLUE") || this.playerColor.equals("blue")))
             bluePlayer = playerNickname;
-        else if (this.playerColor!=null && (this.playerColor.equals("WHITE") || this.playerColor.equals("white") ))
+        else if (this.playerColor != null && (this.playerColor.equals("WHITE") || this.playerColor.equals("white")))
             whitePlayer = playerNickname;
-        else if (this.playerColor!=null && (this.playerColor.equals("BEIGE") || this.playerColor.equals("beige") ))
+        else if (this.playerColor != null && (this.playerColor.equals("BEIGE") || this.playerColor.equals("beige")))
             beigePlayer = playerNickname;
     }
 
@@ -376,7 +374,7 @@ public class Cli implements View {
     }
 
 
-    public void notifyPlayersOfLoss(String loserNickname){
+    public void notifyPlayersOfLoss(String loserNickname) {
         System.out.println(loserNickname + " has lost, 2 players remained!");
     }
 
@@ -396,16 +394,13 @@ public class Cli implements View {
 
         for (int i = 0; i < Board.SIDE; i++) {
 
-            if (i == 0 && bluePlayer!=null) {
+            if (i == 0 && bluePlayer != null) {
                 System.out.printf(LINE_SEPARATOR_PLAYER_BLUE);
-            }
-            else if (i == 1 && whitePlayer!=null) {
+            } else if (i == 1 && whitePlayer != null) {
                 System.out.printf(LINE_SEPARATOR_PLAYER_WHITE);
-            }
-            else if (i == 2 && beigePlayer!=null) {
+            } else if (i == 2 && beigePlayer != null) {
                 System.out.printf(LINE_SEPARATOR_PLAYER_BEIGE);
-            }
-            else
+            } else
                 System.out.printf(LINE_SEPARATOR);//Border
 
             printMapLine(i);//content of game
@@ -684,17 +679,6 @@ public class Cli implements View {
 
 
     /**
-     * Allows to get the input of the player to jump to an higher level.
-     *
-     * @return The will of the player to reach an higher level.
-     */
-    public String askWantToMoveUp() {
-        System.out.println("Do you want to move up?");
-        return playerAnswerYN();
-    }
-
-
-    /**
      * Allows to get the input of the player to move an enemy's worker.
      *
      * @return The will of the player to move an enemy's worker
@@ -710,7 +694,7 @@ public class Cli implements View {
      *
      * @param enemyWorkers It's the list of the neighbour movable enemy workers.
      * @param myWorker     It's the chosen worker of the current player.
-     * @return The Worker to move selected by the player.
+     * @return The Worker to move selected by the player, null if there aren't enemies around.
      */
     public String askWorkerToMove(ArrayList<WorkerClient> enemyWorkers, WorkerClient myWorker) {
 

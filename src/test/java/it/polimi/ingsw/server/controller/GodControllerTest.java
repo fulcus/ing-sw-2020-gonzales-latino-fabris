@@ -101,15 +101,6 @@ public class GodControllerTest {
 
 
     @Test
-    public void wantToMoveUp() {
-        godController.updateCurrentClient(client);
-        when(client.askWantToMoveUp()).thenReturn("Y");
-
-        assertTrue(godController.wantToMoveUp());
-    }
-
-
-    @Test
     public void wantToMoveEnemy() {
         godController.updateCurrentClient(client);
         when(client.askWantToMoveEnemy()).thenReturn("Y");

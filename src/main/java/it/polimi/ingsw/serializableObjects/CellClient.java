@@ -51,31 +51,23 @@ public class CellClient implements Serializable {
 
         this.cellLevel = cellFromServer.getCellLevel();
         this.hasDome = cellFromServer.hasDome();
-        /*
-        if (cellFromServer.getWorkerClient() != null)
-            this.worker = new WorkerClient(cellFromServer.getWorkerClient());
-        else
-            this.worker = null;
-       */
 
     }
 
+    /**
+     * Removes worker from cell
+     */
     public void removeWorker() {
         this.worker = null;
     }
 
+    /**
+     * Updates worker in cell
+     * @param worker local workerClient instance
+     */
     public void addWorker(WorkerClient worker) {
         this.worker = worker;
     }
-
-    /*private void removeWorker (WorkerClient movedWorker){
-
-        for(int i=0; i < Board.SIDE; i++){
-            for(int j=0; j < Board.SIDE; j++){
-
-            }
-        }
-    }*/
 
     public int getY() {
         return y;
@@ -100,6 +92,5 @@ public class CellClient implements Serializable {
     public int getCellLevel() {
         return cellLevel;
     }
-
 
 }

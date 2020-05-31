@@ -399,16 +399,6 @@ public class ViewClient implements ClientViewObserver {
 
 
     /**
-     * Allows to get the input of the player to jump to an higher level.
-     *
-     * @return The will of the player to reach an higher level.
-     */
-    public String askWantToMoveUp() {
-        return (String) sendMessageWithReturn(new Message("askWantToMoveUp"));
-    }
-
-
-    /**
      * Allows to get the input of the player to move an enemy's worker.
      *
      * @return The will of the player to move an enemy's worker

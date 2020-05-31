@@ -194,27 +194,6 @@ public class BoardClient {
             }
         }
 
-        /*
-        //get local instance of workerClient of the corresponding color and sex
-        Class<?> c = getClass();
-        Field field;
-        WorkerClient localWorker = null;
-
-        try {
-            String workerId = color + sex;
-            field = c.getDeclaredField(workerId.toLowerCase());
-            localWorker = (WorkerClient) field.get(this);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-
-        if(localWorker == null)
-            localWorker = new WorkerClient(workerFromServer);
-        else
-            localWorker.updateWorkerPosition(workerFromServer);
-
-
-        workerCell.addWorker(localWorker);*/
     }
 
 }
