@@ -65,6 +65,23 @@
     -fx-background-color: transparent ;
 }
 
+.confirm-button {
+    -fx-background-image:url('../buttons/cm_btn_green.png');
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-color: transparent ;
+    -fx-font-family: "Ink Blossoms";
+}
+
+.confirm-button:pressed {
+    -fx-background-image:url('../buttons/cm_btn_green_pressed.png');
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-color: transparent ;
+}
+
 .text {
     -fx-font-family: "Ink Blossoms";
     -fx-text-alignment: center;

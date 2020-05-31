@@ -341,7 +341,12 @@ public class GuiManager implements View {
     }
 
     public void invalidInitialWorkerPosition() {
-        //TODO POPUP
+        Platform.runLater(() -> {
+            boardController.printToMainText("You cannot place your worker here!");
+            boardController.setConfirmButtonVisible();
+        });
+
+        acceptTextBarInfo();
     }
 
     public String askPlayerNickname() {
@@ -488,7 +493,7 @@ public class GuiManager implements View {
     }
 
     public void invalidStartPlayer() {
-
+        //can do nothing here
     }
 
 
@@ -552,8 +557,12 @@ public class GuiManager implements View {
      * Allows to print the ERROR to the screen
      */
     public void printErrorScreen() {
-        Platform.runLater(() -> boardController.printToMainText("Error: you're not allowed to do this!"));
-    }
+        Platform.runLater(() -> {
+            boardController.printToMainText("You are not allowed to do this!");
+            boardController.setConfirmButtonVisible();
+        });
+
+        acceptTextBarInfo();    }
 
     /**
      * Prints to screen that one of the player has won the game
@@ -571,15 +580,30 @@ public class GuiManager implements View {
     }
 
     public void unableToMoveLose() {
+        Platform.runLater(() -> {
+            boardController.printToMainText("You cannot move anywhere!");
+            boardController.setConfirmButtonVisible();
+        });
 
+        acceptTextBarInfo();
     }
 
     public void unableToBuildLose() {
+        Platform.runLater(() -> {
+            boardController.printToMainText("You cannot build anywhere!");
+            boardController.setConfirmButtonVisible();
+        });
 
+        acceptTextBarInfo();
     }
 
     public void notifyPlayersOfLoss(String loserNickname) {
+        Platform.runLater(() -> {
+            boardController.printToMainText(loserNickname + " has lost this game!");
+            boardController.setConfirmButtonVisible();
+        });
 
+        acceptTextBarInfo();
     }
 
     /**
@@ -599,7 +623,7 @@ public class GuiManager implements View {
     }
 
     public void challengerError() {
-
+        //todo check: maybe never called anywhere??
     }
 
     public void printChosenGods(ArrayList<String> chosenGods) {
@@ -609,12 +633,20 @@ public class GuiManager implements View {
     }
 
     public void selectedWorkerCannotMove(String sex) {
-        Platform.runLater(() -> boardController.printToMainText("Selected Worker cannot move!"));
-    }
+        Platform.runLater(() -> {
+            boardController.printToMainText("The selected worker cannot move");
+            boardController.setConfirmButtonVisible();
+        });
+
+        acceptTextBarInfo();    }
 
     public void selectedWorkerCannotBuild(String sex) {
-        Platform.runLater(() -> boardController.printToMainText("Selected Worker cannot build!"));
-    }
+        Platform.runLater(() -> {
+            boardController.printToMainText("The selected worker cannot build");
+            boardController.setConfirmButtonVisible();
+        });
+
+        acceptTextBarInfo();    }
 
     public String askTypeofView() {
         return null;
@@ -772,6 +804,12 @@ public class GuiManager implements View {
      * This is allowed only when playing with Zeus.
      */
     public void printBuildUnderneath() {
+        Platform.runLater(() -> {
+            boardController.printToMainText("Remember that you can also build underneath!");
+            boardController.setConfirmButtonVisible();
+        });
+
+        acceptTextBarInfo();
     }
 
     /**
@@ -810,10 +848,17 @@ public class GuiManager implements View {
         return askToUseGodPower();
     }
 
+
     /**
      * Points out the player cannot move in a certain position.
      */
     public void printMoveErrorScreen() {
+        Platform.runLater(() -> {
+            boardController.printToMainText("You cannot move here!");
+            boardController.setConfirmButtonVisible();
+        });
+
+        acceptTextBarInfo();
 
     }
 
@@ -823,8 +868,7 @@ public class GuiManager implements View {
      * @return Y for a positive answer, N for a negative one.
      */
     public String printMoveDecisionError() {
-        return null;
-    }
+        return askToUseGodPower();    }
 
     /**
      * Asks the player if he still wants to build during this turn.
@@ -832,28 +876,42 @@ public class GuiManager implements View {
      * @return Y for a positive answer, N for a negative one.
      */
     public String printBuildDecisionError() {
-        return null;
-    }
+        return askToUseGodPower();    }
 
     /**
      * Points out a player is not allowed to build.
      */
     public void printBuildGeneralErrorScreen() {
+        Platform.runLater(() -> {
+            boardController.printToMainText("You cannot build here!");
+            boardController.setConfirmButtonVisible();
+        });
 
+        acceptTextBarInfo();
     }
 
     /**
      * Points out a player is not allowed to build a block in a certain position.
      */
     public void printBuildBlockErrorScreen() {
+        Platform.runLater(() -> {
+            boardController.printToMainText("You cannot build a block here!");
+            boardController.setConfirmButtonVisible();
+        });
 
+        acceptTextBarInfo();
     }
 
     /**
      * Points out that a player is not allowed to build again in a certain position.
      */
     public void printBuildInSamePositionScreen() {
+        Platform.runLater(() -> {
+            boardController.printToMainText("You cannot build again here!");
+            boardController.setConfirmButtonVisible();
+        });
 
+        acceptTextBarInfo();
     }
 
     /**
@@ -925,7 +983,9 @@ public class GuiManager implements View {
      * @param player player who is performing the action
      */
     public void otherPlayerSettingInitialWorkerPosition(String player) {
-
+        Platform.runLater(() -> {
+            boardController.printToMainText("Other player's setting initial worker's position. Wait...");
+        });
     }
 
     /**
@@ -934,6 +994,9 @@ public class GuiManager implements View {
      * @param currentPlayer nickname of the player that is playing his turn
      */
     public void otherPlayerTurn(String currentPlayer) {
+        Platform.runLater(() -> {
+            boardController.printToMainText("Other player's turn. Wait...");
+        });
 
     }
 
@@ -952,5 +1015,28 @@ public class GuiManager implements View {
         }
 
         return true;
+    }
+
+
+    /**
+     * Allows to get the confirm that the player has read the message on the main textbar of the board.
+     */
+    private void acceptTextBarInfo() {
+
+        boolean accept = false;
+
+        try {
+
+            while(true){
+                accept = (boolean) queue.take();
+                if(accept)
+                    break;
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("confirmed reading message");
+
     }
 }

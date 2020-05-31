@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.gui;
 import it.polimi.ingsw.serializableObjects.CellClient;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -95,6 +96,8 @@ public class BoardController {
     private GridPane boardGrid;
     @FXML
     private AnchorPane menu;
+    @FXML
+    private Button confirmButton;
 
     private final Image bluemale;
     private final Image bluefemale;
@@ -435,6 +438,22 @@ public class BoardController {
             printToMainText("You didn't use your god power");
         }
         setGodPowerRequested(false);
+    }
+
+
+    @FXML
+    public void confirmRead() {
+        try {
+            GuiManager.queue.put(true);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        confirmButton.setVisible(false);
+    }
+
+    public void setConfirmButtonVisible() {
+        confirmButton.setVisible(true);
     }
 
 
