@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" stylesheets="@../css/board.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.BoardController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" stylesheets="@../css/board.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.BoardController">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     </columnConstraints>
@@ -242,6 +242,17 @@
                         <Insets bottom="14.0" left="15.0" top="137.0" />
                     </GridPane.margin>
                 </ImageView>
+            <Button fx:id="confirmButton" minHeight="10.0" minWidth="10.0" mnemonicParsing="false" onMouseClicked="#confirmRead" prefHeight="30.0" prefWidth="55.0" styleClass="confirm-button" text="OK" visible="false" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets left="720.0" top="50.0" />
+               </GridPane.margin>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets bottom="-2.0" />
+               </padding>
+            </Button>
                 <Text fx:id="myNickname" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="You" wrappingWidth="73.27805137634277" GridPane.rowIndex="1">
                     <GridPane.margin>
                         <Insets bottom="15.0" left="20.0" top="137.0" />
