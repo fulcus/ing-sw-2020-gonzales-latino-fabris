@@ -65,11 +65,12 @@ public class Worker {
         if (position != null) {
             position.moveOut();
         }
+        position = newPosition;
         newPosition.moveIn(this);
 
         levelVariation = newLevel - level;
         level = newLevel;
-        position = newPosition;
+        //position = newPosition;
     }
 
 
@@ -86,11 +87,12 @@ public class Worker {
 
         workerInCell.setPosition(position);
         //NO moveOut of previous cell
+        position = newPosition;
         newPosition.moveIn(this);
 
         levelVariation = newLevel - level;
         level = newLevel;
-        position = newPosition;
+        //position = newPosition;
 
     }
 

@@ -109,7 +109,7 @@ public class BoardClient {
      * @param cellFromServer cell received from the server.
      */
     public void update(CellClient cellFromServer) {
-        //find cell position in clientBoard
+        //finds cell of clientBoard
         CellClient cellInClient = findCell(cellFromServer.getX(), cellFromServer.getY());
 
         //updates level and dome of cell
@@ -134,7 +134,6 @@ public class BoardClient {
         //else update local worker and local cell
         String sex = workerFromServer.getWorkerSex().toLowerCase();
         String color = workerFromServer.getWorkerColor().toLowerCase();
-
 
 
         if(sex.equals("male")) {
