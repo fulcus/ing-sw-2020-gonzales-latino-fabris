@@ -18,14 +18,12 @@ public class NetworkHandler implements Runnable {
 
 
     private volatile boolean connected;
-    private final Socket server;
     private ObjectOutputStream outputStm;
     private final Client client;
-    private InputReader inputReader;
+    private final InputReader inputReader;
 
 
     public NetworkHandler(Socket server, Client client) {
-        this.server = server;
         connected = true;
         this.client = client;
 
@@ -94,7 +92,6 @@ public class NetworkHandler implements Runnable {
 
         if (receivedMessage == null)
             return null;
-
 
         return client.update(receivedMessage);
     }

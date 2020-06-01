@@ -12,7 +12,7 @@ public class InputReader implements Runnable {
 
     private boolean connected;
     private ObjectInputStream inputStm;
-    private volatile SynchronousQueue<Object> receivedObjectsQueue;
+    private final SynchronousQueue<Object> receivedObjectsQueue;
     private final Client client;
 
 
@@ -30,18 +30,15 @@ public class InputReader implements Runnable {
         } catch (IOException e) {
             System.out.println("server has died");
         }
-
     }
 
 
     @Override
     public void run() {
 
-
         while (connected) {
 
             try {
-
 
                 Object readObject = inputStm.readObject();
 
@@ -50,7 +47,7 @@ public class InputReader implements Runnable {
 
                 if (readMessage.getMethod().equals("shutdownClient") || readMessage.getMethod().equals("notifyOtherPlayerDisconnection")) {
 
-                    System.out.println("received" + readMessage.getMethod());
+                    System.out.println("received " + readMessage.getMethod());
 
                     if(readMessage.getMethod().equals("notifyOtherPlayerDisconnection"))
                         client.update(readMessage);
@@ -60,12 +57,10 @@ public class InputReader implements Runnable {
                         client.disconnect();
                     }
 
-                    //Che succede se ho messo false, quidni non aggiungero piu niente alla coda ma network handler, è su handle server request?
+                    //Che succede se ho messo false, quindi non aggiungero piu niente alla coda ma network handler, è su handle server request?
                     //STOP NETWORK HANDLER THREAD?
 
-
                 } else {
-
                     try {
                         receivedObjectsQueue.put(readObject);
                     } catch (InterruptedException e) {
@@ -73,15 +68,12 @@ public class InputReader implements Runnable {
                     }
                 }
 
-
             } catch (IOException | ClassNotFoundException e) {
 
                 e.printStackTrace();
 
             }
-
         }
-
     }
 
     public SynchronousQueue<Object> getObjectsQueue() {
