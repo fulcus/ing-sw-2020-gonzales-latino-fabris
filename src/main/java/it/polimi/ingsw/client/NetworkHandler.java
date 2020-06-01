@@ -17,33 +17,33 @@ import java.util.concurrent.SynchronousQueue;
 public class NetworkHandler implements Runnable {
 
 
-
     private volatile boolean connected;
     private final Socket server;
     private ObjectOutputStream outputStm;
-    private ObjectInputStream inputStm;
     private final Client client;
-
+    private InputReader inputReader;
 
 
     public NetworkHandler(Socket server, Client client) {
         this.server = server;
         connected = true;
         this.client = client;
-    }
 
-    protected void init() {
+
 
         try {
             outputStm = new ObjectOutputStream(server.getOutputStream());
-            inputStm = new ObjectInputStream(server.getInputStream());
         } catch (IOException e) {
             System.out.println("server has died");
         } catch (ClassCastException e) {
             System.out.println("protocol violation");
         }
 
+         inputReader = new InputReader(server,client);
+         new Thread(inputReader).start();
+
     }
+
 
     public boolean isConnected() {
         return connected;
@@ -53,9 +53,7 @@ public class NetworkHandler implements Runnable {
     @Override
     public void run() {
 
-        init();
-
-        while (connected) {
+        while (inputReader.isConnected()) {
 
             try {
 
@@ -70,12 +68,8 @@ public class NetworkHandler implements Runnable {
 
         }
 
-        try {
-            server.close();
-        } catch (IOException e) {
-            System.out.println("CATCH SERVER CLOSE");
-            e.printStackTrace();
-        }
+        disconnect();
+
     }
 
 
@@ -87,16 +81,20 @@ public class NetworkHandler implements Runnable {
      */
     private Object handleServerRequest() throws IOException, ClassNotFoundException {
 
-        Message receivedMessage = (Message) inputStm.readObject();
+        Message receivedMessage = null;
+
+        try {
+
+            receivedMessage = (Message) inputReader.getObjectsQueue().take();
+
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         if (receivedMessage == null)
             return null;
 
-        if (receivedMessage.getMethod().equals("shutdownClient")) {
-            System.out.println("Received shutdown from server");
-            connected = false;
-            return null;
-        }
 
         return client.update(receivedMessage);
     }
@@ -109,6 +107,15 @@ public class NetworkHandler implements Runnable {
 
         outputStm.writeObject(clientResponse);
 
+    }
+
+    public void disconnect(){
+        System.out.println("Network handler received disconnected");
+        this.connected = false;
+    }
+
+    public InputReader getInputReader() {
+        return inputReader;
     }
 
 

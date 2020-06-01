@@ -294,4 +294,14 @@ public class Client {
         return callMethod(receivedMessage);
     }
 
+    public void disconnect() {
+        try {
+            System.out.println("CLOSING SERVER");
+            server.close();
+        } catch (IOException e) {
+            System.out.println("CATCH SERVER CLOSE");
+            e.printStackTrace();
+        }
+    }
+
 }

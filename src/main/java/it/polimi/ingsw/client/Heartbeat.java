@@ -14,15 +14,20 @@ public class Heartbeat extends TimerTask implements Runnable {
     private final NetworkHandler networkHandler;
     private final Message pingMessage;
 
+
     public Heartbeat(NetworkHandler clientNetworkHandler) {
 
         networkHandler = clientNetworkHandler;
         pingMessage = new Message("PING");
 
+
+
     }
 
     @Override
     public void run() {
+
+        InputReader inputReader = networkHandler.getInputReader();
 
         ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
         scheduledExecutorService.scheduleAtFixedRate(this::sendPing, 0, 10, TimeUnit.SECONDS);
@@ -30,7 +35,7 @@ public class Heartbeat extends TimerTask implements Runnable {
         boolean stop = false;
 
         while (!stop) {
-            if (!networkHandler.isConnected()) {
+            if (!inputReader.isConnected()) {
                 scheduledExecutorService.shutdownNow();
                 stop = true;
             }
@@ -38,13 +43,15 @@ public class Heartbeat extends TimerTask implements Runnable {
     }
 
     public void sendPing() {
-        if(networkHandler.isConnected()) {
+
+        InputReader inputReader = networkHandler.getInputReader();
+
+        if(inputReader.isConnected()) {
             try {
                 networkHandler.handleClientResponse(pingMessage);
             } catch (IOException e) {
                 System.out.println("SEND PING CATCH");
                 //CAUGHT WHEN TRYING TO PING WHILE THE SOCKED HAS BEEN ALREADY CLOSED BY SHUTDOWN
-                //TODO VA IN LOOP LA CATCH, FIXARE.
             }
         }
     }

@@ -653,7 +653,7 @@ public class ViewClient implements ClientViewObserver {
      */
     public void killClient() {
         gameController.removeClientObserver(this);
-        inputReader.stop();
+       // inputReader.stop();//TODO REMOVE ONCE THREAD IN CLIENT HAS BEEN IMPLEMENTED
         sendMessage(new Message("shutdownClient"));
         inGame = false;
     }

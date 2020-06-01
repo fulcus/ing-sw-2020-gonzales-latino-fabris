@@ -77,26 +77,24 @@ public class ChooseGodController {
     private String selectedGodID;
 
     private boolean challenger;
-    private boolean keepRedFrame;
-    private boolean previouslyRed;
+
+
+    private  ArrayList<ImageView> redFrames;
 
     public ChooseGodController() {
+        redFrames = new ArrayList<>(3);
         whiteFrame = new Image("/frames/frame_white.png");
         blueFrame = new Image("/frames/frame_blue.png");
         redFrame = new Image("/frames/frame_coral.png");
         selectedGodID = null;
         challenger = false;
-        keepRedFrame = false;
-        previouslyRed = false;
+
     }
 
     protected void init() {
         //  select.setDisable(true);
     }
 
-    public void setKeepRedFrame() {
-        keepRedFrame = true;
-    }
 
     @FXML
     private void selectedGod(MouseEvent event) {
@@ -120,7 +118,7 @@ public class ChooseGodController {
             e.printStackTrace();
         }
 
-
+/*
         if (godFrame != null) {
 
             if (godFrame.getImage().equals(redFrame))
@@ -132,6 +130,18 @@ public class ChooseGodController {
             } else
                 godFrame.setImage(whiteFrame);
         }
+*/
+
+        if(godFrame != null){
+
+            //if the clicked god, was part of selected gods, the frame is reset to red
+            if(redFrames.contains(godFrame))
+                godFrame.setImage(redFrame);
+
+            else
+                godFrame.setImage(whiteFrame);
+        }
+
 
         //get the ImageView godFrame attribute for the clicked god
         Field frame;
@@ -143,10 +153,6 @@ public class ChooseGodController {
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
-
-        if (godFrame.getImage().equals(redFrame))
-            previouslyRed = true;
-
 
         godFrame.setImage(blueFrame);
 
@@ -223,6 +229,10 @@ public class ChooseGodController {
         Field godFrame;
         ImageView frame;
 
+
+
+
+
         for (String godId : chosenGods) {
 
 
@@ -231,7 +241,12 @@ public class ChooseGodController {
                 godFrame.setAccessible(true);
                 frame = (ImageView) godFrame.get(this);
                 frame.setImage(redFrame);
-                setKeepRedFrame();
+
+
+                redFrames.add(frame);//creates arraylist with frames of chosen gods
+                //when receive gods chosen by other players, remove from arraylist
+
+                //setKeepRedFrame();
 
             } catch (NoSuchFieldException | IllegalAccessException e) {
                 e.printStackTrace();
@@ -242,6 +257,31 @@ public class ChooseGodController {
     }
 
     public void otherPlayerChoseGod(String otherPlayer, String chosenGod) {
+
+        Class<?> c = getClass();
+        Field godFrame;
+        ImageView frame;
+
+        try {
+            godFrame = c.getDeclaredField(chosenGod.toLowerCase() + "Frame");
+            godFrame.setAccessible(true);
+            frame = (ImageView) godFrame.get(this);
+
+            System.out.println("HERE seting" + frame +"to white");
+
+
+            //when receive gods chosen by other players, remove from arraylist
+            redFrames.remove(frame);
+
+
+
+            frame.setImage(whiteFrame);//set to white
+
+
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
 
         mainText.setText(otherPlayer + " has chosen " + chosenGod);
 

@@ -27,6 +27,7 @@ public class ClientInputReader implements Runnable {
         try {
             input = new ObjectInputStream(client.getSocket().getInputStream());
         } catch (IOException e) {
+            e.printStackTrace();
         }
 
     }
@@ -71,6 +72,9 @@ public class ClientInputReader implements Runnable {
 
 
             } catch (IOException e) {
+
+                System.out.println("PRINTING EXCEPTION");
+                e.printStackTrace();
 
                 connected = false;
 
