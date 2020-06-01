@@ -2,9 +2,12 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.controller.TurnHandler;
+import javafx.concurrent.Task;
 
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 
@@ -16,6 +19,7 @@ public class Lobby {
     private final ArrayList<GameController> games;
     private GameController availableGame;
     private int connectedToAvailableGame;
+    private Timer timer;
 
     public Lobby() {
         games = new ArrayList<>();
@@ -47,9 +51,30 @@ public class Lobby {
             availableGame = games.get(games.size() - 1);
 
             ViewClient newClient = new ViewClient(clientSocket, availableGame);
+
+
+            while(!availableGame.getAccessible()){
+                timer = new Timer();
+                timer.schedule(new HelperTask(newClient), 3000);
+                timer.cancel(); //Terminate the timer thread
+            }
+
             joinGame(newClient);
         }
 
+    }
+
+    static class HelperTask extends TimerTask{
+
+        ViewClient waitingClient;
+
+        HelperTask(ViewClient waitingClient){
+            this.waitingClient = waitingClient;
+        }
+
+        public void run() {
+            //do Nothing
+        }
     }
 
 
