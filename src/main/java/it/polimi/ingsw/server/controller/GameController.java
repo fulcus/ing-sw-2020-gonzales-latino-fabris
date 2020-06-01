@@ -24,6 +24,7 @@ public class GameController {
     //private ColorSetting colorSetting;
     private final Object nicknameLock;
     private final Object colorLock;
+    private boolean accessible;
 
     public GameController() {
         game = null;
@@ -35,6 +36,7 @@ public class GameController {
         //colorSetting = new ColorSetting();
         nicknameLock = new Object();
         colorLock = new Object();
+        accessible = false;
     }
 
 
@@ -51,8 +53,14 @@ public class GameController {
 
         game = new Game(numOfPlayers);
 
+        accessible = true;
+
         turnHandler = new TurnHandler(getGame(), this);
 
+    }
+
+    public boolean getAccessible() {
+        return accessible;
     }
 
 
