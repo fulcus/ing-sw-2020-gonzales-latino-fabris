@@ -20,8 +20,6 @@ public class GameController {
     private final ArrayList<God> godsDeck;
     private final ExecutorService executorPlayerAdder;
     private final ArrayList<ViewClient> gameClients;
-    //private NickSetting nickSetting;
-    //private ColorSetting colorSetting;
     private final Object nicknameLock;
     private final Object colorLock;
     private boolean accessible;
@@ -32,8 +30,6 @@ public class GameController {
         godsDeck = new ArrayList<>(14);
         executorPlayerAdder = Executors.newCachedThreadPool();
         gameClients = new ArrayList<>();
-        //nickSetting = new NickSetting();
-        //colorSetting = new ColorSetting();
         nicknameLock = new Object();
         colorLock = new Object();
         accessible = false;

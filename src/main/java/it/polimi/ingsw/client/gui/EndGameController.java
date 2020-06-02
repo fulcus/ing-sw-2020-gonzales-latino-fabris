@@ -2,9 +2,9 @@ package it.polimi.ingsw.client.gui;
 
 import javafx.fxml.FXML;
 
-public class WinLoseController {
+public class EndGameController {
 
-    public WinLoseController() {
+    public EndGameController() {
     }
 
     @FXML

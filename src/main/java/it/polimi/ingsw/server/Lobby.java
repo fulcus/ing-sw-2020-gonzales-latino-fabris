@@ -80,6 +80,8 @@ public class Lobby {
 
     private void createGame(ViewClient newClient) {
 
+        connectedToAvailableGame++;
+
         GameController newGame = availableGame;
 
         newClient.createGame();
@@ -89,14 +91,13 @@ public class Lobby {
         ExecutorService executor = newGame.getExecutorPlayerAdder();
         executor.execute(() -> newGame.addPlayer(newClient));
 
-        connectedToAvailableGame++;
-
     }
 
 
     private void joinGame(ViewClient newClient) {
 
-        newClient.joinGame(availableGame.getGame().getNumberOfPlayers());   //send message to client
+        //send message to client
+        newClient.joinGame(availableGame.getGame().getNumberOfPlayers());
 
         //send client nickname and color of all players that are already in
         sendOtherPlayersInfo(newClient);
@@ -107,10 +108,8 @@ public class Lobby {
         gameExecutor.execute(() -> currentGame.addPlayer(newClient));
 
         //send client nickname and color of all players that are already in
-        //sendOtherPlayersInfo(newClient);
 
         connectedToAvailableGame++;
-
         availableGame = null;
 
         //waits for all players to finish adding their player ie setting nickname and color

@@ -47,3 +47,9 @@
     -fx-font-size: 38;
     -fx-font-color: white;
 }
+
+.disconnect-text {
+    -fx-font-family: "Ink Blossoms";
+    -fx-font-size: 25;
+    -fx-font-color: white;
+}
