@@ -9,13 +9,13 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class Heartbeat extends TimerTask implements Runnable {
+public class HeartbeatClient extends TimerTask implements Runnable {
 
     private final NetworkHandler networkHandler;
     private final Message pingMessage;
 
 
-    public Heartbeat(NetworkHandler clientNetworkHandler) {
+    public HeartbeatClient(NetworkHandler clientNetworkHandler) {
 
         networkHandler = clientNetworkHandler;
         pingMessage = new Message("PING");

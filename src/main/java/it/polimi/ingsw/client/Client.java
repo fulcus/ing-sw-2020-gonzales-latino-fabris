@@ -69,7 +69,7 @@ public class Client {
         Thread networkHandlerThread = new Thread(networkHandler);
         networkHandlerThread.start();
 
-        Heartbeat heartBeat = new Heartbeat(networkHandler);
+        HeartbeatClient heartBeat = new HeartbeatClient(networkHandler);
         Thread heartBeatThread = new Thread(heartBeat);
         heartBeatThread.start();
 
