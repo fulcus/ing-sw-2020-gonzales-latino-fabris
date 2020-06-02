@@ -190,7 +190,7 @@ public class BoardController {
                 break;
             case "artemis":
                 godPowerOnName = "movefast";
-                godPowerOffName = "skipmove";
+                godPowerOffName = "movefast_negate";
                 break;
             case "athena":
                 break;
@@ -200,9 +200,9 @@ public class BoardController {
                 godPowerOnAnswer = "D";
                 godPowerOffAnswer = "B";
                 break;
-            case "charon":  //todo
+            case "charon": //todo
                 godPowerOnName = "selectplayer";
-                godPowerOffName = "skipselect";
+                godPowerOffName = "selectplayer_negate";
                 godPowerOnAnswer = "Y";
                 godPowerOffAnswer = "N";
                 break;
@@ -230,19 +230,19 @@ public class BoardController {
                 break;
             case "triton":
                 godPowerOnName = "movefast";
-                godPowerOffName = "skipmove";
+                godPowerOffName = "movefast_negate";
                 break;
             case "zeus":
                 break;
         }
 
         if (!godPowerOnName.equals("")) {
-            godPowerOnImage.setImage(new Image("/board/god_powers/gp_" + godPowerOnName + ".png"));
+            godPowerOnImage.setImage(new Image("/board/god_powers/gp_" + godPowerOnName + "_withText.png"));
             godPowerOnImage.setVisible(true);
         }
 
         if (!godPowerOffName.equals("")) {
-            godPowerOffImage.setImage(new Image("/board/god_powers/gp_" + godPowerOffName + ".png"));
+            godPowerOffImage.setImage(new Image("/board/god_powers/gp_" + godPowerOffName + "_withText.png"));
             godPowerOffImage.setVisible(true);
         }
     }
