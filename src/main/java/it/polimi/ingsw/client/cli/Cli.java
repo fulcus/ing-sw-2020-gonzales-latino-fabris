@@ -97,7 +97,6 @@ public class Cli implements View {
 
         } while (!startString.equals("START"));
 
-        //System.out.println("\nWaiting for other players to join...");
     }
 
 
@@ -221,8 +220,11 @@ public class Cli implements View {
     public String askPlayerColor() {
 
         System.out.println("\n" + playerNickname + ", choose your color.");
+        System.out.println("The available colors are Blue, White and Beige.");
+
         String color = input.nextLine().toUpperCase();
         playerColor = color;
+
         return color;
     }
 
@@ -234,11 +236,6 @@ public class Cli implements View {
 
     public void notifyValidColor() {
         System.out.println("Color accepted");
-    }
-
-
-    public void waitToBeAssigned() {
-        System.out.println("(If you're not the creator of the game it can happen you would wait a while)\n");
     }
 
 
@@ -302,9 +299,7 @@ public class Cli implements View {
 
         System.out.println("\n" + playerNickname + ", choose the first player to start! Type his nickname:");
 
-
         return input.nextLine();
-
     }
 
 

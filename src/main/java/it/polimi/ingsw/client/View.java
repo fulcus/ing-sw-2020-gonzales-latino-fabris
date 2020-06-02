@@ -28,7 +28,6 @@ public interface View {
 
     void notifyValidColor();
 
-    void waitToBeAssigned();
 
     /**
      * Displays that the player has been disconnected and reason.

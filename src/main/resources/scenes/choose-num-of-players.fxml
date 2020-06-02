@@ -15,7 +15,7 @@
             <Image url="@../title/title_cloud_back_right.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="332.0" fitWidth="472.0" layoutX="-102.0" layoutY="363.0" pickOnBounds="true" preserveRatio="true" rotate="18.4">
+      <ImageView fitHeight="322.0" fitWidth="427.0" layoutX="-102.0" layoutY="363.0" pickOnBounds="true" preserveRatio="true" rotate="18.4">
          <image>
             <Image url="@../title/title_cloud_back_horizon.png" />
          </image>

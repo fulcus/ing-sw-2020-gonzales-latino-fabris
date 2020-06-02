@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -11,7 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" stylesheets="@../css/board.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.BoardController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" stylesheets="@../css/board.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.BoardController">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     </columnConstraints>
@@ -242,17 +243,6 @@
                         <Insets bottom="14.0" left="15.0" top="137.0" />
                     </GridPane.margin>
                 </ImageView>
-            <Button fx:id="confirmButton" minHeight="10.0" minWidth="10.0" mnemonicParsing="false" onMouseClicked="#confirmRead" prefHeight="30.0" prefWidth="55.0" styleClass="confirm-button" text="OK" visible="false" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets left="720.0" top="50.0" />
-               </GridPane.margin>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <padding>
-                  <Insets bottom="-2.0" />
-               </padding>
-            </Button>
                 <Text fx:id="myNickname" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="You" wrappingWidth="73.27805137634277" GridPane.rowIndex="1">
                     <GridPane.margin>
                         <Insets bottom="15.0" left="20.0" top="137.0" />
@@ -268,9 +258,9 @@
                         <Insets bottom="15.0" right="103.0" top="137.0" />
                     </GridPane.margin>
                 </Text>
-                <Text fx:id="mainText" fill="#654f3e" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit," GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                <Text fx:id="mainText" fill="#463b32" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit," wrappingWidth="502.421875" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                     <GridPane.margin>
-                        <Insets bottom="8.0" />
+                        <Insets bottom="45.0" left="30.0" right="60.0" />
                     </GridPane.margin>
                 </Text>
             <ImageView fx:id="godPowerOnImage" fitHeight="43.0" fitWidth="91.0" onMouseClicked="#godPowerOnClick" preserveRatio="true" GridPane.rowIndex="1">
@@ -289,8 +279,27 @@
                   <Insets left="110.0" top="47.0" />
                </GridPane.margin>
             </ImageView>
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="68.0" prefWidth="600.0" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets left="200.0" top="30.0" />
+               </GridPane.margin>
+               <children>
+                  <TextArea fx:id="godPowerText" layoutY="4.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="68.0" prefWidth="600.0" />
+               </children>
+            </AnchorPane>
             </children>
         </GridPane>
+      <Button fx:id="confirmButton" minHeight="10.0" minWidth="10.0" mnemonicParsing="false" onMouseClicked="#confirmRead" prefHeight="30.0" prefWidth="55.0" styleClass="confirm-button" text="OK" visible="false" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets bottom="80.0" left="720.0" top="50.0" />
+         </GridPane.margin>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets bottom="3.0" />
+         </padding>
+      </Button>
       <AnchorPane fx:id="menu" prefHeight="200.0" prefWidth="200.0">
          <children>
             <ImageView fitHeight="547.0" fitWidth="330.0" layoutX="365.0" preserveRatio="true">
