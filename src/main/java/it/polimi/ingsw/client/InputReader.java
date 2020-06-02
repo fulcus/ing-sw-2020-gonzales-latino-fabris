@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.TimeoutException;
 
 public class InputReader implements Runnable {
 
@@ -14,10 +16,12 @@ public class InputReader implements Runnable {
     private ObjectInputStream inputStm;
     private final SynchronousQueue<Object> receivedObjectsQueue;
     private final Client client;
+    private final Socket serverSocket;
 
 
     public InputReader(Socket server, Client client) {
 
+        serverSocket = server;
         this.client = client;
         connected = true;
         receivedObjectsQueue = new SynchronousQueue<>();
@@ -42,13 +46,15 @@ public class InputReader implements Runnable {
 
                 Object readObject = inputStm.readObject();
 
+                serverSocket.setSoTimeout(15000);
+
+
                 Message readMessage = (Message) readObject;
 
 
                 if (readMessage.getMethod().equals("shutdownClient")) {
 
                     System.out.println("received shutdownClient");
-
                     connected = false;
                     client.disconnect();
 
@@ -56,9 +62,13 @@ public class InputReader implements Runnable {
                     //STOP NETWORK HANDLER THREAD?
 
                 } else if (readMessage.getMethod().equals("notifyOtherPlayerDisconnection")) {
-
+                    
                     System.out.println("received notifyOtherPlayerDisconnection");
                     client.update(readMessage);
+
+                } else if (readMessage.getMethod().equals("PONG")) {
+
+                    System.out.println("PONG from Server");
 
                 } else {
 
@@ -70,7 +80,17 @@ public class InputReader implements Runnable {
 
                 }
 
-            } catch (IOException | ClassNotFoundException e) {
+            }
+            catch (SocketTimeoutException te) {
+
+                connected = false;
+                Message notifyDisconnection = new Message("notifyOtherPlayerDisconnection");
+                client.update(notifyDisconnection);
+
+
+            }
+            catch (IOException | ClassNotFoundException e) {
+                connected = false;
                 e.printStackTrace();
             }
         }

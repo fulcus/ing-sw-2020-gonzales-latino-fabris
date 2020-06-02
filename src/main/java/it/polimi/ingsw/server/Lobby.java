@@ -2,7 +2,6 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.controller.TurnHandler;
-import javafx.concurrent.Task;
 
 import java.net.Socket;
 import java.util.ArrayList;
@@ -19,7 +18,6 @@ public class Lobby {
     private final ArrayList<GameController> games;
     private GameController availableGame;
     private int connectedToAvailableGame;
-    private Timer timer;
 
     public Lobby() {
         games = new ArrayList<>();
@@ -54,7 +52,7 @@ public class Lobby {
 
 
             while(!availableGame.getAccessible()){
-                timer = new Timer();
+                Timer timer = new Timer();
                 timer.schedule(new HelperTask(newClient), 3000);
                 timer.cancel(); //Terminate the timer thread
             }
@@ -152,7 +150,6 @@ public class Lobby {
 
                 newClient.setOtherPlayersInfo(otherClientNickname, otherClientColor);
 
-                System.out.println("l'otherClient color è " + otherClientColor);
             }
         }
     }
