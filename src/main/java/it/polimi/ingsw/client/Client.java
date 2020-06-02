@@ -42,18 +42,14 @@ public class Client {
 
         boolean connected = false;
 
-        while(!connected) {
+        while (!connected) {
             String IP = view.getServerAddress();
 
             connected = true;
+
             //open connection with the server
             try {
                 server = new Socket(IP, Server.SOCKET_PORT);
-
-                if(server == null)
-                    connected = false;
-
-                //System.out.println("server " + server);
 
             } catch (IOException e) {
                 connected = false;
@@ -95,8 +91,7 @@ public class Client {
                 new Thread(Gui::main).start();
                 view = new GuiManager();
                 break;
-            }
-            else
+            } else
                 System.out.println("Invalid input.\n");
         }
     }
