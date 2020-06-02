@@ -31,9 +31,9 @@ public class Lobby {
      */
     public void allocateClient(Socket clientSocket) {
 
+        //CREATE
+        //no existing games available (all full or first client to connect to server)
         if (availableGame == null) {
-            //CREATE
-            //no existing games available (all full or first client to connect to server)
 
             connectedToAvailableGame = 0;
             availableGame = new GameController();
@@ -78,12 +78,14 @@ public class Lobby {
 
     private void createGame(ViewClient newClient) {
 
+        GameController newGame = availableGame;
+
         newClient.createGame();
 
-        availableGame.setUpGame(newClient);
+        newGame.setUpGame(newClient);
 
-        ExecutorService executor = availableGame.getExecutorPlayerAdder();
-        executor.execute(() -> availableGame.addPlayer(newClient));
+        ExecutorService executor = newGame.getExecutorPlayerAdder();
+        executor.execute(() -> newGame.addPlayer(newClient));
 
         connectedToAvailableGame++;
 

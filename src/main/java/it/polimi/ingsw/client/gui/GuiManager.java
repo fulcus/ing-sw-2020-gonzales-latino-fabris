@@ -181,6 +181,8 @@ public class GuiManager implements View {
      */
     public void notifyOtherPlayerDisconnection() {
 
+        //todo implement without snapshot
+
         Platform.runLater(() -> {
 
             Scene currentScene = Gui.getStage().getScene();

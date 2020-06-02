@@ -147,7 +147,7 @@ public class GameController {
 
     private boolean checkNicknameValidity(String chosenNickname, ViewClient client, Game game) {
 
-        if (nicknameIsAvailable(chosenNickname) && chosenNickname.length()>0 && chosenNickname.length()<9) {
+        if (nicknameIsAvailable(chosenNickname) && chosenNickname.length() > 0 && chosenNickname.length() < 9) {
             Player newPlayer = game.addPlayer(chosenNickname, client);
             client.setPlayer(newPlayer);
             client.notifyValidNick();
@@ -297,8 +297,6 @@ public class GameController {
     }
 
     public void handleGameDisconnection() {
-
-
 
         //if disconnection is due to a player disconnection
         for (ViewClient connectedClient : gameClients) {

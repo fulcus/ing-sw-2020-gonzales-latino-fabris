@@ -38,7 +38,8 @@ public class ViewClient implements ClientViewObserver {
 
         try {
             output = new ObjectOutputStream(socket.getOutputStream());
-        } catch (IOException e) {}
+        } catch (IOException e) {
+        }
 
         inputReader = new Thread(input);
 
@@ -81,7 +82,7 @@ public class ViewClient implements ClientViewObserver {
     }
 
     public void joinGame(int numberOfPlayers) {
-        sendMessage(new Message("joinGame",numberOfPlayers));
+        sendMessage(new Message("joinGame", numberOfPlayers));
     }
 
     public void createGame() {
@@ -148,7 +149,9 @@ public class ViewClient implements ClientViewObserver {
     /**
      * Notifies the client that his color has been accepted.
      */
-    public void notifyValidColor() { sendMessage(new Message("notifyValidColor"));}
+    public void notifyValidColor() {
+        sendMessage(new Message("notifyValidColor"));
+    }
 
 
     /**
@@ -173,14 +176,13 @@ public class ViewClient implements ClientViewObserver {
 
     /**
      * Allows to print to all the players waiting that someone is choosing his nickname.
-     *
      */
     public void printChoosingNickname() {
         sendMessage(new Message("printChoosingNickname"));
     }
 
     public void setOtherPlayersInfo(String nickname, String color) {
-        sendMessage(new Message("setOtherPlayersInfo",nickname,color));
+        sendMessage(new Message("setOtherPlayersInfo", nickname, color));
     }
 
     /**
@@ -285,8 +287,8 @@ public class ViewClient implements ClientViewObserver {
         sendMessage(new Message("unableToBuildLose"));
     }
 
-    public void notifyPlayersOfLoss(String loserNickname){
-        sendMessage(new Message("notifyPlayersOfLoss",loserNickname));
+    public void notifyPlayersOfLoss(String loserNickname) {
+        sendMessage(new Message("notifyPlayersOfLoss", loserNickname));
     }
 
 
@@ -592,6 +594,7 @@ public class ViewClient implements ClientViewObserver {
 
     /**
      * Lets player know that he has lost, and who is the winner.
+     *
      * @param winner nickname of the winner
      */
     public boolean losingView(String winner) {
@@ -653,12 +656,12 @@ public class ViewClient implements ClientViewObserver {
      */
     public void killClient() {
         gameController.removeClientObserver(this);
-       // inputReader.stop();//TODO REMOVE ONCE THREAD IN CLIENT HAS BEEN IMPLEMENTED
+        //inputReader.stop();//TODO REMOVE ONCE THREAD IN CLIENT HAS BEEN IMPLEMENTED
         sendMessage(new Message("shutdownClient"));
         inGame = false;
     }
 
-    public void notifyOtherPlayerDisconnection(){
+    public void notifyOtherPlayerDisconnection() {
         sendMessage(new Message("notifyOtherPlayerDisconnection"));
     }
 
