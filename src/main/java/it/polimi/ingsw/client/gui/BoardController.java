@@ -1,9 +1,11 @@
 package it.polimi.ingsw.client.gui;
 
 import it.polimi.ingsw.serializableObjects.CellClient;
+import it.polimi.ingsw.server.ViewClient;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -14,6 +16,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
 import java.lang.reflect.Field;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static it.polimi.ingsw.client.gui.GuiManager.*;
 
@@ -98,6 +102,8 @@ public class BoardController {
     private AnchorPane menu;
     @FXML
     private Button confirmButton;
+    @FXML
+    private TextArea godPowerText;
 
     private final Image bluemale;
     private final Image bluefemale;
@@ -114,6 +120,7 @@ public class BoardController {
     private boolean godPowerRequested;
     private String godPowerOffAnswer;
     private String godPowerOnAnswer;
+    private int godClicked;
 
     public BoardController() {
         cellRequested = false;
@@ -127,6 +134,7 @@ public class BoardController {
         level2 = new Image("/board/buildings/level2.png");
         level3 = new Image("/board/buildings/level3.png");
         dome = new Image("/board/buildings/dome_light.png");
+        godClicked = 0;
     }
 
     protected void init() {
@@ -342,6 +350,8 @@ public class BoardController {
         mainText.setText(text);
     }
 
+    protected void printToGodTextArea(String text) { godPowerText.setText(text); }
+
     protected void setCellRequested(boolean cellRequested) {
         this.cellRequested = cellRequested;
     }
@@ -378,27 +388,39 @@ public class BoardController {
     }
 
     @FXML
-    private void showGodDescription(String god) {
+    protected void showGodDescription(String god) {
 
-        String godDescriptionField = god.toLowerCase() + "Description";
+        if (godClicked == 0) {
 
-        Class<?> c = ChooseGodController.class;
-        Field field;
-        String godDescription = null;
+            String godDescriptionField = god.toLowerCase() + "Description";
 
-        try {
+            Class<?> c = ChooseGodController.class;
+            Field field;
+            String godDescription = null;
 
-            field = c.getDeclaredField(godDescriptionField);
-            godDescription = (String) field.get(null);  //null because the field retrieved is static
+            try {
 
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
+                field = c.getDeclaredField(godDescriptionField);
+                godDescription = (String) field.get(null);  //null because the field retrieved is static
+
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+
+            printToGodTextArea(godDescription);
+
+            godClicked++;
+
+            System.out.println("God description");
         }
 
-        printToMainText(godDescription);
+        else {
+            printToGodTextArea("");
+            godClicked = 0;
+        }
 
-        System.out.println("God description");
     }
+
 
     @FXML
     private void openMenu() {

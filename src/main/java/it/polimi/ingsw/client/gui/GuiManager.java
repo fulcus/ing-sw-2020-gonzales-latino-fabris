@@ -205,12 +205,6 @@ public class GuiManager implements View {
 
         });
 
-
-    }
-
-
-    public void waitToBeAssigned() {
-        //do nothing here, the method is specifically useful for the cli.
     }
 
 

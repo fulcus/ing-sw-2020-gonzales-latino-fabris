@@ -61,8 +61,6 @@ public class Client {
             }
             view.connectionOutcome(connected);
 
-            //if (view instanceof Cli)
-              //  view.waitToBeAssigned();
         }
 
         NetworkHandler networkHandler = new NetworkHandler(server, this);
