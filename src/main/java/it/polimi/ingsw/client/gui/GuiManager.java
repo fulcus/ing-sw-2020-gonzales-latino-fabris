@@ -59,7 +59,7 @@ public class GuiManager implements View {
     protected static Parent boardRoot;
     protected static Parent lobbyRoot;
     protected static Parent connectRoot;
-   // protected static Parent disconnectionRoot;
+    // protected static Parent disconnectionRoot;
 
     //controllers of fxmls
     private ConnectController connectController;
@@ -105,7 +105,7 @@ public class GuiManager implements View {
         FXMLLoader chooseGodLoader = new FXMLLoader(getClass().getResource("/scenes/choose-god.fxml"));
         FXMLLoader startPlayerLoader = new FXMLLoader(getClass().getResource("/scenes/start-player.fxml"));
         FXMLLoader boardLoader = new FXMLLoader(getClass().getResource("/scenes/board.fxml"));
-      //  FXMLLoader disconnectionLoader = new FXMLLoader(getClass().getResource("/scenes/disconnection.fxml"));
+        //  FXMLLoader disconnectionLoader = new FXMLLoader(getClass().getResource("/scenes/disconnection.fxml"));
 
 
         try {
@@ -193,16 +193,16 @@ public class GuiManager implements View {
         EndGameController endGameController = disconnectionLoader.getController();
 
 
-            Parent finalDisconnectionRoot = disconnectionRoot;
-            Platform.runLater(() -> {
+        Parent finalDisconnectionRoot = disconnectionRoot;
+        Platform.runLater(() -> {
 
-                endGameController.setDisconnectionPlayer(disconnectedPlayer);
-                StackPane root = new StackPane(currentRoot);
-                root.getChildren().add(finalDisconnectionRoot);
-                currentRoot.setEffect(new GaussianBlur());
-                Gui.getStage().setScene(new Scene(root));
+            endGameController.setDisconnectionPlayer(disconnectedPlayer);
+            StackPane root = new StackPane(currentRoot);
+            root.getChildren().add(finalDisconnectionRoot);
+            currentRoot.setEffect(new GaussianBlur());
+            Gui.getStage().setScene(new Scene(root));
 
-            });
+        });
 
 
     }

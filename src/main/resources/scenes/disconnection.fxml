@@ -28,11 +28,12 @@
             <Image url="@../endgame/endgame_defeatcloudright.png" />
          </image>
       </ImageView>
-      <Text fx:id="notifyText" fill="WHITE" layoutX="180.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="disconnect-text" text="DISCONNECTED" textAlignment="CENTER" />
+      <Text fx:id="disconnectedPlayer" fill="WHITE" layoutX="217.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="disconnect-text" text="nickname" textAlignment="CENTER" />
       <Button layoutX="172.0" layoutY="289.0" mnemonicParsing="false" onMouseClicked="#exit" prefHeight="48.0" prefWidth="200.0" text="EXIT" textFill="WHITE">
          <padding>
             <Insets bottom="10.0" />
          </padding>
       </Button>
+      <Text fill="WHITE" layoutX="182.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="disconnect-text" text="DISCONNECTED" textAlignment="CENTER" />
    </children>
 </AnchorPane>

@@ -6,7 +6,7 @@ import javafx.scene.text.Text;
 public class EndGameController {
 
     @FXML
-    private Text notifyText;
+    private Text disconnectedPlayer;
 
     public EndGameController() {
     }
@@ -22,11 +22,11 @@ public class EndGameController {
     }
 
     protected void setDisconnectionPlayer(String disconectedPlayer) {
-        if (disconectedPlayer.equals("me")) {
-            notifyText.setText("You \n disconnected");
-        } else {
-            notifyText.setText(disconectedPlayer + "\n disconnected");
-        }
+
+        if (disconectedPlayer.equals("me"))
+            disconnectedPlayer.setText("YOU");
+        else
+            disconnectedPlayer.setText(disconectedPlayer);
     }
 
 }
