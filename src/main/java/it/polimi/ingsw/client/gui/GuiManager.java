@@ -627,8 +627,7 @@ public class GuiManager implements View {
     }
 
     public void printAllGods(ArrayList<String> godsNameAndDescription) {
-
-
+        //useless in the gui
     }
 
     public void challengerError() {
@@ -711,12 +710,32 @@ public class GuiManager implements View {
         String[] selectedBuildingDirection = new String[2];
 
         selectedBuildingDirection[0] = build(); //choose building direction (N,S,W,E..)
-        selectedBuildingDirection[1] = askToUseGodPower(); //building type (B or D)
+        selectedBuildingDirection[1] = askToUseAtlasPower(); //building type (B or D)
 
         return selectedBuildingDirection;
 
     }
 
+
+    private String askToUseAtlasPower() {
+        Platform.runLater(() -> {
+            boardController.setGodPowerRequested(true);
+            boardController.printToMainText("Choose if you want to build a BLOCK or a DOME");
+            boardController.enableGodPower();
+        });
+
+        String answer = null;
+
+        try {
+            answer = (String) queue.take();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        Platform.runLater(() -> boardController.disableGodPower());
+
+        return answer;
+    }
 
     /**
      * This method asks the user to insert the direction of his next movement.
@@ -768,6 +787,7 @@ public class GuiManager implements View {
         Platform.runLater(() -> {
             boardController.setGodPowerRequested(true);
             boardController.printToMainText("Choose if you want to use your god power");
+            boardController.enableGodPower();
         });
 
         String answer = null;
@@ -777,6 +797,8 @@ public class GuiManager implements View {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        Platform.runLater(() -> boardController.disableGodPower());
 
         return answer;
     }

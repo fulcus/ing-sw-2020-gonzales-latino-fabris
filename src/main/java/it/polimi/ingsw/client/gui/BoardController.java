@@ -178,6 +178,8 @@ public class BoardController {
         godPowerOnImage.setVisible(false);
         godPowerOffImage.setVisible(false);
 
+        disableGodPower();
+
         String godPowerOnName = "";
         String godPowerOffName = "";
 
@@ -196,7 +198,7 @@ public class BoardController {
                 break;
             case "atlas":
                 godPowerOnName = "builddome";
-                godPowerOffName = "bothbuild";
+                godPowerOffName = "normalBuild";
                 godPowerOnAnswer = "D";
                 godPowerOffAnswer = "B";
                 break;
@@ -245,6 +247,16 @@ public class BoardController {
             godPowerOffImage.setImage(new Image("/board/god_powers/gp_" + godPowerOffName + "_withText.png"));
             godPowerOffImage.setVisible(true);
         }
+    }
+
+    protected void enableGodPower() {
+        godPowerOnImage.setDisable(false);
+        godPowerOffImage.setDisable(false);
+    }
+
+    protected void disableGodPower() {
+        godPowerOnImage.setDisable(true);
+        godPowerOffImage.setDisable(true);
     }
 
     protected void printMap() {
