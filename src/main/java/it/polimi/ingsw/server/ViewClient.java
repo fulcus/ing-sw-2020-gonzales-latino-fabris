@@ -89,6 +89,12 @@ public class ViewClient implements ClientViewObserver {
         sendMessage(new Message("createGame"));
     }
 
+
+    public void waitCreatorChooseNumOfPlayers() {
+        sendMessage(new Message("waitCreatorChooseNumOfPlayers"));
+    }
+
+
     /**
      * This method displays to the user Initial Game Interface
      */

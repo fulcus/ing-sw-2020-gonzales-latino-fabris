@@ -234,6 +234,12 @@ public class GuiManager implements View {
 
     }
 
+
+    public void waitCreatorChooseNumOfPlayers() {
+        //doNothing
+    }
+
+
     /**
      * @return The number of players.
      */

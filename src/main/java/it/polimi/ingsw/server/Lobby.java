@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -18,6 +20,7 @@ public class Lobby {
     private final ArrayList<GameController> games;
     private GameController availableGame;
     private int connectedToAvailableGame;
+    Timer timer;
 
     public Lobby() {
         games = new ArrayList<>();
@@ -50,30 +53,21 @@ public class Lobby {
 
             ViewClient newClient = new ViewClient(clientSocket, availableGame);
 
+            boolean printOnce = false;
+            do {
 
-            while(!availableGame.getAccessible()){
-                Timer timer = new Timer();
-                timer.schedule(new HelperTask(newClient), 3000);
-                timer.cancel(); //Terminate the timer thread
-            }
+                if (!printOnce) {
+                    newClient.waitCreatorChooseNumOfPlayers();
+                    printOnce = true;
+                }
+
+            } while (!availableGame.getAccessible());
 
             joinGame(newClient);
         }
 
     }
 
-    static class HelperTask extends TimerTask{
-
-        ViewClient waitingClient;
-
-        HelperTask(ViewClient waitingClient){
-            this.waitingClient = waitingClient;
-        }
-
-        public void run() {
-            //do Nothing
-        }
-    }
 
 
     private void createGame(ViewClient newClient) {

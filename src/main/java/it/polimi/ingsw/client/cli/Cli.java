@@ -69,6 +69,10 @@ public class Cli implements View {
     }
 
 
+    public void waitCreatorChooseNumOfPlayers() {
+        System.out.println("The creator of the game is choosing the number of players for the game. Wait...");
+    }
+
     /**
      * Displays that the player has been disconnected and reason.
      */

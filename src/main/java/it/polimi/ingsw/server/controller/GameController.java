@@ -24,7 +24,7 @@ public class GameController {
     //private ColorSetting colorSetting;
     private final Object nicknameLock;
     private final Object colorLock;
-    private boolean accessible;
+    private volatile boolean accessible;
 
     public GameController() {
         game = null;
@@ -46,13 +46,11 @@ public class GameController {
     public synchronized void setUpGame(ViewClient firstClient) {
 
         godController = new GodController(this);
-
         createDeckGods();
 
         int numOfPlayers = firstClient.askNumberOfPlayers();
 
         game = new Game(numOfPlayers);
-
         accessible = true;
 
         turnHandler = new TurnHandler(getGame(), this);

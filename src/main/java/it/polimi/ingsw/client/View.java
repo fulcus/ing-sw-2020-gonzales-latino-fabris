@@ -22,6 +22,8 @@ public interface View {
 
     void createGame();
 
+    void waitCreatorChooseNumOfPlayers();
+
     void connectionOutcome(boolean connected);
 
     void notifyValidNick();
