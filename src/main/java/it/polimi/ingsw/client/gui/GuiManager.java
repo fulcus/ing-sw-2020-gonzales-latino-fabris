@@ -59,7 +59,7 @@ public class GuiManager implements View {
     protected static Parent boardRoot;
     protected static Parent lobbyRoot;
     protected static Parent connectRoot;
-    protected static Parent disconnectionRoot;
+   // protected static Parent disconnectionRoot;
 
     //controllers of fxmls
     private ConnectController connectController;
@@ -105,7 +105,7 @@ public class GuiManager implements View {
         FXMLLoader chooseGodLoader = new FXMLLoader(getClass().getResource("/scenes/choose-god.fxml"));
         FXMLLoader startPlayerLoader = new FXMLLoader(getClass().getResource("/scenes/start-player.fxml"));
         FXMLLoader boardLoader = new FXMLLoader(getClass().getResource("/scenes/board.fxml"));
-        FXMLLoader disconnectionLoader = new FXMLLoader(getClass().getResource("/scenes/disconnection.fxml"));
+      //  FXMLLoader disconnectionLoader = new FXMLLoader(getClass().getResource("/scenes/disconnection.fxml"));
 
 
         try {
@@ -117,7 +117,7 @@ public class GuiManager implements View {
             startPlayerRoot = startPlayerLoader.load();
             boardRoot = boardLoader.load();
             lobbyRoot = lobbyLoader.load();
-            disconnectionRoot = disconnectionLoader.load();
+            //disconnectionRoot = disconnectionLoader.load();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -179,20 +179,31 @@ public class GuiManager implements View {
     /**
      * Displays that the player has been disconnected and reason.
      */
-    public void notifyOtherPlayerDisconnection() {
-
-        //todo implement without snapshot
+    public void notifyOtherPlayerDisconnection(String disconnectedPlayer) {
 
         Parent currentRoot = Gui.getStage().getScene().getRoot();
+        FXMLLoader disconnectionLoader = new FXMLLoader(getClass().getResource("/scenes/disconnection.fxml"));
+        Parent disconnectionRoot = null;
+        try {
+            disconnectionRoot = disconnectionLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        //if (currentRoot instanceof GridPane)
+        EndGameController endGameController = disconnectionLoader.getController();
+
+
+            Parent finalDisconnectionRoot = disconnectionRoot;
             Platform.runLater(() -> {
-                //AnchorPane disconnection = (AnchorPane) disconnectionRoot;
+
+                endGameController.setDisconnectionPlayer(disconnectedPlayer);
                 StackPane root = new StackPane(currentRoot);
-                root.getChildren().add(disconnectionRoot);
+                root.getChildren().add(finalDisconnectionRoot);
                 currentRoot.setEffect(new GaussianBlur());
                 Gui.getStage().setScene(new Scene(root));
+
             });
+
 
     }
 

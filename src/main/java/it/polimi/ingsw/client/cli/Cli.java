@@ -72,9 +72,9 @@ public class Cli implements View {
     /**
      * Displays that the player has been disconnected and reason.
      */
-    public void notifyOtherPlayerDisconnection() {
+    public void notifyOtherPlayerDisconnection(String disconnectedPlayer) {
 
-        System.out.println("\nThe opponent player has disconnected, your game ends now!");
+        System.out.println("\n"+ disconnectedPlayer + " has disconnected, your game ends now!");
         System.out.println("Goodbye");
     }
 

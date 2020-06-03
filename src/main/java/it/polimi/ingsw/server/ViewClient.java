@@ -666,8 +666,8 @@ public class ViewClient implements ClientViewObserver {
         inGame = false;
     }
 
-    public void notifyOtherPlayerDisconnection() {
-        sendMessage(new Message("notifyOtherPlayerDisconnection"));
+    public void notifyOtherPlayerDisconnection(String disconnectedPlayer) {
+        sendMessage(new Message("notifyOtherPlayerDisconnection",disconnectedPlayer));
     }
 
 }

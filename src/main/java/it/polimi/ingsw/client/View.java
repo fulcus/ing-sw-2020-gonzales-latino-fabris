@@ -32,7 +32,7 @@ public interface View {
     /**
      * Displays that the player has been disconnected and reason.
      */
-    void notifyOtherPlayerDisconnection();
+    void notifyOtherPlayerDisconnection(String disconnectedPlayer);
 
 
     /**

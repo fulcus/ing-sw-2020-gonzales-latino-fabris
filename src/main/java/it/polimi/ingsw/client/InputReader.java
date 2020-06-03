@@ -62,7 +62,7 @@ public class InputReader implements Runnable {
                     //STOP NETWORK HANDLER THREAD?
 
                 } else if (readMessage.getMethod().equals("notifyOtherPlayerDisconnection")) {
-                    
+
                     System.out.println("received notifyOtherPlayerDisconnection");
                     client.update(readMessage);
 
@@ -84,7 +84,7 @@ public class InputReader implements Runnable {
             catch (SocketTimeoutException te) {
 
                 connected = false;
-                Message notifyDisconnection = new Message("notifyOtherPlayerDisconnection");
+                Message notifyDisconnection = new Message("notifyOtherPlayerDisconnection","me");
                 client.update(notifyDisconnection);
 
 

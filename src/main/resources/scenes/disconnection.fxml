@@ -28,7 +28,7 @@
             <Image url="@../endgame/endgame_defeatcloudright.png" />
          </image>
       </ImageView>
-      <Text fill="WHITE" layoutX="180.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="disconnect-text" text="DISCONNECTED" textAlignment="CENTER" />
+      <Text fx:id="notifyText" fill="WHITE" layoutX="180.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="disconnect-text" text="DISCONNECTED" textAlignment="CENTER" />
       <Button layoutX="172.0" layoutY="289.0" mnemonicParsing="false" onMouseClicked="#exit" prefHeight="48.0" prefWidth="200.0" text="EXIT" textFill="WHITE">
          <padding>
             <Insets bottom="10.0" />

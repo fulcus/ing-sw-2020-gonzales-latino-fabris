@@ -292,13 +292,13 @@ public class GameController {
         return executorPlayerAdder;
     }
 
-    public void handleGameDisconnection() {
+    public void handleGameDisconnection(String disconnectedPlayer) {
 
         //if disconnection is due to a player disconnection
         for (ViewClient connectedClient : gameClients) {
 
             if (connectedClient.isInGame()) {
-                connectedClient.notifyOtherPlayerDisconnection();
+                connectedClient.notifyOtherPlayerDisconnection(disconnectedPlayer);
                 connectedClient.killClient();//Sends shut down and sets inGame=false;
             }
 
