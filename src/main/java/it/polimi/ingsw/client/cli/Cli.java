@@ -5,10 +5,12 @@ import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.serializableObjects.CellClient;
 import it.polimi.ingsw.serializableObjects.WorkerClient;
 import it.polimi.ingsw.server.model.*;
+import javafx.application.Platform;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Cli implements View {
 
@@ -16,15 +18,27 @@ public class Cli implements View {
     private Scanner intInput;
     private final BoardClient board;// this will contain a copy of the Model's map and each cell will be update if there are any changes
     private String playerNickname; //to be assigned when setPlayer of ViewClient is deserialized
-    private String playerColor;
+    private String myColor;
     private String challenger;
 
+    //Help to print info besides the board
     private String bluePlayer;
     private String whitePlayer;
     private String beigePlayer;
     private String blueGod;
     private String whiteGod;
     private String beigeGod;
+
+    //actually used attributes among the class
+    private String nickname1;
+    private String nickname2;
+    private String nickname3;
+    private String color1;
+    private String color2;
+    private String color3;
+    private String myGod;
+    private String god2;
+    private String god3;
 
 
     /**
@@ -34,7 +48,15 @@ public class Cli implements View {
         board = new BoardClient();
         input = new Scanner(System.in);
         intInput = new Scanner(System.in);
+
+        bluePlayer = null;
+        whitePlayer = null;
+        beigePlayer = null;
+        blueGod = null;
+        whiteGod = null;
+        beigeGod = null;
     }
+
 
     /**
      * Assigns the nickname of the player to the Cli
@@ -46,12 +68,14 @@ public class Cli implements View {
         this.playerNickname = nickname;
     }
 
+
     public String getServerAddress() {
 
         System.out.println("Insert Server IP");
         return input.nextLine();
 
     }
+
 
     public void connectionOutcome(boolean connected) {
         if (connected)
@@ -60,9 +84,11 @@ public class Cli implements View {
             System.out.println("Server unreachable.\n");
     }
 
+
     public void joinGame(int numberOfPlayers) {
         System.out.print("You are joining a game for " + numberOfPlayers + " players.");
     }
+
 
     public void createGame() {
         System.out.println("You are creating a new game.");
@@ -72,6 +98,7 @@ public class Cli implements View {
     public void waitCreatorChooseNumOfPlayers() {
         System.out.println("The creator of the game is choosing the number of players for the game. Wait...");
     }
+
 
     /**
      * Displays that the player has been disconnected and reason.
@@ -191,19 +218,79 @@ public class Cli implements View {
 
 
     public void setOtherPlayersInfo(String nickname, String color) {
-        if (bluePlayer == null && color.equals("BLUE")) {
-            bluePlayer = nickname;
-        } else if (whitePlayer == null && color.equals("WHITE")) {
-            whitePlayer = nickname;
-        } else if (beigePlayer == null && color.equals("BEIGE"))
-            beigePlayer = nickname;
+        setPlayerInfo(nickname, color);
+    }
 
-        if (this.playerColor != null && (this.playerColor.equals("BLUE") || this.playerColor.equals("blue")))
-            bluePlayer = playerNickname;
-        else if (this.playerColor != null && (this.playerColor.equals("WHITE") || this.playerColor.equals("white")))
-            whitePlayer = playerNickname;
-        else if (this.playerColor != null && (this.playerColor.equals("BEIGE") || this.playerColor.equals("beige")))
-            beigePlayer = playerNickname;
+
+    private void setMyInfo(String nickname, String color) {
+        nickname1 = nickname;
+        color1 = color;
+
+        if (color1.equals("BLUE") || color1.equals("blue"))
+            bluePlayer = nickname1;
+        else if (color1.equals("WHITE") || color1.equals("white"))
+            whitePlayer = nickname1;
+        else if (color1.equals("BEIGE") || color1.equals("beige"))
+            beigePlayer = nickname1;
+    }
+
+
+    private void setPlayerInfo(String nickname, String color) {
+
+        if (nickname2 == null) {
+            nickname2 = nickname;
+            color2 = color;
+
+            switch (color2) {
+                case "BLUE":
+                case "blue":
+                    bluePlayer = nickname2;
+                    break;
+                case "WHITE":
+                case "white":
+                    whitePlayer = nickname2;
+                    break;
+                case "BEIGE":
+                case "beige":
+                    beigePlayer = nickname2;
+                    break;
+            }
+        } else if (nickname3 == null) {
+            nickname3 = nickname;
+            color3 = color;
+
+            switch (color3) {
+                case "BLUE":
+                case "blue":
+                    bluePlayer = nickname3;
+                    break;
+                case "WHITE":
+                case "white":
+                    whitePlayer = nickname3;
+                    break;
+                case "BEIGE":
+                case "beige":
+                    beigePlayer = nickname3;
+                    break;
+            }
+        }
+
+    }
+
+    private void setPlayerGod(String nickname, String god) {
+
+        if (nickname.equals(nickname2)) {
+            god2 = god;
+        }
+        else
+            god3 = god;
+
+        if (nickname.equals(bluePlayer))
+            blueGod = god;
+        else if (nickname.equals(whitePlayer))
+            whiteGod = god;
+        else if (nickname.equals(beigePlayer))
+            beigePlayer = god;
     }
 
 
@@ -217,7 +304,10 @@ public class Cli implements View {
     public String askPlayerNickname() {
 
         System.out.println("\nChoose your nickname.");
-        return input.nextLine();
+        String nickname = input.nextLine();
+        setPlayer(nickname);
+
+        return nickname;
     }
 
 
@@ -227,7 +317,7 @@ public class Cli implements View {
         System.out.println("The available colors are Blue, White and Beige.");
 
         String color = input.nextLine().toUpperCase();
-        playerColor = color;
+        myColor = color;
 
         return color;
     }
@@ -239,6 +329,9 @@ public class Cli implements View {
 
 
     public void notifyValidColor() {
+        //adding this players info to "database"
+        setMyInfo(playerNickname, myColor);
+
         System.out.println("Color accepted");
     }
 
@@ -247,18 +340,11 @@ public class Cli implements View {
      * @return The name of the chosen God.
      */
     public String askPlayerGod() {
-
         System.out.println(playerNickname + ", choose your god by typing his name.");
 
         String god = input.nextLine();
 
-        if (this.playerNickname.equals(bluePlayer))
-            blueGod = god;
-        else if (this.playerNickname.equals(whitePlayer))
-            whiteGod = god;
-        else if (this.playerNickname.equals(beigePlayer))
-            beigeGod = god;
-
+        myGod = god;
         return god;
     }
 
@@ -293,7 +379,6 @@ public class Cli implements View {
 
             System.out.println(" left to choose.");
         }
-
 
         return input.nextLine();
     }
@@ -341,7 +426,6 @@ public class Cli implements View {
                 System.out.println("Invalid input.");
 
         }
-
     }
 
 
@@ -940,12 +1024,7 @@ public class Cli implements View {
         System.out.println();
         System.out.println(otherPlayer + " has chosen " + chosenGod + ".\n");
 
-        if (otherPlayer.equals(bluePlayer))
-            blueGod = chosenGod;
-        else if (otherPlayer.equals(whitePlayer))
-            whiteGod = chosenGod;
-        else if (otherPlayer.equals(beigePlayer))
-            beigeGod = chosenGod;
+        setPlayerGod(otherPlayer, chosenGod);
     }
 
 
