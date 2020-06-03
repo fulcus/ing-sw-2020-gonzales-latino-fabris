@@ -20,8 +20,6 @@ public class GameController {
     private final ArrayList<God> godsDeck;
     private final ExecutorService executorPlayerAdder;
     private final ArrayList<ViewClient> gameClients;
-    //private NickSetting nickSetting;
-    //private ColorSetting colorSetting;
     private final Object nicknameLock;
     private final Object colorLock;
     private volatile boolean accessible;
@@ -32,8 +30,6 @@ public class GameController {
         godsDeck = new ArrayList<>(14);
         executorPlayerAdder = Executors.newCachedThreadPool();
         gameClients = new ArrayList<>();
-        //nickSetting = new NickSetting();
-        //colorSetting = new ColorSetting();
         nicknameLock = new Object();
         colorLock = new Object();
         accessible = false;
@@ -294,13 +290,13 @@ public class GameController {
         return executorPlayerAdder;
     }
 
-    public void handleGameDisconnection() {
+    public void handleGameDisconnection(String disconnectedPlayer) {
 
         //if disconnection is due to a player disconnection
         for (ViewClient connectedClient : gameClients) {
 
             if (connectedClient.isInGame()) {
-                connectedClient.notifyOtherPlayerDisconnection();
+                connectedClient.notifyOtherPlayerDisconnection(disconnectedPlayer);
                 connectedClient.killClient();//Sends shut down and sets inGame=false;
             }
 

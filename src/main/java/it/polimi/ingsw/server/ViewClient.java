@@ -27,6 +27,7 @@ public class ViewClient implements ClientViewObserver {
     private boolean inGame;
     private ClientInputReader input;
     private final Thread inputReader;
+    private final HeartbeatServer heartbeatServer;
 
     //private final List<ClientViewObserver> observers = new ArrayList<>();
 
@@ -40,6 +41,10 @@ public class ViewClient implements ClientViewObserver {
             output = new ObjectOutputStream(socket.getOutputStream());
         } catch (IOException e) {
         }
+
+        heartbeatServer = new HeartbeatServer(this);
+
+        new Thread(heartbeatServer).start();
 
         inputReader = new Thread(input);
 
@@ -639,7 +644,7 @@ public class ViewClient implements ClientViewObserver {
      *
      * @param message The message the player sends to the server during the game.
      */
-    private void sendMessage(Message message) {
+    protected synchronized void sendMessage(Message message) {
 
         try {
             output.writeObject(message);
@@ -667,8 +672,8 @@ public class ViewClient implements ClientViewObserver {
         inGame = false;
     }
 
-    public void notifyOtherPlayerDisconnection() {
-        sendMessage(new Message("notifyOtherPlayerDisconnection"));
+    public void notifyOtherPlayerDisconnection(String disconnectedPlayer) {
+        sendMessage(new Message("notifyOtherPlayerDisconnection",disconnectedPlayer));
     }
 
 }

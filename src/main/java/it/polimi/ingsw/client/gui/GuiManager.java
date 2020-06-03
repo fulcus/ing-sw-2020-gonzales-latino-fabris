@@ -6,12 +6,18 @@ import it.polimi.ingsw.serializableObjects.CellClient;
 import it.polimi.ingsw.serializableObjects.WorkerClient;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.HPos;
+import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.effect.GaussianBlur;
+import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,10 +41,6 @@ public class GuiManager implements View {
 
     protected static final AtomicReference<BoardClient> boardClient = new AtomicReference<>(new BoardClient());
 
-
-    //private final AtomicInteger xWorker = new AtomicInteger();
-    //private final AtomicInteger yWorker = new AtomicInteger();
-
     protected static final AtomicInteger numberOfPlayers = new AtomicInteger(0); //overwritten by joinGame or asknumberofplayers
     protected static final AtomicInteger playersConnected = new AtomicInteger(0);
     protected static final AtomicBoolean isInLobby = new AtomicBoolean(false);
@@ -57,7 +59,7 @@ public class GuiManager implements View {
     protected static Parent boardRoot;
     protected static Parent lobbyRoot;
     protected static Parent connectRoot;
-    protected static Parent disconnectionRoot;
+    // protected static Parent disconnectionRoot;
 
     //controllers of fxmls
     private ConnectController connectController;
@@ -68,7 +70,6 @@ public class GuiManager implements View {
     protected static ChooseGodController chooseGodController;
     private StartPlayerController startPlayerController;
     private BoardController boardController;
-    private DisconnectionController disconnectionController;
 
 
     public GuiManager() {
@@ -104,7 +105,7 @@ public class GuiManager implements View {
         FXMLLoader chooseGodLoader = new FXMLLoader(getClass().getResource("/scenes/choose-god.fxml"));
         FXMLLoader startPlayerLoader = new FXMLLoader(getClass().getResource("/scenes/start-player.fxml"));
         FXMLLoader boardLoader = new FXMLLoader(getClass().getResource("/scenes/board.fxml"));
-        FXMLLoader disconnectionLoader = new FXMLLoader(getClass().getResource("/scenes/disconnection.fxml"));
+        //  FXMLLoader disconnectionLoader = new FXMLLoader(getClass().getResource("/scenes/disconnection.fxml"));
 
 
         try {
@@ -116,7 +117,7 @@ public class GuiManager implements View {
             startPlayerRoot = startPlayerLoader.load();
             boardRoot = boardLoader.load();
             lobbyRoot = lobbyLoader.load();
-            disconnectionRoot = disconnectionLoader.load();
+            //disconnectionRoot = disconnectionLoader.load();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -141,7 +142,6 @@ public class GuiManager implements View {
         chooseGodController = chooseGodLoader.getController();
         startPlayerController = startPlayerLoader.getController();
         boardController = boardLoader.getController();
-        disconnectionController = disconnectionLoader.getController();
 
     }
 
@@ -179,32 +179,37 @@ public class GuiManager implements View {
     /**
      * Displays that the player has been disconnected and reason.
      */
-    public void notifyOtherPlayerDisconnection() {
+    public void notifyOtherPlayerDisconnection(String disconnectedPlayer) {
 
-        //todo implement without snapshot
+        Parent currentRoot = Gui.getStage().getScene().getRoot();
+        FXMLLoader disconnectionLoader = new FXMLLoader(getClass().getResource("/scenes/disconnection.fxml"));
+        Parent disconnectionRoot = null;
+        try {
+            disconnectionRoot = disconnectionLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
+        EndGameController endGameController = disconnectionLoader.getController();
+
+
+        Parent finalDisconnectionRoot = disconnectionRoot;
         Platform.runLater(() -> {
 
-            Scene currentScene = Gui.getStage().getScene();
-
-            int height = (int) currentScene.getHeight();
-            int width = (int) currentScene.getWidth();
-
-            WritableImage wi = new WritableImage(width, height);
-            Image image = currentScene.snapshot(wi);
-
-
-            // disconnectionRoot.getChildren().add(new ImageView(image));
-            Scene disconnectionScene = new Scene(disconnectionRoot, width, height);
-
-
-            Gui.getStage().setScene(disconnectionScene);
-
-            disconnectionController.setBackground(image);
-
+            endGameController.setDisconnectionPlayer(disconnectedPlayer);
+            StackPane root = new StackPane(currentRoot);
+            root.getChildren().add(finalDisconnectionRoot);
+            currentRoot.setEffect(new GaussianBlur());
+            Gui.getStage().setScene(new Scene(root));
 
         });
 
+
+    }
+
+
+    public void waitToBeAssigned() {
+        //do nothing here, the method is specifically useful for the cli.
     }
 
 
@@ -574,6 +579,7 @@ public class GuiManager implements View {
 
         try {
             AnchorPane win = FXMLLoader.load(getClass().getResource("/scenes/win.fxml"));
+            boardRoot.setEffect(new GaussianBlur());
             Platform.runLater(() -> ((GridPane) boardRoot).getChildren().add(win));
         } catch (IOException e) {
             e.printStackTrace();
@@ -1025,9 +1031,7 @@ public class GuiManager implements View {
      * @param player player who is performing the action
      */
     public void otherPlayerSettingInitialWorkerPosition(String player) {
-        Platform.runLater(() -> {
-            boardController.printToMainText("Other player's setting initial worker's position. Wait...");
-        });
+        Platform.runLater(() -> boardController.printToMainText("Other player's setting initial worker's position. Wait..."));
     }
 
     /**
@@ -1036,10 +1040,7 @@ public class GuiManager implements View {
      * @param currentPlayer nickname of the player that is playing his turn
      */
     public void otherPlayerTurn(String currentPlayer) {
-        Platform.runLater(() -> {
-            boardController.printToMainText("Other player's turn. Wait...");
-        });
-
+        Platform.runLater(() -> boardController.printToMainText("Other player's turn. Wait..."));
     }
 
     /**
@@ -1051,6 +1052,7 @@ public class GuiManager implements View {
 
         try {
             AnchorPane lose = FXMLLoader.load(getClass().getResource("/scenes/lose.fxml"));
+            boardRoot.setEffect(new GaussianBlur());
             Platform.runLater(() -> ((GridPane) boardRoot).getChildren().add(lose));
         } catch (IOException e) {
             e.printStackTrace();
@@ -1065,15 +1067,13 @@ public class GuiManager implements View {
      */
     private void acceptTextBarInfo() {
 
-        boolean accept = false;
-
+        boolean accept;
         try {
 
-            while (true) {
+            do {
                 accept = (boolean) queue.take();
-                if (accept)
-                    break;
-            }
+            } while (!accept);
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
