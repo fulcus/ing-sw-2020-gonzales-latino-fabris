@@ -2,12 +2,14 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.ViewClient;
 import it.polimi.ingsw.server.controller.god.*;
-
 import java.util.ArrayList;
 import java.util.Random;
 
+
 /**
  * Represents the game with its main components.
+ * Allows to create the board where the game will be held
+ * and to add the players that will participate to it.
  */
 public class Game {
 
@@ -32,12 +34,12 @@ public class Game {
 
 
     /**
-     * Adds a new player to the game and chooses challenger if target number of players has been reached.
+     * Adds a new player to the game.
+     * and chooses challenger if target number of players has been reached.
      *
      * @param nickname Nickname chosen by the player.
      * @return player that was just created.
      */
-    //view checks that nickname and color aren't already taken
     public Player addPlayer(String nickname, ViewClient viewClient) {
         Player newPlayer = new Player(this, nickname, viewClient);
         players.add(newPlayer);
@@ -48,8 +50,9 @@ public class Game {
         return newPlayer;
     }
 
+
     /**
-     * Picks a challenger randomly.
+     * Picks a challenger randomly from the players of this game.
      */
     private void randomChallenger() {
         Random rand = new Random();
@@ -73,29 +76,36 @@ public class Game {
         chosenGods.add(godChosenByChallenger);
     }
 
+
     public Board getBoard() {
         return board;
     }
+
 
     public int getNumberOfPlayers() {
         return numberOfPlayers;
     }
 
+
     public void setNumberOfPlayers(Integer numberOfPlayers) {
         this.numberOfPlayers = numberOfPlayers;
     }
+
 
     public ArrayList<Player> getPlayers() {
         return players;
     }
 
+
     public Player getChallenger() {
         return challenger;
     }
 
+
     public ArrayList<God> getChosenGods() {
         return chosenGods;
     }
+
 
     /**
      * Removes a player from the game.
@@ -105,9 +115,7 @@ public class Game {
     public void removePlayer(Player loser) {
         chosenGods.remove(loser.getGod());
         players.remove(loser);
-        //loser.getClient().killClient();
         numberOfPlayers--;
-
     }
 
 }

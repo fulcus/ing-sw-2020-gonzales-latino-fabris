@@ -7,7 +7,10 @@ import java.util.ArrayList;
 
 
 /**
- * This class represents a board's cell structure
+ * This class represents a board's cell structure.
+ * It contains the info about the height of the building in this specific position of the board,
+ * which is defined thanks to precise Cartesian attributes,
+ * and then if there is a worker standing in this position at a certain point of the game.
  */
 public class Cell {
 
@@ -74,7 +77,7 @@ public class Cell {
 
 
     /**
-     * Finds out if in this cell there's a worker or not
+     * Finds out if in this cell there's a worker or not.
      *
      * @return true if the cell contains a worker
      */
@@ -84,13 +87,13 @@ public class Cell {
 
 
     /**
-     * States that a worker is moving in the cell
+     * States that a worker is moving in the cell.
      *
      * @param worker Is the worker arriving in the cell
      */
     public void moveIn(Worker worker) {
         this.worker = worker;
-        notifyObservers();//when a worker has moved in this Cell, it will be changed in the View
+        notifyObservers(); //when a worker has moved in this Cell, it will be changed in the View
     }
 
 
@@ -99,12 +102,12 @@ public class Cell {
      */
     public void moveOut() {
         worker = null;
-        notifyObservers();//when a worker has moved out from this Cell, it will be changed in the View
+        notifyObservers(); //when a worker has moved out from this Cell, it will be changed in the View
     }
 
 
     /**
-     * Finds out if the cell stays on the border of the board
+     * Finds out if the cell stays on the border of the board.
      *
      * @return true if the cell is on the border of the board
      */
@@ -121,6 +124,10 @@ public class Cell {
     }
 
 
+    /**
+     * Getter method of the worker attribute of this class.
+     * @return The specific worker that stands inside this cell, null if there's no one.
+     */
     public Worker getWorker() {
         return worker;
     }
@@ -151,7 +158,7 @@ public class Cell {
 
 
     /**
-     * This method remove an observer.
+     * This method removes an observer.
      *
      * @param myObserver The observer to be unregistered.
      */
@@ -175,6 +182,10 @@ public class Cell {
             observer.update(this);
     }
 
+    /**
+     * Removes from the cellObservers list the client that is observing this specific cell.
+     * @param client
+     */
     public void remove(ViewClient client) {
 
         cellObservers.remove(client);

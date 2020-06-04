@@ -1,11 +1,15 @@
 package it.polimi.ingsw.server.model;
 
+
 /**
  * Represents the Board of the game.
+ * Contains the cells where the game will be played on.
  */
 public class Board {
+
     private final Cell[][] board;
     public static final int SIDE = 5;
+
 
     public Board() {
         this.board = new Cell[SIDE][SIDE];
@@ -15,6 +19,7 @@ public class Board {
             }
         }
     }
+
 
     /**
      * Used to find one specific cell on the board.
@@ -29,11 +34,12 @@ public class Board {
         return null;
     }
 
+
     /**
-     * Finds out whether a position is in the board or not
+     * Finds out whether a position is in the board or not.
      *
      * @param x Coordinate x of the board.
-     * @param y Coordinate y of the board
+     * @param y Coordinate y of the board.
      * @return true if contained, false otherwise.
      */
     public boolean isInBoard(int x, int y) {

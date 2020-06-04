@@ -14,6 +14,10 @@ public class WorkerMap {
     private final boolean[][] matrix;
     public static final int N = 3;
 
+    /**
+     * Creates the WorkerMap of a specific worker.
+     * @param worker Is the worker on which the WorkerMap is built referring to.
+     */
     public WorkerMap(Worker worker) {
         this.worker = worker;
         matrix = new boolean[N][N];
@@ -26,6 +30,7 @@ public class WorkerMap {
             }
         }
     }
+
 
     protected Worker getWorker() {
         return worker;
@@ -45,6 +50,7 @@ public class WorkerMap {
         }
     }
 
+
     /**
      * Sets false any occupied cell, i.e. any cell containing a worker or a dome.
      */
@@ -58,8 +64,9 @@ public class WorkerMap {
         }
     }
 
+
     /**
-     * Sets false any cell containing the other worker of the same player.
+     * Sets false the cell containing the other worker of the same player.
      */
     protected void friendlyWorkerCellFalse() {
 
@@ -72,6 +79,7 @@ public class WorkerMap {
         }
     }
 
+
     /**
      * Sets true or false the central cell of the WorkersMap,
      * i.e. the position of the worker.
@@ -79,6 +87,7 @@ public class WorkerMap {
     protected void setCenterPosition(boolean center) {
         matrix[1][1] = center;
     }
+
 
     /**
      * Returns a cell of the WorkerMap given its relative coordinates.
@@ -90,6 +99,7 @@ public class WorkerMap {
     protected boolean getBooleanCellWorkerMap(int i, int j) {
         return matrix[i][j];
     }
+
 
     /**
      * Returns a cell of the WorkerMap given its absolute coordinates
@@ -113,6 +123,7 @@ public class WorkerMap {
         return matrix[i - workersX + 1][j - workersY + 1];
     }
 
+
     /**
      * Returns the cell of the Board given its coordinates relative to the WorkerMap.
      *
@@ -128,8 +139,10 @@ public class WorkerMap {
         return board.findCell(workersX - 1 + i, workersY - 1 + j);
     }
 
+
     /**
      * Sets false cells that are above the worker more than x levels.
+     * e.g. this is done because the worker cannot move to cells that are 2 or more levels higher.
      *
      * @param x Maximum level difference between any given cell of the WorkerMap and the Worker's cell.
      */
@@ -148,7 +161,7 @@ public class WorkerMap {
 
 
     /**
-     * Says if there is any near Cell 1 level higher than the worker's.
+     * Says if there is any near Cell 1 level higher than the worker's one.
      *
      * @return True if there is at least one cell 1 level higher, false otherwise.
      */
@@ -189,8 +202,10 @@ public class WorkerMap {
         return neighboringWorkers;
     }
 
+
     /**
-     * Checks if there is any true cell in the matrix. Useful for lose conditions.
+     * Checks if there is any true cell in the matrix.
+     * Useful for lose conditions.
      */
     protected boolean anyTrueCell() {
 
@@ -203,8 +218,9 @@ public class WorkerMap {
         return false;
     }
 
+
     /**
-     * Sets the whole map true.
+     * Sets the whole WorkerMap cells true.
      */
     public void resetMap() {
         for (int i = 0; i < N; i++) {
@@ -217,10 +233,11 @@ public class WorkerMap {
 
     }
 
+
     /**
      * Sets false cells not contained in Board.
+     * It is pretty useful for unableToMove/Build exceptions to work correctly.
      */
-    //necessary for unableToMove/Build exceptions to work correctly.
     public void updateCellsOutOfMap() {
         Cell workersCell = worker.getPosition();
         int workersX = worker.getPosition().getX();
@@ -238,8 +255,9 @@ public class WorkerMap {
         }
     }
 
+
     /**
-     * Sets false Cells in perimeter
+     * Sets false Cells in perimeter.
      */
     protected void setPerimeterFalse() {
         for (int i = 0; i < N; i++) {
@@ -254,6 +272,7 @@ public class WorkerMap {
         }
 
     }
+
 
     /**
      * Prints the map. Useful for debugging.

@@ -1,12 +1,14 @@
 package it.polimi.ingsw.server.model;
 
 /**
- * The color of the worker.
+ * Defines the available colors in the game.
+ * Every Player and his workers will be characterized by one of them.
  */
 public enum Color {
     BEIGE,
     WHITE,
     BLUE;
+
 
     /**
      * Given a string returns the Color.

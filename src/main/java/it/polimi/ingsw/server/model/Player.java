@@ -2,11 +2,14 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.controller.god.God;
 import it.polimi.ingsw.server.ViewClient;
-
 import java.util.ArrayList;
+
 
 /**
  * A player of the game.
+ * Every player corresponds to a specific client that is connected to play the game.
+ * It's characterized by a unique nickname, a color and a God card.
+ * Two workers are assigned to play the game on the board of the game.
  */
 public class Player {
 
@@ -25,6 +28,7 @@ public class Player {
      *
      * @param game     Represents the belonging game of the player.
      * @param nickname The name chosen by the user for the belonging game.
+     * @param viewClient Instance of the client associated to this player.
      */
     public Player(Game game, String nickname, ViewClient viewClient) {
 
@@ -34,11 +38,11 @@ public class Player {
         god = null;
         canWinInPerimeter = true;
         canMoveUp = true;
-        //playerObservers = new ArrayList<PlayerObserver>();
         workers = new ArrayList<>(2);
         workers.add(new Worker(this, Sex.MALE));
         workers.add(new Worker(this, Sex.FEMALE));
     }
+
 
     public ViewClient getClient() {
         return client;
@@ -56,7 +60,7 @@ public class Player {
 
 
     /**
-     * Allows the player to choose a God from the available gods of the current game
+     * Assigns to the player a God from the available Gods of the current game
      */
     public void setGod(God god) {
         this.god = god;
@@ -72,19 +76,27 @@ public class Player {
         this.color = color;
     }
 
+
     /**
+     * Decides if the player has some restriction to win a perimeter cell of the board.
+     *
      * @param value true allows the player to win in perimeter, false otherwise
      */
     public void setPermissionToWinInPerimeter(boolean value) {
         canWinInPerimeter = value;
     }
 
+
     /**
+     * Decides if the player has some restriction to move a worker to a cell which has an higher level
+     * than the one the selected worker is currently on.
+     *
      * @param value true allows the player to move up, false otherwise
      */
     public void setPermissionToMoveUp(boolean value) {
         canMoveUp = value;
     }
+
 
     /**
      * @return True if the Player can move up, false if this player can not move up for the current turn
@@ -111,8 +123,9 @@ public class Player {
         return game;
     }
 
+
     /**
-     * States that the player has lost and removes him from the game.
+     * States that the player has lost and removes him and his workers from the game.
      */
     public void lose() {
 

@@ -1,14 +1,17 @@
 package it.polimi.ingsw.server.model;
 
+
 /**
  * Matrix that represents positions adjacent to the worker, in which he
  * may or may not build, depending on the boolean value of the cell.
  */
 public class WorkerBuildMap extends WorkerMap {
 
+
     public WorkerBuildMap(Worker worker) {
         super(worker);
     }
+
 
     /**
      * Forbids worker to build in a cell occupied by a dome or another worker.
@@ -17,6 +20,7 @@ public class WorkerBuildMap extends WorkerMap {
         occupiedCellFalse();
     }
 
+
     /**
      * Forbids worker to build underneath himself.
      */
@@ -24,12 +28,14 @@ public class WorkerBuildMap extends WorkerMap {
         setCenterPosition(false);
     }
 
+
     /**
      * Allows worker to build underneath himself.
      */
     public void canBuildUnderneath() {
         setCenterPosition(true);
     }
+
 
     /**
      * Finds out if worker is allowed to build in a given cell of the board.
@@ -42,6 +48,7 @@ public class WorkerBuildMap extends WorkerMap {
         return getBooleanCellBoard(i, j);
     }
 
+
     /**
      * Checks if the worker can build.
      *
@@ -51,6 +58,10 @@ public class WorkerBuildMap extends WorkerMap {
         return anyTrueCell();
     }
 
+
+    /**
+     * Forbids the worker to build in a perimeter cell of the board.
+     */
     public void cannotBuildInPerimeter() {
         setPerimeterFalse();
     }

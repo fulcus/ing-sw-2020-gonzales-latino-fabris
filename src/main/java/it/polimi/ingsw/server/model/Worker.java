@@ -1,7 +1,9 @@
 package it.polimi.ingsw.server.model;
 
+
 /**
- * The worker of a player.
+ * The worker owned by a player.
+ * Actions of the player in the game will be referred to the selected worker in each turn.
  */
 public class Worker {
 
@@ -30,6 +32,7 @@ public class Worker {
         buildMap = new WorkerBuildMap(this);
     }
 
+
     /**
      * Changes position of the worker and updates level and movedUp.
      *
@@ -52,6 +55,7 @@ public class Worker {
 
         newPosition.moveIn(this);
     }
+
 
     /**
      * Changes position of the worker and updates level and movedUp.
@@ -77,10 +81,10 @@ public class Worker {
     /**
      * Swaps the Worker with the other worker in the newPosition.
      * Assumes that there is a worker in the newPosition.
+     * If there's no one this method should not be invoked.
      *
      * @param newPosition Cell the worker wants to move into.
      */
-    //...else NullPointer!!!
     public void swapPosition(Cell newPosition) {
         int newLevel = newPosition.getLevel();
         Worker workerInCell = newPosition.getWorker();
@@ -96,8 +100,9 @@ public class Worker {
 
     }
 
+
     /**
-     * Builds a new block in the specified cell.
+     * The worker builds a new block in the specified cell.
      *
      * @param x Coordinate of the position to build in.
      * @param y Coordinate of the position to build in.
@@ -107,8 +112,9 @@ public class Worker {
         buildPosition.buildBlock();
     }
 
+
     /**
-     * Builds a new dome in the specified cell.
+     * The worker builds a new dome in the specified cell.
      *
      * @param x Coordinate of the position to build in.
      * @param y Coordinate of the position to build in.
@@ -118,29 +124,47 @@ public class Worker {
         buildPosition.buildDome();
     }
 
+    /**
+     * @return  The specific player that owns this worker.
+     */
     public Player getPlayer() {
         return player;
     }
 
+
+    /**
+     * @return The specific cell of the board of the game where the worker stands on.
+     */
     public Cell getPosition() {
         return position;
     }
 
+
+    /**
+     * @return The level of the cell of the board where the worker stands on.
+     */
     public int getLevel() {
         return level;
     }
 
+
+    /**
+     * @return When the worker moves, the difference between the levels of the cells is the level variation.
+     */
     public int getLevelVariation() {
         return levelVariation;
     }
+
 
     public Sex getSex() {
         return sex;
     }
 
+
     public WorkerMoveMap getMoveMap() {
         return moveMap;
     }
+
 
     public WorkerBuildMap getBuildMap() {
         return buildMap;
