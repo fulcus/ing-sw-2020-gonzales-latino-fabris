@@ -3,6 +3,11 @@ package it.polimi.ingsw.serializableObjects;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+
+/**
+ * Allows to serialize and translate message methods sent by the server to the client over the network.
+ * There are different constructor methods because of the different types of messages that can arrive from the server.
+ */
 public class Message implements Serializable {
 
     private final int type; //says which parameters the method takes

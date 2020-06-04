@@ -17,12 +17,13 @@ import java.util.Scanner;
 
 
 /**
- * Client wants to play Santorini establishes a connection to the server.
+ * Client wants to play Santorini and tries to establish a connection to the server.
  */
 public class Client {
 
     private View view;
     private Socket server;
+
 
     public Client() {
         server = null;
@@ -38,6 +39,10 @@ public class Client {
     }
 
 
+    /**
+     * Allows to set the connection to the game server.
+     * Starts the main threads to communicate with it, keeping also track of the heartbeat.
+     */
     public void setUpConnection() {
 
         boolean connected = false;
@@ -71,7 +76,7 @@ public class Client {
 
 
     /**
-     * Allows to choose the type of view: the player can choose between cli and view.
+     * Allows to choose the type of interface: the player can choose between CLI and GUI.
      */
     public void setView() {
 
@@ -96,6 +101,14 @@ public class Client {
         }
     }
 
+
+    /**
+     * Calls the specific method on the chosen interface, so that the client can follow the flow of the game answering the server requests.
+     * Messages of different nature rise different calls inside the switch-case of the method.
+     *
+     * @param receivedMessage The received message from the server
+     * @return The answer to send to the server.
+     */
     private Object callMethod(Message receivedMessage) {
 
         Method method;
@@ -165,7 +178,6 @@ public class Client {
                 }
 
             }
-
 
             case Message.TWO_INT: {
 
@@ -283,10 +295,19 @@ public class Client {
     }
 
 
+    /**
+     * Updates and calls the specific method referring to the message received from the server.
+     * @param receivedMessage The message received from the server.
+     * @return The answer to send to the server.
+     */
     public Object update(Message receivedMessage) {
         return callMethod(receivedMessage);
     }
 
+
+    /**
+     * Shows that the client is disconnecting from the server.
+     */
     public void disconnect() {
         try {
             System.out.println("CLOSING SERVER");

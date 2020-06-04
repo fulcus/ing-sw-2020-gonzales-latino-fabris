@@ -8,8 +8,11 @@ import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.concurrent.SynchronousQueue;
-import java.util.concurrent.TimeoutException;
 
+
+/**
+ * Reads inputs that will receive, both game messages and heartbeat pings.
+ */
 public class InputReader implements Runnable {
 
     private boolean connected;
@@ -48,7 +51,6 @@ public class InputReader implements Runnable {
 
                 serverSocket.setSoTimeout(15000);
 
-
                 Message readMessage = (Message) readObject;
 
 
@@ -58,7 +60,7 @@ public class InputReader implements Runnable {
                     connected = false;
                     client.disconnect();
 
-                    //Che succede se ho messo false, quindi non aggiungero piu niente alla coda ma network handler, è su handle server request?
+                    //todo Che succede se ho messo false, quindi non aggiungero piu niente alla coda ma network handler, è su handle server request?
                     //STOP NETWORK HANDLER THREAD?
 
                 } else if (readMessage.getMethod().equals("notifyOtherPlayerDisconnection")) {
@@ -86,8 +88,6 @@ public class InputReader implements Runnable {
                 connected = false;
                 Message notifyDisconnection = new Message("notifyOtherPlayerDisconnection","me");
                 client.update(notifyDisconnection);
-
-
             }
             catch (IOException | ClassNotFoundException e) {
                 connected = false;
@@ -96,9 +96,11 @@ public class InputReader implements Runnable {
         }
     }
 
+
     public SynchronousQueue<Object> getObjectsQueue() {
         return receivedObjectsQueue;
     }
+
 
     public boolean isConnected() {
         return connected;

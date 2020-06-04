@@ -8,6 +8,12 @@ import it.polimi.ingsw.server.model.Worker;
 
 import java.util.ArrayList;
 
+
+/**
+ * Allows to handle the turns of the players, from the beginning, when the game parameters need to be set,
+ * until when one of the players wins the game.
+ * Players are will be playing the game in a cyclical way.
+ */
 public class TurnHandler implements Runnable {
 
     private final Game game;
@@ -23,6 +29,11 @@ public class TurnHandler implements Runnable {
     private volatile int turnCounter;
 
 
+    /**
+     * Instances the TurnHandler for a specific game.
+     * @param game The game the TurnHandler refers to.
+     * @param gameController The GameController from which the game has been created.
+     */
     public TurnHandler(Game game, GameController gameController) {
         gameAlive = true;
         this.game = game;
@@ -36,6 +47,10 @@ public class TurnHandler implements Runnable {
     }
 
 
+    /**
+     * Describes and divides the flow of the turns in two phases: the setup of the game and the its strategy gaming phase.
+     * Runs until one of the player wins the game or a disconnection occurs.
+     */
     @Override
     public void run() {
         setUpTurns();
@@ -64,7 +79,6 @@ public class TurnHandler implements Runnable {
             if (player != challenger)
                 player.getClient().waitChallengerChooseGods(challenger.getNickname());
         }
-
 
         //lets challenger select the gods
         int alreadyChosenGods = 0;
@@ -315,7 +329,7 @@ public class TurnHandler implements Runnable {
      * Handles cyclical counter when number of Players changes.
      *
      * @param cyclicalCounter value of counter when numOfPlayers decreases.
-     * @return new value of cyclicalCounter.
+     * @return The new value of cyclicalCounter.
      */
     public int handleCyclicalCounter(int cyclicalCounter) {
 
@@ -349,7 +363,7 @@ public class TurnHandler implements Runnable {
 
 
     /**
-     * The turn evolution of the worker.
+     * Allows to let the turn of the player, who has chosen a specific worker, to evolve.
      *
      * @param turnWorker The worker picked for the turn.
      */
@@ -362,7 +376,6 @@ public class TurnHandler implements Runnable {
             if (worker != turnWorker)
                 otherWorker = worker;
         }
-
 
         try {
 
@@ -431,6 +444,11 @@ public class TurnHandler implements Runnable {
     }
 
 
+    /**
+     * Handles the turn flow and resizes the game players dimension when someone loses.
+     * Lets other players know that one of thw players has lost the game and so will be removed from the current game.
+     * @param loserNickname The nickname of the loser.
+     */
     public void handleGameChange(String loserNickname) {
 
         setNumberOfPLayersHasChanged(true);
@@ -441,6 +459,10 @@ public class TurnHandler implements Runnable {
     }
 
 
+    /**
+     * Sets the attribute gameAlive to the false value.
+     * The game is no more playable.
+     */
     public void stopTurnFlow() {
         gameAlive = false;
     }

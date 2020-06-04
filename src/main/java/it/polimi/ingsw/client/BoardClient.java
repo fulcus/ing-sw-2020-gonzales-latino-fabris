@@ -4,8 +4,10 @@ import it.polimi.ingsw.serializableObjects.CellClient;
 import it.polimi.ingsw.serializableObjects.WorkerClient;
 import it.polimi.ingsw.server.model.Board;
 
-import java.lang.reflect.Field;
 
+/**
+ * Representation of the game Board client-side.
+ */
 public class BoardClient {
 
     private final CellClient[][] board;
@@ -15,6 +17,7 @@ public class BoardClient {
     private WorkerClient whitefemale;
     private WorkerClient beigemale;
     private WorkerClient beigefemale;
+
 
     public BoardClient() {
         this.board = new CellClient[Board.SIDE][Board.SIDE];
@@ -26,16 +29,26 @@ public class BoardClient {
         }
     }
 
+
+    /**
+     * Finds a specific cell in the board, based on the received Cartesian input.
+     *
+     * @param x Cartesian coordinate that refers to the row of the board.
+     * @param y Cartesian coordinate that refers to the column of the board.
+     * @return The cell that has that specific position on the board.
+     */
     public CellClient findCell(int x, int y) {
         if (isInBoard(x, y))
             return board[x][y];
         return null;
     }
 
+
     /**
-     * Calculates position of cell relative to worker position.
-     * @param x x coordinate of cell
-     * @param y y coordinate of cell
+     * Calculates position of cell relatively to worker position.
+     *
+     * @param x Cartesian coordinate that refers to the row of the board.
+     * @param y Cartesian coordinate that refers to the column of the board.
      * @return relative position
      */
     private int[] workerCellRelativePosition(int xWorker, int yWorker, int x, int y) {
@@ -50,6 +63,15 @@ public class BoardClient {
         return position;
     }
 
+
+    /**
+     * Calculates the relative position selected with respect to the chosen worker.
+     *
+     * @param selectedWorker The chosen worker from which the computation will be referred to.
+     * @param xTo The row delta with respect to the chosen worker.
+     * @param yTo The column delta with respect to the chosen worker.
+     * @return The relative position with respect to the chosen worker, expressed in compass coordinates.
+     */
     public String workerCellRelativePositionCompass(WorkerClient selectedWorker, int xTo, int yTo) {
         int[] position = workerCellRelativePosition(selectedWorker.getXPosition(),selectedWorker.getYPosition(),xTo,yTo);
 
@@ -98,6 +120,14 @@ public class BoardClient {
         return result;
     }
 
+
+    /**
+     * Allows to know if the input position stays on or off the board.
+     *
+     * @param x Cartesian coordinate that refers to the row of the board.
+     * @param y Cartesian coordinate that refers to the column of the board.
+     * @return True if the input is inside the board, false otherwise.
+     */
     public boolean isInBoard(int x, int y) {
         return x >= 0 && x < Board.SIDE && y >= 0 && y < Board.SIDE;
     }
@@ -120,6 +150,11 @@ public class BoardClient {
 
     }
 
+
+    /**
+     * The worker state is updated to the cellFromServer.
+     * @param cellFromServer It is the cell where the update needs to be done
+     */
     private void updateWorkerInCell(CellClient cellFromServer) {
 
         WorkerClient workerFromServer = cellFromServer.getWorkerClient();
@@ -134,7 +169,6 @@ public class BoardClient {
         //else update local worker and local cell
         String sex = workerFromServer.getWorkerSex().toLowerCase();
         String color = workerFromServer.getWorkerColor().toLowerCase();
-
 
         if(sex.equals("male")) {
             switch (color) {

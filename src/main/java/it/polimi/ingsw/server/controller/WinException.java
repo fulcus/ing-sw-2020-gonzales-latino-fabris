@@ -1,5 +1,8 @@
 package it.polimi.ingsw.server.controller;
 
+/**
+ * Thrown when a player wins his game.
+ */
 public class WinException extends Exception {
 
     public WinException() {

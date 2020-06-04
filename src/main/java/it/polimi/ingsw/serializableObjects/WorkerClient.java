@@ -4,6 +4,9 @@ import it.polimi.ingsw.server.model.Worker;
 
 import java.io.Serializable;
 
+/**
+ * The worker representation client side.
+ */
 public class WorkerClient implements Serializable {
 
     private final String workerSex;
@@ -16,17 +19,21 @@ public class WorkerClient implements Serializable {
         return workerSex;
     }
 
+
     public String getWorkerColor() {
         return workerColor;
     }
+
 
     public int getXPosition() {
         return xPosition;
     }
 
+
     public int getYPosition() {
         return yPosition;
     }
+
 
     //ONLY used in server
     public WorkerClient(Worker worker) {
@@ -37,6 +44,7 @@ public class WorkerClient implements Serializable {
 
     }
 
+
     public WorkerClient(WorkerClient workerFromServer) {
         this.workerColor = workerFromServer.getWorkerColor();
         this.workerSex = workerFromServer.getWorkerSex();
@@ -44,10 +52,11 @@ public class WorkerClient implements Serializable {
         this.yPosition = workerFromServer.getYPosition();
     }
 
+
     /**
-     * Updates the position of the local representation of the worker
+     * Updates the position of the local representation of the worker.
      *
-     * @param workerFromServer Worker received from the server
+     * @param workerFromServer Worker received from the server.
      */
     public void updateWorkerPosition(WorkerClient workerFromServer) {
 

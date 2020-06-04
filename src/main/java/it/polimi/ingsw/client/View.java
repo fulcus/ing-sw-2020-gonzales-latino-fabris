@@ -6,33 +6,71 @@ import it.polimi.ingsw.serializableObjects.WorkerClient;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 
+
+/**
+ * Interface that defines the methods of the interfaces (CLI and GUI)
+ * that need to be implemented to guarantee a correct game flow.
+ */
 public interface View {
+
 
     /**
      * Assigns the nickname of the player to the View
      *
      * @param nickname nickname of the player associated with this instance of Cli
      */
-    //called by clientView
     void setPlayer(String nickname);
 
+    /**
+     * Asks the IP of the server where the client wants to connect to.
+     * @return The IP of the server to connect to.
+     */
     String getServerAddress();
 
+
+    /**
+     * Lets the player know the number of players for the game he's been assigned.
+     * The player in this specific case did not choose the number of players for the game, but someone else did (the so called "creator").
+     * @param numberOfPlayers The number of players of the game the player has been assigned to.
+     */
     void joinGame(int numberOfPlayers);
 
+
+    /**
+     * Lets the player know he is the creator of a new game.
+     */
     void createGame();
 
+
+    /**
+     * The joiner player is being shown that the creator of a new game is choosing the number of players for the game.
+     */
     void waitCreatorChooseNumOfPlayers();
 
+
+    /**
+     * Shows if the connection to the server was successful or not
+     * @param connected True if the connection was established, false otherwise.
+     */
     void connectionOutcome(boolean connected);
 
+
+    /**
+     * Notifies the player that his nickname was accepted by the server.
+     */
     void notifyValidNick();
 
+
+    /**
+     * Notifies the player that his color choice was accepted by the server.
+     * Sets also the local info about the player (his nickname and color).
+     */
     void notifyValidColor();
 
 
     /**
-     * Displays that the player has been disconnected and reason.
+     * Displays that a player has been disconnected and reason.
+     * @param disconnectedPlayer The name of the disconnected player.
      */
     void notifyOtherPlayerDisconnection(String disconnectedPlayer);
 
@@ -44,13 +82,15 @@ public interface View {
 
 
     /**
-     * @return The number of players.
+     * Asks to the creator of a game how many players will the game hold.
+     * @return The number of players decided by the creator player.
      */
     int askNumberOfPlayers();
 
 
     /**
      * This method asks the player to set his worker initial position.
+     * It will be invoked both for the male worker and the female worker of every player.
      *
      * @param workerSex This is the sex of the worker to be placed on the board.
      * @return Array with x,y coordinates of the chosen position.
@@ -58,46 +98,111 @@ public interface View {
     int[] askInitialWorkerPosition(String workerSex) throws InputMismatchException;
 
 
+    /**
+     * Shows to the player that another player registered to the current game is choosing his color.
+     * @param choosingPlayer The name of the player that is choosing his color.
+     */
     void printChoosingColor(String choosingPlayer);
 
 
+    /**
+     * Shows to the player that another player registered to the current game is choosing his nickname.
+     */
     void printChoosingNickname();
 
+
+    /**
+     * Allows to set and to store in the local cli memory the general settings info of other players.
+     * Allows also to store into specific colored class attributes the info of the players,
+     * so that a better representation when printing the game's board can be done.
+     *
+     * @param nickname Nickname of the player to register.
+     * @param color Color chosen by that specific player for the current game.
+     */
     void setOtherPlayersInfo(String nickname, String color);
 
+
+    /**
+     * Lets the player know the position he wrote for the initial worker position was wrong.
+     */
     void invalidInitialWorkerPosition();
 
 
+    /**
+     * Asks to the player the nickname for the game.
+     *
+     * @return The nickname chosen by the player.
+     */
     String askPlayerNickname();
 
 
+    /**
+     * Asks to the player the color for the game.
+     * Only three colors are available: blue, white and beige.
+     *
+     * @return The color chosen by the player.
+     */
     String askPlayerColor();
 
 
     /**
+     * Asks to the player which God among the available ones wants to play with during the current game.
      * @return The name of the chosen God.
      */
     String askPlayerGod();
 
 
+    /**
+     * Lets the player know that his God's choice was rejected by the server.
+     */
     void playerChoseInvalidGod();
 
 
+    /**
+     * Lets the challenger know how many gods he still has to choose.
+     * Then the challenger, if other gods need to be selected, chooses another god for the game.
+     *
+     * @param numOfPlayers The number of players of the current game.
+     * @param alreadyChosenGods The number of gods that the challenger has already chosen for the game.
+     * @return Another name of the God the challenger chooses for the current game.
+     */
     String getGodFromChallenger(int numOfPlayers, int alreadyChosenGods);
 
 
+    /**
+     * Asks to the challenger which player will be the starting one.
+     * @return The nickname of the starting player.
+     */
     String challengerChooseStartPlayer();
 
 
+    /**
+     * Lets the challenger know that was an error occurred choosing the starting player.
+     * The challenger must choose among the nicknames of the players registered in the current game.
+     */
     void invalidStartPlayer();
 
 
+    /**
+     * Lets the player know that the chosen color was not available,
+     * maybe because another player had already chosen it before or
+     * maybe because that was not a color defined by the game.
+     */
     void notAvailableColor();
 
 
+    /**
+     * Tells the player that the inserted nickname was not available.
+     * This error can occur when the length of the nickname is too long or when the same nick was already chosen by another player.
+     */
     void notAvailableNickname();
 
 
+    /**
+     * Asks to the player which one of his worker wants to play with during the current turn.
+     *
+     * @return The sex of the worker the player wants to play with.
+     */
     String askChosenWorker();
 
 
@@ -108,17 +213,27 @@ public interface View {
 
 
     /**
-     * Prints to screen that one of the player has won the game
+     * Prints to screen that the player has won the game.
      */
     boolean winningView();
 
 
+    /**
+     * Lets the player know he has lost the game because both of his workers cannot move.
+     */
     void unableToMoveLose();
 
 
+    /**
+     * Lets the player know he has lost the game because both of his workers cannot build.
+     */
     void unableToBuildLose();
 
 
+    /**
+     * In a 3 players game, this method notifies the other players that a player has lost the game.
+     * @param loserNickname The nickname of the player that has lost the game.
+     */
     void notifyPlayersOfLoss(String loserNickname);
 
 
@@ -128,24 +243,51 @@ public interface View {
     void printMap();
 
 
+    /**
+     * Updates the cell of the board that has changed its contents.
+     * @param toUpdateCell The cell that needs to be updated.
+     */
     void update(CellClient toUpdateCell);
 
 
+    /**
+     * Prints all the available gods of the game and their description.
+     * @param godsNameAndDescription The gods available for the game, the challenger will chose among this ones.
+     */
     void printAllGods(ArrayList<String> godsNameAndDescription);
 
 
+    /**
+     * Lets the player know the selected god does not exist in this game.
+     */
     void challengerError();
 
 
+    /**
+     * Prints all the Gods chosen by the challenger for the current game.
+     * @param chosenGods The list of the chosen gods.
+     */
     void printChosenGods(ArrayList<String> chosenGods);
 
 
+    /**
+     * Lets the player know the selected worker cannot move.
+     * @param sex The sex of the selected worker
+     */
     void selectedWorkerCannotMove(String sex);
 
 
+    /**
+     * Lets the player know the selected worker cannot build.
+     * @param sex The sex of the selected worker.
+     */
     void selectedWorkerCannotBuild(String sex);
 
 
+    /**
+     * Asks to the player if he prefers the CLI or the GUI.
+     * @return The type of interface chosen by the player.
+     */
     String askTypeofView();
 
 
@@ -207,7 +349,7 @@ public interface View {
 
 
     /**
-     * The name of the method describes itself.
+     * Asks to the player that holds Hephaestus as a God if he wants to build again.
      *
      * @return The will of the player to build again.
      */
@@ -215,7 +357,7 @@ public interface View {
 
 
     /**
-     * The name of the method describes itself.
+     * Asks to the player that holds Demeter as a God if he wants to build again.
      *
      * @return The will of the player to build again.
      */
@@ -223,7 +365,7 @@ public interface View {
 
 
     /**
-     * The name of the method describes itself.
+     * Asks to the player that holds Hestia as a God if he wants to build again.
      *
      * @return The will of the player to build again.
      */
@@ -231,7 +373,7 @@ public interface View {
 
 
     /**
-     * The name of the method describes itself.
+     * Asks to the player that holds Prometheus as a God if he wants to build before moving.
      *
      * @return The will of the player to build before moving.
      */
