@@ -7,6 +7,11 @@ import it.polimi.ingsw.server.controller.WinException;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.Worker;
 
+
+/**
+ * Represents the card of the God Athena.
+ * Allows to follow the instructions and to apply the effect of this specific God.
+ */
 public class Athena extends God {
 
     public final String description = "If one of your Workers moved up on your last turn, opponent Workers cannot move up this turn.";
@@ -17,6 +22,15 @@ public class Athena extends God {
     }
 
 
+    /**
+     * The evolution of the turn for the player that holds the Athena God card is different from the abstract implementation.
+     * Here we can set the restriction for the enemy workers to not move up.
+     *
+     * @param worker Selected worker that will act in the current turn.
+     * @throws UnableToMoveException The worker isn't allowed to move anywhere.
+     * @throws UnableToBuildException The worker isn't allowed to build anywhere.
+     * @throws WinException The worker has reached the third level of a building and so wins the game.
+     */
     @Override
     public void evolveTurn(Worker worker) throws UnableToMoveException, UnableToBuildException, WinException {
         move(worker);

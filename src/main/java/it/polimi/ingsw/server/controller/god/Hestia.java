@@ -10,6 +10,10 @@ import it.polimi.ingsw.server.model.Worker;
 import it.polimi.ingsw.server.model.WorkerBuildMap;
 
 
+/**
+ * Represents the card of the God Hestia.
+ * Allows to follow the instructions and to apply the effect of this specific God.
+ */
 public class Hestia extends God {
 
     public final String description = "Your Worker may build one additional time, but this cannot be on a perimeter space.";
@@ -20,6 +24,15 @@ public class Hestia extends God {
     }
 
 
+    /**
+     * The evolution of the turn for the player that holds the Hestia God card is different from the abstract implementation.
+     * Takes also into account that the selected worker can build again.
+     *
+     * @param w Selected worker that will act in the current turn.
+     * @throws UnableToBuildException The worker isn't allowed to build anywhere.
+     * @throws UnableToMoveException The worker isn't allowed to move anywhere.
+     * @throws WinException The worker has reached the third level of a building and so wins the game.
+     */
     @Override
     public void evolveTurn(Worker w) throws UnableToMoveException, UnableToBuildException, WinException {
         move(w);
@@ -83,7 +96,15 @@ public class Hestia extends God {
         }
     }
 
-    //same as standard + sets perimeter false
+
+    /**
+     * Sets the permissions to build of the selected worker.
+     * Differently from the default method it also sets the perimeter building cells as false.
+     *
+     * @param worker worker playing the turn.
+     * @return The WorkerBuildMap of the chosen worker of the turn.
+     * @throws UnableToBuildException signals that the worker cannot build anywhere
+     */
     private WorkerBuildMap updateBuildMapHestia(Worker worker) throws UnableToBuildException {
         WorkerBuildMap buildMap = worker.getBuildMap();
         buildMap.resetMap();

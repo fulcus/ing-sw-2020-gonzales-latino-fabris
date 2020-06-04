@@ -5,13 +5,15 @@ import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.serializableObjects.CellClient;
 import it.polimi.ingsw.serializableObjects.WorkerClient;
 import it.polimi.ingsw.server.model.*;
-import javafx.application.Platform;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.util.concurrent.atomic.AtomicReference;
 
+
+/**
+ * Allows to print to the client what the game asks and wants to show to him.
+ */
 public class Cli implements View {
 
     private Scanner input;
@@ -63,12 +65,16 @@ public class Cli implements View {
      *
      * @param nickname nickname of the player associated with this instance of Cli
      */
-    //called by clientView
     public void setPlayer(String nickname) {
+        // the method is called by clientView
         this.playerNickname = nickname;
     }
 
 
+    /**
+     * Asks the IP of the server where the client wants to connect to.
+     * @return The IP of the server to connect to.
+     */
     public String getServerAddress() {
 
         System.out.println("Insert Server IP");
@@ -77,6 +83,10 @@ public class Cli implements View {
     }
 
 
+    /**
+     * Shows if the connection to the server was successful or not
+     * @param connected True if the connection was established, false otherwise.
+     */
     public void connectionOutcome(boolean connected) {
         if (connected)
             System.out.println("Connected to the server.\n");
@@ -85,23 +95,35 @@ public class Cli implements View {
     }
 
 
+    /**
+     * Lets the player know the number of players for the game he's been assigned.
+     * The player in this specific case did not choose the number of players for the game, but someone else did (the so called "creator").
+     * @param numberOfPlayers The number of players of the game the player has been assigned to.
+     */
     public void joinGame(int numberOfPlayers) {
         System.out.print("You are joining a game for " + numberOfPlayers + " players.");
     }
 
 
+    /**
+     * Lets the player know he is the creator of a new game.
+     */
     public void createGame() {
         System.out.println("You are creating a new game.");
     }
 
 
+    /**
+     * The joiner player is being shown that the creator of a new game is choosing the number of players for the game.
+     */
     public void waitCreatorChooseNumOfPlayers() {
         System.out.println("The creator of the game is choosing the number of players for the game. Wait...");
     }
 
 
     /**
-     * Displays that the player has been disconnected and reason.
+     * Displays that a player has been disconnected and reason.
+     * @param disconnectedPlayer The name of the disconnected player.
      */
     public void notifyOtherPlayerDisconnection(String disconnectedPlayer) {
 
@@ -132,7 +154,8 @@ public class Cli implements View {
 
 
     /**
-     * @return The number of players.
+     * Asks to the creator of a game how many players will the game hold.
+     * @return The number of players decided by the creator player.
      */
     public int askNumberOfPlayers() {
 
@@ -156,6 +179,9 @@ public class Cli implements View {
     }
 
 
+    /**
+     * Representation of the game's title with ASCII characters.
+     */
     private void santoriniASCII() {
 
         System.out.println("███████╗ █████╗ ███╗   ██╗████████╗ ██████╗ ██████╗ ██╗███╗   ██╗██╗");
@@ -171,6 +197,7 @@ public class Cli implements View {
 
     /**
      * This method asks the player to set his worker initial position.
+     * It will be invoked both for the male worker and the female worker of every player.
      *
      * @param workerSex This is the sex of the worker to be placed on the board.
      * @return Array with x,y coordinates of the chosen position.
@@ -207,36 +234,32 @@ public class Cli implements View {
     }
 
 
+    /**
+     * Shows to the player that another player registered to the current game is choosing his color.
+     * @param choosingPlayer The name of the player that is choosing his color.
+     */
     public void printChoosingColor(String choosingPlayer) {
         System.out.print("\n" + choosingPlayer + " is choosing his color\n");
     }
 
 
+    /**
+     * Shows to the player that another player registered to the current game is choosing his nickname.
+     */
     public void printChoosingNickname() {
         System.out.print("Another player is choosing his nickname\n");
     }
 
 
+    /**
+     * Allows to set and to store in the local cli memory the general settings info of other players.
+     * Allows also to store into specific colored class attributes the info of the players,
+     * so that a better representation when printing the game's board can be done.
+     *
+     * @param nickname Nickname of the player to register.
+     * @param color Color chosen by that specific player for the current game.
+     */
     public void setOtherPlayersInfo(String nickname, String color) {
-        setPlayerInfo(nickname, color);
-    }
-
-
-    private void setMyInfo(String nickname, String color) {
-        nickname1 = nickname;
-        color1 = color;
-
-        if (color1.equals("BLUE") || color1.equals("blue"))
-            bluePlayer = nickname1;
-        else if (color1.equals("WHITE") || color1.equals("white"))
-            whitePlayer = nickname1;
-        else if (color1.equals("BEIGE") || color1.equals("beige"))
-            beigePlayer = nickname1;
-    }
-
-
-    private void setPlayerInfo(String nickname, String color) {
-
         if (nickname2 == null) {
             nickname2 = nickname;
             color2 = color;
@@ -274,9 +297,37 @@ public class Cli implements View {
                     break;
             }
         }
-
     }
 
+
+    /**
+     * Allows to set and to store in the local cli memory the general settings info of the local client.
+     * Allows also to store into specific colored class attributes the info of the local player,
+     * so that a better representation when printing the game's board can be done.
+     *
+     * @param nickname Nickname of the player to register.
+     * @param color Color chosen by that specific player for the current game.
+     */
+    private void setMyInfo(String nickname, String color) {
+        nickname1 = nickname;
+        color1 = color;
+
+        if (color1.equals("BLUE") || color1.equals("blue"))
+            bluePlayer = nickname1;
+        else if (color1.equals("WHITE") || color1.equals("white"))
+            whitePlayer = nickname1;
+        else if (color1.equals("BEIGE") || color1.equals("beige"))
+            beigePlayer = nickname1;
+    }
+
+
+    /**
+     * Allows to set and to store in the local cli memory the god of another player.
+     * Allows also to store into specific colored class attributes the info of the god,
+     * so that a better representation when printing the game's board can be done.
+     * @param nickname
+     * @param god
+     */
     private void setPlayerGod(String nickname, String god) {
 
         if (nickname.equals(nickname2)) {
@@ -294,6 +345,9 @@ public class Cli implements View {
     }
 
 
+    /**
+     * Lets the player know the position he wrote for the initial worker position was wrong.
+     */
     public void invalidInitialWorkerPosition() {
         System.out.println("Not valid or available position. Choose another place!");
         intInput.next();
@@ -301,6 +355,11 @@ public class Cli implements View {
     }
 
 
+    /**
+     * Asks to the player the nickname for the game.
+     *
+     * @return The nickname chosen by the player.
+     */
     public String askPlayerNickname() {
 
         System.out.println("\nChoose your nickname.");
@@ -311,6 +370,12 @@ public class Cli implements View {
     }
 
 
+    /**
+     * Asks to the player the color for the game.
+     * Only three colors are available: blue, white and beige.
+     *
+     * @return The color chosen by the player.
+     */
     public String askPlayerColor() {
 
         System.out.println("\n" + playerNickname + ", choose your color.");
@@ -323,11 +388,18 @@ public class Cli implements View {
     }
 
 
+    /**
+     * Notifies the player that his nickname was accepted by the server.
+     */
     public void notifyValidNick() {
         System.out.println("Nickname accepted");
     }
 
 
+    /**
+     * Notifies the player that his color choice was accepted by the server.
+     * Sets also the local info about the player (his nickname and color).
+     */
     public void notifyValidColor() {
         //adding this players info to "database"
         setMyInfo(playerNickname, myColor);
@@ -337,6 +409,7 @@ public class Cli implements View {
 
 
     /**
+     * Asks to the player which God among the available ones wants to play with during the current game.
      * @return The name of the chosen God.
      */
     public String askPlayerGod() {
@@ -349,11 +422,18 @@ public class Cli implements View {
     }
 
 
+    /**
+     * Lets the player know that his God's choice was rejected by the server.
+     */
     public void playerChoseInvalidGod() {
         System.out.println("Your god is not available or has already been chosen.\n");
     }
 
 
+    /**
+     * Lets the challenger of the game know that he is the challenger and asks him to select the Gods for the game.
+     * @param numOfPlayers The challenger must choose as many Gods as many are the players of the game.
+     */
     private void printChallenger(int numOfPlayers) {
 
         System.out.println();
@@ -363,6 +443,14 @@ public class Cli implements View {
     }
 
 
+    /**
+     * Lets the challenger know how many gods he still has to choose.
+     * Then the challenger, if other gods need to be selected, chooses another god for the game.
+     *
+     * @param numOfPlayers The number of players of the current game.
+     * @param alreadyChosenGods The number of gods that the challenger has already chosen for the game.
+     * @return Another name of the God the challenger chooses for the current game.
+     */
     public String getGodFromChallenger(int numOfPlayers, int alreadyChosenGods) {
 
         int godsLeftToChoose = numOfPlayers - alreadyChosenGods;
@@ -384,6 +472,10 @@ public class Cli implements View {
     }
 
 
+    /**
+     * Asks to the challenger which player will be the starting one.
+     * @return The nickname of the starting player.
+     */
     public String challengerChooseStartPlayer() {
 
         System.out.println("\n" + playerNickname + ", choose the first player to start! Type his nickname:");
@@ -392,21 +484,39 @@ public class Cli implements View {
     }
 
 
+    /**
+     * Lets the challenger know that was an error occurred choosing the starting player.
+     * The challenger must choose among the nicknames of the players registered in the current game.
+     */
     public void invalidStartPlayer() {
         System.out.println("Invalid nickname. It must be an existing nickname.");
     }
 
 
+    /**
+     * Lets the player know that the chosen color was not available,
+     * maybe because another player had already chosen it before or
+     * maybe because that was not a color defined by the game.
+     */
     public void notAvailableColor() {
         System.out.println("This color is not available!");
     }
 
 
+    /**
+     * Tells the player that the inserted nickname was not available.
+     * This error can occur when the length of the nickname is too long or when the same nick was already chosen by another player.
+     */
     public void notAvailableNickname() {
         System.out.println("This nickname is not available!");
     }
 
 
+    /**
+     * Asks to the player which one of his worker wants to play with during the current turn.
+     *
+     * @return The sex of the worker the player wants to play with.
+     */
     public String askChosenWorker() {
 
         String chosenWorkerSex;
@@ -430,7 +540,7 @@ public class Cli implements View {
 
 
     /**
-     * Allows to print the ERROR to the screen
+     * Allows to print a general ERROR to the screen.
      */
     public void printErrorScreen() {
         System.out.println("An error has occurred. Retry.");
@@ -438,7 +548,7 @@ public class Cli implements View {
 
 
     /**
-     * Prints to screen that one of the player has won the game
+     * Prints to screen that the player has won the game.
      */
     public boolean winningView() {
         System.out.println("You have won this game!");
@@ -447,23 +557,33 @@ public class Cli implements View {
     }
 
 
+    /**
+     * Lets the player know he has lost the game because both of his workers cannot move.
+     */
     public void unableToMoveLose() {
         System.out.println("\nNone of your workers can move. You have lost this game.\nGoodbye");
     }
 
 
+    /**
+     * Lets the player know he has lost the game because both of his workers cannot build.
+     */
     public void unableToBuildLose() {
         System.out.println("\nNone of your workers can build. You have lost this game.\nGoodbye");
     }
 
 
+    /**
+     * In a 3 players game, this method notifies the other players that a player has lost the game.
+     * @param loserNickname The nickname of the player that has lost the game.
+     */
     public void notifyPlayersOfLoss(String loserNickname) {
         System.out.println(loserNickname + " has lost, 2 players remained!");
     }
 
 
     /**
-     * This method prints an updated version of the Board, depending on the Class' parameter "mymap".
+     * This method prints an updated version of the Board, depending on the Class parameter "mymap".
      */
     public void printMap() {
         System.out.println("\n");
@@ -568,11 +688,19 @@ public class Cli implements View {
     }
 
 
+    /**
+     * Updates the cell of the board that has changed its contents.
+     * @param toUpdateCell The cell that needs to be updated.
+     */
     public void update(CellClient toUpdateCell) {
         board.update(toUpdateCell);
     }
 
 
+    /**
+     * Prints all the available gods of the game and their description.
+     * @param godsNameAndDescription The gods available for the game, the challenger will chose among this ones.
+     */
     public void printAllGods(ArrayList<String> godsNameAndDescription) {
         System.out.println("\nThese are all the available gods:\n");
 
@@ -583,11 +711,18 @@ public class Cli implements View {
     }
 
 
+    /**
+     * Lets the player know the selected god does not exist in this game.
+     */
     public void challengerError() {
         System.out.println("This god doesn't exist.");
     }
 
 
+    /**
+     * Prints all the Gods chosen by the challenger for the current game.
+     * @param chosenGods The list of the chosen gods.
+     */
     public void printChosenGods(ArrayList<String> chosenGods) {
 
         System.out.print("\n\nAvailable gods: ");
@@ -606,6 +741,10 @@ public class Cli implements View {
     }
 
 
+    /**
+     * Lets the player know the selected worker cannot move.
+     * @param sex The sex of the selected worker
+     */
     public void selectedWorkerCannotMove(String sex) {
         sex = sex.toLowerCase();
         String otherSex;
@@ -620,6 +759,10 @@ public class Cli implements View {
     }
 
 
+    /**
+     * Lets the player know the selected worker cannot build.
+     * @param sex The sex of the selected worker.
+     */
     public void selectedWorkerCannotBuild(String sex) {
         sex = sex.toLowerCase();
         String otherSex;
@@ -634,6 +777,10 @@ public class Cli implements View {
     }
 
 
+    /**
+     * Asks to the player if he prefers the CLI or the GUI.
+     * @return The type of interface chosen by the player.
+     */
     public String askTypeofView() {
 
         String selectedView;
@@ -808,11 +955,12 @@ public class Cli implements View {
 
 
     /**
-     * Helps to show the positions of the neighboring workers
+     * Helps to show the positions of the neighboring workers.
+     * Then creates a list of the position of these workers.
      *
      * @param enemyWorkers It's the list of the neighbour movable enemy workers.
      * @param myWorker     It's the chosen worker of the current player.
-     * @return The position of the selected worker to move.
+     * @return The positions of the neighboring enemies.
      */
     private ArrayList<String> printFoundEnemiesPosition(ArrayList<WorkerClient> enemyWorkers, WorkerClient myWorker) {
         int myWorkerX = myWorker.getXPosition();
@@ -870,7 +1018,7 @@ public class Cli implements View {
 
 
     /**
-     * The name of the method describes itself.
+     * Asks to the player that holds Hephaestus as a God if he wants to build again.
      *
      * @return The will of the player to build again.
      */
@@ -882,7 +1030,7 @@ public class Cli implements View {
 
 
     /**
-     * The name of the method describes itself.
+     * Asks to the player that holds Demeter as a God if he wants to build again.
      *
      * @return The will of the player to build again.
      */
@@ -893,7 +1041,7 @@ public class Cli implements View {
 
 
     /**
-     * The name of the method describes itself.
+     * Asks to the player that holds Hestia as a God if he wants to build again.
      *
      * @return The will of the player to build again.
      */
@@ -904,7 +1052,7 @@ public class Cli implements View {
 
 
     /**
-     * The name of the method describes itself.
+     * Asks to the player that holds Prometheus as a God if he wants to build before moving.
      *
      * @return The will of the player to build before moving.
      */

@@ -7,18 +7,25 @@ import it.polimi.ingsw.server.model.Worker;
 import it.polimi.ingsw.server.model.WorkerBuildMap;
 
 
+/**
+ * Represents the card of the God Atlas.
+ * Allows to follow the instructions and to apply the effect of this specific God.
+ */
 public class Atlas extends God {
 
     public final String description = "Your Worker may build a dome at any level.";
+
 
     public Atlas(GodController godController) {
         super(godController);
     }
 
+
     /**
-     * Allows to build in the correct way for the player who owns Atlas
+     * The player who holds the Atlas God card that is allowed to build a dome in any position whenever he wants,
+     * but can also build in the default way.
      *
-     * @param worker This the current worker.
+     * @param worker This the current worker chosen for the turn.
      */
     @Override
     public void build(Worker worker) throws UnableToBuildException {
@@ -67,6 +74,7 @@ public class Atlas extends God {
     public GodController getGodController() {
         return godController;
     }
+
 
     public String getDescription() {
         return description;

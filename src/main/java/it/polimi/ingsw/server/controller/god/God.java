@@ -1,11 +1,11 @@
 package it.polimi.ingsw.server.controller.god;
 
-
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.controller.*;
 
+
 /**
- * This interface allows to see the Gods' main methods
+ * This abstract class allows to see the Gods' main methods and their default implementation.
  */
 public abstract class God {
 
@@ -21,6 +21,9 @@ public abstract class God {
      * Default evolution of the turn: move, checks if win condition is met, builds.
      *
      * @param worker Selected worker that will act in the current turn.
+     * @throws UnableToMoveException The worker isn't allowed to move anywhere.
+     * @throws UnableToBuildException The worker isn't allowed to build anywhere.
+     * @throws WinException The worker has reached the third level of a building and so wins the game.
      */
     public void evolveTurn(Worker worker) throws UnableToMoveException, UnableToBuildException, WinException {
         move(worker);
@@ -30,9 +33,10 @@ public abstract class God {
 
 
     /**
-     * Default rules to move the worker.
+     * Default rules to move the worker during a turn of the game.
      *
      * @param worker Selected worker that will move.
+     * @throws UnableToMoveException The worker isn't allowed to move anywhere.
      */
     public void move(Worker worker) throws UnableToMoveException {
 
@@ -59,9 +63,10 @@ public abstract class God {
 
 
     /**
-     * Lets a worker build a block or a dome.
+     * Lets the worker build a block or a dome.
      *
-     * @param worker worker playing the turn.
+     * @param worker worker playing the current turn.
+     * @throws UnableToBuildException The worker isn't allowed to build anywhere.
      */
     public void build(Worker worker) throws UnableToBuildException {
 
@@ -106,9 +111,10 @@ public abstract class God {
 
 
     /**
-     * Checks if win conditions are met.
+     * Checks if default win conditions are met.
      *
-     * @param worker worker playing the turn.
+     * @param worker Worker playing the turn.
+     * @throws WinException The worker has reached the third level of a building and so wins the game.
      */
     public void win(Worker worker) throws WinException {
 
@@ -130,6 +136,7 @@ public abstract class God {
      * Sets the permissions to move of the selected worker.
      *
      * @param worker worker playing the turn.
+     * @return The WorkerMoveMap of the worker chosen for this turn.
      * @throws UnableToMoveException signals that the worker cannot move anywhere
      */
     //will be called at the beginning of each move, which will then comply with the matrix.
@@ -146,18 +153,19 @@ public abstract class God {
 
         //moveMap.printMap();    //debugging
 
-
         if (!moveMap.anyAvailableMovePosition())
             throw new UnableToMoveException();
 
         return moveMap;
     }
 
+
     /**
      * Sets the permissions to build of the selected worker.
      *
      * @param worker worker playing the turn.
-     * @throws UnableToBuildException signals that the worker cannot build anywhere
+     * @return The WorkerBuildMap of the chosen worker of this turn.
+     * @throws UnableToBuildException signals that the worker cannot build anywhere.
      */
     public WorkerBuildMap updateBuildMap(Worker worker) throws UnableToBuildException {
 
@@ -181,9 +189,12 @@ public abstract class God {
         return godController;
     }
 
+
     public abstract String getDescription();
+
 
     public String toString() {
         return getClass().getSimpleName();
     }
+
 }

@@ -1,5 +1,9 @@
 package it.polimi.ingsw.client.cli;
 
+
+/**
+ * Contains the references of the special the characters and their color used in the Cli.
+ */
 public enum CliColor {
     ANSI_MALE_WORKER( " M⃣ "),
     ANSI_FEMALE_WORKER(" F⃣ "),

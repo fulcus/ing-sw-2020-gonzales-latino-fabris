@@ -9,7 +9,8 @@ import it.polimi.ingsw.server.model.WorkerMoveMap;
 
 
 /**
- * This class is the one that describes the Minotaur behaviour
+ * Represents the card of the God Minotaur.
+ * Allows to follow the instructions and to apply the effect of this specific God.
  */
 public class Minotaur extends God {
 
@@ -21,12 +22,15 @@ public class Minotaur extends God {
     }
 
 
+    /**
+     * The minotaur move allows also to push back an enemy worker, if the cell behind the enemy (following the same direction) is free.
+     * Default move is still valid.
+     *
+     * @param worker Selected worker that will move.
+     * @throws UnableToMoveException The worker isn't allowed to move anywhere.
+     */
     @Override
     public void move(Worker worker) throws UnableToMoveException {
-        movePushBack(worker);
-    }
-
-    private void movePushBack(Worker worker) throws UnableToMoveException {
 
         WorkerMoveMap moveMap = updateMoveMap(worker);
         Board map = worker.getPlayer().getGame().getBoard();
@@ -77,6 +81,13 @@ public class Minotaur extends God {
     }
 
 
+    /**
+     * The difference from the default method is that the worker can move into an enemy occupied cell.
+     *
+     * @param worker worker playing the turn.
+     * @return The WorkerMoveMap of the chosen worker of the current turn.
+     * @throws UnableToMoveException The worker isn't allowed to move anywhere.
+     */
     public WorkerMoveMap updateMoveMap(Worker worker) throws UnableToMoveException {
         WorkerMoveMap moveMap = worker.getMoveMap();
         moveMap.resetMap();
@@ -90,7 +101,6 @@ public class Minotaur extends God {
 
         //moveMap.printMap();    //debugging
 
-
         if (!moveMap.anyAvailableMovePosition())
             throw new UnableToMoveException();
 
@@ -101,6 +111,7 @@ public class Minotaur extends God {
     public GodController getGodController() {
         return godController;
     }
+
 
     public String getDescription() {
         return description;

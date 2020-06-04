@@ -9,6 +9,10 @@ import it.polimi.ingsw.server.model.Worker;
 import it.polimi.ingsw.server.model.WorkerMoveMap;
 
 
+/**
+ * Represents the card of the God Artemis.
+ * Allows to follow the instructions and to apply the effect of this specific God.
+ */
 public class Artemis extends God {
 
     private Cell initialPosition;
@@ -20,6 +24,15 @@ public class Artemis extends God {
     }
 
 
+    /**
+     * The evolution of the turn for the player that holds the Artemis God card is different from the abstract implementation.
+     * Takes also into account that the selected worker can move again.
+     *
+     * @param worker Selected worker that will act in the current turn.
+     * @throws UnableToBuildException The worker isn't allowed to build anywhere.
+     * @throws UnableToMoveException The worker isn't allowed to move anywhere.
+     * @throws WinException The worker has reached the third level of a building and so wins the game.
+     */
     @Override
     public void evolveTurn(Worker worker) throws UnableToBuildException, UnableToMoveException, WinException {
         initialPosition = worker.getPosition();
@@ -31,6 +44,11 @@ public class Artemis extends God {
     }
 
 
+    /**
+     * Defines the rules to move again the worker.
+     * The worker cannot move where he stood at the beginning of the turn.
+     * @param worker The selected worker.
+     */
     private void moveAgain(Worker worker) {
 
         if (!godController.wantToMoveAgain())

@@ -10,17 +10,31 @@ import it.polimi.ingsw.server.model.Worker;
 import it.polimi.ingsw.server.model.WorkerBuildMap;
 
 
+/**
+ * Represents the card of the God Demeter.
+ * Allows to follow the instructions and to apply the effect of this specific God.
+ */
 public class Demeter extends God {
 
     public final String description = "Your Worker may build one additional time, but not on the same space.";
-
     Cell firstBuildCell;
+
 
     public Demeter (GodController godController) {
         super(godController);
         firstBuildCell = null;
     }
 
+
+    /**
+     * The evolution of the turn for the player that holds the Demeter God card is different from the abstract implementation.
+     * Here we can build twice, but the second time needs to be into a different cell.
+     *
+     * @param w The selected worker for this turn.
+     * @throws UnableToMoveException The worker isn't allowed to move anywhere.
+     * @throws UnableToBuildException The worker isn't allowed to build anywhere.
+     * @throws WinException The worker has reached the third level of a building and so wins the game.
+     */
     @Override
     public void evolveTurn(Worker w) throws UnableToBuildException, UnableToMoveException, WinException {
         move(w);
@@ -30,6 +44,13 @@ public class Demeter extends God {
     }
 
 
+    /**
+     * Allows to build a block or a dome.
+     *
+     * @param worker The chosen worker for this turn.
+     * @return The cell where the first build has been made.
+     * @throws UnableToBuildException The worker isn't allowed to build anywhere.
+     */
     public Cell firstBuild(Worker worker) throws UnableToBuildException {
 
         WorkerBuildMap buildMap = updateBuildMap(worker);
@@ -70,6 +91,11 @@ public class Demeter extends God {
     }
 
 
+    /**
+     * The player can choose if he wants to build again.
+     * If so, the next building block or dome needs to be built into a different position with respect to the first building position.
+     * @param worker The chosen worker for the turn.
+     */
     private void buildAgain(Worker worker) {
 
         if (!godController.wantToBuildAgain(this))

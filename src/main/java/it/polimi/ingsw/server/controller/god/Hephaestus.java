@@ -10,17 +10,22 @@ import it.polimi.ingsw.server.model.Worker;
 import it.polimi.ingsw.server.model.WorkerBuildMap;
 
 
+/**
+ * Represents the card of the God Demeter.
+ * Allows to follow the instructions and to apply the effect of this specific God.
+ */
 public class Hephaestus extends God {
 
     public final String description = "Your Worker may build one additional block (not dome) on top of your first block.";
-
     Cell firstBuildCell;
+
 
     public Hephaestus(GodController godController){
         super(godController);
         firstBuildCell = null;
         this.godController = godController;
     }
+
 
     /**
      * This method calls the sequence of actions that can be done by the player who owns Hephaestus.
@@ -36,7 +41,8 @@ public class Hephaestus extends God {
 
     /**
      * Allows to build into a near cell of the board.
-     * @param worker It's the selected worker.
+     *
+     * @param worker It's the selected worker for this turn.
      * @return The cell where has been built the first building.
      * @throws UnableToBuildException Says that the building cannot be built anywhere.
      */
@@ -102,6 +108,7 @@ public class Hephaestus extends God {
     public GodController getGodController() {
         return godController;
     }
+
 
     public String getDescription() {
         return description;

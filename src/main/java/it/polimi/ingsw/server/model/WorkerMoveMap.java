@@ -79,7 +79,7 @@ public class WorkerMoveMap extends WorkerMap {
         else
             levelDifferenceLessEqualThanX(0);
     }
-    
+
 
     /**
      * Checks if the worker can move.

@@ -8,6 +8,10 @@ import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.Worker;
 
 
+/**
+ * Represents the card of the God Prometheus.
+ * Allows to follow the instructions and to apply the effect of this specific God.
+ */
 public class Prometheus extends God {
 
     public final String description = "If your Worker does not move up, it may build both before and after moving.";
@@ -18,16 +22,31 @@ public class Prometheus extends God {
     }
 
 
+    /**
+     * The evolution of the turn for the player that holds the Prometheus God card is different from the abstract implementation.
+     * Takes also into account that the selected worker can build before moving.
+     *
+     * @param worker Selected worker that will act in the current turn.
+     * @throws UnableToBuildException The worker isn't allowed to build anywhere.
+     * @throws UnableToMoveException The worker isn't allowed to move anywhere.
+     * @throws WinException The worker has reached the third level of a building and so wins the game.
+     */
     @Override
     public void evolveTurn(Worker worker) throws UnableToMoveException, UnableToBuildException, WinException {
         buildBefore(worker);
         move(worker);
         win(worker);
         build(worker);
-
     }
 
 
+    /**
+     * If the player decides to not move up and move staying o the same level (or lower)
+     * the player is allowed to build twice, even before the move.
+     *
+     * @param worker The selected worker for this turn.
+     * @throws UnableToMoveException The worker isn't allowed to move anywhere.
+     */
     private void buildBefore(Worker worker) throws UnableToMoveException {
 
         Player player = worker.getPlayer();
@@ -45,7 +64,6 @@ public class Prometheus extends God {
             godController.errorBuildScreen();
             return;
         }
-
 
         if (godController.wantToBuildAgain(this)) {
 
@@ -65,6 +83,13 @@ public class Prometheus extends God {
     }
 
 
+    /**
+     * As the default god's move, but if the player decided to not move up,
+     * the worker cannot actually do it.
+     *
+     * @param worker Selected worker that will move.
+     * @throws UnableToMoveException The worker isn't allowed to move anywhere.
+     */
     @Override
     public void move(Worker worker) throws UnableToMoveException {
 
@@ -74,9 +99,11 @@ public class Prometheus extends God {
         worker.getPlayer().setPermissionToMoveUp(canMoveUpBefore);
     }
 
+
     public GodController getGodController() {
         return godController;
     }
+
 
     public String getDescription() {
         return description;
