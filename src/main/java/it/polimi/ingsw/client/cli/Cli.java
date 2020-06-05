@@ -1140,7 +1140,7 @@ public class Cli implements View {
     /**
      * Lets player know that the challenger is choosing the gods for the game.
      *
-     * @param challenger nickname of the challenger
+     * @param challenger nickname of the challenger.
      */
     public void waitChallengerChooseGods(String challenger) {
 
@@ -1150,9 +1150,9 @@ public class Cli implements View {
 
 
     /**
-     * Lets player know that another player is choosing his god
+     * Lets player know that another player is choosing his god.
      *
-     * @param otherPlayer the player that is choosing his god
+     * @param otherPlayer the player that is choosing his god.
      */
     public void waitOtherPlayerChooseGod(String otherPlayer) {
         System.out.println();
@@ -1162,10 +1162,10 @@ public class Cli implements View {
 
 
     /**
-     * Lets player know the god chosen by another player
+     * Lets player know the god chosen by another player.
      *
-     * @param otherPlayer player who chose the god
-     * @param chosenGod   god chosen by the otherPlayer
+     * @param otherPlayer player who chose the god.
+     * @param chosenGod   god chosen by the otherPlayer.
      */
     public void otherPlayerChoseGod(String otherPlayer, String chosenGod) {
 
@@ -1177,7 +1177,7 @@ public class Cli implements View {
 
 
     /**
-     * Lets player know that the challenger is choosing the start player
+     * Lets player know that the challenger is choosing the start player.
      */
     public void waitChallengerStartPlayer() {
         System.out.println();
@@ -1186,9 +1186,9 @@ public class Cli implements View {
 
 
     /**
-     * Lets player know who is the start player
+     * Lets player know who is the start player.
      *
-     * @param startPlayer start player nickname
+     * @param startPlayer start player nickname.
      */
     public void printStartPlayer(String startPlayer) {
         System.out.println();
@@ -1197,9 +1197,9 @@ public class Cli implements View {
 
 
     /**
-     * Lets  player know that another player is choosing the initial position for his workers
+     * Lets  player know that another player is choosing the initial position for his workers.
      *
-     * @param player player who is performing the action
+     * @param player player who is performing the action.
      */
     public void otherPlayerSettingInitialWorkerPosition(String player) {
         System.out.println();
@@ -1208,9 +1208,9 @@ public class Cli implements View {
 
 
     /**
-     * Lets player know that it's another player's turn
+     * Lets player know that it's another player's turn.
      *
-     * @param currentPlayer nickname of the player that is playing his turn
+     * @param currentPlayer nickname of the player that is playing his turn.
      */
     public void otherPlayerTurn(String currentPlayer) {
         System.out.println();
@@ -1221,7 +1221,8 @@ public class Cli implements View {
     /**
      * Lets player know that he has lost, and who is the winner.
      *
-     * @param winner nickname of the winner
+     * @param winner nickname of the winner.
+     * @return Always returns true.
      */
     public boolean losingView(String winner) {
         System.out.println("\nYou have lost this game. The winner is " + winner + ".");
