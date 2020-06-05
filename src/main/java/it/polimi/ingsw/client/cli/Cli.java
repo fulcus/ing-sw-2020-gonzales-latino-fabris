@@ -549,6 +549,7 @@ public class Cli implements View {
 
     /**
      * Prints to screen that the player has won the game.
+     * @return True.
      */
     public boolean winningView() {
         System.out.println("You have won this game!");

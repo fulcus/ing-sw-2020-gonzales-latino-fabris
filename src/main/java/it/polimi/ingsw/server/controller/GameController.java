@@ -4,11 +4,11 @@ import it.polimi.ingsw.server.ViewClient;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.controller.god.*;
 
-
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+
 
 /**
  * Controls the flow of the setup of the game.
@@ -27,6 +27,7 @@ public class GameController {
     private volatile boolean full;
     private int clientsConnected;
 
+
     public GameController() {
         game = null;
         turnHandler = null;
@@ -40,6 +41,13 @@ public class GameController {
         full = false;
     }
 
+
+    /**
+     * The first client that finds that no game is available then creates a new one.
+     * So the client sets up the new game and is been added to it.
+     *
+     * @param newClient The client that creates the new game and sets it up.
+     */
     public void create(ViewClient newClient) {
 
         //send message to creator
@@ -52,6 +60,10 @@ public class GameController {
     }
 
 
+    /**
+     * The joiner client is added to a game that is already been created.
+     * @param newClient The client that has just joined the game and needs to be added to it.
+     */
     public synchronized void join(ViewClient newClient) {
 
         //send message to client
@@ -92,7 +104,11 @@ public class GameController {
         }
     }
 
-    //send client nickname and color of all players that are already in
+
+    /**
+     * Sends client nickname and color of all players that are already registered.
+     * @param newClient The client that has just joined and needs to get the other player's information.
+     */
     private void sendOtherPlayersInfo(ViewClient newClient) {
 
         for (ViewClient otherClient : gameClients) {
@@ -112,10 +128,6 @@ public class GameController {
     }
 
 
-
-
-
-
     /**
      * Sets up game and starts the logic flow.
      */
@@ -133,15 +145,15 @@ public class GameController {
 
     }
 
+
     public boolean getAccessible() {
         return accessible;
     }
 
 
     /**
-     * Adds a player to the game.
-     *
-     * @param client View of the new player.
+     * Adds a player to the game, setting his attributes of nickname and color.
+     * @param client client to add.
      */
     public void addPlayer(ViewClient client) {
 
@@ -169,6 +181,10 @@ public class GameController {
     }
 
 
+    /**
+     * The client is registered to observe the behaviour of the cells of the board.
+     * @param client Client that is registered to observe.
+     */
     private void setUpObserverView(ViewClient client) {
 
         for (int i = 0; i < Board.SIDE; i++) {
@@ -181,6 +197,10 @@ public class GameController {
     }
 
 
+    /**
+     * Removes client from observing the cells of the map.
+     * @param client The client that is removed from the list of the observers.
+     */
     public void removeClientObserver(ViewClient client) {
 
         for (int i = 0; i < Board.SIDE; i++) {
@@ -219,6 +239,15 @@ public class GameController {
         }
     }
 
+
+    /**
+     * Checks if the nickname chosen by the player is valid.
+     * A nickname is valid if no one has already chosen it and if it is a String longer than 0 but shorter than 9 characters.
+     * @param chosenNickname The nickname chosen by the player.
+     * @param client The client associated to the chosen nickname
+     * @param game The game where the player needs to be added.
+     * @return True if the nickname was valid, false otherwise.
+     */
     private boolean checkNicknameValidity(String chosenNickname, ViewClient client, Game game) {
 
         if (nicknameIsAvailable(chosenNickname) && chosenNickname.length() > 0 && chosenNickname.length() < 9) {
@@ -259,6 +288,14 @@ public class GameController {
 
     }
 
+
+    /**
+     * Checks if the nickname chosen by the player is valid.
+     * A color is valid if no one has already chosen it and if it is one of the available colors of the game: blue, white, beige.
+     * @param chosenColor The color chosen by the player.
+     * @param client The client associated to the player.
+     * @return True if the color was valid, false otherwise.
+     */
     private boolean checkColorValidity(String chosenColor, ViewClient client) {
 
         if (colorIsAvailable(chosenColor) && colorIsValid(chosenColor)) {
@@ -271,6 +308,12 @@ public class GameController {
     }
 
 
+    /**
+     * Helper method to check color validity.
+     * A color is valid if no one has already chosen it and if it is one of the available colors of the game: blue, white, beige.
+     * @param chosenColor The color chosen by the player.
+     * @return True if the color is valid, false otherwise.
+     */
     protected boolean colorIsValid(String chosenColor) {
         return chosenColor.equals(Color.BLUE.name())
                 || chosenColor.equals(Color.BEIGE.name())
@@ -278,6 +321,11 @@ public class GameController {
     }
 
 
+    /**
+     * Helper method to check nickname validity.
+     * @param chosenNickname The nickname chosen by the player.
+     * @return True if the nickname is valid, false otherwise.
+     */
     protected boolean nicknameIsAvailable(String chosenNickname) {
 
         for (Player player : game.getPlayers()) {
@@ -290,6 +338,12 @@ public class GameController {
     }
 
 
+    /**
+     * Helper method to check color validity.
+     * A color is valid if no one has already chosen it and if it is one of the available colors of the game: blue, white, beige.
+     * @param chosenColor The color chosen by the player.
+     * @return True if the color is available, false otherwise.
+     */
     protected boolean colorIsAvailable(String chosenColor) {
 
         for (Player player : game.getPlayers()) {
@@ -324,6 +378,11 @@ public class GameController {
     }
 
 
+    /**
+     * The winner of the game is notified of his success, while the others are notified of their lose.
+     * The turn handler stops his flow.
+     * @param winner The player that has won the game.
+     */
     public void winGame(Player winner) {
         //winningView and losingView are blocking since they must return boolean (although unused)
         ViewClient winnerClient = winner.getClient();
@@ -349,13 +408,16 @@ public class GameController {
         return godsDeck;
     }
 
+
     public Game getGame() {
         return game;
     }
 
+
     public GodController getGodController() {
         return godController;
     }
+
 
     public TurnHandler getTurnHandler() {
         return turnHandler;
@@ -366,10 +428,16 @@ public class GameController {
         return playersConnected;
     }*/
 
+
     public ExecutorService getExecutorPlayerAdder() {
         return executorPlayerAdder;
     }
 
+
+    /**
+     * Allows to notify the disconnection to the game.
+     * @param disconnectedPlayer The player that has disconnected from the game.
+     */
     public void handleGameDisconnection(String disconnectedPlayer) {
 
         //if disconnection is due to a player disconnection
@@ -383,6 +451,11 @@ public class GameController {
         }
     }
 
+
+    /**
+     * Notifies players someone lost the game.
+     * @param loserNickname The nickname of the player who lost the game.
+     */
     public void notifyPlayersOfLoss(String loserNickname) {
 
         for (Player player : game.getPlayers()) {
@@ -390,18 +463,20 @@ public class GameController {
         }
     }
 
+
     public ArrayList<ViewClient> getGameClients() {
         return gameClients;
     }
+
 
     public boolean isFull() {
         return full;
     }
 
+
     public void setFull(boolean full) {
         this.full = full;
     }
-
 
 
 }

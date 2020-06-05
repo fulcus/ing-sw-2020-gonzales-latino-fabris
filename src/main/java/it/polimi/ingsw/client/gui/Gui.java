@@ -11,6 +11,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+
+/**
+ * Graphic User Interface chosen by the player to run the app.
+ */
 public class Gui extends Application {
 
     private static Stage stage;

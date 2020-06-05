@@ -8,6 +8,7 @@ import it.polimi.ingsw.server.ViewClient;
 
 import java.util.ArrayList;
 
+
 /**
  * Manages IO of Gods.
  */
@@ -40,7 +41,6 @@ public class GodController {
      * @param compassInput Compass direction to be translated.
      * @return Variation in coordinates
      */
-    @SuppressWarnings("ConstantConditions")
     public int[] getInputInCoordinates(String compassInput) {
 
         int[] result = new int[2];
@@ -104,10 +104,11 @@ public class GodController {
 
     }
 
+
     /**
-     * This method returns the coordinates' variation of the selected movement.
+     * Asks to the player where he wants to move his worker and then translates the input into coordinates.
      *
-     * @return Coordinates' variation.
+     * @return The coordinates' variation of the chosen movement.
      */
     public int[] getInputMove() {
 
@@ -128,7 +129,7 @@ public class GodController {
     /**
      * Allows to manage the will of moving an enemy on the board.
      *
-     * @return True if the player wants to do it.
+     * @return True if the player wants to do it, false otherwise.
      */
     public boolean wantToMoveEnemy() {
         String answer = currentClient.askWantToMoveEnemy();
@@ -159,7 +160,7 @@ public class GodController {
 
 
     /**
-     * Prompts the view to print the board.
+     * Prompts the view to display the board.
      */
     public void displayBoard() {
 
@@ -171,7 +172,9 @@ public class GodController {
 
 
     /**
-     * This method returns the coordinates where a player wants to build and the specific building.
+     * Asks to the player where he wants to make his worker build and what kind of building,
+     * then translates the input into coordinates and type of building.
+     * This method is specifically used when playing with Atlas.
      *
      * @return Coordinates' variation and type of building.
      */
@@ -195,7 +198,7 @@ public class GodController {
 
 
     /**
-     * This method returns the coordinates where a player wants to build.
+     * Asks to the player where he wants to make his worker build and then translates the input into coordinates.
      *
      * @return Coordinates' variation.
      */
@@ -236,6 +239,7 @@ public class GodController {
         return answer.equals("Y");
     }
 
+
     /**
      * Lets the player build underneath himself.
      */
@@ -245,7 +249,7 @@ public class GodController {
 
 
     /**
-     * Allows to call the view to print the error screen
+     * Allows to call the viewClient to print the error when a wrong move input was given to the server.
      */
     public void errorMoveScreen() {
         currentClient.printMoveErrorScreen();
@@ -274,7 +278,7 @@ public class GodController {
 
 
     /**
-     * Allows to manage the error screen saw when there's not the possibility to build in the same position.
+     * Allows to manage the error when there's not the possibility to build in the same position.
      */
     public void errorBuildInSamePosition() {
         currentClient.printBuildInSamePositionScreen();
@@ -282,7 +286,7 @@ public class GodController {
 
 
     /**
-     * Allows to manage the error screen saw by the player when his building phase fails.
+     * Allows to manage the error saw by the player when his building phase fails.
      */
     public void errorBuildScreen() {
         currentClient.printBuildGeneralErrorScreen();
@@ -290,7 +294,7 @@ public class GodController {
 
 
     /**
-     * Allows to manage the error screen saw by the player when his block cannot be built
+     * Allows to manage the error saw by the player when his block cannot be built
      */
     public void errorBuildBlockScreen() {
         currentClient.printBuildBlockErrorScreen();

@@ -10,6 +10,10 @@ import javafx.scene.input.MouseEvent;
 
 import static it.polimi.ingsw.client.gui.GuiManager.*;
 
+
+/**
+ * Manages the scene of the GUI where the challenger chooses the starting player for the game.
+ */
 public class StartPlayerController {
 
     @FXML
@@ -31,9 +35,13 @@ public class StartPlayerController {
     @FXML
     private ImageView godImage3;
 
+
     public StartPlayerController() {
     }
 
+    /**
+     * Sets the initial parameters for the scene.
+     */
     protected void init() {
 
         //display player names

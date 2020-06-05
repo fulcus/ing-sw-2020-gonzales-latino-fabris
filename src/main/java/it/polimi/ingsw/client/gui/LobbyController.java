@@ -15,6 +15,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static it.polimi.ingsw.client.gui.GuiManager.*;
 
+
+/**
+ * Manages the lobby scene of the GUI.
+ */
 public class LobbyController {
 
     @FXML
@@ -58,6 +62,9 @@ public class LobbyController {
     }
 
 
+    /**
+     * Sets the initial values and parameters of the scene.
+     */
     protected void init() {
 
         isInLobby.set(true);
@@ -86,6 +93,12 @@ public class LobbyController {
 
     }
 
+
+    /**
+     * Shows on the lobby the registered player with his nickname and color.
+     * @param nickname Nickname of the player.
+     * @param color Color of the player.
+     */
     public void showPlayer(String nickname, String color) {
 
         String path = "/board/workers/male_worker_front_" + color.toLowerCase() + ".png";
@@ -124,6 +137,7 @@ public class LobbyController {
         if (playersConnected.get() == numberOfPlayers.get())
             next.setDisable(false);
     }
+
 
     @FXML
     private void next() {

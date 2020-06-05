@@ -2,6 +2,10 @@ package it.polimi.ingsw.client.gui;
 
 import javafx.fxml.FXML;
 
+
+/**
+ * Manages the choose number of players scene of the GUI.
+ */
 public class NumberOfPlayersController {
 
 

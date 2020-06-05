@@ -11,6 +11,9 @@ import javafx.scene.input.MouseEvent;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
+/**
+ * Controller class of the GUI choose god scene.
+ */
 public class ChooseGodController {
 
     @FXML
@@ -77,9 +80,8 @@ public class ChooseGodController {
     private String selectedGodID;
 
     private boolean challenger;
-
-
     protected  ArrayList<ImageView> redFrames;
+
 
     public ChooseGodController() {
         redFrames = new ArrayList<>(3);
@@ -90,6 +92,7 @@ public class ChooseGodController {
         challenger = false;
 
     }
+
 
     protected void init() {
         //  select.setDisable(true);
@@ -169,6 +172,7 @@ public class ChooseGodController {
 
     }
 
+
     @FXML
     private void select() {
 
@@ -183,6 +187,7 @@ public class ChooseGodController {
             }
         }
     }
+
 
     public void getGodFromChallenger(int numOfPlayers, int alreadyChosenGods) {
 
@@ -205,24 +210,42 @@ public class ChooseGodController {
         challenger = true;
     }
 
+
+    /**
+     * Lets the player know that the other player is choosing his god for the game.
+     * @param otherPlayer The nickname of the other player who's choosing his god.
+     */
     public void waitOtherPlayerChooseGod(String otherPlayer) {
 
         select.setDisable(true);
-
         mainText.setText(otherPlayer + " is choosing his god...");
     }
 
+
+    /**
+     * Lets the player know that the challenger is choosing the gods for the game.
+     * @param challenger The nickname of the challenger.
+     */
     public void waitChallengerChooseGods(String challenger) {
 
         mainText.setText(challenger + " is the Challenger and is choosing gods...");
     }
 
+
+    /**
+     * Gives the player the order to choose the god for the game.
+     * The player must choose an available god chosen by the challenger.
+     */
     public void askPlayerGod() {
         mainText.setText("Choose your god!.");
         select.setDisable(false);
     }
 
 
+    /**
+     * Shows with a frame the gods that the challenger has chosen for the game.
+     * @param chosenGods The list of the chosen gods.
+     */
     public void printChosenGods(ArrayList<String> chosenGods) {
 
         Class<?> c = getClass();
@@ -253,6 +276,12 @@ public class ChooseGodController {
 
     }
 
+
+    /**
+     * If a player has already chosen the god for the current game, the other players are notified of his choice.
+     * @param otherPlayer The player who has already made his choice.
+     * @param chosenGod The god that the other player has chosen.
+     */
     public void otherPlayerChoseGod(String otherPlayer, String chosenGod) {
 
         Class<?> c = getClass();
@@ -281,6 +310,10 @@ public class ChooseGodController {
 
     }
 
+
+    /**
+     * Allows to print into the main text field that the god was already chosen.
+     */
     public void playerChoseInvalidGod() {
         mainText.setText("This god has already been chosen");
     }

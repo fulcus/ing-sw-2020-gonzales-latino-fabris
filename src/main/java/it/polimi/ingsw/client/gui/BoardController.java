@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client.gui;
 
 import it.polimi.ingsw.serializableObjects.CellClient;
-import it.polimi.ingsw.server.ViewClient;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -14,13 +13,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
-
 import java.lang.reflect.Field;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import static it.polimi.ingsw.client.gui.GuiManager.*;
 
+/**
+ * Controller of the board GUI scene.
+ */
 public class BoardController {
 
     @FXML
@@ -122,6 +121,7 @@ public class BoardController {
     private String godPowerOnAnswer;
     private int godClicked;
 
+
     public BoardController() {
         cellRequested = false;
         bluemale = new Image("/board/workers/male_worker_blue.png");
@@ -137,6 +137,10 @@ public class BoardController {
         godClicked = 0;
     }
 
+
+    /**
+     * Initializes values for the scene.
+     */
     protected void init() {
         menu.setVisible(false);
 
@@ -168,11 +172,16 @@ public class BoardController {
         mainText.setText("WELCOME");
     }
 
+
     protected void update(CellClient cell) {
         System.out.println("update");
         boardClient.get().update(cell);
     }
 
+
+    /**
+     * Allows to show the powers of the god on the text bar.
+     */
     private void showGodPowers() {
 
         godPowerOnImage.setVisible(false);
@@ -249,16 +258,25 @@ public class BoardController {
         }
     }
 
+    /**
+     * Sets enabled the power of the god on to use during a turn of the game.
+     */
     protected void enableGodPower() {
         godPowerOnImage.setDisable(false);
         godPowerOffImage.setDisable(false);
     }
 
+    /**
+     * Sets disabled the power of the god on to use during a turn of the game.
+     */
     protected void disableGodPower() {
         godPowerOnImage.setDisable(true);
         godPowerOffImage.setDisable(true);
     }
 
+    /**
+     * The map is printed again, updating the older version of the cells and what was inside them.
+     */
     protected void printMap() {
 
         //iterate on all panes of boardGrid and render them correctly
@@ -358,15 +376,26 @@ public class BoardController {
         }
     }
 
+
+    /**
+     * Allows to print something on the main central text bar.
+     * @param text The text to print.
+     */
     protected void printToMainText(String text) {
         mainText.setText(text);
     }
 
+    /**
+     * Allows to print the god description in its specific area.
+     * @param text
+     */
     protected void printToGodTextArea(String text) { godPowerText.setText(text); }
+
 
     protected void setCellRequested(boolean cellRequested) {
         this.cellRequested = cellRequested;
     }
+
 
     protected void setGodPowerRequested(boolean godPowerRequested) {
         this.godPowerRequested = godPowerRequested;

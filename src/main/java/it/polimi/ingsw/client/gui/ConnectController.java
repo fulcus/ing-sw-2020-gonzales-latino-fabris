@@ -9,6 +9,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 
 
+/**
+ * Manages the connection scene of the GUI.
+ */
 public class ConnectController {
 
     @FXML
@@ -45,6 +48,10 @@ public class ConnectController {
         }
     }
 
+
+    /**
+     * Sets visible the error when trying to connect to the server of the game.
+     */
     public void displayError() {
         error.setVisible(true);
     }

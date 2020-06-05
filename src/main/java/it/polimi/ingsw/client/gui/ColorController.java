@@ -7,6 +7,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+
+/**
+ * Manages the scene of the choice of the colors for the game.
+ */
 public class ColorController {
 
     @FXML
@@ -77,6 +81,9 @@ public class ColorController {
     }
 
 
+    /**
+     * Displays to the player that the color was already taken by another player.
+     */
     public void displayErrorColor() {
         colorError.setVisible(true);
     }
@@ -89,10 +96,17 @@ public class ColorController {
         waitingOther.setVisible(true);
     }
 
+    /**
+     * Sets invisible the waiting other player choosing color message.
+     */
     public void removeWaitingOtherFromScreen() {
         waitingOther.setVisible(false);
     }
 
+
+    /**
+     * Enables color buttons to let the player choose one of the game colors.
+     */
     public void enableButtons() {
         white.setDisable(false);
         blue.setDisable(false);
