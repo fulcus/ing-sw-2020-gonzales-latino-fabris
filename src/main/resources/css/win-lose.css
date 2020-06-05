@@ -22,34 +22,17 @@
     -fx-background-color: transparent;
 }
 
-.exit-button {
-    -fx-background-image:url('../buttons/clp_skip_btn.png');
-    -fx-background-size: 100%;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-    -fx-background-color: transparent;
-    -fx-content-display: top;
-    -fx-font-family: "Ink Blossoms";
-    -fx-font-size: 15;
-}
-
-.exit-button:pressed {
-    -fx-background-image:url('../buttons/clp_skip_btn_pressed.png');
-    -fx-background-size: 100%;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-    -fx-background-color: transparent;
-    -fx-font-family: "Ink Blossoms";
-}
 
 .text-win {
     -fx-font-family: "Ink Blossoms";
     -fx-font-size: 38;
     -fx-font-color: white;
+    -fx-effect: dropshadow(gaussian, black, 1, 1.0, 2, 1);
 }
 
 .disconnect-text {
     -fx-font-family: "Ink Blossoms";
     -fx-font-size: 25;
     -fx-font-color: white;
+    -fx-effect: dropshadow(gaussian, black, 1, 1.0, 2, 1);
 }

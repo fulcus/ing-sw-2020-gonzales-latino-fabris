@@ -6,6 +6,7 @@ import it.polimi.ingsw.serializableObjects.CellClient;
 import it.polimi.ingsw.serializableObjects.WorkerClient;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.effect.GaussianBlur;
@@ -53,7 +54,6 @@ public class GuiManager implements View {
     protected static Parent boardRoot;
     protected static Parent lobbyRoot;
     protected static Parent connectRoot;
-    // protected static Parent disconnectionRoot;
 
     //controllers of fxmls
     private ConnectController connectController;
@@ -156,7 +156,6 @@ public class GuiManager implements View {
             e.printStackTrace();
         }
 
-        //System.out.println("guimanager received: " + IP);   //debug
         return IP;
     }
 
@@ -172,10 +171,10 @@ public class GuiManager implements View {
      * Displays that the player has been disconnected and reason.
      */
     public void notifyOtherPlayerDisconnection(String disconnectedPlayer) {
-        //System.out.println("notifyOtherPlayerDisconnection");
 
         Parent currentRoot = Gui.getStage().getScene().getRoot();
         FXMLLoader disconnectionLoader = new FXMLLoader(getClass().getResource("/scenes/disconnection.fxml"));
+
         Parent disconnectionRoot = null;
         try {
             disconnectionRoot = disconnectionLoader.load();
@@ -571,13 +570,15 @@ public class GuiManager implements View {
      * Prints to screen that one of the player has won the game
      */
     public boolean winningView() {
-        //System.out.println("winningView");
 
         try {
             AnchorPane win = FXMLLoader.load(getClass().getResource("/scenes/win.fxml"));
 
             Platform.runLater(() -> {
-                boardRoot.setEffect(new GaussianBlur());
+
+                for (Node child : boardRoot.getChildrenUnmodifiable())
+                    child.setEffect(new GaussianBlur());
+
                 ((GridPane) boardRoot).getChildren().add(win);
             });
         } catch (IOException e) {
@@ -1070,13 +1071,15 @@ public class GuiManager implements View {
      * @param winner nickname of the winner
      */
     public boolean losingView(String winner) {
-        //System.out.println("losingView");
 
         try {
             AnchorPane lose = FXMLLoader.load(getClass().getResource("/scenes/lose.fxml"));
 
             Platform.runLater(() -> {
-                boardRoot.setEffect(new GaussianBlur());
+
+                for (Node child : boardRoot.getChildrenUnmodifiable())
+                    child.setEffect(new GaussianBlur());
+
                 ((GridPane) boardRoot).getChildren().add(lose);
             });
         } catch (IOException e) {
