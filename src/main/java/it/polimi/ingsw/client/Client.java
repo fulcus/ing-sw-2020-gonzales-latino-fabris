@@ -58,19 +58,17 @@ public class Client {
 
             } catch (IOException e) {
                 connected = false;
-                System.out.println("catch");
             }
+
             view.connectionOutcome(connected);
 
         }
 
         NetworkHandler networkHandler = new NetworkHandler(server, this);
-        Thread networkHandlerThread = new Thread(networkHandler);
-        networkHandlerThread.start();
+        new Thread(networkHandler).start();
 
         HeartbeatClient heartBeat = new HeartbeatClient(networkHandler);
-        Thread heartBeatThread = new Thread(heartBeat);
-        heartBeatThread.start();
+        new Thread(heartBeat).start();
 
     }
 

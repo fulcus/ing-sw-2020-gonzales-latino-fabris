@@ -3,12 +3,8 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.serializableObjects.Message;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.SynchronousQueue;
 
 
 /**

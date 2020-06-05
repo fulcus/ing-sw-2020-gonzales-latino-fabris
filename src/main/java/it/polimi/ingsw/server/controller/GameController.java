@@ -8,6 +8,7 @@ import it.polimi.ingsw.server.controller.god.*;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Controls the flow of the setup of the game.
@@ -23,6 +24,8 @@ public class GameController {
     private final Object nicknameLock;
     private final Object colorLock;
     private volatile boolean accessible;
+    private volatile boolean full;
+    private int clientsConnected;
 
     public GameController() {
         game = null;
@@ -33,7 +36,84 @@ public class GameController {
         nicknameLock = new Object();
         colorLock = new Object();
         accessible = false;
+        clientsConnected = 1; //counting creator
+        full = false;
     }
+
+    public void create(ViewClient newClient) {
+
+        //send message to creator
+        newClient.createGame();
+
+        setUpGame(newClient);
+
+        executorPlayerAdder.execute(() -> addPlayer(newClient));
+
+    }
+
+
+    public synchronized void join(ViewClient newClient) {
+
+        //send message to client
+        newClient.joinGame(game.getNumberOfPlayers());
+
+        //send client nickname and color of all players that are already in
+        sendOtherPlayersInfo(newClient);
+
+
+        executorPlayerAdder.execute(() -> addPlayer(newClient));
+
+        //send client nickname and color of all players that are already in
+
+        clientsConnected++;
+
+        //waits for all players to finish adding their player ie setting nickname and color
+        //sets availableGame null
+        if (clientsConnected == game.getNumberOfPlayers()) {
+
+            full = true;
+
+            executorPlayerAdder.shutdown();
+
+            boolean terminated;
+
+            try {
+                do {
+                    terminated = executorPlayerAdder.awaitTermination(20, TimeUnit.SECONDS);
+                    //after x seconds print: waiting for other players to join
+                } while (!terminated);
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            new Thread(turnHandler).start();
+
+        }
+    }
+
+    //send client nickname and color of all players that are already in
+    private void sendOtherPlayersInfo(ViewClient newClient) {
+
+        for (ViewClient otherClient : gameClients) {
+
+            //first condition always true bc newClient isn't in gameClients yet
+            if (otherClient != newClient
+                    && otherClient.getPlayer() != null
+                    && otherClient.getPlayer().getColor() != null) {
+
+                String otherClientNickname = otherClient.getPlayer().getNickname();
+                String otherClientColor = otherClient.getPlayer().getColor().name();
+
+                newClient.setOtherPlayersInfo(otherClientNickname, otherClientColor);
+
+            }
+        }
+    }
+
+
+
+
 
 
     /**
@@ -49,7 +129,7 @@ public class GameController {
         game = new Game(numOfPlayers);
         accessible = true;
 
-        turnHandler = new TurnHandler(getGame(), this);
+        turnHandler = new TurnHandler(game, this);
 
     }
 
@@ -313,6 +393,15 @@ public class GameController {
     public ArrayList<ViewClient> getGameClients() {
         return gameClients;
     }
+
+    public boolean isFull() {
+        return full;
+    }
+
+    public void setFull(boolean full) {
+        this.full = full;
+    }
+
 
 
 }

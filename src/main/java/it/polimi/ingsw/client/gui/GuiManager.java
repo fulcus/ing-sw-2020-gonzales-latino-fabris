@@ -6,15 +6,9 @@ import it.polimi.ingsw.serializableObjects.CellClient;
 import it.polimi.ingsw.serializableObjects.WorkerClient;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.HPos;
-import javafx.geometry.Pos;
-import javafx.geometry.VPos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.effect.GaussianBlur;
-import javafx.scene.effect.Lighting;
-import javafx.scene.image.Image;
-import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -105,7 +99,6 @@ public class GuiManager implements View {
         FXMLLoader chooseGodLoader = new FXMLLoader(getClass().getResource("/scenes/choose-god.fxml"));
         FXMLLoader startPlayerLoader = new FXMLLoader(getClass().getResource("/scenes/start-player.fxml"));
         FXMLLoader boardLoader = new FXMLLoader(getClass().getResource("/scenes/board.fxml"));
-        //  FXMLLoader disconnectionLoader = new FXMLLoader(getClass().getResource("/scenes/disconnection.fxml"));
 
 
         try {
@@ -117,7 +110,6 @@ public class GuiManager implements View {
             startPlayerRoot = startPlayerLoader.load();
             boardRoot = boardLoader.load();
             lobbyRoot = lobbyLoader.load();
-            //disconnectionRoot = disconnectionLoader.load();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -180,6 +172,7 @@ public class GuiManager implements View {
      * Displays that the player has been disconnected and reason.
      */
     public void notifyOtherPlayerDisconnection(String disconnectedPlayer) {
+        //System.out.println("notifyOtherPlayerDisconnection");
 
         Parent currentRoot = Gui.getStage().getScene().getRoot();
         FXMLLoader disconnectionLoader = new FXMLLoader(getClass().getResource("/scenes/disconnection.fxml"));
@@ -192,14 +185,13 @@ public class GuiManager implements View {
 
         EndGameController endGameController = disconnectionLoader.getController();
 
-
         Parent finalDisconnectionRoot = disconnectionRoot;
         Platform.runLater(() -> {
+            currentRoot.setEffect(new GaussianBlur());
 
             endGameController.setDisconnectionPlayer(disconnectedPlayer);
             StackPane root = new StackPane(currentRoot);
             root.getChildren().add(finalDisconnectionRoot);
-            currentRoot.setEffect(new GaussianBlur());
             Gui.getStage().setScene(new Scene(root));
 
         });
@@ -579,11 +571,15 @@ public class GuiManager implements View {
      * Prints to screen that one of the player has won the game
      */
     public boolean winningView() {
+        //System.out.println("winningView");
 
         try {
             AnchorPane win = FXMLLoader.load(getClass().getResource("/scenes/win.fxml"));
-            boardRoot.setEffect(new GaussianBlur());
-            Platform.runLater(() -> ((GridPane) boardRoot).getChildren().add(win));
+
+            Platform.runLater(() -> {
+                boardRoot.setEffect(new GaussianBlur());
+                ((GridPane) boardRoot).getChildren().add(win);
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -1074,11 +1070,15 @@ public class GuiManager implements View {
      * @param winner nickname of the winner
      */
     public boolean losingView(String winner) {
+        //System.out.println("losingView");
 
         try {
             AnchorPane lose = FXMLLoader.load(getClass().getResource("/scenes/lose.fxml"));
-            boardRoot.setEffect(new GaussianBlur());
-            Platform.runLater(() -> ((GridPane) boardRoot).getChildren().add(lose));
+
+            Platform.runLater(() -> {
+                boardRoot.setEffect(new GaussianBlur());
+                ((GridPane) boardRoot).getChildren().add(lose);
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }

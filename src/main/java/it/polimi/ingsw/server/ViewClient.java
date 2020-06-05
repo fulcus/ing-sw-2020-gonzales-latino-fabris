@@ -29,7 +29,6 @@ public class ViewClient implements ClientViewObserver {
     private final Thread inputReader;
     private final HeartbeatServer heartbeatServer;
 
-    //private final List<ClientViewObserver> observers = new ArrayList<>();
 
     public ViewClient(Socket socket, GameController gameController) {
         this.socket = socket;
@@ -40,6 +39,7 @@ public class ViewClient implements ClientViewObserver {
         try {
             output = new ObjectOutputStream(socket.getOutputStream());
         } catch (IOException e) {
+            e.printStackTrace();
         }
 
         heartbeatServer = new HeartbeatServer(this);

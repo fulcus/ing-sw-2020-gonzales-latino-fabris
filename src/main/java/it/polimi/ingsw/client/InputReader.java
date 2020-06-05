@@ -16,7 +16,7 @@ import java.util.concurrent.SynchronousQueue;
 public class InputReader implements Runnable {
 
     private boolean connected;
-    private ObjectInputStream inputStm;
+    private ObjectInputStream inputStream;
     private final SynchronousQueue<Object> receivedObjectsQueue;
     private final Client client;
     private final Socket serverSocket;
@@ -32,7 +32,7 @@ public class InputReader implements Runnable {
         try {
 
             InputStream input = server.getInputStream();
-            inputStm = new ObjectInputStream(input);
+            inputStream = new ObjectInputStream(input);
 
         } catch (IOException e) {
             System.out.println("server has died");
@@ -47,7 +47,7 @@ public class InputReader implements Runnable {
 
             try {
 
-                Object readObject = inputStm.readObject();
+                Object readObject = inputStream.readObject();
 
                 serverSocket.setSoTimeout(15000);
 
@@ -70,7 +70,7 @@ public class InputReader implements Runnable {
 
                 } else if (readMessage.getMethod().equals("PONG")) {
 
-                    System.out.println("PONG from Server");
+                    //System.out.println("PONG from Server");
 
                 } else {
 
