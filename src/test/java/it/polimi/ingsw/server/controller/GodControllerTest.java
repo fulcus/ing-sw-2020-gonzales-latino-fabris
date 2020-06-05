@@ -6,12 +6,16 @@ import it.polimi.ingsw.server.controller.god.Hephaestus;
 import it.polimi.ingsw.server.controller.god.Hestia;
 import it.polimi.ingsw.server.controller.god.Prometheus;
 import it.polimi.ingsw.server.model.Color;
+import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.Worker;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
@@ -27,13 +31,16 @@ public class GodControllerTest {
     @Mock
     private Player player;
 
+    @Mock
     private GameController gameController;
+
     private GodController godController;
 
 
     @Before
     public void setUp() {
-        gameController = new GameController();
+        //gameController = new GameController();
+        gameController = mock(GameController.class);
         client = mock(ViewClient.class);
         when(client.askNumberOfPlayers()).thenReturn(2);
         gameController.setUpGame(client);
@@ -78,7 +85,6 @@ public class GodControllerTest {
         assertEquals(godController.getInputInCoordinates("E")[0], 0);
         assertEquals(godController.getInputInCoordinates("U")[1], 0);
 
-        assertNull(godController.getInputInCoordinates("notAvailable"));
     }
 
 
@@ -112,6 +118,8 @@ public class GodControllerTest {
     @Test
     public void forceMoveEnemy() {
         godController.updateCurrentClient(client);
+        Game game = mock(Game.class);
+        when(gameController.getGame()).thenReturn(game);
         Player playerTest = new Player(gameController.getGame(), "nick", client);
         worker = mock(Worker.class);
         when(client.askWorkerToMove(playerTest.getWorkers(), worker)).thenReturn(null);
@@ -125,20 +133,14 @@ public class GodControllerTest {
 
         //Setting one player in the game
         player = mock(Player.class);
-        doNothing().when(client).connected();
-        doNothing().when(client).beginningView();
 
-        when(client.askPlayerNickname()).thenReturn("Nick1");
-        when(client.askPlayerColor()).thenReturn("BEIGE");
-
-        doNothing().when(client).setPlayer(any(Player.class));
-
+        Game game = mock(Game.class);
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player);
+        when(gameController.getGame()).thenReturn(game);
+        when(game.getPlayers()).thenReturn(players);
         when(client.getPlayer()).thenReturn(player);
         when(player.getClient()).thenReturn(client);
-        doNothing().when(player).setColor(any(Color.class));
-
-        gameController.addPlayer(client);
-
 
         doNothing().when(client).printMap();
 
