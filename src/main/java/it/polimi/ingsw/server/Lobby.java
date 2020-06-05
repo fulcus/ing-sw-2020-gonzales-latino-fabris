@@ -54,6 +54,7 @@ public class Lobby {
             ViewClient newClient = new ViewClient(clientSocket, availableGame);
 
             boolean printOnce = false;
+
             do {
 
                 if (!printOnce) {

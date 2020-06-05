@@ -458,11 +458,14 @@ public class GuiManager implements View {
     public String getGodFromChallenger(int numOfPlayers, int alreadyChosenGods) {
 
         String chosenGod = null;
+        ArrayList<String> chosenGods = new ArrayList<>();
 
         Platform.runLater(() -> chooseGodController.getGodFromChallenger(numOfPlayers, alreadyChosenGods));
 
         try {
             chosenGod = (String) queue.take();
+            chosenGods.add(chosenGod);
+            chooseGodController.printChosenGods(chosenGods);
 
         } catch (InterruptedException e) {
             e.printStackTrace();

@@ -22,7 +22,7 @@ public class HeartbeatServer implements Runnable {
     public void run() {
 
         ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-        scheduledExecutorService.scheduleAtFixedRate(this::sendPong, 0, 10, TimeUnit.SECONDS);
+        scheduledExecutorService.scheduleAtFixedRate(this::sendPong, 0, 8, TimeUnit.SECONDS);
 
         boolean stop = false;
 
@@ -37,8 +37,10 @@ public class HeartbeatServer implements Runnable {
 
 
     public void sendPong() {
-        if (client.isInGame())
+        if (client.isInGame()) {
+          //  System.out.println("SENDING PONG to" + client);
             client.sendMessage(pongMessage);
+        }
     }
 }
 

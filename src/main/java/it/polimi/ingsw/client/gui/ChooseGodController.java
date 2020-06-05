@@ -79,7 +79,7 @@ public class ChooseGodController {
     private boolean challenger;
 
 
-    private  ArrayList<ImageView> redFrames;
+    protected  ArrayList<ImageView> redFrames;
 
     public ChooseGodController() {
         redFrames = new ArrayList<>(3);
@@ -230,9 +230,6 @@ public class ChooseGodController {
         ImageView frame;
 
 
-
-
-
         for (String godId : chosenGods) {
 
 
@@ -267,13 +264,10 @@ public class ChooseGodController {
             godFrame.setAccessible(true);
             frame = (ImageView) godFrame.get(this);
 
-            System.out.println("HERE seting" + frame +"to white");
-
+            System.out.println("CIAO");
 
             //when receive gods chosen by other players, remove from arraylist
             redFrames.remove(frame);
-
-
 
             frame.setImage(whiteFrame);//set to white
 
