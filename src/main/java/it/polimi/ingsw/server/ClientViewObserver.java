@@ -2,6 +2,10 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.server.model.Cell;
 
+
+/**
+ * Useful interface to let a class know the evolution of the states inside the game.
+ */
 public interface ClientViewObserver {
 
     /**

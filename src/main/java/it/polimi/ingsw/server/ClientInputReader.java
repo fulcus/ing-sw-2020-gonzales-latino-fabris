@@ -6,9 +6,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.ArrayList;
 import java.util.concurrent.SynchronousQueue;
 
+
+/**
+ * Allows to receive all the inputs coming from the clients.
+ */
 public class ClientInputReader implements Runnable {
 
     private final ViewClient client;
@@ -22,21 +25,24 @@ public class ClientInputReader implements Runnable {
         receivedObjects = new SynchronousQueue<>();
         connected = true;
 
-
-
         try {
             input = new ObjectInputStream(client.getSocket().getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
+
 
     public SynchronousQueue<Object> getObjectsQueue() {
         return receivedObjects;
     }
 
 
+    /**
+     * While the connection is on, it allows to receive and read the Objects coming from the client-side.
+     * Can understand if the message was a ping from the client or a different one.
+     *
+     */
     @Override
     public void run(){
 
@@ -66,10 +72,8 @@ public class ClientInputReader implements Runnable {
                         System.out.println("Received message different from ping");
 
                 } else {
-
                     receivedObjects.add(readObject);
                 }
-
 
             } catch (IOException e) {
 
