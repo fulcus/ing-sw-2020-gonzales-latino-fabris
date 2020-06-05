@@ -44,7 +44,7 @@ public class ClientInputReader implements Runnable {
      *
      */
     @Override
-    public void run(){
+    public void run() {
 
         Socket clientSocket = client.getSocket();
 
@@ -77,17 +77,22 @@ public class ClientInputReader implements Runnable {
 
             } catch (IOException e) {
 
-                System.out.println("PRINTING EXCEPTION");
-                e.printStackTrace();
+                //System.out.println("PRINTING EXCEPTION");
+                //e.printStackTrace();
 
                 connected = false;
 
                 client.setInGame(false);
 
-                if(client.getPlayer() != null)
+                if (client.getPlayer() != null) {
                     System.out.println(client.getPlayer().getNickname() + " disconnected");
 
-                client.getGameController().handleGameDisconnection(client.getPlayer().getNickname());
+                    client.getGameController().handleGameDisconnection(client.getPlayer().getNickname());
+                }
+                else {
+                    System.out.println("Someone disconnected");
+                    client.getGameController().handleGameDisconnection("Someone");
+                }
 
 
                 //TODO VERIFICARE SE RIMUOVERE LA SOUT PERCHè IN INIZIALIZZAZIONE DEL GIOCO, NULL POINTER PERCHè NICK ANCORA NON ESISTE.
