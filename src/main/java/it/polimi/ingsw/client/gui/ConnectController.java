@@ -43,7 +43,7 @@ public class ConnectController {
                 ex.printStackTrace();
             }
 
-            //if not the creator, display a "be patient" message
+            //if not the creator, display the loader
             waitForGame.setVisible(true);
         }
     }
