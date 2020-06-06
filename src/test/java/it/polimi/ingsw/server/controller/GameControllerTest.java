@@ -1,7 +1,9 @@
 package it.polimi.ingsw.server.controller;
 
+import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.server.model.Color;
 import it.polimi.ingsw.server.model.Player;
+import javafx.application.Platform;
 import org.junit.*;
 import it.polimi.ingsw.server.ViewClient;
 import org.mockito.Mock;
@@ -30,6 +32,7 @@ public class GameControllerTest {
     public void setUp() {
         gameController = new GameController();
         client = mock(ViewClient.class);
+        client2 = mock(ViewClient.class);
 
     }
 
@@ -54,6 +57,74 @@ public class GameControllerTest {
 
 
     @Test
+    public void create() {
+        when(client.askNumberOfPlayers()).thenReturn(2);
+
+        when(client.askPlayerNickname()).thenReturn("Nick1");
+        when(client.askPlayerColor()).thenReturn("BEIGE");
+
+        doNothing().when(client).setPlayer(any(Player.class));
+        doNothing().when(client).createGame();
+
+        player1 = mock(Player.class);
+        when(client.getPlayer()).thenReturn(player1);
+        when(player1.getClient()).thenReturn(client);
+        when(player1.getColor()).thenReturn(Color.BEIGE);
+        when(player1.getNickname()).thenReturn("Nick1");
+
+        gameController.create(client);
+
+        verify(client, times(1)).createGame();
+    }
+
+
+    @Test
+    public void join() {
+        when(client.askNumberOfPlayers()).thenReturn(4);
+
+        when(client.askPlayerNickname()).thenReturn("Nick1");
+        when(client.askPlayerColor()).thenReturn("BEIGE");
+
+        doNothing().when(client).setPlayer(any(Player.class));
+        doNothing().when(client).createGame();
+
+        player1 = mock(Player.class);
+        when(client.getPlayer()).thenReturn(player1);
+        when(player1.getClient()).thenReturn(client);
+        when(player1.getColor()).thenReturn(Color.BEIGE);
+        when(player1.getNickname()).thenReturn("Nick1");
+
+        when(client2.askPlayerNickname()).thenReturn("Nick2");
+        when(client2.askPlayerColor()).thenReturn("BLUE");
+
+        player2 = mock(Player.class);
+        when(client2.getPlayer()).thenReturn(player2);
+        when(player2.getClient()).thenReturn(client2);
+        when(player2.getColor()).thenReturn(Color.BLUE);
+        when(player2.getNickname()).thenReturn("Nick2");
+
+        ViewClient client3 = mock(ViewClient.class);
+        when(client3.askPlayerNickname()).thenReturn("Nick3");
+        when(client3.askPlayerColor()).thenReturn("WHITE");
+
+        Player player3 = mock(Player.class);
+        when(client3.getPlayer()).thenReturn(player3);
+        when(player3.getClient()).thenReturn(client3);
+        when(player3.getColor()).thenReturn(Color.WHITE);
+        when(player3.getNickname()).thenReturn("Nick3");
+
+        gameController.create(client);
+
+        gameController.addPlayer(client2);
+
+        gameController.join(client3);
+
+        assertEquals(gameController.getGameClients().size(), 2);
+        assertFalse(gameController.isFull());
+    }
+
+
+    @Test
     public void addPlayer() {
         when(client.askNumberOfPlayers()).thenReturn(2);
         gameController.setUpGame(client);
@@ -66,9 +137,8 @@ public class GameControllerTest {
 
         doNothing().when(client).setPlayer(any(Player.class));
 
-        player1 = mock(Player.class);
-        when(client.getPlayer()).thenReturn(player1);
-        doNothing().when(player1).setColor(any(Color.class));
+        Player player = new Player(gameController.getGame(), "Nick1", client);
+        when(client.getPlayer()).thenReturn(player);
 
         doNothing().when(client).notAvailableNickname();
         doNothing().when(client).notAvailableColor();
@@ -90,44 +160,41 @@ public class GameControllerTest {
         gameController.setUpGame(client);
 
         client2 = mock(ViewClient.class);
-        player1 = mock(Player.class);
-        player2 = mock(Player.class);
+
+        Player player1 = new Player(gameController.getGame(), "Nick1", client);
+        Player player2 = new Player(gameController.getGame(), "Nick2", client2);
 
         when(client.winningView()).thenReturn(true);
         doNothing().when(client).killClient();
         doNothing().when(client2).killClient();
         when(client2.losingView(player1.getNickname())).thenReturn(true);
 
-        when(player2.getClient()).thenReturn(client2);
-        when(player1.getClient()).thenReturn(client, client);
-
 
         //Setting the configuration for 2 players of the game and adding them to the game
         when(client.askPlayerNickname()).thenReturn("Nick1");
         when(client.askPlayerColor()).thenReturn("BEIGE");
         when(client.getPlayer()).thenReturn(player1);
-        when(player1.getNickname()).thenReturn("Nick1");
-        doNothing().when(player1).setColor(any(Color.class));
         doNothing().when(client).setPlayer(any(Player.class));
         doNothing().when(client).connected();
         doNothing().when(client).beginningView();
         doNothing().when(client).setPlayer(any(Player.class));
+        when(client.winningView()).thenReturn(true);
 
         when(client2.askPlayerNickname()).thenReturn("Nick2");
         when(client2.askPlayerColor()).thenReturn("WHITE");
         when(client2.getPlayer()).thenReturn(player2);
-        doNothing().when(player2).setColor(any(Color.class));
         doNothing().when(client2).setPlayer(any(Player.class));
         doNothing().when(client2).connected();
         doNothing().when(client2).beginningView();
         doNothing().when(client2).setPlayer(any(Player.class));
+        when(client2.losingView(anyString())).thenReturn(true);
 
         gameController.addPlayer(client);
         gameController.addPlayer(client2);
 
-
         gameController.winGame(player1);
 
+        verify(client, times(2)).killClient();
         assertFalse(gameController.getTurnHandler().getGameAlive());
     }
 
@@ -164,14 +231,6 @@ public class GameControllerTest {
         assertNotNull(gameController.getTurnHandler());
     }
 
-/*
-    @Test
-    public void getPlayersConnected() {
-        when(client.askNumberOfPlayers()).thenReturn(2);
-        gameController.setUpGame(client);
-        assertNotNull(gameController.getPlayersConnected());
-    }
-*/
 
     @Test
     public void getExecutorPlayerAdder() {
@@ -190,63 +249,57 @@ public class GameControllerTest {
         when(client.askNumberOfPlayers()).thenReturn(2);
         gameController.setUpGame(client);
 
-        doNothing().when(client).connected();
-        doNothing().when(client).beginningView();
-
         when(client.askPlayerNickname()).thenReturn("Nick1");
         when(client.askPlayerColor()).thenReturn("BEIGE");
-
         doNothing().when(client).setPlayer(any(Player.class));
 
-        player1 = mock(Player.class);
-        when(client.getPlayer()).thenReturn(player1);
-        doNothing().when(player1).setColor(any(Color.class));
-
-        doNothing().when(client).notAvailableNickname();
-        doNothing().when(client).notAvailableColor();
-
+        Player player = new Player(gameController.getGame(), "Nick1", client);
+        when(client.getPlayer()).thenReturn(player);
         gameController.addPlayer(client);
 
+        assertFalse(gameController.getGame().getBoard().findCell(0, 0).getCellObservers().isEmpty());
+
         gameController.removeClientObserver(client);
+
+        assertTrue(gameController.getGame().getBoard().findCell(0, 0).getCellObservers().isEmpty());
     }
 
 
     @Test
     public void handleGameDisconnection() {
 
-        //preliminary settings to add one player to the game
+        //preliminary settings to add players to the game
 
-        when(client.askNumberOfPlayers()).thenReturn(2);
+        when(client.askNumberOfPlayers()).thenReturn(3);
         gameController.setUpGame(client);
-
-        doNothing().when(client).connected();
-        doNothing().when(client).beginningView();
 
         when(client.askPlayerNickname()).thenReturn("Nick1");
         when(client.askPlayerColor()).thenReturn("BEIGE");
+        when(client2.askPlayerNickname()).thenReturn("Nick2");
+        when(client2.askPlayerColor()).thenReturn("BLUE");
 
         doNothing().when(client).setPlayer(any(Player.class));
+        doNothing().when(client2).setPlayer(any(Player.class));
 
-        player1 = mock(Player.class);
-        when(client.getPlayer()).thenReturn(player1);
-        doNothing().when(player1).setColor(any(Color.class));
-
-        doNothing().when(client).notAvailableNickname();
-        doNothing().when(client).notAvailableColor();
+        Player player = new Player(gameController.getGame(), "Nick1", client);
+        Player player2 = new Player(gameController.getGame(), "Nick2", client2);
+        when(client.getPlayer()).thenReturn(player);
+        when(client2.getPlayer()).thenReturn(player2);
 
         gameController.addPlayer(client);
+        gameController.addPlayer(client2);
         //end of preliminary settings
-        //todo vitto scusa tvb
+
         when(client.isInGame()).thenReturn(true);
-        //doNothing().when(client).notifyOtherPlayerDisconnection();
+        when(client2.isInGame()).thenReturn(false);
+
         doNothing().when(client).killClient();
+        doNothing().when(client2).killClient();
 
-
-        //gameController.handleGameDisconnection();
+        gameController.handleGameDisconnection("Nick2");
 
         verify(client, times(1)).killClient();
-        //todo
-        //verify(client, times(1)).notifyOtherPlayerDisconnection();
+        verify(client, times(1)).notifyOtherPlayerDisconnection(player2.getNickname());
     }
 
 
@@ -255,27 +308,64 @@ public class GameControllerTest {
         when(client.askNumberOfPlayers()).thenReturn(2);
         gameController.setUpGame(client);
 
-        doNothing().when(client).connected();
-        doNothing().when(client).beginningView();
-
         when(client.askPlayerNickname()).thenReturn("Nick1");
         when(client.askPlayerColor()).thenReturn("BEIGE");
 
         doNothing().when(client).setPlayer(any(Player.class));
 
-        player1 = mock(Player.class);
-        when(client.getPlayer()).thenReturn(player1);
-        doNothing().when(player1).setColor(any(Color.class));
+        Player player = new Player(gameController.getGame(), "Nick1", client);
 
-        doNothing().when(client).notAvailableNickname();
-        doNothing().when(client).notAvailableColor();
+        when(client.getPlayer()).thenReturn(player);
 
         gameController.addPlayer(client);
 
-        when(player1.getClient()).thenReturn(client);
         doNothing().when(client).notifyPlayersOfLoss(anyString());
 
         gameController.notifyPlayersOfLoss("Nick2");
+
     }
 
+
+    @Test
+    public void isFull() {
+        when(client.askNumberOfPlayers()).thenReturn(2);
+        gameController.setUpGame(client);
+
+        when(client.askPlayerNickname()).thenReturn("Nick1");
+        when(client.askPlayerColor()).thenReturn("BEIGE");
+        Player player = new Player(gameController.getGame(), "Nick1", client);
+        when(client.getPlayer()).thenReturn(player);
+
+
+        gameController.addPlayer(client);
+
+        assertFalse(gameController.isFull());
+    }
+
+
+    @Test
+    public void setFull(){
+        when(client.askNumberOfPlayers()).thenReturn(2);
+        gameController.setUpGame(client);
+
+        when(client.askPlayerNickname()).thenReturn("Nick1");
+        when(client.askPlayerColor()).thenReturn("BEIGE");
+        Player player = new Player(gameController.getGame(), "Nick1", client);
+        when(client.getPlayer()).thenReturn(player);
+
+
+        gameController.addPlayer(client);
+
+        assertFalse(gameController.isFull());
+
+        gameController.setFull(true);
+
+        assertTrue(gameController.isFull());
+    }
+
+
+    @Test
+    public void getGameClients() {
+        assertTrue(gameController.getGameClients().isEmpty());
+    }
 }

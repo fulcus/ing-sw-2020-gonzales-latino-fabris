@@ -23,7 +23,6 @@ public class GameController {
     private final ArrayList<ViewClient> gameClients;
     private final Object nicknameLock;
     private final Object colorLock;
-    private volatile boolean accessible;
     private volatile boolean full;
     private int clientsConnected;
 
@@ -36,7 +35,6 @@ public class GameController {
         gameClients = new ArrayList<>();
         nicknameLock = new Object();
         colorLock = new Object();
-        accessible = false;
         clientsConnected = 1; //counting creator
         full = false;
     }
@@ -139,15 +137,9 @@ public class GameController {
         int numOfPlayers = firstClient.askNumberOfPlayers();
 
         game = new Game(numOfPlayers);
-        accessible = true;
 
         turnHandler = new TurnHandler(game, this);
 
-    }
-
-
-    public boolean getAccessible() {
-        return accessible;
     }
 
 
@@ -394,7 +386,7 @@ public class GameController {
         //print "you have lost" in loser views
         for (Player player : game.getPlayers()) {
 
-            if (player != winner) {
+            if (!player.equals(winner)) {
                 player.getClient().losingView(winner.getNickname());
                 player.getClient().killClient();
             }
@@ -480,5 +472,3 @@ public class GameController {
 
 
 }
-
-
