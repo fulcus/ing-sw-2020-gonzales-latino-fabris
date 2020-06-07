@@ -7,7 +7,7 @@ public class WinException extends Exception {
 
     public WinException() {
     }
-
+    /*
     public WinException(String message) {
         super(message);
     }
@@ -22,5 +22,5 @@ public class WinException extends Exception {
 
     public WinException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
-    }
+    }*/
 }

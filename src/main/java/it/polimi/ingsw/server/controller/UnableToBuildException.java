@@ -7,7 +7,7 @@ public class UnableToBuildException extends Exception {
 
     public UnableToBuildException() {
     }
-
+/*
     public UnableToBuildException(String message) {
         super(message);
     }
@@ -22,5 +22,5 @@ public class UnableToBuildException extends Exception {
 
     public UnableToBuildException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
-    }
+    }*/
 }
