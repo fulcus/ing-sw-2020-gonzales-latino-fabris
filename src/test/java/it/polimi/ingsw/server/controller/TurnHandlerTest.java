@@ -11,11 +11,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-
-import java.util.ArrayList;
-
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
+
 
 public class TurnHandlerTest {
 
@@ -58,6 +56,8 @@ public class TurnHandlerTest {
         when(client2.getPlayer()).thenReturn(player2);
         when(player1.getClient()).thenReturn(client1);
         when(player2.getClient()).thenReturn(client2);
+        when(player1.getColor()).thenReturn(Color.BEIGE);
+        when(player2.getColor()).thenReturn(Color.BLUE);
 
         doNothing().when(player1).setColor(any(Color.class));
         doNothing().when(player2).setColor(any(Color.class));
@@ -189,7 +189,7 @@ public class TurnHandlerTest {
 
         when(client1.askBuildingDirection()).thenReturn("E");
         when(client2.askBuildingDirection()).thenReturn("E");
-      //  when(client3.askBuildingDirection()).thenReturn("E");
+        // when(client3.askBuildingDirection()).thenReturn("E");
 
         Worker usefulWorker = gameController.getGame().getPlayers().get(0).getWorkers().get(0);
         usefulWorker.buildBlock(0, 2);
@@ -217,9 +217,9 @@ public class TurnHandlerTest {
 
         gameController.getTurnHandler().stopTurnFlow();
     }
+
+
 /*
-
-
     @Test
     public void runBuildEx() {
 
@@ -297,8 +297,9 @@ public class TurnHandlerTest {
     @Test
     public void handleGameChange() {
 
+        assertEquals(gameController.getGame().getNumberOfPlayers(), 2);
         gameController.getTurnHandler().handleGameChange("Nick1");
-
+        assertTrue(gameController.getTurnHandler().numberOfPLayersHasChanged());
     }
 
 
