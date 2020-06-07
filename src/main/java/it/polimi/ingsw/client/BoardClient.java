@@ -53,7 +53,7 @@ public class BoardClient {
      */
     private int[] workerCellRelativePosition(int xWorker, int yWorker, int x, int y) {
 
-        System.out.println("worker position: "+ xWorker +","+ yWorker);
+        System.out.println("worker position: " + xWorker + "," + yWorker);
 
         int[] position = new int[2];
 
@@ -68,16 +68,16 @@ public class BoardClient {
      * Calculates the relative position selected with respect to the chosen worker.
      *
      * @param selectedWorker The chosen worker from which the computation will be referred to.
-     * @param xTo The row delta with respect to the chosen worker.
-     * @param yTo The column delta with respect to the chosen worker.
+     * @param xTo            The row delta with respect to the chosen worker.
+     * @param yTo            The column delta with respect to the chosen worker.
      * @return The relative position with respect to the chosen worker, expressed in compass coordinates.
      */
     public String workerCellRelativePositionCompass(WorkerClient selectedWorker, int xTo, int yTo) {
-        int[] position = workerCellRelativePosition(selectedWorker.getXPosition(),selectedWorker.getYPosition(),xTo,yTo);
+        int[] position = workerCellRelativePosition(selectedWorker.getXPosition(), selectedWorker.getYPosition(), xTo, yTo);
 
         int relativeX = position[0];
         int relativeY = position[1];
-        System.out.println("relativeX,Y: "+relativeX+","+relativeY);
+        System.out.println("relativeX,Y: " + relativeX + "," + relativeY);
 
         String resultX;
         String resultY;
@@ -114,7 +114,7 @@ public class BoardClient {
 
         String result = resultX + resultY;
 
-        if(result.equals(""))
+        if (result.equals(""))
             return "U";
 
         return result;
@@ -153,15 +153,16 @@ public class BoardClient {
 
     /**
      * The worker state is updated to the cellFromServer.
+     *
      * @param cellFromServer It is the cell where the update needs to be done
      */
     private void updateWorkerInCell(CellClient cellFromServer) {
 
         WorkerClient workerFromServer = cellFromServer.getWorkerClient();
-        CellClient workerCell = findCell(cellFromServer.getX(),cellFromServer.getY());
+        CellClient workerCell = findCell(cellFromServer.getX(), cellFromServer.getY());
 
         //if cell from server doesn't contain worker, remove worker from corresponding local cell
-        if(workerFromServer == null) {
+        if (workerFromServer == null) {
             workerCell.removeWorker();
             return;
         }
@@ -170,7 +171,8 @@ public class BoardClient {
         String sex = workerFromServer.getWorkerSex().toLowerCase();
         String color = workerFromServer.getWorkerColor().toLowerCase();
 
-        if(sex.equals("male")) {
+
+        if (sex.equals("male")) {
             switch (color) {
                 case "white":
                     if (whitemale == null)
@@ -198,7 +200,7 @@ public class BoardClient {
                     break;
             }
 
-        } else if(sex.equals("female")){
+        } else if (sex.equals("female")) {
             switch (color) {
                 case "white":
                     if (whitefemale == null)
@@ -227,6 +229,41 @@ public class BoardClient {
             }
         }
 
+    }
+
+    /**
+     * Finds instance of worker in boardClient
+     *
+     * @param color color of the worker to find
+     * @param sex   sex of the worker to find
+     */
+    public WorkerClient findWorker(String color, String sex) {
+
+        color = color.toLowerCase();
+        sex = sex.toLowerCase();
+
+        if (sex.equals("male")) {
+            switch (color) {
+                case "white":
+                    return whitemale;
+                case "blue":
+                    return bluemale;
+                case "beige":
+                    return beigemale;
+            }
+
+        } else if (sex.equals("female")) {
+            switch (color) {
+                case "white":
+                    return whitefemale;
+                case "blue":
+                    return bluefemale;
+                case "beige":
+                    return beigefemale;
+            }
+        }
+
+        return null;
     }
 
 }
