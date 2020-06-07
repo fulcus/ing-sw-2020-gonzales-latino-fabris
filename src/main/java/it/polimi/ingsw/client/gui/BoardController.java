@@ -212,8 +212,8 @@ public class BoardController {
                 godPowerOffAnswer = "B";
                 break;
             case "charon": //todo
-                godPowerOnName = "selectplayer";
-                godPowerOffName = "selectplayer_negate";
+                godPowerOnName = "selectWorker";
+                godPowerOffName = "selectWorker_negate";
                 godPowerOnAnswer = "Y";
                 godPowerOffAnswer = "N";
                 break;
@@ -248,12 +248,12 @@ public class BoardController {
         }
 
         if (!godPowerOnName.equals("")) {
-            godPowerOnImage.setImage(new Image("/board/god_powers/gp_" + godPowerOnName + "_withText.png"));
+            godPowerOnImage.setImage(new Image("/board/god_powers/gp_" + godPowerOnName + "_white.png"));
             godPowerOnImage.setVisible(true);
         }
 
         if (!godPowerOffName.equals("")) {
-            godPowerOffImage.setImage(new Image("/board/god_powers/gp_" + godPowerOffName + "_withText.png"));
+            godPowerOffImage.setImage(new Image("/board/god_powers/gp_" + godPowerOffName + "_white.png"));
             godPowerOffImage.setVisible(true);
         }
     }
