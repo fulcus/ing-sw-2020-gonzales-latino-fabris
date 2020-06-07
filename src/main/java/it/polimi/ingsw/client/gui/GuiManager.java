@@ -142,6 +142,7 @@ public class GuiManager implements View {
 
     /**
      * Asks the IP of the server where the client wants to connect to.
+     *
      * @return The IP of the server to connect to.
      */
     public String getServerAddress() {
@@ -159,6 +160,7 @@ public class GuiManager implements View {
 
     /**
      * Shows if the connection to the server wasn't successful.
+     *
      * @param connected True if the connection was established, false otherwise.
      */
     public void connectionOutcome(boolean connected) {
@@ -172,6 +174,7 @@ public class GuiManager implements View {
 
     /**
      * Displays that a player has been disconnected and reason.
+     *
      * @param disconnectedPlayer The name of the disconnected player.
      */
     public void notifyOtherPlayerDisconnection(String disconnectedPlayer) {
@@ -219,6 +222,7 @@ public class GuiManager implements View {
     /**
      * Lets the player know the number of players for the game he's been assigned.
      * The player in this specific case did not choose the number of players for the game, but someone else did (the so called "creator").
+     *
      * @param numberOfPlayers The number of players of the game the player has been assigned to.
      */
     public void joinGame(int numberOfPlayers) {
@@ -254,6 +258,7 @@ public class GuiManager implements View {
 
     /**
      * Asks to the creator of a game how many players will the game hold.
+     *
      * @return The number of players decided by the creator player.
      */
     public int askNumberOfPlayers() {
@@ -306,6 +311,7 @@ public class GuiManager implements View {
     /**
      * Shows to the player that another player registered to the current game is choosing his color.
      * In the GUI case the method is not so useful, works pretty well for the CLI.
+     *
      * @param choosingPlayer The name of the player that is choosing his color.
      */
     public void printChoosingColor(String choosingPlayer) {
@@ -325,7 +331,7 @@ public class GuiManager implements View {
      * Allows to set and to store in the local guimanager memory the general settings info of other players.
      *
      * @param nickname Nickname of the player to register.
-     * @param color Color chosen by that specific player for the current game.
+     * @param color    Color chosen by that specific player for the current game.
      */
     public void setOtherPlayersInfo(String nickname, String color) {
         setPlayerInfo(nickname, color);
@@ -470,8 +476,9 @@ public class GuiManager implements View {
     }
 
 
-     /**
+    /**
      * Asks to the player which God among the available ones wants to play with during the current game.
+     *
      * @return The name of the chosen God.
      */
     public String askPlayerGod() {
@@ -508,7 +515,7 @@ public class GuiManager implements View {
      * Lets the challenger know how many gods he still has to choose.
      * Then the challenger, if other gods need to be selected, chooses another god for the game.
      *
-     * @param numOfPlayers The number of players of the current game.
+     * @param numOfPlayers      The number of players of the current game.
      * @param alreadyChosenGods The number of gods that the challenger has already chosen for the game.
      * @return Another name of the God the challenger chooses for the current game.
      */
@@ -537,6 +544,7 @@ public class GuiManager implements View {
 
     /**
      * Asks to the challenger which player will be the starting one.
+     *
      * @return The nickname of the starting player.
      */
     public String challengerChooseStartPlayer() {
@@ -661,6 +669,7 @@ public class GuiManager implements View {
 
     /**
      * The player has won the game, so the winning scene is going to be loaded.
+     *
      * @return True.
      */
     public boolean winningView() {
@@ -692,6 +701,8 @@ public class GuiManager implements View {
             boardController.setConfirmButtonVisible();
         });
 
+        losingView("");
+
         acceptTextBarInfo();
     }
 
@@ -711,6 +722,7 @@ public class GuiManager implements View {
 
     /**
      * In a 3 players game, this method notifies the other players that a player has lost the game.
+     *
      * @param loserNickname The nickname of the player that has lost the game.
      */
     public void notifyPlayersOfLoss(String loserNickname) {
@@ -732,6 +744,7 @@ public class GuiManager implements View {
 
     /**
      * Updates the cell of the board that has changed its contents.
+     *
      * @param toUpdateCell The cell that needs to be updated.
      */
     public void update(CellClient toUpdateCell) {
@@ -741,6 +754,7 @@ public class GuiManager implements View {
 
     /**
      * Prints all the available gods of the game and their description.
+     *
      * @param godsNameAndDescription The gods available for the game, the challenger will chose among this ones.
      */
     public void printAllGods(ArrayList<String> godsNameAndDescription) {
@@ -758,6 +772,7 @@ public class GuiManager implements View {
 
     /**
      * Shows all the Gods chosen by the challenger for the current game, going to the correct scene.
+     *
      * @param chosenGods The list of the chosen gods.
      */
     public void printChosenGods(ArrayList<String> chosenGods) {
@@ -769,27 +784,54 @@ public class GuiManager implements View {
 
     /**
      * Lets the player know the selected worker cannot move.
+     *
      * @param sex The sex of the selected worker
      */
     public void selectedWorkerCannotMove(String sex) {
+
+        String selectedWorkerSex = sex.toLowerCase();
+        String otherSex;
+
+        if (selectedWorkerSex.equals("male"))
+            otherSex = "female";
+        else
+            otherSex = "male";
+
         Platform.runLater(() -> {
-            boardController.printToMainText("The selected worker cannot move");
+            boardController.printToMainText("Your " + selectedWorkerSex +
+                    " worker cannot move, you must move your " + otherSex + " worker");
             boardController.setConfirmButtonVisible();
         });
 
+        selectedWorker = boardClient.get().findWorker(myColor, otherSex);
+        System.out.println("unableToMove selectedWorker: " + selectedWorker.getWorkerColor() + selectedWorker.getWorkerSex());
+        System.out.println(selectedWorker);
         acceptTextBarInfo();
     }
 
 
     /**
      * Lets the player know the selected worker cannot build.
+     *
      * @param sex The sex of the selected worker.
      */
     public void selectedWorkerCannotBuild(String sex) {
+        String selectedWorkerSex = sex.toLowerCase();
+        String otherSex;
+
+        if (sex.equals("male"))
+            otherSex = "female";
+        else
+            otherSex = "male";
+
+
         Platform.runLater(() -> {
-            boardController.printToMainText("The selected worker cannot build");
+            boardController.printToMainText("Your " + selectedWorkerSex +
+                    " worker cannot build, you must move your " + otherSex + " worker");
             boardController.setConfirmButtonVisible();
         });
+
+        selectedWorker = boardClient.get().findWorker(myColor, otherSex);
 
         acceptTextBarInfo();
     }
@@ -797,6 +839,7 @@ public class GuiManager implements View {
 
     /**
      * Asks to the player if he prefers the CLI or the GUI.
+     *
      * @return The type of interface chosen by the player.
      */
     public String askTypeofView() {
@@ -909,6 +952,8 @@ public class GuiManager implements View {
             e.printStackTrace();
         }
 
+        System.out.println("move selectedWorker: " + selectedWorker.getWorkerColor() + selectedWorker.getWorkerSex());
+        System.out.println(selectedWorker);
         String result = boardClient.get()
                 .workerCellRelativePositionCompass(selectedWorker, chosenCell[0], chosenCell[1]);
 
@@ -1024,12 +1069,13 @@ public class GuiManager implements View {
      * This is allowed only when playing with Zeus.
      */
     public void printBuildUnderneath() {
+        /*
         Platform.runLater(() -> {
             boardController.printToMainText("Remember that you can also build underneath!");
             boardController.setConfirmButtonVisible();
         });
 
-        acceptTextBarInfo();
+        acceptTextBarInfo();*/
     }
 
 

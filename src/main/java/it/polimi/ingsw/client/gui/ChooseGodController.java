@@ -293,12 +293,10 @@ public class ChooseGodController {
             godFrame.setAccessible(true);
             frame = (ImageView) godFrame.get(this);
 
-            System.out.println("CIAO");
-
             //when receive gods chosen by other players, remove from arraylist
             redFrames.remove(frame);
 
-            frame.setImage(whiteFrame);//set to white
+            frame.setImage(whiteFrame); //set to white
 
 
         } catch (NoSuchFieldException | IllegalAccessException e) {
