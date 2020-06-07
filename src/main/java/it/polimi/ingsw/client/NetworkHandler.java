@@ -77,14 +77,14 @@ public class NetworkHandler implements Runnable {
 
         Message receivedMessage = null;
 
+        //System.out.println("Before TAKE, NH");
         try {
-
             receivedMessage = (Message) inputReader.getObjectsQueue().take();
-
-
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        //  System.out.println("AFTER TAKE, NH, taken: " + receivedMessage.getMethod());
+
 
         if (receivedMessage == null)
             return null;

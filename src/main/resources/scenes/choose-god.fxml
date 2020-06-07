@@ -12,7 +12,6 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-
 <Pane prefHeight="548.0" prefWidth="641.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.ChooseGodController">
    <children>
       <GridPane layoutY="7.0" prefWidth="640.0">
@@ -185,7 +184,7 @@
                                                 <Image url="@../frames/frame_white.png" />
                                              </image>
                                           </ImageView>
-                                          <ImageView fx:id="artemisFrame" fitHeight="70.0" fitWidth="49.0" onMouseClicked="#selectedGod" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                                          <ImageView fx:id="artemisFrame" fitHeight="70.0" fitWidth="49.0" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                                              <image>
                                                 <Image url="@../frames/frame_white.png" />
                                              </image>

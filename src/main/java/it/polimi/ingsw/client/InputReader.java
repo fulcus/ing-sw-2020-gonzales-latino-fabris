@@ -7,6 +7,10 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.util.Queue;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.SynchronousQueue;
 
 
@@ -17,7 +21,7 @@ public class InputReader implements Runnable {
 
     private boolean connected;
     private ObjectInputStream inputStream;
-    private final SynchronousQueue<Object> receivedObjectsQueue;
+    private final LinkedBlockingQueue<Object> receivedObjectsQueue;
     private final Client client;
     private final Socket serverSocket;
 
@@ -27,7 +31,7 @@ public class InputReader implements Runnable {
         serverSocket = server;
         this.client = client;
         connected = true;
-        receivedObjectsQueue = new SynchronousQueue<>();
+        receivedObjectsQueue = new LinkedBlockingQueue<>();
 
         try {
 
@@ -56,7 +60,7 @@ public class InputReader implements Runnable {
 
                 if (readMessage.getMethod().equals("shutdownClient")) {
 
-                    System.out.println("received shutdownClient");
+                    //System.out.println("received shutdownClient");
                     connected = false;
                     client.disconnect();
 
@@ -65,20 +69,23 @@ public class InputReader implements Runnable {
 
                 } else if (readMessage.getMethod().equals("notifyOtherPlayerDisconnection")) {
 
-                    System.out.println("received notifyOtherPlayerDisconnection");
+                  //  System.out.println("received notifyOtherPlayerDisconnection");
                     client.update(readMessage);
 
                 } else if (readMessage.getMethod().equals("PONG")) {
 
-                    //System.out.println("PONG from Server");
+                   // System.out.println("PONG from Server");
 
                 } else {
+
+                   // System.out.println("Before PUT, IR, passed" + readMessage.getMethod());
 
                     try {
                         receivedObjectsQueue.put(readObject);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                    // System.out.println("AFTER PUT, IR, passed" + readMessage.getMethod());
 
                 }
 
@@ -93,11 +100,12 @@ public class InputReader implements Runnable {
                 connected = false;
                 e.printStackTrace();
             }
+
         }
     }
 
 
-    public SynchronousQueue<Object> getObjectsQueue() {
+    public LinkedBlockingQueue<Object> getObjectsQueue() {
         return receivedObjectsQueue;
     }
 

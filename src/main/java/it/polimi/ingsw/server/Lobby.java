@@ -30,9 +30,9 @@ public class Lobby {
 
         GameController availableGame = null;
 
-        for(GameController game : games) {
+        for (GameController game : games) {
 
-            if(!game.isFull()) {
+            if (!game.isEnded() && !game.isFull()) {
                 availableGame = game;
                 availableEmptySpot = true;
                 break;
@@ -40,17 +40,27 @@ public class Lobby {
         }
 
         //JOIN
-        if(availableEmptySpot) {
+        if (availableEmptySpot) {
 
             ViewClient newClient = new ViewClient(clientSocket, availableGame);
             availableGame.join(newClient);
 
-        } else {    //CREATE
+        } else {//CREATE
 
             GameController newGame = new GameController();
             ViewClient newClient = new ViewClient(clientSocket, newGame);
             newGame.create(newClient);
             games.add(newGame);
+
         }
+    }
+
+    /**
+     * Remove game from available games arraylist.
+     *
+     * @param game to delete'
+     */
+    public void deleteGame(GameController game) {
+        games.remove(game);
     }
 }

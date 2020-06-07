@@ -308,7 +308,7 @@ public class Client {
      */
     public void disconnect() {
         try {
-            System.out.println("CLOSING SERVER");
+           // System.out.println("CLOSING SERVER");
             server.close();
         } catch (IOException e) {
             System.out.println("CATCH SERVER CLOSE");

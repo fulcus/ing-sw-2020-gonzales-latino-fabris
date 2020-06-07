@@ -24,6 +24,7 @@ public class GameController {
     private final Object nicknameLock;
     private final Object colorLock;
     private volatile boolean full;
+    private volatile boolean ended;
     private int clientsConnected;
 
 
@@ -37,6 +38,7 @@ public class GameController {
         colorLock = new Object();
         clientsConnected = 1; //counting creator
         full = false;
+        ended = false;
     }
 
 
@@ -60,6 +62,7 @@ public class GameController {
 
     /**
      * The joiner client is added to a game that is already been created.
+     *
      * @param newClient The client that has just joined the game and needs to be added to it.
      */
     public synchronized void join(ViewClient newClient) {
@@ -105,6 +108,7 @@ public class GameController {
 
     /**
      * Sends client nickname and color of all players that are already registered.
+     *
      * @param newClient The client that has just joined and needs to get the other player's information.
      */
     private void sendOtherPlayersInfo(ViewClient newClient) {
@@ -145,6 +149,7 @@ public class GameController {
 
     /**
      * Adds a player to the game, setting his attributes of nickname and color.
+     *
      * @param client client to add.
      */
     public void addPlayer(ViewClient client) {
@@ -175,6 +180,7 @@ public class GameController {
 
     /**
      * The client is registered to observe the behaviour of the cells of the board.
+     *
      * @param client Client that is registered to observe.
      */
     private void setUpObserverView(ViewClient client) {
@@ -191,6 +197,7 @@ public class GameController {
 
     /**
      * Removes client from observing the cells of the map.
+     *
      * @param client The client that is removed from the list of the observers.
      */
     public void removeClientObserver(ViewClient client) {
@@ -235,9 +242,10 @@ public class GameController {
     /**
      * Checks if the nickname chosen by the player is valid.
      * A nickname is valid if no one has already chosen it and if it is a String longer than 0 but shorter than 9 characters.
+     *
      * @param chosenNickname The nickname chosen by the player.
-     * @param client The client associated to the chosen nickname
-     * @param game The game where the player needs to be added.
+     * @param client         The client associated to the chosen nickname
+     * @param game           The game where the player needs to be added.
      * @return True if the nickname was valid, false otherwise.
      */
     private boolean checkNicknameValidity(String chosenNickname, ViewClient client, Game game) {
@@ -284,8 +292,9 @@ public class GameController {
     /**
      * Checks if the nickname chosen by the player is valid.
      * A color is valid if no one has already chosen it and if it is one of the available colors of the game: blue, white, beige.
+     *
      * @param chosenColor The color chosen by the player.
-     * @param client The client associated to the player.
+     * @param client      The client associated to the player.
      * @return True if the color was valid, false otherwise.
      */
     private boolean checkColorValidity(String chosenColor, ViewClient client) {
@@ -303,6 +312,7 @@ public class GameController {
     /**
      * Helper method to check color validity.
      * A color is valid if no one has already chosen it and if it is one of the available colors of the game: blue, white, beige.
+     *
      * @param chosenColor The color chosen by the player.
      * @return True if the color is valid, false otherwise.
      */
@@ -315,6 +325,7 @@ public class GameController {
 
     /**
      * Helper method to check nickname validity.
+     *
      * @param chosenNickname The nickname chosen by the player.
      * @return True if the nickname is valid, false otherwise.
      */
@@ -333,6 +344,7 @@ public class GameController {
     /**
      * Helper method to check color validity.
      * A color is valid if no one has already chosen it and if it is one of the available colors of the game: blue, white, beige.
+     *
      * @param chosenColor The color chosen by the player.
      * @return True if the color is available, false otherwise.
      */
@@ -373,6 +385,7 @@ public class GameController {
     /**
      * The winner of the game is notified of his success, while the others are notified of their lose.
      * The turn handler stops his flow.
+     *
      * @param winner The player that has won the game.
      */
     public void winGame(Player winner) {
@@ -428,6 +441,7 @@ public class GameController {
 
     /**
      * Allows to notify the disconnection to the game.
+     *
      * @param disconnectedPlayer The player that has disconnected from the game.
      */
     public void handleGameDisconnection(String disconnectedPlayer) {
@@ -441,11 +455,18 @@ public class GameController {
             }
 
         }
+
+        //Checks if game is still in the available games in lobby
+        if (!isFull()) {
+            ended = true;
+        }
+
     }
 
 
     /**
      * Notifies players someone lost the game.
+     *
      * @param loserNickname The nickname of the player who lost the game.
      */
     public void notifyPlayersOfLoss(String loserNickname) {
@@ -463,6 +484,10 @@ public class GameController {
 
     public boolean isFull() {
         return full;
+    }
+
+    public boolean isEnded() {
+        return ended;
     }
 
 
