@@ -132,11 +132,11 @@ public class TurnHandlerTest {
         gameController.getTurnHandler().stopTurnFlow();
     }
 
-
+/*
     @Test
     public void runMoveEx() {
 
-/*
+
         ViewClient client3 = mock(ViewClient.class);
         Player player3 = mock(Player.class);
         //when(client1.askNumberOfPlayers()).thenReturn(3);
@@ -147,7 +147,7 @@ public class TurnHandlerTest {
         doNothing().when(player3).setColor(any(Color.class));
         doNothing().when(player3).setColor(any(Color.class));
         gameController.addPlayer(client3);
-*/
+
 
         doNothing().when(client1).waitChallengerChooseGods(anyString());
         doNothing().when(client2).waitChallengerChooseGods(anyString());
@@ -209,7 +209,7 @@ public class TurnHandlerTest {
         //then issues command to exit the loop with stopTurnFlow
         do {
             try {
-                Thread.sleep(7000);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -217,6 +217,7 @@ public class TurnHandlerTest {
 
         gameController.getTurnHandler().stopTurnFlow();
     }
+    */
 
 
 /*

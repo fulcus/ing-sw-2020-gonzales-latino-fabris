@@ -228,7 +228,7 @@ public class ChooseGodController {
      */
     public void waitChallengerChooseGods(String challenger) {
 
-        mainText.setText(challenger + " is the Challenger and is choosing gods...");
+        mainText.setText(challenger + " is the Challenger and is choosing the gods...");
     }
 
 
