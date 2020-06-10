@@ -18,12 +18,16 @@ public class ClientInputReader implements Runnable {
     private volatile SynchronousQueue<Object> receivedObjects;
     private boolean connected;
     private ObjectInputStream input;
+    private boolean killed;
+
 
     public ClientInputReader(ViewClient client) {
 
         this.client = client;
         receivedObjects = new SynchronousQueue<>();
         connected = true;
+        killed = false;
+
 
         try {
             input = new ObjectInputStream(client.getSocket().getInputStream());
@@ -41,7 +45,6 @@ public class ClientInputReader implements Runnable {
     /**
      * While the connection is on, it allows to receive and read the Objects coming from the client-side.
      * Can understand if the message was a ping from the client or a different one.
-     *
      */
     @Override
     public void run() {
@@ -77,25 +80,21 @@ public class ClientInputReader implements Runnable {
 
             } catch (IOException e) {
 
-                //System.out.println("PRINTING EXCEPTION");
-                //e.printStackTrace();
+                if (!killed) {
+
+                    client.setInGame(false);
+
+                    if (client.getPlayer() != null) {
+                        System.out.println(client.getPlayer().getNickname() + " disconnected");
+
+                        client.getGameController().handleGameDisconnection(client.getPlayer().getNickname());
+                    } else {
+                        System.out.println("Someone disconnected");
+                        client.getGameController().handleGameDisconnection("Someone");
+                    }
+                }
 
                 connected = false;
-
-                client.setInGame(false);
-
-                if (client.getPlayer() != null) {
-                    System.out.println(client.getPlayer().getNickname() + " disconnected");
-
-                    client.getGameController().handleGameDisconnection(client.getPlayer().getNickname());
-                }
-                else {
-                    System.out.println("Someone disconnected");
-                    client.getGameController().handleGameDisconnection("Someone");
-                }
-
-
-                //TODO VERIFICARE SE RIMUOVERE LA SOUT PERCHè IN INIZIALIZZAZIONE DEL GIOCO, NULL POINTER PERCHè NICK ANCORA NON ESISTE.
 
 
             } catch (ClassNotFoundException e) {
@@ -104,6 +103,10 @@ public class ClientInputReader implements Runnable {
 
         }
 
+    }
+
+    public void setKilled(boolean killed) {
+        this.killed = killed;
     }
 
 

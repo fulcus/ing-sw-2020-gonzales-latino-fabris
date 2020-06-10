@@ -26,9 +26,7 @@ public class ViewClient implements ClientViewObserver {
     private ObjectOutputStream output;
     private TurnHandler turnHandler;
     private boolean inGame;
-    private ClientInputReader input;
-    private final Thread inputReader;
-    private final HeartbeatServer heartbeatServer;
+    private final ClientInputReader input;
 
 
     public ViewClient(Socket socket, GameController gameController) {
@@ -43,13 +41,11 @@ public class ViewClient implements ClientViewObserver {
             e.printStackTrace();
         }
 
-        heartbeatServer = new HeartbeatServer(this);
+        HeartbeatServer heartbeatServer = new HeartbeatServer(this);
 
         new Thread(heartbeatServer).start();
 
-        inputReader = new Thread(input);
-
-        inputReader.start();
+        new Thread(input).start();
 
     }
 
@@ -102,14 +98,6 @@ public class ViewClient implements ClientViewObserver {
      */
     public void createGame() {
         sendMessage(new Message("createGame"));
-    }
-
-
-    /**
-     * Sends the message to let the joiner player be aware that the creator of a new game is choosing the number of players for the game.
-     */
-    public void waitCreatorChooseNumOfPlayers() {
-        sendMessage(new Message("waitCreatorChooseNumOfPlayers"));
     }
 
 
@@ -188,22 +176,6 @@ public class ViewClient implements ClientViewObserver {
         return (String) sendMessageWithReturn(new Message("askPlayerColor"));
     }
 
-
-    /**
-     * Sends the message to show to the player that another player registered to the current game is choosing his color.
-     * @param choosingPlayer The name of the player that is choosing his color.
-     */
-    public void printChoosingColor(String choosingPlayer) {
-        sendMessage(new Message("printChoosingColor", choosingPlayer));
-    }
-
-
-    /**
-     * Sends the message to show to the player that another player registered to the current game is choosing his nickname.
-     */
-    public void printChoosingNickname() {
-        sendMessage(new Message("printChoosingNickname"));
-    }
 
 
     /**
@@ -699,7 +671,7 @@ public class ViewClient implements ClientViewObserver {
      */
     public void killClient() {
         gameController.removeClientObserver(this);
-        inputReader.stop();//TODO ASK CATTAEO
+        input.setKilled(true);
         sendMessage(new Message("shutdownClient"));
         inGame = false;
     }

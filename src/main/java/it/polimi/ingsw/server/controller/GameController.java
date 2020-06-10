@@ -219,11 +219,6 @@ public class GameController {
      */
     private void setPlayerNickname(ViewClient client) {
 
-        for (ViewClient otherClient : gameClients) {
-            if (!otherClient.equals(client))
-                otherClient.printChoosingNickname();
-        }
-
         while (true) {
 
             String chosenNickname = client.askPlayerNickname();
@@ -267,11 +262,6 @@ public class GameController {
      * @param client view of the player.
      */
     private void setPlayerColor(ViewClient client) {
-
-        for (ViewClient otherClient : gameClients) {
-            if (!otherClient.equals(client))
-                otherClient.printChoosingColor(client.getPlayer().getNickname());
-        }
 
         while (true) {
 

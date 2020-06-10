@@ -206,11 +206,6 @@ public class GuiManager implements View {
     }
 
 
-    public void waitToBeAssigned() {
-        //do nothing here, the method is specifically useful for the cli.
-    }
-
-
     /**
      * This method displays to the user Initial Game Interface
      */
@@ -246,13 +241,6 @@ public class GuiManager implements View {
         //change scene
         Platform.runLater(() -> Gui.getStage().setScene(new Scene(numberOfPlayersRoot)));
 
-    }
-
-    /**
-     * The joiner player waits the creator to choose the number of players for the game.
-     */
-    public void waitCreatorChooseNumOfPlayers() {
-        //doNothing
     }
 
 
@@ -308,24 +296,6 @@ public class GuiManager implements View {
     }
 
 
-    /**
-     * Shows to the player that another player registered to the current game is choosing his color.
-     * In the GUI case the method is not so useful, works pretty well for the CLI.
-     *
-     * @param choosingPlayer The name of the player that is choosing his color.
-     */
-    public void printChoosingColor(String choosingPlayer) {
-        //can do nothing
-    }
-
-
-    /**
-     * Shows to the player that another player registered to the current game is choosing his nickname.
-     * In the GUI case the method is not so useful, works pretty well for the CLI.
-     */
-    public void printChoosingNickname() {
-        //can do nothing
-    }
 
     /**
      * Allows to set and to store in the local guimanager memory the general settings info of other players.
@@ -727,8 +697,10 @@ public class GuiManager implements View {
      */
     public void notifyPlayersOfLoss(String loserNickname) {
         Platform.runLater(() -> {
+            //TODO UPDATE NUMOFPLAYERS
             boardController.printToMainText(loserNickname + " has lost this game!");
             boardController.setConfirmButtonVisible();
+            boardController.removeGodFrame(loserNickname);
         });
 
         acceptTextBarInfo();

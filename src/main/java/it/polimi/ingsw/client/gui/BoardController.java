@@ -13,6 +13,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+
 import java.lang.reflect.Field;
 
 import static it.polimi.ingsw.client.gui.GuiManager.*;
@@ -160,10 +161,9 @@ public class BoardController {
             otherNicknameLeft.setVisible(false);
             otherGodLeft.setVisible(false);
         } else {
-            otherNicknameRight.setText(nickname3.get());
+            otherNicknameLeft.setText(nickname3.get());
             Image godLeftImage = new Image("/gods/full_" + god3.get().toLowerCase() + ".png");
             otherGodLeft.setImage(godLeftImage);
-
             otherGodLeft.setOnMouseClicked(e -> showGodDescription(god3.get()));
         }
 
@@ -379,6 +379,7 @@ public class BoardController {
 
     /**
      * Allows to print something on the main central text bar.
+     *
      * @param text The text to print.
      */
     protected void printToMainText(String text) {
@@ -387,9 +388,12 @@ public class BoardController {
 
     /**
      * Allows to print the god description in its specific area.
+     *
      * @param text
      */
-    protected void printToGodTextArea(String text) { godPowerText.setText(text); }
+    protected void printToGodTextArea(String text) {
+        godPowerText.setText(text);
+    }
 
 
     protected void setCellRequested(boolean cellRequested) {
@@ -453,9 +457,7 @@ public class BoardController {
             godClicked++;
 
             System.out.println("God description");
-        }
-
-        else {
+        } else {
             printToGodTextArea("");
             godClicked = 0;
         }
@@ -555,6 +557,23 @@ public class BoardController {
             source = source.getParent();
 
         glowLevel(0.3, source);
+
+    }
+
+    protected void removeGodFrame(String loserNickname) {
+
+        //if the player in the right corner has lost,swap info between player 2 and 3
+        if (nickname2.get().equals(loserNickname)) {
+            otherNicknameRight.setText(nickname3.get());
+            Image godRightImage = new Image("/gods/full_" + god2.get().toLowerCase() + ".png");
+            otherGodRight.setImage(godRightImage);
+        }
+
+        //removes the other player left data
+        godLeftFrame.setVisible(false);
+        godLeftBar.setVisible(false);
+        otherNicknameLeft.setVisible(false);
+        otherGodLeft.setVisible(false);
 
     }
 

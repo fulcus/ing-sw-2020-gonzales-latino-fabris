@@ -387,6 +387,7 @@ public class TurnHandler implements Runnable {
             if (unableToMove == 1) {
 
                 currentClient.selectedWorkerCannotMove(turnWorker.getSex().name());
+
                 turn(otherWorker);
 
             } else {
