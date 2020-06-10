@@ -206,11 +206,6 @@ public class GuiManager implements View {
     }
 
 
-    public void waitToBeAssigned() {
-        //do nothing here, the method is specifically useful for the cli.
-    }
-
-
     /**
      * This method displays to the user Initial Game Interface
      */
@@ -335,6 +330,7 @@ public class GuiManager implements View {
      */
     public void setOtherPlayersInfo(String nickname, String color) {
         setPlayerInfo(nickname, color);
+        System.out.println("setOtherPlayersInfo: "+nickname + color);
     }
 
 
@@ -412,7 +408,6 @@ public class GuiManager implements View {
             e.printStackTrace();
         }
 
-        System.out.println("guimanager received: " + nickname);
         setPlayer(nickname);
         return nickname;
     }
@@ -455,7 +450,6 @@ public class GuiManager implements View {
 
         myColor = color;
 
-        System.out.println("guimanager received: " + color);
         return color;
     }
 

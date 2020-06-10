@@ -144,6 +144,7 @@ public class BoardController {
     protected void init() {
         menu.setVisible(false);
 
+        //right: player 2, left: player 3 (if
         myNickname.setText(nickname1.get());
         otherNicknameRight.setText(nickname2.get());
         Image myGodImage = new Image("/gods/full_" + god1.get().toLowerCase() + ".png");
@@ -160,7 +161,7 @@ public class BoardController {
             otherNicknameLeft.setVisible(false);
             otherGodLeft.setVisible(false);
         } else {
-            otherNicknameRight.setText(nickname3.get());
+            otherNicknameLeft.setText(nickname3.get());
             Image godLeftImage = new Image("/gods/full_" + god3.get().toLowerCase() + ".png");
             otherGodLeft.setImage(godLeftImage);
 
