@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.cli;
 
 import it.polimi.ingsw.client.BoardClient;
+import it.polimi.ingsw.client.PlayerClient;
 import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.serializableObjects.CellClient;
 import it.polimi.ingsw.serializableObjects.WorkerClient;
@@ -23,24 +24,7 @@ public class Cli implements View {
     private String myColor;
     private String challenger;
 
-    //Help to print info besides the board
-    private String bluePlayer;
-    private String whitePlayer;
-    private String beigePlayer;
-    private String blueGod;
-    private String whiteGod;
-    private String beigeGod;
-
-    //actually used attributes among the class
-    private String nickname1;
-    private String nickname2;
-    private String nickname3;
-    private String color1;
-    private String color2;
-    private String color3;
-    private String myGod;
-    private String god2;
-    private String god3;
+    private final ArrayList<PlayerClient> players;
 
 
     /**
@@ -51,23 +35,7 @@ public class Cli implements View {
         input = new Scanner(System.in);
         intInput = new Scanner(System.in);
 
-        bluePlayer = null;
-        whitePlayer = null;
-        beigePlayer = null;
-        blueGod = null;
-        whiteGod = null;
-        beigeGod = null;
-    }
-
-
-    /**
-     * Assigns the nickname of the player to the Cli
-     *
-     * @param nickname nickname of the player associated with this instance of Cli
-     */
-    public void setPlayer(String nickname) {
-        // the method is called by clientView
-        this.myNickname = nickname;
+        players = new ArrayList<>(3);
     }
 
 
@@ -183,6 +151,13 @@ public class Cli implements View {
         }
     }
 
+    /**
+     * Lets the client know that the nickname entered is too long or empty.
+     */
+    public void nicknameFormatError() {
+        System.out.println("Your nickname must have between 1 and 8 characters.");
+    }
+
 
     /**
      * Representation of the game's title with ASCII characters.
@@ -266,91 +241,15 @@ public class Cli implements View {
      * @param color    Color chosen by that specific player for the current game.
      */
     public void setOtherPlayersInfo(String nickname, String color) {
-        if (nickname2 == null) {
-            nickname2 = nickname;
-            color2 = color;
-
-            switch (color2) {
-                case "BLUE":
-                case "blue":
-                    bluePlayer = nickname2;
-                    break;
-                case "WHITE":
-                case "white":
-                    whitePlayer = nickname2;
-                    break;
-                case "BEIGE":
-                case "beige":
-                    beigePlayer = nickname2;
-                    break;
-            }
-        } else if (nickname3 == null) {
-            nickname3 = nickname;
-            color3 = color;
-
-            switch (color3) {
-                case "BLUE":
-                case "blue":
-                    bluePlayer = nickname3;
-                    break;
-                case "WHITE":
-                case "white":
-                    whitePlayer = nickname3;
-                    break;
-                case "BEIGE":
-                case "beige":
-                    beigePlayer = nickname3;
-                    break;
-            }
-        }
+        players.add(new PlayerClient(nickname, color));
     }
 
 
-    /**
-     * Allows to set and to store in the local cli memory the general settings info of the local client.
-     * Allows also to store into specific colored class attributes the info of the local player,
-     * so that a better representation when printing the game's board can be done.
-     *
-     * @param nickname Nickname of the player to register.
-     * @param color    Color chosen by that specific player for the current game.
-     */
-    private void setMyInfo(String nickname, String color) {
-
-        System.out.println("setMyInfo "+ nickname + color);
-
-        nickname1 = nickname;
-        color1 = color;
-
-        if (color1.equals("BLUE") || color1.equals("blue"))
-            bluePlayer = nickname1;
-        else if (color1.equals("WHITE") || color1.equals("white"))
-            whitePlayer = nickname1;
-        else if (color1.equals("BEIGE") || color1.equals("beige"))
-            beigePlayer = nickname1;
-    }
-
-
-    /**
-     * Allows to set and to store in the local cli memory the god of another player.
-     * Allows also to store into specific colored class attributes the info of the god,
-     * so that a better representation when printing the game's board can be done.
-     *
-     * @param nickname
-     * @param god
-     */
     private void setPlayerGod(String nickname, String god) {
-
-        if (nickname.equals(nickname2)) {
-            god2 = god;
-        } else
-            god3 = god;
-
-        if (nickname.equals(bluePlayer))
-            blueGod = god;
-        else if (nickname.equals(whitePlayer))
-            whiteGod = god;
-        else if (nickname.equals(beigePlayer))
-            beigeGod = god;
+        for (PlayerClient player : players) {
+            if (player.getNickname().equals(nickname))
+                player.setGod(god);
+        }
     }
 
 
@@ -373,7 +272,8 @@ public class Cli implements View {
 
         System.out.println("\nChoose your nickname.");
         String nickname = input.nextLine();
-        setPlayer(nickname);
+
+        this.myNickname = nickname;
 
         return nickname;
     }
@@ -411,7 +311,7 @@ public class Cli implements View {
      */
     public void notifyValidColor() {
         //adding this players info to "database"
-        setMyInfo(myNickname, myColor);
+        players.add(new PlayerClient(myNickname, myColor)); //creates my player
 
         System.out.println("Color accepted");
     }
@@ -427,8 +327,7 @@ public class Cli implements View {
 
         String god = input.nextLine();
 
-        myGod = god;
-        //todo
+        setPlayerGod(myNickname, god);
         return god;
     }
 
@@ -602,31 +501,50 @@ public class Cli implements View {
      * This method prints an updated version of the Board, depending on the Class parameter "mymap".
      */
     public void printMap() {
+
+        final String LINE_SEPARATOR = "+-------+-------+-------+-------+-------+";
+        final String SPACE_SEPARATOR = "|       |       |       |       |       |";
+        final String LINE_SEPARATOR_NEWLINE = CliColor.ANSI_GREEN + LINE_SEPARATOR + CliColor.COLOR_RESET + "%n";
+        final String SPACE_SEPARATOR_NEWLINE = CliColor.ANSI_GREEN + SPACE_SEPARATOR + CliColor.COLOR_RESET + "%n";
+
+
         System.out.println("\n");
 
-        final String LINE_SEPARATOR = CliColor.ANSI_GREEN + "+-------+-------+-------+-------+-------+" + CliColor.COLOR_RESET + "%n";
-        final String SPACE_SEPARATOR = CliColor.ANSI_GREEN + "|       |       |       |       |       |" + CliColor.COLOR_RESET + "%n";
-        final String LINE_SEPARATOR_PLAYER_BLUE = CliColor.ANSI_GREEN + "+-------+-------+-------+-------+-------+         " + CliColor.COLOR_RESET + CliColor.Background_Blue + CliColor.BLACK_BOLD + bluePlayer + " plays with " + blueGod + CliColor.RESET + CliColor.BACKGROUND_RESET + "%n";
-        final String LINE_SEPARATOR_PLAYER_WHITE = CliColor.ANSI_GREEN + "+-------+-------+-------+-------+-------+         " + CliColor.COLOR_RESET + CliColor.Background_White + CliColor.BLACK_BOLD + whitePlayer + " plays with " + whiteGod + CliColor.RESET + CliColor.BACKGROUND_RESET + "%n";
-        final String LINE_SEPARATOR_PLAYER_BEIGE = CliColor.ANSI_GREEN + "+-------+-------+-------+-------+-------+         " + CliColor.COLOR_RESET + CliColor.Background_Beige + CliColor.WHITE_BOLD + beigePlayer + " plays with " + beigeGod + CliColor.RESET + CliColor.BACKGROUND_RESET + "%n";
+        String LINE_SEPARATOR_PLAYER_BLUE = null;
+        String LINE_SEPARATOR_PLAYER_WHITE = null;
+        String LINE_SEPARATOR_PLAYER_BEIGE = null;
+
+        for (PlayerClient player : players) {
+
+            if (player.getColor().equals("BLUE"))
+                LINE_SEPARATOR_PLAYER_BLUE = CliColor.ANSI_GREEN + LINE_SEPARATOR + "         " + CliColor.COLOR_RESET + CliColor.Background_Blue + CliColor.BLACK_BOLD + player.getNickname() + " plays with " + player.getGod() + CliColor.RESET + CliColor.BACKGROUND_RESET + "%n";
+
+            if (player.getColor().equals("WHITE"))
+                LINE_SEPARATOR_PLAYER_WHITE = CliColor.ANSI_GREEN + LINE_SEPARATOR + "         " + CliColor.COLOR_RESET + CliColor.Background_White + CliColor.BLACK_BOLD + player.getNickname() + " plays with " + player.getGod() + CliColor.RESET + CliColor.BACKGROUND_RESET + "%n";
+
+
+            if (player.getColor().equals("BEIGE"))
+                LINE_SEPARATOR_PLAYER_BEIGE = CliColor.ANSI_GREEN + LINE_SEPARATOR + "         " + CliColor.COLOR_RESET + CliColor.Background_Beige + CliColor.WHITE_BOLD + player.getNickname() + " plays with " + player.getGod() + CliColor.RESET + CliColor.BACKGROUND_RESET + "%n";
+
+        }
 
 
         for (int i = 0; i < Board.SIDE; i++) {
 
-            if (i == 0 && bluePlayer != null) {
+            if (i == 0 && LINE_SEPARATOR_PLAYER_BLUE != null) {
                 System.out.printf(LINE_SEPARATOR_PLAYER_BLUE);
-            } else if (i == 1 && whitePlayer != null) {
+            } else if (i == 1 && LINE_SEPARATOR_PLAYER_WHITE != null) {
                 System.out.printf(LINE_SEPARATOR_PLAYER_WHITE);
-            } else if (i == 2 && beigePlayer != null) {
+            } else if (i == 2 && LINE_SEPARATOR_PLAYER_BEIGE != null) {
                 System.out.printf(LINE_SEPARATOR_PLAYER_BEIGE);
             } else
-                System.out.printf(LINE_SEPARATOR);//Border
+                System.out.printf(LINE_SEPARATOR_NEWLINE);//Border
 
             printMapLine(i);//content of game
-            System.out.printf(SPACE_SEPARATOR);//space
+            System.out.printf(SPACE_SEPARATOR_NEWLINE);//space
         }
 
-        System.out.printf(LINE_SEPARATOR);
+        System.out.printf(LINE_SEPARATOR_NEWLINE);
         System.out.println();
     }
 

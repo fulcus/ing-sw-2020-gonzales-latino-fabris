@@ -233,14 +233,12 @@ public class GameController {
                     return;
                 }
             }
-
-            client.notAvailableNickname();
         }
     }
 
 
     /**
-     * Checks if the nickname chosen by the player is valid.
+     * Checks if the nickname chosen by the player is valid and notifies client about the outcome of the check.
      * A nickname is valid if no one has already chosen it and if it is a String longer than 0 but shorter than 9 characters.
      *
      * @param chosenNickname The nickname chosen by the player.
@@ -249,15 +247,18 @@ public class GameController {
      * @return True if the nickname was valid, false otherwise.
      */
     private boolean checkNicknameValidity(String chosenNickname, ViewClient client, Game game) {
-
-        if (nicknameIsAvailable(chosenNickname) && chosenNickname.length() > 0 && chosenNickname.length() < 9) {
+        if(chosenNickname.length() == 0 || chosenNickname.length() > 8) {
+            client.nicknameFormatError();
+            return false;
+        } else if (nicknameIsAvailable(chosenNickname)) {
             Player newPlayer = game.addPlayer(chosenNickname, client);
             client.setPlayer(newPlayer);
             client.notifyValidNick();
             return true;
+        } else {
+            client.notAvailableNickname();
+            return false;
         }
-
-        return false;
     }
 
 

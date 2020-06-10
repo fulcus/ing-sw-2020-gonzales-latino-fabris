@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.gui;
 
 import it.polimi.ingsw.client.BoardClient;
+import it.polimi.ingsw.client.PlayerClient;
 import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.serializableObjects.CellClient;
 import it.polimi.ingsw.serializableObjects.WorkerClient;
@@ -29,15 +30,9 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public class GuiManager implements View {
 
-    protected static AtomicReference<String> nickname1;
-    protected static AtomicReference<String> nickname2;
-    protected static AtomicReference<String> nickname3;
-    protected static AtomicReference<String> color1;
-    protected static AtomicReference<String> color2;
-    protected static AtomicReference<String> color3;
-    protected static AtomicReference<String> god1;
-    protected static AtomicReference<String> god2;
-    protected static AtomicReference<String> god3;
+    protected static final ArrayList<PlayerClient> players = new ArrayList<>();
+    private PlayerClient myPlayer;
+
 
     protected static final AtomicReference<BoardClient> boardClient = new AtomicReference<>(new BoardClient());
 
@@ -72,16 +67,6 @@ public class GuiManager implements View {
 
 
     public GuiManager() {
-
-        nickname1 = null;
-        nickname2 = null;
-        nickname3 = null;
-        color1 = null;
-        color2 = null;
-        color3 = null;
-        god1 = null;
-        god2 = null;
-        god3 = null;
 
         //wait for graphics to initialize
         try {
@@ -127,16 +112,6 @@ public class GuiManager implements View {
         startPlayerController = startPlayerLoader.getController();
         boardController = boardLoader.getController();
 
-    }
-
-
-    /**
-     * Assigns the nickname of the player to the GuiManager
-     *
-     * @param nickname nickname of the player associated with this instance of GuiManager
-     */
-    public void setPlayer(String nickname) {
-        myNickname = nickname;
     }
 
 
@@ -258,7 +233,7 @@ public class GuiManager implements View {
      */
     public int askNumberOfPlayers() {
 
-        int numInt = 0;
+        int numInt;
         try {
             String numString = (String) queue.take();
             numInt = Integer.parseInt(numString);
@@ -323,51 +298,33 @@ public class GuiManager implements View {
     }
 
     /**
-     * Allows to set and to store in the local guimanager memory the general settings info of other players.
+     * Allows to store in the client memory the general info about other players.
      *
      * @param nickname Nickname of the player to register.
      * @param color    Color chosen by that specific player for the current game.
      */
     public void setOtherPlayersInfo(String nickname, String color) {
-        setPlayerInfo(nickname, color);
-        System.out.println("setOtherPlayersInfo: "+nickname + color);
-    }
 
+        System.out.println("setOtherPlayersInfo: "+nickname+color);
 
-    private void setMyInfo(String nickname, String color) {
-        nickname1 = new AtomicReference<>(nickname);
-        color1 = new AtomicReference<>(color);
-
-        playersConnected.addAndGet(1);
-
-    }
-
-
-    private void setPlayerInfo(String nickname, String color) {
-
-        if (nickname2 == null) {
-            nickname2 = new AtomicReference<>(nickname);
-            color2 = new AtomicReference<>(color);
-        } else if (nickname3 == null) {
-            nickname3 = new AtomicReference<>(nickname);
-            color3 = new AtomicReference<>(color);
-        }
-
+        players.add(new PlayerClient(nickname,color));
         playersConnected.addAndGet(1);
 
         //if client is in lobby RENDER
         if (isInLobby.get())
             Platform.runLater(() -> lobbyController.showPlayer(nickname, color));
         //otherwise it has already been saved and will be rendered in initialize
+
+        System.out.println("setOtherPlayersInfo: "+nickname + color);
     }
+
 
 
     private void setPlayerGod(String nickname, String god) {
 
-        if (nickname.equals(nickname2.get())) {
-            god2 = new AtomicReference<>(god);
-        } else if (nickname.equals(nickname3.get())) {
-            god3 = new AtomicReference<>(god);
+        for(PlayerClient player : players) {
+            if(player.getNickname().equals(nickname))
+                player.setGod(god);
         }
     }
 
@@ -408,7 +365,7 @@ public class GuiManager implements View {
             e.printStackTrace();
         }
 
-        setPlayer(nickname);
+        myNickname = nickname;
         return nickname;
     }
 
@@ -459,7 +416,10 @@ public class GuiManager implements View {
      */
     public void notifyValidColor() {
         //adding this players info to "database"
-        setMyInfo(myNickname, myColor);
+        myPlayer = new PlayerClient(myNickname,myColor);
+        players.add(0,myPlayer);
+
+        playersConnected.addAndGet(1);
 
         //change scene
         Platform.runLater(() -> {
@@ -483,7 +443,7 @@ public class GuiManager implements View {
 
         try {
             chosenGod = (String) queue.take();
-            god1 = new AtomicReference<>(chosenGod);
+            myPlayer.setGod(chosenGod);
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -592,9 +552,16 @@ public class GuiManager implements View {
      * This error can occur when the length of the nickname is too long or when the same nick was already chosen by another player.
      */
     public void notAvailableNickname() {
-
         nicknameController.displayErrorNick();
     }
+
+    /**
+     * Lets the client know that the nickname entered is too long or empty.
+     */
+    public void nicknameFormatError() {
+        nicknameController.displayErrorNick();
+    }
+
 
 
     /**
@@ -624,7 +591,7 @@ public class GuiManager implements View {
             WorkerClient clickedWorker = boardClient.get().findCell(chosenCell[0], chosenCell[1]).getWorkerClient();
 
             if (clickedWorker != null
-                    && clickedWorker.getWorkerColor().toLowerCase().equals(color1.get().toLowerCase())) {
+                    && clickedWorker.getWorkerColor().toLowerCase().equals(myColor.toLowerCase())) {
 
                 System.out.println("clickedWorker: " + clickedWorker);
 
@@ -1035,7 +1002,7 @@ public class GuiManager implements View {
             WorkerClient clickedWorker = boardClient.get().findCell(chosenCell[0], chosenCell[1]).getWorkerClient();
 
             if (clickedWorker != null
-                    && !clickedWorker.getWorkerColor().toLowerCase().equals(color1.get().toLowerCase())) {
+                    && !clickedWorker.getWorkerColor().toLowerCase().equals(myColor.toLowerCase())) {
 
                 System.out.println("clickedWorker: " + clickedWorker);    //debug
 

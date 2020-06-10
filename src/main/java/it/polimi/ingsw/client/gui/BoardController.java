@@ -143,17 +143,21 @@ public class BoardController {
      */
     protected void init() {
         menu.setVisible(false);
+        String nickname1 = players.get(0).getNickname();
+        String god1 = players.get(0).getGod();
+        String nickname2 = players.get(1).getNickname();
+        String god2 = players.get(1).getGod();
 
         //right: player 2, left: player 3 (if
-        myNickname.setText(nickname1.get());
-        otherNicknameRight.setText(nickname2.get());
-        Image myGodImage = new Image("/gods/full_" + god1.get().toLowerCase() + ".png");
-        Image godRightImage = new Image("/gods/full_" + god2.get().toLowerCase() + ".png");
+        myNickname.setText(nickname1);
+        otherNicknameRight.setText(nickname2);
+        Image myGodImage = new Image("/gods/full_" + god1.toLowerCase() + ".png");
+        Image godRightImage = new Image("/gods/full_" + god2.toLowerCase() + ".png");
         myGod.setImage(myGodImage);
         otherGodRight.setImage(godRightImage);
 
-        myGod.setOnMouseClicked(e -> showGodDescription(god1.get()));
-        otherGodRight.setOnMouseClicked(e -> showGodDescription(god2.get()));
+        myGod.setOnMouseClicked(e -> showGodDescription(god1));
+        otherGodRight.setOnMouseClicked(e -> showGodDescription(god2));
 
         if (numberOfPlayers.get() == 2) {
             godLeftFrame.setVisible(false);
@@ -161,11 +165,14 @@ public class BoardController {
             otherNicknameLeft.setVisible(false);
             otherGodLeft.setVisible(false);
         } else {
-            otherNicknameLeft.setText(nickname3.get());
-            Image godLeftImage = new Image("/gods/full_" + god3.get().toLowerCase() + ".png");
+            String nickname3 = players.get(2).getNickname();
+            String god3 = players.get(2).getGod();
+
+            otherNicknameLeft.setText(nickname3);
+            Image godLeftImage = new Image("/gods/full_" + god3.toLowerCase() + ".png");
             otherGodLeft.setImage(godLeftImage);
 
-            otherGodLeft.setOnMouseClicked(e -> showGodDescription(god3.get()));
+            otherGodLeft.setOnMouseClicked(e -> showGodDescription(god3));
         }
 
         showGodPowers();
@@ -197,7 +204,7 @@ public class BoardController {
         godPowerOnAnswer = "Y";
         godPowerOffAnswer = "N";
 
-        switch (god1.get().toLowerCase()) {
+        switch (players.get(0).getGod().toLowerCase()) {
             case "apollo":
                 break;
             case "artemis":
