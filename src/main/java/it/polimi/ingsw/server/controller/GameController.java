@@ -154,7 +154,7 @@ public class GameController {
      */
     public void addPlayer(ViewClient client) {
 
-        //prints client connected in server
+        //print in server
         client.connected();
         //cannot accept other clients before writing "start"
         client.beginningView();

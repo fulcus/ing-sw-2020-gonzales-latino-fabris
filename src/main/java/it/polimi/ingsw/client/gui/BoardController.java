@@ -145,6 +145,7 @@ public class BoardController {
     protected void init() {
         menu.setVisible(false);
 
+        //right: player 2, left: player 3 (if
         myNickname.setText(nickname1.get());
         otherNicknameRight.setText(nickname2.get());
         Image myGodImage = new Image("/gods/full_" + god1.get().toLowerCase() + ".png");
