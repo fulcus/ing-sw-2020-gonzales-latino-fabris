@@ -218,13 +218,6 @@ public class GuiManager implements View {
 
     }
 
-    /**
-     * The joiner player waits the creator to choose the number of players for the game.
-     */
-    public void waitCreatorChooseNumOfPlayers() {
-        //doNothing
-    }
-
 
     /**
      * Asks to the creator of a game how many players will the game hold.
@@ -278,24 +271,6 @@ public class GuiManager implements View {
     }
 
 
-    /**
-     * Shows to the player that another player registered to the current game is choosing his color.
-     * In the GUI case the method is not so useful, works pretty well for the CLI.
-     *
-     * @param choosingPlayer The name of the player that is choosing his color.
-     */
-    public void printChoosingColor(String choosingPlayer) {
-        //can do nothing
-    }
-
-
-    /**
-     * Shows to the player that another player registered to the current game is choosing his nickname.
-     * In the GUI case the method is not so useful, works pretty well for the CLI.
-     */
-    public void printChoosingNickname() {
-        //can do nothing
-    }
 
     /**
      * Allows to store in the client memory the general info about other players.
@@ -688,8 +663,10 @@ public class GuiManager implements View {
      */
     public void notifyPlayersOfLoss(String loserNickname) {
         Platform.runLater(() -> {
+            //TODO UPDATE NUMOFPLAYERS
             boardController.printToMainText(loserNickname + " has lost this game!");
             boardController.setConfirmButtonVisible();
+            boardController.removeGodFrame(loserNickname);
         });
 
         acceptTextBarInfo();

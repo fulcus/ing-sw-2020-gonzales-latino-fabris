@@ -38,12 +38,6 @@ public interface View {
 
 
     /**
-     * The joiner player is being shown that the creator of a new game is choosing the number of players for the game.
-     */
-    void waitCreatorChooseNumOfPlayers();
-
-
-    /**
      * Shows if the connection to the server was successful or not
      *
      * @param connected True if the connection was established, false otherwise.
@@ -101,19 +95,6 @@ public interface View {
      */
     int[] askInitialWorkerPosition(String workerSex) throws InputMismatchException;
 
-
-    /**
-     * Shows to the player that another player registered to the current game is choosing his color.
-     *
-     * @param choosingPlayer The name of the player that is choosing his color.
-     */
-    void printChoosingColor(String choosingPlayer);
-
-
-    /**
-     * Shows to the player that another player registered to the current game is choosing his nickname.
-     */
-    void printChoosingNickname();
 
 
     /**

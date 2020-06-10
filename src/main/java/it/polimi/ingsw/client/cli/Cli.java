@@ -85,14 +85,6 @@ public class Cli implements View {
 
 
     /**
-     * The joiner player is being shown that the creator of a new game is choosing the number of players for the game.
-     */
-    public void waitCreatorChooseNumOfPlayers() {
-        System.out.println("The creator of the game is choosing the number of players for the game. Wait...");
-    }
-
-
-    /**
      * Displays that a player has been disconnected and reason.
      *
      * @param disconnectedPlayer The name of the disconnected player.
@@ -214,22 +206,7 @@ public class Cli implements View {
     }
 
 
-    /**
-     * Shows to the player that another player registered to the current game is choosing his color.
-     *
-     * @param choosingPlayer The name of the player that is choosing his color.
-     */
-    public void printChoosingColor(String choosingPlayer) {
-        System.out.print("\n" + choosingPlayer + " is choosing his color...");
-    }
 
-
-    /**
-     * Shows to the player that another player registered to the current game is choosing his nickname.
-     */
-    public void printChoosingNickname() {
-        System.out.print("Another player is choosing his nickname...");
-    }
 
 
     /**
