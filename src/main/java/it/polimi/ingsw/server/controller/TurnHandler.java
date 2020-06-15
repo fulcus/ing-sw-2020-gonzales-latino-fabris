@@ -59,7 +59,8 @@ public class TurnHandler implements Runnable {
 
 
     /**
-     * Lets the Challenger choose Gods equal to the number of players.
+     * Lets the Challenger choose as many Gods as players in the game
+     * and sends the chosen gods to the other players.
      */
     private void challengerChooseGods() {
 
@@ -106,6 +107,18 @@ public class TurnHandler implements Runnable {
                 challengerClient.challengerError(); //print: the god you typed doesn't exist
         }
 
+        //turn arraylist of gods in arraylist of strings
+        ArrayList<String> chosenGods = new ArrayList<>();
+
+        for (God god : game.getChosenGods())
+            chosenGods.add(god.toString());
+
+        //send gods chosen by challenger to other players
+        for(Player otherPlayer : players) {
+            if(otherPlayer != challenger)
+                otherPlayer.getClient().printChosenGods(chosenGods);
+        }
+
     }
 
 
@@ -125,16 +138,8 @@ public class TurnHandler implements Runnable {
                     otherPlayer.getClient().waitOtherPlayerChooseGod(player.getNickname());
             }
 
-
             ViewClient playerClient = player.getClient();
-            ArrayList<String> chosenGods = new ArrayList<>();
-
-            for (God god : game.getChosenGods()) {
-                chosenGods.add(god.toString());
-            }
-
-
-            playerClient.printChosenGods(chosenGods);
+            //playerClient.printChosenGods(chosenGods);
 
 
             boolean foundGod = false;
@@ -387,6 +392,7 @@ public class TurnHandler implements Runnable {
             if (unableToMove == 1) {
 
                 currentClient.selectedWorkerCannotMove(turnWorker.getSex().name());
+
                 turn(otherWorker);
 
             } else {

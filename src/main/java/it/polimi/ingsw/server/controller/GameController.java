@@ -154,7 +154,7 @@ public class GameController {
      */
     public void addPlayer(ViewClient client) {
 
-        //prints client connected in server
+        //print in server
         client.connected();
         //cannot accept other clients before writing "start"
         client.beginningView();
@@ -219,11 +219,6 @@ public class GameController {
      */
     private void setPlayerNickname(ViewClient client) {
 
-        for (ViewClient otherClient : gameClients) {
-            if (!otherClient.equals(client))
-                otherClient.printChoosingNickname();
-        }
-
         while (true) {
 
             String chosenNickname = client.askPlayerNickname();
@@ -233,14 +228,12 @@ public class GameController {
                     return;
                 }
             }
-
-            client.notAvailableNickname();
         }
     }
 
 
     /**
-     * Checks if the nickname chosen by the player is valid.
+     * Checks if the nickname chosen by the player is valid and notifies client about the outcome of the check.
      * A nickname is valid if no one has already chosen it and if it is a String longer than 0 but shorter than 9 characters.
      *
      * @param chosenNickname The nickname chosen by the player.
@@ -249,15 +242,18 @@ public class GameController {
      * @return True if the nickname was valid, false otherwise.
      */
     private boolean checkNicknameValidity(String chosenNickname, ViewClient client, Game game) {
-
-        if (nicknameIsAvailable(chosenNickname) && chosenNickname.length() > 0 && chosenNickname.length() < 9) {
+        if(chosenNickname.length() == 0 || chosenNickname.length() > 8) {
+            client.nicknameFormatError();
+            return false;
+        } else if (nicknameIsAvailable(chosenNickname)) {
             Player newPlayer = game.addPlayer(chosenNickname, client);
             client.setPlayer(newPlayer);
             client.notifyValidNick();
             return true;
+        } else {
+            client.notAvailableNickname();
+            return false;
         }
-
-        return false;
     }
 
 
@@ -267,11 +263,6 @@ public class GameController {
      * @param client view of the player.
      */
     private void setPlayerColor(ViewClient client) {
-
-        for (ViewClient otherClient : gameClients) {
-            if (!otherClient.equals(client))
-                otherClient.printChoosingColor(client.getPlayer().getNickname());
-        }
 
         while (true) {
 

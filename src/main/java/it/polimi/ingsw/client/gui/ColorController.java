@@ -32,7 +32,7 @@ public class ColorController {
 
 
     @FXML
-    private void blue(MouseEvent e) {
+    private void blue() {
 
 
         String color = "BLUE";
@@ -50,7 +50,7 @@ public class ColorController {
 
 
     @FXML
-    private void white(MouseEvent e) {
+    private void white() {
 
         String color = "WHITE";
 
@@ -66,7 +66,7 @@ public class ColorController {
 
 
     @FXML
-    private void beige(MouseEvent e) {
+    private void beige() {
 
         String color = "BEIGE";
 

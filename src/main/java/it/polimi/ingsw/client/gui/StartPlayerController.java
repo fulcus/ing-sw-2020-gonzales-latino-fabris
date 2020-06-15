@@ -43,30 +43,44 @@ public class StartPlayerController {
      * Sets the initial parameters for the scene.
      */
     protected void init() {
+        String nickname1 = players.get(0).getNickname();
+        String god1 = players.get(0).getGod();
+        String nickname2 = players.get(1).getNickname();
+        String god2 = players.get(1).getGod();
+
 
         //display player names
-        playerName1.setText(nickname1.get());
-        playerName2.setText(nickname2.get());
+        playerName1.setText(nickname1);
+        playerName2.setText(nickname2);
 
         //adapted for 2 players game
-        if (numberOfPlayers.get() == 3)
-            playerName3.setText(nickname3.get());
-        else {
+        if (numberOfPlayers.get() == 3) {
+            String nickname3 = players.get(2).getNickname();
+            playerName3.setText(nickname3);
+        } else {
             playerName3.getParent().setVisible(false);
         }
 
         //load god images
         //"charon" and other god names will be replaced with player.getGod
-        String path1 = "/gods/full_" + god1.get().toLowerCase() + ".png";
+        String path1 = "/gods/full_" + god1.toLowerCase() + ".png";
         Image player1God = new Image(path1);
         godImage1.setImage(player1God);
 
-        String path2 = "/gods/full_" + god2.get().toLowerCase() + ".png";
+        String path2 = "/gods/full_" + god2.toLowerCase() + ".png";
         Image player2God = new Image(path2);
         godImage2.setImage(player2God);
 
         //adapted for 2 players game
-        String path3 = numberOfPlayers.get() == 3 ? "/gods/full_" + god3.get().toLowerCase() + ".png" : "/frames/bg_panelMid.png";
+        String path3;
+
+        if (numberOfPlayers.get() == 2) {
+            path3 = "/frames/bg_panelMid.png";
+
+        } else {
+            String god3 = players.get(2).getGod();
+            path3 = "/gods/full_" + god3.toLowerCase() + ".png";
+        }
 
         Image player3God = new Image(path3);
         godImage3.setImage(player3God);
@@ -83,13 +97,13 @@ public class StartPlayerController {
 
         switch (playerId) {
             case "player1":
-                nickname = nickname1.get();
+                nickname = players.get(0).getNickname();
                 break;
             case "player2":
-                nickname = nickname2.get();
+                nickname = players.get(1).getNickname();
                 break;
             case "player3":
-                nickname = nickname3.get();
+                nickname = players.get(2).getNickname();
                 break;
             default:
                 System.out.println("error choosePlayer"); //debug

@@ -26,9 +26,7 @@ public class ViewClient implements ClientViewObserver {
     private ObjectOutputStream output;
     private TurnHandler turnHandler;
     private boolean inGame;
-    private ClientInputReader input;
-    private final Thread inputReader;
-    private final HeartbeatServer heartbeatServer;
+    private final ClientInputReader input;
 
 
     public ViewClient(Socket socket, GameController gameController) {
@@ -43,13 +41,11 @@ public class ViewClient implements ClientViewObserver {
             e.printStackTrace();
         }
 
-        heartbeatServer = new HeartbeatServer(this);
+        HeartbeatServer heartbeatServer = new HeartbeatServer(this);
 
         new Thread(heartbeatServer).start();
 
-        inputReader = new Thread(input);
-
-        inputReader.start();
+        new Thread(input).start();
 
     }
 
@@ -81,15 +77,13 @@ public class ViewClient implements ClientViewObserver {
      */
     public void setPlayer(Player player) {
         this.player = player;   //used to assign player to class
-        //send playerNickname to be assigned as attribute in Cli
-        String playerNickname = player.getNickname();
-        sendMessage(new Message("setPlayer", playerNickname));
     }
 
 
     /**
      * Sends the message to the player, to let him know the number of players for the game he's been assigned.
      * The player in this specific case did not choose the number of players for the game, but someone else did (the so called "creator").
+     *
      * @param numberOfPlayers The number of players of the game the player has been assigned to.
      */
     public void joinGame(int numberOfPlayers) {
@@ -102,14 +96,6 @@ public class ViewClient implements ClientViewObserver {
      */
     public void createGame() {
         sendMessage(new Message("createGame"));
-    }
-
-
-    /**
-     * Sends the message to let the joiner player be aware that the creator of a new game is choosing the number of players for the game.
-     */
-    public void waitCreatorChooseNumOfPlayers() {
-        sendMessage(new Message("waitCreatorChooseNumOfPlayers"));
     }
 
 
@@ -130,7 +116,6 @@ public class ViewClient implements ClientViewObserver {
 
         return (int) sendMessageWithReturn(new Message("askNumberOfPlayers"));
     }
-
 
     /**
      * Sends the message to ask the player to set his worker initial position.
@@ -161,6 +146,12 @@ public class ViewClient implements ClientViewObserver {
         return (String) sendMessageWithReturn(new Message("askPlayerNickname"));
     }
 
+    /**
+     * Lets the client know that the nickname entered is too long or empty.
+     */
+    public void nicknameFormatError() {
+        sendMessage(new Message("nicknameFormatError"));
+    }
 
     /**
      * Sends the message to notify the client that his nickname has been accepted.
@@ -189,28 +180,12 @@ public class ViewClient implements ClientViewObserver {
     }
 
 
-    /**
-     * Sends the message to show to the player that another player registered to the current game is choosing his color.
-     * @param choosingPlayer The name of the player that is choosing his color.
-     */
-    public void printChoosingColor(String choosingPlayer) {
-        sendMessage(new Message("printChoosingColor", choosingPlayer));
-    }
-
-
-    /**
-     * Sends the message to show to the player that another player registered to the current game is choosing his nickname.
-     */
-    public void printChoosingNickname() {
-        sendMessage(new Message("printChoosingNickname"));
-    }
-
 
     /**
      * Sends the message to the client to set and to store in the local interface memory the general info of other players.
      *
      * @param nickname Nickname of the player to register.
-     * @param color Color chosen by that specific player for the current game.
+     * @param color    Color chosen by that specific player for the current game.
      */
     public void setOtherPlayersInfo(String nickname, String color) {
         sendMessage(new Message("setOtherPlayersInfo", nickname, color));
@@ -219,6 +194,7 @@ public class ViewClient implements ClientViewObserver {
 
     /**
      * Sends the message to ask to the player which God among the available ones wants to play with during the current game.
+     *
      * @return The name of the chosen God.
      */
     public String askPlayerGod() {
@@ -237,7 +213,7 @@ public class ViewClient implements ClientViewObserver {
     /**
      * Sends a message to the challenger to let him know how many gods he still has to choose.
      *
-     * @param numOfPlayers The number of players of the current game.
+     * @param numOfPlayers      The number of players of the current game.
      * @param alreadyChosenGods The number of gods that the challenger has already chosen for the game.
      * @return Another name of the God the challenger chooses for the current game.
      */
@@ -247,6 +223,7 @@ public class ViewClient implements ClientViewObserver {
 
     /**
      * Sends a message to the challenger and asks to choose which player will be the starting one.
+     *
      * @return The nickname of the starting player.
      */
     public String challengerChooseStartPlayer() {
@@ -323,6 +300,7 @@ public class ViewClient implements ClientViewObserver {
 
     /**
      * In a 3 players game, this method notifies the other players that a player has lost the game.
+     *
      * @param loserNickname The nickname of the player that has lost the game.
      */
     public void notifyPlayersOfLoss(String loserNickname) {
@@ -340,6 +318,7 @@ public class ViewClient implements ClientViewObserver {
 
     /**
      * Sends a message to update the cell of the board that has changed its contents.
+     *
      * @param toUpdateCell The cell that needs to be updated.
      */
     @Override
@@ -350,6 +329,7 @@ public class ViewClient implements ClientViewObserver {
 
     /**
      * Sends a message to show all the available gods of the game and their description.
+     *
      * @param godsNameAndDescription The gods available for the game, the challenger will chose among this ones.
      */
     public void printAllGods(ArrayList<String> godsNameAndDescription) {
@@ -367,6 +347,7 @@ public class ViewClient implements ClientViewObserver {
 
     /**
      * Sends a message to show all the Gods chosen by the challenger for the current game.
+     *
      * @param chosenGods The list of the chosen gods.
      */
     public void printChosenGods(ArrayList<String> chosenGods) {
@@ -376,6 +357,7 @@ public class ViewClient implements ClientViewObserver {
 
     /**
      * Sends a message to let the player know the selected worker cannot move.
+     *
      * @param sex The sex of the selected worker
      */
     public void selectedWorkerCannotMove(String sex) {
@@ -385,6 +367,7 @@ public class ViewClient implements ClientViewObserver {
 
     /**
      * Sends a message to let the player know the selected worker cannot build.
+     *
      * @param sex The sex of the selected worker.
      */
     public void selectedWorkerCannotBuild(String sex) {
@@ -394,6 +377,7 @@ public class ViewClient implements ClientViewObserver {
 
     /**
      * Sends a message to ask the user to insert the position where he wants to build.
+     *
      * @return The compass direction of the place where to build.
      */
     public String askBuildingDirection() {
@@ -403,6 +387,7 @@ public class ViewClient implements ClientViewObserver {
 
     /**
      * Sends a message to ask to Atlas' owner to insert the position where he wants to build and what type of building.
+     *
      * @return The compass direction of the place where to build.
      */
     public String[] askBuildingDirectionAtlas() {
@@ -643,6 +628,7 @@ public class ViewClient implements ClientViewObserver {
 
     /**
      * Sends messages through the network and is supposed to get an answer sent by the client.
+     *
      * @param message The message the server has to send to the client.
      * @return The received object from the client.
      */
@@ -699,7 +685,7 @@ public class ViewClient implements ClientViewObserver {
      */
     public void killClient() {
         gameController.removeClientObserver(this);
-        inputReader.stop();//TODO ASK CATTAEO
+        input.setKilled(true);
         sendMessage(new Message("shutdownClient"));
         inGame = false;
     }
@@ -707,10 +693,11 @@ public class ViewClient implements ClientViewObserver {
 
     /**
      * Sends a message to let other players know that someone has disconnected from the game.
+     *
      * @param disconnectedPlayer The nickname of the disconnected player.
      */
     public void notifyOtherPlayerDisconnection(String disconnectedPlayer) {
-        sendMessage(new Message("notifyOtherPlayerDisconnection",disconnectedPlayer));
+        sendMessage(new Message("notifyOtherPlayerDisconnection", disconnectedPlayer));
     }
 
 }

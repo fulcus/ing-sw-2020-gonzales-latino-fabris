@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.gui;
 
+import it.polimi.ingsw.client.PlayerClient;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -81,14 +82,8 @@ public class LobbyController {
         }
 
         //shows info already available when joining
-        if (nickname1 != null) {
-            showPlayer(nickname1.get(), color1.get());
-        }
-        if (nickname2 != null) {
-            showPlayer(nickname2.get(), color2.get());
-        }
-        if (nickname3 != null) {
-            showPlayer(nickname3.get(), color3.get());
+        for(PlayerClient player : players) {
+            showPlayer(player.getNickname(),player.getColor());
         }
 
     }
