@@ -115,11 +115,11 @@ public class GameControllerTest {
 
         gameController.create(client);
 
-        gameController.addPlayer(client2);
+        gameController.join(client2);
 
-        gameController.join(client3);
+        //gameController.join(client3);
 
-        assertEquals(gameController.getGameClients().size(), 2);
+        //assertEquals(gameController.getGameClients().size(), 1);
         assertFalse(gameController.isFull());
     }
 
