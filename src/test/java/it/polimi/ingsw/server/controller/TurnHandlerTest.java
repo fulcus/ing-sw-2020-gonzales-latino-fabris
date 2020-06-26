@@ -1,10 +1,6 @@
 package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.server.ViewClient;
-import it.polimi.ingsw.server.controller.god.Apollo;
-import it.polimi.ingsw.server.controller.god.God;
-import it.polimi.ingsw.server.controller.god.Pan;
-import it.polimi.ingsw.server.controller.god.Zeus;
 import it.polimi.ingsw.server.model.*;
 import org.junit.After;
 import org.junit.Before;
@@ -64,8 +60,7 @@ public class TurnHandlerTest {
 
         gameController.addPlayer(client1);
         gameController.addPlayer(client2);
-
-
+        
     }
 
 
@@ -131,159 +126,6 @@ public class TurnHandlerTest {
 
         gameController.getTurnHandler().stopTurnFlow();
     }
-
-/*
-    @Test
-    public void runMoveEx() {
-
-
-        ViewClient client3 = mock(ViewClient.class);
-        Player player3 = mock(Player.class);
-        //when(client1.askNumberOfPlayers()).thenReturn(3);
-        when(client3.askPlayerNickname()).thenReturn("Nick3");
-        when(client3.askPlayerColor()).thenReturn("WHITE");
-        when(client3.getPlayer()).thenReturn(player3);
-        when(player3.getClient()).thenReturn(client3);
-        doNothing().when(player3).setColor(any(Color.class));
-        doNothing().when(player3).setColor(any(Color.class));
-        gameController.addPlayer(client3);
-
-
-        doNothing().when(client1).waitChallengerChooseGods(anyString());
-        doNothing().when(client2).waitChallengerChooseGods(anyString());
-
-        when(client1.getGodFromChallenger(any(int.class), any(int.class))).thenReturn("Apollo", "Apollo", "Pan");
-        when(client2.getGodFromChallenger(any(int.class), any(int.class))).thenReturn("Pan", "Pan", "Apollo");
-        //when(client3.getGodFromChallenger(any(int.class), any(int.class))).thenReturn("Zeus", "Pan", "Apollo");
-
-
-        //da qui comincia il playersChooseGods
-        when(client2.askPlayerGod()).thenReturn("Apollo");
-        when(client1.askPlayerGod()).thenReturn("Pan");
-        //when(client3.askPlayerGod()).thenReturn("Zeus");
-
-
-        //
-        when(client1.challengerChooseStartPlayer()).thenReturn("Nick1");
-        when(client2.challengerChooseStartPlayer()).thenReturn("Nick2");
-        //when(client3.challengerChooseStartPlayer()).thenReturn("Nick3");
-
-        int[] input1 = {0, 0};
-        int[] input2 = {0, 1};
-        int[] input3 = {3, 3};
-        int[] input4 = {4, 4};
-        //int[] input5 = {4, 2};
-        //int[] input6 = {3, 1};
-        when(client1.askInitialWorkerPosition(anyString())).thenReturn(input1, input2);
-        when(client2.askInitialWorkerPosition(anyString())).thenReturn(input3, input4);
-        //when(client3.askInitialWorkerPosition(anyString())).thenReturn(input5, input6);
-
-
-        when(client1.askChosenWorker()).thenReturn("FEMALE", "MALE");
-        when(client2.askChosenWorker()).thenReturn("MALE", "FEMALE");
-        //when(client3.askChosenWorker()).thenReturn("MALE", "FEMALE");
-
-        when(client1.askMovementDirection()).thenReturn("N");
-        when(client2.askMovementDirection()).thenReturn("N");
-        //when(client3.askMovementDirection()).thenReturn("N");
-
-        when(client1.askBuildingDirection()).thenReturn("E");
-        when(client2.askBuildingDirection()).thenReturn("E");
-        // when(client3.askBuildingDirection()).thenReturn("E");
-
-        Worker usefulWorker = gameController.getGame().getPlayers().get(0).getWorkers().get(0);
-        usefulWorker.buildBlock(0, 2);
-        usefulWorker.buildBlock(0, 2);
-        usefulWorker.buildBlock(1, 2);
-        usefulWorker.buildBlock(1, 2);
-        usefulWorker.buildBlock(1, 0);
-        usefulWorker.buildBlock(1, 0);
-        usefulWorker.buildBlock(1, 1);
-        usefulWorker.buildBlock(1, 1);
-
-        //starting thread of turnhandler
-        new Thread(gameController.getTurnHandler()).start();
-
-        //check periodically that the turnhandler thread has played a turn
-        //ie has looped at least one time in startTurnFlow
-        //then issues command to exit the loop with stopTurnFlow
-        do {
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        } while(gameController.getTurnHandler().getTurnCounter() < 2);
-
-        gameController.getTurnHandler().stopTurnFlow();
-    }
-    */
-
-
-/*
-    @Test
-    public void runBuildEx() {
-
-        doNothing().when(client1).waitChallengerChooseGods(anyString());
-        doNothing().when(client2).waitChallengerChooseGods(anyString());
-
-        when(client1.getGodFromChallenger(any(int.class), any(int.class))).thenReturn("Apollo", "Pan");
-        when(client2.getGodFromChallenger(any(int.class), any(int.class))).thenReturn("Pan", "Apollo");
-
-        //da qui comincia il playersChooseGods
-        when(client2.askPlayerGod()).thenReturn("Apollo");
-        when(client1.askPlayerGod()).thenReturn("Pan");
-
-        //
-        when(client1.challengerChooseStartPlayer()).thenReturn("Nick1");
-        when(client2.challengerChooseStartPlayer()).thenReturn("Nick2");
-
-        int[] input1 = {0, 0};
-        int[] input2 = {3, 2};
-        int[] input3 = {0, 1};
-        int[] input4 = {0, 4};
-        when(client1.askInitialWorkerPosition(anyString())).thenReturn(input1, input2);
-        when(client2.askInitialWorkerPosition(anyString())).thenReturn(input3, input4);
-
-
-        when(client1.askChosenWorker()).thenReturn("FEMALE", "MALE");
-        when(client2.askChosenWorker()).thenReturn("MALE", "MALE", "FEMALE");
-
-        when(client1.askMovementDirection()).thenReturn("N");
-        when(client2.askMovementDirection()).thenReturn("W");
-
-        when(client1.askBuildingDirection()).thenReturn("S");
-        when(client2.askBuildingDirection()).thenReturn("E");
-
-        //It's useful because in this way I can easily test the
-        //Unable to build Exception and so to collect other lines of for the coverage.
-        Worker usefulWorker = gameController.getGame().getPlayers().get(0).getWorkers().get(0);
-        usefulWorker.buildDome(0, 2);
-        usefulWorker.buildDome(0, 3);
-        usefulWorker.buildDome(1, 0);
-        usefulWorker.buildDome(1, 1);
-        usefulWorker.buildDome(1, 2);
-        usefulWorker.buildDome(1, 3);
-        usefulWorker.buildDome(1, 4);
-
-
-
-        //starting thread of turnhandler
-        new Thread(gameController.getTurnHandler()).start();
-
-        //check periodically that the turnhandler thread has played a turn
-        //ie has looped at least one time in startTurnFlow
-        //then issues command to exit the loop with stopTurnFlow
-        do {
-            try {
-                Thread.sleep(7000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        } while(gameController.getTurnHandler().getTurnCounter() < 2);
-
-        gameController.getTurnHandler().stopTurnFlow();
-    }*/
 
 
     @Test
