@@ -271,7 +271,6 @@ public class GuiManager implements View {
     }
 
 
-
     /**
      * Allows to store in the client memory the general info about other players.
      *
@@ -280,25 +279,20 @@ public class GuiManager implements View {
      */
     public void setOtherPlayersInfo(String nickname, String color) {
 
-        System.out.println("setOtherPlayersInfo: "+nickname+color);
-
-        players.add(new PlayerClient(nickname,color));
+        players.add(new PlayerClient(nickname, color));
         playersConnected.addAndGet(1);
 
         //if client is in lobby RENDER
         if (isInLobby.get())
             Platform.runLater(() -> lobbyController.showPlayer(nickname, color));
         //otherwise it has already been saved and will be rendered in initialize
-
-        System.out.println("setOtherPlayersInfo: "+nickname + color);
     }
-
 
 
     private void setPlayerGod(String nickname, String god) {
 
-        for(PlayerClient player : players) {
-            if(player.getNickname().equals(nickname))
+        for (PlayerClient player : players) {
+            if (player.getNickname().equals(nickname))
                 player.setGod(god);
         }
     }
@@ -334,7 +328,6 @@ public class GuiManager implements View {
         try {
 
             nickname = (String) queue.take();
-            System.out.println("nick taken");
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -391,8 +384,8 @@ public class GuiManager implements View {
      */
     public void notifyValidColor() {
         //adding this players info to "database"
-        myPlayer = new PlayerClient(myNickname,myColor);
-        players.add(0,myPlayer);
+        myPlayer = new PlayerClient(myNickname, myColor);
+        players.add(0, myPlayer);
 
         playersConnected.addAndGet(1);
 
@@ -536,7 +529,6 @@ public class GuiManager implements View {
     public void nicknameFormatError() {
         nicknameController.displayErrorNick();
     }
-
 
 
     /**

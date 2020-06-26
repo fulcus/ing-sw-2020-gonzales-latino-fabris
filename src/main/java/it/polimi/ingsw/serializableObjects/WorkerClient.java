@@ -60,18 +60,21 @@ public class WorkerClient implements Serializable {
      */
     public void updateWorkerPosition(WorkerClient workerFromServer) {
 
+        /*
         System.out.println("workerFromServer: "+workerFromServer.getWorkerColor()
         + "; coordinates: "+workerFromServer.getXPosition()+","+getYPosition());
         System.out.println("updatedWorker: " + getWorkerColor());
         System.out.println("old x,y: "+getXPosition() + "," + getYPosition());
+        */
 
         this.xPosition = workerFromServer.getXPosition();
         this.yPosition = workerFromServer.getYPosition();
 
+        /*
         System.out.println("new x,y: "
                 + getXPosition() + "," + getYPosition());
         System.out.println("attributes: "
-                + xPosition + "," + yPosition);
+                + xPosition + "," + yPosition);*/
 
     }
 

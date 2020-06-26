@@ -3,11 +3,10 @@ package it.polimi.ingsw.client.gui;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 
@@ -47,6 +46,11 @@ public class Gui extends Application {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        stage.setOnCloseRequest((WindowEvent t) -> {
+            Platform.exit();
+            System.exit(0);
+        });
 
 
     }

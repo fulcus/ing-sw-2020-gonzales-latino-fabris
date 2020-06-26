@@ -97,7 +97,7 @@ public abstract class God {
                     return;
                 }
 
-                //build Block
+                //build block
                 else if (buildPosition.getLevel() < 3) {
                     worker.buildBlock(xBuild, yBuild);
                     godController.displayBoard();
@@ -118,15 +118,15 @@ public abstract class God {
      */
     public void win(Worker worker) throws WinException {
 
-        boolean won;
-        boolean normalCondition = worker.getLevel() == 3 && worker.getLevelVariation() == 1;
+        boolean isWinner;
+        boolean normalWin = worker.getLevel() == 3 && worker.getLevelVariation() == 1;
         if (worker.getPlayer().getCanWinInPerimeter())
-            won = normalCondition;
+            isWinner = normalWin;
         else
-            won = normalCondition && !worker.getPosition().isInPerimeter();
+            isWinner = normalWin && !worker.getPosition().isInPerimeter();
 
 
-        if (won)
+        if (isWinner)
             throw new WinException();
 
     }

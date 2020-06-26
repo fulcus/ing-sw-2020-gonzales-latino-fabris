@@ -45,17 +45,10 @@ public class Athena extends God {
      * @param worker Worker selected to act in the turn.
      */
     private void cannotMoveUpRestriction(Worker worker) {
-
-
         for (Player p : worker.getPlayer().getGame().getPlayers()) {
-
             //if worker moved up, other workers can't move up
-            if (worker.getLevelVariation() > 0 && p != worker.getPlayer()) {
-                p.setPermissionToMoveUp(false);
-            } else
-                p.setPermissionToMoveUp(true);
+            p.setPermissionToMoveUp(worker.getLevelVariation() <= 0 || p == worker.getPlayer());
         }
-
     }
 
 

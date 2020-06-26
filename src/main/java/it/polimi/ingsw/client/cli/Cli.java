@@ -302,7 +302,10 @@ public class Cli implements View {
     public String askPlayerGod() {
         System.out.println(myNickname + ", choose your god by typing his name.");
 
-        String god = input.nextLine();
+        String godInput = input.nextLine();
+
+        //capitalize first letter
+        String god = godInput.substring(0, 1).toUpperCase() + godInput.substring(1);
 
         setPlayerGod(myNickname, god);
         return god;

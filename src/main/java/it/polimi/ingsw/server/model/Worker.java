@@ -47,13 +47,15 @@ public class Worker {
         if (position != null) {
             position.moveOut();
         }
-        //newPosition.moveIn(this);
 
         levelVariation = newLevel - level;
         level = newLevel;
         position = newPosition;
 
         newPosition.moveIn(this);
+
+        System.out.println("level: " + level);
+        System.out.println("levelVariation: " + levelVariation);
     }
 
 
@@ -74,7 +76,9 @@ public class Worker {
 
         levelVariation = newLevel - level;
         level = newLevel;
-        //position = newPosition;
+
+        System.out.println("level: " + level);
+        System.out.println("levelVariation: " + levelVariation);
     }
 
 
@@ -125,7 +129,7 @@ public class Worker {
     }
 
     /**
-     * @return  The specific player that owns this worker.
+     * @return The specific player that owns this worker.
      */
     public Player getPlayer() {
         return player;
