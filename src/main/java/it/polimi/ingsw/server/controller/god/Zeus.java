@@ -2,7 +2,6 @@ package it.polimi.ingsw.server.controller.god;
 
 import it.polimi.ingsw.server.controller.GodController;
 import it.polimi.ingsw.server.controller.UnableToBuildException;
-import it.polimi.ingsw.server.controller.WinException;
 import it.polimi.ingsw.server.model.Cell;
 import it.polimi.ingsw.server.model.Worker;
 import it.polimi.ingsw.server.model.WorkerBuildMap;
@@ -16,7 +15,6 @@ public class Zeus extends God {
 
     public final String description = "Your Worker may build a block under itself.";
     private Cell oldCell;
-    private Cell newCell;
 
     public Zeus(GodController godController) {
         super(godController);
@@ -32,7 +30,7 @@ public class Zeus extends God {
     @Override
     public void build(Worker worker) throws UnableToBuildException {
         super.build(worker);
-        newCell = worker.getPosition();
+        Cell newCell = worker.getPosition();
         //if worker built underneath update his level && levelVariation
         if(newCell == oldCell)
             worker.setPosition(newCell);
