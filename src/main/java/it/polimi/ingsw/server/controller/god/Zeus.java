@@ -22,18 +22,6 @@ public class Zeus extends God {
         super(godController);
     }
 
-    /**
-     * Checks if default win conditions are met.
-     *
-     * @param worker Worker playing the turn.
-     * @throws WinException The worker has reached the third level of a building and so wins the game.
-     */
-    @Override
-    public void win(Worker worker) throws WinException {
-        if (worker.getLevel() == 3 && worker.getLevelVariation() == 1) {
-            throw new WinException();
-        }
-    }
 
     /**
      * Lets the worker build a block or a dome.

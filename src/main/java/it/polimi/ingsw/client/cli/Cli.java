@@ -264,8 +264,8 @@ public class Cli implements View {
      */
     public String askPlayerColor() {
 
-        System.out.println("\n" + myNickname + ", choose your color.");
-        System.out.println("The available colors are blue, white and beige.");
+        System.out.println("Santorini game colors are Blue, White and Beige.");
+        System.out.println("\n" + myNickname + ", choose your color for this game:");
 
         String color = input.nextLine().toUpperCase();
         myColor = color;
@@ -400,7 +400,10 @@ public class Cli implements View {
      * This error can occur when the length of the nickname is too long or when the same nick was already chosen by another player.
      */
     public void notAvailableNickname() {
-        System.out.println("This nickname is not available!");
+        if (myNickname.length()>=9)
+            System.out.println("This nickname is too long, choose a shorter one!  (Max length is 8)");
+        else
+            System.out.println("This nickname is not available!");
     }
 
 
