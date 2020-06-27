@@ -445,7 +445,7 @@ public class Cli implements View {
      * @return True.
      */
     public boolean winningView() {
-        System.out.println("You have won this game!");
+        System.out.println("\nYou have won this game!");
         System.out.println("Goodbye");
         return true;
     }

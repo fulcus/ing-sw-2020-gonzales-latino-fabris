@@ -103,7 +103,6 @@ public class ChooseGodController {
     private void selectedGod(MouseEvent event) {
 
         String godId = ((ImageView) event.getSource()).getId();
-        System.out.println(godId);
 
         String imagePath = "/gods/full_" + godId + ".png";
         String name = godId.toUpperCase();

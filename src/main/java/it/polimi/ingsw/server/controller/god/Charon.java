@@ -30,30 +30,39 @@ public class Charon extends God {
      * Here we can force to move an enemy to another position at the beginning of the turn.
      *
      * @param worker Selected worker that will act in the current turn.
-     * @throws UnableToMoveException The worker isn't allowed to move anywhere.
+     * @throws UnableToMoveException  The worker isn't allowed to move anywhere.
      * @throws UnableToBuildException The worker isn't allowed to build anywhere.
-     * @throws WinException The worker has reached the third level of a building and so wins the game.
+     * @throws WinException           The worker has reached the third level of a building and so wins the game.
      */
     @Override
     public void evolveTurn(Worker worker) throws UnableToMoveException, UnableToBuildException, WinException {
-        forceMoveEnemy(worker);
+        checkUnableToMove(worker);
+        forceMoveEnemy(worker, getMovableEnemies(worker));
         move(worker);
         win(worker);
         build(worker);
     }
 
-
-    /**
-     * If in the opposite direction there's a cell that isn't occupied,
-     * the player can choose to move a neighbor enemy worker to that opposite cell.
-     *
-     * @param worker The selected worker for the current turn.
-     * @throws UnableToMoveException The worker isn't allowed to move anywhere.
-     */
-    public void forceMoveEnemy(Worker worker) throws UnableToMoveException {
+    private void checkUnableToMove(Worker worker) throws UnableToMoveException {
 
         //if worker cannot move, throw exception without waiting for move()
-        updateMoveMap(worker);
+        try {
+            updateMoveMap(worker);
+        } catch (UnableToMoveException ex) {
+
+            //there aren't movable enemies around, hence worker is unable to move
+            if (getMovableEnemies(worker) == null)
+                throw new UnableToMoveException();
+            else {
+                //there is at least one movable enemy, hence forcing him to move
+                //will make my worker able to move
+                //todo send compulsory force move enemy to player
+            }
+        }
+
+    }
+
+    private ArrayList<Worker> getMovableEnemies(Worker worker) {
 
         Board board = worker.getPlayer().getGame().getBoard();
 
@@ -62,38 +71,52 @@ public class Charon extends God {
         int newEnemyX;
         int newEnemyY;
 
-        if (!neighboringEnemies.isEmpty()) {
+        if (neighboringEnemies.isEmpty())
+            return null;
 
-            //for each neighboring enemy calculates opposite position
-            //and removes them from arraylist if opposite position is occupied
-            for (Worker enemy : neighboringEnemies) {
+        //for each neighboring enemy calculates opposite position
+        //and removes them from arraylist if opposite position is occupied
+        for (Worker enemy : neighboringEnemies) {
 
-                newEnemyX = 2 * worker.getPosition().getX() - enemy.getPosition().getX();
-                newEnemyY = 2 * worker.getPosition().getY() - enemy.getPosition().getY();
-                Cell newEnemyPosition = board.findCell(newEnemyX, newEnemyY);
+            newEnemyX = 2 * worker.getPosition().getX() - enemy.getPosition().getX();
+            newEnemyY = 2 * worker.getPosition().getY() - enemy.getPosition().getY();
+            Cell newEnemyPosition = board.findCell(newEnemyX, newEnemyY);
 
-                if (newEnemyPosition != null && !newEnemyPosition.isOccupied())
-                    movableNeighboringEnemies.add(enemy);
-            }
-
-            //movableNeighboringEnemies are only enemy workers that can be displaced
-            if (!movableNeighboringEnemies.isEmpty()) {
-
-                if (!godController.wantToMoveEnemy())
-                    return;
-
-                Worker enemyToMove = godController.forceMoveEnemy(movableNeighboringEnemies, worker);
-
-                if (enemyToMove == null)
-                    return;
-
-                int newEnemyToMoveX = 2 * worker.getPosition().getX() - enemyToMove.getPosition().getX();
-                int newEnemyToMoveY = 2 * worker.getPosition().getY() - enemyToMove.getPosition().getY();
-
-                enemyToMove.setPosition(newEnemyToMoveX, newEnemyToMoveY);
-                godController.displayBoard();
-            }
+            if (newEnemyPosition != null && !newEnemyPosition.isOccupied())
+                movableNeighboringEnemies.add(enemy);
         }
+
+        //movableNeighboringEnemies are only enemy workers that can be displaced
+        if (movableNeighboringEnemies.isEmpty()) {
+            return null;
+        } else
+            return movableNeighboringEnemies;
+
+    }
+
+
+    /**
+     * If in the opposite direction there's a cell that isn't occupied,
+     * the player can choose to move a neighbor enemy worker to that opposite cell.
+     *
+     * @param worker The selected worker for the current turn.
+     */
+    private void forceMoveEnemy(Worker worker, ArrayList<Worker> movableEnemies) {
+
+        //movableNeighboringEnemies are only enemy workers that can be displaced
+        if (!godController.wantToMoveEnemy())
+            return;
+
+        Worker enemyToMove = godController.forceMoveEnemy(movableEnemies, worker);
+
+        if (enemyToMove == null)
+            return;
+
+        int newEnemyToMoveX = 2 * worker.getPosition().getX() - enemyToMove.getPosition().getX();
+        int newEnemyToMoveY = 2 * worker.getPosition().getY() - enemyToMove.getPosition().getY();
+
+        enemyToMove.setPosition(newEnemyToMoveX, newEnemyToMoveY);
+        godController.displayBoard();
 
     }
 
