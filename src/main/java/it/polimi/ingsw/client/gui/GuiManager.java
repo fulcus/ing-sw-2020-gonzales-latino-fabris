@@ -33,7 +33,6 @@ public class GuiManager implements View {
     protected static final ArrayList<PlayerClient> players = new ArrayList<>();
     private PlayerClient myPlayer;
 
-
     protected static final AtomicReference<BoardClient> boardClient = new AtomicReference<>(new BoardClient());
 
     protected static final AtomicInteger numberOfPlayers = new AtomicInteger(0); //overwritten by joinGame or asknumberofplayers

@@ -5,7 +5,7 @@ import it.polimi.ingsw.client.PlayerClient;
 import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.serializableObjects.CellClient;
 import it.polimi.ingsw.serializableObjects.WorkerClient;
-import it.polimi.ingsw.server.model.*;
+import it.polimi.ingsw.server.model.Board;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -206,9 +206,6 @@ public class Cli implements View {
     }
 
 
-
-
-
     /**
      * Allows to set and to store in the local cli memory the general settings info of other players.
      * Allows also to store into specific colored class attributes the info of the players,
@@ -400,7 +397,7 @@ public class Cli implements View {
      * This error can occur when the length of the nickname is too long or when the same nick was already chosen by another player.
      */
     public void notAvailableNickname() {
-        if (myNickname.length()>=9)
+        if (myNickname.length() >= 9)
             System.out.println("This nickname is too long, choose a shorter one!  (Max length is 8)");
         else
             System.out.println("This nickname is not available!");
@@ -853,15 +850,27 @@ public class Cli implements View {
 
         ArrayList<String> presentPositions = printFoundEnemiesPosition(enemyWorkers, myWorker);
 
+        if (presentPositions == null)
+            return null;
+
         if (presentPositions.size() == 0) {
             System.out.println("There are no enemy workers around...");
             return null;
+        } else {
+            System.out.print("These are the positions of the enemy workers nearby: ");
+            for (int i = 0; i < presentPositions.size(); i++) {
+                System.out.print(presentPositions.get(i));
+                if (i < presentPositions.size() - 1)
+                    System.out.print(", ");
+                else
+                    System.out.println();
+            }
         }
 
-        System.out.println("These are the positions of the enemy workers nearby. Choose one:");
+        System.out.println("Choose one.");
 
         while (true) {
-            String chosenEnemyDirection = input.nextLine();
+            String chosenEnemyDirection = input.nextLine().toUpperCase();
 
             if (presentPositions.contains(chosenEnemyDirection))
                 return chosenEnemyDirection;
@@ -893,21 +902,16 @@ public class Cli implements View {
         for (WorkerClient enemyWorker : enemyWorkers) {
             if (myWorkerX > enemyWorker.getXPosition()) {
                 if (myWorkerY > enemyWorker.getYPosition()) {
-                    System.out.println("NW");
                     presentPositions.add("NW");
                 } else if (myWorkerY == enemyWorker.getYPosition()) {
-                    System.out.println("N");
                     presentPositions.add("N");
                 } else {
-                    System.out.println("NE");
                     presentPositions.add("NE");
                 }
             } else if (myWorkerX == enemyWorker.getXPosition()) {
                 if (myWorkerY > enemyWorker.getYPosition()) {
-                    System.out.println("W");
                     presentPositions.add("W");
                 } else if (myWorkerY < enemyWorker.getYPosition()) {
-                    System.out.println("E");
                     presentPositions.add("E");
                 } else {
                     System.out.println("ERROR : IT'S THE SAME POSITION OF WHERE I AM!!!");
@@ -915,13 +919,10 @@ public class Cli implements View {
                 }
             } else {
                 if (myWorkerY > enemyWorker.getYPosition()) {
-                    System.out.println("SW");
                     presentPositions.add("SW");
                 } else if (myWorkerY == enemyWorker.getYPosition()) {
-                    System.out.println("S");
                     presentPositions.add("S");
                 } else {
-                    System.out.println("SE");
                     presentPositions.add("SE");
                 }
             }
@@ -1147,7 +1148,7 @@ public class Cli implements View {
      */
     public boolean losingView(String winner) {
         System.out.println("\nYou have lost this game. The winner is " + winner + ".");
-        System.out.println("Goodbye.");
+        System.out.println("Goodbye");
         return true;
     }
 
