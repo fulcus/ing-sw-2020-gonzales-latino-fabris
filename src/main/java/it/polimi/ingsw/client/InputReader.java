@@ -74,7 +74,7 @@ public class InputReader implements Runnable {
 
                 } else if (readMessage.getMethod().equals("PONG")) {
 
-                   // System.out.println("PONG from Server");
+                    System.out.println("PONG from Server");
 
                 } else {
 
@@ -91,12 +91,13 @@ public class InputReader implements Runnable {
 
             }
             catch (SocketTimeoutException te) {
-
+                System.out.println("PRIMA CATCH");
                 connected = false;
                 Message notifyDisconnection = new Message("notifyOtherPlayerDisconnection","me");
                 client.update(notifyDisconnection);
             }
             catch (IOException | ClassNotFoundException e) {
+                System.out.println("SECONDA CATCH");
                 connected = false;
                 e.printStackTrace();
             }
