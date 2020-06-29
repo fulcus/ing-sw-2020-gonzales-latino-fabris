@@ -678,25 +678,6 @@ public class Cli implements View {
 
 
     /**
-     * Lets the player know the selected worker cannot build.
-     *
-     * @param sex The sex of the selected worker.
-     */
-    public void selectedWorkerCannotBuild(String sex) {
-        sex = sex.toLowerCase();
-        String otherSex;
-
-        if (sex.equals("male"))
-            otherSex = "female";
-        else
-            otherSex = "male";
-
-        System.out.println("Your " + sex + " worker cannot build anywhere. You must build with your "
-                + otherSex + " worker.");
-    }
-
-
-    /**
      * Asks to the player if he prefers the CLI or the GUI.
      *
      * @return The type of interface chosen by the player.

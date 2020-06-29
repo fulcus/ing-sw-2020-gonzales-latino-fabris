@@ -369,16 +369,6 @@ public class ViewClient implements ClientViewObserver {
 
 
     /**
-     * Sends a message to let the player know the selected worker cannot build.
-     *
-     * @param sex The sex of the selected worker.
-     */
-    public void selectedWorkerCannotBuild(String sex) {
-        sendMessage(new Message("selectedWorkerCannotBuild", sex));
-    }
-
-
-    /**
      * Sends a message to ask the user to insert the position where he wants to build.
      *
      * @return The compass direction of the place where to build.
@@ -641,7 +631,6 @@ public class ViewClient implements ClientViewObserver {
         try {
 
             synchronized (this) {
-
                 output.writeObject(message);
             }
 

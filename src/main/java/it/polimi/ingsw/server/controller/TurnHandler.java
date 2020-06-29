@@ -23,7 +23,6 @@ public class TurnHandler implements Runnable {
     private Player currentPlayer;
     private Integer numberOfPlayers;
     private int unableToMove;
-    private int unableToBuild;
     private boolean gameAlive;
     private boolean numberOfPLayersHasChanged;
     private volatile int turnCounter;
@@ -31,7 +30,8 @@ public class TurnHandler implements Runnable {
 
     /**
      * Instances the TurnHandler for a specific game.
-     * @param game The game the TurnHandler refers to.
+     *
+     * @param game           The game the TurnHandler refers to.
      * @param gameController The GameController from which the game has been created.
      */
     public TurnHandler(Game game, GameController gameController) {
@@ -114,8 +114,8 @@ public class TurnHandler implements Runnable {
             chosenGods.add(god.toString());
 
         //send gods chosen by challenger to other players
-        for(Player otherPlayer : players) {
-            if(otherPlayer != challenger)
+        for (Player otherPlayer : players) {
+            if (otherPlayer != challenger)
                 otherPlayer.getClient().printChosenGods(chosenGods);
         }
 
@@ -297,7 +297,6 @@ public class TurnHandler implements Runnable {
             gameController.getGodController().updateCurrentClient(currentClient);
 
             unableToMove = 0;
-            unableToBuild = 0;
 
 
         /*
@@ -406,24 +405,14 @@ public class TurnHandler implements Runnable {
             }
 
         } catch (UnableToBuildException ex) {
-            unableToBuild++;
 
-            if (unableToBuild == 1) {
+            loserNickname = currentPlayer.getNickname();
+            currentClient.unableToBuildLose();
+            currentPlayer.lose();
+            currentClient.killClient();
 
-                currentClient.selectedWorkerCannotBuild(turnWorker.getSex().name());
-                turn(otherWorker);
-
-            } else {
-
-                loserNickname = currentPlayer.getNickname();
-                currentClient.unableToBuildLose();
-                currentPlayer.lose();
-                currentClient.killClient();
-
-                if (players.size() == 2)
-                    handleGameChange(loserNickname);
-
-            }
+            if (players.size() == 2)
+                handleGameChange(loserNickname);
 
         } catch (WinException ex) {
 
@@ -432,7 +421,7 @@ public class TurnHandler implements Runnable {
         } finally {
 
             //if everyone else has lost, only player left wins
-            //if WinException is thrown, if is false
+            //if WinException is thrown, condition is false
 
             if (players.size() == 1) {
 
@@ -444,7 +433,6 @@ public class TurnHandler implements Runnable {
             //TODO what if 2 players lose at the same time
 
             unableToMove = 0;    //reset it
-            unableToBuild = 0;
         }
 
     }
@@ -453,6 +441,7 @@ public class TurnHandler implements Runnable {
     /**
      * Handles the turn flow and resizes the game players dimension when someone loses.
      * Lets other players know that one of thw players has lost the game and so will be removed from the current game.
+     *
      * @param loserNickname The nickname of the loser.
      */
     public void handleGameChange(String loserNickname) {
