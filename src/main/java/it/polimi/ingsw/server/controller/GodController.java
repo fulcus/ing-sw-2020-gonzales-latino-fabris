@@ -206,9 +206,9 @@ public class GodController {
         int[] buildingInput = new int[2];
         String playerInput = currentClient.askBuildingDirection();
 
-        int[] playerInputCoord = getInputInCoordinates(playerInput);
-        buildingInput[0] = playerInputCoord[0];
-        buildingInput[1] = playerInputCoord[1];
+        int[] playerInputCoordinate = getInputInCoordinates(playerInput);
+        buildingInput[0] = playerInputCoordinate[0];
+        buildingInput[1] = playerInputCoordinate[1];
 
         return buildingInput;
     }
@@ -297,6 +297,14 @@ public class GodController {
      */
     public void errorBuildBlockScreen() {
         currentClient.printBuildBlockErrorScreen();
+    }
+
+    /**
+     * Warns user of invalid build action: he cannot build a dome underneath himself.
+     * This error can only occur if player uses Zeus' power.
+     */
+    public void cannotBuildDomeUnderneath() {
+        currentClient.printCannotBuildDomeUnderneath();
     }
 
 }

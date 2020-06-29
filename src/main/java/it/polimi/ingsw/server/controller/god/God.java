@@ -74,24 +74,19 @@ public abstract class God {
         Board board = worker.getPlayer().getGame().getBoard();
 
         while (true) {
-            //returns build position + type: block/dome
+            //returns build position
             int[] buildInput = godController.getBuildingInput();
 
             int xBuild = worker.getPosition().getX() + buildInput[0];
             int yBuild = worker.getPosition().getY() + buildInput[1];
-            //int buildType = buildInput[2]; //0 is block, 1 is dome
 
             if (buildMap.isAllowedToBuildBoard(xBuild, yBuild)) {
 
 
                 Cell buildPosition = board.findCell(xBuild, yBuild);
 
-                //build Dome and check that in case the worker wants to build underneath
-                //building a dome won't be allowed. for zeus.
-
-                //todo if(buildPosition.equals(worker.getPosition()))
-                // print: cannot build a dome underneath
-                if (buildPosition.getLevel() == 3 && !buildPosition.equals(worker.getPosition())) {
+                //build dome
+                if (buildPosition.getLevel() == 3) {
                     worker.buildDome(xBuild, yBuild);
                     godController.displayBoard();
                     return;
@@ -105,7 +100,7 @@ public abstract class God {
                 }
 
             } else
-                godController.errorBuildScreen();   //input different than 0 or 1
+                godController.errorBuildScreen();
         }
     }
 

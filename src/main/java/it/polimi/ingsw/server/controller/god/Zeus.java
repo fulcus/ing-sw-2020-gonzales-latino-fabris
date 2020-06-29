@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.controller.god;
 
 import it.polimi.ingsw.server.controller.GodController;
 import it.polimi.ingsw.server.controller.UnableToBuildException;
+import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Cell;
 import it.polimi.ingsw.server.model.Worker;
 import it.polimi.ingsw.server.model.WorkerBuildMap;
@@ -29,7 +30,44 @@ public class Zeus extends God {
      */
     @Override
     public void build(Worker worker) throws UnableToBuildException {
-        super.build(worker);
+
+        WorkerBuildMap buildMap = updateBuildMap(worker);
+        Board board = worker.getPlayer().getGame().getBoard();
+
+        while (true) {
+            //returns build position
+            int[] buildInput = godController.getBuildingInput();
+
+            int xBuild = worker.getPosition().getX() + buildInput[0];
+            int yBuild = worker.getPosition().getY() + buildInput[1];
+
+            if (buildMap.isAllowedToBuildBoard(xBuild, yBuild)) {
+
+
+                Cell buildPosition = board.findCell(xBuild, yBuild);
+
+                //build Dome and check that in case the worker wants to build underneath
+                //building a dome won't be allowed. for zeus.
+
+                if (buildPosition.getLevel() == 3) {
+                    if(!buildPosition.equals(worker.getPosition())) {
+                        worker.buildDome(xBuild, yBuild);
+                        godController.displayBoard();
+                        break;
+                    } else
+                        godController.cannotBuildDomeUnderneath();
+                }
+                //build block
+                else if (buildPosition.getLevel() < 3) {
+                    worker.buildBlock(xBuild, yBuild);
+                    godController.displayBoard();
+                    break;
+                }
+
+            } else
+                godController.errorBuildScreen();   //input different than 0 or 1
+        }
+
         Cell newCell = worker.getPosition();
         //if worker built underneath update his level && levelVariation
         if(newCell == oldCell)

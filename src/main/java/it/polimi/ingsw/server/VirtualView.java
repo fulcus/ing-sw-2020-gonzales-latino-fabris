@@ -495,6 +495,15 @@ public class VirtualView implements ClientViewObserver {
 
 
     /**
+     * Sends a message to the user to warn of invalid build action: he cannot build a dome underneath himself.
+     * This error can only occur if player uses Zeus' power.
+     */
+    public void printCannotBuildDomeUnderneath() {
+        sendMessage(new Message("printCannotBuildDomeUnderneath"));
+    }
+
+
+    /**
      * Sends a message to ask to the player if he still wants to move during this turn.
      *
      * @return Y for a positive answer, N for a negative one.

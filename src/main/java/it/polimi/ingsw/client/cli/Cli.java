@@ -687,7 +687,7 @@ public class Cli implements View {
 
         String selectedView;
 
-        System.out.println("What kind of interface would you like to play with? CLI or Gui");
+        System.out.println("What kind of interface would you like to play with? CLI or GUI");
 
         while (true) {
 
@@ -994,6 +994,14 @@ public class Cli implements View {
         System.out.println("You're not allowed to move there.");
     }
 
+
+    /**
+     * Warns user of invalid build action: he cannot build a dome underneath himself.
+     * This error can only occur if player uses Zeus' power.
+     */
+    public void printCannotBuildDomeUnderneath() {
+        System.out.println("You cannot build a dome underneath yourself.");
+    }
 
     /**
      * Asks the player if he still wants to move during this turn.

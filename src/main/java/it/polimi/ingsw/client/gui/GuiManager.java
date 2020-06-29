@@ -577,6 +577,21 @@ public class GuiManager implements View {
 
     }
 
+    /**
+     * Warns user of invalid build action: he cannot build a dome underneath himself.
+     * This error can only occur if player uses Zeus' power.
+     */
+    public void printCannotBuildDomeUnderneath() {
+
+        Platform.runLater(() -> {
+            boardController.printToMainText("You cannot build a dome underneath yourself.");
+            boardController.printToGodTextArea("");
+            boardController.setConfirmButtonVisible();
+        });
+
+        acceptTextBarInfo();
+    }
+
 
     /**
      * Allows to print a general ERROR to the screen.
