@@ -51,7 +51,7 @@ public class Demeter extends God {
      * @return The cell where the first build has been made.
      * @throws UnableToBuildException The worker isn't allowed to build anywhere.
      */
-    public Cell firstBuild(Worker worker) throws UnableToBuildException {
+    private Cell firstBuild(Worker worker) throws UnableToBuildException {
 
         WorkerBuildMap buildMap = updateBuildMap(worker);
 

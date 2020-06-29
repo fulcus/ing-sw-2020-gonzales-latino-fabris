@@ -3,8 +3,8 @@ package it.polimi.ingsw.client.cli;
 import it.polimi.ingsw.client.BoardClient;
 import it.polimi.ingsw.client.PlayerClient;
 import it.polimi.ingsw.client.View;
-import it.polimi.ingsw.serializableObjects.CellClient;
-import it.polimi.ingsw.serializableObjects.WorkerClient;
+import it.polimi.ingsw.serializable.CellClient;
+import it.polimi.ingsw.serializable.WorkerClient;
 import it.polimi.ingsw.server.model.Board;
 
 import java.util.ArrayList;

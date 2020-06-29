@@ -16,6 +16,7 @@ public class WorkerMap {
 
     /**
      * Creates the WorkerMap of a specific worker.
+     *
      * @param worker Is the worker on which the WorkerMap is built referring to.
      */
     public WorkerMap(Worker worker) {
@@ -222,15 +223,12 @@ public class WorkerMap {
     /**
      * Sets the whole WorkerMap cells true.
      */
-    public void resetMap() {
+    public void reset() {
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-
                 matrix[i][j] = true;
-
             }
         }
-
     }
 
 
@@ -263,7 +261,7 @@ public class WorkerMap {
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
 
-                Cell position = getAbsolutePosition(i,j);
+                Cell position = getAbsolutePosition(i, j);
 
                 if (position != null && position.isInPerimeter())
                     matrix[i][j] = false;
@@ -288,5 +286,17 @@ public class WorkerMap {
             System.out.println();
         }
     }
+
+    /**
+     * Sets the value of a cell of the map
+     *
+     * @param x    Coordinate of the map
+     * @param y    Coordinate of the map
+     * @param bool value to be set in the given cell
+     */
+    public void setCell(int x, int y, boolean bool) {
+        matrix[x][y] = bool;
+    }
+
 
 }

@@ -1,11 +1,13 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.serializableObjects.CellClient;
-import it.polimi.ingsw.serializableObjects.Message;
-import it.polimi.ingsw.serializableObjects.WorkerClient;
+import it.polimi.ingsw.serializable.CellClient;
+import it.polimi.ingsw.serializable.Message;
+import it.polimi.ingsw.serializable.WorkerClient;
 import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.controller.TurnHandler;
-import it.polimi.ingsw.server.model.*;
+import it.polimi.ingsw.server.model.Cell;
+import it.polimi.ingsw.server.model.Player;
+import it.polimi.ingsw.server.model.Worker;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -72,8 +74,9 @@ public class ViewClient implements ClientViewObserver {
 
 
     /**
-     * Sends the message to assign the nickname of the player to the CLI.
-     * @param player nickname of the player associated with this instance of CLI.
+     * Sets the class attribute player.
+     *
+     * @param player player associated to the instance of this class.
      */
     public void setPlayer(Player player) {
         this.player = player;   //used to assign player to class
@@ -268,6 +271,7 @@ public class ViewClient implements ClientViewObserver {
     /**
      * Sends a message to print the ERROR to the screen of the client.
      */
+    //todo delete, unused
     public void printErrorScreen() {
         sendMessage(new Message("printErrorScreen"));
     }
@@ -390,7 +394,6 @@ public class ViewClient implements ClientViewObserver {
      * @return The compass direction of the place where to build.
      */
     public String[] askBuildingDirectionAtlas() {
-        //todo probabilmente sbagliato
         return (String[]) sendMessageWithReturn(new Message("askBuildingDirectionAtlas"));
     }
 

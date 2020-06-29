@@ -51,7 +51,7 @@ public class ApolloTest {
 
         //Setting the updateMoveMap
         when(worker.getMoveMap()).thenReturn(workerMoveMap);
-        doNothing().when(workerMoveMap).resetMap();
+        doNothing().when(workerMoveMap).reset();
         doNothing().when(workerMoveMap).updateCellsOutOfMap();
         doNothing().when(workerMoveMap).updateMoveUpRestrictions();
         doNothing().when(workerMoveMap).cannotStayStill();
@@ -100,7 +100,7 @@ public class ApolloTest {
     public void updateMoveMapFail() throws Exception {
 
         when(worker.getMoveMap()).thenReturn(workerMoveMap);
-        doNothing().when(workerMoveMap).resetMap();
+        doNothing().when(workerMoveMap).reset();
         doNothing().when(workerMoveMap).updateCellsOutOfMap();
         doNothing().when(workerMoveMap).updateMoveUpRestrictions();
         doNothing().when(workerMoveMap).cannotStayStill();
@@ -111,7 +111,7 @@ public class ApolloTest {
         apollo.updateMoveMap(worker);
 
         verify(workerMoveMap, times(1)).cannotMoveInFriendlyWorkerCell();
-        verify(workerMoveMap, times(1)).resetMap();
+        verify(workerMoveMap, times(1)).reset();
         verify(workerMoveMap, times(1)).cannotMoveInDomeCell();
         verify(workerMoveMap, times(1)).updateMoveUpRestrictions();
         verify(workerMoveMap, times(1)).updateCellsOutOfMap();
@@ -123,7 +123,7 @@ public class ApolloTest {
     public void updateMoveMap() throws Exception{
 
         when(worker.getMoveMap()).thenReturn(workerMoveMap);
-        doNothing().when(workerMoveMap).resetMap();
+        doNothing().when(workerMoveMap).reset();
         doNothing().when(workerMoveMap).updateCellsOutOfMap();
         doNothing().when(workerMoveMap).updateMoveUpRestrictions();
         doNothing().when(workerMoveMap).cannotStayStill();

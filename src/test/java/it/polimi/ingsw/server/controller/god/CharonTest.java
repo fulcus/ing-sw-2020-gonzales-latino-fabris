@@ -65,7 +65,7 @@ public class CharonTest {
 
         //setting the behaviour for the updateMoveMap
         when(worker.getMoveMap()).thenReturn(workerMoveMap);
-        doNothing().when(workerMoveMap).resetMap();
+        doNothing().when(workerMoveMap).reset();
         doNothing().when(workerMoveMap).updateCellsOutOfMap();
         doNothing().when(workerMoveMap).updateMoveUpRestrictions();
         doNothing().when(workerMoveMap).cannotStayStill();
@@ -90,7 +90,7 @@ public class CharonTest {
 
         //setting the update build map matrix behaviour
         when(worker.getBuildMap()).thenReturn(workerBuildMap);
-        doNothing().when(workerBuildMap).resetMap();
+        doNothing().when(workerBuildMap).reset();
         doNothing().when(workerBuildMap).updateCellsOutOfMap();
         doNothing().when(workerBuildMap).cannotBuildUnderneath();
         doNothing().when(workerBuildMap).cannotBuildInOccupiedCell();
@@ -130,7 +130,7 @@ public class CharonTest {
 
         //setting the behaviour for the updateMoveMap
         when(worker.getMoveMap()).thenReturn(workerMoveMap);
-        doNothing().when(workerMoveMap).resetMap();
+        doNothing().when(workerMoveMap).reset();
         doNothing().when(workerMoveMap).updateCellsOutOfMap();
         doNothing().when(workerMoveMap).updateMoveUpRestrictions();
         doNothing().when(workerMoveMap).cannotStayStill();

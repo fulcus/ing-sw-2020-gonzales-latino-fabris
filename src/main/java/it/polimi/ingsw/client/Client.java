@@ -3,9 +3,9 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.cli.Cli;
 import it.polimi.ingsw.client.gui.Gui;
 import it.polimi.ingsw.client.gui.GuiManager;
-import it.polimi.ingsw.serializableObjects.CellClient;
-import it.polimi.ingsw.serializableObjects.Message;
-import it.polimi.ingsw.serializableObjects.WorkerClient;
+import it.polimi.ingsw.serializable.CellClient;
+import it.polimi.ingsw.serializable.Message;
+import it.polimi.ingsw.serializable.WorkerClient;
 import it.polimi.ingsw.server.Server;
 
 import java.io.IOException;

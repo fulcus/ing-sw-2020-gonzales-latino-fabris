@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.serializableObjects.CellClient;
-import it.polimi.ingsw.serializableObjects.WorkerClient;
+import it.polimi.ingsw.serializable.CellClient;
+import it.polimi.ingsw.serializable.WorkerClient;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;

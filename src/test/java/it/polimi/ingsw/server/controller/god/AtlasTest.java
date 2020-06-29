@@ -52,7 +52,7 @@ public class AtlasTest {
 
         //setting the update build map matrix behaviour
         when(worker.getBuildMap()).thenReturn(workerBuildMap);
-        doNothing().when(workerBuildMap).resetMap();
+        doNothing().when(workerBuildMap).reset();
         doNothing().when(workerBuildMap).updateCellsOutOfMap();
         doNothing().when(workerBuildMap).cannotBuildUnderneath();
         doNothing().when(workerBuildMap).cannotBuildInOccupiedCell();
@@ -95,7 +95,7 @@ public class AtlasTest {
     public void buildAtlasDome() throws UnableToBuildException {
         //setting the update build map matrix behaviour
         when(worker.getBuildMap()).thenReturn(workerBuildMap);
-        doNothing().when(workerBuildMap).resetMap();
+        doNothing().when(workerBuildMap).reset();
         doNothing().when(workerBuildMap).updateCellsOutOfMap();
         doNothing().when(workerBuildMap).cannotBuildUnderneath();
         doNothing().when(workerBuildMap).cannotBuildInOccupiedCell();

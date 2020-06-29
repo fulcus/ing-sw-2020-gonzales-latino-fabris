@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.serializableObjects.CellClient;
-import it.polimi.ingsw.serializableObjects.WorkerClient;
+import it.polimi.ingsw.serializable.CellClient;
+import it.polimi.ingsw.serializable.WorkerClient;
 import it.polimi.ingsw.server.model.Board;
 
 
@@ -53,8 +53,6 @@ public class BoardClient {
      */
     private int[] workerCellRelativePosition(int xWorker, int yWorker, int x, int y) {
 
-        System.out.println("worker position: " + xWorker + "," + yWorker);
-
         int[] position = new int[2];
 
         position[0] = x - xWorker;
@@ -77,7 +75,6 @@ public class BoardClient {
 
         int relativeX = position[0];
         int relativeY = position[1];
-        System.out.println("relativeX,Y: " + relativeX + "," + relativeY);
 
         String resultX;
         String resultY;

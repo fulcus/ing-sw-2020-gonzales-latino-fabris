@@ -1,13 +1,10 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.ViewClient;
-import it.polimi.ingsw.server.controller.GameController;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-
-import java.net.Socket;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
@@ -176,8 +173,8 @@ public class WorkerMoveMapTest {
         //relative to workers board
         assertFalse(moveMap.anyAvailableMovePosition());
 
-        //test resetMap()
-        moveMap.resetMap();
+        //test reset()
+        moveMap.reset();
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {

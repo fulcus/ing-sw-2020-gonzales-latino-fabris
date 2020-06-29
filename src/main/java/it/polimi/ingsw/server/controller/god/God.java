@@ -143,7 +143,7 @@ public abstract class God {
     public WorkerMoveMap updateMoveMap(Worker worker) throws UnableToMoveException {
 
         WorkerMoveMap moveMap = worker.getMoveMap();
-        moveMap.resetMap();
+        moveMap.reset();
 
         moveMap.updateCellsOutOfMap();
         moveMap.updateMoveUpRestrictions();
@@ -170,7 +170,7 @@ public abstract class God {
     public WorkerBuildMap updateBuildMap(Worker worker) throws UnableToBuildException {
 
         WorkerBuildMap buildMap = worker.getBuildMap();
-        buildMap.resetMap();
+        buildMap.reset();
 
         buildMap.updateCellsOutOfMap();
         buildMap.cannotBuildUnderneath();

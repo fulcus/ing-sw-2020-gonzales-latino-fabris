@@ -1,4 +1,4 @@
-package it.polimi.ingsw.serializableObjects;
+package it.polimi.ingsw.serializable;
 
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -65,9 +65,10 @@ public class Apollo extends God {
      * @return The MoveMap of the selected worker.
      * @throws UnableToMoveException If the worker cannot win anywhere.
      */
+    @Override
     public WorkerMoveMap updateMoveMap(Worker worker) throws UnableToMoveException {
         WorkerMoveMap moveMap = worker.getMoveMap();
-        moveMap.resetMap();
+        moveMap.reset();
 
         moveMap.updateCellsOutOfMap();
         moveMap.updateMoveUpRestrictions();
