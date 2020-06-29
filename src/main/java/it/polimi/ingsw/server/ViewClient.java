@@ -288,8 +288,8 @@ public class ViewClient implements ClientViewObserver {
     /**
      * Sends a message to let the player know he has lost the game because both of his workers cannot move.
      */
-    public void unableToMoveLose() {
-        sendMessage(new Message("unableToMoveLose"));
+    public boolean unableToMoveLose() {
+       return (boolean) sendMessageWithReturn(new Message("unableToMoveLose"));
     }
 
 

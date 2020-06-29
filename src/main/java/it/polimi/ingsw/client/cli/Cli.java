@@ -454,8 +454,9 @@ public class Cli implements View {
     /**
      * Lets the player know he has lost the game because both of his workers cannot move.
      */
-    public void unableToMoveLose() {
+    public boolean unableToMoveLose() {
         System.out.println("\nNone of your workers can move. You have lost this game.\nGoodbye");
+        return true;
     }
 
 

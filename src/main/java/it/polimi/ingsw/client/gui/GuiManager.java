@@ -622,15 +622,20 @@ public class GuiManager implements View {
     /**
      * Lets the player know he has lost the game because both of his workers cannot move.
      */
-    public void unableToMoveLose() {
+    public boolean unableToMoveLose() {
         Platform.runLater(() -> {
             boardController.printToMainText("You cannot move anywhere!");
             boardController.setConfirmButtonVisible();
         });
 
-        losingView("");
 
         acceptTextBarInfo();
+
+
+        losingView("");
+
+
+        return true;
     }
 
 
@@ -638,12 +643,15 @@ public class GuiManager implements View {
      * Lets the player know he has lost the game because both of his workers cannot build.
      */
     public void unableToBuildLose() {
+
         Platform.runLater(() -> {
             boardController.printToMainText("You cannot build anywhere!");
             boardController.setConfirmButtonVisible();
         });
 
         acceptTextBarInfo();
+
+        losingView("");
     }
 
 
@@ -1240,7 +1248,7 @@ public class GuiManager implements View {
      */
     private void acceptTextBarInfo() {
 
-        boolean accept;
+        boolean accept = false;
         try {
 
             do {

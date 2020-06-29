@@ -397,7 +397,7 @@ public class TurnHandler implements Runnable {
 
             } else {
                 loserNickname = currentPlayer.getNickname();
-                currentClient.unableToMoveLose();
+                boolean received = currentClient.unableToMoveLose();
                 currentPlayer.lose();
                 currentClient.killClient();
 

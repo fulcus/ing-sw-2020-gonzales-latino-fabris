@@ -209,7 +209,7 @@ public interface View {
     /**
      * Lets the player know he has lost the game because both of his workers cannot move.
      */
-    void unableToMoveLose();
+    boolean unableToMoveLose();
 
 
     /**
