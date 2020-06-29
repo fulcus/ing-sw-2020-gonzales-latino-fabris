@@ -195,8 +195,6 @@ public class GuiManager implements View {
      * @param numberOfPlayers The number of players of the game the player has been assigned to.
      */
     public void joinGame(int numberOfPlayers) {
-        System.out.println("joinGame guiManager"); //debug
-
         //sets number of players attribute
         GuiManager.numberOfPlayers.set(numberOfPlayers);
 
@@ -457,8 +455,6 @@ public class GuiManager implements View {
             e.printStackTrace();
         }
 
-        System.out.println("Selected " + chosenGod);
-
         return chosenGod;
 
     }
@@ -624,16 +620,21 @@ public class GuiManager implements View {
     /**
      * Lets the player know he has lost the game because both of his workers cannot move.
      */
-    public void unableToMoveLose() {
+    public boolean unableToMoveLose() {
         Platform.runLater(() -> {
             boardController.printToMainText("You cannot move anywhere!");
             boardController.printToGodTextArea("");
             boardController.setConfirmButtonVisible();
         });
 
-        losingView("");
 
         acceptTextBarInfo();
+
+
+        losingView("");
+
+
+        return true;
     }
 
 
@@ -641,6 +642,7 @@ public class GuiManager implements View {
      * Lets the player know he has lost the game because both of his workers cannot build.
      */
     public void unableToBuildLose() {
+
         Platform.runLater(() -> {
             boardController.printToMainText("You cannot build anywhere!");
             boardController.printToGodTextArea("");
@@ -648,6 +650,8 @@ public class GuiManager implements View {
         });
 
         acceptTextBarInfo();
+
+        losingView("");
     }
 
 
@@ -741,34 +745,6 @@ public class GuiManager implements View {
         selectedWorker = boardClient.get().findWorker(myColor, otherSex);
         System.out.println("unableToMove selectedWorker: " + selectedWorker.getWorkerColor() + selectedWorker.getWorkerSex());
         System.out.println(selectedWorker);
-        acceptTextBarInfo();
-    }
-
-
-    /**
-     * Lets the player know the selected worker cannot build.
-     *
-     * @param sex The sex of the selected worker.
-     */
-    public void selectedWorkerCannotBuild(String sex) {
-        String selectedWorkerSex = sex.toLowerCase();
-        String otherSex;
-
-        if (sex.equals("male"))
-            otherSex = "female";
-        else
-            otherSex = "male";
-
-
-        Platform.runLater(() -> {
-            boardController.printToMainText("Your " + selectedWorkerSex +
-                    " worker cannot build, you must move your " + otherSex + " worker");
-            boardController.printToGodTextArea("");
-            boardController.setConfirmButtonVisible();
-        });
-
-        selectedWorker = boardClient.get().findWorker(myColor, otherSex);
-
         acceptTextBarInfo();
     }
 
@@ -1164,8 +1140,6 @@ public class GuiManager implements View {
      */
     public void otherPlayerChoseGod(String otherPlayer, String chosenGod) {
 
-        System.out.println("otherPlayer: " + otherPlayer);
-
         Platform.runLater(() -> chooseGodController.otherPlayerChoseGod(otherPlayer, chosenGod));
 
         setPlayerGod(otherPlayer, chosenGod);
@@ -1251,7 +1225,7 @@ public class GuiManager implements View {
      */
     private void acceptTextBarInfo() {
 
-        boolean accept;
+        boolean accept = false;
         try {
 
             do {

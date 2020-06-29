@@ -454,8 +454,9 @@ public class Cli implements View {
     /**
      * Lets the player know he has lost the game because both of his workers cannot move.
      */
-    public void unableToMoveLose() {
+    public boolean unableToMoveLose() {
         System.out.println("\nNone of your workers can move. You have lost this game.\nGoodbye");
+        return true;
     }
 
 
@@ -674,25 +675,6 @@ public class Cli implements View {
 
         System.out.println("Your " + sex + " worker cannot move anywhere. You must move with your "
                 + otherSex + " worker.\n");
-    }
-
-
-    /**
-     * Lets the player know the selected worker cannot build.
-     *
-     * @param sex The sex of the selected worker.
-     */
-    public void selectedWorkerCannotBuild(String sex) {
-        sex = sex.toLowerCase();
-        String otherSex;
-
-        if (sex.equals("male"))
-            otherSex = "female";
-        else
-            otherSex = "male";
-
-        System.out.println("Your " + sex + " worker cannot build anywhere. You must build with your "
-                + otherSex + " worker.");
     }
 
 

@@ -209,7 +209,7 @@ public interface View {
     /**
      * Lets the player know he has lost the game because both of his workers cannot move.
      */
-    void unableToMoveLose();
+    boolean unableToMoveLose();
 
 
     /**
@@ -268,14 +268,6 @@ public interface View {
      * @param sex The sex of the selected worker
      */
     void selectedWorkerCannotMove(String sex);
-
-
-    /**
-     * Lets the player know the selected worker cannot build.
-     *
-     * @param sex The sex of the selected worker.
-     */
-    void selectedWorkerCannotBuild(String sex);
 
 
     /**

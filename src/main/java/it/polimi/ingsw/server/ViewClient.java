@@ -288,8 +288,8 @@ public class ViewClient implements ClientViewObserver {
     /**
      * Sends a message to let the player know he has lost the game because both of his workers cannot move.
      */
-    public void unableToMoveLose() {
-        sendMessage(new Message("unableToMoveLose"));
+    public boolean unableToMoveLose() {
+       return (boolean) sendMessageWithReturn(new Message("unableToMoveLose"));
     }
 
 
@@ -365,16 +365,6 @@ public class ViewClient implements ClientViewObserver {
      */
     public void selectedWorkerCannotMove(String sex) {
         sendMessage(new Message("selectedWorkerCannotMove", sex));
-    }
-
-
-    /**
-     * Sends a message to let the player know the selected worker cannot build.
-     *
-     * @param sex The sex of the selected worker.
-     */
-    public void selectedWorkerCannotBuild(String sex) {
-        sendMessage(new Message("selectedWorkerCannotBuild", sex));
     }
 
 
@@ -641,7 +631,6 @@ public class ViewClient implements ClientViewObserver {
         try {
 
             synchronized (this) {
-
                 output.writeObject(message);
             }
 

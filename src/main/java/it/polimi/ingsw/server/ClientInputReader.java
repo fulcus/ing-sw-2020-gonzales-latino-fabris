@@ -70,7 +70,7 @@ public class ClientInputReader implements Runnable {
                     Message readMessage = (Message) readObject;
 
                     if (readMessage.getMethod().toUpperCase().equals("PING")) {
-                        System.out.println("Ping Received from " + clientSocket.getInetAddress());
+                        System.out.println("Ping from " + clientSocket.getInetAddress());
                     } else
                         System.out.println("Received message different from ping");
 
