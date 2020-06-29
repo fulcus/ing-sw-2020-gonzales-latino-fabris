@@ -639,8 +639,11 @@ public class ViewClient implements ClientViewObserver {
         Object receivedObject;
 
         try {
-            //flush?
-            output.writeObject(message);
+
+            synchronized (this) {
+
+                output.writeObject(message);
+            }
 
             receivedObject = input.getObjectsQueue().take();
 

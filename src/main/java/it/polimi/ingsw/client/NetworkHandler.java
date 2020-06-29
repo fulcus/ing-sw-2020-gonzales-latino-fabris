@@ -32,8 +32,8 @@ public class NetworkHandler implements Runnable {
             System.out.println("protocol violation");
         }
 
-         inputReader = new InputReader(server,client);
-         new Thread(inputReader).start();
+        inputReader = new InputReader(server, client);
+        new Thread(inputReader).start();
 
     }
 
@@ -56,6 +56,7 @@ public class NetworkHandler implements Runnable {
 
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
+                System.out.println("network handler exception");
 
             }
 
@@ -95,6 +96,7 @@ public class NetworkHandler implements Runnable {
 
     /**
      * Handles the answer of the client to send to the server.
+     *
      * @param clientResponse What the client wants to send to teh server.
      * @throws IOException If the write object gives some problems.
      */
@@ -111,7 +113,7 @@ public class NetworkHandler implements Runnable {
     /**
      * Points out that the connection with the server has been interrupted.
      */
-    public void disconnect(){
+    public void disconnect() {
         System.out.println("Network handler received disconnected");
         this.connected = false;
     }

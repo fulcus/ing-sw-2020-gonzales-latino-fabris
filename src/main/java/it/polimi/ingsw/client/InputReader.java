@@ -87,14 +87,18 @@ public class InputReader implements Runnable {
 
             }
             catch (SocketTimeoutException te) {
-                System.out.println("PRIMA CATCH");
+                System.out.println("first CATCH");
                 connected = false;
                 Message notifyDisconnection = new Message("notifyOtherPlayerDisconnection","me");
                 client.update(notifyDisconnection);
             }
             catch (IOException | ClassNotFoundException e) {
-                System.out.println("SECONDA CATCH");
+                System.out.println("second CATCH");
                 connected = false;
+                e.printStackTrace();
+            }
+            catch(Exception e){
+                System.out.println("Caught general exception");
                 e.printStackTrace();
             }
 
