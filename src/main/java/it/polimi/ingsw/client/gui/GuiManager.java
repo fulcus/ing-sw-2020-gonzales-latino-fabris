@@ -301,6 +301,7 @@ public class GuiManager implements View {
     public void invalidInitialWorkerPosition() {
         Platform.runLater(() -> {
             boardController.printToMainText("You cannot place your worker here!");
+            boardController.printToGodTextArea("");
             boardController.setConfirmButtonVisible();
         });
 
@@ -583,6 +584,7 @@ public class GuiManager implements View {
     public void printErrorScreen() {
         Platform.runLater(() -> {
             boardController.printToMainText("You are not allowed to do this!");
+            boardController.printToGodTextArea("");
             boardController.setConfirmButtonVisible();
         });
 
@@ -621,6 +623,7 @@ public class GuiManager implements View {
     public boolean unableToMoveLose() {
         Platform.runLater(() -> {
             boardController.printToMainText("You cannot move anywhere!");
+            boardController.printToGodTextArea("");
             boardController.setConfirmButtonVisible();
         });
 
@@ -642,6 +645,7 @@ public class GuiManager implements View {
 
         Platform.runLater(() -> {
             boardController.printToMainText("You cannot build anywhere!");
+            boardController.printToGodTextArea("");
             boardController.setConfirmButtonVisible();
         });
 
@@ -660,6 +664,7 @@ public class GuiManager implements View {
         Platform.runLater(() -> {
             //TODO UPDATE NUMOFPLAYERS
             boardController.printToMainText(loserNickname + " has lost this game!");
+            boardController.printToGodTextArea("");
             boardController.setConfirmButtonVisible();
             boardController.removeGodFrame(loserNickname);
         });
@@ -733,6 +738,7 @@ public class GuiManager implements View {
         Platform.runLater(() -> {
             boardController.printToMainText("Your " + selectedWorkerSex +
                     " worker cannot move, you must move your " + otherSex + " worker");
+            boardController.printToGodTextArea("");
             boardController.setConfirmButtonVisible();
         });
 
@@ -1031,6 +1037,7 @@ public class GuiManager implements View {
     public void printMoveErrorScreen() {
         Platform.runLater(() -> {
             boardController.printToMainText("You cannot move here!");
+            boardController.printToGodTextArea("");
             boardController.setConfirmButtonVisible();
         });
 
@@ -1065,6 +1072,7 @@ public class GuiManager implements View {
     public void printBuildGeneralErrorScreen() {
         Platform.runLater(() -> {
             boardController.printToMainText("You cannot build here!");
+            boardController.printToGodTextArea("");
             boardController.setConfirmButtonVisible();
         });
 
@@ -1078,6 +1086,7 @@ public class GuiManager implements View {
     public void printBuildBlockErrorScreen() {
         Platform.runLater(() -> {
             boardController.printToMainText("You cannot build a block here!");
+            boardController.printToGodTextArea("");
             boardController.setConfirmButtonVisible();
         });
 
@@ -1091,6 +1100,7 @@ public class GuiManager implements View {
     public void printBuildInSamePositionScreen() {
         Platform.runLater(() -> {
             boardController.printToMainText("You cannot build again here!");
+            boardController.printToGodTextArea("");
             boardController.setConfirmButtonVisible();
         });
 
