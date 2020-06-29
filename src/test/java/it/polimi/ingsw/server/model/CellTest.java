@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model;
 
 
-import it.polimi.ingsw.server.ViewClient;
+import it.polimi.ingsw.server.VirtualView;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +19,7 @@ public class CellTest {
     private Board board;
 
     @Mock
-    ViewClient client = mock(ViewClient.class);
+    VirtualView client = mock(VirtualView.class);
 
 
     @Before

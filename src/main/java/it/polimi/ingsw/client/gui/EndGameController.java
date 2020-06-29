@@ -8,6 +8,9 @@ public class EndGameController {
     @FXML
     private Text disconnectedPlayer;
 
+    @FXML
+    private Text winner;
+
     public EndGameController() {
     }
 
@@ -18,6 +21,10 @@ public class EndGameController {
 
     protected void setDisconnectionPlayer(String disconnectedPlayer) {
         this.disconnectedPlayer.setText(disconnectedPlayer);
+    }
+
+    protected void setWinner(String winner) {
+        this.winner.setText(winner + " has won");
     }
 
 }

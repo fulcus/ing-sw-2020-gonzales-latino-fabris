@@ -13,10 +13,10 @@ import java.util.concurrent.TimeUnit;
 public class HeartbeatServer implements Runnable {
 
     private final Message pongMessage;
-    private final ViewClient client;
+    private final VirtualView client;
 
 
-    public HeartbeatServer(ViewClient client) {
+    public HeartbeatServer(VirtualView client) {
         this.client = client;
         pongMessage = new Message("PONG");
     }

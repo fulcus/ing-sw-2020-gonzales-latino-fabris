@@ -1,14 +1,10 @@
 package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.server.ViewClient;
-import it.polimi.ingsw.server.controller.GameController;
+import it.polimi.ingsw.server.VirtualView;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-
-import java.net.Socket;
-import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
@@ -23,17 +19,17 @@ public class WorkerBuildMapTest {
     private Game game;
 
     @Mock
-    private ViewClient viewClient;
+    private VirtualView virtualView;
 
 
     @Before
     public void setUp() {
 
-        viewClient = mock(ViewClient.class);
+        virtualView = mock(VirtualView.class);
 
         game = new Game(2);
 
-        game.addPlayer("nick", viewClient);
+        game.addPlayer("nick", virtualView);
         player = game.getPlayers().get(0);
 
         worker = player.getWorkers().get(0);
@@ -50,7 +46,7 @@ public class WorkerBuildMapTest {
         player = null;
         worker = null;
         worker2 = null;
-        viewClient = null;
+        virtualView = null;
     }
 
 

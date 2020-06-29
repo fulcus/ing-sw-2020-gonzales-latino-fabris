@@ -1,10 +1,10 @@
 package it.polimi.ingsw.server.controller;
 
 
+import it.polimi.ingsw.server.VirtualView;
 import it.polimi.ingsw.server.controller.god.God;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.Worker;
-import it.polimi.ingsw.server.ViewClient;
 
 import java.util.ArrayList;
 
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class GodController {
 
     private final GameController gameController;
-    private ViewClient currentClient; //assigned at the beginning of each turn
+    private VirtualView currentClient; //assigned at the beginning of each turn
 
 
     public GodController(GameController gameController) {
@@ -25,12 +25,12 @@ public class GodController {
     }
 
 
-    public void updateCurrentClient(ViewClient client) {
+    public void updateCurrentClient(VirtualView client) {
         this.currentClient = client;
     }
 
 
-    public ViewClient getCurrentClient() {
+    public VirtualView getCurrentClient() {
         return currentClient;
     }
 

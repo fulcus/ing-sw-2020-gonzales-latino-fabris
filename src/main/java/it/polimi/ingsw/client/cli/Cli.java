@@ -20,7 +20,7 @@ public class Cli implements View {
     private Scanner input;
     private Scanner intInput;
     private final BoardClient board;// this will contain a copy of the Model's map and each cell will be update if there are any changes
-    private String myNickname; //to be assigned when setPlayer of ViewClient is deserialized
+    private String myNickname; //to be assigned when setPlayer of VirtualView is deserialized
     private String myColor;
     private String challenger;
 

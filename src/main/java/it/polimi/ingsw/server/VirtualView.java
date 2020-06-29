@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * Represents a mock instance of the client server side.
  * Allows to send to the client through the network the messages and receive the client's answer when needed.
  */
-public class ViewClient implements ClientViewObserver {
+public class VirtualView implements ClientViewObserver {
 
 
     private final Socket socket;   //a virtual view instance for each client
@@ -31,7 +31,7 @@ public class ViewClient implements ClientViewObserver {
     private final ClientInputReader input;
 
 
-    public ViewClient(Socket socket, GameController gameController) {
+    public VirtualView(Socket socket, GameController gameController) {
         this.socket = socket;
         this.gameController = gameController;
         inGame = true;

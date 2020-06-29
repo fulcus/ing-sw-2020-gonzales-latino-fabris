@@ -14,14 +14,14 @@ import java.util.concurrent.SynchronousQueue;
  */
 public class ClientInputReader implements Runnable {
 
-    private final ViewClient client;
+    private final VirtualView client;
     private volatile SynchronousQueue<Object> receivedObjects;
     private boolean connected;
     private ObjectInputStream input;
     private boolean killed;
 
 
-    public ClientInputReader(ViewClient client) {
+    public ClientInputReader(VirtualView client) {
 
         this.client = client;
         receivedObjects = new SynchronousQueue<>();

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.server.ViewClient;
+import it.polimi.ingsw.server.VirtualView;
 import it.polimi.ingsw.server.controller.god.*;
 import java.util.ArrayList;
 import java.util.Random;
@@ -40,8 +40,8 @@ public class Game {
      * @param nickname Nickname chosen by the player.
      * @return player that was just created.
      */
-    public Player addPlayer(String nickname, ViewClient viewClient) {
-        Player newPlayer = new Player(this, nickname, viewClient);
+    public Player addPlayer(String nickname, VirtualView virtualView) {
+        Player newPlayer = new Player(this, nickname, virtualView);
         players.add(newPlayer);
 
         if (players.size() == numberOfPlayers)

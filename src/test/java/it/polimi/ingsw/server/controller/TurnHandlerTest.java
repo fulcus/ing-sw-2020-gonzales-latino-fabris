@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.controller;
 
-import it.polimi.ingsw.server.ViewClient;
+import it.polimi.ingsw.server.VirtualView;
 import it.polimi.ingsw.server.model.*;
 import org.junit.After;
 import org.junit.Before;
@@ -16,10 +16,10 @@ public class TurnHandlerTest {
     private GameController gameController;
 
     @Mock
-    private ViewClient client1;
+    private VirtualView client1;
 
     @Mock
-    private ViewClient client2;
+    private VirtualView client2;
 
     @Mock
     private Player player1;
@@ -34,8 +34,8 @@ public class TurnHandlerTest {
         gameController = new GameController();
         player1 = mock(Player.class);
         player2 = mock(Player.class);
-        client1 = mock(ViewClient.class);
-        client2 = mock(ViewClient.class);
+        client1 = mock(VirtualView.class);
+        client2 = mock(VirtualView.class);
 
         when(client1.askNumberOfPlayers()).thenReturn(2);
         gameController.setUpGame(client1);

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.ClientViewObserver;
-import it.polimi.ingsw.server.ViewClient;
+import it.polimi.ingsw.server.VirtualView;
 
 import java.util.ArrayList;
 
@@ -186,7 +186,7 @@ public class Cell {
      * Removes from the cellObservers list the client that is observing this specific cell.
      * @param client
      */
-    public void remove(ViewClient client) {
+    public void remove(VirtualView client) {
 
         cellObservers.remove(client);
     }

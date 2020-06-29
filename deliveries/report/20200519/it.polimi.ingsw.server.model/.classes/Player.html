@@ -85,7 +85,7 @@
 <div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.server.model;
 <i>2</i>&nbsp;
 <i>3</i>&nbsp;import it.polimi.ingsw.server.controller.god.God;
-<i>4</i>&nbsp;import it.polimi.ingsw.server.ViewClient;
+<i>4</i>&nbsp;import it.polimi.ingsw.server.VirtualView;
 <i>5</i>&nbsp;
 <i>6</i>&nbsp;import java.util.ArrayList;
 <i>7</i>&nbsp;
@@ -110,11 +110,11 @@
 <i>26</i>&nbsp;     * @param game     Represents the belonging game of the player.
 <i>27</i>&nbsp;     * @param nickname The name chosen by the user for the belonging game.
 <i>28</i>&nbsp;     */
-<b class="fc"><i>29</i>&nbsp;    public Player(Game game, String nickname, ViewClient viewClient) {</b>
+<b class="fc"><i>29</i>&nbsp;    public Player(Game game, String nickname, ViewClient virtualView) {</b>
 <i>30</i>&nbsp;
 <b class="fc"><i>31</i>&nbsp;        this.game = game;</b>
 <b class="fc"><i>32</i>&nbsp;        this.nickname = nickname;</b>
-<b class="fc"><i>33</i>&nbsp;        this.client = viewClient;</b>
+<b class="fc"><i>33</i>&nbsp;        this.client = virtualView;</b>
 <b class="fc"><i>34</i>&nbsp;        god = null;</b>
 <b class="fc"><i>35</i>&nbsp;        canWinInPerimeter = true;</b>
 <b class="fc"><i>36</i>&nbsp;        canMoveUp = true;</b>

@@ -1193,9 +1193,12 @@ public class GuiManager implements View {
     public boolean losingView(String winner) {
 
         try {
-            AnchorPane lose = FXMLLoader.load(getClass().getResource("/scenes/lose.fxml"));
+            FXMLLoader loseLoader = new FXMLLoader(getClass().getResource("/scenes/lose.fxml"));
+            AnchorPane lose = loseLoader.load();
+            EndGameController loseController = loseLoader.getController();
 
             Platform.runLater(() -> {
+                loseController.setWinner(winner);
 
                 for (Node child : boardRoot.getChildrenUnmodifiable())
                     child.setEffect(new GaussianBlur());
