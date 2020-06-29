@@ -180,7 +180,6 @@ public class ViewClient implements ClientViewObserver {
     }
 
 
-
     /**
      * Sends the message to the client to set and to store in the local interface memory the general info of other players.
      *
@@ -637,8 +636,11 @@ public class ViewClient implements ClientViewObserver {
         Object receivedObject;
 
         try {
-            //flush?
-            output.writeObject(message);
+
+            synchronized (this) {
+
+                output.writeObject(message);
+            }
 
             receivedObject = input.getObjectsQueue().take();
 
