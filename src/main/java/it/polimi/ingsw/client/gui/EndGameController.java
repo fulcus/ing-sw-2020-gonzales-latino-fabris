@@ -12,21 +12,12 @@ public class EndGameController {
     }
 
     @FXML
-    private void playAgain() {
-        //todo
-    }
-
-    @FXML
     private void exit() {
         System.exit(0);
     }
 
-    protected void setDisconnectionPlayer(String disconectedPlayer) {
-
-        if (disconectedPlayer.equals("me"))
-            disconnectedPlayer.setText("YOU");
-        else
-            disconnectedPlayer.setText(disconectedPlayer);
+    protected void setDisconnectionPlayer(String disconnectedPlayer) {
+        this.disconnectedPlayer.setText(disconnectedPlayer);
     }
 
 }

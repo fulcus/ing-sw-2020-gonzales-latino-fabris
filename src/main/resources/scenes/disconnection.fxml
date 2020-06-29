@@ -14,10 +14,6 @@
             <Image url="@../endgame/endgame_windowdefeat.png" />
          </image>
       </ImageView>
-      <Button layoutX="172.0" layoutY="218.0" mnemonicParsing="false" onMouseClicked="#playAgain" prefHeight="48.0" prefWidth="198.0" text="PLAY AGAIN" textFill="WHITE">
-         <padding>
-            <Insets bottom="10.0" />
-         </padding></Button>
       <ImageView fitHeight="133.0" fitWidth="200.0" layoutX="11.0" layoutY="300.0" preserveRatio="true">
          <image>
             <Image url="@../endgame/endgame_defeatcloudleft.png" />
@@ -29,7 +25,7 @@
          </image>
       </ImageView>
       <Text fx:id="disconnectedPlayer" fill="WHITE" layoutX="216.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="disconnect-text" text="nickname" textAlignment="CENTER" textOrigin="CENTER" wrappingWidth="114.716796875" />
-      <Button layoutX="172.0" layoutY="289.0" mnemonicParsing="false" onMouseClicked="#exit" prefHeight="48.0" prefWidth="200.0" text="EXIT" textFill="WHITE">
+      <Button layoutX="173.0" layoutY="252.0" mnemonicParsing="false" onMouseClicked="#exit" prefHeight="48.0" prefWidth="200.0" text="EXIT" textFill="WHITE">
          <padding>
             <Insets bottom="10.0" />
          </padding>

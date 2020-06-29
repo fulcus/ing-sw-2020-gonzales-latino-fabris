@@ -89,7 +89,7 @@ public class InputReader implements Runnable {
             catch (SocketTimeoutException te) {
                 System.out.println("first CATCH");
                 connected = false;
-                Message notifyDisconnection = new Message("notifyOtherPlayerDisconnection","me");
+                Message notifyDisconnection = new Message("notifyOtherPlayerDisconnection","YOU");
                 client.update(notifyDisconnection);
             }
             catch (IOException | ClassNotFoundException e) {

@@ -34,8 +34,6 @@ public class ColorController {
 
         String color = "BLUE";
 
-        System.out.println("controller: clicked blue");
-
         try {
             //give color to manager thread
             GuiManager.queue.put(color);

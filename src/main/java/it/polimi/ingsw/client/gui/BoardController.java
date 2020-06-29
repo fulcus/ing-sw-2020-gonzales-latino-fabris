@@ -183,7 +183,6 @@ public class BoardController {
 
 
     protected void update(CellClient cell) {
-        System.out.println("update");
         boardClient.get().update(cell);
     }
 
@@ -425,7 +424,6 @@ public class BoardController {
 
         Integer colIndex = GridPane.getColumnIndex(source);
         Integer rowIndex = GridPane.getRowIndex(source);
-        System.out.printf("Mouse clicked cell in [%d, %d]%n", rowIndex, colIndex);
 
         //if user clicks on a cell, and a method has requested a cell,
         //coordinates are sent to gui manager

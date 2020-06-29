@@ -195,8 +195,6 @@ public class GuiManager implements View {
      * @param numberOfPlayers The number of players of the game the player has been assigned to.
      */
     public void joinGame(int numberOfPlayers) {
-        System.out.println("joinGame guiManager"); //debug
-
         //sets number of players attribute
         GuiManager.numberOfPlayers.set(numberOfPlayers);
 
@@ -455,8 +453,6 @@ public class GuiManager implements View {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        System.out.println("Selected " + chosenGod);
 
         return chosenGod;
 
@@ -743,33 +739,6 @@ public class GuiManager implements View {
         selectedWorker = boardClient.get().findWorker(myColor, otherSex);
         System.out.println("unableToMove selectedWorker: " + selectedWorker.getWorkerColor() + selectedWorker.getWorkerSex());
         System.out.println(selectedWorker);
-        acceptTextBarInfo();
-    }
-
-
-    /**
-     * Lets the player know the selected worker cannot build.
-     *
-     * @param sex The sex of the selected worker.
-     */
-    public void selectedWorkerCannotBuild(String sex) {
-        String selectedWorkerSex = sex.toLowerCase();
-        String otherSex;
-
-        if (sex.equals("male"))
-            otherSex = "female";
-        else
-            otherSex = "male";
-
-
-        Platform.runLater(() -> {
-            boardController.printToMainText("Your " + selectedWorkerSex +
-                    " worker cannot build, you must move your " + otherSex + " worker");
-            boardController.setConfirmButtonVisible();
-        });
-
-        selectedWorker = boardClient.get().findWorker(myColor, otherSex);
-
         acceptTextBarInfo();
     }
 
@@ -1160,8 +1129,6 @@ public class GuiManager implements View {
      * @param chosenGod   god chosen by the otherPlayer.
      */
     public void otherPlayerChoseGod(String otherPlayer, String chosenGod) {
-
-        System.out.println("otherPlayer: " + otherPlayer);
 
         Platform.runLater(() -> chooseGodController.otherPlayerChoseGod(otherPlayer, chosenGod));
 

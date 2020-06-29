@@ -51,7 +51,7 @@
             <Font name="Negotiate Free" size="15.0" />
          </font>
       </Text>
-      <Text fx:id="errorNick" fill="RED" layoutX="212.0" layoutY="325.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ERROR: NOT AVAILABLE NICKNAME" textAlignment="CENTER" visible="false" wrappingWidth="208.64202880859375">
+      <Text fx:id="errorNick" fill="RED" layoutX="212.0" layoutY="325.0" strokeType="OUTSIDE" strokeWidth="0.0" text="nickname not available" textAlignment="CENTER" visible="false" wrappingWidth="208.64202880859375">
          <font>
             <Font name="Negotiate Free" size="13.0" />
          </font>
