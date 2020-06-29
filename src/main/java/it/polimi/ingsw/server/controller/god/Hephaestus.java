@@ -31,6 +31,7 @@ public class Hephaestus extends God {
      * This method calls the sequence of actions that can be done by the player who owns Hephaestus.
      * @param worker This is the current worker.
      */
+    @Override
     public void evolveTurn(Worker worker) throws UnableToMoveException, UnableToBuildException, WinException {
         move(worker);
         win(worker);
@@ -46,7 +47,7 @@ public class Hephaestus extends God {
      * @return The cell where has been built the first building.
      * @throws UnableToBuildException Says that the building cannot be built anywhere.
      */
-    public Cell firstBuild(Worker worker) throws UnableToBuildException {
+    private Cell firstBuild(Worker worker) throws UnableToBuildException {
         WorkerBuildMap buildMap = updateBuildMap(worker);
         Board board = worker.getPlayer().getGame().getBoard();
 
@@ -88,7 +89,7 @@ public class Hephaestus extends God {
      * This method allows the player to build in the same place twice.
      * @param worker This is the player's current worker.
      */
-    public void secondBuild(Worker worker) {
+    private void secondBuild(Worker worker) {
 
         //print: you cannot build again in the same place since it's already at max height
         if(firstBuildCell.getLevel() == 3)

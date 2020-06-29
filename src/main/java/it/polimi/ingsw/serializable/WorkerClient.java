@@ -1,4 +1,4 @@
-package it.polimi.ingsw.serializableObjects;
+package it.polimi.ingsw.serializable;
 
 import it.polimi.ingsw.server.model.Worker;
 

@@ -54,8 +54,6 @@ public class Worker {
 
         newPosition.moveIn(this);
 
-        System.out.println("level: " + level);
-        System.out.println("levelVariation: " + levelVariation);
     }
 
 
@@ -77,8 +75,6 @@ public class Worker {
         levelVariation = newLevel - level;
         level = newLevel;
 
-        System.out.println("level: " + level);
-        System.out.println("levelVariation: " + levelVariation);
     }
 
 

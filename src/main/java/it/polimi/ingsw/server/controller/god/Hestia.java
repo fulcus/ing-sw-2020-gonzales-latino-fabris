@@ -107,7 +107,7 @@ public class Hestia extends God {
      */
     private WorkerBuildMap updateBuildMapHestia(Worker worker) throws UnableToBuildException {
         WorkerBuildMap buildMap = worker.getBuildMap();
-        buildMap.resetMap();
+        buildMap.reset();
 
         buildMap.updateCellsOutOfMap();
         buildMap.cannotBuildUnderneath();

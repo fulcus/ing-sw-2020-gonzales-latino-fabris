@@ -46,7 +46,7 @@ public class Zeus extends God {
     @Override
     public WorkerBuildMap updateBuildMap(Worker worker) throws UnableToBuildException {
         WorkerBuildMap buildMap = worker.getBuildMap();
-        buildMap.resetMap();
+        buildMap.reset();
 
         buildMap.updateCellsOutOfMap();
         buildMap.cannotBuildInOccupiedCell();

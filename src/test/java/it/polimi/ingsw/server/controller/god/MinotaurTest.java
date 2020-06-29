@@ -53,7 +53,7 @@ public class MinotaurTest {
 
         //setting the behaviour for the updateMoveMap
         when(worker.getMoveMap()).thenReturn(workerMoveMap);
-        doNothing().when(workerMoveMap).resetMap();
+        doNothing().when(workerMoveMap).reset();
         doNothing().when(workerMoveMap).updateCellsOutOfMap();
         doNothing().when(workerMoveMap).updateMoveUpRestrictions();
         doNothing().when(workerMoveMap).cannotStayStill();
@@ -103,7 +103,7 @@ public class MinotaurTest {
 
         //setting the behaviour for the updateMoveMap
         when(worker.getMoveMap()).thenReturn(workerMoveMap);
-        doNothing().when(workerMoveMap).resetMap();
+        doNothing().when(workerMoveMap).reset();
         doNothing().when(workerMoveMap).updateCellsOutOfMap();
         doNothing().when(workerMoveMap).updateMoveUpRestrictions();
         doNothing().when(workerMoveMap).cannotStayStill();
@@ -141,7 +141,7 @@ public class MinotaurTest {
     public void updateMoveMap() throws UnableToMoveException {
 
         when(worker.getMoveMap()).thenReturn(workerMoveMap);
-        doNothing().when(workerMoveMap).resetMap();
+        doNothing().when(workerMoveMap).reset();
         doNothing().when(workerMoveMap).updateCellsOutOfMap();
         doNothing().when(workerMoveMap).updateMoveUpRestrictions();
         doNothing().when(workerMoveMap).cannotStayStill();

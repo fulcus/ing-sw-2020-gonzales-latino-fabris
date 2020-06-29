@@ -47,7 +47,7 @@ public class ZeusTest {
     public void updateBuildMap() throws UnableToBuildException {
 
         when(worker.getBuildMap()).thenReturn(workerBuildMap);
-        doNothing().when(workerBuildMap).resetMap();
+        doNothing().when(workerBuildMap).reset();
         doNothing().when(workerBuildMap).updateCellsOutOfMap();
         doNothing().when(workerBuildMap).cannotBuildInOccupiedCell();
         doNothing().when(workerBuildMap).canBuildUnderneath();
@@ -55,7 +55,7 @@ public class ZeusTest {
         doNothing().when(godController).allowBuildUnderneath();
 
         assertEquals(workerBuildMap, zeus.updateBuildMap(worker));
-        verify(workerBuildMap, times(1)).resetMap();
+        verify(workerBuildMap, times(1)).reset();
         verify(workerBuildMap, times(1)).updateCellsOutOfMap();
         verify(workerBuildMap, times(1)).cannotBuildInOccupiedCell();
         verify(workerBuildMap, times(1)).canBuildUnderneath();
@@ -69,14 +69,14 @@ public class ZeusTest {
     public void updateBuildMapFail() throws UnableToBuildException {
 
         when(worker.getBuildMap()).thenReturn(workerBuildMap);
-        doNothing().when(workerBuildMap).resetMap();
+        doNothing().when(workerBuildMap).reset();
         doNothing().when(workerBuildMap).updateCellsOutOfMap();
         doNothing().when(workerBuildMap).cannotBuildInOccupiedCell();
         doNothing().when(workerBuildMap).canBuildUnderneath();
         when(workerBuildMap.anyAvailableBuildPosition()).thenReturn(false);
 
         assertEquals(workerBuildMap, zeus.updateBuildMap(worker));
-        verify(workerBuildMap, times(1)).resetMap();
+        verify(workerBuildMap, times(1)).reset();
         verify(workerBuildMap, times(1)).updateCellsOutOfMap();
         verify(workerBuildMap, times(1)).cannotBuildInOccupiedCell();
         verify(workerBuildMap, times(1)).canBuildUnderneath();

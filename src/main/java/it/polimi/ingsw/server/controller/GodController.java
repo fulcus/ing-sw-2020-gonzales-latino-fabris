@@ -111,7 +111,6 @@ public class GodController {
      * @return The coordinates' variation of the chosen movement.
      */
     public int[] getInputMove() {
-
         return getInputInCoordinates(currentClient.askMovementDirection());
     }
 

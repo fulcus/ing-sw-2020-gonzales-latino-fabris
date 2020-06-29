@@ -7,6 +7,8 @@ import it.polimi.ingsw.server.model.Cell;
 import it.polimi.ingsw.server.model.Worker;
 import it.polimi.ingsw.server.model.WorkerMoveMap;
 
+import java.util.ArrayList;
+
 
 /**
  * Represents the card of the God Minotaur.
@@ -80,6 +82,36 @@ public class Minotaur extends God {
         }
     }
 
+    private void updateUnpushableEnemies(Worker worker) {
+
+        WorkerMoveMap moveMap = worker.getMoveMap();
+
+        Board map = worker.getPlayer().getGame().getBoard();
+        ArrayList<Worker> enemies = moveMap.neighboringEnemyWorkers();
+
+        int xWorker = worker.getPosition().getX();
+        int yWorker = worker.getPosition().getY();
+        int xEnemy, yEnemy;
+
+        for (Worker enemy : enemies) {
+
+            xEnemy = enemy.getPosition().getX();
+            yEnemy = enemy.getPosition().getY();
+
+            Cell newEnemyPosition = map.findCell(2 * xEnemy - xWorker, 2 * yEnemy - yWorker);
+
+            int relativeX = xEnemy - xWorker + 1;
+            int relativeY = yEnemy - yWorker + 1;
+
+            //checks if enemy can move in cell
+            if (newEnemyPosition == null || newEnemyPosition.isOccupied()) {
+                moveMap.setCell(relativeX, relativeY, false);
+            }
+            //else leaves previous value in cell (might be false for other reasons)
+        }
+
+    }
+
 
     /**
      * The difference from the default method is that the worker can move into an enemy occupied cell.
@@ -88,9 +120,10 @@ public class Minotaur extends God {
      * @return The WorkerMoveMap of the chosen worker of the current turn.
      * @throws UnableToMoveException The worker isn't allowed to move anywhere.
      */
+    @Override
     public WorkerMoveMap updateMoveMap(Worker worker) throws UnableToMoveException {
         WorkerMoveMap moveMap = worker.getMoveMap();
-        moveMap.resetMap();
+        moveMap.reset();
 
         moveMap.updateCellsOutOfMap();
         moveMap.updateMoveUpRestrictions();
@@ -98,6 +131,8 @@ public class Minotaur extends God {
         moveMap.cannotStayStill();
         moveMap.cannotMoveInDomeCell();
         moveMap.cannotMoveInFriendlyWorkerCell();
+
+        updateUnpushableEnemies(worker);
 
         //moveMap.printMap();    //debugging
 

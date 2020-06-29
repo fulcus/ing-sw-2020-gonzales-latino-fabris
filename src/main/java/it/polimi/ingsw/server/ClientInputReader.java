@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.serializableObjects.Message;
+import it.polimi.ingsw.serializable.Message;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

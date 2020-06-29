@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.serializableObjects.Message;
+import it.polimi.ingsw.serializable.Message;
 
 import java.io.IOException;
 import java.util.TimerTask;

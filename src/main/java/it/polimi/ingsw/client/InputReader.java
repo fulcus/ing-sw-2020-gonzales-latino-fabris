@@ -1,17 +1,13 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.serializableObjects.Message;
+import it.polimi.ingsw.serializable.Message;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
-import java.util.Queue;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.SynchronousQueue;
 
 
 /**
@@ -74,7 +70,7 @@ public class InputReader implements Runnable {
 
                 } else if (readMessage.getMethod().equals("PONG")) {
 
-                    System.out.println("PONG from Server");
+                    //System.out.println("PONG from Server");
 
                 } else {
 
