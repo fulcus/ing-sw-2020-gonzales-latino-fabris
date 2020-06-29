@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * Represents a mock instance of the client server side.
  * Allows to send to the client through the network the messages and receive the client's answer when needed.
  */
-public class ViewClient implements ClientViewObserver {
+public class VirtualView implements ClientViewObserver {
 
 
     private final Socket socket;   //a virtual view instance for each client
@@ -31,7 +31,7 @@ public class ViewClient implements ClientViewObserver {
     private final ClientInputReader input;
 
 
-    public ViewClient(Socket socket, GameController gameController) {
+    public VirtualView(Socket socket, GameController gameController) {
         this.socket = socket;
         this.gameController = gameController;
         inGame = true;
@@ -493,6 +493,15 @@ public class ViewClient implements ClientViewObserver {
      */
     public void printMoveErrorScreen() {
         sendMessage(new Message("printMoveErrorScreen"));
+    }
+
+
+    /**
+     * Sends a message to the user to warn of invalid build action: he cannot build a dome underneath himself.
+     * This error can only occur if player uses Zeus' power.
+     */
+    public void printCannotBuildDomeUnderneath() {
+        sendMessage(new Message("printCannotBuildDomeUnderneath"));
     }
 
 

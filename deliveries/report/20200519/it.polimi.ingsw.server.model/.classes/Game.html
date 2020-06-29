@@ -84,7 +84,7 @@
 
 <div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.server.model;
 <i>2</i>&nbsp;
-<i>3</i>&nbsp;import it.polimi.ingsw.server.ViewClient;
+<i>3</i>&nbsp;import it.polimi.ingsw.server.VirtualView;
 <i>4</i>&nbsp;import it.polimi.ingsw.server.controller.god.*;
 <i>5</i>&nbsp;
 <i>6</i>&nbsp;import java.util.ArrayList;
@@ -122,8 +122,8 @@
 <i>38</i>&nbsp;     * @return player that was just created.
 <i>39</i>&nbsp;     */
 <i>40</i>&nbsp;    //view checks that nickname and color aren&#39;t already taken
-<i>41</i>&nbsp;    public Player addPlayer(String nickname, ViewClient viewClient) {
-<b class="fc"><i>42</i>&nbsp;        Player newPlayer = new Player(this, nickname, viewClient);</b>
+<i>41</i>&nbsp;    public Player addPlayer(String nickname, ViewClient virtualView) {
+<b class="fc"><i>42</i>&nbsp;        Player newPlayer = new Player(this, nickname, virtualView);</b>
 <b class="fc"><i>43</i>&nbsp;        players.add(newPlayer);</b>
 <i>44</i>&nbsp;
 <b class="fc"><i>45</i>&nbsp;        if (players.size() == numberOfPlayers)</b>

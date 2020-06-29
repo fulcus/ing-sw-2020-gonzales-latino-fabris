@@ -42,13 +42,13 @@ public class Lobby {
         //JOIN
         if (availableEmptySpot) {
 
-            ViewClient newClient = new ViewClient(clientSocket, availableGame);
+            VirtualView newClient = new VirtualView(clientSocket, availableGame);
             availableGame.join(newClient);
 
         } else {//CREATE
 
             GameController newGame = new GameController();
-            ViewClient newClient = new ViewClient(clientSocket, newGame);
+            VirtualView newClient = new VirtualView(clientSocket, newGame);
             newGame.create(newClient);
             games.add(newGame);
 

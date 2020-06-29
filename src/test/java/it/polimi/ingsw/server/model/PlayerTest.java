@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.server.ViewClient;
+import it.polimi.ingsw.server.VirtualView;
 import it.polimi.ingsw.server.controller.god.Apollo;
 import org.junit.After;
 import org.junit.Before;
@@ -19,21 +19,21 @@ public class PlayerTest {
     private Game game;
 
     @Mock
-    private ViewClient viewClient;
+    private VirtualView virtualView;
 
     @Mock
-    private ViewClient viewClient1;
+    private VirtualView virtualView1;
 
     @Before
     public void setUp() {
 
-        viewClient = mock(ViewClient.class);
-        viewClient1 = mock(ViewClient.class);
+        virtualView = mock(VirtualView.class);
+        virtualView1 = mock(VirtualView.class);
 
         game = new Game(2);
 
-        game.addPlayer("nick1", viewClient);
-        game.addPlayer("nick2", viewClient1);
+        game.addPlayer("nick1", virtualView);
+        game.addPlayer("nick2", virtualView1);
 
         player = game.getPlayers().get(0);
         player2 = game.getPlayers().get(1);
@@ -51,8 +51,8 @@ public class PlayerTest {
         player2 = null;
         worker = null;
         worker2 = null;
-        viewClient = null;
-        viewClient1 = null;
+        virtualView = null;
+        virtualView1 = null;
     }
 
 

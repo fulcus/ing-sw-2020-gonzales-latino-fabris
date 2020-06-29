@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model;
 
 
-import it.polimi.ingsw.server.ViewClient;
+import it.polimi.ingsw.server.VirtualView;
 import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.controller.GodController;
 import it.polimi.ingsw.server.controller.god.*;
@@ -21,7 +21,7 @@ public class GameTest {
     Game game;
 
     @Mock
-    private ViewClient clientView;
+    private VirtualView clientView;
 
     GameController gameController;
     Socket socket;
@@ -53,7 +53,7 @@ public class GameTest {
 
     @Test
     public void testRandomChallenger() {
-        ViewClient clientView1 = mock(ViewClient.class);
+        VirtualView clientView1 = mock(VirtualView.class);
 
         game.addPlayer("Pippo", clientView);
         game.addPlayer("Pluto", clientView1);
@@ -94,8 +94,8 @@ public class GameTest {
 
     @Test
     public void testGetChallenger() {
-        ViewClient clientView1 = mock(ViewClient.class);
-        //ViewClient clientView2 = new ViewClient(socket, gameController);
+        VirtualView clientView1 = mock(VirtualView.class);
+        //VirtualView clientView2 = new VirtualView(socket, gameController);
 
         assertNull(game.getChallenger());
         game.addPlayer("Pippo", clientView);
@@ -122,7 +122,7 @@ public class GameTest {
     public void testRemovePlayer() {
         game.addPlayer("Pippo", clientView);
 
-        ViewClient clientView1 = mock(ViewClient.class);
+        VirtualView clientView1 = mock(VirtualView.class);
         game.addPlayer("Pluto", clientView1);
 
         game.removePlayer(game.getPlayers().get(0));

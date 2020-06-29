@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.controller;
 
-import it.polimi.ingsw.server.ViewClient;
+import it.polimi.ingsw.server.VirtualView;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.controller.god.*;
 
@@ -20,7 +20,7 @@ public class GameController {
     private GodController godController;
     private final ArrayList<God> godsDeck;
     private final ExecutorService executorPlayerAdder;
-    private final ArrayList<ViewClient> gameClients;
+    private final ArrayList<VirtualView> gameClients;
     private final Object nicknameLock;
     private final Object colorLock;
     private volatile boolean full;
@@ -53,7 +53,7 @@ public class GameController {
      *
      * @param newClient The client that creates the new game and sets it up.
      */
-    public void create(ViewClient newClient) {
+    public void create(VirtualView newClient) {
 
         //send message to creator
         newClient.createGame();
@@ -70,7 +70,7 @@ public class GameController {
      *
      * @param newClient The client that has just joined the game and needs to be added to it.
      */
-    public synchronized void join(ViewClient newClient) {
+    public synchronized void join(VirtualView newClient) {
 
         //send message to client
         newClient.joinGame(game.getNumberOfPlayers());
@@ -116,9 +116,9 @@ public class GameController {
      *
      * @param newClient The client that has just joined and needs to get the other player's information.
      */
-    private void sendOtherPlayersInfo(ViewClient newClient) {
+    private void sendOtherPlayersInfo(VirtualView newClient) {
 
-        for (ViewClient otherClient : gameClients) {
+        for (VirtualView otherClient : gameClients) {
 
             //first condition always true bc newClient isn't in gameClients yet
             if (otherClient != newClient
@@ -138,7 +138,7 @@ public class GameController {
     /**
      * Sets up game and starts the logic flow.
      */
-    public synchronized void setUpGame(ViewClient firstClient) {
+    public synchronized void setUpGame(VirtualView firstClient) {
 
         godController = new GodController(this);
         createDeckGods();
@@ -157,7 +157,7 @@ public class GameController {
      *
      * @param client client to add.
      */
-    public void addPlayer(ViewClient client) {
+    public void addPlayer(VirtualView client) {
 
         //print in server
         client.connected();
@@ -175,7 +175,7 @@ public class GameController {
         String clientNickname = client.getPlayer().getNickname();
         String clientColor = client.getPlayer().getColor().name();
 
-        for (ViewClient otherClient : gameClients) {
+        for (VirtualView otherClient : gameClients) {
             if (!otherClient.equals(client))
                 otherClient.setOtherPlayersInfo(clientNickname, clientColor);
         }
@@ -188,7 +188,7 @@ public class GameController {
      *
      * @param client Client that is registered to observe.
      */
-    private void setUpObserverView(ViewClient client) {
+    private void setUpObserverView(VirtualView client) {
 
         for (int i = 0; i < Board.SIDE; i++) {
             for (int j = 0; j < Board.SIDE; j++) {
@@ -205,7 +205,7 @@ public class GameController {
      *
      * @param client The client that is removed from the list of the observers.
      */
-    public void removeClientObserver(ViewClient client) {
+    public void removeClientObserver(VirtualView client) {
 
         for (int i = 0; i < Board.SIDE; i++) {
             for (int j = 0; j < Board.SIDE; j++) {
@@ -222,7 +222,7 @@ public class GameController {
      *
      * @param client view of the player.
      */
-    private void setPlayerNickname(ViewClient client) {
+    private void setPlayerNickname(VirtualView client) {
 
         while (true) {
 
@@ -246,7 +246,7 @@ public class GameController {
      * @param game           The game where the player needs to be added.
      * @return True if the nickname was valid, false otherwise.
      */
-    private boolean checkNicknameValidity(String chosenNickname, ViewClient client, Game game) {
+    private boolean checkNicknameValidity(String chosenNickname, VirtualView client, Game game) {
         if(chosenNickname.length() == 0 || chosenNickname.length() > 8) {
             client.nicknameFormatError();
             return false;
@@ -267,7 +267,7 @@ public class GameController {
      *
      * @param client view of the player.
      */
-    private void setPlayerColor(ViewClient client) {
+    private void setPlayerColor(VirtualView client) {
 
         while (true) {
 
@@ -295,7 +295,7 @@ public class GameController {
      * @param client      The client associated to the player.
      * @return True if the color was valid, false otherwise.
      */
-    private boolean checkColorValidity(String chosenColor, ViewClient client) {
+    private boolean checkColorValidity(String chosenColor, VirtualView client) {
 
         if (colorIsAvailable(chosenColor) && colorIsValid(chosenColor)) {
             client.notifyValidColor();
@@ -388,7 +388,7 @@ public class GameController {
      */
     public void winGame(Player winner) {
         //winningView and losingView are blocking since they must return boolean (although unused)
-        ViewClient winnerClient = winner.getClient();
+        VirtualView winnerClient = winner.getClient();
 
         //print "you have won" in winner view
         winnerClient.winningView();
@@ -445,7 +445,7 @@ public class GameController {
     public void handleGameDisconnection(String disconnectedPlayer) {
 
         //if disconnection is due to a player disconnection
-        for (ViewClient connectedClient : gameClients) {
+        for (VirtualView connectedClient : gameClients) {
 
             if (connectedClient.isInGame()) {
                 connectedClient.notifyOtherPlayerDisconnection(disconnectedPlayer);
@@ -475,7 +475,7 @@ public class GameController {
     }
 
 
-    public ArrayList<ViewClient> getGameClients() {
+    public ArrayList<VirtualView> getGameClients() {
         return gameClients;
     }
 

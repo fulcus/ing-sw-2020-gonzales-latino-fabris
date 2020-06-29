@@ -1,10 +1,10 @@
 package it.polimi.ingsw.server.controller;
 
 
+import it.polimi.ingsw.server.VirtualView;
 import it.polimi.ingsw.server.controller.god.God;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.Worker;
-import it.polimi.ingsw.server.ViewClient;
 
 import java.util.ArrayList;
 
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class GodController {
 
     private final GameController gameController;
-    private ViewClient currentClient; //assigned at the beginning of each turn
+    private VirtualView currentClient; //assigned at the beginning of each turn
 
 
     public GodController(GameController gameController) {
@@ -25,12 +25,12 @@ public class GodController {
     }
 
 
-    public void updateCurrentClient(ViewClient client) {
+    public void updateCurrentClient(VirtualView client) {
         this.currentClient = client;
     }
 
 
-    public ViewClient getCurrentClient() {
+    public VirtualView getCurrentClient() {
         return currentClient;
     }
 
@@ -206,9 +206,9 @@ public class GodController {
         int[] buildingInput = new int[2];
         String playerInput = currentClient.askBuildingDirection();
 
-        int[] playerInputCoord = getInputInCoordinates(playerInput);
-        buildingInput[0] = playerInputCoord[0];
-        buildingInput[1] = playerInputCoord[1];
+        int[] playerInputCoordinate = getInputInCoordinates(playerInput);
+        buildingInput[0] = playerInputCoordinate[0];
+        buildingInput[1] = playerInputCoordinate[1];
 
         return buildingInput;
     }
@@ -297,6 +297,14 @@ public class GodController {
      */
     public void errorBuildBlockScreen() {
         currentClient.printBuildBlockErrorScreen();
+    }
+
+    /**
+     * Warns user of invalid build action: he cannot build a dome underneath himself.
+     * This error can only occur if player uses Zeus' power.
+     */
+    public void cannotBuildDomeUnderneath() {
+        currentClient.printCannotBuildDomeUnderneath();
     }
 
 }

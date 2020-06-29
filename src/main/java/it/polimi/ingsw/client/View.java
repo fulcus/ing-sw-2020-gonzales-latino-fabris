@@ -374,6 +374,13 @@ public interface View {
 
 
     /**
+     * Warns user of invalid build action: he cannot build a dome underneath himself.
+     * This error can only occur if player uses Zeus' power.
+     */
+    void printCannotBuildDomeUnderneath();
+
+
+    /**
      * Asks the player if he still wants to move during this turn.
      *
      * @return Y for a positive answer, N for a negative one.

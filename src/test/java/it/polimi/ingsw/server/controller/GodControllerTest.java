@@ -1,11 +1,10 @@
 package it.polimi.ingsw.server.controller;
 
-import it.polimi.ingsw.server.ViewClient;
+import it.polimi.ingsw.server.VirtualView;
 import it.polimi.ingsw.server.controller.god.Demeter;
 import it.polimi.ingsw.server.controller.god.Hephaestus;
 import it.polimi.ingsw.server.controller.god.Hestia;
 import it.polimi.ingsw.server.controller.god.Prometheus;
-import it.polimi.ingsw.server.model.Color;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.Worker;
@@ -23,7 +22,7 @@ import static org.mockito.Mockito.*;
 public class GodControllerTest {
 
     @Mock
-    private ViewClient client;
+    private VirtualView client;
 
     @Mock
     private Worker worker;
@@ -41,7 +40,7 @@ public class GodControllerTest {
     public void setUp() {
         //gameController = new GameController();
         gameController = mock(GameController.class);
-        client = mock(ViewClient.class);
+        client = mock(VirtualView.class);
         when(client.askNumberOfPlayers()).thenReturn(2);
         gameController.setUpGame(client);
         godController = new GodController(gameController);

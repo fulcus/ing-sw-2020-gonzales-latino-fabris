@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.controller;
 
-import it.polimi.ingsw.server.ViewClient;
+import it.polimi.ingsw.server.VirtualView;
 import it.polimi.ingsw.server.controller.god.God;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Player;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class TurnHandler implements Runnable {
 
     private final Game game;
-    private ViewClient currentClient;
+    private VirtualView currentClient;
     private final GameController gameController;
     private final ArrayList<Player> players;
     private Player currentPlayer;
@@ -65,7 +65,7 @@ public class TurnHandler implements Runnable {
     private void challengerChooseGods() {
 
         Player challenger = game.getChallenger();
-        ViewClient challengerClient = challenger.getClient();
+        VirtualView challengerClient = challenger.getClient();
         ArrayList<God> godsDeck = gameController.getGodsDeck();
         ArrayList<String> godsNameAndDescription = new ArrayList<>(14);
 
@@ -138,7 +138,7 @@ public class TurnHandler implements Runnable {
                     otherPlayer.getClient().waitOtherPlayerChooseGod(player.getNickname());
             }
 
-            ViewClient playerClient = player.getClient();
+            VirtualView playerClient = player.getClient();
             //playerClient.printChosenGods(chosenGods);
 
 
@@ -177,7 +177,7 @@ public class TurnHandler implements Runnable {
     private void challengerChooseStartPlayer() {
 
         Player challenger = game.getChallenger();
-        ViewClient challengerClient = challenger.getClient();
+        VirtualView challengerClient = challenger.getClient();
         String startPlayerNick = null;
         Player startPlayer = null;
 
@@ -232,7 +232,7 @@ public class TurnHandler implements Runnable {
                     otherPlayer.getClient().otherPlayerSettingInitialWorkerPosition(player.getNickname());
             }
 
-            ViewClient playerClient = player.getClient();
+            VirtualView playerClient = player.getClient();
 
             if (players.indexOf(player) == 0)
                 playerClient.printMap();
@@ -396,7 +396,7 @@ public class TurnHandler implements Runnable {
 
             } else {
                 loserNickname = currentPlayer.getNickname();
-                boolean received = currentClient.unableToMoveLose();
+                currentClient.unableToMoveLose();
                 currentPlayer.lose();
                 currentClient.killClient();
 

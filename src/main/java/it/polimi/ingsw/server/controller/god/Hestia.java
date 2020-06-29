@@ -63,7 +63,7 @@ public class Hestia extends God {
 
             Board board = worker.getPlayer().getGame().getBoard();
 
-            int[] buildInput = godController.getBuildingInput();  //returns build position + type: block/dome
+            int[] buildInput = godController.getBuildingInput();  //returns build position
             int xBuild = buildInput[0] + worker.getPosition().getX();
             int yBuild = buildInput[1] + worker.getPosition().getY();
 

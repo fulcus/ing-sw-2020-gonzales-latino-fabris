@@ -20,7 +20,7 @@ public class Cli implements View {
     private Scanner input;
     private Scanner intInput;
     private final BoardClient board;// this will contain a copy of the Model's map and each cell will be update if there are any changes
-    private String myNickname; //to be assigned when setPlayer of ViewClient is deserialized
+    private String myNickname; //to be assigned when setPlayer of VirtualView is deserialized
     private String myColor;
     private String challenger;
 
@@ -691,7 +691,7 @@ public class Cli implements View {
 
         String selectedView;
 
-        System.out.println("What kind of interface would you like to play with? CLI or Gui");
+        System.out.println("What kind of interface would you like to play with? CLI or GUI");
 
         while (true) {
 
@@ -998,6 +998,14 @@ public class Cli implements View {
         System.out.println("You're not allowed to move there.");
     }
 
+
+    /**
+     * Warns user of invalid build action: he cannot build a dome underneath himself.
+     * This error can only occur if player uses Zeus' power.
+     */
+    public void printCannotBuildDomeUnderneath() {
+        System.out.println("You cannot build a dome underneath yourself.");
+    }
 
     /**
      * Asks the player if he still wants to move during this turn.

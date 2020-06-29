@@ -577,6 +577,21 @@ public class GuiManager implements View {
 
     }
 
+    /**
+     * Warns user of invalid build action: he cannot build a dome underneath himself.
+     * This error can only occur if player uses Zeus' power.
+     */
+    public void printCannotBuildDomeUnderneath() {
+
+        Platform.runLater(() -> {
+            boardController.printToMainText("You cannot build a dome underneath yourself.");
+            boardController.printToGodTextArea("");
+            boardController.setConfirmButtonVisible();
+        });
+
+        acceptTextBarInfo();
+    }
+
 
     /**
      * Allows to print a general ERROR to the screen.
@@ -1203,9 +1218,12 @@ public class GuiManager implements View {
     public boolean losingView(String winner) {
 
         try {
-            AnchorPane lose = FXMLLoader.load(getClass().getResource("/scenes/lose.fxml"));
+            FXMLLoader loseLoader = new FXMLLoader(getClass().getResource("/scenes/lose.fxml"));
+            AnchorPane lose = loseLoader.load();
+            EndGameController loseController = loseLoader.getController();
 
             Platform.runLater(() -> {
+                loseController.setWinner(winner);
 
                 for (Node child : boardRoot.getChildrenUnmodifiable())
                     child.setEffect(new GaussianBlur());

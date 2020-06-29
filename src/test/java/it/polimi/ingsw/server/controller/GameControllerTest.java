@@ -1,9 +1,9 @@
 package it.polimi.ingsw.server.controller;
 
+import it.polimi.ingsw.server.VirtualView;
 import it.polimi.ingsw.server.model.Color;
 import it.polimi.ingsw.server.model.Player;
 import org.junit.*;
-import it.polimi.ingsw.server.ViewClient;
 import org.mockito.Mock;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -14,10 +14,10 @@ public class GameControllerTest {
     private GameController gameController;
 
     @Mock
-    private ViewClient client;
+    private VirtualView client;
 
     @Mock
-    private ViewClient client2;
+    private VirtualView client2;
 
     @Mock
     private Player player1;
@@ -29,8 +29,8 @@ public class GameControllerTest {
     @Before
     public void setUp() {
         gameController = new GameController();
-        client = mock(ViewClient.class);
-        client2 = mock(ViewClient.class);
+        client = mock(VirtualView.class);
+        client2 = mock(VirtualView.class);
 
     }
 
@@ -101,7 +101,7 @@ public class GameControllerTest {
         when(player2.getColor()).thenReturn(Color.BLUE);
         when(player2.getNickname()).thenReturn("Nick2");
 
-        ViewClient client3 = mock(ViewClient.class);
+        VirtualView client3 = mock(VirtualView.class);
         when(client3.askPlayerNickname()).thenReturn("Nick3");
         when(client3.askPlayerColor(any())).thenReturn("WHITE");
 
@@ -156,7 +156,7 @@ public class GameControllerTest {
         when(client.askNumberOfPlayers()).thenReturn(3);
         gameController.setUpGame(client);
 
-        client2 = mock(ViewClient.class);
+        client2 = mock(VirtualView.class);
 
         Player player1 = new Player(gameController.getGame(), "Nick1", client);
         Player player2 = new Player(gameController.getGame(), "Nick2", client2);

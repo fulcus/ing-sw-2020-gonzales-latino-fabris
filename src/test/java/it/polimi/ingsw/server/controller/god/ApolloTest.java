@@ -33,7 +33,7 @@ public class ApolloTest {
         apollo = new Apollo(godController);
         worker = mock(Worker.class);
         workerMoveMap = mock(WorkerMoveMap.class);
-        //client = mock(ViewClient.class);
+        //client = mock(VirtualView.class);
 
     }
 

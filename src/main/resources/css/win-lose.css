@@ -36,3 +36,10 @@
     -fx-font-color: white;
     -fx-effect: dropshadow(gaussian, black, 1, 1.0, 2, 1);
 }
+
+.winner-is {
+    -fx-font-family: "Ink Blossoms";
+    -fx-font-size: 30;
+    -fx-font-color: white;
+    -fx-effect: dropshadow(gaussian, black, 1, 1.0, 2, 1);
+}

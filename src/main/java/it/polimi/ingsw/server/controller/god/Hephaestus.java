@@ -52,7 +52,7 @@ public class Hephaestus extends God {
         Board board = worker.getPlayer().getGame().getBoard();
 
         while (true) {
-            //returns build position + type: block/dome
+            //returns build position
             int[] buildInput = godController.getBuildingInput();
 
             int xBuild = worker.getPosition().getX() + buildInput[0];
