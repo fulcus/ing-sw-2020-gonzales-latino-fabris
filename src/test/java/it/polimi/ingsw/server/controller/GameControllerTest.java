@@ -59,7 +59,7 @@ public class GameControllerTest {
         when(client.askNumberOfPlayers()).thenReturn(2);
 
         when(client.askPlayerNickname()).thenReturn("Nick1");
-        when(client.askPlayerColor()).thenReturn("BEIGE");
+        when(client.askPlayerColor(any())).thenReturn("BEIGE");
 
         doNothing().when(client).setPlayer(any(Player.class));
         doNothing().when(client).createGame();
@@ -81,7 +81,7 @@ public class GameControllerTest {
         when(client.askNumberOfPlayers()).thenReturn(4);
 
         when(client.askPlayerNickname()).thenReturn("Nick1");
-        when(client.askPlayerColor()).thenReturn("BEIGE");
+        when(client.askPlayerColor(any())).thenReturn("BEIGE");
 
         doNothing().when(client).setPlayer(any(Player.class));
         doNothing().when(client).createGame();
@@ -93,7 +93,7 @@ public class GameControllerTest {
         when(player1.getNickname()).thenReturn("Nick1");
 
         when(client2.askPlayerNickname()).thenReturn("Nick2");
-        when(client2.askPlayerColor()).thenReturn("BLUE");
+        when(client2.askPlayerColor(any())).thenReturn("BLUE");
 
         player2 = mock(Player.class);
         when(client2.getPlayer()).thenReturn(player2);
@@ -103,7 +103,7 @@ public class GameControllerTest {
 
         ViewClient client3 = mock(ViewClient.class);
         when(client3.askPlayerNickname()).thenReturn("Nick3");
-        when(client3.askPlayerColor()).thenReturn("WHITE");
+        when(client3.askPlayerColor(any())).thenReturn("WHITE");
 
         Player player3 = mock(Player.class);
         when(client3.getPlayer()).thenReturn(player3);
@@ -131,7 +131,7 @@ public class GameControllerTest {
         doNothing().when(client).beginningView();
 
         when(client.askPlayerNickname()).thenReturn("toolongnickname", "Nick1");
-        when(client.askPlayerColor()).thenReturn("BLACK", "BEIGE");
+        when(client.askPlayerColor(any())).thenReturn("BLACK", "BEIGE");
 
         doNothing().when(client).setPlayer(any(Player.class));
 
@@ -169,7 +169,7 @@ public class GameControllerTest {
 
         //Setting the configuration for 2 players of the game and adding them to the game
         when(client.askPlayerNickname()).thenReturn("Nick1");
-        when(client.askPlayerColor()).thenReturn("BEIGE");
+        when(client.askPlayerColor(any())).thenReturn("BEIGE");
         when(client.getPlayer()).thenReturn(player1);
         doNothing().when(client).setPlayer(any(Player.class));
         doNothing().when(client).connected();
@@ -178,7 +178,7 @@ public class GameControllerTest {
         when(client.winningView()).thenReturn(true);
 
         when(client2.askPlayerNickname()).thenReturn("Nick2");
-        when(client2.askPlayerColor()).thenReturn("WHITE");
+        when(client2.askPlayerColor(any())).thenReturn("WHITE");
         when(client2.getPlayer()).thenReturn(player2);
         doNothing().when(client2).setPlayer(any(Player.class));
         doNothing().when(client2).connected();
@@ -247,7 +247,7 @@ public class GameControllerTest {
         gameController.setUpGame(client);
 
         when(client.askPlayerNickname()).thenReturn("Nick1");
-        when(client.askPlayerColor()).thenReturn("BEIGE");
+        when(client.askPlayerColor(any())).thenReturn("BEIGE");
         doNothing().when(client).setPlayer(any(Player.class));
 
         Player player = new Player(gameController.getGame(), "Nick1", client);
@@ -271,9 +271,9 @@ public class GameControllerTest {
         gameController.setUpGame(client);
 
         when(client.askPlayerNickname()).thenReturn("Nick1");
-        when(client.askPlayerColor()).thenReturn("BEIGE");
+        when(client.askPlayerColor(any())).thenReturn("BEIGE");
         when(client2.askPlayerNickname()).thenReturn("Nick2");
-        when(client2.askPlayerColor()).thenReturn("BLUE");
+        when(client2.askPlayerColor(any())).thenReturn("BLUE");
 
         doNothing().when(client).setPlayer(any(Player.class));
         doNothing().when(client2).setPlayer(any(Player.class));
@@ -306,7 +306,7 @@ public class GameControllerTest {
         gameController.setUpGame(client);
 
         when(client.askPlayerNickname()).thenReturn("Nick1");
-        when(client.askPlayerColor()).thenReturn("BEIGE");
+        when(client.askPlayerColor(any())).thenReturn("BEIGE");
 
         doNothing().when(client).setPlayer(any(Player.class));
 
@@ -329,7 +329,7 @@ public class GameControllerTest {
         gameController.setUpGame(client);
 
         when(client.askPlayerNickname()).thenReturn("Nick1");
-        when(client.askPlayerColor()).thenReturn("BEIGE");
+        when(client.askPlayerColor(any())).thenReturn("BEIGE");
         Player player = new Player(gameController.getGame(), "Nick1", client);
         when(client.getPlayer()).thenReturn(player);
 
@@ -346,7 +346,7 @@ public class GameControllerTest {
         gameController.setUpGame(client);
 
         when(client.askPlayerNickname()).thenReturn("Nick1");
-        when(client.askPlayerColor()).thenReturn("BEIGE");
+        when(client.askPlayerColor(any())).thenReturn("BEIGE");
         Player player = new Player(gameController.getGame(), "Nick1", client);
         when(client.getPlayer()).thenReturn(player);
 
@@ -369,6 +369,8 @@ public class GameControllerTest {
 
     @Test
     public void isEndedTest() {
-        assertTrue(!gameController.isEnded());
+        assertFalse(gameController.isEnded());
     }
+
+
 }

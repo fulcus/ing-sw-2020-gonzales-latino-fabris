@@ -26,6 +26,7 @@ public class GameController {
     private volatile boolean full;
     private volatile boolean ended;
     private int clientsConnected;
+    private ArrayList<String> gameColors;
 
 
     public GameController() {
@@ -39,6 +40,10 @@ public class GameController {
         clientsConnected = 1; //counting creator
         full = false;
         ended = false;
+        gameColors = new ArrayList<>(3);
+        gameColors.add("BLUE");
+        gameColors.add("WHITE");
+        gameColors.add("BEIGE");
     }
 
 
@@ -266,12 +271,14 @@ public class GameController {
 
         while (true) {
 
-            String chosenColor = client.askPlayerColor();
+            String chosenColor = client.askPlayerColor(gameColors);
 
             //edited
             synchronized (colorLock) {
-                if (checkColorValidity(chosenColor, client))
+                if (checkColorValidity(chosenColor, client)) {
+                    gameColors.remove(chosenColor);
                     return;
+                }
             }
 
             client.notAvailableColor();

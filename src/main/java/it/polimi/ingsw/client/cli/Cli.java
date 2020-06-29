@@ -259,9 +259,13 @@ public class Cli implements View {
      *
      * @return The color chosen by the player.
      */
-    public String askPlayerColor() {
+    public String askPlayerColor(ArrayList<String> availableColors) {
 
-        System.out.println("Santorini game colors are Blue, White and Beige.");
+        System.out.println("\nThe available colors for this game are: ");
+        for (String color : availableColors) {
+            System.out.println(color);
+        }
+
         System.out.println("\n" + myNickname + ", choose your color for this game:");
 
         String color = input.nextLine().toUpperCase();

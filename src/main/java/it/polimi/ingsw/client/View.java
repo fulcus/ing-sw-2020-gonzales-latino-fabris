@@ -128,7 +128,7 @@ public interface View {
      *
      * @return The color chosen by the player.
      */
-    String askPlayerColor();
+    String askPlayerColor(ArrayList<String> availableColors);
 
 
     /**

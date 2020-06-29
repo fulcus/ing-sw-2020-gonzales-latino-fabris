@@ -176,10 +176,12 @@ public class ViewClient implements ClientViewObserver {
      * Sends to the client the message to ask to the player the color for the game.
      * Only three colors are available: blue, white and beige.
      *
+     *
+     *
      * @return The color chosen by the player.
      */
-    public String askPlayerColor() {
-        return (String) sendMessageWithReturn(new Message("askPlayerColor"));
+    public String askPlayerColor(ArrayList<String> availableColors) {
+        return (String) sendMessageWithReturn(new Message("askPlayerColor", availableColors));
     }
 
 

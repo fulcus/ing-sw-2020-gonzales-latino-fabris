@@ -353,7 +353,7 @@ public class GuiManager implements View {
      *
      * @return The color chosen by the player.
      */
-    public String askPlayerColor() {
+    public String askPlayerColor(ArrayList<String> availableColors) {
 
         String color = null;
 

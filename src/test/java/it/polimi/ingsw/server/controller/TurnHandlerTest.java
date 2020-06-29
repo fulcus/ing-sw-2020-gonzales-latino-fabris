@@ -7,6 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
@@ -42,8 +44,8 @@ public class TurnHandlerTest {
 
         when(client1.askPlayerNickname()).thenReturn("Nick1");
         when(client2.askPlayerNickname()).thenReturn("Nick2");
-        when(client1.askPlayerColor()).thenReturn("BEIGE");
-        when(client2.askPlayerColor()).thenReturn("BLUE");
+        when(client1.askPlayerColor(any())).thenReturn("BEIGE");
+        when(client2.askPlayerColor(any())).thenReturn("BLUE");
 
         doNothing().when(client1).setPlayer(any(Player.class));
         doNothing().when(client2).setPlayer(any(Player.class));
