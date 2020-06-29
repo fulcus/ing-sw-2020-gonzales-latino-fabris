@@ -12,11 +12,6 @@ public class EndGameController {
     }
 
     @FXML
-    private void playAgain() {
-        //todo
-    }
-
-    @FXML
     private void exit() {
         System.exit(0);
     }

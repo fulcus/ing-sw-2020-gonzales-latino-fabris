@@ -1,9 +1,7 @@
 package it.polimi.ingsw.server.controller;
 
-import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.server.model.Color;
 import it.polimi.ingsw.server.model.Player;
-import javafx.application.Platform;
 import org.junit.*;
 import it.polimi.ingsw.server.ViewClient;
 import org.mockito.Mock;
@@ -132,7 +130,7 @@ public class GameControllerTest {
         doNothing().when(client).connected();
         doNothing().when(client).beginningView();
 
-        when(client.askPlayerNickname()).thenReturn("", "Nick1");
+        when(client.askPlayerNickname()).thenReturn("toolongnickname", "Nick1");
         when(client.askPlayerColor()).thenReturn("BLACK", "BEIGE");
 
         doNothing().when(client).setPlayer(any(Player.class));
@@ -148,7 +146,6 @@ public class GameControllerTest {
         verify(client, times(1)).connected();
         verify(client, times(1)).beginningView();
         verify(client, times(1)).setPlayer(any(Player.class));
-        verify(client, times(1)).notAvailableNickname();
         verify(client, times(1)).notAvailableColor();
 
     }
@@ -367,5 +364,11 @@ public class GameControllerTest {
     @Test
     public void getGameClients() {
         assertTrue(gameController.getGameClients().isEmpty());
+    }
+
+
+    @Test
+    public void isEndedTest() {
+        assertTrue(!gameController.isEnded());
     }
 }

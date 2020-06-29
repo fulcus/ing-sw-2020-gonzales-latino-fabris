@@ -39,7 +39,7 @@
             <Font name="Negotiate Free" size="15.0" />
          </font>
       </Text>
-      <Text fx:id="colorError" fill="RED" layoutX="223.0" layoutY="405.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ERROR: NOT AVAILABLE COLOR" textAlignment="CENTER" visible="false">
+      <Text fx:id="colorError" fill="RED" layoutX="258.0" layoutY="405.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Color Not Available" textAlignment="CENTER" visible="false">
          <font>
             <Font name="Negotiate Free" size="14.0" />
          </font>
