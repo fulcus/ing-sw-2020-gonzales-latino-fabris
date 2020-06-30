@@ -125,16 +125,26 @@ public class CharonTest {
     }
 
 
+    @Test (expected = UnableToMoveException.class)
+    public void moveExceptionRaising() throws UnableToMoveException, UnableToBuildException, WinException {
+        settingUsualParameters();
+        when(worker.getPlayer()).thenReturn(player);
+        when(workerMoveMap.anyAvailableMovePosition()).thenReturn(false);
+        ArrayList<Worker> workerList = new ArrayList<>();
+        when(workerMoveMap.neighboringEnemyWorkers()).thenReturn(workerList);
+
+        charon.evolveTurn(worker);
+    }
+
+
+
     @Test
-    public void forceMoveEnemy() throws UnableToMoveException {
+    public void forceMoveEnemy() throws UnableToMoveException, UnableToBuildException, WinException {
+
+        settingUsualParameters();
 
         //setting the behaviour for the updateMoveMap
         when(worker.getMoveMap()).thenReturn(workerMoveMap);
-        doNothing().when(workerMoveMap).reset();
-        doNothing().when(workerMoveMap).updateCellsOutOfMap();
-        doNothing().when(workerMoveMap).updateMoveUpRestrictions();
-        doNothing().when(workerMoveMap).cannotStayStill();
-        doNothing().when(workerMoveMap).cannotMoveInOccupiedCell();
         when(workerMoveMap.anyAvailableMovePosition()).thenReturn(true);
 
         Game game = mock(Game.class);
@@ -165,18 +175,17 @@ public class CharonTest {
 
         when(godController.forceMoveEnemy(anyObject(), any(Worker.class))).thenReturn(enemy);
 
-        //todo sorry again vitto <3
-        //charon.forceMoveEnemy(worker);
+        charon.evolveTurn(worker);
 
+        verify(worker, times(12)).getPosition();
+        verify(board, times(2)).findCell(anyInt(), anyInt());
 
         when(godController.forceMoveEnemy(anyObject(), any(Worker.class))).thenReturn(null);
-        //charon.forceMoveEnemy(worker);
-
+        charon.evolveTurn(worker);
 
         when(godController.wantToMoveEnemy()).thenReturn(false);
-        //charon.forceMoveEnemy(worker);
-
-
+        charon.evolveTurn(worker);
+        verify(worker, times(24)).getPosition();
     }
 
 

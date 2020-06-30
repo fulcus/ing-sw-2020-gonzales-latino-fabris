@@ -271,5 +271,13 @@ public class GodControllerTest {
 
         verify(client).printBuildBlockErrorScreen();
     }
+
+
+    @Test
+    public void cannotBuildDomeUnderneathTest() {
+        godController.updateCurrentClient(client);
+        godController.cannotBuildDomeUnderneath();
+        verify(client, times(1)).printCannotBuildDomeUnderneath();
+    }
     
 }

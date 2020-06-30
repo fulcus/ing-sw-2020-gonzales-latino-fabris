@@ -350,8 +350,7 @@ public class GameController {
 
         for (Player player : game.getPlayers()) {
 
-            if (player.getColor() != null
-                    && chosenColor.equals(player.getColor().toString()))
+            if ((player.getColor() != null) && (chosenColor.equals(player.getColor().toString())))
                 return false;
         }
 
