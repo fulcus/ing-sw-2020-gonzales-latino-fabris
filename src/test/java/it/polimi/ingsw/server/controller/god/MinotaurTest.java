@@ -8,6 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
@@ -147,6 +149,32 @@ public class MinotaurTest {
         doNothing().when(workerMoveMap).cannotStayStill();
         doNothing().when(workerMoveMap).cannotMoveInDomeCell();
         doNothing().when(workerMoveMap).cannotMoveInFriendlyWorkerCell();
+
+        Cell cell = mock(Cell.class);
+        when(worker.getPosition()).thenReturn(cell);
+        when(cell.getX()).thenReturn(2);
+        when(cell.getY()).thenReturn(2);
+
+        Game game = mock(Game.class);
+        Board board = mock(Board.class);
+        when(worker.getPlayer()).thenReturn(player);
+        when(player.getGame()).thenReturn(game);
+        when(game.getBoard()).thenReturn(board);
+
+        Cell cell2 = mock(Cell.class);
+        when(board.findCell(any(int.class), any(int.class))).thenReturn(cell2, cell2);
+        when(cell2.hasWorker()).thenReturn(false);
+        when(cell2.isOccupied()).thenReturn(false);
+        Worker enemy = mock(Worker.class);
+        ArrayList<Worker> enemies = new ArrayList<>();
+        enemies.add(enemy);
+        when(workerMoveMap.neighboringEnemyWorkers()).thenReturn(enemies);
+        when(cell2.getWorker()).thenReturn(enemy);
+        when(enemy.getPosition()).thenReturn(cell2);
+        when(cell2.getX()).thenReturn(3);
+        when(cell2.getY()).thenReturn(3);
+        doNothing().when(enemy).setPosition(any(int.class), any(int.class));
+
         when(workerMoveMap.anyAvailableMovePosition()).thenReturn(true);
 
         assertEquals(workerMoveMap, minotaur.updateMoveMap(worker));
@@ -161,8 +189,34 @@ public class MinotaurTest {
     @Test (expected = UnableToMoveException.class)
     public void updateMoveMapFail() throws UnableToMoveException {
 
+        //Useful to see if the move exception is correctly risen.
+        //Calls in the method are quite similar to the previous test.
+
         when(worker.getMoveMap()).thenReturn(workerMoveMap);
         when(workerMoveMap.anyAvailableMovePosition()).thenReturn(false);
+
+        Cell cell = mock(Cell.class);
+        when(worker.getPosition()).thenReturn(cell);
+        when(cell.getX()).thenReturn(2);
+        when(cell.getY()).thenReturn(2);
+
+        Game game = mock(Game.class);
+        Board board = mock(Board.class);
+        when(worker.getPlayer()).thenReturn(player);
+        when(player.getGame()).thenReturn(game);
+        when(game.getBoard()).thenReturn(board);
+
+        Cell cell2 = mock(Cell.class);
+        when(board.findCell(any(int.class), any(int.class))).thenReturn(cell2, cell2);
+        when(cell2.hasWorker()).thenReturn(false);
+        when(cell2.isOccupied()).thenReturn(false);
+        Worker enemy = mock(Worker.class);
+        ArrayList<Worker> enemies = new ArrayList<>();
+        when(workerMoveMap.neighboringEnemyWorkers()).thenReturn(enemies);
+        when(cell2.getWorker()).thenReturn(enemy);
+        when(enemy.getPosition()).thenReturn(cell2);
+        when(cell2.getX()).thenReturn(3);
+        when(cell2.getY()).thenReturn(3);
 
         assertEquals(workerMoveMap, minotaur.updateMoveMap(worker));
     }
