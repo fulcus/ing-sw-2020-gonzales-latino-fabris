@@ -74,6 +74,7 @@ public class Zeus extends God {
             worker.setPosition(newCell);
     }
 
+
     /**
      * The difference with the default method is that the build matrix of the worker is updated giving the possibility to build underneath the chosen worker.
      *

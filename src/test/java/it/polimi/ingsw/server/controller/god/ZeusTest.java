@@ -2,8 +2,7 @@ package it.polimi.ingsw.server.controller.god;
 
 import it.polimi.ingsw.server.controller.GodController;
 import it.polimi.ingsw.server.controller.UnableToBuildException;
-import it.polimi.ingsw.server.model.Worker;
-import it.polimi.ingsw.server.model.WorkerBuildMap;
+import it.polimi.ingsw.server.model.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -82,6 +81,43 @@ public class ZeusTest {
         verify(workerBuildMap, times(1)).canBuildUnderneath();
         verify(workerBuildMap, times(1)).anyAvailableBuildPosition();
 
+    }
+
+
+    @Test
+    public void buildTest() throws UnableToBuildException {
+        Player player = mock(Player.class);
+        Cell cell = mock(Cell.class);
+        when(worker.getBuildMap()).thenReturn(workerBuildMap);
+        when(workerBuildMap.anyAvailableBuildPosition()).thenReturn(true);
+        when(worker.getPosition()).thenReturn(cell);
+        when(cell.getX()).thenReturn(2);
+        when(cell.getY()).thenReturn(2);
+
+        Game game = mock(Game.class);
+        Board board = mock(Board.class);
+        when(worker.getPlayer()).thenReturn(player);
+        when(player.getGame()).thenReturn(game);
+        when(game.getBoard()).thenReturn(board);
+
+        int[] build = {0, 1};
+        when(godController.getBuildingInput()).thenReturn(build);
+        when(workerBuildMap.isAllowedToBuildBoard(any(int.class), any(int.class))).thenReturn(false, true);
+        when(board.findCell(anyInt(), anyInt())).thenReturn(cell);
+        when(cell.getLevel()).thenReturn(2);
+
+        zeus.build(worker);
+
+        verify(worker, times(1)).buildBlock(anyInt(), anyInt());
+        verify(godController, times(1)).errorBuildScreen();
+        verify(worker, times(1)).setPosition(any());
+
+        Cell cell2 = mock(Cell.class);
+        when(cell2.getLevel()).thenReturn(3);
+        when(board.findCell(anyInt(), anyInt())).thenReturn(cell2);
+        zeus.build(worker);
+
+        verify(worker, times(1)).buildDome(anyInt(), anyInt());
     }
 
 
