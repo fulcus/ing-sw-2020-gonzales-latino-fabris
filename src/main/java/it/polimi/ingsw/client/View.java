@@ -241,14 +241,6 @@ public interface View {
 
 
     /**
-     * Prints all the available gods of the game and their description.
-     *
-     * @param godsNameAndDescription The gods available for the game, the challenger will chose among this ones.
-     */
-    void printAllGods(ArrayList<String> godsNameAndDescription);
-
-
-    /**
      * Lets the player know the selected god does not exist in this game.
      */
     void challengerError();

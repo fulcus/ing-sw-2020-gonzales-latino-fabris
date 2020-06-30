@@ -706,16 +706,6 @@ public class GuiManager implements View {
 
 
     /**
-     * Prints all the available gods of the game and their description.
-     *
-     * @param godsNameAndDescription The gods available for the game, the challenger will chose among this ones.
-     */
-    public void printAllGods(ArrayList<String> godsNameAndDescription) {
-        //useless in the gui
-    }
-
-
-    /**
      * Lets the player know the selected god does not exist in this game.
      */
     public void challengerError() {

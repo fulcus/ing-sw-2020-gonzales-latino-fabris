@@ -333,16 +333,6 @@ public class VirtualView implements ClientViewObserver {
 
 
     /**
-     * Sends a message to show all the available gods of the game and their description.
-     *
-     * @param godsNameAndDescription The gods available for the game, the challenger will chose among this ones.
-     */
-    public void printAllGods(ArrayList<String> godsNameAndDescription) {
-        sendMessage(new Message("printAllGods", godsNameAndDescription));
-    }
-
-
-    /**
      * Sends a message to let the player know the selected god does not exist in this game.
      */
     public void challengerError() {

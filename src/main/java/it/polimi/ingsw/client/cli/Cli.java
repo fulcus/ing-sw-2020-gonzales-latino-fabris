@@ -7,9 +7,7 @@ import it.polimi.ingsw.serializable.CellClient;
 import it.polimi.ingsw.serializable.WorkerClient;
 import it.polimi.ingsw.server.model.Board;
 
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
 
 
 /**
@@ -25,7 +23,7 @@ public class Cli implements View {
     private String challenger;
 
     private final ArrayList<PlayerClient> players;
-
+    private final HashMap<String,String> godsNameAndDescription;
 
     /**
      * This is the Cli constructor.
@@ -34,8 +32,24 @@ public class Cli implements View {
         board = new BoardClient();
         input = new Scanner(System.in);
         intInput = new Scanner(System.in);
-
         players = new ArrayList<>(3);
+        godsNameAndDescription = new HashMap<>(14);
+
+        godsNameAndDescription.put("Apollo", "Your Worker may move into an opponent Worker’s space by forcing their Worker to the space yours just vacated.");
+        godsNameAndDescription.put("Artemis", "Your Worker may move one additional time, but not back to its initial space.");
+        godsNameAndDescription.put("Athena", "If one of your Workers moved up on your last turn, opponent Workers cannot move up this turn.");
+        godsNameAndDescription.put("Atlas", "Your Worker may build a dome at any level.");
+        godsNameAndDescription.put("Charon", "Before your Worker moves, you may force a neighboring opponent Worker to the space directly on the other side of your Worker, if that space is unoccupied.");
+        godsNameAndDescription.put("Demeter", "Your Worker may build one additional time, but not on the same space.");
+        godsNameAndDescription.put("Hephaestus", "Your Worker may build one additional block (not dome) on top of your first block.");
+        godsNameAndDescription.put("Hera", "An opponent cannot win by moving into a perimeter space.");
+        godsNameAndDescription.put("Hestia", "Your Worker may build one additional time, but this cannot be on a perimeter space.");
+        godsNameAndDescription.put("Minotaur", "Your Worker may move into an opponent Worker’s space, if their Worker can be forced one space straight backwards to an unoccupied space at any level.");
+        godsNameAndDescription.put("Pan", "You also win if your Worker moves down two or more levels.");
+        godsNameAndDescription.put("Prometheus", "If your Worker does not move up, it may build both before and after moving.");
+        godsNameAndDescription.put("Triton", "Each time your Worker moves into a perimeter space, it may immediately move again.");
+        godsNameAndDescription.put("Zeus", "Your Worker may build a block under itself.");
+
     }
 
 
@@ -322,20 +336,6 @@ public class Cli implements View {
 
 
     /**
-     * Lets the challenger of the game know that he is the challenger and asks him to select the Gods for the game.
-     *
-     * @param numOfPlayers The challenger must choose as many Gods as many are the players of the game.
-     */
-    private void printChallenger(int numOfPlayers) {
-
-        System.out.println();
-        System.out.println(myNickname + ", you are the Challenger. Select "
-                + numOfPlayers + " gods for this game.");
-
-    }
-
-
-    /**
      * Lets the challenger know how many gods he still has to choose.
      * Then the challenger, if other gods need to be selected, chooses another god for the game.
      *
@@ -347,9 +347,10 @@ public class Cli implements View {
 
         int godsLeftToChoose = numOfPlayers - alreadyChosenGods;
 
-        if (alreadyChosenGods == 0)
-            printChallenger(numOfPlayers);
-        else {
+        if (alreadyChosenGods == 0) {
+            printAllGods();
+            System.out.println(myNickname + ", you are the Challenger. Select " + numOfPlayers + " gods for this game.");
+        } else {
             System.out.print(godsLeftToChoose);
 
             if (godsLeftToChoose == 1)
@@ -619,14 +620,15 @@ public class Cli implements View {
 
     /**
      * Prints all the available gods of the game and their description.
-     *
-     * @param godsNameAndDescription The gods available for the game, the challenger will chose among this ones.
      */
-    public void printAllGods(ArrayList<String> godsNameAndDescription) {
+    private void printAllGods() {
         System.out.println("\nThese are all the available gods:\n");
 
-        for (String god : godsNameAndDescription)
-            System.out.println(god);
+        for (Map.Entry<String, String> e : godsNameAndDescription.entrySet()) {
+            String god = e.getKey();
+            String description = e.getValue();
+            System.out.println(god + ": " + description);
+        }
 
         System.out.println();
     }
@@ -647,7 +649,7 @@ public class Cli implements View {
      */
     public void printChosenGods(ArrayList<String> chosenGods) {
 
-        System.out.print("\n\nGods chosen by the challenger: ");
+        System.out.print("\n\nThese are the gods chosen by the challenger: ");
 
         int index = 0;
 
@@ -1063,6 +1065,7 @@ public class Cli implements View {
     public void waitChallengerChooseGods(String challenger) {
 
         this.challenger = challenger;
+        printAllGods();
         System.out.print(challenger + " is the Challenger and is choosing the gods for this game...");
     }
 

@@ -75,8 +75,6 @@ public class TurnHandler implements Runnable {
 
         //send arraylist with all gods to all players
         for (Player player : players) {
-            player.getClient().printAllGods(godsNameAndDescription);
-
             if (player != challenger)
                 player.getClient().waitChallengerChooseGods(challenger.getNickname());
         }
