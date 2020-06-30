@@ -35,7 +35,6 @@ public class HephaestusTest {
     private Cell cell2;
 
 
-
     @Before
     public void setUp() {
         godController = mock(GodController.class);
@@ -127,19 +126,21 @@ public class HephaestusTest {
 
         hephaestus.evolveTurn(worker);
 
+        verify(worker, times(1)).getMoveMap();
+        verify(worker, times(1)).getBuildMap();
+
     }
 
 
     @Test
-    public void firstBuild() throws UnableToBuildException {
+    public void firstBuild() throws UnableToBuildException, UnableToMoveException, WinException {
 
-        //setting the update build map matrix behaviour
+        settingUsualParameters();
+
+        //setting the update build map matrix behaviour, overriding the usual parameters to fit the
+        //desired situation
         WorkerBuildMap workerBuildMap = mock(WorkerBuildMap.class);
         when(worker.getBuildMap()).thenReturn(workerBuildMap);
-        doNothing().when(workerBuildMap).reset();
-        doNothing().when(workerBuildMap).updateCellsOutOfMap();
-        doNothing().when(workerBuildMap).cannotBuildUnderneath();
-        doNothing().when(workerBuildMap).cannotBuildInOccupiedCell();
         when(workerBuildMap.anyAvailableBuildPosition()).thenReturn(true);
 
         //setting the build behaviour
@@ -160,47 +161,25 @@ public class HephaestusTest {
         when(workerBuildMap.isAllowedToBuildBoard(any(int.class), any(int.class))).thenReturn(false, true);
         Cell cell2 = mock(Cell.class);
         when(board.findCell(any(int.class), any(int.class))).thenReturn(cell2, cell2);
-        when(cell2.getLevel()).thenReturn(2);
-        doNothing().when(worker).buildBlock(any(int.class), any(int.class));
-        doNothing().when(godController).errorBuildScreen();
-
-        //assertNotNull(hephaestus.firstBuild(worker));
-
-
         when(cell2.getLevel()).thenReturn(3);
-        //assertNotNull(hephaestus.firstBuild(worker));
 
-    }
-
-
-    @Test
-    public void secondBuild() {
-
-        Cell firstBuild = mock(Cell.class);
-        hephaestus.firstBuildCell = firstBuild;
-        when(firstBuild.getLevel()).thenReturn(2);
-        when(firstBuild.getX()).thenReturn(2);
-        when(firstBuild.getY()).thenReturn(2);
         when(godController.wantToBuildAgain(hephaestus)).thenReturn(true);
-        doNothing().when(worker).buildBlock(any(int.class), any(int.class));
-        doNothing().when(godController).displayBoard();
+        when(godController.errorBuildDecisionScreen()).thenReturn(true);
 
-        //todo
-        //hephaestus.secondBuild(worker);
+        hephaestus.evolveTurn(worker);
 
+        verify(worker, times(1)).buildDome(anyInt(), anyInt());
 
-        when(firstBuild.getLevel()).thenReturn(3);
-        when(godController.wantToBuildAgain(hephaestus)).thenReturn(true);
+        when(cell2.getLevel()).thenReturn(2);
+        hephaestus.evolveTurn(worker);
 
-        //todo
-        //hephaestus.secondBuild(worker);
+        verify(worker, times(2)).buildBlock(anyInt(), anyInt());
 
-
-        when(firstBuild.getLevel()).thenReturn(2);
         when(godController.wantToBuildAgain(hephaestus)).thenReturn(false);
+        hephaestus.evolveTurn(worker);
 
-        //todo
-        //hephaestus.secondBuild(worker);
+        verify(worker, times(3)).buildBlock(anyInt(), anyInt());
+
     }
 
 
