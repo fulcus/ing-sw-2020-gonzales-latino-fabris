@@ -239,12 +239,6 @@ public class GodController {
     }
 
 
-    /**
-     * Lets the player build underneath himself.
-     */
-    public void allowBuildUnderneath() {
-        currentClient.printBuildUnderneath();
-    }
 
 
     /**

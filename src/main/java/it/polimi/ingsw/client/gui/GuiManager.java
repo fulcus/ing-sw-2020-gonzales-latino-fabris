@@ -54,6 +54,8 @@ public class GuiManager implements View {
     protected static Parent lobbyRoot;
     protected static Parent connectRoot;
 
+
+
     //controllers of fxmls
     private ConnectController connectController;
     private NumberOfPlayersController numberOfPlayersController;
@@ -78,7 +80,6 @@ public class GuiManager implements View {
 
 
     private void createControllers() {
-
         FXMLLoader connectLoader = new FXMLLoader(getClass().getResource("/scenes/connect.fxml"));
         FXMLLoader numberOfPlayersLoader = new FXMLLoader(getClass().getResource("/scenes/choose-num-of-players.fxml"));
         FXMLLoader nicknameLoader = new FXMLLoader(getClass().getResource("/scenes/choose-nickname.fxml"));
@@ -178,12 +179,6 @@ public class GuiManager implements View {
     }
 
 
-    /**
-     * This method displays to the user Initial Game Interface
-     */
-    public void beginningView() {
-        //do Nothing here
-    }
 
 
     /**
@@ -908,20 +903,6 @@ public class GuiManager implements View {
 
     }
 
-
-    /**
-     * Says that the worker can build under himself/herself.
-     * This is allowed only when playing with Zeus.
-     */
-    public void printBuildUnderneath() {
-        /*
-        Platform.runLater(() -> {
-            boardController.printToMainText("Remember that you can also build underneath!");
-            boardController.setConfirmButtonVisible();
-        });
-
-        acceptTextBarInfo();*/
-    }
 
 
     /**

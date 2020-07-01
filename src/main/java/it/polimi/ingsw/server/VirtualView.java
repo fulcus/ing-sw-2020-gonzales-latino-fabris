@@ -103,14 +103,6 @@ public class VirtualView implements ClientViewObserver {
 
 
     /**
-     * Sends the message to let the the user Initial Game Interface be shown to the player.
-     */
-    public void beginningView() {
-        sendMessage(new Message("beginningView"));
-    }
-
-
-    /**
      * Sends the message to ask the first player that connects the number of players of the game.
      *
      * @return The number of players.
@@ -400,15 +392,6 @@ public class VirtualView implements ClientViewObserver {
 
 
         return (String) sendMessageWithReturn(new Message("askWorkerToMove", enemyWorkersClient, new WorkerClient(myWorker)));
-    }
-
-
-    /**
-     * Sends a message to make the player aware that the worker can build under himself/herself.
-     * This is allowed only when playing with Zeus.
-     */
-    public void printBuildUnderneath() {
-        sendMessage(new Message("printBuildUnderneath"));
     }
 
 

@@ -190,16 +190,17 @@ public class GodControllerTest {
     }
 
 
+    //TODo METODO E STATO RIMOSSO
     @Test
     public void allowBuildUnderneath() {
         godController.updateCurrentClient(client);
         assertNotNull(godController.getCurrentClient());
 
-        doNothing().when(client).printBuildUnderneath();
+       /* doNothing().when(client).printBuildUnderneath();
 
         godController.allowBuildUnderneath();
 
-        verify(client).printBuildUnderneath();
+        verify(client).printBuildUnderneath();*/
     }
 
 
