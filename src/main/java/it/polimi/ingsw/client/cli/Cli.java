@@ -23,7 +23,7 @@ public class Cli implements View {
     private String challenger;
 
     private final ArrayList<PlayerClient> players;
-    private final HashMap<String,String> godsNameAndDescription;
+    private final HashMap<String, String> godsNameAndDescription;
 
     /**
      * This is the Cli constructor.
@@ -275,10 +275,19 @@ public class Cli implements View {
      */
     public String askPlayerColor(ArrayList<String> availableColors) {
 
-        System.out.println("\nThe available colors for this game are: ");
+        System.out.println("\nThe available colors are ");
+
+        int index = 0;
+
         for (String color : availableColors) {
-            System.out.println(color);
+            index++;
+            System.out.print(color);
+            if (index < availableColors.size())
+                System.out.print(", ");
+            else
+                System.out.println();
         }
+
 
         System.out.println("\n" + myNickname + ", choose your color for this game:");
 
@@ -352,7 +361,6 @@ public class Cli implements View {
             System.out.println(myNickname + ", you are the Challenger. Select " + numOfPlayers + " gods for this game.");
         } else {
             System.out.print(godsLeftToChoose);
-
             if (godsLeftToChoose == 1)
                 System.out.print(" god");
             else
@@ -361,7 +369,21 @@ public class Cli implements View {
             System.out.println(" left to choose.");
         }
 
-        return input.nextLine();
+        String god = null;
+
+        while (true) {
+
+            god = input.nextLine().toLowerCase();
+
+            for (Map.Entry<String, String> e : godsNameAndDescription.entrySet()) {
+                if (god.equals(e.getKey().toLowerCase())) {
+                    return god;
+                }
+            }
+            //check is done both on client and on server
+            //server doesn't send error message though, just refuses invalid input
+            System.out.println("This god doesn't exist.");
+        }
     }
 
 
@@ -374,16 +396,22 @@ public class Cli implements View {
 
         System.out.println("\n" + myNickname + ", choose the first player to start! Type his nickname:");
 
-        return input.nextLine();
-    }
+        String startPlayerNick = null;
 
+        while (true) {
 
-    /**
-     * Lets the challenger know that was an error occurred choosing the starting player.
-     * The challenger must choose among the nicknames of the players registered in the current game.
-     */
-    public void invalidStartPlayer() {
-        System.out.println("Invalid nickname. It must be an existing nickname.");
+            startPlayerNick = input.nextLine().toLowerCase();
+
+            for (PlayerClient player : players) {
+                if (startPlayerNick.equals(player.getNickname())) {
+                    return startPlayerNick;
+                }
+            }
+            //check is done both on client and on server
+            //server doesn't send error message though, just refuses invalid input
+            System.out.println("This player doesn't exist.");
+        }
+
     }
 
 
@@ -437,17 +465,9 @@ public class Cli implements View {
 
 
     /**
-     * Allows to print a general ERROR to the screen.
-     */
-    public void printErrorScreen() {
-        System.out.println("An error has occurred. Retry.");
-    }
-
-
-    /**
      * Prints to screen that the player has won the game.
      *
-     * @return True.
+     * @return Generic return to ensure server waits for confirmation from client before disconnecting it.
      */
     public boolean winningView() {
         System.out.println("\nYou have won this game!");
@@ -458,6 +478,8 @@ public class Cli implements View {
 
     /**
      * Lets the player know he has lost the game because both of his workers cannot move.
+     *
+     * @return Generic return to ensure server waits for confirmation from client before disconnecting it.
      */
     public boolean unableToMoveLose() {
         System.out.println("\nNone of your workers can move. You have lost this game.\nGoodbye");
@@ -467,9 +489,12 @@ public class Cli implements View {
 
     /**
      * Lets the player know he has lost the game because both of his workers cannot build.
+     *
+     * @return Generic return to ensure server waits for confirmation from client before disconnecting it.
      */
-    public void unableToBuildLose() {
+    public boolean unableToBuildLose() {
         System.out.println("\nNone of your workers can build. You have lost this game.\nGoodbye");
+        return true;
     }
 
 
@@ -622,7 +647,7 @@ public class Cli implements View {
      * Prints all the available gods of the game and their description.
      */
     private void printAllGods() {
-        System.out.println("\nThese are all the available gods:\n");
+        System.out.println("\nThese are all the gods:\n");
 
         for (Map.Entry<String, String> e : godsNameAndDescription.entrySet()) {
             String god = e.getKey();
@@ -631,14 +656,6 @@ public class Cli implements View {
         }
 
         System.out.println();
-    }
-
-
-    /**
-     * Lets the player know the selected god does not exist in this game.
-     */
-    public void challengerError() {
-        System.out.println("This god doesn't exist.");
     }
 
 
@@ -681,33 +698,6 @@ public class Cli implements View {
 
         System.out.println("Your " + sex + " worker cannot move anywhere. You must move with your "
                 + otherSex + " worker.\n");
-    }
-
-
-    /**
-     * Asks to the player if he prefers the CLI or the GUI.
-     *
-     * @return The type of interface chosen by the player.
-     */
-    public String askTypeofView() {
-
-        String selectedView;
-
-        System.out.println("What kind of interface would you like to play with? CLI or GUI");
-
-        while (true) {
-
-            selectedView = input.nextLine().toUpperCase();
-
-            if (!(selectedView.equals("CLI") || selectedView.equals("Gui")))
-                System.out.println("Invalid interface. Type CLI or Gui");
-
-            else
-                break;
-        }
-
-        return selectedView;
-
     }
 
 
@@ -1141,13 +1131,12 @@ public class Cli implements View {
      * Lets player know that he has lost, and who is the winner.
      *
      * @param winner nickname of the winner.
-     * @return Always returns true.
+     * @return Generic return to ensure server waits for confirmation from client before disconnecting it.
      */
     public boolean losingView(String winner) {
         System.out.println("\nYou have lost this game. The winner is " + winner + ".");
         System.out.println("Goodbye");
         return true;
     }
-
 
 }

@@ -236,15 +236,6 @@ public class VirtualView implements ClientViewObserver {
 
 
     /**
-     * Sends a message to let the challenger know that was an error occurred choosing the starting player.
-     * The challenger must choose among the nicknames of the players registered in the current game.
-     */
-    public void invalidStartPlayer() {
-        sendMessage(new Message("invalidStartPlayer"));
-    }
-
-
-    /**
      * Sends a message to let the player know that the chosen color was not available.
      */
     public void notAvailableColor() {
@@ -267,15 +258,6 @@ public class VirtualView implements ClientViewObserver {
      */
     public String askChosenWorker() {
         return (String) sendMessageWithReturn(new Message("askChosenWorker"));
-    }
-
-
-    /**
-     * Sends a message to print the ERROR to the screen of the client.
-     */
-    //todo delete, unused
-    public void printErrorScreen() {
-        sendMessage(new Message("printErrorScreen"));
     }
 
 
@@ -329,14 +311,6 @@ public class VirtualView implements ClientViewObserver {
     @Override
     public void update(Cell toUpdateCell) {
         sendMessage(new Message("update", new CellClient(toUpdateCell)));
-    }
-
-
-    /**
-     * Sends a message to let the player know the selected god does not exist in this game.
-     */
-    public void challengerError() {
-        sendMessage(new Message("challengerError"));
     }
 
 

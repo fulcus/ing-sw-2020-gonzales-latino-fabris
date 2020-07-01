@@ -65,7 +65,7 @@ public class InputReader implements Runnable {
 
                 } else if (readMessage.getMethod().equals("notifyOtherPlayerDisconnection")) {
 
-                  //  System.out.println("received notifyOtherPlayerDisconnection");
+                    //  System.out.println("received notifyOtherPlayerDisconnection");
                     client.update(readMessage);
 
                 } else if (readMessage.getMethod().equals("PONG")) {
@@ -74,7 +74,7 @@ public class InputReader implements Runnable {
 
                 } else {
 
-                   // System.out.println("Before PUT, IR, passed" + readMessage.getMethod());
+                    // System.out.println("Before PUT, IR, passed" + readMessage.getMethod());
 
                     try {
                         receivedObjectsQueue.put(readObject);
@@ -85,19 +85,17 @@ public class InputReader implements Runnable {
 
                 }
 
-            }
-            catch (SocketTimeoutException te) {
+            } catch (SocketTimeoutException te) {
                 System.out.println("first CATCH");
                 connected = false;
-                Message notifyDisconnection = new Message("notifyOtherPlayerDisconnection","YOU");
+                Message notifyDisconnection = new Message("notifyOtherPlayerDisconnection", "YOU");
                 client.update(notifyDisconnection);
-            }
-            catch (IOException | ClassNotFoundException e) {
-                System.out.println("second CATCH");
+            } catch (IOException | ClassNotFoundException e) {
+                System.out.println("\n\nServer has died");
                 connected = false;
-                e.printStackTrace();
-            }
-            catch(Exception e){
+                e.printStackTrace();    //todo REMOVE printstack
+                System.exit(1);
+            } catch (Exception e) {
                 System.out.println("Caught general exception");
                 e.printStackTrace();
             }

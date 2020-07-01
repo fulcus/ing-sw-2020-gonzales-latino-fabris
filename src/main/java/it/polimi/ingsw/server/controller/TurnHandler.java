@@ -67,11 +67,7 @@ public class TurnHandler implements Runnable {
         Player challenger = game.getChallenger();
         VirtualView challengerClient = challenger.getClient();
         ArrayList<God> godsDeck = gameController.getGodsDeck();
-        ArrayList<String> godsNameAndDescription = new ArrayList<>(14);
 
-        //create string arraylist to send to client
-        for (God god : godsDeck)
-            godsNameAndDescription.add(god.toString() + ": " + god.getDescription());
 
         //send arraylist with all gods to all players
         for (Player player : players) {
@@ -101,8 +97,9 @@ public class TurnHandler implements Runnable {
 
             if (foundGod)
                 alreadyChosenGods++;
-            else
-                challengerClient.challengerError(); //print: the god you typed doesn't exist
+            //else
+                //challengerClient.challengerError(); //print: the god you typed doesn't exist
+            //removed: only occurs with hacked client
         }
 
         //turn arraylist of gods in arraylist of strings
@@ -197,8 +194,9 @@ public class TurnHandler implements Runnable {
                 }
             }
 
-            if (startPlayer == null)
-                challengerClient.invalidStartPlayer();
+            //if (startPlayer == null)
+                //challengerClient.invalidStartPlayer();
+            //only occurs with hacked client
         }
 
         for (Player otherPlayer : players) {
@@ -422,13 +420,10 @@ public class TurnHandler implements Runnable {
             //if WinException is thrown, condition is false
 
             if (players.size() == 1) {
-
                 //last player left has index 0
                 Player winner = players.get(0);
                 gameController.winGame(winner);
             }
-
-            //TODO what if 2 players lose at the same time
 
             unableToMove = 0;    //reset it
         }

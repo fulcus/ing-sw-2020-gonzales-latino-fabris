@@ -165,13 +165,6 @@ public interface View {
 
 
     /**
-     * Lets the challenger know that was an error occurred choosing the starting player.
-     * The challenger must choose among the nicknames of the players registered in the current game.
-     */
-    void invalidStartPlayer();
-
-
-    /**
      * Lets the player know that the chosen color was not available,
      * maybe because another player had already chosen it before or
      * maybe because that was not a color defined by the game.
@@ -195,27 +188,27 @@ public interface View {
 
 
     /**
-     * Allows to print the ERROR to the screen
-     */
-    void printErrorScreen();
-
-
-    /**
      * Prints to screen that the player has won the game.
+     *
+     * @return Generic return to ensure server waits for confirmation from client before disconnecting it.
      */
     boolean winningView();
 
 
     /**
      * Lets the player know he has lost the game because both of his workers cannot move.
+     *
+     * @return Generic return to ensure server waits for confirmation from client before disconnecting it.
      */
     boolean unableToMoveLose();
 
 
     /**
      * Lets the player know he has lost the game because both of his workers cannot build.
+     *
+     * @return Generic return to ensure server waits for confirmation from client before disconnecting it.
      */
-    void unableToBuildLose();
+    boolean unableToBuildLose();
 
 
     /**
@@ -241,12 +234,6 @@ public interface View {
 
 
     /**
-     * Lets the player know the selected god does not exist in this game.
-     */
-    void challengerError();
-
-
-    /**
      * Prints all the Gods chosen by the challenger for the current game.
      *
      * @param chosenGods The list of the chosen gods.
@@ -260,14 +247,6 @@ public interface View {
      * @param sex The sex of the selected worker
      */
     void selectedWorkerCannotMove(String sex);
-
-
-    /**
-     * Asks to the player if he prefers the CLI or the GUI.
-     *
-     * @return The type of interface chosen by the player.
-     */
-    String askTypeofView();
 
 
     /**
@@ -465,6 +444,7 @@ public interface View {
      * Lets player know that he has lost, and who is the winner.
      *
      * @param winner nickname of the winner
+     * @return Generic return to ensure server waits for confirmation from client before disconnecting it.
      */
     boolean losingView(String winner);
 

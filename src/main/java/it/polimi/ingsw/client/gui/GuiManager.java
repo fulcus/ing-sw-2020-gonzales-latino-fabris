@@ -73,7 +73,6 @@ public class GuiManager implements View {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
         createControllers();
     }
 
@@ -127,7 +126,6 @@ public class GuiManager implements View {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
         return IP;
     }
 
@@ -197,10 +195,8 @@ public class GuiManager implements View {
     public void joinGame(int numberOfPlayers) {
         //sets number of players attribute
         GuiManager.numberOfPlayers.set(numberOfPlayers);
-
         //change scene
         Platform.runLater(() -> Gui.getStage().setScene(new Scene(nicknameRoot)));
-
     }
 
 
@@ -209,10 +205,8 @@ public class GuiManager implements View {
      * Loads the choosing number of players scene.
      */
     public void createGame() {
-
         //change scene
         Platform.runLater(() -> Gui.getStage().setScene(new Scene(numberOfPlayersRoot)));
-
     }
 
 
@@ -287,7 +281,6 @@ public class GuiManager implements View {
 
 
     private void setPlayerGod(String nickname, String god) {
-
         for (PlayerClient player : players) {
             if (player.getNickname().equals(nickname))
                 player.setGod(god);
@@ -318,9 +311,7 @@ public class GuiManager implements View {
         String nickname = null;
 
         //nicknameController.removeErrorNickFromScreen();
-
         nicknameController.removeWaitingOtherFromScreen();
-
         nicknameController.enableNicknameText();
 
         try {
@@ -340,10 +331,8 @@ public class GuiManager implements View {
      * Notifies the player that his nickname was accepted by the server, going to the next scene.
      */
     public void notifyValidNick() {
-
         //change scene
         Platform.runLater(() -> Gui.getStage().setScene(new Scene(colorRoot)));
-
     }
 
 
@@ -358,9 +347,7 @@ public class GuiManager implements View {
         String color = null;
 
         colorController.removeWaitingOtherFromScreen();
-
         //colorController.removeErrorColorFromScreen();
-
         colorController.enableButtons();
 
         try {
@@ -372,7 +359,6 @@ public class GuiManager implements View {
         }
 
         myColor = color;
-
         return color;
     }
 
@@ -384,7 +370,6 @@ public class GuiManager implements View {
         //adding this players info to "database"
         myPlayer = new PlayerClient(myNickname, myColor);
         players.add(0, myPlayer);
-
         playersConnected.addAndGet(1);
 
         //change scene
@@ -402,11 +387,9 @@ public class GuiManager implements View {
      * @return The name of the chosen God.
      */
     public String askPlayerGod() {
-
-        String chosenGod = null;
-
         Platform.runLater(() -> chooseGodController.askPlayerGod());
 
+        String chosenGod = null;
         try {
             chosenGod = (String) queue.take();
             myPlayer.setGod(chosenGod);
@@ -416,7 +399,6 @@ public class GuiManager implements View {
         }
 
         System.out.println("Selected " + chosenGod);
-
         return chosenGod;
     }
 
@@ -425,9 +407,7 @@ public class GuiManager implements View {
      * Lets the player know that his God's choice was rejected by the server.
      */
     public void playerChoseInvalidGod() {
-
         Platform.runLater(() -> chooseGodController.playerChoseInvalidGod());
-
     }
 
 
@@ -456,7 +436,6 @@ public class GuiManager implements View {
         }
 
         return chosenGod;
-
     }
 
 
@@ -492,21 +471,10 @@ public class GuiManager implements View {
 
 
     /**
-     * Lets the challenger know that was an error occurred choosing the starting player.
-     * The challenger must choose among the nicknames of the players registered in the current game.
-     * In the GUI interface this does never occur because the challenger can only click on the button of one of the players registered in the game.
-     */
-    public void invalidStartPlayer() {
-        //can do nothing here
-    }
-
-
-    /**
      * Lets the player know that the chosen color was not available,
      * because another player had already chosen it before.
      */
     public void notAvailableColor() {
-
         colorController.displayErrorColor();
     }
 
@@ -571,9 +539,7 @@ public class GuiManager implements View {
 
             Platform.runLater(() ->
                     boardController.printToMainText("You have to select one of your workers!\nTry Again"));
-
         }
-
 
     }
 
@@ -594,23 +560,9 @@ public class GuiManager implements View {
 
 
     /**
-     * Allows to print a general ERROR to the screen.
-     */
-    public void printErrorScreen() {
-        Platform.runLater(() -> {
-            boardController.printToMainText("You are not allowed to do this!");
-            boardController.printToGodTextArea("");
-            boardController.setConfirmButtonVisible();
-        });
-
-        acceptTextBarInfo();
-    }
-
-
-    /**
      * The player has won the game, so the winning scene is going to be loaded.
      *
-     * @return True.
+     * @return Generic return to ensure server waits for confirmation from client before disconnecting it.
      */
     public boolean winningView() {
 
@@ -627,13 +579,14 @@ public class GuiManager implements View {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return true;
     }
 
 
     /**
      * Lets the player know he has lost the game because both of his workers cannot move.
+     *
+     * @return Generic return to ensure server waits for confirmation from client before disconnecting it.
      */
     public boolean unableToMoveLose() {
         Platform.runLater(() -> {
@@ -642,21 +595,17 @@ public class GuiManager implements View {
             boardController.setConfirmButtonVisible();
         });
 
-
-        acceptTextBarInfo();
-
-
         losingView("");
-
-
         return true;
     }
 
 
     /**
      * Lets the player know he has lost the game because both of his workers cannot build.
+     *
+     * @return Generic return to ensure server waits for confirmation from client before disconnecting it.
      */
-    public void unableToBuildLose() {
+    public boolean unableToBuildLose() {
 
         Platform.runLater(() -> {
             boardController.printToMainText("You cannot build anywhere!");
@@ -664,9 +613,8 @@ public class GuiManager implements View {
             boardController.setConfirmButtonVisible();
         });
 
-        acceptTextBarInfo();
-
         losingView("");
+        return true;
     }
 
 
@@ -706,22 +654,12 @@ public class GuiManager implements View {
 
 
     /**
-     * Lets the player know the selected god does not exist in this game.
-     */
-    public void challengerError() {
-        //todo check: maybe never called anywhere??
-    }
-
-
-    /**
      * Shows all the Gods chosen by the challenger for the current game, going to the correct scene.
      *
      * @param chosenGods The list of the chosen gods.
      */
     public void printChosenGods(ArrayList<String> chosenGods) {
-
         Platform.runLater(() -> chooseGodController.printChosenGods(chosenGods));
-
     }
 
 
@@ -751,16 +689,6 @@ public class GuiManager implements View {
         System.out.println("unableToMove selectedWorker: " + selectedWorker.getWorkerColor() + selectedWorker.getWorkerSex());
         System.out.println(selectedWorker);
         acceptTextBarInfo();
-    }
-
-
-    /**
-     * Asks to the player if he prefers the CLI or the GUI.
-     *
-     * @return The type of interface chosen by the player.
-     */
-    public String askTypeofView() {
-        return null;
     }
 
 
@@ -1047,7 +975,6 @@ public class GuiManager implements View {
         });
 
         acceptTextBarInfo();
-
     }
 
 
@@ -1119,9 +1046,7 @@ public class GuiManager implements View {
      * @param challenger nickname of the challenger.
      */
     public void waitChallengerChooseGods(String challenger) {
-
         Platform.runLater(() -> chooseGodController.waitChallengerChooseGods(challenger));
-
     }
 
 
@@ -1131,9 +1056,7 @@ public class GuiManager implements View {
      * @param otherPlayer the player that is choosing his god.
      */
     public void waitOtherPlayerChooseGod(String otherPlayer) {
-
         Platform.runLater(() -> chooseGodController.waitOtherPlayerChooseGod(otherPlayer));
-
     }
 
 
@@ -1144,9 +1067,7 @@ public class GuiManager implements View {
      * @param chosenGod   god chosen by the otherPlayer.
      */
     public void otherPlayerChoseGod(String otherPlayer, String chosenGod) {
-
         Platform.runLater(() -> chooseGodController.otherPlayerChoseGod(otherPlayer, chosenGod));
-
         setPlayerGod(otherPlayer, chosenGod);
     }
 
@@ -1245,6 +1166,5 @@ public class GuiManager implements View {
         }
 
         System.out.println("confirmed reading message");
-
     }
 }
