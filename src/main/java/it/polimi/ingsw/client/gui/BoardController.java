@@ -397,7 +397,7 @@ public class BoardController {
     /**
      * Allows to print the god description in its specific area.
      *
-     * @param text
+     * @param text description text.
      */
     protected void printToGodTextArea(String text) {
         godPowerText.setText(text);
