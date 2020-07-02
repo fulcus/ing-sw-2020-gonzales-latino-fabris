@@ -46,7 +46,8 @@ public class Lobby {
             VirtualView newClient = new VirtualView(clientSocket, availableGame);
             availableGame.join(newClient);
 
-        } else {//CREATE
+        } else {
+            //CREATE
 
             GameController newGame = new GameController();
             VirtualView newClient = new VirtualView(clientSocket, newGame);
@@ -59,9 +60,11 @@ public class Lobby {
     /**
      * Remove game from available games arraylist.
      *
-     * @param game to delete'
+     * @param game game to delete
      */
     public void deleteGame(GameController game) {
         games.remove(game);
     }
+    //todo synchro on allocate client
+    // più thread che vogliono prendere stessa partita
 }

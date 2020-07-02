@@ -15,9 +15,7 @@ public class NumberOfPlayersController {
 
     @FXML
     private void two() {
-
         try {
-            //TODO: set attribute for lobby built for 2 players
             GuiManager.queue.put("2");
         } catch (InterruptedException ioException) {
             ioException.printStackTrace();
@@ -27,9 +25,7 @@ public class NumberOfPlayersController {
 
     @FXML
     private void three() {
-
         try {
-            //TODO: set attribute for lobby built for 3 players
             GuiManager.queue.put("3");
         } catch (InterruptedException ioException) {
             ioException.printStackTrace();

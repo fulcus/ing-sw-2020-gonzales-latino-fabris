@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 
 /**
- * Manages IO of Gods.
+ * Manages communication between the Gods and the clients.
  */
 public class GodController {
 
@@ -139,7 +139,7 @@ public class GodController {
     /**
      * Allows to manage the constriction of moving an enemy worker.
      *
-     * @param enemyWorkers It's the list of the detected near enemyWorkers.
+     * @param enemyWorkers It's the list of the detected enemyWorkers nearby.
      * @param worker       It's the worker has selected for this turn.
      * @return The worker the player has chosen to move.
      */
@@ -165,7 +165,7 @@ public class GodController {
 
         ArrayList<Player> players = gameController.getGame().getPlayers();
 
-        for(Player player : players)
+        for (Player player : players)
             player.getClient().printMap();
     }
 
@@ -237,8 +237,6 @@ public class GodController {
         assert answer != null;
         return answer.equals("Y");
     }
-
-
 
 
     /**

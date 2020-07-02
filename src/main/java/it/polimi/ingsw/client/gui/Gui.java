@@ -18,7 +18,10 @@ public class Gui extends Application {
 
     private static Stage stage;
 
-    public static void main() {
+    /**
+     * Launches the GUI.
+     */
+    public static void startGui() {
         launch();
     }
 

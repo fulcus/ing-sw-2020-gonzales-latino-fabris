@@ -5,6 +5,7 @@ package it.polimi.ingsw.server.controller;
  */
 public class UnableToMoveException extends Exception {
 
+    //errorCode "lose" makes player lose at first exception instead of switching worker
     private String errorCode;
 
     public UnableToMoveException() {
@@ -17,20 +18,5 @@ public class UnableToMoveException extends Exception {
     public String getErrorCode() {
         return errorCode;
     }
-/*
-    public UnableToMoveException(String message) {
-        super(message);
-    }
 
-    public UnableToMoveException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public UnableToMoveException(Throwable cause) {
-        super(cause);
-    }
-
-    public UnableToMoveException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }*/
 }

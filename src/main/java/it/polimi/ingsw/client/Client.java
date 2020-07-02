@@ -84,7 +84,7 @@ public class Client {
                 view = new Cli();
                 break;
             } else if (selectedView.toUpperCase().equals("GUI")) {
-                new Thread(Gui::main).start();
+                new Thread(Gui::startGui).start();
                 view = new GuiManager();
                 break;
             } else

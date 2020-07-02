@@ -686,7 +686,7 @@ public class Cli implements View {
         else
             otherSex = "male";
 
-        System.out.println("Your " + sex + " worker cannot move anywhere. You must move with your "
+        System.out.println("Your " + sex + " worker cannot move anywhere. You must play with your "
                 + otherSex + " worker.\n");
     }
 
@@ -808,7 +808,7 @@ public class Cli implements View {
      * @return The will of the player to move an enemy's worker
      */
     public String askWantToMoveEnemy() {
-        System.out.println("Do you want to force your near enemy to move?");
+        System.out.println("Do you want to force a nearby enemy to move?");
         return playerAnswerYN();
     }
 

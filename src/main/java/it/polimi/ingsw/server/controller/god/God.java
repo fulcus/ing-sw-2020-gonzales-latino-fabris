@@ -43,7 +43,6 @@ public abstract class God {
         WorkerMoveMap moveMap = updateMoveMap(worker);
 
         while (true) {
-
             int[] movePosition = getGodController().getInputMove();
 
             int xMove = movePosition[0] + worker.getPosition().getX();
@@ -57,7 +56,6 @@ public abstract class God {
                 getGodController().errorMoveScreen();
             }
         }
-
 
     }
 

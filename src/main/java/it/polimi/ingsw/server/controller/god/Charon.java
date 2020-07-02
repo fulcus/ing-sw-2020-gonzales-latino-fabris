@@ -7,6 +7,7 @@ import it.polimi.ingsw.server.controller.WinException;
 import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Cell;
 import it.polimi.ingsw.server.model.Worker;
+import it.polimi.ingsw.server.model.WorkerMoveMap;
 
 import java.util.ArrayList;
 
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 public class Charon extends God {
 
     public final String description = "Before your Worker moves, you may force a neighboring opponent Worker to the space directly on the other side of your Worker, if that space is unoccupied.";
-
+    private boolean hasForcedMoveEnemy;
 
     public Charon(GodController godController) {
         super(godController);
@@ -36,8 +37,9 @@ public class Charon extends God {
      */
     @Override
     public void evolveTurn(Worker worker) throws UnableToMoveException, UnableToBuildException, WinException {
+        hasForcedMoveEnemy = false;
         checkUnableToMove(worker);
-        forceMoveEnemy(worker, getMovableEnemies(worker));
+        forceMoveEnemy(worker);
         move(worker);
         win(worker);
         build(worker);
@@ -49,17 +51,19 @@ public class Charon extends God {
         try {
             updateMoveMap(worker);
         } catch (UnableToMoveException ex) {
-
+            System.out.println("caught unable to move ex");
             //there aren't movable enemies around, hence worker is unable to move
-            if (getMovableEnemies(worker) == null)
+            if (getMovableEnemies(worker) == null) {
+                System.out.println("no movable enemies: throw ex");
                 throw new UnableToMoveException();
+            }
             else {
                 //there is at least one movable enemy, hence forcing him to move
                 //will make my worker able to move
                 //todo send compulsory force move enemy to player
+                System.out.println("can force move enemy");
             }
         }
-
     }
 
     private ArrayList<Worker> getMovableEnemies(Worker worker) {
@@ -101,10 +105,12 @@ public class Charon extends God {
      *
      * @param worker The selected worker for the current turn.
      */
-    private void forceMoveEnemy(Worker worker, ArrayList<Worker> movableEnemies) {
+    private void forceMoveEnemy(Worker worker) {
+
+        ArrayList<Worker> movableEnemies = getMovableEnemies(worker);
 
         //movableNeighboringEnemies are only enemy workers that can be displaced
-        if (!godController.wantToMoveEnemy())
+        if (movableEnemies == null || !godController.wantToMoveEnemy())
             return;
 
         Worker enemyToMove = godController.forceMoveEnemy(movableEnemies, worker);
@@ -117,6 +123,42 @@ public class Charon extends God {
 
         enemyToMove.setPosition(newEnemyToMoveX, newEnemyToMoveY);
         godController.displayBoard();
+
+        hasForcedMoveEnemy = true;
+    }
+
+
+    /**
+     * Default rules to move the worker during a turn of the game.
+     *
+     * @param worker Selected worker that will move.
+     * @throws UnableToMoveException The worker isn't allowed to move anywhere.
+     */
+    @Override
+    public void move(Worker worker) throws UnableToMoveException {
+
+        WorkerMoveMap moveMap;
+        try {
+            moveMap = updateMoveMap(worker);
+        } catch (UnableToMoveException ex) {
+            if(hasForcedMoveEnemy)
+                throw new UnableToMoveException("lose");
+            else
+                throw  new UnableToMoveException();
+        }
+
+        while (true) {
+            int[] movePosition = getGodController().getInputMove();
+            int xMove = movePosition[0] + worker.getPosition().getX();
+            int yMove = movePosition[1] + worker.getPosition().getY();
+            if (moveMap.isAllowedToMoveBoard(xMove, yMove)) {
+                worker.setPosition(xMove, yMove);
+                godController.displayBoard();
+                return;
+            } else {
+                getGodController().errorMoveScreen();
+            }
+        }
 
     }
 

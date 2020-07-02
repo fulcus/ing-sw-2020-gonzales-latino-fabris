@@ -80,7 +80,7 @@ public class ChooseGodController {
     private String selectedGodID;
 
     private boolean challenger;
-    protected  ArrayList<ImageView> redFrames;
+    protected ArrayList<ImageView> redFrames;
 
 
     public ChooseGodController() {
@@ -134,10 +134,10 @@ public class ChooseGodController {
         }
 */
 
-        if(godFrame != null){
+        if (godFrame != null) {
 
             //if the clicked god, was part of selected gods, the frame is reset to red
-            if(redFrames.contains(godFrame))
+            if (redFrames.contains(godFrame))
                 godFrame.setImage(redFrame);
 
             else
@@ -212,6 +212,7 @@ public class ChooseGodController {
 
     /**
      * Lets the player know that the other player is choosing his god for the game.
+     *
      * @param otherPlayer The nickname of the other player who's choosing his god.
      */
     public void waitOtherPlayerChooseGod(String otherPlayer) {
@@ -223,6 +224,7 @@ public class ChooseGodController {
 
     /**
      * Lets the player know that the challenger is choosing the gods for the game.
+     *
      * @param challenger The nickname of the challenger.
      */
     public void waitChallengerChooseGods(String challenger) {
@@ -243,6 +245,7 @@ public class ChooseGodController {
 
     /**
      * Shows with a frame the gods that the challenger has chosen for the game.
+     *
      * @param chosenGods The list of the chosen gods.
      */
     public void printChosenGods(ArrayList<String> chosenGods) {
@@ -278,8 +281,9 @@ public class ChooseGodController {
 
     /**
      * If a player has already chosen the god for the current game, the other players are notified of his choice.
+     *
      * @param otherPlayer The player who has already made his choice.
-     * @param chosenGod The god that the other player has chosen.
+     * @param chosenGod   The god that the other player has chosen.
      */
     public void otherPlayerChoseGod(String otherPlayer, String chosenGod) {
 
