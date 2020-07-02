@@ -393,7 +393,6 @@ public class GuiManager implements View {
             e.printStackTrace();
         }
 
-        System.out.println("Selected " + chosenGod);
         return chosenGod;
     }
 
@@ -519,8 +518,6 @@ public class GuiManager implements View {
             if (clickedWorker != null
                     && clickedWorker.getWorkerColor().toLowerCase().equals(myColor.toLowerCase())) {
 
-                System.out.println("clickedWorker: " + clickedWorker);
-
                 selectedWorker = clickedWorker;
 
                 //todo always enters if ?
@@ -530,7 +527,7 @@ public class GuiManager implements View {
                 return clickedWorker.getWorkerSex();
             }
 
-            System.out.println("cell doesn't contain worker");
+            //System.out.println("cell doesn't contain worker");
 
             Platform.runLater(() ->
                     boardController.printToMainText("You have to select one of your workers!\nTry Again"));
@@ -682,8 +679,8 @@ public class GuiManager implements View {
         });
 
         selectedWorker = boardClient.get().findWorker(myColor, otherSex);
-        System.out.println("unableToMove selectedWorker: " + selectedWorker.getWorkerColor() + selectedWorker.getWorkerSex());
-        System.out.println(selectedWorker);
+        //System.out.println("unableToMove selectedWorker: " + selectedWorker.getWorkerColor() + selectedWorker.getWorkerSex());
+        //System.out.println(selectedWorker);
         acceptTextBarInfo();
     }
 
@@ -716,13 +713,13 @@ public class GuiManager implements View {
             e.printStackTrace();
         }
 
-        System.out.println("building cell selected: " + chosenCell[0] + "," + chosenCell[1]);
+        //System.out.println("building cell selected: " + chosenCell[0] + "," + chosenCell[1]);
 
         String result = boardClient.get()
                 .workerCellRelativePositionCompass(selectedWorker, chosenCell[0], chosenCell[1]);
 
 
-        System.out.println("converted in: " + result);
+        //System.out.println("converted in: " + result);
 
         return result;
     }
@@ -793,15 +790,12 @@ public class GuiManager implements View {
             e.printStackTrace();
         }
 
-        System.out.println("move selectedWorker: " + selectedWorker.getWorkerColor() + selectedWorker.getWorkerSex());
-        System.out.println(selectedWorker);
+        //System.out.println("move selectedWorker: " + selectedWorker.getWorkerColor() + selectedWorker.getWorkerSex());
+        //System.out.println(selectedWorker);
         String result = boardClient.get()
                 .workerCellRelativePositionCompass(selectedWorker, chosenCell[0], chosenCell[1]);
 
-        System.out.println("converted in: " + result);
-
-        //xWorker.set(chosenCell[0]);
-        //yWorker.set(chosenCell[1]);
+        //System.out.println("converted in: " + result);
 
         return result;
     }
@@ -884,18 +878,18 @@ public class GuiManager implements View {
             if (clickedWorker != null
                     && !clickedWorker.getWorkerColor().toLowerCase().equals(myColor.toLowerCase())) {
 
-                System.out.println("clickedWorker: " + clickedWorker);    //debug
+                //System.out.println("clickedWorker: " + clickedWorker);    //debug
 
                 String result = boardClient.get()
                         .workerCellRelativePositionCompass(selectedWorker, chosenCell[0], chosenCell[1]);
 
-                System.out.println("converted in: " + result);
+                //System.out.println("converted in: " + result);
 
                 if (!result.equals("FALSE") && !result.equals("U"))
                     return result;
             }
 
-            System.out.println("cell doesn't contain worker");
+            //System.out.println("cell doesn't contain worker");
 
             Platform.runLater(() ->
                     boardController.printToMainText("You have to select an enemy worker!\nTry Again"));

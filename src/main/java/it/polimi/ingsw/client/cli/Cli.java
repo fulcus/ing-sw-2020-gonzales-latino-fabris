@@ -73,9 +73,9 @@ public class Cli implements View {
      */
     public void connectionOutcome(boolean connected) {
         if (connected)
-            System.out.println("Connected to the server.\n");
+            System.out.println("Connected to server\n");
         else
-            System.out.println("Server unreachable.\n");
+            System.out.println("Server unreachable\n");
     }
 
 
@@ -106,9 +106,10 @@ public class Cli implements View {
      */
     public void notifyOtherPlayerDisconnection(String disconnectedPlayer) {
         if ("YOU".equals(disconnectedPlayer))
-            System.out.println("You disconnected, your game ends now.");
+            System.out.println("\n\nYou disconnected, your game ends now.");
         else
-            System.out.println("\n" + disconnectedPlayer + " disconnected, your game ends now.");
+            System.out.println("\n\n" + disconnectedPlayer + " disconnected, your game ends now.");
+
         System.out.println("Goodbye!");
     }
 

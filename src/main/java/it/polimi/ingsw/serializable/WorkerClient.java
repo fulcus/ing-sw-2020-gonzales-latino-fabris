@@ -74,7 +74,8 @@ public class WorkerClient implements Serializable {
         System.out.println("new x,y: "
                 + getXPosition() + "," + getYPosition());
         System.out.println("attributes: "
-                + xPosition + "," + yPosition);*/
+                + xPosition + "," + yPosition);
+        */
 
     }
 

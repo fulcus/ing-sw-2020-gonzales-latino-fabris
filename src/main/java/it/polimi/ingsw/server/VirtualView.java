@@ -4,7 +4,6 @@ import it.polimi.ingsw.serializable.CellClient;
 import it.polimi.ingsw.serializable.Message;
 import it.polimi.ingsw.serializable.WorkerClient;
 import it.polimi.ingsw.server.controller.GameController;
-import it.polimi.ingsw.server.controller.TurnHandler;
 import it.polimi.ingsw.server.model.Cell;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.Worker;
@@ -26,7 +25,6 @@ public class VirtualView implements ClientViewObserver {
     private Player player;
     private final GameController gameController;
     private ObjectOutputStream output;
-    private TurnHandler turnHandler;
     private boolean inGame;
     private final ClientInputReader input;
 
@@ -602,7 +600,6 @@ public class VirtualView implements ClientViewObserver {
             e.printStackTrace();
         }
 
-        //todo handle exception better
         return null;
     }
 

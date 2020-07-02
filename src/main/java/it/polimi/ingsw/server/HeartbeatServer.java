@@ -48,7 +48,6 @@ public class HeartbeatServer implements Runnable {
      */
     public void sendPong() {
         if (client.isInGame()) {
-          //  System.out.println("SENDING PONG to" + client);
             client.sendMessage(pongMessage);
         }
     }

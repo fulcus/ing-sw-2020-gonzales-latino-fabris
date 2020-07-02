@@ -48,41 +48,20 @@ public class InputReader implements Runnable {
             try {
 
                 Object readObject = inputStream.readObject();
-
                 serverSocket.setSoTimeout(15000);
-
                 Message readMessage = (Message) readObject;
 
-
                 if (readMessage.getMethod().equals("shutdownClient")) {
-
-                    //System.out.println("received shutdownClient");
                     connected = false;
                     client.disconnect();
-
-                    //todo Che succede se ho messo false, quindi non aggiungero piu niente alla coda ma network handler, è su handle server request?
-                    //STOP NETWORK HANDLER THREAD?
-
                 } else if (readMessage.getMethod().equals("notifyOtherPlayerDisconnection")) {
-
-                    //  System.out.println("received notifyOtherPlayerDisconnection");
                     client.update(readMessage);
-
-                } else if (readMessage.getMethod().equals("PONG")) {
-
-                    //System.out.println("PONG from Server");
-
                 } else {
-
-                    // System.out.println("Before PUT, IR, passed" + readMessage.getMethod());
-
                     try {
                         receivedObjectsQueue.put(readObject);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    // System.out.println("AFTER PUT, IR, passed" + readMessage.getMethod());
-
                 }
 
             } catch (SocketTimeoutException te) {
@@ -94,9 +73,9 @@ public class InputReader implements Runnable {
                 connected = false;
                 System.exit(1);
             } catch (Exception e) {
-                System.out.println("ERROR");
-                System.exit(1);
+                System.out.println("\n\nAn error occurred\n\n");
                 e.printStackTrace();
+                System.exit(1);
             }
 
         }

@@ -74,28 +74,23 @@ public class ClientInputReader implements Runnable {
                     } else
                         System.out.println("Received message different from ping");
 
-                } else {
+                } else
                     receivedObjects.add(readObject);
-                }
 
             } catch (IOException e) {
 
                 if (!killed) {
-
                     client.setInGame(false);
 
                     if (client.getPlayer() != null) {
                         System.out.println(client.getPlayer().getNickname() + " disconnected");
-
                         client.getGameController().handleGameDisconnection(client.getPlayer().getNickname());
                     } else {
                         System.out.println("Someone disconnected");
                         client.getGameController().handleGameDisconnection("Someone");
                     }
                 }
-
                 connected = false;
-
 
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();

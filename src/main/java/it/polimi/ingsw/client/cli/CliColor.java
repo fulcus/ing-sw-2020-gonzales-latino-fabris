@@ -5,9 +5,9 @@ package it.polimi.ingsw.client.cli;
  * Contains the references of the special the characters and their color used in the Cli.
  */
 public enum CliColor {
-    ANSI_MALE_WORKER( " M⃣ "),
+    ANSI_MALE_WORKER(" M⃣ "),
     ANSI_FEMALE_WORKER(" F⃣ "),
-    ANSI_BLACK  ("\u001B[30m"),
+    ANSI_BLACK("\u001B[30m"),
     ANSI_WHITE("\u001B[231m"),
     ANSI_RED("\u001B[31m"),
     ANSI_GREEN("\u001B[38;5;34m"),
@@ -32,8 +32,8 @@ public enum CliColor {
     Background_Bright_Magenta("\u001b[45;1m"),
     Background_Bright_Cyan("\u001b[46;1m"),
     Background_Bright_White("\u001b[47;1m"),
-    BLACK_BOLD ("\033[1;30m"),
-    WHITE_BOLD ("\033[1;37m"),
+    BLACK_BOLD("\033[1;30m"),
+    WHITE_BOLD("\033[1;37m"),
     RESET("\033[0m");
 
 
@@ -42,9 +42,13 @@ public enum CliColor {
 
     String currentColor;
 
-    CliColor(String currentColor) {this.currentColor = currentColor;}
+    CliColor(String currentColor) {
+        this.currentColor = currentColor;
+    }
 
-    public String getCurrentColor(){return currentColor;}
+    public String getCurrentColor() {
+        return currentColor;
+    }
 
 
     @Override

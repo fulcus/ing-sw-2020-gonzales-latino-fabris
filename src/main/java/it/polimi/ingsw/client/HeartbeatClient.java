@@ -61,7 +61,7 @@ public class HeartbeatClient extends TimerTask implements Runnable {
             try {
                 networkHandler.handleClientResponse(pingMessage);
             } catch (IOException e) {
-                System.out.println("SEND PING CATCH");
+                System.out.println("Server unreachable");
                 //CAUGHT WHEN TRYING TO PING WHILE THE SOCKED HAS BEEN ALREADY CLOSED BY SHUTDOWN
             }
         }

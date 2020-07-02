@@ -219,7 +219,7 @@ public class BoardController {
                 godPowerOnAnswer = "D";
                 godPowerOffAnswer = "B";
                 break;
-            case "charon": //todo
+            case "charon":
                 godPowerOnName = "selectWorker";
                 godPowerOffName = "selectWorker_negate";
                 godPowerOnAnswer = "Y";
@@ -463,7 +463,6 @@ public class BoardController {
 
             godClicked++;
 
-            System.out.println("God description");
         } else {
             printToGodTextArea("");
             godClicked = 0;

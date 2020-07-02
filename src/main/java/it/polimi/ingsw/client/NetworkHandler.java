@@ -107,7 +107,6 @@ public class NetworkHandler implements Runnable {
      * Points out that the connection with the server has been interrupted.
      */
     public void disconnect() {
-        System.out.println("Network handler received disconnected");
         this.connected = false;
     }
 

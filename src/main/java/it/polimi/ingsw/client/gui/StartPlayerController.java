@@ -91,7 +91,6 @@ public class StartPlayerController {
     private void choosePlayer(MouseEvent event) {
 
         String playerId = ((Button) event.getSource()).getId();
-        System.out.println("chose " + playerId);    //debug
 
         String nickname = null;
 
@@ -106,7 +105,7 @@ public class StartPlayerController {
                 nickname = players.get(2).getNickname();
                 break;
             default:
-                System.out.println("error choosePlayer"); //debug
+                System.out.println("error in choosePlayer"); //debug
                 break;
         }
 
