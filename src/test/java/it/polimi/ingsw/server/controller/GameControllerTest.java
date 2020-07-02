@@ -75,6 +75,12 @@ public class GameControllerTest {
         verify(client, times(1)).createGame();
         assertNotNull(gameController.getGame());
         assertNotNull(gameController.getGame().getPlayers());
+        //wait for addPlayer to end (concurrent method)
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         assertEquals(1, gameController.getGame().getPlayers().size());
     }
 

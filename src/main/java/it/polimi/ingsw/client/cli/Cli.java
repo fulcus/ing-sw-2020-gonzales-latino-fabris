@@ -81,7 +81,8 @@ public class Cli implements View {
 
     /**
      * Lets the player know the number of players for the game he's been assigned.
-     * The player in this specific case did not choose the number of players for the game, but someone else did (the so called "creator").
+     * The player in this specific case did not choose the number of players for the game,
+     * but someone else did (the so called "creator").
      *
      * @param numberOfPlayers The number of players of the game the player has been assigned to.
      */
@@ -130,6 +131,22 @@ public class Cli implements View {
 
 
     /**
+     * Representation of the game's title with ASCII characters.
+     */
+    private void santoriniASCII() {
+
+        System.out.println("███████╗ █████╗ ███╗   ██╗████████╗ ██████╗ ██████╗ ██╗███╗   ██╗██╗");
+        System.out.println("██╔════╝██╔══██╗████╗  ██║╚══██╔══╝██╔═══██╗██╔══██╗██║████╗  ██║██║");
+        System.out.println("███████╗███████║██╔██╗ ██║   ██║   ██║   ██║██████╔╝██║██╔██╗ ██║██║");
+        System.out.println("╚════██║██╔══██║██║╚██╗██║   ██║   ██║   ██║██╔══██╗██║██║╚██╗██║██║");
+        System.out.println("███████║██║  ██║██║ ╚████║   ██║   ╚██████╔╝██║  ██║██║██║ ╚████║██║");
+        System.out.println("╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝╚═╝");
+        System.out.println();
+
+    }
+
+
+    /**
      * Asks to the creator of a game how many players will the game hold.
      *
      * @return The number of players decided by the creator player.
@@ -159,23 +176,7 @@ public class Cli implements View {
      * Lets the client know that the nickname entered is too long or empty.
      */
     public void nicknameFormatError() {
-        System.out.println("Your nickname must have between 1 and 8 characters.");
-    }
-
-
-    /**
-     * Representation of the game's title with ASCII characters.
-     */
-    private void santoriniASCII() {
-
-        System.out.println("███████╗ █████╗ ███╗   ██╗████████╗ ██████╗ ██████╗ ██╗███╗   ██╗██╗");
-        System.out.println("██╔════╝██╔══██╗████╗  ██║╚══██╔══╝██╔═══██╗██╔══██╗██║████╗  ██║██║");
-        System.out.println("███████╗███████║██╔██╗ ██║   ██║   ██║   ██║██████╔╝██║██╔██╗ ██║██║");
-        System.out.println("╚════██║██╔══██║██║╚██╗██║   ██║   ██║   ██║██╔══██╗██║██║╚██╗██║██║");
-        System.out.println("███████║██║  ██║██║ ╚████║   ██║   ╚██████╔╝██║  ██║██║██║ ╚████║██║");
-        System.out.println("╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝╚═╝");
-        System.out.println();
-
+        System.out.println("Your nickname must be between 1 and 8 characters long.");
     }
 
 
@@ -258,7 +259,6 @@ public class Cli implements View {
 
         System.out.println("\nChoose your nickname.");
         String nickname = input.nextLine();
-
         this.myNickname = nickname;
 
         return nickname;
@@ -286,9 +286,7 @@ public class Cli implements View {
                 System.out.println();
         }
 
-
         System.out.println("\n" + myNickname + ", choose your color for this game:");
-
         String color = input.nextLine().toUpperCase();
         myColor = color;
 
@@ -311,7 +309,6 @@ public class Cli implements View {
     public void notifyValidColor() {
         //adding this players info to "database"
         players.add(new PlayerClient(myNickname, myColor)); //creates my player
-
         System.out.println("Color accepted");
     }
 
@@ -323,7 +320,6 @@ public class Cli implements View {
      */
     public String askPlayerGod() {
         System.out.println(myNickname + ", choose your god by typing his name.");
-
         String godInput = input.nextLine();
 
         //capitalize first letter
@@ -370,7 +366,6 @@ public class Cli implements View {
         String god = null;
 
         while (true) {
-
             god = input.nextLine().toLowerCase();
 
             for (Map.Entry<String, String> e : godsNameAndDescription.entrySet()) {
@@ -393,7 +388,6 @@ public class Cli implements View {
     public String challengerChooseStartPlayer() {
 
         System.out.println("\n" + myNickname + ", choose the first player to start! Type his nickname:");
-
         String startPlayerNick;
 
         while (true) {
@@ -516,7 +510,6 @@ public class Cli implements View {
         final String LINE_SEPARATOR_NEWLINE = CliColor.ANSI_GREEN + LINE_SEPARATOR + CliColor.COLOR_RESET + "%n";
         final String SPACE_SEPARATOR_NEWLINE = CliColor.ANSI_GREEN + SPACE_SEPARATOR + CliColor.COLOR_RESET + "%n";
 
-
         System.out.println("\n");
 
         String LINE_SEPARATOR_PLAYER_BLUE = null;
@@ -531,12 +524,10 @@ public class Cli implements View {
             if (player.getColor().equals("WHITE"))
                 LINE_SEPARATOR_PLAYER_WHITE = CliColor.ANSI_GREEN + LINE_SEPARATOR + "         " + CliColor.COLOR_RESET + CliColor.Background_White + CliColor.BLACK_BOLD + player.getNickname() + " plays with " + player.getGod() + CliColor.RESET + CliColor.BACKGROUND_RESET + "%n";
 
-
             if (player.getColor().equals("BEIGE"))
                 LINE_SEPARATOR_PLAYER_BEIGE = CliColor.ANSI_GREEN + LINE_SEPARATOR + "         " + CliColor.COLOR_RESET + CliColor.Background_Beige + CliColor.WHITE_BOLD + player.getNickname() + " plays with " + player.getGod() + CliColor.RESET + CliColor.BACKGROUND_RESET + "%n";
 
         }
-
 
         for (int i = 0; i < Board.SIDE; i++) {
 
@@ -567,18 +558,16 @@ public class Cli implements View {
 
         for (int i = 0; i < Board.SIDE; i++) {
 
-            boolean additionalSpace = true;
+            boolean cellContainsWorker = false;
             System.out.printf(CliColor.ANSI_GREEN + "|" + CliColor.COLOR_RESET);
             System.out.printf(" ");//1
 
-            //Place where eventual buildings will be printed
-
+            //place where any building will be printed
             if (board.findCell(lineNumber, i).hasDome())//if cell has dome
                 System.out.printf(CliColor.ANSI_BLUE + "D" + CliColor.COLOR_RESET);
 
             else {
                 //if cell has not dome
-
                 if (board.findCell(lineNumber, i).getCellLevel() == 0)
                     System.out.printf(" ");//if there is no building, prints nothing
 
@@ -587,20 +576,18 @@ public class Cli implements View {
             }
 
             //SPACE
-
             System.out.printf(" ");//3
             System.out.printf(" ");//3bis
 
 
             //PLACE of cell (4) that prints eventual presence of a worker with its parameter(SEX;COLOR)
 
-
             if (!board.findCell(lineNumber, i).hasWorker()) {
                 System.out.printf(" ");
                 System.out.printf(" ");//5
             } else {
 
-                additionalSpace = false;
+                cellContainsWorker = true;
                 String workerColor = board.findCell(lineNumber, i).getWorkerClient().getWorkerColor();
                 String workerSex = board.findCell(lineNumber, i).getWorkerClient().getWorkerSex();
 
@@ -619,12 +606,13 @@ public class Cli implements View {
 
             }
 
-                //todo space os
-            if (additionalSpace) {
-                    System.out.printf(" "); //6
+            //adds additional spaces if cell doesnt contain worker
+            if (!cellContainsWorker) {
+                System.out.printf(" ");
             } else {
-                if(!System.getProperty("os.name").startsWith("Mac"))
-                    System.out.printf(" "); //6
+                //in mac terminal UNICODEs have one extra character
+                if (!System.getProperty("os.name").startsWith("Mac"))
+                    System.out.printf(" ");
             }
 
         }
@@ -656,7 +644,6 @@ public class Cli implements View {
             String description = e.getValue();
             System.out.println(god + ": " + description);
         }
-
         System.out.println();
     }
 
@@ -751,7 +738,6 @@ public class Cli implements View {
     public String[] askBuildingDirectionAtlas() {
 
         String[] selectedBuildingDirection = new String[2];
-
         System.out.println("Where do you want to build? Insert a cardinal point!");
 
         while (true) {
@@ -798,7 +784,6 @@ public class Cli implements View {
 
             if (selectedDirection.equals("N") || selectedDirection.equals("NE") || selectedDirection.equals("E") || selectedDirection.equals("SE") || selectedDirection.equals("S") || selectedDirection.equals("SW") || selectedDirection.equals("W") || selectedDirection.equals("NW"))
                 return selectedDirection;
-
             else
                 System.out.println("Invalid Direction. You must type: N, NE, E, SE, S, SW, W, NW");
         }

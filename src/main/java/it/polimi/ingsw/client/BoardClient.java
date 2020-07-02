@@ -11,12 +11,12 @@ import it.polimi.ingsw.server.model.Board;
 public class BoardClient {
 
     private final CellClient[][] board;
-    private WorkerClient bluemale;
-    private WorkerClient bluefemale;
-    private WorkerClient whitemale;
-    private WorkerClient whitefemale;
-    private WorkerClient beigemale;
-    private WorkerClient beigefemale;
+    private WorkerClient blueMale;
+    private WorkerClient blueFemale;
+    private WorkerClient whiteMale;
+    private WorkerClient whiteFemale;
+    private WorkerClient beigeMale;
+    private WorkerClient beigeFemale;
 
 
     public BoardClient() {
@@ -172,56 +172,56 @@ public class BoardClient {
         if (sex.equals("male")) {
             switch (color) {
                 case "white":
-                    if (whitemale == null)
-                        whitemale = new WorkerClient(workerFromServer);
+                    if (whiteMale == null)
+                        whiteMale = new WorkerClient(workerFromServer);
                     else
-                        whitemale.updateWorkerPosition(workerFromServer);
+                        whiteMale.updateWorkerPosition(workerFromServer);
 
-                    workerCell.addWorker(whitemale);
+                    workerCell.addWorker(whiteMale);
                     break;
                 case "blue":
-                    if (bluemale == null)
-                        bluemale = new WorkerClient(workerFromServer);
+                    if (blueMale == null)
+                        blueMale = new WorkerClient(workerFromServer);
                     else
-                        bluemale.updateWorkerPosition(workerFromServer);
+                        blueMale.updateWorkerPosition(workerFromServer);
 
-                    workerCell.addWorker(bluemale);
+                    workerCell.addWorker(blueMale);
                     break;
                 case "beige":
-                    if (beigemale == null)
-                        beigemale = new WorkerClient(workerFromServer);
+                    if (beigeMale == null)
+                        beigeMale = new WorkerClient(workerFromServer);
                     else
-                        beigemale.updateWorkerPosition(workerFromServer);
+                        beigeMale.updateWorkerPosition(workerFromServer);
 
-                    workerCell.addWorker(beigemale);
+                    workerCell.addWorker(beigeMale);
                     break;
             }
 
         } else if (sex.equals("female")) {
             switch (color) {
                 case "white":
-                    if (whitefemale == null)
-                        whitefemale = new WorkerClient(workerFromServer);
+                    if (whiteFemale == null)
+                        whiteFemale = new WorkerClient(workerFromServer);
                     else
-                        whitefemale.updateWorkerPosition(workerFromServer);
+                        whiteFemale.updateWorkerPosition(workerFromServer);
 
-                    workerCell.addWorker(whitefemale);
+                    workerCell.addWorker(whiteFemale);
                     break;
                 case "blue":
-                    if (bluefemale == null)
-                        bluefemale = new WorkerClient(workerFromServer);
+                    if (blueFemale == null)
+                        blueFemale = new WorkerClient(workerFromServer);
                     else
-                        bluefemale.updateWorkerPosition(workerFromServer);
+                        blueFemale.updateWorkerPosition(workerFromServer);
 
-                    workerCell.addWorker(bluefemale);
+                    workerCell.addWorker(blueFemale);
                     break;
                 case "beige":
-                    if (beigefemale == null)
-                        beigefemale = new WorkerClient(workerFromServer);
+                    if (beigeFemale == null)
+                        beigeFemale = new WorkerClient(workerFromServer);
                     else
-                        beigefemale.updateWorkerPosition(workerFromServer);
+                        beigeFemale.updateWorkerPosition(workerFromServer);
 
-                    workerCell.addWorker(beigefemale);
+                    workerCell.addWorker(beigeFemale);
                     break;
             }
         }
@@ -242,21 +242,21 @@ public class BoardClient {
         if (sex.equals("male")) {
             switch (color) {
                 case "white":
-                    return whitemale;
+                    return whiteMale;
                 case "blue":
-                    return bluemale;
+                    return blueMale;
                 case "beige":
-                    return beigemale;
+                    return beigeMale;
             }
 
         } else if (sex.equals("female")) {
             switch (color) {
                 case "white":
-                    return whitefemale;
+                    return whiteFemale;
                 case "blue":
-                    return bluefemale;
+                    return blueFemale;
                 case "beige":
-                    return beigefemale;
+                    return beigeFemale;
             }
         }
 

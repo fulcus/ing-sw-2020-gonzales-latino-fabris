@@ -266,7 +266,6 @@ public class GameController {
 
             String chosenColor = client.askPlayerColor(gameColors);
 
-            //edited
             synchronized (colorLock) {
                 if (checkColorValidity(chosenColor, client)) {
                     gameColors.remove(chosenColor);

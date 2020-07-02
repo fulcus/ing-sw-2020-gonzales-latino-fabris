@@ -114,15 +114,10 @@ public class TurnHandlerTest {
         //starting thread of turnhandler
         new Thread(gameController.getTurnHandler()).start();
 
-        //check periodically that the turnhandler thread has played a turn
-        //ie has looped at least one time in startTurnFlow
-        //then issues command to exit the loop with stopTurnFlow
         do {
-            try {
-                Thread.sleep(7000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            //busy waiting until the turnhandler thread has played a turn
+            //ie has looped at least one time in startTurnFlow
+            //then issues command to exit the loop with stopTurnFlow
         } while(gameController.getTurnHandler().getTurnCounter() < 2);
 
         gameController.getTurnHandler().stopTurnFlow();
