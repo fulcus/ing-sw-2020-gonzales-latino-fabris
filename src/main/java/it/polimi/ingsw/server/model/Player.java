@@ -61,6 +61,7 @@ public class Player {
 
     /**
      * Assigns to the player a God from the available Gods of the current game
+     * @param god god to be assigned.
      */
     public void setGod(God god) {
         this.god = god;

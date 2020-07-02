@@ -84,9 +84,10 @@ public class WorkerMap {
     /**
      * Sets true or false the central cell of the WorkersMap,
      * i.e. the position of the worker.
+     * @param value value to set in the center of the matrix.
      */
-    protected void setCenterPosition(boolean center) {
-        matrix[1][1] = center;
+    protected void setCenterPosition(boolean value) {
+        matrix[1][1] = value;
     }
 
 
@@ -207,6 +208,7 @@ public class WorkerMap {
     /**
      * Checks if there is any true cell in the matrix.
      * Useful for lose conditions.
+     * @return true if there are any true cell, false otherwise.
      */
     protected boolean anyTrueCell() {
 

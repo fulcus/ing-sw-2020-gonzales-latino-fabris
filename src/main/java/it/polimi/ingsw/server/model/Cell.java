@@ -118,6 +118,7 @@ public class Cell {
 
     /**
      * Checks if cell has a worker or a dome on it.
+     * @return true if is occupied, otherwise false.
      */
     public boolean isOccupied() {
         return hasWorker() || hasDome();
@@ -184,7 +185,7 @@ public class Cell {
 
     /**
      * Removes from the cellObservers list the client that is observing this specific cell.
-     * @param client
+     * @param client client to be removed from observers.
      */
     public void remove(VirtualView client) {
 

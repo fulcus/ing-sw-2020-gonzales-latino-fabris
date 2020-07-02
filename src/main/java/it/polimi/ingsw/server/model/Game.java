@@ -38,6 +38,7 @@ public class Game {
      * and chooses challenger if target number of players has been reached.
      *
      * @param nickname Nickname chosen by the player.
+     * @param  virtualView instance of the client virtual view.
      * @return player that was just created.
      */
     public Player addPlayer(String nickname, VirtualView virtualView) {

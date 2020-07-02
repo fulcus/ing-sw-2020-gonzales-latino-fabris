@@ -120,7 +120,7 @@ public interface View {
     /**
      * Asks to the player the color for the game.
      * Only three colors are available: blue, white and beige.
-     *
+     * @param availableColors available colors for the game.
      * @return The color chosen by the player.
      */
     String askPlayerColor(ArrayList<String> availableColors);

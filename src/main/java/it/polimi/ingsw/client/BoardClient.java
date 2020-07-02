@@ -233,6 +233,7 @@ public class BoardClient {
      *
      * @param color color of the worker to find
      * @param sex   sex of the worker to find
+     * @return reference of the requested worker.
      */
     public WorkerClient findWorker(String color, String sex) {
 

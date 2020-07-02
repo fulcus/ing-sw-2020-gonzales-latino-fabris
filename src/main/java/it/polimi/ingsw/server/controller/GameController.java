@@ -137,6 +137,7 @@ public class GameController {
 
     /**
      * Sets up game and starts the logic flow.
+     * @param firstClient is the first connected client who creates the game.
      */
     public synchronized void setUpGame(VirtualView firstClient) {
 
