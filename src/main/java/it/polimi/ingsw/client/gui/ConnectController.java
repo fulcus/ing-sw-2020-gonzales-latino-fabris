@@ -31,17 +31,14 @@ public class ConnectController {
         if (ke.getCode().equals(KeyCode.ENTER)) {
 
             error.setVisible(false);
-
             String IPAddress = IPText.getCharacters().toString();
 
             try {
                 //give ip address to manager thread
                 GuiManager.queue.put(IPAddress);
-
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
-
             //if not the creator, display the loader
             waitForGame.setVisible(true);
         }

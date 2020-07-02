@@ -5,7 +5,17 @@ package it.polimi.ingsw.server.controller;
  */
 public class UnableToMoveException extends Exception {
 
+    private String errorCode;
+
     public UnableToMoveException() {
+    }
+
+    public UnableToMoveException(String error) {
+        this.errorCode = error;
+    }
+
+    public String getErrorCode() {
+        return errorCode;
     }
 /*
     public UnableToMoveException(String message) {

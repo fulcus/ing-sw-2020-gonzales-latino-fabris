@@ -6,6 +6,7 @@ import it.polimi.ingsw.server.controller.UnableToMoveException;
 import it.polimi.ingsw.server.controller.WinException;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.Worker;
+import it.polimi.ingsw.server.model.WorkerMoveMap;
 
 
 /**
@@ -28,8 +29,8 @@ public class Prometheus extends God {
      *
      * @param worker Selected worker that will act in the current turn.
      * @throws UnableToBuildException The worker isn't allowed to build anywhere.
-     * @throws UnableToMoveException The worker isn't allowed to move anywhere.
-     * @throws WinException The worker has reached the third level of a building and so wins the game.
+     * @throws UnableToMoveException  The worker isn't allowed to move anywhere.
+     * @throws WinException           The worker has reached the third level of a building and so wins the game.
      */
     @Override
     public void evolveTurn(Worker worker) throws UnableToMoveException, UnableToBuildException, WinException {
@@ -97,6 +98,34 @@ public class Prometheus extends God {
 
         //reset canMoveUp permission to its original state (to avoid interference with Athena)
         worker.getPlayer().setPermissionToMoveUp(canMoveUpBefore);
+    }
+
+    /**
+     * Sets the permissions to move of the selected worker.
+     * It is called at the beginning of each move, which will then comply with the matrix.
+     *
+     * @param worker worker playing the turn.
+     * @return The WorkerMoveMap of the worker chosen for this turn.
+     * @throws UnableToMoveException signals that the worker cannot move anywhere
+     */
+    @Override
+    public WorkerMoveMap updateMoveMap(Worker worker) throws UnableToMoveException {
+
+        WorkerMoveMap moveMap = worker.getMoveMap();
+        moveMap.reset();
+
+        moveMap.updateCellsOutOfMap();
+        moveMap.updateMoveUpRestrictions();
+
+        moveMap.cannotStayStill();
+        moveMap.cannotMoveInOccupiedCell();
+
+        //moveMap.printMap();    //debugging
+
+        if (!moveMap.anyAvailableMovePosition())
+            throw new UnableToMoveException("lose");
+
+        return moveMap;
     }
 
 

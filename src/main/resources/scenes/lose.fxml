@@ -47,6 +47,6 @@
             <Insets bottom="10.0" />
          </padding>
       </Button>
-      <Text fx:id="winner" fill="WHITE" layoutX="410.0" layoutY="403.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="winner-is" text="player has won" textAlignment="CENTER" />
+      <Text fx:id="winner" fill="WHITE" layoutX="378.0" layoutY="399.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="winner-is" textAlignment="CENTER" wrappingWidth="281.12109375" />
    </children>
 </AnchorPane>
