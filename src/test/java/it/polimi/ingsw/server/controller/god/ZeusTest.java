@@ -39,6 +39,8 @@ public class ZeusTest {
     public void tearDown() {
         godController = null;
         zeus = null;
+        worker = null;
+        workerBuildMap = null;
     }
 
 
@@ -51,7 +53,6 @@ public class ZeusTest {
         doNothing().when(workerBuildMap).cannotBuildInOccupiedCell();
         doNothing().when(workerBuildMap).canBuildUnderneath();
         when(workerBuildMap.anyAvailableBuildPosition()).thenReturn(true);
-        //TODO VITTO SORRY METODO RIMOSSO doNothing().when(godController).allowBuildUnderneath();
 
         assertEquals(workerBuildMap, zeus.updateBuildMap(worker));
         verify(workerBuildMap, times(1)).reset();
@@ -59,7 +60,6 @@ public class ZeusTest {
         verify(workerBuildMap, times(1)).cannotBuildInOccupiedCell();
         verify(workerBuildMap, times(1)).canBuildUnderneath();
         verify(workerBuildMap, times(1)).anyAvailableBuildPosition();
-       //TODO VITTO SORRY METODO RIMOSSOverify(godController, times(1)).allowBuildUnderneath();
 
     }
 

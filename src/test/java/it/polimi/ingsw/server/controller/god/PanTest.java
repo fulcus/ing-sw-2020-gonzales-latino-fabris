@@ -42,6 +42,8 @@ public class PanTest {
     public void tearDown() {
         godController = null;
         pan = null;
+        worker = null;
+        player = null;
     }
 
 

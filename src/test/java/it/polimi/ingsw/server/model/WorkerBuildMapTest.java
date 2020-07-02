@@ -117,6 +117,16 @@ public class WorkerBuildMapTest {
         worker.setPosition(0, 0);
 
         buildMap.cannotBuildInPerimeter();
+        assertFalse(buildMap.isAllowedToBuildBoard(0, 1));
+    }
+
+
+    @Test
+    public void testSetCell() {
+        worker.setPosition(0,0);
+
+        buildMap.setCell(0, 1, true);
+        assertTrue(buildMap.isAllowedToBuildBoard(0,1));
     }
 
 }

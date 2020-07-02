@@ -55,6 +55,7 @@ public class HestiaTest {
     public void tearDown() {
         godController = null;
         hestia = null;
+        game = null;
         worker = null;
         workerMoveMap = null;
         workerBuildMap = null;
@@ -65,7 +66,6 @@ public class HestiaTest {
     private void settingUsualParameters() {
         Cell cell = mock(Cell.class);
         when(worker.getPosition()).thenReturn(cell);
-
         doNothing().when(godController).errorMoveScreen();
 
         //setting the behaviour for the updateMoveMap
@@ -85,7 +85,6 @@ public class HestiaTest {
         when(cell.getX()).thenReturn(2, 2);
         when(cell.getY()).thenReturn(2, 2);
         when(workerMoveMap.isAllowedToMoveBoard(any(int.class), any(int.class))).thenReturn(true);
-        //doNothing().when(godController).errorMoveScreen();   //(already set above, but leave it here because could be useful for other classes)
         doNothing().when(worker).setPosition(any(int.class), any(int.class));
         doNothing().when(godController).displayBoard();
 
@@ -102,7 +101,6 @@ public class HestiaTest {
         doNothing().when(workerBuildMap).updateCellsOutOfMap();
         doNothing().when(workerBuildMap).cannotBuildUnderneath();
         doNothing().when(workerBuildMap).cannotBuildInOccupiedCell();
-        //when(workerBuildMap.anyAvailableBuildPosition()).thenReturn(true);
 
         //setting the build behaviour,
         //only few lines here because differentiating the behaviour in different tests
@@ -131,7 +129,6 @@ public class HestiaTest {
         when(workerBuildMap.isAllowedToBuildBoard(any(int.class), any(int.class))).thenReturn(true, false, true);
         when(godController.errorBuildDecisionScreen()).thenReturn(true);
 
-
         //Setting the specific build behaviour
         Board board = mock(Board.class);
         when(game.getBoard()).thenReturn(board);
@@ -139,7 +136,6 @@ public class HestiaTest {
         when(board.findCell(any(int.class), any(int.class))).thenReturn(cell2);
         when(cell2.getLevel()).thenReturn(2);
         when(workerBuildMap.anyAvailableBuildPosition()).thenReturn(true);
-
 
         hestia.evolveTurn(worker);
 
@@ -162,7 +158,6 @@ public class HestiaTest {
         when(board.findCell(any(int.class), any(int.class))).thenReturn(cell2);
         when(cell2.getLevel()).thenReturn(2);
         when(workerBuildMap.anyAvailableBuildPosition()).thenReturn(true);
-
 
         hestia.evolveTurn(worker);
 

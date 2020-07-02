@@ -23,7 +23,6 @@ public class AtlasTest {
     @Mock
     private GodController godController;
 
-
     @Mock
     private WorkerBuildMap workerBuildMap;
 
@@ -58,7 +57,6 @@ public class AtlasTest {
         doNothing().when(workerBuildMap).cannotBuildInOccupiedCell();
         when(workerBuildMap.anyAvailableBuildPosition()).thenReturn(true);
 
-
         Player player = mock(Player.class);
         Game game = mock(Game.class);
         Board board = mock(Board.class);
@@ -80,12 +78,11 @@ public class AtlasTest {
         doNothing().when(godController).errorBuildScreen();
         doNothing().when(godController).displayBoard();
 
-
         atlas.build(worker);
 
         //verifying the methods for building the block are as many times as the cycle
         //for the test has been done, also taking into account that the permissions to build
-        // were not set from the first building cycle
+        //were not set from the first building cycle
         verify(godController, times(3)).getBuildingInputAtlas();
         verify(worker, times(1)).buildBlock(any(int.class), any(int.class));
     }
@@ -100,7 +97,6 @@ public class AtlasTest {
         doNothing().when(workerBuildMap).cannotBuildUnderneath();
         doNothing().when(workerBuildMap).cannotBuildInOccupiedCell();
         when(workerBuildMap.anyAvailableBuildPosition()).thenReturn(true);
-
 
         Player player = mock(Player.class);
         Game game = mock(Game.class);
@@ -123,9 +119,7 @@ public class AtlasTest {
         doNothing().when(godController).errorBuildScreen();
         doNothing().when(godController).displayBoard();
 
-
         atlas.build(worker);
-
 
         verify(godController, times(2)).getBuildingInputAtlas();
         verify(worker, times(1)).buildDome(any(int.class), any(int.class));
@@ -143,6 +137,5 @@ public class AtlasTest {
     public void getDescription() {
 
         assertEquals("Your Worker may build a dome at any level.", atlas.getDescription());
-
     }
 }

@@ -143,12 +143,6 @@ public class MinotaurTest {
     public void updateMoveMap() throws UnableToMoveException {
 
         when(worker.getMoveMap()).thenReturn(workerMoveMap);
-        doNothing().when(workerMoveMap).reset();
-        doNothing().when(workerMoveMap).updateCellsOutOfMap();
-        doNothing().when(workerMoveMap).updateMoveUpRestrictions();
-        doNothing().when(workerMoveMap).cannotStayStill();
-        doNothing().when(workerMoveMap).cannotMoveInDomeCell();
-        doNothing().when(workerMoveMap).cannotMoveInFriendlyWorkerCell();
 
         Cell cell = mock(Cell.class);
         when(worker.getPosition()).thenReturn(cell);

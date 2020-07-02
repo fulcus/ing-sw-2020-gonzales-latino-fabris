@@ -38,7 +38,6 @@ public class GodControllerTest {
 
     @Before
     public void setUp() {
-        //gameController = new GameController();
         gameController = mock(GameController.class);
         client = mock(VirtualView.class);
         when(client.askNumberOfPlayers()).thenReturn(2);
@@ -123,7 +122,7 @@ public class GodControllerTest {
         worker = mock(Worker.class);
         when(client.askWorkerToMove(playerTest.getWorkers(), worker)).thenReturn(null);
 
-        assertTrue(godController.forceMoveEnemy(playerTest.getWorkers(), worker) == null);
+        assertNull(godController.forceMoveEnemy(playerTest.getWorkers(), worker));
     }
 
 
@@ -187,20 +186,6 @@ public class GodControllerTest {
         assertTrue(godController.wantToBuildAgain(new Hephaestus(godController)));
         assertTrue(godController.wantToBuildAgain(new Prometheus(godController)));
 
-    }
-
-
-    //TODo METODO E STATO RIMOSSO
-    @Test
-    public void allowBuildUnderneath() {
-        godController.updateCurrentClient(client);
-        assertNotNull(godController.getCurrentClient());
-
-       /* doNothing().when(client).printBuildUnderneath();
-
-        godController.allowBuildUnderneath();
-
-        verify(client).printBuildUnderneath();*/
     }
 
 
