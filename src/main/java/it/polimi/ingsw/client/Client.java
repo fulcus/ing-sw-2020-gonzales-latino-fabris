@@ -11,6 +11,7 @@ import it.polimi.ingsw.server.Server;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -36,7 +37,6 @@ public class Client {
         Client client = new Client();
         client.setView();
         client.setUpConnection();
-
     }
 
 
@@ -50,15 +50,20 @@ public class Client {
 
         while (!connected) {
             String IP = view.getServerAddress();
-
+            System.out.println("IP: " + IP);
             connected = true;
 
             //open connection with the server
             try {
-                server = new Socket(IP, Server.SOCKET_PORT);
+                System.out.println("before server");
+                //server = new Socket(IP, Server.SOCKET_PORT);
+                server = new Socket();
+                server.connect(new InetSocketAddress(IP, Server.SOCKET_PORT), 5000);
 
+                System.out.println("server: " + server);
             } catch (IOException e) {
                 connected = false;
+                System.out.println("catch");
             }
 
             view.connectionOutcome(connected);
@@ -85,8 +90,7 @@ public class Client {
 
         while (true) {
 
-            System.out.println("Choose your view mode: CLI or GUI? Type it here: ");
-
+            System.out.println("Choose your view mode: CLI or GUI? Type it here:");
             selectedView = scanner.nextLine();
 
             if (selectedView.toUpperCase().equals("CLI")) {

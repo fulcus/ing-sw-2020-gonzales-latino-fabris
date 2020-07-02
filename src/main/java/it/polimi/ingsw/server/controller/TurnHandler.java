@@ -384,10 +384,11 @@ public class TurnHandler implements Runnable {
         } catch (UnableToMoveException ex) {
             unableToMove++;
 
+            if("lose".equals(ex.getErrorCode()))
+                unableToMove++;
+
             if (unableToMove == 1) {
-
                 currentClient.selectedWorkerCannotMove(turnWorker.getSex().name());
-
                 turn(otherWorker);
 
             } else {

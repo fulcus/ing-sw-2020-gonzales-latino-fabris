@@ -387,20 +387,17 @@ public class GameController {
     public void winGame(Player winner) {
         //winningView and losingView are blocking since they must return boolean (although unused)
         VirtualView winnerClient = winner.getClient();
-
         //print "you have won" in winner view
         winnerClient.winningView();
         winnerClient.killClient();
-        //TODO AVOID TO DISCONNECT OTHERS
         //print "you have lost" in loser views
         for (Player player : game.getPlayers()) {
 
             if (!player.equals(winner)) {
-                player.getClient().losingView(winner.getNickname());
+                player.getClient().losingView(winner.getNickname() + "has won");
                 player.getClient().killClient();
             }
         }
-
         turnHandler.stopTurnFlow();
     }
 

@@ -123,7 +123,9 @@ public class GuiManager implements View {
 
         String IP = null;
         try {
+            System.out.println("before take");
             IP = (String) queue.take();
+            System.out.println("after take " + IP);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -590,7 +592,7 @@ public class GuiManager implements View {
             boardController.setConfirmButtonVisible();
         });
 
-        losingView("");
+        losingView("unable to move");
         return true;
     }
 
@@ -608,7 +610,8 @@ public class GuiManager implements View {
             boardController.setConfirmButtonVisible();
         });
 
-        losingView("");
+        acceptTextBarInfo();
+        losingView("unable to build");
         return true;
     }
 
@@ -1104,10 +1107,10 @@ public class GuiManager implements View {
     /**
      * Lets player know that he has lost, and who is the winner.
      *
-     * @param winner nickname of the winner.
+     * @param endgameText text to display on lose.
      * @return Always returns true.
      */
-    public boolean losingView(String winner) {
+    public boolean losingView(String endgameText) {
 
         try {
             FXMLLoader loseLoader = new FXMLLoader(getClass().getResource("/scenes/lose.fxml"));
@@ -1115,7 +1118,7 @@ public class GuiManager implements View {
             EndGameController loseController = loseLoader.getController();
 
             Platform.runLater(() -> {
-                loseController.setWinner(winner);
+                loseController.setEndgameText(endgameText);
 
                 for (Node child : boardRoot.getChildrenUnmodifiable())
                     child.setEffect(new GaussianBlur());
@@ -1135,7 +1138,7 @@ public class GuiManager implements View {
      */
     private void acceptTextBarInfo() {
 
-        boolean accept = false;
+        boolean accept;
         try {
 
             do {

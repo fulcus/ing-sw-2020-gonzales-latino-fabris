@@ -129,12 +129,12 @@ public abstract class God {
 
     /**
      * Sets the permissions to move of the selected worker.
+     * It is called at the beginning of each move, which will then comply with the matrix.
      *
      * @param worker worker playing the turn.
      * @return The WorkerMoveMap of the worker chosen for this turn.
      * @throws UnableToMoveException signals that the worker cannot move anywhere
      */
-    //will be called at the beginning of each move, which will then comply with the matrix.
     public WorkerMoveMap updateMoveMap(Worker worker) throws UnableToMoveException {
 
         WorkerMoveMap moveMap = worker.getMoveMap();

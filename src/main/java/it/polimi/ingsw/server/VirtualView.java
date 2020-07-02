@@ -168,8 +168,6 @@ public class VirtualView implements ClientViewObserver {
      * Sends to the client the message to ask to the player the color for the game.
      * Only three colors are available: blue, white and beige.
      *
-     *
-     *
      * @return The color chosen by the player.
      */
     public String askPlayerColor(ArrayList<String> availableColors) {
@@ -265,15 +263,15 @@ public class VirtualView implements ClientViewObserver {
      * Sends a message to let the player know he has lost the game because both of his workers cannot move.
      */
     public boolean unableToMoveLose() {
-       return (boolean) sendMessageWithReturn(new Message("unableToMoveLose"));
+        return (boolean) sendMessageWithReturn(new Message("unableToMoveLose"));
     }
 
 
     /**
      * Sends a message to let the player know he has lost the game because both of his workers cannot build.
      */
-    public void unableToBuildLose() {
-        sendMessage(new Message("unableToBuildLose"));
+    public boolean unableToBuildLose() {
+        return (boolean) sendMessageWithReturn(new Message("unableToBuildLose"));
     }
 
 

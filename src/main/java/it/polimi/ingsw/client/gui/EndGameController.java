@@ -23,8 +23,8 @@ public class EndGameController {
         this.disconnectedPlayer.setText(disconnectedPlayer);
     }
 
-    protected void setWinner(String winner) {
-        this.winner.setText(winner + " has won");
+    protected void setEndgameText(String text) {
+        this.winner.setText(text);
     }
 
 }

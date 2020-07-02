@@ -57,13 +57,9 @@ public class NetworkHandler implements Runnable {
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
                 System.out.println("network handler exception");
-
             }
-
         }
-
         disconnect();
-
     }
 
 
