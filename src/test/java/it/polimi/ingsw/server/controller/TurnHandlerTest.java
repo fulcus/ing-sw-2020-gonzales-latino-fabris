@@ -86,11 +86,10 @@ public class TurnHandlerTest {
         when(client1.getGodFromChallenger(any(int.class), any(int.class))).thenReturn("Apollo", "Apollo", "Pan");
         when(client2.getGodFromChallenger(any(int.class), any(int.class))).thenReturn("Pan", "Pan", "Apollo");
 
-        //da qui comincia il playersChooseGods
+        //here starts the playersChooseGods
         when(client2.askPlayerGod()).thenReturn("Zeus", "Apollo");
         when(client1.askPlayerGod()).thenReturn("Pan");
 
-        //
         when(client1.challengerChooseStartPlayer()).thenReturn("Nick1");
         when(client2.challengerChooseStartPlayer()).thenReturn("Nick2");
 
@@ -157,7 +156,9 @@ public class TurnHandlerTest {
     @Test
     public void stopTurnFlow() {
         assertTrue(gameController.getTurnHandler().getGameAlive());
+
         gameController.getTurnHandler().stopTurnFlow();
+
         assertFalse(gameController.getTurnHandler().getGameAlive());
     }
 
@@ -171,6 +172,7 @@ public class TurnHandlerTest {
     @Test
     public void setNumberOfPLayersHasChanged() {
         gameController.getTurnHandler().setNumberOfPLayersHasChanged(true);
+
         assertTrue(gameController.getTurnHandler().numberOfPLayersHasChanged());
     }
 

@@ -73,12 +73,15 @@ public class GameControllerTest {
         gameController.create(client);
 
         verify(client, times(1)).createGame();
+        assertNotNull(gameController.getGame());
+        assertNotNull(gameController.getGame().getPlayers());
+        assertEquals(1, gameController.getGame().getPlayers().size());
     }
 
 
     @Test
     public void join() {
-        when(client.askNumberOfPlayers()).thenReturn(4);
+        when(client.askNumberOfPlayers()).thenReturn(3);
 
         when(client.askPlayerNickname()).thenReturn("Nick1");
         when(client.askPlayerColor(any())).thenReturn("BEIGE");
@@ -101,23 +104,9 @@ public class GameControllerTest {
         when(player2.getColor()).thenReturn(Color.BLUE);
         when(player2.getNickname()).thenReturn("Nick2");
 
-        VirtualView client3 = mock(VirtualView.class);
-        when(client3.askPlayerNickname()).thenReturn("Nick3");
-        when(client3.askPlayerColor(any())).thenReturn("WHITE");
-
-        Player player3 = mock(Player.class);
-        when(client3.getPlayer()).thenReturn(player3);
-        when(player3.getClient()).thenReturn(client3);
-        when(player3.getColor()).thenReturn(Color.WHITE);
-        when(player3.getNickname()).thenReturn("Nick3");
-
         gameController.create(client);
-
         gameController.join(client2);
 
-        //gameController.join(client3);
-
-        //assertEquals(gameController.getGameClients().size(), 1);
         assertFalse(gameController.isFull());
     }
 
@@ -128,7 +117,6 @@ public class GameControllerTest {
         gameController.setUpGame(client);
 
         doNothing().when(client).connected();
-        //TODO METODO RIMOSSOdoNothing().when(client).beginningView();
 
         when(client.askPlayerNickname()).thenReturn("toolongnickname", "Nick1");
         when(client.askPlayerColor(any())).thenReturn("BLACK", "BEIGE");
@@ -144,9 +132,18 @@ public class GameControllerTest {
         gameController.addPlayer(client);
 
         verify(client, times(1)).connected();
-       //TODO METODO RIMOSSO verify(client, times(1)).beginningView();
         verify(client, times(1)).setPlayer(any(Player.class));
         verify(client, times(1)).notAvailableColor();
+        assertEquals(1, gameController.getGame().getPlayers().size());
+
+        when(client2.askPlayerNickname()).thenReturn("Nick1", "Nick2");
+        Player player2 = new Player(gameController.getGame(), "Nick2", client2);
+        when(client2.getPlayer()).thenReturn(player2);
+        when(client2.askPlayerColor(any())).thenReturn("BLUE");
+
+        gameController.addPlayer(client2);
+
+        assertEquals(2, gameController.getGame().getPlayers().size());
 
     }
 
@@ -155,8 +152,6 @@ public class GameControllerTest {
     public void winGame() {
         when(client.askNumberOfPlayers()).thenReturn(3);
         gameController.setUpGame(client);
-
-        client2 = mock(VirtualView.class);
 
         Player player1 = new Player(gameController.getGame(), "Nick1", client);
         Player player2 = new Player(gameController.getGame(), "Nick2", client2);
@@ -173,7 +168,6 @@ public class GameControllerTest {
         when(client.getPlayer()).thenReturn(player1);
         doNothing().when(client).setPlayer(any(Player.class));
         doNothing().when(client).connected();
-       //TODO RIMOSSO doNothing().when(client).beginningView();
         doNothing().when(client).setPlayer(any(Player.class));
         when(client.winningView()).thenReturn(true);
 
@@ -182,7 +176,6 @@ public class GameControllerTest {
         when(client2.getPlayer()).thenReturn(player2);
         doNothing().when(client2).setPlayer(any(Player.class));
         doNothing().when(client2).connected();
-       //TODO RIMOSSO doNothing().when(client2).beginningView();
         doNothing().when(client2).setPlayer(any(Player.class));
         when(client2.losingView(anyString())).thenReturn(true);
 
@@ -192,6 +185,7 @@ public class GameControllerTest {
         gameController.winGame(player1);
 
         verify(client, times(2)).killClient();
+
         assertFalse(gameController.getTurnHandler().getGameAlive());
     }
 
@@ -200,6 +194,7 @@ public class GameControllerTest {
     public void getGodsDeck() {
         when(client.askNumberOfPlayers()).thenReturn(2);
         gameController.setUpGame(client);
+
         assertNotNull(gameController.getGodsDeck());
     }
 
@@ -208,6 +203,7 @@ public class GameControllerTest {
     public void getGame() {
         when(client.askNumberOfPlayers()).thenReturn(2);
         gameController.setUpGame(client);
+
         assertNotNull(gameController.getGame());
     }
 
@@ -216,6 +212,7 @@ public class GameControllerTest {
     public void getGodController() {
         when(client.askNumberOfPlayers()).thenReturn(2);
         gameController.setUpGame(client);
+
         assertNotNull(gameController.getGodController());
 
     }
@@ -225,6 +222,7 @@ public class GameControllerTest {
     public void getTurnHandler() {
         when(client.askNumberOfPlayers()).thenReturn(2);
         gameController.setUpGame(client);
+
         assertNotNull(gameController.getTurnHandler());
     }
 
@@ -233,6 +231,7 @@ public class GameControllerTest {
     public void getExecutorPlayerAdder() {
         when(client.askNumberOfPlayers()).thenReturn(2);
         gameController.setUpGame(client);
+
         assertNotNull(gameController.getExecutorPlayerAdder());
     }
 

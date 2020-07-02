@@ -275,7 +275,7 @@ public class WorkerMap {
     /**
      * Prints the map. Useful for debugging.
      */
-    public void printMap() {
+   /* public void printMap() {
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 if (matrix[i][j])
@@ -285,7 +285,7 @@ public class WorkerMap {
             }
             System.out.println();
         }
-    }
+    }*/
 
     /**
      * Sets the value of a cell of the map

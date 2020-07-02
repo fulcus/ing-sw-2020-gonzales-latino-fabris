@@ -53,6 +53,7 @@ public class AthenaTest {
     public void tearDown() {
         godController = null;
         athena = null;
+        game = null;
         worker = null;
         workerMoveMap = null;
         player = null;

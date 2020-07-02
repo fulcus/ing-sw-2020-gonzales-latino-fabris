@@ -55,15 +55,16 @@ public class TritonTest {
     public void tearDown() {
         godController = null;
         triton = null;
+        game = null;
         worker = null;
         workerMoveMap = null;
         player = null;
+        cell = null;
     }
 
 
     private void settingUsualParameters() {
         when(worker.getPosition()).thenReturn(cell);
-
         doNothing().when(godController).errorMoveScreen();
 
         //setting the behaviour for the updateMoveMap
@@ -124,20 +125,29 @@ public class TritonTest {
     @Test
     public void evolveTurn() throws UnableToMoveException, UnableToBuildException, WinException {
 
+        //Parameters have been set to simulate one turn of the player that holds Triton.
         settingUsualParameters();
 
         triton.evolveTurn(worker);
+
+        verify(godController, times(2)).wantToMoveAgain();
+        //counting all the times the method is invoked inside the evolve turn
+        //and also considering the displaying errors, it turns out to be that the
+        //num of calls of the getPosition() of the selected worker is 14.
+        verify(worker, times(14)).getPosition();
     }
 
 
     @Test
-    public void evolveTurnFail() throws UnableToMoveException, UnableToBuildException, WinException {
+    public void evolveTurnCatchException() throws UnableToMoveException, UnableToBuildException, WinException {
+        //Different from the previous one because allows to see if the exception inside the
+        //move again method is been handled correctly.
 
         settingUsualParameters();
         when(workerMoveMap.anyAvailableMovePosition()).thenReturn(true, false);
 
-
         triton.evolveTurn(worker);
+
     }
 
 

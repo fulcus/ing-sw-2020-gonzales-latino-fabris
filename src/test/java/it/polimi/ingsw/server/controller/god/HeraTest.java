@@ -54,6 +54,7 @@ public class HeraTest {
         hera = null;
         worker = null;
         workerMoveMap = null;
+        game = null;
         player = null;
     }
 
@@ -61,7 +62,6 @@ public class HeraTest {
     private void settingUsualParameters() {
         Cell cell = mock(Cell.class);
         when(worker.getPosition()).thenReturn(cell);
-
         doNothing().when(godController).errorMoveScreen();
 
         //setting the behaviour for the updateMoveMap
@@ -77,11 +77,9 @@ public class HeraTest {
         int[] move = {1, 1};
         when(godController.getInputMove()).thenReturn(move, move);
         when(worker.getPosition()).thenReturn(cell);
-        //many return because of the many calls of the function
         when(cell.getX()).thenReturn(2, 2);
         when(cell.getY()).thenReturn(2, 2);
         when(workerMoveMap.isAllowedToMoveBoard(any(int.class), any(int.class))).thenReturn(true);
-        //doNothing().when(godController).errorMoveScreen();   //(already set above, but leave it here because could be useful for other classes)
         doNothing().when(worker).setPosition(any(int.class), any(int.class));
         doNothing().when(godController).displayBoard();
 
@@ -101,7 +99,6 @@ public class HeraTest {
         when(workerBuildMap.anyAvailableBuildPosition()).thenReturn(true);
 
         //setting the build behaviour
-        //when(worker.getPlayer()).thenReturn(player);
         Board board = mock(Board.class);
         when(player.getGame()).thenReturn(game);
         when(game.getBoard()).thenReturn(board);

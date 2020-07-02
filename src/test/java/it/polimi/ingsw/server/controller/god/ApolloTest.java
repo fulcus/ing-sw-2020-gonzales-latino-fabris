@@ -33,7 +33,6 @@ public class ApolloTest {
         apollo = new Apollo(godController);
         worker = mock(Worker.class);
         workerMoveMap = mock(WorkerMoveMap.class);
-        //client = mock(VirtualView.class);
 
     }
 
@@ -42,7 +41,8 @@ public class ApolloTest {
     public void tearDown() {
         godController = null;
         apollo = null;
-        //client = null;
+        worker = null;
+        workerMoveMap = null;
     }
 
 
@@ -51,24 +51,16 @@ public class ApolloTest {
 
         //Setting the updateMoveMap
         when(worker.getMoveMap()).thenReturn(workerMoveMap);
-        doNothing().when(workerMoveMap).reset();
-        doNothing().when(workerMoveMap).updateCellsOutOfMap();
-        doNothing().when(workerMoveMap).updateMoveUpRestrictions();
-        doNothing().when(workerMoveMap).cannotStayStill();
-        doNothing().when(workerMoveMap).cannotMoveInDomeCell();
-        doNothing().when(workerMoveMap).cannotMoveInFriendlyWorkerCell();
         when(workerMoveMap.anyAvailableMovePosition()).thenReturn(true);
 
         Cell cell = mock(Cell.class);
         Cell moveCell = mock(Cell.class);
-        //when(apollo.updateMoveMap(worker)).thenReturn(workerMoveMap);
         int[] move = {1, 1};
         when(godController.getInputMove()).thenReturn(move, move);
         when(worker.getPosition()).thenReturn(cell, cell, cell, cell);
         when(cell.getX()).thenReturn(2, 2);
         when(cell.getY()).thenReturn(2, 2);
         when(workerMoveMap.isAllowedToMoveBoard(any(int.class), any(int.class))).thenReturn(false, true);
-        doNothing().when(godController).errorMoveScreen();
 
         //defining the cell where to move the worker
         Player mockPlayer = mock(Player.class);
@@ -100,12 +92,6 @@ public class ApolloTest {
     public void updateMoveMapFail() throws Exception {
 
         when(worker.getMoveMap()).thenReturn(workerMoveMap);
-        doNothing().when(workerMoveMap).reset();
-        doNothing().when(workerMoveMap).updateCellsOutOfMap();
-        doNothing().when(workerMoveMap).updateMoveUpRestrictions();
-        doNothing().when(workerMoveMap).cannotStayStill();
-        doNothing().when(workerMoveMap).cannotMoveInDomeCell();
-        doNothing().when(workerMoveMap).cannotMoveInFriendlyWorkerCell();
         when(workerMoveMap.anyAvailableMovePosition()).thenReturn(false);
 
         apollo.updateMoveMap(worker);
@@ -123,12 +109,6 @@ public class ApolloTest {
     public void updateMoveMap() throws Exception{
 
         when(worker.getMoveMap()).thenReturn(workerMoveMap);
-        doNothing().when(workerMoveMap).reset();
-        doNothing().when(workerMoveMap).updateCellsOutOfMap();
-        doNothing().when(workerMoveMap).updateMoveUpRestrictions();
-        doNothing().when(workerMoveMap).cannotStayStill();
-        doNothing().when(workerMoveMap).cannotMoveInDomeCell();
-        doNothing().when(workerMoveMap).cannotMoveInFriendlyWorkerCell();
         when(workerMoveMap.anyAvailableMovePosition()).thenReturn(true);
 
         assertEquals(apollo.updateMoveMap(worker), workerMoveMap);

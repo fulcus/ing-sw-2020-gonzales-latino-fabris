@@ -53,6 +53,9 @@ public class CharonTest {
         godController = null;
         charon = null;
         workerMoveMap = null;
+        workerBuildMap = null;
+        worker = null;
+        player = null;
     }
 
 
@@ -85,7 +88,6 @@ public class CharonTest {
         //setting the behaviour of the win condition
         when(worker.getLevel()).thenReturn(1);
         when(worker.getLevelVariation()).thenReturn(0);
-
         when(player.getCanWinInPerimeter()).thenReturn(true);
 
         //setting the update build map matrix behaviour

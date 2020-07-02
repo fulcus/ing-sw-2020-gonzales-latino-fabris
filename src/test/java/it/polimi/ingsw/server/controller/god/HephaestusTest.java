@@ -128,6 +128,7 @@ public class HephaestusTest {
 
         verify(worker, times(1)).getMoveMap();
         verify(worker, times(1)).getBuildMap();
+        assertNotNull(hephaestus.firstBuildCell);
 
     }
 
@@ -167,17 +168,17 @@ public class HephaestusTest {
         when(godController.errorBuildDecisionScreen()).thenReturn(true);
 
         hephaestus.evolveTurn(worker);
-
         verify(worker, times(1)).buildDome(anyInt(), anyInt());
+        assertNotNull(hephaestus.firstBuildCell);
 
         when(cell2.getLevel()).thenReturn(2);
         hephaestus.evolveTurn(worker);
-
+        assertNotNull(hephaestus.firstBuildCell);
         verify(worker, times(2)).buildBlock(anyInt(), anyInt());
 
         when(godController.wantToBuildAgain(hephaestus)).thenReturn(false);
         hephaestus.evolveTurn(worker);
-
+        assertNotNull(hephaestus.firstBuildCell);
         verify(worker, times(3)).buildBlock(anyInt(), anyInt());
 
     }

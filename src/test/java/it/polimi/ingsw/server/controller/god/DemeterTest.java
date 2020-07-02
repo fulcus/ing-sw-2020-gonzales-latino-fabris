@@ -51,6 +51,8 @@ public class DemeterTest {
     public void tearDown() {
         godController = null;
         demeter = null;
+        worker = null;
+
     }
 
 
@@ -138,28 +140,31 @@ public class DemeterTest {
 
 
     @Test
-    public void evolveTurnBuildOnce() throws UnableToBuildException, UnableToMoveException, WinException {
+    public void evolveTurnBuild() throws UnableToBuildException, UnableToMoveException, WinException {
 
         settingUsualParameters();
         when(godController.wantToBuildAgain(demeter)).thenReturn(false);
         when(godController.errorBuildDecisionScreen()).thenReturn(true);
 
         demeter.evolveTurn(worker);
+
+        assertNotNull(demeter.firstBuildCell);
 
         verify(godController, times(1)).wantToBuildAgain(demeter);
 
-
         settingUsualParameters();
 
         when(godController.wantToBuildAgain(demeter)).thenReturn(false);
         when(godController.errorBuildDecisionScreen()).thenReturn(true);
 
         demeter.evolveTurn(worker);
+
+        assertNotNull(demeter.firstBuildCell);
     }
 
 
     @Test
-    public void evolveTurnFail() throws UnableToBuildException, UnableToMoveException, WinException {
+    public void evolveTurnCatchEx() throws UnableToBuildException, UnableToMoveException, WinException {
 
         settingUsualParameters();
         when(godController.wantToBuildAgain(demeter)).thenReturn(true);
@@ -168,44 +173,6 @@ public class DemeterTest {
         demeter.evolveTurn(worker);
 
         verify(godController, times(1)).wantToBuildAgain(demeter);
-
-    }
-
-
-    @Test
-    public void firstBuild() throws UnableToBuildException {
-
-        //setting the update build map matrix behaviour
-        WorkerBuildMap workerBuildMap = mock(WorkerBuildMap.class);
-        when(worker.getBuildMap()).thenReturn(workerBuildMap);
-        doNothing().when(workerBuildMap).reset();
-        doNothing().when(workerBuildMap).updateCellsOutOfMap();
-        doNothing().when(workerBuildMap).cannotBuildUnderneath();
-        doNothing().when(workerBuildMap).cannotBuildInOccupiedCell();
-        when(workerBuildMap.anyAvailableBuildPosition()).thenReturn(true);
-
-        //setting the build behaviour
-        Player player = mock(Player.class);
-        when(worker.getPlayer()).thenReturn(player);
-        Game game = mock(Game.class);
-        Board board = mock(Board.class);
-        when(player.getGame()).thenReturn(game);
-        when(game.getBoard()).thenReturn(board);
-        int[] build = {0, 1};
-        when(godController.getBuildingInput()).thenReturn(build, build);
-        Cell cell = mock(Cell.class);
-        when(worker.getPosition()).thenReturn(cell);
-        when(cell.getX()).thenReturn(2);
-        when(cell.getY()).thenReturn(2);
-        when(workerBuildMap.isAllowedToBuildBoard(any(int.class), any(int.class))).thenReturn(false, true);
-        Cell cell2 = mock(Cell.class);
-        when(board.findCell(any(int.class), any(int.class))).thenReturn(cell2, cell2);
-        when(cell2.getLevel()).thenReturn(2);
-        doNothing().when(worker).buildBlock(any(int.class), any(int.class));
-        doNothing().when(godController).errorBuildScreen();
-
-        //todo ciao
-        //assertNotNull(demeter.firstBuild(worker));
 
     }
 

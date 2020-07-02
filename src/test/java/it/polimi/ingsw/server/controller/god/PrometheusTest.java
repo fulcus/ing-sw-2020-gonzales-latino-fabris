@@ -50,6 +50,10 @@ public class PrometheusTest {
     public void tearDown() {
         godController = null;
         prometheus = null;
+        worker = null;
+        workerMoveMap = null;
+        player = null;
+        workerBuildMap = null;
     }
 
 

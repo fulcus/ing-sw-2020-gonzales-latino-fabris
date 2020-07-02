@@ -41,6 +41,7 @@ public class ArtemisTest {
     public void tearDown() {
         godController = null;
         artemis = null;
+        worker = null;
         workerMoveMap = null;
     }
 
