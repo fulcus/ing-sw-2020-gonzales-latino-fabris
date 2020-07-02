@@ -162,7 +162,6 @@ public class GameController {
         //print in server
         client.connected();
         //cannot accept other clients before writing "start"
-        client.beginningView();
 
         gameClients.add(client);
 

@@ -33,6 +33,7 @@ public class Client {
 
 
     public static void main(String[] args) {
+
         Client client = new Client();
         client.setView();
         client.setUpConnection();
@@ -68,6 +69,7 @@ public class Client {
             view.connectionOutcome(connected);
 
         }
+
 
         NetworkHandler networkHandler = new NetworkHandler(server, this);
         new Thread(networkHandler).start();

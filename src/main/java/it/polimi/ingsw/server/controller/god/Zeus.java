@@ -98,7 +98,6 @@ public class Zeus extends God {
         if (!buildMap.anyAvailableBuildPosition())
             throw new UnableToBuildException();
 
-        godController.allowBuildUnderneath();
         oldCell = worker.getPosition();
 
         return buildMap;

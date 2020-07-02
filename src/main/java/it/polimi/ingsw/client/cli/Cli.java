@@ -50,6 +50,8 @@ public class Cli implements View {
         godsNameAndDescription.put("Triton", "Each time your Worker moves into a perimeter space, it may immediately move again.");
         godsNameAndDescription.put("Zeus", "Your Worker may build a block under itself.");
 
+        beginningView();
+
     }
 
 
@@ -113,7 +115,7 @@ public class Cli implements View {
     /**
      * This method displays to the user Initial Game Interface
      */
-    public void beginningView() {
+    private void beginningView() {
 
         String startString;
 
@@ -710,6 +712,14 @@ public class Cli implements View {
 
         String selectedBuildingDirection;
 
+        for (PlayerClient player : players) {
+            if (player.getNickname().equals(this.myNickname)) {
+                if (player.getGod().toLowerCase().equals("zeus"))
+                    printBuildUnderneath();
+            }
+        }
+
+
         System.out.println("Where do you want to build? Insert a cardinal point!");
 
         while (true) {
@@ -913,7 +923,7 @@ public class Cli implements View {
      * Says that the worker can build under himself/herself.
      * This is allowed only when playing with Zeus.
      */
-    public void printBuildUnderneath() {
+    private void printBuildUnderneath() {
         System.out.println("Remember that you can build underneath!\n" +
                 "To do that, the direction for the build is 'U'\n");
     }

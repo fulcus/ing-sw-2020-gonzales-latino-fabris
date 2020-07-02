@@ -72,11 +72,6 @@ public interface View {
     void notifyOtherPlayerDisconnection(String disconnectedPlayer);
 
 
-    /**
-     * This method displays to the user Initial Game Interface
-     */
-    void beginningView();
-
 
     /**
      * Asks to the creator of a game how many players will the game hold.
@@ -298,12 +293,6 @@ public interface View {
      */
     String askWorkerToMove(ArrayList<WorkerClient> enemyWorkers, WorkerClient myWorker);
 
-
-    /**
-     * Says that the worker can build under himself/herself.
-     * This is allowed only when playing with Zeus.
-     */
-    void printBuildUnderneath();
 
 
     /**
