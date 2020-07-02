@@ -623,14 +623,6 @@ public class VirtualView implements ClientViewObserver {
 
 
     /**
-     * Shows that the connection has been established.
-     */
-    public void connected() {
-        System.out.println("Connected to " + socket.getInetAddress());
-    }
-
-
-    /**
      * Disconnects the client from the server.
      */
     public void killClient() {

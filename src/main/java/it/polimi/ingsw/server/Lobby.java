@@ -24,8 +24,9 @@ public class Lobby {
      */
     public void allocateClient(Socket clientSocket) {
 
-        //search first empty spot in games
+        System.out.println("Connected to " + clientSocket.getInetAddress());
 
+        //search first empty spot in games
         boolean availableEmptySpot = false;
 
         GameController availableGame = null;

@@ -127,8 +127,7 @@ public class GameControllerTest {
         when(client.askNumberOfPlayers()).thenReturn(2);
         gameController.setUpGame(client);
 
-        doNothing().when(client).connected();
-        //TODO METODO RIMOSSOdoNothing().when(client).beginningView();
+
 
         when(client.askPlayerNickname()).thenReturn("toolongnickname", "Nick1");
         when(client.askPlayerColor(any())).thenReturn("BLACK", "BEIGE");
@@ -143,8 +142,6 @@ public class GameControllerTest {
 
         gameController.addPlayer(client);
 
-        verify(client, times(1)).connected();
-       //TODO METODO RIMOSSO verify(client, times(1)).beginningView();
         verify(client, times(1)).setPlayer(any(Player.class));
         verify(client, times(1)).notAvailableColor();
 
@@ -172,8 +169,6 @@ public class GameControllerTest {
         when(client.askPlayerColor(any())).thenReturn("BEIGE");
         when(client.getPlayer()).thenReturn(player1);
         doNothing().when(client).setPlayer(any(Player.class));
-        doNothing().when(client).connected();
-       //TODO RIMOSSO doNothing().when(client).beginningView();
         doNothing().when(client).setPlayer(any(Player.class));
         when(client.winningView()).thenReturn(true);
 
@@ -181,8 +176,6 @@ public class GameControllerTest {
         when(client2.askPlayerColor(any())).thenReturn("WHITE");
         when(client2.getPlayer()).thenReturn(player2);
         doNothing().when(client2).setPlayer(any(Player.class));
-        doNothing().when(client2).connected();
-       //TODO RIMOSSO doNothing().when(client2).beginningView();
         doNothing().when(client2).setPlayer(any(Player.class));
         when(client2.losingView(anyString())).thenReturn(true);
 

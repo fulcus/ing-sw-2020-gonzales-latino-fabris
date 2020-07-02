@@ -159,14 +159,8 @@ public class GameController {
      */
     public void addPlayer(VirtualView client) {
 
-        //print in server
-        client.connected();
-        //cannot accept other clients before writing "start"
-
         gameClients.add(client);
-
         setUpObserverView(client);
-
         setPlayerNickname(client);
         setPlayerColor(client);
 

@@ -15,8 +15,8 @@ import java.util.*;
  */
 public class Cli implements View {
 
-    private Scanner input;
-    private Scanner intInput;
+    private final Scanner input;
+    private final Scanner intInput;
     private final BoardClient board;// this will contain a copy of the Model's map and each cell will be update if there are any changes
     private String myNickname; //to be assigned when setPlayer of VirtualView is deserialized
     private String myColor;
@@ -33,8 +33,8 @@ public class Cli implements View {
         input = new Scanner(System.in);
         intInput = new Scanner(System.in);
         players = new ArrayList<>(3);
-        godsNameAndDescription = new HashMap<>(14);
 
+        godsNameAndDescription = new HashMap<>(14);
         godsNameAndDescription.put("Apollo", "Your Worker may move into an opponent Worker’s space by forcing their Worker to the space yours just vacated.");
         godsNameAndDescription.put("Artemis", "Your Worker may move one additional time, but not back to its initial space.");
         godsNameAndDescription.put("Athena", "If one of your Workers moved up on your last turn, opponent Workers cannot move up this turn.");
@@ -61,10 +61,8 @@ public class Cli implements View {
      * @return The IP of the server to connect to.
      */
     public String getServerAddress() {
-
         System.out.println("Insert Server IP");
         return input.nextLine();
-
     }
 
 
@@ -106,9 +104,11 @@ public class Cli implements View {
      * @param disconnectedPlayer The name of the disconnected player.
      */
     public void notifyOtherPlayerDisconnection(String disconnectedPlayer) {
-
-        System.out.println("\n" + disconnectedPlayer + " has disconnected, your game ends now!");
-        System.out.println("Goodbye");
+        if ("YOU".equals(disconnectedPlayer))
+            System.out.println("You disconnected, your game ends now.");
+        else
+            System.out.println("\n" + disconnectedPlayer + " disconnected, your game ends now.");
+        System.out.println("Goodbye!");
     }
 
 
@@ -118,16 +118,12 @@ public class Cli implements View {
     private void beginningView() {
 
         String startString;
-
         System.out.println("\nWELCOME TO ");
-
         santoriniASCII();
 
         do {
-
             System.out.println("--type START to play--");
             startString = input.nextLine().toUpperCase();
-
         } while (!startString.equals("START"));
 
     }
@@ -398,11 +394,11 @@ public class Cli implements View {
 
         System.out.println("\n" + myNickname + ", choose the first player to start! Type his nickname:");
 
-        String startPlayerNick = null;
+        String startPlayerNick;
 
         while (true) {
 
-            startPlayerNick = input.nextLine().toLowerCase();
+            startPlayerNick = input.nextLine();
 
             for (PlayerClient player : players) {
                 if (startPlayerNick.equals(player.getNickname())) {
@@ -530,7 +526,7 @@ public class Cli implements View {
         for (PlayerClient player : players) {
 
             if (player.getColor().equals("BLUE"))
-                LINE_SEPARATOR_PLAYER_BLUE = CliColor.ANSI_GREEN + LINE_SEPARATOR + "         " + CliColor.COLOR_RESET + CliColor.Background_Blue + CliColor.BLACK_BOLD + player.getNickname() + " plays with " + player.getGod() + CliColor.RESET + CliColor.BACKGROUND_RESET + "%n";
+                LINE_SEPARATOR_PLAYER_BLUE = CliColor.ANSI_GREEN + LINE_SEPARATOR + "         " + CliColor.COLOR_RESET + CliColor.Background_Blue + CliColor.WHITE_BOLD + player.getNickname() + " plays with " + player.getGod() + CliColor.RESET + CliColor.BACKGROUND_RESET + "%n";
 
             if (player.getColor().equals("WHITE"))
                 LINE_SEPARATOR_PLAYER_WHITE = CliColor.ANSI_GREEN + LINE_SEPARATOR + "         " + CliColor.COLOR_RESET + CliColor.Background_White + CliColor.BLACK_BOLD + player.getNickname() + " plays with " + player.getGod() + CliColor.RESET + CliColor.BACKGROUND_RESET + "%n";
@@ -609,23 +605,27 @@ public class Cli implements View {
                 String workerSex = board.findCell(lineNumber, i).getWorkerClient().getWorkerSex();
 
                 if (workerColor.equals("BLUE") && workerSex.equals("MALE"))
-                    System.out.printf(CliColor.ANSI_BLUE + " M⃣ " + CliColor.COLOR_RESET);
+                    System.out.printf(CliColor.ANSI_BLUE + " M⃣" + CliColor.COLOR_RESET);
                 else if (workerColor.equals("BLUE") && workerSex.equals("FEMALE"))
-                    System.out.printf(CliColor.ANSI_BLUE + " F⃣ " + CliColor.COLOR_RESET);
+                    System.out.printf(CliColor.ANSI_BLUE + " F⃣" + CliColor.COLOR_RESET);
                 else if (workerColor.equals("WHITE") && workerSex.equals("MALE"))
-                    System.out.printf(CliColor.ANSI_WHITE + " M⃣ " + CliColor.COLOR_RESET);
+                    System.out.printf(CliColor.ANSI_WHITE + " M⃣" + CliColor.COLOR_RESET);
                 else if (workerColor.equals("WHITE") && workerSex.equals("FEMALE"))
-                    System.out.printf(CliColor.ANSI_WHITE + " F⃣ " + CliColor.COLOR_RESET);
+                    System.out.printf(CliColor.ANSI_WHITE + " F⃣" + CliColor.COLOR_RESET);
                 else if (workerColor.equals("BEIGE") && workerSex.equals("MALE"))
-                    System.out.printf(CliColor.ANSI_BEIGE + " M⃣ " + CliColor.COLOR_RESET);
+                    System.out.printf(CliColor.ANSI_BEIGE + " M⃣" + CliColor.COLOR_RESET);
                 else if (workerColor.equals("BEIGE") && workerSex.equals("FEMALE"))
-                    System.out.printf(CliColor.ANSI_BEIGE + " F⃣ " + CliColor.COLOR_RESET);
+                    System.out.printf(CliColor.ANSI_BEIGE + " F⃣" + CliColor.COLOR_RESET);
 
             }
 
-            if (additionalSpace)
-                System.out.printf(" ");//6
-
+                //todo space os
+            if (additionalSpace) {
+                    System.out.printf(" "); //6
+            } else {
+                if(!System.getProperty("os.name").startsWith("Mac"))
+                    System.out.printf(" "); //6
+            }
 
         }
 
@@ -1140,12 +1140,13 @@ public class Cli implements View {
     /**
      * Lets player know that he has lost, and who is the winner.
      *
-     * @param winner nickname of the winner.
+     * @param endgameText nickname of the winner.
      * @return Generic return to ensure server waits for confirmation from client before disconnecting it.
      */
-    public boolean losingView(String winner) {
-        System.out.println("\nYou have lost this game. The winner is " + winner + ".");
-        System.out.println("Goodbye");
+    public boolean losingView(String endgameText) {
+        System.out.print("\nYou have lost this game, ");
+        System.out.println(endgameText);
+        System.out.println("Goodbye!");
         return true;
     }
 

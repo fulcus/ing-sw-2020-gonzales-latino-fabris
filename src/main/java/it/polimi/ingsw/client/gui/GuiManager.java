@@ -123,9 +123,7 @@ public class GuiManager implements View {
 
         String IP = null;
         try {
-            System.out.println("before take");
             IP = (String) queue.take();
-            System.out.println("after take " + IP);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -591,7 +589,7 @@ public class GuiManager implements View {
             boardController.printToGodTextArea("");
             boardController.setConfirmButtonVisible();
         });
-
+        acceptTextBarInfo();
         losingView("unable to move");
         return true;
     }
@@ -1148,7 +1146,5 @@ public class GuiManager implements View {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        System.out.println("confirmed reading message");
     }
 }
