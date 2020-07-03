@@ -8,8 +8,6 @@ import it.polimi.ingsw.server.model.Cell;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.Worker;
 
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -24,28 +22,20 @@ public class VirtualView implements ClientViewObserver {
     private final Socket socket;   //a virtual view instance for each client
     private Player player;
     private final GameController gameController;
-    private ObjectOutputStream output;
     private boolean inGame;
-    private final ClientInputReader input;
+    private final ClientHandler clientHandler;
 
 
     public VirtualView(Socket socket, GameController gameController) {
         this.socket = socket;
         this.gameController = gameController;
         inGame = true;
-        input = new ClientInputReader(this);
-
-        try {
-            output = new ObjectOutputStream(socket.getOutputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        clientHandler = new ClientHandler(this);
 
         HeartbeatServer heartbeatServer = new HeartbeatServer(this);
 
         new Thread(heartbeatServer).start();
-
-        new Thread(input).start();
+        new Thread(clientHandler).start();
 
     }
 
@@ -165,7 +155,8 @@ public class VirtualView implements ClientViewObserver {
     /**
      * Sends to the client the message to ask to the player the color for the game.
      * Only three colors are available: blue, white and beige.
-     * @param  availableColors list of available colors.
+     *
+     * @param availableColors list of available colors.
      * @return The color chosen by the player.
      */
     public String askPlayerColor(ArrayList<String> availableColors) {
@@ -251,6 +242,7 @@ public class VirtualView implements ClientViewObserver {
 
     /**
      * Sends a message to show to screen that the player has won the game.
+     *
      * @return true if the client has correctly seen the winning view.
      */
     public boolean winningView() {
@@ -260,6 +252,7 @@ public class VirtualView implements ClientViewObserver {
 
     /**
      * Sends a message to let the player know he has lost the game because both of his workers cannot move.
+     *
      * @return true if the client has correctly seen the losing view.
      */
     public boolean unableToMoveLose() {
@@ -269,6 +262,7 @@ public class VirtualView implements ClientViewObserver {
 
     /**
      * Sends a message to let the player know he has lost the game because both of his workers cannot build.
+     *
      * @return true if the client has correctly seen the losing view.
      */
     public boolean unableToBuildLose() {
@@ -576,6 +570,16 @@ public class VirtualView implements ClientViewObserver {
 
 
     /**
+     * Sends a message to let other players know that someone has disconnected from the game.
+     *
+     * @param disconnectedPlayer The nickname of the disconnected player.
+     */
+    public void notifyOtherPlayerDisconnection(String disconnectedPlayer) {
+        sendMessage(new Message("notifyOtherPlayerDisconnection", disconnectedPlayer));
+    }
+
+
+    /**
      * Sends messages through the network and is supposed to get an answer sent by the client.
      *
      * @param message The message the server has to send to the client.
@@ -586,17 +590,10 @@ public class VirtualView implements ClientViewObserver {
         Object receivedObject;
 
         try {
-
-            synchronized (this) {
-                output.writeObject(message);
-            }
-
-            receivedObject = input.getObjectsQueue().take();
-
+            clientHandler.sendMessage(message);
+            receivedObject = clientHandler.getObjectsQueue().take();
             return receivedObject;
 
-        } catch (IOException e) {
-            System.out.println("server has died while sending with return");
         } catch (ClassCastException e) {
             System.out.println("protocol violation");
         } catch (InterruptedException e) {
@@ -612,13 +609,8 @@ public class VirtualView implements ClientViewObserver {
      *
      * @param message The message the player sends to the client during the game.
      */
-    protected synchronized void sendMessage(Message message) {
-
-        try {
-            output.writeObject(message);
-        } catch (IOException e) {
-            System.out.println("server has died while sending");
-        }
+    protected void sendMessage(Message message) {
+        clientHandler.sendMessage(message);
     }
 
 
@@ -627,20 +619,11 @@ public class VirtualView implements ClientViewObserver {
      */
     public void killClient() {
         gameController.removeClientObserver(this);
-        input.setKilled(true);
+        clientHandler.kill();
         sendMessage(new Message("shutdownClient"));
         inGame = false;
     }
 
-
-    /**
-     * Sends a message to let other players know that someone has disconnected from the game.
-     *
-     * @param disconnectedPlayer The nickname of the disconnected player.
-     */
-    public void notifyOtherPlayerDisconnection(String disconnectedPlayer) {
-        sendMessage(new Message("notifyOtherPlayerDisconnection", disconnectedPlayer));
-    }
 
 }
 

@@ -4,41 +4,39 @@ import it.polimi.ingsw.serializable.Message;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.concurrent.SynchronousQueue;
 
 
 /**
- * Allows to receive all the inputs coming from the clients.
+ * Handles all interactions between the server and a client.
  */
-public class ClientInputReader implements Runnable {
+public class ClientHandler implements Runnable {
 
     private final VirtualView client;
-    private volatile SynchronousQueue<Object> receivedObjects;
+    private final SynchronousQueue<Object> receivedObjects;
     private boolean connected;
     private ObjectInputStream input;
+    private ObjectOutputStream output;
     private boolean killed;
 
 
-    public ClientInputReader(VirtualView client) {
+    public ClientHandler(VirtualView client) {
 
         this.client = client;
         receivedObjects = new SynchronousQueue<>();
         connected = true;
         killed = false;
-
+        Socket clientSocket = client.getSocket();
 
         try {
-            input = new ObjectInputStream(client.getSocket().getInputStream());
+            input = new ObjectInputStream(clientSocket.getInputStream());
+            output = new ObjectOutputStream(clientSocket.getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-
-    public SynchronousQueue<Object> getObjectsQueue() {
-        return receivedObjects;
     }
 
 
@@ -62,7 +60,6 @@ public class ClientInputReader implements Runnable {
             try {
 
                 Object readObject = input.readObject();
-
                 clientSocket.setSoTimeout(15000);
 
                 if (readObject instanceof Message) {
@@ -95,14 +92,30 @@ public class ClientInputReader implements Runnable {
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
-
         }
 
     }
 
-    public void setKilled(boolean killed) {
-        this.killed = killed;
+    /**
+     * Sends message through network to client associated to this ClientHandler instance.
+     * @param message message to send
+     */
+    protected synchronized void sendMessage(Message message) {
+        try {
+            output.writeObject(message);
+        } catch (IOException e) {
+            System.out.println("server has died while sending");
+        }
     }
 
+
+    protected void kill() {
+        this.killed = true;
+    }
+
+
+    protected SynchronousQueue<Object> getObjectsQueue() {
+        return receivedObjects;
+    }
 
 }
