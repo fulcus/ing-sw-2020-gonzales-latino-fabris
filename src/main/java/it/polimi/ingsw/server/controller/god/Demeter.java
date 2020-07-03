@@ -59,7 +59,7 @@ public class Demeter extends God {
 
         while (true) {
             //returns build position
-            int[] buildInput = godController.getBuildingInput();
+            int[] buildInput = godController.getBuildInput();
 
             int xBuild = worker.getPosition().getX() + buildInput[0];
             int yBuild = worker.getPosition().getY() + buildInput[1];
@@ -115,7 +115,7 @@ public class Demeter extends God {
             Board board = worker.getPlayer().getGame().getBoard();
 
 
-            int[] buildInput = godController.getBuildingInput();  //returns build position + type: block/dome
+            int[] buildInput = godController.getBuildInput();  //returns build position + type: block/dome
             int xBuild = worker.getPosition().getX() + buildInput[0];
             int yBuild = worker.getPosition().getY() + buildInput[1];
 

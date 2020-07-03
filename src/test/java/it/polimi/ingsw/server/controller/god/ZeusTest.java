@@ -101,7 +101,7 @@ public class ZeusTest {
         when(game.getBoard()).thenReturn(board);
 
         int[] build = {0, 1};
-        when(godController.getBuildingInput()).thenReturn(build);
+        when(godController.getBuildInput()).thenReturn(build);
         when(workerBuildMap.isAllowedToBuildBoard(any(int.class), any(int.class))).thenReturn(false, true);
         when(board.findCell(anyInt(), anyInt())).thenReturn(cell);
         when(cell.getLevel()).thenReturn(2);

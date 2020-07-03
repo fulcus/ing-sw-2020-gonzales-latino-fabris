@@ -64,7 +64,7 @@ public class MinotaurTest {
 
         //setting the behaviour of the move
         int[] move = {1, 1};
-        when(godController.getInputMove()).thenReturn(move);
+        when(godController.getMoveInput()).thenReturn(move);
         when(worker.getPosition()).thenReturn(cell);
         when(cell.getX()).thenReturn(2);
         when(cell.getY()).thenReturn(2);
@@ -90,7 +90,7 @@ public class MinotaurTest {
 
         //verifying the cycles of the while were effectively the ones we thought they were
         //to test the lines of code inside the method
-        verify(godController, times(3)).getInputMove();
+        verify(godController, times(3)).getMoveInput();
         verify(workerMoveMap, times(3)).isAllowedToMoveBoard(any(int.class), any(int.class));
         verify(cell2, times(2)).isOccupied();
 
@@ -114,7 +114,7 @@ public class MinotaurTest {
 
         //setting the behaviour of the move
         int[] move = {1, 1};
-        when(godController.getInputMove()).thenReturn(move, move, move);
+        when(godController.getMoveInput()).thenReturn(move, move, move);
         when(worker.getPosition()).thenReturn(cell);
         when(cell.getX()).thenReturn(2);
         when(cell.getY()).thenReturn(2);

@@ -357,9 +357,6 @@ public class GameControllerTest {
 
         assertFalse(gameController.isFull());
 
-        gameController.setFull(true);
-
-        assertTrue(gameController.isFull());
     }
 
 

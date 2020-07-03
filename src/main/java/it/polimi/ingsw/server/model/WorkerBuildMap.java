@@ -2,7 +2,7 @@ package it.polimi.ingsw.server.model;
 
 
 /**
- * Matrix that represents positions adjacent to the worker, in which he
+ * Represents the positions adjacent to the worker, in which he
  * may or may not build, depending on the boolean value of the cell.
  */
 public class WorkerBuildMap extends WorkerMap {

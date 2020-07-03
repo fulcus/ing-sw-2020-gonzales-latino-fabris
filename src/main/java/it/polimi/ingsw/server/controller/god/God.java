@@ -43,7 +43,7 @@ public abstract class God {
         WorkerMoveMap moveMap = updateMoveMap(worker);
 
         while (true) {
-            int[] movePosition = getGodController().getInputMove();
+            int[] movePosition = getGodController().getMoveInput();
 
             int xMove = movePosition[0] + worker.getPosition().getX();
             int yMove = movePosition[1] + worker.getPosition().getY();
@@ -73,7 +73,7 @@ public abstract class God {
 
         while (true) {
             //returns build position
-            int[] buildInput = godController.getBuildingInput();
+            int[] buildInput = godController.getBuildInput();
 
             int xBuild = worker.getPosition().getX() + buildInput[0];
             int yBuild = worker.getPosition().getY() + buildInput[1];

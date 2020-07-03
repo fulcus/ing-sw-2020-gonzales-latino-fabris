@@ -5,13 +5,11 @@ import java.util.ArrayList;
 /**
  * A 3x3 matrix that represents the cells adjacent to the worker.
  * The worker is in the central cell of the matrix.
- * This matrix is extended by WorkerMoveMap and WorkerBuildMap to represent
- * the positions in which the worker may or may not respectively move or build.
  */
 public class WorkerMap {
     private final Board board;
     private final Worker worker;
-    private final boolean[][] matrix;
+    private final boolean[][] map;
     public static final int N = 3;
 
     /**
@@ -21,13 +19,13 @@ public class WorkerMap {
      */
     public WorkerMap(Worker worker) {
         this.worker = worker;
-        matrix = new boolean[N][N];
+        map = new boolean[N][N];
         this.board = worker.getPlayer().getGame().getBoard();
 
         //initialized standard matrix
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                matrix[i][j] = true;
+                map[i][j] = true;
             }
         }
     }
@@ -46,7 +44,7 @@ public class WorkerMap {
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 if (getAbsolutePosition(i, j) != null && getAbsolutePosition(i, j).hasDome())
-                    matrix[i][j] = false;
+                    map[i][j] = false;
             }
         }
     }
@@ -60,7 +58,7 @@ public class WorkerMap {
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 if (getAbsolutePosition(i, j) != null && getAbsolutePosition(i, j).isOccupied())
-                    matrix[i][j] = false;
+                    map[i][j] = false;
             }
         }
     }
@@ -75,7 +73,7 @@ public class WorkerMap {
             for (int j = 0; j < N; j++) {
                 if (getAbsolutePosition(i, j) != null && getAbsolutePosition(i, j).hasWorker() &&
                         getAbsolutePosition(i, j).getWorker().getPlayer() == worker.getPlayer())
-                    matrix[i][j] = false;
+                    map[i][j] = false;
             }
         }
     }
@@ -87,7 +85,7 @@ public class WorkerMap {
      * @param value value to set in the center of the matrix.
      */
     protected void setCenterPosition(boolean value) {
-        matrix[1][1] = value;
+        map[1][1] = value;
     }
 
 
@@ -99,7 +97,7 @@ public class WorkerMap {
      * @return Selected cell of the WorkerMap.
      */
     protected boolean getBooleanCellWorkerMap(int i, int j) {
-        return matrix[i][j];
+        return map[i][j];
     }
 
 
@@ -122,7 +120,7 @@ public class WorkerMap {
         if (relativeX < 0 || relativeX > 2 || relativeY < 0 || relativeY > 2 || !board.isInBoard(i, j))
             return false;
 
-        return matrix[i - workersX + 1][j - workersY + 1];
+        return map[i - workersX + 1][j - workersY + 1];
     }
 
 
@@ -156,7 +154,7 @@ public class WorkerMap {
 
                 if (getAbsolutePosition(i, j) != null &&
                         getAbsolutePosition(i, j).getLevel() - workersLevel > x)
-                    matrix[i][j] = false;
+                    map[i][j] = false;
             }
         }
     }
@@ -214,7 +212,7 @@ public class WorkerMap {
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                if (matrix[i][j])
+                if (map[i][j])
                     return true;
             }
         }
@@ -228,7 +226,7 @@ public class WorkerMap {
     public void reset() {
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                matrix[i][j] = true;
+                map[i][j] = true;
             }
         }
     }
@@ -248,7 +246,7 @@ public class WorkerMap {
                 for (int j = 0; j < N; j++) {
 
                     if (!board.isInBoard(workersX - 1 + i, workersY - 1 + j))
-                        matrix[i][j] = false;
+                        map[i][j] = false;
 
                 }
             }
@@ -266,7 +264,7 @@ public class WorkerMap {
                 Cell position = getAbsolutePosition(i, j);
 
                 if (position != null && position.isInPerimeter())
-                    matrix[i][j] = false;
+                    map[i][j] = false;
 
             }
         }
@@ -297,7 +295,7 @@ public class WorkerMap {
      * @param bool value to be set in the given cell
      */
     public void setCell(int x, int y, boolean bool) {
-        matrix[x][y] = bool;
+        map[x][y] = bool;
     }
 
 

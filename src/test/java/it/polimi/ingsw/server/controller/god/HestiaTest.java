@@ -79,7 +79,7 @@ public class HestiaTest {
 
         //setting the behaviour of the move
         int[] move = {1, 1};
-        when(godController.getInputMove()).thenReturn(move, move);
+        when(godController.getMoveInput()).thenReturn(move, move);
         when(worker.getPosition()).thenReturn(cell);
         //many return because of the many calls of the function
         when(cell.getX()).thenReturn(2, 2);
@@ -106,7 +106,7 @@ public class HestiaTest {
         //only few lines here because differentiating the behaviour in different tests
         when(player.getGame()).thenReturn(game);
         int[] build = {0, 1};
-        when(godController.getBuildingInput()).thenReturn(build, build);
+        when(godController.getBuildInput()).thenReturn(build, build);
         //The getPosition of the worker and the getX and getY are already defined in the move part above
         when(workerBuildMap.isAllowedToBuildBoard(any(int.class), any(int.class))).thenReturn(true, false, true);
         doNothing().when(worker).buildBlock(any(int.class), any(int.class));

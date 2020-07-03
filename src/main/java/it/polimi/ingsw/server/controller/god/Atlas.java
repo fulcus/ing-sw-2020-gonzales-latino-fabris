@@ -40,7 +40,7 @@ public class Atlas extends God {
 
         while (true) {
 
-            int[] buildInput = godController.getBuildingInputAtlas();  //returns build position + type: block/dome
+            int[] buildInput = godController.getBuildInputAtlas();  //returns build position + type: block/dome
 
             int xBuild = buildInput[0] + worker.getPosition().getX();
             int yBuild = buildInput[1] + worker.getPosition().getY();

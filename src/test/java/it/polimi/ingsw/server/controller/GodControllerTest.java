@@ -91,7 +91,7 @@ public class GodControllerTest {
         godController.updateCurrentClient(client);
         when(client.askMovementDirection()).thenReturn("NE");
 
-        assertNotNull(godController.getInputMove());
+        assertNotNull(godController.getMoveInput());
     }
 
 
@@ -154,12 +154,12 @@ public class GodControllerTest {
         String[] valueAtlas = {"NE", "B"};
         when(client.askBuildingDirectionAtlas()).thenReturn(valueAtlas);
 
-        assertNotNull(godController.getBuildingInputAtlas());
+        assertNotNull(godController.getBuildInputAtlas());
 
         String[] valueAtlas2 = {"S", "D"};
         when(client.askBuildingDirectionAtlas()).thenReturn(valueAtlas2);
 
-        assertNotNull(godController.getBuildingInputAtlas());
+        assertNotNull(godController.getBuildInputAtlas());
 
     }
 
@@ -169,7 +169,7 @@ public class GodControllerTest {
         godController.updateCurrentClient(client);
         when(client.askBuildingDirection()).thenReturn("N");
 
-        assertNotNull(godController.getBuildingInput());
+        assertNotNull(godController.getBuildInput());
     }
 
 

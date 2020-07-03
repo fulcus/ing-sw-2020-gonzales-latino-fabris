@@ -1,8 +1,11 @@
 package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.server.VirtualView;
-import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.controller.god.*;
+import it.polimi.ingsw.server.model.Board;
+import it.polimi.ingsw.server.model.Color;
+import it.polimi.ingsw.server.model.Game;
+import it.polimi.ingsw.server.model.Player;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
@@ -26,7 +29,7 @@ public class GameController {
     private volatile boolean full;
     private volatile boolean ended;
     private int clientsConnected;
-    private ArrayList<String> gameColors;
+    private final ArrayList<String> gameColors;
 
 
     public GameController() {
@@ -78,21 +81,13 @@ public class GameController {
         //send client nickname and color of all players that are already in
         sendOtherPlayersInfo(newClient);
 
-
         executorPlayerAdder.execute(() -> addPlayer(newClient));
-
-        //send client nickname and color of all players that are already in
-
-        clientsConnected++;
 
         //waits for all players to finish adding their player ie setting nickname and color
         //sets availableGame null
         if (clientsConnected == game.getNumberOfPlayers()) {
 
-            full = true;
-
             executorPlayerAdder.shutdown();
-
             boolean terminated;
 
             try {
@@ -106,8 +101,14 @@ public class GameController {
             }
 
             new Thread(turnHandler).start();
-
         }
+    }
+
+    public void incrementClients() {
+        clientsConnected++;
+
+        if (clientsConnected == game.getNumberOfPlayers())
+            full = true;
     }
 
 
@@ -137,12 +138,13 @@ public class GameController {
 
     /**
      * Sets up game and starts the logic flow.
+     *
      * @param firstClient is the first connected client who creates the game.
      */
     public synchronized void setUpGame(VirtualView firstClient) {
 
         godController = new GodController(this);
-        createDeckGods();
+        createGodsDeck();
 
         int numOfPlayers = firstClient.askNumberOfPlayers();
 
@@ -241,7 +243,7 @@ public class GameController {
      * @return True if the nickname was valid, false otherwise.
      */
     private boolean checkNicknameValidity(String chosenNickname, VirtualView client, Game game) {
-        if(chosenNickname.length() == 0 || chosenNickname.length() > 8) {
+        if (chosenNickname.length() == 0 || chosenNickname.length() > 8) {
             client.nicknameFormatError();
             return false;
         } else if (nicknameIsAvailable(chosenNickname)) {
@@ -354,7 +356,7 @@ public class GameController {
     /**
      * Creates the deck where we can find all the God cards.
      */
-    private void createDeckGods() {
+    private void createGodsDeck() {
         godsDeck.add(new Apollo(godController));
         godsDeck.add(new Artemis(godController));
         godsDeck.add(new Athena(godController));
@@ -415,11 +417,6 @@ public class GameController {
         return turnHandler;
     }
 
-    /*
-    public synchronized int getPlayersConnected() {
-        return playersConnected;
-    }*/
-
 
     public ExecutorService getExecutorPlayerAdder() {
         return executorPlayerAdder;
@@ -444,9 +441,8 @@ public class GameController {
         }
 
         //Checks if game is still in the available games in lobby
-        if (!isFull()) {
+        if (!isFull())
             ended = true;
-        }
 
     }
 
@@ -457,7 +453,6 @@ public class GameController {
      * @param loserNickname The nickname of the player who lost the game.
      */
     public void notifyPlayersOfLoss(String loserNickname) {
-
         for (Player player : game.getPlayers()) {
             player.getClient().notifyPlayersOfLoss(loserNickname);
         }
@@ -476,11 +471,5 @@ public class GameController {
     public boolean isEnded() {
         return ended;
     }
-
-
-    public void setFull(boolean full) {
-        this.full = full;
-    }
-
 
 }

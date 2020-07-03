@@ -70,7 +70,7 @@ public class AtlasTest {
         when(cell.getY()).thenReturn(2);
         int[] build = {0, 1, 0};
         int[] buildFail = {0, 1, 3};
-        when(godController.getBuildingInputAtlas()).thenReturn(build, buildFail, build);
+        when(godController.getBuildInputAtlas()).thenReturn(build, buildFail, build);
         when(workerBuildMap.isAllowedToBuildBoard(any(int.class), any(int.class))).thenReturn(false, true);
         when(board.findCell(any(int.class), any(int.class))).thenReturn(cell);
         when(cell.getLevel()).thenReturn(2);
@@ -83,7 +83,7 @@ public class AtlasTest {
         //verifying the methods for building the block are as many times as the cycle
         //for the test has been done, also taking into account that the permissions to build
         //were not set from the first building cycle
-        verify(godController, times(3)).getBuildingInputAtlas();
+        verify(godController, times(3)).getBuildInputAtlas();
         verify(worker, times(1)).buildBlock(any(int.class), any(int.class));
     }
 
@@ -111,7 +111,7 @@ public class AtlasTest {
         when(cell.getY()).thenReturn(2);
         int[] build = {0, 1, 1};
         int[] buildFail = {0, 1, 3};
-        when(godController.getBuildingInputAtlas()).thenReturn(buildFail, build);
+        when(godController.getBuildInputAtlas()).thenReturn(buildFail, build);
         when(workerBuildMap.isAllowedToBuildBoard(any(int.class), any(int.class))).thenReturn(true);
         when(board.findCell(any(int.class), any(int.class))).thenReturn(cell);
         when(cell.getLevel()).thenReturn(2);
@@ -121,7 +121,7 @@ public class AtlasTest {
 
         atlas.build(worker);
 
-        verify(godController, times(2)).getBuildingInputAtlas();
+        verify(godController, times(2)).getBuildInputAtlas();
         verify(worker, times(1)).buildDome(any(int.class), any(int.class));
     }
 

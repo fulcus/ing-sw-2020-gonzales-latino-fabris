@@ -8,7 +8,8 @@ import java.util.concurrent.TimeUnit;
 
 
 /**
- * Useful to let clients know that the server is still alive, due to pong messages sent at fixed rate.
+ * Sends ping -- here called pong as opposed to ping from client to server) --
+ * to client in order to let a disconnected client know that he is no longer connected.
  */
 public class HeartbeatServer implements Runnable {
 

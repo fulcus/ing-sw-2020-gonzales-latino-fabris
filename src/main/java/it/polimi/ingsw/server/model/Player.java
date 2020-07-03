@@ -43,6 +43,22 @@ public class Player {
         workers.add(new Worker(this, Sex.FEMALE));
     }
 
+    /**
+     * States that the player has lost and removes him and his workers from the game.
+     */
+    public void lose() {
+
+        //remove workers from board
+        for (Worker worker : workers) {
+            Cell workerCell = worker.getPosition();
+            workerCell.moveOut();
+        }
+
+        //remove from players arraylist
+        game.removePlayer(this);
+
+    }
+
 
     public VirtualView getClient() {
         return client;
@@ -122,23 +138,6 @@ public class Player {
 
     public Game getGame() {
         return game;
-    }
-
-
-    /**
-     * States that the player has lost and removes him and his workers from the game.
-     */
-    public void lose() {
-
-        //remove workers from board
-        for (Worker worker : workers) {
-            Cell workerCell = worker.getPosition();
-            workerCell.moveOut();
-        }
-
-        //remove from players arraylist
-        game.removePlayer(this);
-
     }
 
 

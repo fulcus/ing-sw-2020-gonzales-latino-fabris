@@ -64,7 +64,7 @@ public class Artemis extends God {
 
         while (true) {
 
-            int[] secondMovePosition = godController.getInputMove();
+            int[] secondMovePosition = godController.getMoveInput();
 
 
             int xMove = secondMovePosition[0] + worker.getPosition().getX();

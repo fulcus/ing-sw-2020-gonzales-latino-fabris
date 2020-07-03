@@ -56,7 +56,7 @@ public class ApolloTest {
         Cell cell = mock(Cell.class);
         Cell moveCell = mock(Cell.class);
         int[] move = {1, 1};
-        when(godController.getInputMove()).thenReturn(move, move);
+        when(godController.getMoveInput()).thenReturn(move, move);
         when(worker.getPosition()).thenReturn(cell, cell, cell, cell);
         when(cell.getX()).thenReturn(2, 2);
         when(cell.getY()).thenReturn(2, 2);
@@ -77,7 +77,7 @@ public class ApolloTest {
 
         apollo.move(worker);
 
-        verify(godController, times(2)).getInputMove();
+        verify(godController, times(2)).getMoveInput();
         verify(godController, times(1)).errorMoveScreen();
         verify(worker, times(4)).getPosition();
         verify(cell, times(2)).getX();

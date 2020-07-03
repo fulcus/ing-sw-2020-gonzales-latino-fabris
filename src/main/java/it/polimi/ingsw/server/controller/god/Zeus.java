@@ -36,7 +36,7 @@ public class Zeus extends God {
 
         while (true) {
             //returns build position
-            int[] buildInput = godController.getBuildingInput();
+            int[] buildInput = godController.getBuildInput();
 
             int xBuild = worker.getPosition().getX() + buildInput[0];
             int yBuild = worker.getPosition().getY() + buildInput[1];

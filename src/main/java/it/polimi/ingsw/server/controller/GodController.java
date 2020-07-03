@@ -19,7 +19,6 @@ public class GodController {
 
 
     public GodController(GameController gameController) {
-
         this.gameController = gameController;
         this.currentClient = null;
     }
@@ -110,7 +109,7 @@ public class GodController {
      *
      * @return The coordinates' variation of the chosen movement.
      */
-    public int[] getInputMove() {
+    public int[] getMoveInput() {
         return getInputInCoordinates(currentClient.askMovementDirection());
     }
 
@@ -178,21 +177,21 @@ public class GodController {
      * @return Coordinates' variation and type of building.
      */
     @SuppressWarnings("ConstantConditions")
-    public int[] getBuildingInputAtlas() {
+    public int[] getBuildInputAtlas() {
 
-        int[] buildingInput = new int[3];
+        int[] buildInput = new int[3];
         String[] playerInput = currentClient.askBuildingDirectionAtlas();
 
-        int[] playerInputCoord = getInputInCoordinates(playerInput[0]);
-        buildingInput[0] = playerInputCoord[0];
-        buildingInput[1] = playerInputCoord[1];
+        int[] playerInputCoordinates = getInputInCoordinates(playerInput[0]);
+        buildInput[0] = playerInputCoordinates[0];
+        buildInput[1] = playerInputCoordinates[1];
 
         if (playerInput[1].equals("B"))
-            buildingInput[2] = 0;
+            buildInput[2] = 0;
         else
-            buildingInput[2] = 1;
+            buildInput[2] = 1;
 
-        return buildingInput;
+        return buildInput;
     }
 
 
@@ -201,7 +200,7 @@ public class GodController {
      *
      * @return Coordinates' variation.
      */
-    public int[] getBuildingInput() {
+    public int[] getBuildInput() {
 
         int[] buildingInput = new int[2];
         String playerInput = currentClient.askBuildingDirection();
@@ -234,7 +233,7 @@ public class GodController {
         if (god.toString().equals("Prometheus"))
             answer = currentClient.askBuildPrometheus();
 
-        assert answer != null;
+
         return answer.equals("Y");
     }
 
@@ -253,7 +252,6 @@ public class GodController {
      * @return True if the player wants to retry.
      */
     public boolean errorMoveDecisionScreen() {
-
         return currentClient.printMoveDecisionError().equals("Y");
     }
 

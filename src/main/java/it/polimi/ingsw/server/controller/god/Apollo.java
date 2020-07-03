@@ -34,7 +34,7 @@ public class Apollo extends God {
         WorkerMoveMap moveMap = updateMoveMap(worker);
 
         while (true) {
-            int[] movePosition = godController.getInputMove();
+            int[] movePosition = godController.getMoveInput();
             int xMove = movePosition[0] + worker.getPosition().getX();
             int yMove = movePosition[1] + worker.getPosition().getY();
 

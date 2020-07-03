@@ -25,7 +25,7 @@ public class TurnHandler implements Runnable {
     private int unableToMove;
     private boolean gameAlive;
     private boolean numberOfPLayersHasChanged;
-    private volatile int turnCounter;
+    private int turnCounter;
 
 
     /**

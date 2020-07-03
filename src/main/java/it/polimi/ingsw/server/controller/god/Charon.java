@@ -38,6 +38,7 @@ public class Charon extends God {
     @Override
     public void evolveTurn(Worker worker) throws UnableToMoveException, UnableToBuildException, WinException {
         hasForcedMoveEnemy = false;
+
         checkUnableToMove(worker);
         forceMoveEnemy(worker);
         move(worker);
@@ -51,18 +52,12 @@ public class Charon extends God {
         try {
             updateMoveMap(worker);
         } catch (UnableToMoveException ex) {
-            System.out.println("caught unable to move ex");
             //there aren't movable enemies around, hence worker is unable to move
             if (getMovableEnemies(worker) == null) {
-                System.out.println("no movable enemies: throw ex");
                 throw new UnableToMoveException();
             }
-            else {
-                //there is at least one movable enemy, hence forcing him to move
-                //will make my worker able to move
-                //todo send compulsory force move enemy to player
-                System.out.println("can force move enemy");
-            }
+            //else there is at least one movable enemy, hence forcing him to move
+            //will make my worker able to move
         }
     }
 
@@ -141,14 +136,14 @@ public class Charon extends God {
         try {
             moveMap = updateMoveMap(worker);
         } catch (UnableToMoveException ex) {
-            if(hasForcedMoveEnemy)
+            if (hasForcedMoveEnemy)
                 throw new UnableToMoveException("lose");
             else
-                throw  new UnableToMoveException();
+                throw new UnableToMoveException();
         }
 
         while (true) {
-            int[] movePosition = getGodController().getInputMove();
+            int[] movePosition = getGodController().getMoveInput();
             int xMove = movePosition[0] + worker.getPosition().getX();
             int yMove = movePosition[1] + worker.getPosition().getY();
             if (moveMap.isAllowedToMoveBoard(xMove, yMove)) {

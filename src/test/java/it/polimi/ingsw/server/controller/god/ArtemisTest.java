@@ -65,7 +65,7 @@ public class ArtemisTest {
         //setting the behaviour of the move
         int[] move = {1, 1};
         int[] moveAgain = {0, -1};
-        when(godController.getInputMove()).thenReturn(move, move, moveAgain, moveAgain);
+        when(godController.getMoveInput()).thenReturn(move, move, moveAgain, moveAgain);
         when(worker.getPosition()).thenReturn(cell);
         //many return because of the many calls of the function
         when(cell.getX()).thenReturn(2, 2, 3, 3, 1, 1);
@@ -98,7 +98,7 @@ public class ArtemisTest {
         when(player.getGame()).thenReturn(game);
         when(game.getBoard()).thenReturn(board);
         int[] build = {0, 1};
-        when(godController.getBuildingInput()).thenReturn(build, build);
+        when(godController.getBuildInput()).thenReturn(build, build);
         //The getPosition of the worker and the getX and getY are already defined in the move part above
         when(workerBuildMap.isAllowedToBuildBoard(any(int.class), any(int.class))).thenReturn(false, true);
         Cell cell2 = mock(Cell.class);
@@ -117,7 +117,7 @@ public class ArtemisTest {
         artemis.evolveTurn(worker);
 
         verify(worker, times(11)).getPosition();
-        verify(godController, times(3)).getInputMove();
+        verify(godController, times(3)).getMoveInput();
         verify(godController, times(1)).wantToMoveAgain();
         verify(workerMoveMap, times(3)).isAllowedToMoveBoard(any(int.class), any(int.class));
         verify(worker, times(2)).setPosition(any(int.class), any(int.class));
@@ -134,7 +134,7 @@ public class ArtemisTest {
         artemis.evolveTurn(worker);
 
         verify(worker, times(9)).getPosition();
-        verify(godController, times(2)).getInputMove();
+        verify(godController, times(2)).getMoveInput();
         verify(godController, times(1)).wantToMoveAgain();
         assertFalse(godController.wantToMoveAgain());
         verify(workerMoveMap, times(2)).isAllowedToMoveBoard(any(int.class), any(int.class));
@@ -153,7 +153,7 @@ public class ArtemisTest {
         artemis.evolveTurn(worker);
 
         verify(worker, times(9)).getPosition();
-        verify(godController, times(2)).getInputMove();
+        verify(godController, times(2)).getMoveInput();
         verify(workerMoveMap, times(2)).isAllowedToMoveBoard(any(int.class), any(int.class));
         verify(worker, times(1)).setPosition(any(int.class), any(int.class));
         verify(godController, times(2)).displayBoard();

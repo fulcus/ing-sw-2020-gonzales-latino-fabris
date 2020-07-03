@@ -128,15 +128,12 @@ public class NetworkHandler implements Runnable {
      * @throws IOException If the write object gives some problems.
      */
     public synchronized void handleClientResponse(Object clientResponse) throws IOException {
-
         if (clientResponse != null)
             outputStm.writeObject(clientResponse);
     }
 
-
     public boolean isConnected() {
         return connected;
     }
-
 
 }

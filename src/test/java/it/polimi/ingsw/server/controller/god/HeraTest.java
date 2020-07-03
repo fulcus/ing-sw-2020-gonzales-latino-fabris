@@ -75,7 +75,7 @@ public class HeraTest {
 
         //setting the behaviour of the move
         int[] move = {1, 1};
-        when(godController.getInputMove()).thenReturn(move, move);
+        when(godController.getMoveInput()).thenReturn(move, move);
         when(worker.getPosition()).thenReturn(cell);
         when(cell.getX()).thenReturn(2, 2);
         when(cell.getY()).thenReturn(2, 2);
@@ -103,7 +103,7 @@ public class HeraTest {
         when(player.getGame()).thenReturn(game);
         when(game.getBoard()).thenReturn(board);
         int[] build = {0, 1};
-        when(godController.getBuildingInput()).thenReturn(build, build);
+        when(godController.getBuildInput()).thenReturn(build, build);
         //The getPosition of the worker and the getX and getY are already defined in the move part above
         when(workerBuildMap.isAllowedToBuildBoard(any(int.class), any(int.class))).thenReturn(false, true);
         Cell cell2 = mock(Cell.class);

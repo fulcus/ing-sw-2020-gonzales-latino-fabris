@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 
 /**
- * Represents the lobby, where clients can join existing games or create new ones.
+ * Lets any newly connected clients join an existing game or create a new one.
  */
 public class Lobby {
 
@@ -18,7 +18,7 @@ public class Lobby {
     }
 
     /**
-     * Allocates to a game, or creates a new one if all games are full.
+     * Allocates client to a game, or creates a new one if all games are full.
      *
      * @param clientSocket client to allocate to a game.
      */
@@ -26,17 +26,20 @@ public class Lobby {
 
         System.out.println("Connected to " + clientSocket.getInetAddress());
 
-        //search first empty spot in games
+        //this attribute is set true if client found existing game to join
         boolean availableEmptySpot = false;
 
         GameController availableGame = null;
 
-        for (GameController game : games) {
-
-            if (!game.isEnded() && !game.isFull()) {
-                availableGame = game;
-                availableEmptySpot = true;
-                break;
+        synchronized (this) {
+            //search first empty spot in games
+            for (GameController game : games) {
+                if (!game.isEnded() && !game.isFull()) {
+                    availableGame = game;
+                    availableEmptySpot = true;
+                    game.incrementClients();
+                    break;
+                }
             }
         }
 
@@ -48,7 +51,6 @@ public class Lobby {
 
         } else {
             //CREATE
-
             GameController newGame = new GameController();
             VirtualView newClient = new VirtualView(clientSocket, newGame);
             newGame.create(newClient);
@@ -57,14 +59,4 @@ public class Lobby {
         }
     }
 
-    /**
-     * Remove game from available games arraylist.
-     *
-     * @param game game to delete
-     */
-    public void deleteGame(GameController game) {
-        games.remove(game);
-    }
-    //todo synchro on allocate client
-    // più thread che vogliono prendere stessa partita
 }

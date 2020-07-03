@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 /**
  * Allows to serialize and translate message methods sent by the server to the client over the network.
- * There are different constructor methods because of the different types of messages that can arrive from the server.
+ * Every constructor represents a different type of message the server can send.
  */
 public class Message implements Serializable {
 
@@ -29,7 +29,6 @@ public class Message implements Serializable {
     public static final int WORKER_CLIENT_ARRAYLIST_WORKER_CLIENT = 6;
     public static final int TWO_STRING = 7;
     public static final int ONE_INT = 8;
-
 
 
     public Message(String method) {
