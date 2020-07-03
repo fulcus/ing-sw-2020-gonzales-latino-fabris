@@ -34,15 +34,13 @@ public class HeartbeatClient extends TimerTask implements Runnable {
     @Override
     public void run() {
 
-        InputReader inputReader = networkHandler.getInputReader();
-
         ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
         scheduledExecutorService.scheduleAtFixedRate(this::sendPing, 0, 10, TimeUnit.SECONDS);
 
         boolean stop = false;
 
         while (!stop) {
-            if (!inputReader.isConnected()) {
+            if (!networkHandler.isConnected()) {
                 scheduledExecutorService.shutdownNow();
                 stop = true;
             }
@@ -55,9 +53,7 @@ public class HeartbeatClient extends TimerTask implements Runnable {
      */
     public void sendPing() {
 
-        InputReader inputReader = networkHandler.getInputReader();
-
-        if(inputReader.isConnected()) {
+        if (networkHandler.isConnected()) {
             try {
                 networkHandler.handleClientResponse(pingMessage);
             } catch (IOException e) {
