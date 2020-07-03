@@ -569,13 +569,14 @@ public class BoardController {
     protected void removeGodFrame(String loserNickname) {
 
         String nickname2 = players.get(1).getNickname();
-        String god2 = players.get(1).getGod();
+        String god3 = players.get(2).getGod();
         String nickname3 = players.get(2).getNickname();
+
 
         //if the player in the right corner has lost,swap info between player 2 and 3
         if (nickname2.equals(loserNickname)) {
             otherNicknameRight.setText(nickname3);
-            Image godRightImage = new Image("/gods/full_" + god2.toLowerCase() + ".png");
+            Image godRightImage = new Image("/gods/full_" + god3.toLowerCase() + ".png");
             otherGodRight.setImage(godRightImage);
         }
 
