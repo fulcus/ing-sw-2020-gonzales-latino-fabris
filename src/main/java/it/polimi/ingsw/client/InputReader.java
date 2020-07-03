@@ -11,7 +11,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 
 /**
- * Reads inputs that will receive, both game messages and heartbeat pings.
+ * Reads the InputStream of the client, that receives game messages and heartbeat pings.
  */
 public class InputReader implements Runnable {
 
@@ -21,7 +21,6 @@ public class InputReader implements Runnable {
     private final Client client;
     private final Socket serverSocket;
 
-
     public InputReader(Socket server, Client client) {
 
         serverSocket = server;
@@ -30,10 +29,8 @@ public class InputReader implements Runnable {
         receivedObjectsQueue = new LinkedBlockingQueue<>();
 
         try {
-
             InputStream input = server.getInputStream();
             inputStream = new ObjectInputStream(input);
-
         } catch (IOException e) {
             System.out.println("server has died");
         }
@@ -44,9 +41,7 @@ public class InputReader implements Runnable {
     public void run() {
 
         while (connected) {
-
             try {
-
                 Object readObject = inputStream.readObject();
                 serverSocket.setSoTimeout(15000);
                 Message readMessage = (Message) readObject;
@@ -69,7 +64,7 @@ public class InputReader implements Runnable {
                 Message notifyDisconnection = new Message("notifyOtherPlayerDisconnection", "YOU");
                 client.update(notifyDisconnection);
             } catch (IOException | ClassNotFoundException e) {
-                System.out.println("\n\nServer has died");
+                System.out.println("\n\nServer has died\n");
                 connected = false;
                 System.exit(1);
             } catch (Exception e) {
@@ -77,7 +72,6 @@ public class InputReader implements Runnable {
                 e.printStackTrace();
                 System.exit(1);
             }
-
         }
     }
 

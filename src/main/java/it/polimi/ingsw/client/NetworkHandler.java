@@ -8,8 +8,8 @@ import java.net.Socket;
 
 
 /**
- * This class allows to handle the connection with the server.
- * Receives and sends to it game messages to let the game continue.
+ * Handles connection to the server.
+ * Receives and sends game messages.
  */
 public class NetworkHandler implements Runnable {
 
@@ -46,12 +46,9 @@ public class NetworkHandler implements Runnable {
     public void run() {
 
         while (inputReader.isConnected()) {
-
             try {
-
                 Object returnedValue = handleServerRequest();
                 handleClientResponse(returnedValue);
-
             } catch (IOException e) {
                 System.out.println("network handler exception");
                 e.printStackTrace();

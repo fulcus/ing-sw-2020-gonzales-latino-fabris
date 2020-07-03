@@ -3,7 +3,6 @@ package it.polimi.ingsw.client;
 /**
  * Allows to store in the client information about the players.
  */
-
 public class PlayerClient {
 
     private String nickname;

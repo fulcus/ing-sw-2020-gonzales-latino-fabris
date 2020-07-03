@@ -21,7 +21,7 @@ public class Gui extends Application {
     /**
      * Launches the GUI.
      */
-    public static void startGui() {
+    public static void main() {
         launch();
     }
 
