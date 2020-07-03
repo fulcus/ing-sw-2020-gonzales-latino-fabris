@@ -21,7 +21,7 @@
 
 ## How to run the game ##
 
-  You can download the [server](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/raw/master/deliveries/final/jar/santorini-client.jar) and [client](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/raw/master/deliveries/final/jar/santorini-client.jar) jar or clone repo and compile it yourself.
+  You can download the [server](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/raw/master/deliveries/final/jar/santorini-client.jar) and [client](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/raw/master/deliveries/final/jar/santorini-client.jar) jar or clone the repo and compile it yourself.
 
 ### Server
 
@@ -39,11 +39,22 @@ For each client: go to the folder where the jar is located and from the terminal
 
 -------------------------------------------------- ----
 
+## 1. Implemented features ##
 
-## 1. Test Coverage ##
+- Complete rules
+
+- Socket connection
+
+- CLI
+
+- GUI
 
 
-- Model and controller tests have been implemented trying to obtain almost complete code coverage.
+### Advanced features
+
+- Advanced gods
+
+- Multiple games
 
  
 -------------------------------------------------- ----
@@ -74,26 +85,14 @@ For each client: go to the folder where the jar is located and from the terminal
 
 -------------------------------------------------- ----
 
-## 3. Implemented features ##
-
-- Complete rules
-
-- Socket connection
-
-- CLI
-
-- GUI
+## 3. Test Coverage ##
 
 
-### Advanced features
-
-- Advanced gods
-
-- Multiple games
-  
+- Model and controller tests have been implemented trying to obtain almost complete code coverage.
+You can find it [here](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/tree/master/deliveries/final/report).
 
 -------------------------------------------------- ----
-  
+
 
 ## 4. Implementation choices ##
 
@@ -144,3 +143,4 @@ Messages have been divided into: Request (server -> client) and Response (client
 A mechanism has been implemented for detecting disconnections of the client due to network errors or application closing. 
 
 Disconnections caused by voluntary closure of the client are detected by the server through the management of network exceptions (SocketException). 
+
