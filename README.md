@@ -1,152 +1,206 @@
-
-# Progetto Finale - Ingegneria del Software
+# Final Project - Software Engineering
 
   
 
-##### Francesco Gonzales ([fulcus](https://github.com/fulcus))
+  
 
-##### Alberto Latino ([albertolatino](https://github.com/albertolatino))
+  
 
-##### Vittorio Fabris ([VittoFab](https://github.com/VittoFab))
+##### Francesco Gonzales ([fulcus] (https://github.com/fulcus))
 
-------------------------------------------------------
+##### Alberto Latino ([albertolatino] (https://github.com/albertolatino))
 
-## Come far partire il gioco ##
+##### Vittorio Fabris ([VittoFab] (https://github.com/VittoFab))
+  
+
+-------------------------------------------------- ----
+
+  
+
+  
+
+## How to run the game ##
+
+  Server and Client jars are available here:  LINK TO     INSERT
+
 
 ### Server
 
-Posizionarsi nella cartella `jar/server` da terminale e utilizzare il comando `java -jar server.jar`
 
-### Client
-
-Per ogni client: posizionarsi nella cartella `jar/client` da terminale e utilizzare il comando `java -jar client.jar`
+Go to the folder where the jar is located and from the terminal use the command `java -jar server.jar`
 
   
 
-------------------------------------------------------
+### Client
+
+
+For each client: go to the folder where the jar is located and from the terminal and use the command `java -jar client.jar`
+
+  
+
+-------------------------------------------------- ----
+
 
 ## 1. Test Coverage ##
 
-- Sono stati implementati i test del model e controller cercando di ottenere una copertura quasi completa del codice. Viene riportato di seguito il report della copertura.
 
-- Overview generale dell'analisi:
+- Model and controller tests have been implemented trying to obtain almost complete code coverage.
 
-![Overview](/sonar/overview.PNG)
-
-- Test coverage:
-
-![Coverage](/sonar/coverage.PNG)
-
-------------------------------------------------------
+ 
+-------------------------------------------------- ----
 
 ## 2. UML ##
 
-- Al fine di massimizzare la fruibilità e la leggibilità dei diagrammi delle classi UML si è deciso di creare un diagramma diverso per ogni package principale. In quest'ottica, i collegamenti tra classi di package differenti sono stati realizzati sostituendo alla classe esterna al package una referenza ad essa (la rappresentazione completa di tale classe è accessibile attraverso il diagramma del package corrispondente);
+- In order to maximize the usability and readability of the UML class diagrams, we decided to create a general synthetic diagram that shows only the most representative  relations and attributes. Moreover we created a diagram for each main package with the IntelliJ autogeneration tool. 
+
+
 
 - <a href="#"> Model class diagram </a>
 
 - <a href="#"> View class diagram </a>
 
-- <a href="#"> Cards class diagram </a>
+- <a href="#"> GoCards class diagram </a>
 
 - <a href="#"> Controller class diagram </a>
 
-- <a href="#"> Network class diagram </a>
 
-- <a href="#"> Utils class diagram </a>
+  
 
-------------------------------------------------------
+-------------------------------------------------- ----
 
-## 3. Funzionalità implementate ##
+## 3. Implemented features ##
 
-- Regole complete
 
-- Connessione Socket
+
+- Complete rules
+
+- Socket connection
 
 - CLI
 
 - GUI
 
-- ### Funzionalità avanzate
 
-- Divinità Avanzate
+- ### Advanced features
 
-- Partite Multiple
+- Advanced gods
 
-------------------------------------------------------
+- Multiple games
+  
 
-## 4. Scelte implementative ##
+-------------------------------------------------- ----
 
   
+
+## 4. Implementation choices ##
+
 
 - ### MVC
 
-L'implementazione del pattern MVC scelta è quella del "hybrid" ovvero una parte dei controlli su input viene fatta anche lato client per minimizzare l'utilizzo della rete e il carico del server.
 
-  
+The implementation of the chosen MVC pattern is the "hybrid" one in which some, that is, a part of the input controls areis also done on the client side to minimize network usage and server load. The controller takes care of managing turnshifts, updating the model and managing events, requests and responses with the Client. IOn the server there is a Virtual View is implemented, on which the Controller calls methods to update it and submits game requests. In turn, Virtual View will forwards the methods to the client using the output stream.
+
 
 - #### Model
 
-Possiede lo stato dell'applicazione.
+  
+
+  
+
+It representhas the status of the application. In particular, there are datais the information of the single Game, the Players, the Board and all the related information regarding workers and constructions.
+
+  
+
+  
 
 - #### View
 
-Fornisce all'utente una rappresentazione del model.
+  
+
+  
+
+Provides the user with a representation of the model b. By saving and updating locally a partial copy of the state of the game. I, in particular a copy of the Board is saved with all the related information.
+
+  
+
+  
 
 - #### Controller
 
-Possiede la logica dell'applicazione e appa gli input degli utenti provenienti dalla view per effettuare cambiamenti sul model.
+  
 
-![MVC](dMVC.png)
+  
+
+It has the application logic and displays user inputs from the view to makes changes ton the model, by using user inputs. .
+
+  
+
+  
+
+! [MVC] (dMVC.png)
+
+  
+
+  
 
 - ### Observers
 
-Per realizzare un meccanismo di notifica è stato utilizzato un pattern __observer__. In particolare, il model e le view rappresentano rispettivamente l'osservato e osservatore.
+  
 
-Per quanto riguarda la connessione socket è stato necessario duplicare il pattern observer per permettere la trasmissione delle notifiche (view osserva SocketClientController, SocketThread osserva il model).
+  
+
+An __observer__ pattern hwas been used to implement the notification mechanism. In particular, the model and the views represent the observed and the observer respectively. Each cell in the game is observed, and as soon as there is a change in the state of that cell, clients are notified.
+
+  
+
+  
+
+Given the presence of the network, it was necessary to duplicate the observer pattern also on the client. In fact, the client class receives an update from the Network Handler class.
+
+  
+
+  
 
 - ### Network
 
-Si è deciso di progettare la comunicazione tra server e client in modo da rendere indipendente la comunicazione dal tipo di interfaccia grafica scelta dall'utente. Il server manda quindi sempre gli stessi messaggi indipendentemente che il client abbia scelto di giocare tramite CLI o GUI. Inoltre, vengono scambiate due tipi di informazioni: quelle inerenti al gioco e quelle utili per monitorare e gestire lo stato di connessione dei clients (PING).
+  
 
-All'interno del server, vi è una classe che rappresenta la virtual view associata ad ogni client, sulla quale il controller chiama i metodi che vengono poi inoltrati al client fisico tramite rete.
+  
 
-I messaggi sono stati suddivisi in: Request (server -> client) e Response (client -> server).
+WeIt was decided to design the communication between server and client in order to make communication independent from the type of graphical interface chosen by the user. Therefore, the server server therefore always sends the same messages regardless of whether the client has chosen to play withvia CLI or GUI. Furthermore, two types of information are sharexchanged: those relating to the game and those useful for monitoring and managing the connection status of clients (PING).
 
-- #### Disconnessione
+  
 
-È stato implementato un meccanismo di rilevamento delle disconnessioni da parte del client per errori di rete o per chiusura dell'applicativo.
+  
 
-Le disconnessioni causate da chiusura volontaria del client sono rilevate dal server attraverso la gestione delle eccezioni di rete (SocketException).
+Inside the server, there is a class that represents the virtual view associated with each client, on which the controller calls the methods which are then forwarded to the physical client throughvia the network.
 
-Le disconnessioni causate da errori sono rilevate dal server attraverso ping mandato dal client, che notifica quindi agli altri client la disconnessione di un client. Inoltre, viene mandato anche un ping dal server al client in modo che il client possa accorgersi di eventuali problemi di rete.  
+  
 
-- ### Multithreading
+  
 
-Si è reso necessario l'uso del multithreading, per la gestione della funzionalità multi partita, e per gestire la comunicazione tra client e server. Nel server, è presente un thread per ogni client, per gestire la comunicazione. In particolare, il thread si occupa di ricevere tutti i dati provenienti dal client, i quali vengono poi inoltrati alle varie classi che gestiranno l'informazione. 
+The messages have been divided into: Request (server -> client) and Response (client -> server).
 
-- ### Gods
+  
 
-Avendo comportamenti simili tra loro, si è deciso di implementare gli dei pubblico un pattern __strategy__ che per ogni azione predefinita (move, build, win) permettesse l'utilizzo di un determinato algoritmo o ne aggiungesse di nuove, sfruttando il polimorfismo di Java.
+  
 
-- ### GUI
+- #### Disconnection
 
-Per la GUI è stato usato JavaFX, utilizzando SceneBuilder per la realizzazione delle scene per una resa grafica più ricca, una maggiore velocità di sviluppo e una separazione più netta tra view e controller lato client.
+  
 
-- ### Limitazioni
+  
 
-In fase di progettazione iniziale si sono delineate alcune funzionalità accessorie a bassa priorità da implementare soltanto in fase di perfezionamento:
+A mechanism has been implemented for detecting disconnections by the client due tofor network errors or for closing the application.
 
-- animazioni e arricchimento grafico dell'esperienza utente;
+  
 
-- cambio di modalità di connessione a partita in corso
+  
 
-<!--stackedit_data:
+Disconnections caused by voluntary closure of the client are detected by the server through the management of network exceptions (SocketException).
 
-eyJoaXN0b3J5IjpbNTg2NDYwMTc3LC04NzE0MDQ3NTEsMjE1OD
+  
 
-g2ODIyLDExOTk2NjU1OTIsNTYzOTk5MzQzXX0=
+  
 
--->
-
-
+Disconnections approx
