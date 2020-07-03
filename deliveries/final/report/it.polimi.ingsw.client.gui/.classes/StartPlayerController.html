@@ -1,0 +1,204 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: StartPlayerController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.client.gui</a> ]
+</div>
+
+<h1>Coverage Summary for Class: StartPlayerController (it.polimi.ingsw.client.gui)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">StartPlayerController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 38)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.client.gui;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import javafx.fxml.FXML;
+<i>4</i>&nbsp;import javafx.scene.control.Button;
+<i>5</i>&nbsp;import javafx.scene.control.Label;
+<i>6</i>&nbsp;import javafx.scene.image.Image;
+<i>7</i>&nbsp;import javafx.scene.image.ImageView;
+<i>8</i>&nbsp;import javafx.scene.input.MouseEvent;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;import static it.polimi.ingsw.client.gui.GuiManager.numberOfPlayers;
+<i>11</i>&nbsp;import static it.polimi.ingsw.client.gui.GuiManager.players;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;/**
+<i>15</i>&nbsp; * Manages the scene of the GUI where the challenger chooses the starting player for the game.
+<i>16</i>&nbsp; */
+<i>17</i>&nbsp;public class StartPlayerController {
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    @FXML
+<i>20</i>&nbsp;    private Label playerName1;
+<i>21</i>&nbsp;    @FXML
+<i>22</i>&nbsp;    private Label playerName2;
+<i>23</i>&nbsp;    @FXML
+<i>24</i>&nbsp;    private Label playerName3;
+<i>25</i>&nbsp;    @FXML
+<i>26</i>&nbsp;    private Button player1;
+<i>27</i>&nbsp;    @FXML
+<i>28</i>&nbsp;    private Button player2;
+<i>29</i>&nbsp;    @FXML
+<i>30</i>&nbsp;    private Button player3;
+<i>31</i>&nbsp;    @FXML
+<i>32</i>&nbsp;    private ImageView godImage1;
+<i>33</i>&nbsp;    @FXML
+<i>34</i>&nbsp;    private ImageView godImage2;
+<i>35</i>&nbsp;    @FXML
+<i>36</i>&nbsp;    private ImageView godImage3;
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;
+<b class="nc"><i>39</i>&nbsp;    public StartPlayerController() {</b>
+<i>40</i>&nbsp;    }
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    /**
+<i>43</i>&nbsp;     * Sets the initial parameters for the scene.
+<i>44</i>&nbsp;     */
+<i>45</i>&nbsp;    protected void init() {
+<b class="nc"><i>46</i>&nbsp;        String nickname1 = players.get(0).getNickname();</b>
+<b class="nc"><i>47</i>&nbsp;        String god1 = players.get(0).getGod();</b>
+<b class="nc"><i>48</i>&nbsp;        String nickname2 = players.get(1).getNickname();</b>
+<b class="nc"><i>49</i>&nbsp;        String god2 = players.get(1).getGod();</b>
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;        //display player names
+<b class="nc"><i>53</i>&nbsp;        playerName1.setText(nickname1);</b>
+<b class="nc"><i>54</i>&nbsp;        playerName2.setText(nickname2);</b>
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;        //adapted for 2 players game
+<b class="nc"><i>57</i>&nbsp;        if (numberOfPlayers.get() == 3) {</b>
+<b class="nc"><i>58</i>&nbsp;            String nickname3 = players.get(2).getNickname();</b>
+<b class="nc"><i>59</i>&nbsp;            playerName3.setText(nickname3);</b>
+<b class="nc"><i>60</i>&nbsp;        } else {</b>
+<b class="nc"><i>61</i>&nbsp;            playerName3.getParent().setVisible(false);</b>
+<i>62</i>&nbsp;        }
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;        //load god images
+<i>65</i>&nbsp;        //&quot;charon&quot; and other god names will be replaced with player.getGod
+<b class="nc"><i>66</i>&nbsp;        String path1 = &quot;/gods/full_&quot; + god1.toLowerCase() + &quot;.png&quot;;</b>
+<b class="nc"><i>67</i>&nbsp;        Image player1God = new Image(path1);</b>
+<b class="nc"><i>68</i>&nbsp;        godImage1.setImage(player1God);</b>
+<i>69</i>&nbsp;
+<b class="nc"><i>70</i>&nbsp;        String path2 = &quot;/gods/full_&quot; + god2.toLowerCase() + &quot;.png&quot;;</b>
+<b class="nc"><i>71</i>&nbsp;        Image player2God = new Image(path2);</b>
+<b class="nc"><i>72</i>&nbsp;        godImage2.setImage(player2God);</b>
+<i>73</i>&nbsp;
+<i>74</i>&nbsp;        //adapted for 2 players game
+<i>75</i>&nbsp;        String path3;
+<i>76</i>&nbsp;
+<b class="nc"><i>77</i>&nbsp;        if (numberOfPlayers.get() == 2) {</b>
+<b class="nc"><i>78</i>&nbsp;            path3 = &quot;/frames/bg_panelMid.png&quot;;</b>
+<i>79</i>&nbsp;
+<i>80</i>&nbsp;        } else {
+<b class="nc"><i>81</i>&nbsp;            String god3 = players.get(2).getGod();</b>
+<b class="nc"><i>82</i>&nbsp;            path3 = &quot;/gods/full_&quot; + god3.toLowerCase() + &quot;.png&quot;;</b>
+<i>83</i>&nbsp;        }
+<i>84</i>&nbsp;
+<b class="nc"><i>85</i>&nbsp;        Image player3God = new Image(path3);</b>
+<b class="nc"><i>86</i>&nbsp;        godImage3.setImage(player3God);</b>
+<i>87</i>&nbsp;
+<i>88</i>&nbsp;    }
+<i>89</i>&nbsp;
+<i>90</i>&nbsp;    @FXML
+<i>91</i>&nbsp;    private void choosePlayer(MouseEvent event) {
+<i>92</i>&nbsp;
+<b class="nc"><i>93</i>&nbsp;        String playerId = ((Button) event.getSource()).getId();</b>
+<i>94</i>&nbsp;
+<b class="nc"><i>95</i>&nbsp;        String nickname = null;</b>
+<i>96</i>&nbsp;
+<b class="nc"><i>97</i>&nbsp;        switch (playerId) {</b>
+<i>98</i>&nbsp;            case &quot;player1&quot;:
+<b class="nc"><i>99</i>&nbsp;                nickname = players.get(0).getNickname();</b>
+<b class="nc"><i>100</i>&nbsp;                break;</b>
+<i>101</i>&nbsp;            case &quot;player2&quot;:
+<b class="nc"><i>102</i>&nbsp;                nickname = players.get(1).getNickname();</b>
+<b class="nc"><i>103</i>&nbsp;                break;</b>
+<i>104</i>&nbsp;            case &quot;player3&quot;:
+<b class="nc"><i>105</i>&nbsp;                nickname = players.get(2).getNickname();</b>
+<b class="nc"><i>106</i>&nbsp;                break;</b>
+<i>107</i>&nbsp;            default:
+<b class="nc"><i>108</i>&nbsp;                System.out.println(&quot;error in choosePlayer&quot;); //debug</b>
+<i>109</i>&nbsp;                break;
+<i>110</i>&nbsp;        }
+<i>111</i>&nbsp;
+<i>112</i>&nbsp;        try {
+<b class="nc"><i>113</i>&nbsp;            GuiManager.queue.put(nickname);</b>
+<b class="nc"><i>114</i>&nbsp;        } catch (InterruptedException e) {</b>
+<b class="nc"><i>115</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>116</i>&nbsp;        }</b>
+<i>117</i>&nbsp;
+<i>118</i>&nbsp;
+<i>119</i>&nbsp;    }
+<i>120</i>&nbsp;
+<i>121</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 21:20</div>
+</div>
+</body>
+</html>

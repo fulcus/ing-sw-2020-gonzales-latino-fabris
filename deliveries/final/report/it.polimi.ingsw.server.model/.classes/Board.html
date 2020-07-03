@@ -1,0 +1,142 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Board</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.server.model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Board (it.polimi.ingsw.server.model)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Board</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (10/ 10)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Board$$EnhancerByMockitoWithCGLIB$$cd5308bd</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (10/ 10)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.server.model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;
+<i>4</i>&nbsp;/**
+<i>5</i>&nbsp; * Represents the Board of the game.
+<i>6</i>&nbsp; * Contains the cells where the game will be played on.
+<i>7</i>&nbsp; */
+<i>8</i>&nbsp;public class Board {
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;    private final Cell[][] board;
+<i>11</i>&nbsp;    public static final int SIDE = 5;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;
+<b class="fc"><i>14</i>&nbsp;    public Board() {</b>
+<b class="fc"><i>15</i>&nbsp;        this.board = new Cell[SIDE][SIDE];</b>
+<b class="fc"><i>16</i>&nbsp;        for (int i = 0; i &lt; SIDE; i++) {</b>
+<b class="fc"><i>17</i>&nbsp;            for (int j = 0; j &lt; SIDE; j++) {</b>
+<b class="fc"><i>18</i>&nbsp;                board[i][j] = new Cell(i, j);</b>
+<i>19</i>&nbsp;            }
+<i>20</i>&nbsp;        }
+<b class="fc"><i>21</i>&nbsp;    }</b>
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    /**
+<i>25</i>&nbsp;     * Used to find one specific cell on the board.
+<i>26</i>&nbsp;     *
+<i>27</i>&nbsp;     * @param x Row of the board.
+<i>28</i>&nbsp;     * @param y Column of the board.
+<i>29</i>&nbsp;     * @return Returns cell if contained in board, null otherwise.
+<i>30</i>&nbsp;     */
+<i>31</i>&nbsp;    public Cell findCell(int x, int y) {
+<b class="fc"><i>32</i>&nbsp;        if (isInBoard(x, y))</b>
+<b class="fc"><i>33</i>&nbsp;            return board[x][y];</b>
+<b class="fc"><i>34</i>&nbsp;        return null;</b>
+<i>35</i>&nbsp;    }
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    /**
+<i>39</i>&nbsp;     * Finds out whether a position is in the board or not.
+<i>40</i>&nbsp;     *
+<i>41</i>&nbsp;     * @param x Coordinate x of the board.
+<i>42</i>&nbsp;     * @param y Coordinate y of the board.
+<i>43</i>&nbsp;     * @return true if contained, false otherwise.
+<i>44</i>&nbsp;     */
+<i>45</i>&nbsp;    public boolean isInBoard(int x, int y) {
+<b class="fc"><i>46</i>&nbsp;        return x &gt;= 0 &amp;&amp; x &lt; SIDE &amp;&amp; y &gt;= 0 &amp;&amp; y &lt; SIDE;</b>
+<i>47</i>&nbsp;    }
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 21:20</div>
+</div>
+</body>
+</html>

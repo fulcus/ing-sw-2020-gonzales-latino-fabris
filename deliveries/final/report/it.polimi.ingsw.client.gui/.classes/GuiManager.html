@@ -1,0 +1,1202 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: GuiManager</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.client.gui</a> ]
+</div>
+
+<h1>Coverage Summary for Class: GuiManager (it.polimi.ingsw.client.gui)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GuiManager</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 99)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 351)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.client.gui;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.client.BoardClient;
+<i>4</i>&nbsp;import it.polimi.ingsw.client.PlayerClient;
+<i>5</i>&nbsp;import it.polimi.ingsw.client.View;
+<i>6</i>&nbsp;import it.polimi.ingsw.serializable.CellClient;
+<i>7</i>&nbsp;import it.polimi.ingsw.serializable.WorkerClient;
+<i>8</i>&nbsp;import javafx.application.Platform;
+<i>9</i>&nbsp;import javafx.fxml.FXMLLoader;
+<i>10</i>&nbsp;import javafx.scene.Node;
+<i>11</i>&nbsp;import javafx.scene.Parent;
+<i>12</i>&nbsp;import javafx.scene.Scene;
+<i>13</i>&nbsp;import javafx.scene.effect.GaussianBlur;
+<i>14</i>&nbsp;import javafx.scene.layout.AnchorPane;
+<i>15</i>&nbsp;import javafx.scene.layout.GridPane;
+<i>16</i>&nbsp;import javafx.scene.layout.StackPane;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;import java.io.IOException;
+<i>19</i>&nbsp;import java.util.ArrayList;
+<i>20</i>&nbsp;import java.util.InputMismatchException;
+<i>21</i>&nbsp;import java.util.concurrent.SynchronousQueue;
+<i>22</i>&nbsp;import java.util.concurrent.atomic.AtomicBoolean;
+<i>23</i>&nbsp;import java.util.concurrent.atomic.AtomicInteger;
+<i>24</i>&nbsp;import java.util.concurrent.atomic.AtomicReference;
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;/**
+<i>28</i>&nbsp; * Manages the display of requests and answers to the server.
+<i>29</i>&nbsp; * Guarantees a proper evolution of the scenes of the game.
+<i>30</i>&nbsp; */
+<i>31</i>&nbsp;public class GuiManager implements View {
+<i>32</i>&nbsp;
+<b class="nc"><i>33</i>&nbsp;    protected static final ArrayList&lt;PlayerClient&gt; players = new ArrayList&lt;&gt;();</b>
+<i>34</i>&nbsp;    private PlayerClient myPlayer;
+<i>35</i>&nbsp;
+<b class="nc"><i>36</i>&nbsp;    protected static final AtomicReference&lt;BoardClient&gt; boardClient = new AtomicReference&lt;&gt;(new BoardClient());</b>
+<i>37</i>&nbsp;
+<b class="nc"><i>38</i>&nbsp;    protected static final AtomicInteger numberOfPlayers = new AtomicInteger(0); //overwritten by joinGame or asknumberofplayers</b>
+<b class="nc"><i>39</i>&nbsp;    protected static final AtomicInteger playersConnected = new AtomicInteger(0);</b>
+<b class="nc"><i>40</i>&nbsp;    protected static final AtomicBoolean isInLobby = new AtomicBoolean(false);</b>
+<i>41</i>&nbsp;
+<b class="nc"><i>42</i>&nbsp;    protected static final SynchronousQueue&lt;Object&gt; queue = new SynchronousQueue&lt;&gt;();</b>
+<i>43</i>&nbsp;    protected static String myNickname;
+<i>44</i>&nbsp;    private String myColor;
+<i>45</i>&nbsp;    private WorkerClient selectedWorker;
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;    //roots of scenes
+<i>48</i>&nbsp;    protected static Parent numberOfPlayersRoot;
+<i>49</i>&nbsp;    protected static Parent nicknameRoot;
+<i>50</i>&nbsp;    protected static Parent colorRoot;
+<i>51</i>&nbsp;    protected static Parent chooseGodRoot;
+<i>52</i>&nbsp;    protected static Parent startPlayerRoot;
+<i>53</i>&nbsp;    protected static Parent boardRoot;
+<i>54</i>&nbsp;    protected static Parent lobbyRoot;
+<i>55</i>&nbsp;    protected static Parent connectRoot;
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;    //controllers of fxmls
+<i>60</i>&nbsp;    private ConnectController connectController;
+<i>61</i>&nbsp;    private NumberOfPlayersController numberOfPlayersController;
+<i>62</i>&nbsp;    private NicknameController nicknameController;
+<i>63</i>&nbsp;    private ColorController colorController;
+<i>64</i>&nbsp;    private LobbyController lobbyController;
+<i>65</i>&nbsp;    protected static ChooseGodController chooseGodController;
+<i>66</i>&nbsp;    private StartPlayerController startPlayerController;
+<i>67</i>&nbsp;    private BoardController boardController;
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;
+<b class="nc"><i>70</i>&nbsp;    public GuiManager() {</b>
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;        //wait for graphics to initialize
+<i>73</i>&nbsp;        try {
+<b class="nc"><i>74</i>&nbsp;            queue.take();</b>
+<b class="nc"><i>75</i>&nbsp;        } catch (InterruptedException e) {</b>
+<b class="nc"><i>76</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>77</i>&nbsp;        }</b>
+<b class="nc"><i>78</i>&nbsp;        createControllers();</b>
+<i>79</i>&nbsp;    }
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;
+<i>82</i>&nbsp;    private void createControllers() {
+<b class="nc"><i>83</i>&nbsp;        FXMLLoader connectLoader = new FXMLLoader(getClass().getResource(&quot;/scenes/connect.fxml&quot;));</b>
+<b class="nc"><i>84</i>&nbsp;        FXMLLoader numberOfPlayersLoader = new FXMLLoader(getClass().getResource(&quot;/scenes/choose-num-of-players.fxml&quot;));</b>
+<b class="nc"><i>85</i>&nbsp;        FXMLLoader nicknameLoader = new FXMLLoader(getClass().getResource(&quot;/scenes/choose-nickname.fxml&quot;));</b>
+<b class="nc"><i>86</i>&nbsp;        FXMLLoader colorLoader = new FXMLLoader(getClass().getResource(&quot;/scenes/choose-color.fxml&quot;));</b>
+<b class="nc"><i>87</i>&nbsp;        FXMLLoader lobbyLoader = new FXMLLoader(getClass().getResource(&quot;/scenes/lobby.fxml&quot;));</b>
+<b class="nc"><i>88</i>&nbsp;        FXMLLoader chooseGodLoader = new FXMLLoader(getClass().getResource(&quot;/scenes/choose-god.fxml&quot;));</b>
+<b class="nc"><i>89</i>&nbsp;        FXMLLoader startPlayerLoader = new FXMLLoader(getClass().getResource(&quot;/scenes/start-player.fxml&quot;));</b>
+<b class="nc"><i>90</i>&nbsp;        FXMLLoader boardLoader = new FXMLLoader(getClass().getResource(&quot;/scenes/board.fxml&quot;));</b>
+<i>91</i>&nbsp;
+<i>92</i>&nbsp;        try {
+<b class="nc"><i>93</i>&nbsp;            connectRoot = connectLoader.load();</b>
+<b class="nc"><i>94</i>&nbsp;            numberOfPlayersRoot = numberOfPlayersLoader.load();</b>
+<b class="nc"><i>95</i>&nbsp;            nicknameRoot = nicknameLoader.load();</b>
+<b class="nc"><i>96</i>&nbsp;            colorRoot = colorLoader.load();</b>
+<b class="nc"><i>97</i>&nbsp;            chooseGodRoot = chooseGodLoader.load();</b>
+<b class="nc"><i>98</i>&nbsp;            startPlayerRoot = startPlayerLoader.load();</b>
+<b class="nc"><i>99</i>&nbsp;            boardRoot = boardLoader.load();</b>
+<b class="nc"><i>100</i>&nbsp;            lobbyRoot = lobbyLoader.load();</b>
+<b class="nc"><i>101</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>102</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>103</i>&nbsp;        }</b>
+<i>104</i>&nbsp;
+<b class="nc"><i>105</i>&nbsp;        connectController = connectLoader.getController();</b>
+<b class="nc"><i>106</i>&nbsp;        numberOfPlayersController = numberOfPlayersLoader.getController();</b>
+<b class="nc"><i>107</i>&nbsp;        nicknameController = nicknameLoader.getController();</b>
+<b class="nc"><i>108</i>&nbsp;        colorController = colorLoader.getController();</b>
+<b class="nc"><i>109</i>&nbsp;        lobbyController = lobbyLoader.getController();</b>
+<b class="nc"><i>110</i>&nbsp;        chooseGodController = chooseGodLoader.getController();</b>
+<b class="nc"><i>111</i>&nbsp;        startPlayerController = startPlayerLoader.getController();</b>
+<b class="nc"><i>112</i>&nbsp;        boardController = boardLoader.getController();</b>
+<i>113</i>&nbsp;
+<i>114</i>&nbsp;    }
+<i>115</i>&nbsp;
+<i>116</i>&nbsp;
+<i>117</i>&nbsp;    /**
+<i>118</i>&nbsp;     * Asks the IP of the server where the client wants to connect to.
+<i>119</i>&nbsp;     *
+<i>120</i>&nbsp;     * @return The IP of the server to connect to.
+<i>121</i>&nbsp;     */
+<i>122</i>&nbsp;    public String getServerAddress() {
+<i>123</i>&nbsp;
+<b class="nc"><i>124</i>&nbsp;        String IP = null;</b>
+<i>125</i>&nbsp;        try {
+<b class="nc"><i>126</i>&nbsp;            IP = (String) queue.take();</b>
+<b class="nc"><i>127</i>&nbsp;        } catch (InterruptedException e) {</b>
+<b class="nc"><i>128</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>129</i>&nbsp;        }</b>
+<b class="nc"><i>130</i>&nbsp;        return IP;</b>
+<i>131</i>&nbsp;    }
+<i>132</i>&nbsp;
+<i>133</i>&nbsp;
+<i>134</i>&nbsp;    /**
+<i>135</i>&nbsp;     * Shows if the connection to the server wasn&#39;t successful.
+<i>136</i>&nbsp;     *
+<i>137</i>&nbsp;     * @param connected True if the connection was established, false otherwise.
+<i>138</i>&nbsp;     */
+<i>139</i>&nbsp;    public void connectionOutcome(boolean connected) {
+<i>140</i>&nbsp;
+<b class="nc"><i>141</i>&nbsp;        if (!connected) {</b>
+<b class="nc"><i>142</i>&nbsp;            System.out.println(&quot;connection error&quot;);</b>
+<b class="nc"><i>143</i>&nbsp;            connectController.displayError();</b>
+<i>144</i>&nbsp;        }
+<i>145</i>&nbsp;    }
+<i>146</i>&nbsp;
+<i>147</i>&nbsp;
+<i>148</i>&nbsp;    /**
+<i>149</i>&nbsp;     * Displays that a player has been disconnected and reason.
+<i>150</i>&nbsp;     *
+<i>151</i>&nbsp;     * @param disconnectedPlayer The name of the disconnected player.
+<i>152</i>&nbsp;     */
+<i>153</i>&nbsp;    public void notifyOtherPlayerDisconnection(String disconnectedPlayer) {
+<i>154</i>&nbsp;
+<b class="nc"><i>155</i>&nbsp;        Parent currentRoot = Gui.getStage().getScene().getRoot();</b>
+<b class="nc"><i>156</i>&nbsp;        FXMLLoader disconnectionLoader = new FXMLLoader(getClass().getResource(&quot;/scenes/disconnection.fxml&quot;));</b>
+<i>157</i>&nbsp;
+<b class="nc"><i>158</i>&nbsp;        Parent disconnectionRoot = null;</b>
+<i>159</i>&nbsp;        try {
+<b class="nc"><i>160</i>&nbsp;            disconnectionRoot = disconnectionLoader.load();</b>
+<b class="nc"><i>161</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>162</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>163</i>&nbsp;        }</b>
+<i>164</i>&nbsp;
+<b class="nc"><i>165</i>&nbsp;        EndGameController endGameController = disconnectionLoader.getController();</b>
+<i>166</i>&nbsp;
+<b class="nc"><i>167</i>&nbsp;        Parent finalDisconnectionRoot = disconnectionRoot;</b>
+<b class="nc"><i>168</i>&nbsp;        Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>169</i>&nbsp;            currentRoot.setEffect(new GaussianBlur());</b>
+<i>170</i>&nbsp;
+<b class="nc"><i>171</i>&nbsp;            endGameController.setDisconnectionPlayer(disconnectedPlayer);</b>
+<b class="nc"><i>172</i>&nbsp;            StackPane root = new StackPane(currentRoot);</b>
+<b class="nc"><i>173</i>&nbsp;            root.getChildren().add(finalDisconnectionRoot);</b>
+<b class="nc"><i>174</i>&nbsp;            Gui.getStage().setScene(new Scene(root));</b>
+<i>175</i>&nbsp;
+<i>176</i>&nbsp;        });
+<i>177</i>&nbsp;
+<i>178</i>&nbsp;
+<i>179</i>&nbsp;    }
+<i>180</i>&nbsp;
+<i>181</i>&nbsp;
+<i>182</i>&nbsp;
+<i>183</i>&nbsp;
+<i>184</i>&nbsp;    /**
+<i>185</i>&nbsp;     * Lets the player know the number of players for the game he&#39;s been assigned.
+<i>186</i>&nbsp;     * The player in this specific case did not choose the number of players for the game, but someone else did (the so called &quot;creator&quot;).
+<i>187</i>&nbsp;     *
+<i>188</i>&nbsp;     * @param numberOfPlayers The number of players of the game the player has been assigned to.
+<i>189</i>&nbsp;     */
+<i>190</i>&nbsp;    public void joinGame(int numberOfPlayers) {
+<i>191</i>&nbsp;        //sets number of players attribute
+<b class="nc"><i>192</i>&nbsp;        GuiManager.numberOfPlayers.set(numberOfPlayers);</b>
+<i>193</i>&nbsp;        //change scene
+<b class="nc"><i>194</i>&nbsp;        Platform.runLater(() -&gt; Gui.getStage().setScene(new Scene(nicknameRoot)));</b>
+<i>195</i>&nbsp;    }
+<i>196</i>&nbsp;
+<i>197</i>&nbsp;
+<i>198</i>&nbsp;    /**
+<i>199</i>&nbsp;     * Lets the player know he is the creator of a new game.
+<i>200</i>&nbsp;     * Loads the choosing number of players scene.
+<i>201</i>&nbsp;     */
+<i>202</i>&nbsp;    public void createGame() {
+<i>203</i>&nbsp;        //change scene
+<b class="nc"><i>204</i>&nbsp;        Platform.runLater(() -&gt; Gui.getStage().setScene(new Scene(numberOfPlayersRoot)));</b>
+<i>205</i>&nbsp;    }
+<i>206</i>&nbsp;
+<i>207</i>&nbsp;
+<i>208</i>&nbsp;    /**
+<i>209</i>&nbsp;     * Asks to the creator of a game how many players will the game hold.
+<i>210</i>&nbsp;     *
+<i>211</i>&nbsp;     * @return The number of players decided by the creator player.
+<i>212</i>&nbsp;     */
+<i>213</i>&nbsp;    public int askNumberOfPlayers() {
+<i>214</i>&nbsp;
+<i>215</i>&nbsp;        int numInt;
+<i>216</i>&nbsp;        try {
+<b class="nc"><i>217</i>&nbsp;            String numString = (String) queue.take();</b>
+<b class="nc"><i>218</i>&nbsp;            numInt = Integer.parseInt(numString);</b>
+<i>219</i>&nbsp;
+<i>220</i>&nbsp;            //change scene
+<b class="nc"><i>221</i>&nbsp;            Platform.runLater(() -&gt; Gui.getStage().setScene(new Scene(nicknameRoot)));</b>
+<i>222</i>&nbsp;
+<b class="nc"><i>223</i>&nbsp;        } catch (InterruptedException | NumberFormatException ex) {</b>
+<b class="nc"><i>224</i>&nbsp;            numInt = askNumberOfPlayers();</b>
+<b class="nc"><i>225</i>&nbsp;        }</b>
+<i>226</i>&nbsp;
+<b class="nc"><i>227</i>&nbsp;        numberOfPlayers.set(numInt);</b>
+<i>228</i>&nbsp;
+<b class="nc"><i>229</i>&nbsp;        return numInt;</b>
+<i>230</i>&nbsp;    }
+<i>231</i>&nbsp;
+<i>232</i>&nbsp;
+<i>233</i>&nbsp;    /**
+<i>234</i>&nbsp;     * This method asks the player to set his worker initial position.
+<i>235</i>&nbsp;     * It will be invoked both for the male worker and the female worker of every player.
+<i>236</i>&nbsp;     *
+<i>237</i>&nbsp;     * @param workerSex This is the sex of the worker to be placed on the board.
+<i>238</i>&nbsp;     * @return Array with x,y coordinates of the chosen position.
+<i>239</i>&nbsp;     */
+<i>240</i>&nbsp;    public int[] askInitialWorkerPosition(String workerSex) throws InputMismatchException {
+<i>241</i>&nbsp;
+<b class="nc"><i>242</i>&nbsp;        int[] initialWorkerPosition = new int[2];</b>
+<b class="nc"><i>243</i>&nbsp;        Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>244</i>&nbsp;            boardController.setCellRequested(true);</b>
+<b class="nc"><i>245</i>&nbsp;            boardController.printToMainText(&quot;Place your &quot; + workerSex.toLowerCase() + &quot; worker!&quot;);</b>
+<i>246</i>&nbsp;        });
+<i>247</i>&nbsp;
+<i>248</i>&nbsp;        try {
+<b class="nc"><i>249</i>&nbsp;            initialWorkerPosition[0] = (int) queue.take();  //row</b>
+<b class="nc"><i>250</i>&nbsp;            initialWorkerPosition[1] = (int) queue.take();  //col</b>
+<i>251</i>&nbsp;
+<b class="nc"><i>252</i>&nbsp;        } catch (InterruptedException e) {</b>
+<b class="nc"><i>253</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>254</i>&nbsp;        }</b>
+<i>255</i>&nbsp;
+<b class="nc"><i>256</i>&nbsp;        return initialWorkerPosition;</b>
+<i>257</i>&nbsp;    }
+<i>258</i>&nbsp;
+<i>259</i>&nbsp;
+<i>260</i>&nbsp;    /**
+<i>261</i>&nbsp;     * Allows to store in the client memory the general info about other players.
+<i>262</i>&nbsp;     *
+<i>263</i>&nbsp;     * @param nickname Nickname of the player to register.
+<i>264</i>&nbsp;     * @param color    Color chosen by that specific player for the current game.
+<i>265</i>&nbsp;     */
+<i>266</i>&nbsp;    public void setOtherPlayersInfo(String nickname, String color) {
+<i>267</i>&nbsp;
+<b class="nc"><i>268</i>&nbsp;        players.add(new PlayerClient(nickname, color));</b>
+<b class="nc"><i>269</i>&nbsp;        playersConnected.addAndGet(1);</b>
+<i>270</i>&nbsp;
+<i>271</i>&nbsp;        //if client is in lobby RENDER
+<b class="nc"><i>272</i>&nbsp;        if (isInLobby.get())</b>
+<b class="nc"><i>273</i>&nbsp;            Platform.runLater(() -&gt; lobbyController.showPlayer(nickname, color));</b>
+<i>274</i>&nbsp;        //otherwise it has already been saved and will be rendered in initialize
+<i>275</i>&nbsp;    }
+<i>276</i>&nbsp;
+<i>277</i>&nbsp;
+<i>278</i>&nbsp;    private void setPlayerGod(String nickname, String god) {
+<b class="nc"><i>279</i>&nbsp;        for (PlayerClient player : players) {</b>
+<b class="nc"><i>280</i>&nbsp;            if (player.getNickname().equals(nickname))</b>
+<b class="nc"><i>281</i>&nbsp;                player.setGod(god);</b>
+<b class="nc"><i>282</i>&nbsp;        }</b>
+<i>283</i>&nbsp;    }
+<i>284</i>&nbsp;
+<i>285</i>&nbsp;
+<i>286</i>&nbsp;    /**
+<i>287</i>&nbsp;     * Lets the player know the position he wrote for the initial worker position was wrong.
+<i>288</i>&nbsp;     */
+<i>289</i>&nbsp;    public void invalidInitialWorkerPosition() {
+<b class="nc"><i>290</i>&nbsp;        Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>291</i>&nbsp;            boardController.printToMainText(&quot;You cannot place your worker here!&quot;);</b>
+<b class="nc"><i>292</i>&nbsp;            boardController.printToGodTextArea(&quot;&quot;);</b>
+<b class="nc"><i>293</i>&nbsp;            boardController.setConfirmButtonVisible();</b>
+<i>294</i>&nbsp;        });
+<i>295</i>&nbsp;
+<b class="nc"><i>296</i>&nbsp;        acceptTextBarInfo();</b>
+<i>297</i>&nbsp;    }
+<i>298</i>&nbsp;
+<i>299</i>&nbsp;
+<i>300</i>&nbsp;    /**
+<i>301</i>&nbsp;     * Asks to the player the nickname for the game.
+<i>302</i>&nbsp;     *
+<i>303</i>&nbsp;     * @return The nickname chosen by the player.
+<i>304</i>&nbsp;     */
+<i>305</i>&nbsp;    public String askPlayerNickname() {
+<b class="nc"><i>306</i>&nbsp;        String nickname = null;</b>
+<i>307</i>&nbsp;
+<i>308</i>&nbsp;        //nicknameController.removeErrorNickFromScreen();
+<b class="nc"><i>309</i>&nbsp;        nicknameController.removeWaitingOtherFromScreen();</b>
+<b class="nc"><i>310</i>&nbsp;        nicknameController.enableNicknameText();</b>
+<i>311</i>&nbsp;
+<i>312</i>&nbsp;        try {
+<i>313</i>&nbsp;
+<b class="nc"><i>314</i>&nbsp;            nickname = (String) queue.take();</b>
+<i>315</i>&nbsp;
+<b class="nc"><i>316</i>&nbsp;        } catch (InterruptedException e) {</b>
+<b class="nc"><i>317</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>318</i>&nbsp;        }</b>
+<i>319</i>&nbsp;
+<b class="nc"><i>320</i>&nbsp;        myNickname = nickname;</b>
+<b class="nc"><i>321</i>&nbsp;        return nickname;</b>
+<i>322</i>&nbsp;    }
+<i>323</i>&nbsp;
+<i>324</i>&nbsp;
+<i>325</i>&nbsp;    /**
+<i>326</i>&nbsp;     * Notifies the player that his nickname was accepted by the server, going to the next scene.
+<i>327</i>&nbsp;     */
+<i>328</i>&nbsp;    public void notifyValidNick() {
+<i>329</i>&nbsp;        //change scene
+<b class="nc"><i>330</i>&nbsp;        Platform.runLater(() -&gt; Gui.getStage().setScene(new Scene(colorRoot)));</b>
+<i>331</i>&nbsp;    }
+<i>332</i>&nbsp;
+<i>333</i>&nbsp;
+<i>334</i>&nbsp;    /**
+<i>335</i>&nbsp;     * Asks to the player the color for the game.
+<i>336</i>&nbsp;     * Only three colors are available: blue, white and beige.
+<i>337</i>&nbsp;     *
+<i>338</i>&nbsp;     * @return The color chosen by the player.
+<i>339</i>&nbsp;     */
+<i>340</i>&nbsp;    public String askPlayerColor(ArrayList&lt;String&gt; availableColors) {
+<i>341</i>&nbsp;
+<b class="nc"><i>342</i>&nbsp;        String color = null;</b>
+<i>343</i>&nbsp;
+<b class="nc"><i>344</i>&nbsp;        colorController.removeWaitingOtherFromScreen();</b>
+<i>345</i>&nbsp;        //colorController.removeErrorColorFromScreen();
+<b class="nc"><i>346</i>&nbsp;        colorController.enableButtons();</b>
+<i>347</i>&nbsp;
+<i>348</i>&nbsp;        try {
+<i>349</i>&nbsp;
+<b class="nc"><i>350</i>&nbsp;            color = (String) queue.take();</b>
+<i>351</i>&nbsp;
+<b class="nc"><i>352</i>&nbsp;        } catch (InterruptedException e) {</b>
+<b class="nc"><i>353</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>354</i>&nbsp;        }</b>
+<i>355</i>&nbsp;
+<b class="nc"><i>356</i>&nbsp;        myColor = color;</b>
+<b class="nc"><i>357</i>&nbsp;        return color;</b>
+<i>358</i>&nbsp;    }
+<i>359</i>&nbsp;
+<i>360</i>&nbsp;
+<i>361</i>&nbsp;    /**
+<i>362</i>&nbsp;     * Notifies the player that his color choice was accepted by the server, going to the next scene.
+<i>363</i>&nbsp;     */
+<i>364</i>&nbsp;    public void notifyValidColor() {
+<i>365</i>&nbsp;        //adding this players info to &quot;database&quot;
+<b class="nc"><i>366</i>&nbsp;        myPlayer = new PlayerClient(myNickname, myColor);</b>
+<b class="nc"><i>367</i>&nbsp;        players.add(0, myPlayer);</b>
+<b class="nc"><i>368</i>&nbsp;        playersConnected.addAndGet(1);</b>
+<i>369</i>&nbsp;
+<i>370</i>&nbsp;        //change scene
+<b class="nc"><i>371</i>&nbsp;        Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>372</i>&nbsp;            lobbyController.init();</b>
+<b class="nc"><i>373</i>&nbsp;            Gui.getStage().setScene(new Scene(lobbyRoot));</b>
+<i>374</i>&nbsp;        });
+<i>375</i>&nbsp;
+<i>376</i>&nbsp;    }
+<i>377</i>&nbsp;
+<i>378</i>&nbsp;
+<i>379</i>&nbsp;    /**
+<i>380</i>&nbsp;     * Asks to the player which God among the available ones wants to play with during the current game.
+<i>381</i>&nbsp;     *
+<i>382</i>&nbsp;     * @return The name of the chosen God.
+<i>383</i>&nbsp;     */
+<i>384</i>&nbsp;    public String askPlayerGod() {
+<b class="nc"><i>385</i>&nbsp;        Platform.runLater(() -&gt; chooseGodController.askPlayerGod());</b>
+<i>386</i>&nbsp;
+<b class="nc"><i>387</i>&nbsp;        String chosenGod = null;</b>
+<i>388</i>&nbsp;        try {
+<b class="nc"><i>389</i>&nbsp;            chosenGod = (String) queue.take();</b>
+<b class="nc"><i>390</i>&nbsp;            myPlayer.setGod(chosenGod);</b>
+<i>391</i>&nbsp;
+<b class="nc"><i>392</i>&nbsp;        } catch (InterruptedException e) {</b>
+<b class="nc"><i>393</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>394</i>&nbsp;        }</b>
+<i>395</i>&nbsp;
+<b class="nc"><i>396</i>&nbsp;        return chosenGod;</b>
+<i>397</i>&nbsp;    }
+<i>398</i>&nbsp;
+<i>399</i>&nbsp;
+<i>400</i>&nbsp;    /**
+<i>401</i>&nbsp;     * Lets the player know that his God&#39;s choice was rejected by the server.
+<i>402</i>&nbsp;     */
+<i>403</i>&nbsp;    public void playerChoseInvalidGod() {
+<b class="nc"><i>404</i>&nbsp;        Platform.runLater(() -&gt; chooseGodController.playerChoseInvalidGod());</b>
+<i>405</i>&nbsp;    }
+<i>406</i>&nbsp;
+<i>407</i>&nbsp;
+<i>408</i>&nbsp;    /**
+<i>409</i>&nbsp;     * Lets the challenger know how many gods he still has to choose.
+<i>410</i>&nbsp;     * Then the challenger, if other gods need to be selected, chooses another god for the game.
+<i>411</i>&nbsp;     *
+<i>412</i>&nbsp;     * @param numOfPlayers      The number of players of the current game.
+<i>413</i>&nbsp;     * @param alreadyChosenGods The number of gods that the challenger has already chosen for the game.
+<i>414</i>&nbsp;     * @return Another name of the God the challenger chooses for the current game.
+<i>415</i>&nbsp;     */
+<i>416</i>&nbsp;    public String getGodFromChallenger(int numOfPlayers, int alreadyChosenGods) {
+<i>417</i>&nbsp;
+<b class="nc"><i>418</i>&nbsp;        String chosenGod = null;</b>
+<b class="nc"><i>419</i>&nbsp;        ArrayList&lt;String&gt; chosenGods = new ArrayList&lt;&gt;();</b>
+<i>420</i>&nbsp;
+<b class="nc"><i>421</i>&nbsp;        Platform.runLater(() -&gt; chooseGodController.getGodFromChallenger(numOfPlayers, alreadyChosenGods));</b>
+<i>422</i>&nbsp;
+<i>423</i>&nbsp;        try {
+<b class="nc"><i>424</i>&nbsp;            chosenGod = (String) queue.take();</b>
+<b class="nc"><i>425</i>&nbsp;            chosenGods.add(chosenGod);</b>
+<b class="nc"><i>426</i>&nbsp;            chooseGodController.printChosenGods(chosenGods);</b>
+<i>427</i>&nbsp;
+<b class="nc"><i>428</i>&nbsp;        } catch (InterruptedException e) {</b>
+<b class="nc"><i>429</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>430</i>&nbsp;        }</b>
+<i>431</i>&nbsp;
+<b class="nc"><i>432</i>&nbsp;        return chosenGod;</b>
+<i>433</i>&nbsp;    }
+<i>434</i>&nbsp;
+<i>435</i>&nbsp;
+<i>436</i>&nbsp;    /**
+<i>437</i>&nbsp;     * Asks to the challenger which player will be the starting one.
+<i>438</i>&nbsp;     *
+<i>439</i>&nbsp;     * @return The nickname of the starting player.
+<i>440</i>&nbsp;     */
+<i>441</i>&nbsp;    public String challengerChooseStartPlayer() {
+<i>442</i>&nbsp;
+<b class="nc"><i>443</i>&nbsp;        String startPlayer = null;</b>
+<i>444</i>&nbsp;
+<b class="nc"><i>445</i>&nbsp;        Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>446</i>&nbsp;            Gui.getStage().setScene(new Scene(startPlayerRoot));</b>
+<b class="nc"><i>447</i>&nbsp;            startPlayerController.init();</b>
+<i>448</i>&nbsp;        });
+<i>449</i>&nbsp;
+<i>450</i>&nbsp;        try {
+<b class="nc"><i>451</i>&nbsp;            startPlayer = (String) queue.take();</b>
+<b class="nc"><i>452</i>&nbsp;        } catch (InterruptedException e) {</b>
+<b class="nc"><i>453</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>454</i>&nbsp;        }</b>
+<i>455</i>&nbsp;
+<i>456</i>&nbsp;        //assumes start player is always correct
+<b class="nc"><i>457</i>&nbsp;        Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>458</i>&nbsp;            boardController.init();</b>
+<b class="nc"><i>459</i>&nbsp;            Gui.getStage().setScene(new Scene(boardRoot));</b>
+<b class="nc"><i>460</i>&nbsp;            isInLobby.set(false); //for &quot;play again&quot; feature</b>
+<i>461</i>&nbsp;        });
+<i>462</i>&nbsp;
+<b class="nc"><i>463</i>&nbsp;        return startPlayer;</b>
+<i>464</i>&nbsp;    }
+<i>465</i>&nbsp;
+<i>466</i>&nbsp;
+<i>467</i>&nbsp;    /**
+<i>468</i>&nbsp;     * Lets the player know that the chosen color was not available,
+<i>469</i>&nbsp;     * because another player had already chosen it before.
+<i>470</i>&nbsp;     */
+<i>471</i>&nbsp;    public void notAvailableColor() {
+<b class="nc"><i>472</i>&nbsp;        colorController.displayErrorColor();</b>
+<i>473</i>&nbsp;    }
+<i>474</i>&nbsp;
+<i>475</i>&nbsp;
+<i>476</i>&nbsp;    /**
+<i>477</i>&nbsp;     * Tells the player that the inserted nickname was not available.
+<i>478</i>&nbsp;     * This error can occur when the length of the nickname is too long or when the same nick was already chosen by another player.
+<i>479</i>&nbsp;     */
+<i>480</i>&nbsp;    public void notAvailableNickname() {
+<b class="nc"><i>481</i>&nbsp;        nicknameController.displayErrorNick();</b>
+<i>482</i>&nbsp;    }
+<i>483</i>&nbsp;
+<i>484</i>&nbsp;    /**
+<i>485</i>&nbsp;     * Lets the client know that the nickname entered is too long or empty.
+<i>486</i>&nbsp;     */
+<i>487</i>&nbsp;    public void nicknameFormatError() {
+<b class="nc"><i>488</i>&nbsp;        nicknameController.displayErrorNick();</b>
+<i>489</i>&nbsp;    }
+<i>490</i>&nbsp;
+<i>491</i>&nbsp;
+<i>492</i>&nbsp;    /**
+<i>493</i>&nbsp;     * Asks to the player which one of his worker wants to play with during the current turn.
+<i>494</i>&nbsp;     *
+<i>495</i>&nbsp;     * @return The sex of the worker the player wants to play with.
+<i>496</i>&nbsp;     */
+<i>497</i>&nbsp;    public String askChosenWorker() {
+<i>498</i>&nbsp;
+<b class="nc"><i>499</i>&nbsp;        int[] chosenCell = new int[2];</b>
+<i>500</i>&nbsp;
+<i>501</i>&nbsp;        while (true) {
+<b class="nc"><i>502</i>&nbsp;            Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>503</i>&nbsp;                boardController.setCellRequested(true);</b>
+<b class="nc"><i>504</i>&nbsp;                boardController.printToMainText(&quot;Select one of your workers!&quot;);</b>
+<i>505</i>&nbsp;            });
+<i>506</i>&nbsp;
+<i>507</i>&nbsp;            try {
+<b class="nc"><i>508</i>&nbsp;                chosenCell[0] = (Integer) queue.take(); //row</b>
+<b class="nc"><i>509</i>&nbsp;                chosenCell[1] = (Integer) queue.take(); //column</b>
+<i>510</i>&nbsp;
+<b class="nc"><i>511</i>&nbsp;            } catch (InterruptedException e) {</b>
+<b class="nc"><i>512</i>&nbsp;                e.printStackTrace();</b>
+<b class="nc"><i>513</i>&nbsp;            }</b>
+<i>514</i>&nbsp;
+<i>515</i>&nbsp;            //check if cell contains worker
+<b class="nc"><i>516</i>&nbsp;            WorkerClient clickedWorker = boardClient.get().findCell(chosenCell[0], chosenCell[1]).getWorkerClient();</b>
+<i>517</i>&nbsp;
+<b class="nc"><i>518</i>&nbsp;            if (clickedWorker != null</b>
+<b class="nc"><i>519</i>&nbsp;                    &amp;&amp; clickedWorker.getWorkerColor().toLowerCase().equals(myColor.toLowerCase())) {</b>
+<i>520</i>&nbsp;
+<b class="nc"><i>521</i>&nbsp;                selectedWorker = clickedWorker;</b>
+<b class="nc"><i>522</i>&nbsp;                return clickedWorker.getWorkerSex();</b>
+<i>523</i>&nbsp;            }
+<i>524</i>&nbsp;
+<b class="nc"><i>525</i>&nbsp;            Platform.runLater(() -&gt;</b>
+<b class="nc"><i>526</i>&nbsp;                    boardController.printToMainText(&quot;You have to select one of your workers!\nTry Again&quot;));</b>
+<b class="nc"><i>527</i>&nbsp;        }</b>
+<i>528</i>&nbsp;
+<i>529</i>&nbsp;    }
+<i>530</i>&nbsp;
+<i>531</i>&nbsp;    /**
+<i>532</i>&nbsp;     * Warns user of invalid build action: he cannot build a dome underneath himself.
+<i>533</i>&nbsp;     * This error can only occur if player uses Zeus&#39; power.
+<i>534</i>&nbsp;     */
+<i>535</i>&nbsp;    public void printCannotBuildDomeUnderneath() {
+<i>536</i>&nbsp;
+<b class="nc"><i>537</i>&nbsp;        Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>538</i>&nbsp;            boardController.printToMainText(&quot;You cannot build a dome underneath yourself.&quot;);</b>
+<b class="nc"><i>539</i>&nbsp;            boardController.printToGodTextArea(&quot;&quot;);</b>
+<b class="nc"><i>540</i>&nbsp;            boardController.setConfirmButtonVisible();</b>
+<i>541</i>&nbsp;        });
+<i>542</i>&nbsp;
+<b class="nc"><i>543</i>&nbsp;        acceptTextBarInfo();</b>
+<i>544</i>&nbsp;    }
+<i>545</i>&nbsp;
+<i>546</i>&nbsp;
+<i>547</i>&nbsp;    /**
+<i>548</i>&nbsp;     * The player has won the game, so the winning scene is going to be loaded.
+<i>549</i>&nbsp;     *
+<i>550</i>&nbsp;     * @return Generic return to ensure server waits for confirmation from client before disconnecting it.
+<i>551</i>&nbsp;     */
+<i>552</i>&nbsp;    public boolean winningView() {
+<i>553</i>&nbsp;
+<i>554</i>&nbsp;        try {
+<b class="nc"><i>555</i>&nbsp;            AnchorPane win = FXMLLoader.load(getClass().getResource(&quot;/scenes/win.fxml&quot;));</b>
+<i>556</i>&nbsp;
+<b class="nc"><i>557</i>&nbsp;            Platform.runLater(() -&gt; {</b>
+<i>558</i>&nbsp;
+<b class="nc"><i>559</i>&nbsp;                for (Node child : boardRoot.getChildrenUnmodifiable())</b>
+<b class="nc"><i>560</i>&nbsp;                    child.setEffect(new GaussianBlur());</b>
+<i>561</i>&nbsp;
+<b class="nc"><i>562</i>&nbsp;                ((GridPane) boardRoot).getChildren().add(win);</b>
+<i>563</i>&nbsp;            });
+<b class="nc"><i>564</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>565</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>566</i>&nbsp;        }</b>
+<b class="nc"><i>567</i>&nbsp;        return true;</b>
+<i>568</i>&nbsp;    }
+<i>569</i>&nbsp;
+<i>570</i>&nbsp;
+<i>571</i>&nbsp;    /**
+<i>572</i>&nbsp;     * Lets the player know he has lost the game because both of his workers cannot move.
+<i>573</i>&nbsp;     *
+<i>574</i>&nbsp;     * @return Generic return to ensure server waits for confirmation from client before disconnecting it.
+<i>575</i>&nbsp;     */
+<i>576</i>&nbsp;    public boolean unableToMoveLose() {
+<b class="nc"><i>577</i>&nbsp;        Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>578</i>&nbsp;            boardController.printToMainText(&quot;You cannot move anywhere!&quot;);</b>
+<b class="nc"><i>579</i>&nbsp;            boardController.printToGodTextArea(&quot;&quot;);</b>
+<b class="nc"><i>580</i>&nbsp;            boardController.setConfirmButtonVisible();</b>
+<i>581</i>&nbsp;        });
+<b class="nc"><i>582</i>&nbsp;        acceptTextBarInfo();</b>
+<b class="nc"><i>583</i>&nbsp;        losingView(&quot;unable to move&quot;);</b>
+<b class="nc"><i>584</i>&nbsp;        return true;</b>
+<i>585</i>&nbsp;    }
+<i>586</i>&nbsp;
+<i>587</i>&nbsp;
+<i>588</i>&nbsp;    /**
+<i>589</i>&nbsp;     * Lets the player know he has lost the game because both of his workers cannot build.
+<i>590</i>&nbsp;     *
+<i>591</i>&nbsp;     * @return Generic return to ensure server waits for confirmation from client before disconnecting it.
+<i>592</i>&nbsp;     */
+<i>593</i>&nbsp;    public boolean unableToBuildLose() {
+<i>594</i>&nbsp;
+<b class="nc"><i>595</i>&nbsp;        Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>596</i>&nbsp;            boardController.printToMainText(&quot;You cannot build anywhere!&quot;);</b>
+<b class="nc"><i>597</i>&nbsp;            boardController.printToGodTextArea(&quot;&quot;);</b>
+<b class="nc"><i>598</i>&nbsp;            boardController.setConfirmButtonVisible();</b>
+<i>599</i>&nbsp;        });
+<i>600</i>&nbsp;
+<b class="nc"><i>601</i>&nbsp;        acceptTextBarInfo();</b>
+<b class="nc"><i>602</i>&nbsp;        losingView(&quot;unable to build&quot;);</b>
+<b class="nc"><i>603</i>&nbsp;        return true;</b>
+<i>604</i>&nbsp;    }
+<i>605</i>&nbsp;
+<i>606</i>&nbsp;
+<i>607</i>&nbsp;    /**
+<i>608</i>&nbsp;     * In a 3 players game, this method notifies the other players that a player has lost the game.
+<i>609</i>&nbsp;     *
+<i>610</i>&nbsp;     * @param loserNickname The nickname of the player that has lost the game.
+<i>611</i>&nbsp;     */
+<i>612</i>&nbsp;    public void notifyPlayersOfLoss(String loserNickname) {
+<i>613</i>&nbsp;        //updated for consistency but never used again
+<b class="nc"><i>614</i>&nbsp;        numberOfPlayers.decrementAndGet();</b>
+<i>615</i>&nbsp;
+<b class="nc"><i>616</i>&nbsp;        Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>617</i>&nbsp;            boardController.printToMainText(loserNickname + &quot; has lost this game!&quot;);</b>
+<b class="nc"><i>618</i>&nbsp;            boardController.printToGodTextArea(&quot;&quot;);</b>
+<b class="nc"><i>619</i>&nbsp;            boardController.setConfirmButtonVisible();</b>
+<b class="nc"><i>620</i>&nbsp;            boardController.removeGodFrame(loserNickname);</b>
+<i>621</i>&nbsp;        });
+<b class="nc"><i>622</i>&nbsp;        acceptTextBarInfo();</b>
+<i>623</i>&nbsp;    }
+<i>624</i>&nbsp;
+<i>625</i>&nbsp;    /**
+<i>626</i>&nbsp;     * This method lets the system show an updated version of the Board.
+<i>627</i>&nbsp;     */
+<i>628</i>&nbsp;    public void printMap() {
+<b class="nc"><i>629</i>&nbsp;        Platform.runLater(() -&gt; boardController.printMap());</b>
+<i>630</i>&nbsp;    }
+<i>631</i>&nbsp;
+<i>632</i>&nbsp;
+<i>633</i>&nbsp;    /**
+<i>634</i>&nbsp;     * Updates the cell of the board that has changed its contents.
+<i>635</i>&nbsp;     *
+<i>636</i>&nbsp;     * @param toUpdateCell The cell that needs to be updated.
+<i>637</i>&nbsp;     */
+<i>638</i>&nbsp;    public void update(CellClient toUpdateCell) {
+<b class="nc"><i>639</i>&nbsp;        boardController.update(toUpdateCell);</b>
+<i>640</i>&nbsp;    }
+<i>641</i>&nbsp;
+<i>642</i>&nbsp;
+<i>643</i>&nbsp;    /**
+<i>644</i>&nbsp;     * Shows all the Gods chosen by the challenger for the current game, going to the correct scene.
+<i>645</i>&nbsp;     *
+<i>646</i>&nbsp;     * @param chosenGods The list of the chosen gods.
+<i>647</i>&nbsp;     */
+<i>648</i>&nbsp;    public void printChosenGods(ArrayList&lt;String&gt; chosenGods) {
+<b class="nc"><i>649</i>&nbsp;        Platform.runLater(() -&gt; chooseGodController.printChosenGods(chosenGods));</b>
+<i>650</i>&nbsp;    }
+<i>651</i>&nbsp;
+<i>652</i>&nbsp;
+<i>653</i>&nbsp;    /**
+<i>654</i>&nbsp;     * Lets the player know the selected worker cannot move.
+<i>655</i>&nbsp;     *
+<i>656</i>&nbsp;     * @param sex The sex of the selected worker
+<i>657</i>&nbsp;     */
+<i>658</i>&nbsp;    public void selectedWorkerCannotMove(String sex) {
+<i>659</i>&nbsp;
+<b class="nc"><i>660</i>&nbsp;        String selectedWorkerSex = sex.toLowerCase();</b>
+<i>661</i>&nbsp;        String otherSex;
+<i>662</i>&nbsp;
+<b class="nc"><i>663</i>&nbsp;        if (selectedWorkerSex.equals(&quot;male&quot;))</b>
+<b class="nc"><i>664</i>&nbsp;            otherSex = &quot;female&quot;;</b>
+<i>665</i>&nbsp;        else
+<b class="nc"><i>666</i>&nbsp;            otherSex = &quot;male&quot;;</b>
+<i>667</i>&nbsp;
+<b class="nc"><i>668</i>&nbsp;        Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>669</i>&nbsp;            boardController.printToMainText(&quot;Your &quot; + selectedWorkerSex +</b>
+<i>670</i>&nbsp;                    &quot; worker cannot move, you must play with your &quot; + otherSex + &quot; worker&quot;);
+<b class="nc"><i>671</i>&nbsp;            boardController.printToGodTextArea(&quot;&quot;);</b>
+<b class="nc"><i>672</i>&nbsp;            boardController.setConfirmButtonVisible();</b>
+<i>673</i>&nbsp;        });
+<i>674</i>&nbsp;
+<b class="nc"><i>675</i>&nbsp;        selectedWorker = boardClient.get().findWorker(myColor, otherSex);</b>
+<b class="nc"><i>676</i>&nbsp;        acceptTextBarInfo();</b>
+<i>677</i>&nbsp;    }
+<i>678</i>&nbsp;
+<i>679</i>&nbsp;
+<i>680</i>&nbsp;    /**
+<i>681</i>&nbsp;     * This method asks the user to insert the position where he wants to build.
+<i>682</i>&nbsp;     *
+<i>683</i>&nbsp;     * @return The compass direction of the place where to build.
+<i>684</i>&nbsp;     */
+<i>685</i>&nbsp;    public String askBuildingDirection() {
+<b class="nc"><i>686</i>&nbsp;        return build();</b>
+<i>687</i>&nbsp;    }
+<i>688</i>&nbsp;
+<i>689</i>&nbsp;
+<i>690</i>&nbsp;    private String build() {
+<b class="nc"><i>691</i>&nbsp;        int[] chosenCell = new int[2];</b>
+<i>692</i>&nbsp;
+<i>693</i>&nbsp;
+<b class="nc"><i>694</i>&nbsp;        Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>695</i>&nbsp;            boardController.setCellRequested(true);</b>
+<b class="nc"><i>696</i>&nbsp;            boardController.printToMainText(&quot;Build!&quot;);</b>
+<i>697</i>&nbsp;        });
+<i>698</i>&nbsp;
+<i>699</i>&nbsp;
+<i>700</i>&nbsp;        try {
+<b class="nc"><i>701</i>&nbsp;            chosenCell[0] = (Integer) queue.take(); //row</b>
+<b class="nc"><i>702</i>&nbsp;            chosenCell[1] = (Integer) queue.take(); //column</b>
+<i>703</i>&nbsp;
+<b class="nc"><i>704</i>&nbsp;        } catch (InterruptedException e) {</b>
+<b class="nc"><i>705</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>706</i>&nbsp;        }</b>
+<i>707</i>&nbsp;
+<i>708</i>&nbsp;
+<b class="nc"><i>709</i>&nbsp;        return boardClient.get()</b>
+<b class="nc"><i>710</i>&nbsp;                .workerCellRelativePositionCompass(selectedWorker, chosenCell[0], chosenCell[1]);</b>
+<i>711</i>&nbsp;    }
+<i>712</i>&nbsp;
+<i>713</i>&nbsp;
+<i>714</i>&nbsp;    /**
+<i>715</i>&nbsp;     * This method asks to Atlas&#39; owner to insert the position where he wants to build and what type of building.
+<i>716</i>&nbsp;     *
+<i>717</i>&nbsp;     * @return The compass direction of the place where to build.
+<i>718</i>&nbsp;     */
+<i>719</i>&nbsp;    public String[] askBuildingDirectionAtlas() {
+<i>720</i>&nbsp;
+<b class="nc"><i>721</i>&nbsp;        String[] selectedBuildingDirection = new String[2];</b>
+<i>722</i>&nbsp;
+<b class="nc"><i>723</i>&nbsp;        selectedBuildingDirection[0] = build(); //choose building direction (N,S,W,E..)</b>
+<b class="nc"><i>724</i>&nbsp;        selectedBuildingDirection[1] = askToUseAtlasPower(); //building type (B or D)</b>
+<i>725</i>&nbsp;
+<b class="nc"><i>726</i>&nbsp;        return selectedBuildingDirection;</b>
+<i>727</i>&nbsp;
+<i>728</i>&nbsp;    }
+<i>729</i>&nbsp;
+<i>730</i>&nbsp;
+<i>731</i>&nbsp;    private String askToUseAtlasPower() {
+<b class="nc"><i>732</i>&nbsp;        Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>733</i>&nbsp;            boardController.setGodPowerRequested(true);</b>
+<b class="nc"><i>734</i>&nbsp;            boardController.printToMainText(&quot;Choose if you want to build a BLOCK or a DOME&quot;);</b>
+<b class="nc"><i>735</i>&nbsp;            boardController.enableGodPower();</b>
+<i>736</i>&nbsp;        });
+<i>737</i>&nbsp;
+<b class="nc"><i>738</i>&nbsp;        String answer = null;</b>
+<i>739</i>&nbsp;
+<i>740</i>&nbsp;        try {
+<b class="nc"><i>741</i>&nbsp;            answer = (String) queue.take();</b>
+<b class="nc"><i>742</i>&nbsp;        } catch (InterruptedException e) {</b>
+<b class="nc"><i>743</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>744</i>&nbsp;        }</b>
+<i>745</i>&nbsp;
+<b class="nc"><i>746</i>&nbsp;        Platform.runLater(() -&gt; boardController.disableGodPower());</b>
+<i>747</i>&nbsp;
+<b class="nc"><i>748</i>&nbsp;        return answer;</b>
+<i>749</i>&nbsp;    }
+<i>750</i>&nbsp;
+<i>751</i>&nbsp;
+<i>752</i>&nbsp;    /**
+<i>753</i>&nbsp;     * This method asks the user to insert the direction of his next movement.
+<i>754</i>&nbsp;     *
+<i>755</i>&nbsp;     * @return The compass direction of the movement.
+<i>756</i>&nbsp;     */
+<i>757</i>&nbsp;    public String askMovementDirection() {
+<b class="nc"><i>758</i>&nbsp;        return move();</b>
+<i>759</i>&nbsp;    }
+<i>760</i>&nbsp;
+<i>761</i>&nbsp;
+<i>762</i>&nbsp;    private String move() {
+<i>763</i>&nbsp;
+<b class="nc"><i>764</i>&nbsp;        int[] chosenCell = new int[2];</b>
+<i>765</i>&nbsp;
+<b class="nc"><i>766</i>&nbsp;        Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>767</i>&nbsp;            boardController.setCellRequested(true);</b>
+<b class="nc"><i>768</i>&nbsp;            boardController.printToMainText(&quot;Move your worker!&quot;);</b>
+<i>769</i>&nbsp;        });
+<i>770</i>&nbsp;
+<i>771</i>&nbsp;        try {
+<b class="nc"><i>772</i>&nbsp;            chosenCell[0] = (Integer) queue.take();//row</b>
+<b class="nc"><i>773</i>&nbsp;            chosenCell[1] = (Integer) queue.take();//column</b>
+<i>774</i>&nbsp;
+<b class="nc"><i>775</i>&nbsp;        } catch (InterruptedException e) {</b>
+<b class="nc"><i>776</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>777</i>&nbsp;        }</b>
+<i>778</i>&nbsp;
+<i>779</i>&nbsp;
+<b class="nc"><i>780</i>&nbsp;        return boardClient.get()</b>
+<b class="nc"><i>781</i>&nbsp;                .workerCellRelativePositionCompass(selectedWorker, chosenCell[0], chosenCell[1]);</b>
+<i>782</i>&nbsp;    }
+<i>783</i>&nbsp;
+<i>784</i>&nbsp;
+<i>785</i>&nbsp;    /**
+<i>786</i>&nbsp;     * Allows to get the input of the player to move again.
+<i>787</i>&nbsp;     *
+<i>788</i>&nbsp;     * @return The will of the player on keeping going moving his worker on the board.
+<i>789</i>&nbsp;     */
+<i>790</i>&nbsp;    public String askMoveAgain() {
+<b class="nc"><i>791</i>&nbsp;        return askToUseGodPower();</b>
+<i>792</i>&nbsp;    }
+<i>793</i>&nbsp;
+<i>794</i>&nbsp;
+<i>795</i>&nbsp;    private String askToUseGodPower() {
+<b class="nc"><i>796</i>&nbsp;        Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>797</i>&nbsp;            boardController.setGodPowerRequested(true);</b>
+<b class="nc"><i>798</i>&nbsp;            boardController.printToMainText(&quot;Choose if you want to use your god power&quot;);</b>
+<b class="nc"><i>799</i>&nbsp;            boardController.enableGodPower();</b>
+<i>800</i>&nbsp;        });
+<i>801</i>&nbsp;
+<b class="nc"><i>802</i>&nbsp;        String answer = null;</b>
+<i>803</i>&nbsp;
+<i>804</i>&nbsp;        try {
+<b class="nc"><i>805</i>&nbsp;            answer = (String) queue.take();</b>
+<b class="nc"><i>806</i>&nbsp;        } catch (InterruptedException e) {</b>
+<b class="nc"><i>807</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>808</i>&nbsp;        }</b>
+<i>809</i>&nbsp;
+<b class="nc"><i>810</i>&nbsp;        Platform.runLater(() -&gt; boardController.disableGodPower());</b>
+<i>811</i>&nbsp;
+<b class="nc"><i>812</i>&nbsp;        return answer;</b>
+<i>813</i>&nbsp;    }
+<i>814</i>&nbsp;
+<i>815</i>&nbsp;
+<i>816</i>&nbsp;    /**
+<i>817</i>&nbsp;     * Allows to get the input of the player to move an enemy&#39;s worker.
+<i>818</i>&nbsp;     *
+<i>819</i>&nbsp;     * @return The will of the player to move an enemy&#39;s worker
+<i>820</i>&nbsp;     */
+<i>821</i>&nbsp;    public String askWantToMoveEnemy() {
+<b class="nc"><i>822</i>&nbsp;        return askToUseGodPower();</b>
+<i>823</i>&nbsp;    }
+<i>824</i>&nbsp;
+<i>825</i>&nbsp;
+<i>826</i>&nbsp;    /**
+<i>827</i>&nbsp;     * Allows to move one worker&#39;s enemy.
+<i>828</i>&nbsp;     *
+<i>829</i>&nbsp;     * @param enemyWorkers It&#39;s the list of the neighbour movable enemy workers.
+<i>830</i>&nbsp;     * @param myWorker     It&#39;s the chosen worker of the current player.
+<i>831</i>&nbsp;     * @return The Worker to move selected by the player, null if there aren&#39;t enemies around.
+<i>832</i>&nbsp;     */
+<i>833</i>&nbsp;    public String askWorkerToMove(ArrayList&lt;WorkerClient&gt; enemyWorkers, WorkerClient myWorker) {
+<b class="nc"><i>834</i>&nbsp;        return selectEnemyWorker();</b>
+<i>835</i>&nbsp;    }
+<i>836</i>&nbsp;
+<i>837</i>&nbsp;
+<i>838</i>&nbsp;    private String selectEnemyWorker() {
+<i>839</i>&nbsp;
+<b class="nc"><i>840</i>&nbsp;        int[] chosenCell = new int[2];</b>
+<i>841</i>&nbsp;
+<i>842</i>&nbsp;        while (true) {
+<b class="nc"><i>843</i>&nbsp;            Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>844</i>&nbsp;                boardController.setCellRequested(true);</b>
+<b class="nc"><i>845</i>&nbsp;                boardController.printToMainText(&quot;Select a neighboring enemy worker!&quot;);</b>
+<i>846</i>&nbsp;            });
+<i>847</i>&nbsp;
+<i>848</i>&nbsp;            try {
+<b class="nc"><i>849</i>&nbsp;                chosenCell[0] = (Integer) queue.take(); //row</b>
+<b class="nc"><i>850</i>&nbsp;                chosenCell[1] = (Integer) queue.take(); //column</b>
+<i>851</i>&nbsp;
+<b class="nc"><i>852</i>&nbsp;            } catch (InterruptedException e) {</b>
+<b class="nc"><i>853</i>&nbsp;                e.printStackTrace();</b>
+<b class="nc"><i>854</i>&nbsp;            }</b>
+<i>855</i>&nbsp;
+<i>856</i>&nbsp;            //check if cell contains worker
+<b class="nc"><i>857</i>&nbsp;            WorkerClient clickedWorker = boardClient.get().findCell(chosenCell[0], chosenCell[1]).getWorkerClient();</b>
+<i>858</i>&nbsp;
+<b class="nc"><i>859</i>&nbsp;            if (clickedWorker != null</b>
+<b class="nc"><i>860</i>&nbsp;                    &amp;&amp; !clickedWorker.getWorkerColor().toLowerCase().equals(myColor.toLowerCase())) {</b>
+<i>861</i>&nbsp;
+<b class="nc"><i>862</i>&nbsp;                String result = boardClient.get()</b>
+<b class="nc"><i>863</i>&nbsp;                        .workerCellRelativePositionCompass(selectedWorker, chosenCell[0], chosenCell[1]);</b>
+<i>864</i>&nbsp;
+<b class="nc"><i>865</i>&nbsp;                if (!result.equals(&quot;FALSE&quot;) &amp;&amp; !result.equals(&quot;U&quot;))</b>
+<b class="nc"><i>866</i>&nbsp;                    return result;</b>
+<i>867</i>&nbsp;            }
+<i>868</i>&nbsp;
+<b class="nc"><i>869</i>&nbsp;            Platform.runLater(() -&gt;</b>
+<b class="nc"><i>870</i>&nbsp;                    boardController.printToMainText(&quot;You have to select an enemy worker!\nTry Again&quot;));</b>
+<i>871</i>&nbsp;
+<b class="nc"><i>872</i>&nbsp;        }</b>
+<i>873</i>&nbsp;
+<i>874</i>&nbsp;    }
+<i>875</i>&nbsp;
+<i>876</i>&nbsp;
+<i>877</i>&nbsp;
+<i>878</i>&nbsp;    /**
+<i>879</i>&nbsp;     * Asks to the player that holds Hephaestus as a God if he wants to build again.
+<i>880</i>&nbsp;     *
+<i>881</i>&nbsp;     * @return The will of the player to build again.
+<i>882</i>&nbsp;     */
+<i>883</i>&nbsp;    public String askBuildAgainHephaestus() {
+<b class="nc"><i>884</i>&nbsp;        return askToUseGodPower();</b>
+<i>885</i>&nbsp;    }
+<i>886</i>&nbsp;
+<i>887</i>&nbsp;
+<i>888</i>&nbsp;    /**
+<i>889</i>&nbsp;     * Asks to the player that holds Demeter as a God if he wants to build again.
+<i>890</i>&nbsp;     *
+<i>891</i>&nbsp;     * @return The will of the player to build again.
+<i>892</i>&nbsp;     */
+<i>893</i>&nbsp;    public String askBuildAgainDemeter() {
+<b class="nc"><i>894</i>&nbsp;        return askToUseGodPower();</b>
+<i>895</i>&nbsp;    }
+<i>896</i>&nbsp;
+<i>897</i>&nbsp;
+<i>898</i>&nbsp;    /**
+<i>899</i>&nbsp;     * Asks to the player that holds Hestia as a God if he wants to build again.
+<i>900</i>&nbsp;     *
+<i>901</i>&nbsp;     * @return The will of the player to build again.
+<i>902</i>&nbsp;     */
+<i>903</i>&nbsp;    public String askBuildAgainHestia() {
+<b class="nc"><i>904</i>&nbsp;        return askToUseGodPower();</b>
+<i>905</i>&nbsp;    }
+<i>906</i>&nbsp;
+<i>907</i>&nbsp;
+<i>908</i>&nbsp;    /**
+<i>909</i>&nbsp;     * Asks to the player that holds Prometheus as a God if he wants to build before moving.
+<i>910</i>&nbsp;     *
+<i>911</i>&nbsp;     * @return The will of the player to build before moving.
+<i>912</i>&nbsp;     */
+<i>913</i>&nbsp;    public String askBuildPrometheus() {
+<b class="nc"><i>914</i>&nbsp;        return askToUseGodPower();</b>
+<i>915</i>&nbsp;    }
+<i>916</i>&nbsp;
+<i>917</i>&nbsp;
+<i>918</i>&nbsp;    /**
+<i>919</i>&nbsp;     * Points out the player cannot move in a certain position.
+<i>920</i>&nbsp;     */
+<i>921</i>&nbsp;    public void printMoveErrorScreen() {
+<b class="nc"><i>922</i>&nbsp;        Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>923</i>&nbsp;            boardController.printToMainText(&quot;You cannot move here!&quot;);</b>
+<b class="nc"><i>924</i>&nbsp;            boardController.printToGodTextArea(&quot;&quot;);</b>
+<b class="nc"><i>925</i>&nbsp;            boardController.setConfirmButtonVisible();</b>
+<i>926</i>&nbsp;        });
+<i>927</i>&nbsp;
+<b class="nc"><i>928</i>&nbsp;        acceptTextBarInfo();</b>
+<i>929</i>&nbsp;    }
+<i>930</i>&nbsp;
+<i>931</i>&nbsp;
+<i>932</i>&nbsp;    /**
+<i>933</i>&nbsp;     * Asks the player if he still wants to move during this turn.
+<i>934</i>&nbsp;     *
+<i>935</i>&nbsp;     * @return Y for a positive answer, N for a negative one.
+<i>936</i>&nbsp;     */
+<i>937</i>&nbsp;    public String printMoveDecisionError() {
+<b class="nc"><i>938</i>&nbsp;        return askToUseGodPower();</b>
+<i>939</i>&nbsp;    }
+<i>940</i>&nbsp;
+<i>941</i>&nbsp;
+<i>942</i>&nbsp;    /**
+<i>943</i>&nbsp;     * Asks the player if he still wants to build during this turn.
+<i>944</i>&nbsp;     *
+<i>945</i>&nbsp;     * @return Y for a positive answer, N for a negative one.
+<i>946</i>&nbsp;     */
+<i>947</i>&nbsp;    public String printBuildDecisionError() {
+<b class="nc"><i>948</i>&nbsp;        return askToUseGodPower();</b>
+<i>949</i>&nbsp;    }
+<i>950</i>&nbsp;
+<i>951</i>&nbsp;
+<i>952</i>&nbsp;    /**
+<i>953</i>&nbsp;     * Points out a player is not allowed to build.
+<i>954</i>&nbsp;     */
+<i>955</i>&nbsp;    public void printBuildGeneralErrorScreen() {
+<b class="nc"><i>956</i>&nbsp;        Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>957</i>&nbsp;            boardController.printToMainText(&quot;You cannot build here!&quot;);</b>
+<b class="nc"><i>958</i>&nbsp;            boardController.printToGodTextArea(&quot;&quot;);</b>
+<b class="nc"><i>959</i>&nbsp;            boardController.setConfirmButtonVisible();</b>
+<i>960</i>&nbsp;        });
+<i>961</i>&nbsp;
+<b class="nc"><i>962</i>&nbsp;        acceptTextBarInfo();</b>
+<i>963</i>&nbsp;    }
+<i>964</i>&nbsp;
+<i>965</i>&nbsp;
+<i>966</i>&nbsp;    /**
+<i>967</i>&nbsp;     * Points out a player is not allowed to build a block in a certain position.
+<i>968</i>&nbsp;     */
+<i>969</i>&nbsp;    public void printBuildBlockErrorScreen() {
+<b class="nc"><i>970</i>&nbsp;        Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>971</i>&nbsp;            boardController.printToMainText(&quot;You cannot build a block here!&quot;);</b>
+<b class="nc"><i>972</i>&nbsp;            boardController.printToGodTextArea(&quot;&quot;);</b>
+<b class="nc"><i>973</i>&nbsp;            boardController.setConfirmButtonVisible();</b>
+<i>974</i>&nbsp;        });
+<i>975</i>&nbsp;
+<b class="nc"><i>976</i>&nbsp;        acceptTextBarInfo();</b>
+<i>977</i>&nbsp;    }
+<i>978</i>&nbsp;
+<i>979</i>&nbsp;
+<i>980</i>&nbsp;    /**
+<i>981</i>&nbsp;     * Points out that a player is not allowed to build again in a certain position.
+<i>982</i>&nbsp;     */
+<i>983</i>&nbsp;    public void printBuildInSamePositionScreen() {
+<b class="nc"><i>984</i>&nbsp;        Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>985</i>&nbsp;            boardController.printToMainText(&quot;You cannot build again here!&quot;);</b>
+<b class="nc"><i>986</i>&nbsp;            boardController.printToGodTextArea(&quot;&quot;);</b>
+<b class="nc"><i>987</i>&nbsp;            boardController.setConfirmButtonVisible();</b>
+<i>988</i>&nbsp;        });
+<i>989</i>&nbsp;
+<b class="nc"><i>990</i>&nbsp;        acceptTextBarInfo();</b>
+<i>991</i>&nbsp;    }
+<i>992</i>&nbsp;
+<i>993</i>&nbsp;
+<i>994</i>&nbsp;    /**
+<i>995</i>&nbsp;     * Lets player know that the challenger is choosing the gods for the game.
+<i>996</i>&nbsp;     *
+<i>997</i>&nbsp;     * @param challenger nickname of the challenger.
+<i>998</i>&nbsp;     */
+<i>999</i>&nbsp;    public void waitChallengerChooseGods(String challenger) {
+<b class="nc"><i>1000</i>&nbsp;        Platform.runLater(() -&gt; chooseGodController.waitChallengerChooseGods(challenger));</b>
+<i>1001</i>&nbsp;    }
+<i>1002</i>&nbsp;
+<i>1003</i>&nbsp;
+<i>1004</i>&nbsp;    /**
+<i>1005</i>&nbsp;     * Lets player know that another player is choosing his god.
+<i>1006</i>&nbsp;     *
+<i>1007</i>&nbsp;     * @param otherPlayer the player that is choosing his god.
+<i>1008</i>&nbsp;     */
+<i>1009</i>&nbsp;    public void waitOtherPlayerChooseGod(String otherPlayer) {
+<b class="nc"><i>1010</i>&nbsp;        Platform.runLater(() -&gt; chooseGodController.waitOtherPlayerChooseGod(otherPlayer));</b>
+<i>1011</i>&nbsp;    }
+<i>1012</i>&nbsp;
+<i>1013</i>&nbsp;
+<i>1014</i>&nbsp;    /**
+<i>1015</i>&nbsp;     * Lets player know the god chosen by another player.
+<i>1016</i>&nbsp;     *
+<i>1017</i>&nbsp;     * @param otherPlayer player who chose the god.
+<i>1018</i>&nbsp;     * @param chosenGod   god chosen by the otherPlayer.
+<i>1019</i>&nbsp;     */
+<i>1020</i>&nbsp;    public void otherPlayerChoseGod(String otherPlayer, String chosenGod) {
+<b class="nc"><i>1021</i>&nbsp;        Platform.runLater(() -&gt; chooseGodController.otherPlayerChoseGod(otherPlayer, chosenGod));</b>
+<b class="nc"><i>1022</i>&nbsp;        setPlayerGod(otherPlayer, chosenGod);</b>
+<i>1023</i>&nbsp;    }
+<i>1024</i>&nbsp;
+<i>1025</i>&nbsp;
+<i>1026</i>&nbsp;    /**
+<i>1027</i>&nbsp;     * Lets player know that the challenger is choosing the start player.
+<i>1028</i>&nbsp;     */
+<i>1029</i>&nbsp;    public void waitChallengerStartPlayer() {
+<b class="nc"><i>1030</i>&nbsp;        Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>1031</i>&nbsp;            boardController.init();</b>
+<b class="nc"><i>1032</i>&nbsp;            boardController.printToMainText(&quot;Waiting for challenger to choose the start player...&quot;);</b>
+<b class="nc"><i>1033</i>&nbsp;            Gui.getStage().setScene(new Scene(boardRoot));</b>
+<i>1034</i>&nbsp;        });
+<i>1035</i>&nbsp;    }
+<i>1036</i>&nbsp;
+<i>1037</i>&nbsp;
+<i>1038</i>&nbsp;    /**
+<i>1039</i>&nbsp;     * Lets player know who is the start player.
+<i>1040</i>&nbsp;     *
+<i>1041</i>&nbsp;     * @param startPlayer start player nickname.
+<i>1042</i>&nbsp;     */
+<i>1043</i>&nbsp;    public void printStartPlayer(String startPlayer) {
+<b class="nc"><i>1044</i>&nbsp;        Platform.runLater(() -&gt; {</b>
+<i>1045</i>&nbsp;            //first if is useless: will be immediately overwritten by initial worker position
+<b class="nc"><i>1046</i>&nbsp;            if (startPlayer.equals(myNickname))</b>
+<b class="nc"><i>1047</i>&nbsp;                boardController.printToMainText(&quot;You are the start player!&quot;);</b>
+<i>1048</i>&nbsp;            else
+<b class="nc"><i>1049</i>&nbsp;                boardController.printToMainText(startPlayer + &quot; is the start player!&quot;);</b>
+<i>1050</i>&nbsp;        });
+<i>1051</i>&nbsp;    }
+<i>1052</i>&nbsp;
+<i>1053</i>&nbsp;
+<i>1054</i>&nbsp;    /**
+<i>1055</i>&nbsp;     * Lets  player know that another player is choosing the initial position for his workers.
+<i>1056</i>&nbsp;     *
+<i>1057</i>&nbsp;     * @param player player who is performing the action.
+<i>1058</i>&nbsp;     */
+<i>1059</i>&nbsp;    public void otherPlayerSettingInitialWorkerPosition(String player) {
+<b class="nc"><i>1060</i>&nbsp;        Platform.runLater(() -&gt; boardController.printToMainText(&quot;Other player&#39;s setting initial worker&#39;s position. Wait...&quot;));</b>
+<i>1061</i>&nbsp;    }
+<i>1062</i>&nbsp;
+<i>1063</i>&nbsp;
+<i>1064</i>&nbsp;    /**
+<i>1065</i>&nbsp;     * Lets player know that it&#39;s another player&#39;s turn.
+<i>1066</i>&nbsp;     *
+<i>1067</i>&nbsp;     * @param currentPlayer nickname of the player that is playing his turn.
+<i>1068</i>&nbsp;     */
+<i>1069</i>&nbsp;    public void otherPlayerTurn(String currentPlayer) {
+<b class="nc"><i>1070</i>&nbsp;        Platform.runLater(() -&gt; boardController.printToMainText(&quot;Other player&#39;s turn. Wait...&quot;));</b>
+<i>1071</i>&nbsp;    }
+<i>1072</i>&nbsp;
+<i>1073</i>&nbsp;
+<i>1074</i>&nbsp;    /**
+<i>1075</i>&nbsp;     * Lets player know that he has lost, and who is the winner.
+<i>1076</i>&nbsp;     *
+<i>1077</i>&nbsp;     * @param endgameText text to display on lose.
+<i>1078</i>&nbsp;     * @return Always returns true.
+<i>1079</i>&nbsp;     */
+<i>1080</i>&nbsp;    public boolean losingView(String endgameText) {
+<i>1081</i>&nbsp;
+<i>1082</i>&nbsp;        try {
+<b class="nc"><i>1083</i>&nbsp;            FXMLLoader loseLoader = new FXMLLoader(getClass().getResource(&quot;/scenes/lose.fxml&quot;));</b>
+<b class="nc"><i>1084</i>&nbsp;            AnchorPane lose = loseLoader.load();</b>
+<b class="nc"><i>1085</i>&nbsp;            EndGameController loseController = loseLoader.getController();</b>
+<i>1086</i>&nbsp;
+<b class="nc"><i>1087</i>&nbsp;            Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>1088</i>&nbsp;                loseController.setEndgameText(endgameText);</b>
+<i>1089</i>&nbsp;
+<b class="nc"><i>1090</i>&nbsp;                for (Node child : boardRoot.getChildrenUnmodifiable())</b>
+<b class="nc"><i>1091</i>&nbsp;                    child.setEffect(new GaussianBlur());</b>
+<i>1092</i>&nbsp;
+<b class="nc"><i>1093</i>&nbsp;                ((GridPane) boardRoot).getChildren().add(lose);</b>
+<i>1094</i>&nbsp;            });
+<b class="nc"><i>1095</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>1096</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>1097</i>&nbsp;        }</b>
+<i>1098</i>&nbsp;
+<b class="nc"><i>1099</i>&nbsp;        return true;</b>
+<i>1100</i>&nbsp;    }
+<i>1101</i>&nbsp;
+<i>1102</i>&nbsp;
+<i>1103</i>&nbsp;    /**
+<i>1104</i>&nbsp;     * Allows to get the confirm that the player has read the message on the main textbar of the board.
+<i>1105</i>&nbsp;     */
+<i>1106</i>&nbsp;    private void acceptTextBarInfo() {
+<i>1107</i>&nbsp;
+<i>1108</i>&nbsp;        boolean accept;
+<i>1109</i>&nbsp;        try {
+<i>1110</i>&nbsp;
+<i>1111</i>&nbsp;            do {
+<b class="nc"><i>1112</i>&nbsp;                accept = (boolean) queue.take();</b>
+<b class="nc"><i>1113</i>&nbsp;            } while (!accept);</b>
+<i>1114</i>&nbsp;
+<b class="nc"><i>1115</i>&nbsp;        } catch (InterruptedException e) {</b>
+<b class="nc"><i>1116</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>1117</i>&nbsp;        }</b>
+<i>1118</i>&nbsp;    }
+<i>1119</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 21:20</div>
+</div>
+</body>
+</html>

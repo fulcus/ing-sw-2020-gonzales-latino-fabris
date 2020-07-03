@@ -1,0 +1,237 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Player</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.server.model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Player (it.polimi.ingsw.server.model)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Player</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (14/ 14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (33/ 33)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Player$$EnhancerByMockitoWithCGLIB$$588ae49a</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (14/ 14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (33/ 33)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.server.model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.server.controller.god.God;
+<i>4</i>&nbsp;import it.polimi.ingsw.server.VirtualView;
+<i>5</i>&nbsp;import java.util.ArrayList;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;/**
+<i>9</i>&nbsp; * A player of the game.
+<i>10</i>&nbsp; * Every player corresponds to a specific client that is connected to play the game.
+<i>11</i>&nbsp; * It&#39;s characterized by a unique nickname, a color and a God card.
+<i>12</i>&nbsp; * Two workers are assigned to play the game on the board of the game.
+<i>13</i>&nbsp; */
+<i>14</i>&nbsp;public class Player {
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    private final Game game;
+<i>17</i>&nbsp;    private final String nickname;
+<i>18</i>&nbsp;    private Color color;
+<i>19</i>&nbsp;    private God god;
+<i>20</i>&nbsp;    private final ArrayList&lt;Worker&gt; workers;
+<i>21</i>&nbsp;    private boolean canWinInPerimeter;  //true if can win on perimeter
+<i>22</i>&nbsp;    private boolean canMoveUp;
+<i>23</i>&nbsp;    private final VirtualView client;
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    /**
+<i>27</i>&nbsp;     * Creates a Player.
+<i>28</i>&nbsp;     *
+<i>29</i>&nbsp;     * @param game     Represents the belonging game of the player.
+<i>30</i>&nbsp;     * @param nickname The name chosen by the user for the belonging game.
+<i>31</i>&nbsp;     * @param virtualView Instance of the client associated to this player.
+<i>32</i>&nbsp;     */
+<b class="fc"><i>33</i>&nbsp;    public Player(Game game, String nickname, VirtualView virtualView) {</b>
+<i>34</i>&nbsp;
+<b class="fc"><i>35</i>&nbsp;        this.game = game;</b>
+<b class="fc"><i>36</i>&nbsp;        this.nickname = nickname;</b>
+<b class="fc"><i>37</i>&nbsp;        this.client = virtualView;</b>
+<b class="fc"><i>38</i>&nbsp;        god = null;</b>
+<b class="fc"><i>39</i>&nbsp;        canWinInPerimeter = true;</b>
+<b class="fc"><i>40</i>&nbsp;        canMoveUp = true;</b>
+<b class="fc"><i>41</i>&nbsp;        workers = new ArrayList&lt;&gt;(2);</b>
+<b class="fc"><i>42</i>&nbsp;        workers.add(new Worker(this, Sex.MALE));</b>
+<b class="fc"><i>43</i>&nbsp;        workers.add(new Worker(this, Sex.FEMALE));</b>
+<b class="fc"><i>44</i>&nbsp;    }</b>
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;    /**
+<i>47</i>&nbsp;     * States that the player has lost and removes him and his workers from the game.
+<i>48</i>&nbsp;     */
+<i>49</i>&nbsp;    public void lose() {
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;        //remove workers from board
+<b class="fc"><i>52</i>&nbsp;        for (Worker worker : workers) {</b>
+<b class="fc"><i>53</i>&nbsp;            Cell workerCell = worker.getPosition();</b>
+<b class="fc"><i>54</i>&nbsp;            workerCell.moveOut();</b>
+<b class="fc"><i>55</i>&nbsp;        }</b>
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;        //remove from players arraylist
+<b class="fc"><i>58</i>&nbsp;        game.removePlayer(this);</b>
+<i>59</i>&nbsp;
+<b class="fc"><i>60</i>&nbsp;    }</b>
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;    public VirtualView getClient() {
+<b class="fc"><i>64</i>&nbsp;        return client;</b>
+<i>65</i>&nbsp;    }
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;    public String getNickname() {
+<b class="fc"><i>69</i>&nbsp;        return nickname;</b>
+<i>70</i>&nbsp;    }
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;
+<i>73</i>&nbsp;    public God getGod() {
+<b class="fc"><i>74</i>&nbsp;        return god;</b>
+<i>75</i>&nbsp;    }
+<i>76</i>&nbsp;
+<i>77</i>&nbsp;
+<i>78</i>&nbsp;    /**
+<i>79</i>&nbsp;     * Assigns to the player a God from the available Gods of the current game
+<i>80</i>&nbsp;     * @param god god to be assigned.
+<i>81</i>&nbsp;     */
+<i>82</i>&nbsp;    public void setGod(God god) {
+<b class="fc"><i>83</i>&nbsp;        this.god = god;</b>
+<b class="fc"><i>84</i>&nbsp;    }</b>
+<i>85</i>&nbsp;
+<i>86</i>&nbsp;
+<i>87</i>&nbsp;    public Color getColor() {
+<b class="fc"><i>88</i>&nbsp;        return color;</b>
+<i>89</i>&nbsp;    }
+<i>90</i>&nbsp;
+<i>91</i>&nbsp;
+<i>92</i>&nbsp;    public void setColor(Color color) {
+<b class="fc"><i>93</i>&nbsp;        this.color = color;</b>
+<b class="fc"><i>94</i>&nbsp;    }</b>
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;
+<i>97</i>&nbsp;    /**
+<i>98</i>&nbsp;     * Decides if the player has some restriction to win a perimeter cell of the board.
+<i>99</i>&nbsp;     *
+<i>100</i>&nbsp;     * @param value true allows the player to win in perimeter, false otherwise
+<i>101</i>&nbsp;     */
+<i>102</i>&nbsp;    public void setPermissionToWinInPerimeter(boolean value) {
+<b class="fc"><i>103</i>&nbsp;        canWinInPerimeter = value;</b>
+<b class="fc"><i>104</i>&nbsp;    }</b>
+<i>105</i>&nbsp;
+<i>106</i>&nbsp;
+<i>107</i>&nbsp;    /**
+<i>108</i>&nbsp;     * Decides if the player has some restriction to move a worker to a cell which has an higher level
+<i>109</i>&nbsp;     * than the one the selected worker is currently on.
+<i>110</i>&nbsp;     *
+<i>111</i>&nbsp;     * @param value true allows the player to move up, false otherwise
+<i>112</i>&nbsp;     */
+<i>113</i>&nbsp;    public void setPermissionToMoveUp(boolean value) {
+<b class="fc"><i>114</i>&nbsp;        canMoveUp = value;</b>
+<b class="fc"><i>115</i>&nbsp;    }</b>
+<i>116</i>&nbsp;
+<i>117</i>&nbsp;
+<i>118</i>&nbsp;    /**
+<i>119</i>&nbsp;     * @return True if the Player can move up, false if this player can not move up for the current turn
+<i>120</i>&nbsp;     */
+<i>121</i>&nbsp;    public boolean getCanMoveUp() {
+<b class="fc"><i>122</i>&nbsp;        return canMoveUp;</b>
+<i>123</i>&nbsp;    }
+<i>124</i>&nbsp;
+<i>125</i>&nbsp;
+<i>126</i>&nbsp;    /**
+<i>127</i>&nbsp;     * @return True if the Player can win with a worker on the perimeter, false otherwise
+<i>128</i>&nbsp;     */
+<i>129</i>&nbsp;    public boolean getCanWinInPerimeter() {
+<b class="fc"><i>130</i>&nbsp;        return canWinInPerimeter;</b>
+<i>131</i>&nbsp;    }
+<i>132</i>&nbsp;
+<i>133</i>&nbsp;
+<i>134</i>&nbsp;    public ArrayList&lt;Worker&gt; getWorkers() {
+<b class="fc"><i>135</i>&nbsp;        return workers;</b>
+<i>136</i>&nbsp;    }
+<i>137</i>&nbsp;
+<i>138</i>&nbsp;
+<i>139</i>&nbsp;    public Game getGame() {
+<b class="fc"><i>140</i>&nbsp;        return game;</b>
+<i>141</i>&nbsp;    }
+<i>142</i>&nbsp;
+<i>143</i>&nbsp;
+<i>144</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 21:20</div>
+</div>
+</body>
+</html>

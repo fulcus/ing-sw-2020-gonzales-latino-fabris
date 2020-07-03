@@ -1,0 +1,146 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Athena</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.server.controller.god</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Athena (it.polimi.ingsw.server.controller.god)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Athena</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (14/ 14)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.server.controller.god;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.server.controller.GodController;
+<i>4</i>&nbsp;import it.polimi.ingsw.server.controller.UnableToBuildException;
+<i>5</i>&nbsp;import it.polimi.ingsw.server.controller.UnableToMoveException;
+<i>6</i>&nbsp;import it.polimi.ingsw.server.controller.WinException;
+<i>7</i>&nbsp;import it.polimi.ingsw.server.model.Player;
+<i>8</i>&nbsp;import it.polimi.ingsw.server.model.Worker;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;/**
+<i>12</i>&nbsp; * Represents the card of the God Athena.
+<i>13</i>&nbsp; * Allows to follow the instructions and to apply the effect of this specific God.
+<i>14</i>&nbsp; */
+<i>15</i>&nbsp;public class Athena extends God {
+<i>16</i>&nbsp;
+<b class="fc"><i>17</i>&nbsp;    public final String description = &quot;If one of your Workers moved up on your last turn, opponent Workers cannot move up this turn.&quot;;</b>
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    public Athena(GodController godController) {
+<b class="fc"><i>21</i>&nbsp;        super(godController);</b>
+<b class="fc"><i>22</i>&nbsp;    }</b>
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    /**
+<i>26</i>&nbsp;     * The evolution of the turn for the player that holds the Athena God card is different from the abstract implementation.
+<i>27</i>&nbsp;     * Here we can set the restriction for the enemy workers to not move up.
+<i>28</i>&nbsp;     *
+<i>29</i>&nbsp;     * @param worker Selected worker that will act in the current turn.
+<i>30</i>&nbsp;     * @throws UnableToMoveException The worker isn&#39;t allowed to move anywhere.
+<i>31</i>&nbsp;     * @throws UnableToBuildException The worker isn&#39;t allowed to build anywhere.
+<i>32</i>&nbsp;     * @throws WinException The worker has reached the third level of a building and so wins the game.
+<i>33</i>&nbsp;     */
+<i>34</i>&nbsp;    @Override
+<i>35</i>&nbsp;    public void evolveTurn(Worker worker) throws UnableToMoveException, UnableToBuildException, WinException {
+<b class="fc"><i>36</i>&nbsp;        move(worker);</b>
+<b class="fc"><i>37</i>&nbsp;        win(worker);</b>
+<b class="fc"><i>38</i>&nbsp;        build(worker);</b>
+<b class="fc"><i>39</i>&nbsp;        cannotMoveUpRestriction(worker);</b>
+<b class="fc"><i>40</i>&nbsp;    }</b>
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    /**
+<i>43</i>&nbsp;     * Forbids other players to move up if worker has moved up this turn.
+<i>44</i>&nbsp;     *
+<i>45</i>&nbsp;     * @param worker Worker selected to act in the turn.
+<i>46</i>&nbsp;     */
+<i>47</i>&nbsp;    private void cannotMoveUpRestriction(Worker worker) {
+<b class="fc"><i>48</i>&nbsp;        for (Player p : worker.getPlayer().getGame().getPlayers()) {</b>
+<i>49</i>&nbsp;            //if worker moved up, other workers can&#39;t move up
+<b class="fc"><i>50</i>&nbsp;            p.setPermissionToMoveUp(worker.getLevelVariation() &lt;= 0 || p == worker.getPlayer());</b>
+<b class="fc"><i>51</i>&nbsp;        }</b>
+<b class="fc"><i>52</i>&nbsp;    }</b>
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;    public GodController getGodController() {
+<b class="fc"><i>56</i>&nbsp;        return godController;</b>
+<i>57</i>&nbsp;    }
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;    public String getDescription() {
+<b class="fc"><i>60</i>&nbsp;        return description;</b>
+<i>61</i>&nbsp;    }
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 21:20</div>
+</div>
+</body>
+</html>

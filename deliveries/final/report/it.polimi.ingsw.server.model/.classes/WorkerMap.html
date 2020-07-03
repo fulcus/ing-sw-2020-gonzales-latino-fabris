@@ -1,0 +1,385 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: WorkerMap</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.server.model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: WorkerMap (it.polimi.ingsw.server.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">WorkerMap</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (17/ 17)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (86/ 86)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.server.model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.util.ArrayList;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;/**
+<i>6</i>&nbsp; * A 3x3 matrix that represents the cells adjacent to the worker.
+<i>7</i>&nbsp; * The worker is in the central cell of the matrix.
+<i>8</i>&nbsp; */
+<i>9</i>&nbsp;public class WorkerMap {
+<i>10</i>&nbsp;    private final Board board;
+<i>11</i>&nbsp;    private final Worker worker;
+<i>12</i>&nbsp;    private final boolean[][] map;
+<i>13</i>&nbsp;    public static final int N = 3;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    /**
+<i>16</i>&nbsp;     * Creates the WorkerMap of a specific worker.
+<i>17</i>&nbsp;     *
+<i>18</i>&nbsp;     * @param worker Is the worker on which the WorkerMap is built referring to.
+<i>19</i>&nbsp;     */
+<b class="fc"><i>20</i>&nbsp;    public WorkerMap(Worker worker) {</b>
+<b class="fc"><i>21</i>&nbsp;        this.worker = worker;</b>
+<b class="fc"><i>22</i>&nbsp;        map = new boolean[N][N];</b>
+<b class="fc"><i>23</i>&nbsp;        this.board = worker.getPlayer().getGame().getBoard();</b>
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;        //initialized standard matrix
+<b class="fc"><i>26</i>&nbsp;        for (int i = 0; i &lt; N; i++) {</b>
+<b class="fc"><i>27</i>&nbsp;            for (int j = 0; j &lt; N; j++) {</b>
+<b class="fc"><i>28</i>&nbsp;                map[i][j] = true;</b>
+<i>29</i>&nbsp;            }
+<i>30</i>&nbsp;        }
+<b class="fc"><i>31</i>&nbsp;    }</b>
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    protected Worker getWorker() {
+<b class="fc"><i>35</i>&nbsp;        return worker;</b>
+<i>36</i>&nbsp;    }
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    /**
+<i>40</i>&nbsp;     * Sets false any cell containing a dome.
+<i>41</i>&nbsp;     */
+<i>42</i>&nbsp;    protected void domeCellFalse() {
+<i>43</i>&nbsp;
+<b class="fc"><i>44</i>&nbsp;        for (int i = 0; i &lt; N; i++) {</b>
+<b class="fc"><i>45</i>&nbsp;            for (int j = 0; j &lt; N; j++) {</b>
+<b class="fc"><i>46</i>&nbsp;                if (getAbsolutePosition(i, j) != null &amp;&amp; getAbsolutePosition(i, j).hasDome())</b>
+<b class="fc"><i>47</i>&nbsp;                    map[i][j] = false;</b>
+<i>48</i>&nbsp;            }
+<i>49</i>&nbsp;        }
+<b class="fc"><i>50</i>&nbsp;    }</b>
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;    /**
+<i>54</i>&nbsp;     * Sets false any occupied cell, i.e. any cell containing a worker or a dome.
+<i>55</i>&nbsp;     */
+<i>56</i>&nbsp;    protected void occupiedCellFalse() {
+<i>57</i>&nbsp;
+<b class="fc"><i>58</i>&nbsp;        for (int i = 0; i &lt; N; i++) {</b>
+<b class="fc"><i>59</i>&nbsp;            for (int j = 0; j &lt; N; j++) {</b>
+<b class="fc"><i>60</i>&nbsp;                if (getAbsolutePosition(i, j) != null &amp;&amp; getAbsolutePosition(i, j).isOccupied())</b>
+<b class="fc"><i>61</i>&nbsp;                    map[i][j] = false;</b>
+<i>62</i>&nbsp;            }
+<i>63</i>&nbsp;        }
+<b class="fc"><i>64</i>&nbsp;    }</b>
+<i>65</i>&nbsp;
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;    /**
+<i>68</i>&nbsp;     * Sets false the cell containing the other worker of the same player.
+<i>69</i>&nbsp;     */
+<i>70</i>&nbsp;    protected void friendlyWorkerCellFalse() {
+<i>71</i>&nbsp;
+<b class="fc"><i>72</i>&nbsp;        for (int i = 0; i &lt; N; i++) {</b>
+<b class="fc"><i>73</i>&nbsp;            for (int j = 0; j &lt; N; j++) {</b>
+<b class="fc"><i>74</i>&nbsp;                if (getAbsolutePosition(i, j) != null &amp;&amp; getAbsolutePosition(i, j).hasWorker() &amp;&amp;</b>
+<b class="fc"><i>75</i>&nbsp;                        getAbsolutePosition(i, j).getWorker().getPlayer() == worker.getPlayer())</b>
+<b class="fc"><i>76</i>&nbsp;                    map[i][j] = false;</b>
+<i>77</i>&nbsp;            }
+<i>78</i>&nbsp;        }
+<b class="fc"><i>79</i>&nbsp;    }</b>
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;
+<i>82</i>&nbsp;    /**
+<i>83</i>&nbsp;     * Sets true or false the central cell of the WorkersMap,
+<i>84</i>&nbsp;     * i.e. the position of the worker.
+<i>85</i>&nbsp;     * @param value value to set in the center of the matrix.
+<i>86</i>&nbsp;     */
+<i>87</i>&nbsp;    protected void setCenterPosition(boolean value) {
+<b class="fc"><i>88</i>&nbsp;        map[1][1] = value;</b>
+<b class="fc"><i>89</i>&nbsp;    }</b>
+<i>90</i>&nbsp;
+<i>91</i>&nbsp;
+<i>92</i>&nbsp;    /**
+<i>93</i>&nbsp;     * Returns a cell of the WorkerMap given its relative coordinates.
+<i>94</i>&nbsp;     *
+<i>95</i>&nbsp;     * @param i Coordinate relative to the WorkerMap.
+<i>96</i>&nbsp;     * @param j Coordinate relative to the WorkerMap.
+<i>97</i>&nbsp;     * @return Selected cell of the WorkerMap.
+<i>98</i>&nbsp;     */
+<i>99</i>&nbsp;    protected boolean getBooleanCellWorkerMap(int i, int j) {
+<b class="fc"><i>100</i>&nbsp;        return map[i][j];</b>
+<i>101</i>&nbsp;    }
+<i>102</i>&nbsp;
+<i>103</i>&nbsp;
+<i>104</i>&nbsp;    /**
+<i>105</i>&nbsp;     * Returns a cell of the WorkerMap given its absolute coordinates
+<i>106</i>&nbsp;     * i.e the coordinates of the Board.
+<i>107</i>&nbsp;     *
+<i>108</i>&nbsp;     * @param i Coordinate relative to the Board.
+<i>109</i>&nbsp;     * @param j Coordinate relative to the Board.
+<i>110</i>&nbsp;     * @return Selected cell of the WorkerMap.
+<i>111</i>&nbsp;     */
+<i>112</i>&nbsp;    protected boolean getBooleanCellBoard(int i, int j) {
+<b class="fc"><i>113</i>&nbsp;        int workersX = worker.getPosition().getX();</b>
+<b class="fc"><i>114</i>&nbsp;        int workersY = worker.getPosition().getY();</b>
+<i>115</i>&nbsp;
+<i>116</i>&nbsp;        //if not in boolean board or not in board board return false
+<b class="fc"><i>117</i>&nbsp;        int relativeX = i - workersX + 1;</b>
+<b class="fc"><i>118</i>&nbsp;        int relativeY = j - workersY + 1;</b>
+<i>119</i>&nbsp;
+<b class="fc"><i>120</i>&nbsp;        if (relativeX &lt; 0 || relativeX &gt; 2 || relativeY &lt; 0 || relativeY &gt; 2 || !board.isInBoard(i, j))</b>
+<b class="fc"><i>121</i>&nbsp;            return false;</b>
+<i>122</i>&nbsp;
+<b class="fc"><i>123</i>&nbsp;        return map[i - workersX + 1][j - workersY + 1];</b>
+<i>124</i>&nbsp;    }
+<i>125</i>&nbsp;
+<i>126</i>&nbsp;
+<i>127</i>&nbsp;    /**
+<i>128</i>&nbsp;     * Returns the cell of the Board given its coordinates relative to the WorkerMap.
+<i>129</i>&nbsp;     *
+<i>130</i>&nbsp;     * @param i Relative coordinate of MoveMatrix.
+<i>131</i>&nbsp;     * @param j Relative coordinate of MoveMatrix.
+<i>132</i>&nbsp;     * @return Returns Cell of Board given the relative coordinates of the worker,
+<i>133</i>&nbsp;     * returns null if the Cell is out of the boundaries of the board.
+<i>134</i>&nbsp;     */
+<i>135</i>&nbsp;    protected Cell getAbsolutePosition(int i, int j) {
+<b class="fc"><i>136</i>&nbsp;        int workersX = worker.getPosition().getX();</b>
+<b class="fc"><i>137</i>&nbsp;        int workersY = worker.getPosition().getY();</b>
+<i>138</i>&nbsp;
+<b class="fc"><i>139</i>&nbsp;        return board.findCell(workersX - 1 + i, workersY - 1 + j);</b>
+<i>140</i>&nbsp;    }
+<i>141</i>&nbsp;
+<i>142</i>&nbsp;
+<i>143</i>&nbsp;    /**
+<i>144</i>&nbsp;     * Sets false cells that are above the worker more than x levels.
+<i>145</i>&nbsp;     * e.g. this is done because the worker cannot move to cells that are 2 or more levels higher.
+<i>146</i>&nbsp;     *
+<i>147</i>&nbsp;     * @param x Maximum level difference between any given cell of the WorkerMap and the Worker&#39;s cell.
+<i>148</i>&nbsp;     */
+<i>149</i>&nbsp;    public void levelDifferenceLessEqualThanX(int x) {
+<b class="fc"><i>150</i>&nbsp;        int workersLevel = worker.getPosition().getLevel();</b>
+<i>151</i>&nbsp;
+<b class="fc"><i>152</i>&nbsp;        for (int i = 0; i &lt; N; i++) {</b>
+<b class="fc"><i>153</i>&nbsp;            for (int j = 0; j &lt; N; j++) {</b>
+<i>154</i>&nbsp;
+<b class="fc"><i>155</i>&nbsp;                if (getAbsolutePosition(i, j) != null &amp;&amp;</b>
+<b class="fc"><i>156</i>&nbsp;                        getAbsolutePosition(i, j).getLevel() - workersLevel &gt; x)</b>
+<b class="fc"><i>157</i>&nbsp;                    map[i][j] = false;</b>
+<i>158</i>&nbsp;            }
+<i>159</i>&nbsp;        }
+<b class="fc"><i>160</i>&nbsp;    }</b>
+<i>161</i>&nbsp;
+<i>162</i>&nbsp;
+<i>163</i>&nbsp;    /**
+<i>164</i>&nbsp;     * Says if there is any near Cell 1 level higher than the worker&#39;s one.
+<i>165</i>&nbsp;     *
+<i>166</i>&nbsp;     * @return True if there is at least one cell 1 level higher, false otherwise.
+<i>167</i>&nbsp;     */
+<i>168</i>&nbsp;    public boolean anyCellOneLevelHigher() {
+<b class="fc"><i>169</i>&nbsp;        int workersLevel = worker.getPosition().getLevel();</b>
+<i>170</i>&nbsp;
+<b class="fc"><i>171</i>&nbsp;        for (int i = 0; i &lt; N; i++) {</b>
+<b class="fc"><i>172</i>&nbsp;            for (int j = 0; j &lt; N; j++) {</b>
+<i>173</i>&nbsp;
+<b class="fc"><i>174</i>&nbsp;                if (getAbsolutePosition(i, j) != null &amp;&amp;</b>
+<b class="fc"><i>175</i>&nbsp;                        getAbsolutePosition(i, j).getLevel() - workersLevel == 1)</b>
+<b class="fc"><i>176</i>&nbsp;                    return true;</b>
+<i>177</i>&nbsp;            }
+<i>178</i>&nbsp;        }
+<b class="fc"><i>179</i>&nbsp;        return false;</b>
+<i>180</i>&nbsp;    }
+<i>181</i>&nbsp;
+<i>182</i>&nbsp;
+<i>183</i>&nbsp;    /**
+<i>184</i>&nbsp;     * Finds all neighboring enemy Workers.
+<i>185</i>&nbsp;     *
+<i>186</i>&nbsp;     * @return Returns all enemy Workers adjacent to the worker.
+<i>187</i>&nbsp;     */
+<i>188</i>&nbsp;    public ArrayList&lt;Worker&gt; neighboringEnemyWorkers() {
+<i>189</i>&nbsp;
+<b class="fc"><i>190</i>&nbsp;        ArrayList&lt;Worker&gt; neighboringWorkers = new ArrayList&lt;&gt;(4);</b>
+<i>191</i>&nbsp;
+<b class="fc"><i>192</i>&nbsp;        for (int i = 0; i &lt; N; i++) {</b>
+<b class="fc"><i>193</i>&nbsp;            for (int j = 0; j &lt; N; j++) {</b>
+<b class="fc"><i>194</i>&nbsp;                Cell adjacentCell = getAbsolutePosition(i, j);</b>
+<i>195</i>&nbsp;
+<b class="fc"><i>196</i>&nbsp;                if (adjacentCell != null &amp;&amp; adjacentCell.hasWorker() &amp;&amp;</b>
+<b class="fc"><i>197</i>&nbsp;                        adjacentCell.getWorker().getPlayer() != worker.getPlayer())</b>
+<b class="fc"><i>198</i>&nbsp;                    neighboringWorkers.add(adjacentCell.getWorker());</b>
+<i>199</i>&nbsp;            }
+<i>200</i>&nbsp;        }
+<i>201</i>&nbsp;
+<b class="fc"><i>202</i>&nbsp;        return neighboringWorkers;</b>
+<i>203</i>&nbsp;    }
+<i>204</i>&nbsp;
+<i>205</i>&nbsp;
+<i>206</i>&nbsp;    /**
+<i>207</i>&nbsp;     * Checks if there is any true cell in the matrix.
+<i>208</i>&nbsp;     * Useful for lose conditions.
+<i>209</i>&nbsp;     * @return true if there are any true cell, false otherwise.
+<i>210</i>&nbsp;     */
+<i>211</i>&nbsp;    protected boolean anyTrueCell() {
+<i>212</i>&nbsp;
+<b class="fc"><i>213</i>&nbsp;        for (int i = 0; i &lt; N; i++) {</b>
+<b class="fc"><i>214</i>&nbsp;            for (int j = 0; j &lt; N; j++) {</b>
+<b class="fc"><i>215</i>&nbsp;                if (map[i][j])</b>
+<b class="fc"><i>216</i>&nbsp;                    return true;</b>
+<i>217</i>&nbsp;            }
+<i>218</i>&nbsp;        }
+<b class="fc"><i>219</i>&nbsp;        return false;</b>
+<i>220</i>&nbsp;    }
+<i>221</i>&nbsp;
+<i>222</i>&nbsp;
+<i>223</i>&nbsp;    /**
+<i>224</i>&nbsp;     * Sets the whole WorkerMap cells true.
+<i>225</i>&nbsp;     */
+<i>226</i>&nbsp;    public void reset() {
+<b class="fc"><i>227</i>&nbsp;        for (int i = 0; i &lt; N; i++) {</b>
+<b class="fc"><i>228</i>&nbsp;            for (int j = 0; j &lt; N; j++) {</b>
+<b class="fc"><i>229</i>&nbsp;                map[i][j] = true;</b>
+<i>230</i>&nbsp;            }
+<i>231</i>&nbsp;        }
+<b class="fc"><i>232</i>&nbsp;    }</b>
+<i>233</i>&nbsp;
+<i>234</i>&nbsp;
+<i>235</i>&nbsp;    /**
+<i>236</i>&nbsp;     * Sets false cells not contained in Board.
+<i>237</i>&nbsp;     * It is pretty useful for unableToMove/Build exceptions to work correctly.
+<i>238</i>&nbsp;     */
+<i>239</i>&nbsp;    public void updateCellsOutOfMap() {
+<b class="fc"><i>240</i>&nbsp;        Cell workersCell = worker.getPosition();</b>
+<b class="fc"><i>241</i>&nbsp;        int workersX = worker.getPosition().getX();</b>
+<b class="fc"><i>242</i>&nbsp;        int workersY = worker.getPosition().getY();</b>
+<i>243</i>&nbsp;
+<b class="fc"><i>244</i>&nbsp;        if (workersCell.isInPerimeter()) {</b>
+<b class="fc"><i>245</i>&nbsp;            for (int i = 0; i &lt; N; i++) {</b>
+<b class="fc"><i>246</i>&nbsp;                for (int j = 0; j &lt; N; j++) {</b>
+<i>247</i>&nbsp;
+<b class="fc"><i>248</i>&nbsp;                    if (!board.isInBoard(workersX - 1 + i, workersY - 1 + j))</b>
+<b class="fc"><i>249</i>&nbsp;                        map[i][j] = false;</b>
+<i>250</i>&nbsp;
+<i>251</i>&nbsp;                }
+<i>252</i>&nbsp;            }
+<i>253</i>&nbsp;        }
+<b class="fc"><i>254</i>&nbsp;    }</b>
+<i>255</i>&nbsp;
+<i>256</i>&nbsp;
+<i>257</i>&nbsp;    /**
+<i>258</i>&nbsp;     * Sets false Cells in perimeter.
+<i>259</i>&nbsp;     */
+<i>260</i>&nbsp;    protected void setPerimeterFalse() {
+<b class="fc"><i>261</i>&nbsp;        for (int i = 0; i &lt; N; i++) {</b>
+<b class="fc"><i>262</i>&nbsp;            for (int j = 0; j &lt; N; j++) {</b>
+<i>263</i>&nbsp;
+<b class="fc"><i>264</i>&nbsp;                Cell position = getAbsolutePosition(i, j);</b>
+<i>265</i>&nbsp;
+<b class="fc"><i>266</i>&nbsp;                if (position != null &amp;&amp; position.isInPerimeter())</b>
+<b class="fc"><i>267</i>&nbsp;                    map[i][j] = false;</b>
+<i>268</i>&nbsp;
+<i>269</i>&nbsp;            }
+<i>270</i>&nbsp;        }
+<i>271</i>&nbsp;
+<b class="fc"><i>272</i>&nbsp;    }</b>
+<i>273</i>&nbsp;
+<i>274</i>&nbsp;
+<i>275</i>&nbsp;    /**
+<i>276</i>&nbsp;     * Prints the map. Useful for debugging.
+<i>277</i>&nbsp;     */
+<i>278</i>&nbsp;   /* public void printMap() {
+<i>279</i>&nbsp;        for (int i = 0; i &lt; N; i++) {
+<i>280</i>&nbsp;            for (int j = 0; j &lt; N; j++) {
+<i>281</i>&nbsp;                if (matrix[i][j])
+<i>282</i>&nbsp;                    System.out.print(&quot;T &quot;);
+<i>283</i>&nbsp;                else
+<i>284</i>&nbsp;                    System.out.print(&quot;F &quot;);
+<i>285</i>&nbsp;            }
+<i>286</i>&nbsp;            System.out.println();
+<i>287</i>&nbsp;        }
+<i>288</i>&nbsp;    }*/
+<i>289</i>&nbsp;
+<i>290</i>&nbsp;    /**
+<i>291</i>&nbsp;     * Sets the value of a cell of the map
+<i>292</i>&nbsp;     *
+<i>293</i>&nbsp;     * @param x    Coordinate of the map
+<i>294</i>&nbsp;     * @param y    Coordinate of the map
+<i>295</i>&nbsp;     * @param bool value to be set in the given cell
+<i>296</i>&nbsp;     */
+<i>297</i>&nbsp;    public void setCell(int x, int y, boolean bool) {
+<b class="fc"><i>298</i>&nbsp;        map[x][y] = bool;</b>
+<b class="fc"><i>299</i>&nbsp;    }</b>
+<i>300</i>&nbsp;
+<i>301</i>&nbsp;
+<i>302</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 21:20</div>
+</div>
+</body>
+</html>

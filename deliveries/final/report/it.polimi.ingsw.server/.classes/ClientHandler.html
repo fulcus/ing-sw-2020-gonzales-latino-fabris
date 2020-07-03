@@ -1,0 +1,204 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ClientHandler</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.server</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ClientHandler (it.polimi.ingsw.server)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ClientHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 44)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.server;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.serializable.Message;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import java.io.IOException;
+<i>6</i>&nbsp;import java.io.ObjectInputStream;
+<i>7</i>&nbsp;import java.io.ObjectOutputStream;
+<i>8</i>&nbsp;import java.net.Socket;
+<i>9</i>&nbsp;import java.net.SocketException;
+<i>10</i>&nbsp;import java.util.concurrent.SynchronousQueue;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;/**
+<i>14</i>&nbsp; * Handles all interactions between the server and a client.
+<i>15</i>&nbsp; */
+<i>16</i>&nbsp;public class ClientHandler implements Runnable {
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    private final VirtualView client;
+<i>19</i>&nbsp;    private final SynchronousQueue&lt;Object&gt; receivedObjects;
+<i>20</i>&nbsp;    private boolean connected;
+<i>21</i>&nbsp;    private ObjectInputStream input;
+<i>22</i>&nbsp;    private ObjectOutputStream output;
+<i>23</i>&nbsp;    private boolean killed;
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;
+<b class="nc"><i>26</i>&nbsp;    public ClientHandler(VirtualView client) {</b>
+<i>27</i>&nbsp;
+<b class="nc"><i>28</i>&nbsp;        this.client = client;</b>
+<b class="nc"><i>29</i>&nbsp;        receivedObjects = new SynchronousQueue&lt;&gt;();</b>
+<b class="nc"><i>30</i>&nbsp;        connected = true;</b>
+<b class="nc"><i>31</i>&nbsp;        killed = false;</b>
+<b class="nc"><i>32</i>&nbsp;        Socket clientSocket = client.getSocket();</b>
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;        try {
+<b class="nc"><i>35</i>&nbsp;            input = new ObjectInputStream(clientSocket.getInputStream());</b>
+<b class="nc"><i>36</i>&nbsp;            output = new ObjectOutputStream(clientSocket.getOutputStream());</b>
+<b class="nc"><i>37</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>38</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>39</i>&nbsp;        }</b>
+<i>40</i>&nbsp;    }
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    /**
+<i>44</i>&nbsp;     * While the connection is on, it allows to receive and read the Objects coming from the client-side.
+<i>45</i>&nbsp;     * Can understand if the message was a ping from the client or a different one.
+<i>46</i>&nbsp;     */
+<i>47</i>&nbsp;    @Override
+<i>48</i>&nbsp;    public void run() {
+<i>49</i>&nbsp;
+<b class="nc"><i>50</i>&nbsp;        Socket clientSocket = client.getSocket();</b>
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;        try {
+<b class="nc"><i>53</i>&nbsp;            clientSocket.setSoTimeout(15000);</b>
+<b class="nc"><i>54</i>&nbsp;        } catch (SocketException e) {</b>
+<b class="nc"><i>55</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>56</i>&nbsp;        }</b>
+<i>57</i>&nbsp;
+<b class="nc"><i>58</i>&nbsp;        while (connected) {</b>
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;            try {
+<i>61</i>&nbsp;
+<b class="nc"><i>62</i>&nbsp;                Object readObject = input.readObject();</b>
+<b class="nc"><i>63</i>&nbsp;                clientSocket.setSoTimeout(15000);</b>
+<i>64</i>&nbsp;
+<b class="nc"><i>65</i>&nbsp;                if (readObject instanceof Message) {</b>
+<i>66</i>&nbsp;
+<b class="nc"><i>67</i>&nbsp;                    Message readMessage = (Message) readObject;</b>
+<i>68</i>&nbsp;
+<b class="nc"><i>69</i>&nbsp;                    if (readMessage.getMethod().toUpperCase().equals(&quot;PING&quot;)) {</b>
+<b class="nc"><i>70</i>&nbsp;                        System.out.println(&quot;Ping from &quot; + clientSocket.getInetAddress());</b>
+<i>71</i>&nbsp;                    } else
+<b class="nc"><i>72</i>&nbsp;                        System.out.println(&quot;Received message different from ping&quot;);</b>
+<i>73</i>&nbsp;
+<b class="nc"><i>74</i>&nbsp;                } else</b>
+<b class="nc"><i>75</i>&nbsp;                    receivedObjects.add(readObject);</b>
+<i>76</i>&nbsp;
+<b class="nc"><i>77</i>&nbsp;            } catch (IOException e) {</b>
+<i>78</i>&nbsp;
+<b class="nc"><i>79</i>&nbsp;                if (!killed) {</b>
+<b class="nc"><i>80</i>&nbsp;                    client.setInGame(false);</b>
+<i>81</i>&nbsp;
+<b class="nc"><i>82</i>&nbsp;                    if (client.getPlayer() != null) {</b>
+<b class="nc"><i>83</i>&nbsp;                        System.out.println(client.getPlayer().getNickname() + &quot; disconnected&quot;);</b>
+<b class="nc"><i>84</i>&nbsp;                        client.getGameController().handleGameDisconnection(client.getPlayer().getNickname());</b>
+<i>85</i>&nbsp;                    } else {
+<b class="nc"><i>86</i>&nbsp;                        System.out.println(&quot;Someone disconnected&quot;);</b>
+<b class="nc"><i>87</i>&nbsp;                        client.getGameController().handleGameDisconnection(&quot;Someone&quot;);</b>
+<i>88</i>&nbsp;                    }
+<i>89</i>&nbsp;                }
+<b class="nc"><i>90</i>&nbsp;                connected = false;</b>
+<i>91</i>&nbsp;
+<b class="nc"><i>92</i>&nbsp;            } catch (ClassNotFoundException e) {</b>
+<b class="nc"><i>93</i>&nbsp;                e.printStackTrace();</b>
+<b class="nc"><i>94</i>&nbsp;            }</b>
+<i>95</i>&nbsp;        }
+<i>96</i>&nbsp;
+<i>97</i>&nbsp;    }
+<i>98</i>&nbsp;
+<i>99</i>&nbsp;    /**
+<i>100</i>&nbsp;     * Sends message through network to client associated to this ClientHandler instance.
+<i>101</i>&nbsp;     * @param message message to send
+<i>102</i>&nbsp;     */
+<i>103</i>&nbsp;    protected synchronized void sendMessage(Message message) {
+<i>104</i>&nbsp;        try {
+<b class="nc"><i>105</i>&nbsp;            output.writeObject(message);</b>
+<b class="nc"><i>106</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>107</i>&nbsp;            System.out.println(&quot;server has died while sending&quot;);</b>
+<b class="nc"><i>108</i>&nbsp;        }</b>
+<i>109</i>&nbsp;    }
+<i>110</i>&nbsp;
+<i>111</i>&nbsp;
+<i>112</i>&nbsp;    protected void kill() {
+<b class="nc"><i>113</i>&nbsp;        this.killed = true;</b>
+<i>114</i>&nbsp;    }
+<i>115</i>&nbsp;
+<i>116</i>&nbsp;
+<i>117</i>&nbsp;    protected SynchronousQueue&lt;Object&gt; getObjectsQueue() {
+<b class="nc"><i>118</i>&nbsp;        return receivedObjects;</b>
+<i>119</i>&nbsp;    }
+<i>120</i>&nbsp;
+<i>121</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 21:20</div>
+</div>
+</body>
+</html>

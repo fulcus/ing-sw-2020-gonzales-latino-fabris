@@ -1,0 +1,674 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: BoardController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.client.gui</a> ]
+</div>
+
+<h1>Coverage Summary for Class: BoardController (it.polimi.ingsw.client.gui)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BoardController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 27)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 223)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.client.gui;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.serializable.CellClient;
+<i>4</i>&nbsp;import javafx.fxml.FXML;
+<i>5</i>&nbsp;import javafx.scene.Node;
+<i>6</i>&nbsp;import javafx.scene.control.Button;
+<i>7</i>&nbsp;import javafx.scene.control.TextArea;
+<i>8</i>&nbsp;import javafx.scene.effect.Glow;
+<i>9</i>&nbsp;import javafx.scene.image.Image;
+<i>10</i>&nbsp;import javafx.scene.image.ImageView;
+<i>11</i>&nbsp;import javafx.scene.input.MouseEvent;
+<i>12</i>&nbsp;import javafx.scene.layout.AnchorPane;
+<i>13</i>&nbsp;import javafx.scene.layout.GridPane;
+<i>14</i>&nbsp;import javafx.scene.layout.Pane;
+<i>15</i>&nbsp;import javafx.scene.text.Text;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;import java.lang.reflect.Field;
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;import static it.polimi.ingsw.client.gui.GuiManager.*;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;/**
+<i>22</i>&nbsp; * Controller of the board GUI scene.
+<i>23</i>&nbsp; */
+<i>24</i>&nbsp;public class BoardController {
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    @FXML
+<i>27</i>&nbsp;    public ImageView c0r0;
+<i>28</i>&nbsp;    @FXML
+<i>29</i>&nbsp;    public ImageView c1r0;
+<i>30</i>&nbsp;    @FXML
+<i>31</i>&nbsp;    public ImageView c2r0;
+<i>32</i>&nbsp;    @FXML
+<i>33</i>&nbsp;    public ImageView c3r0;
+<i>34</i>&nbsp;    @FXML
+<i>35</i>&nbsp;    public ImageView c4r0;
+<i>36</i>&nbsp;    @FXML
+<i>37</i>&nbsp;    public ImageView c0r1;
+<i>38</i>&nbsp;    @FXML
+<i>39</i>&nbsp;    public ImageView c1r1;
+<i>40</i>&nbsp;    @FXML
+<i>41</i>&nbsp;    public ImageView c2r1;
+<i>42</i>&nbsp;    @FXML
+<i>43</i>&nbsp;    public ImageView c3r1;
+<i>44</i>&nbsp;    @FXML
+<i>45</i>&nbsp;    public ImageView c4r1;
+<i>46</i>&nbsp;    @FXML
+<i>47</i>&nbsp;    public ImageView c0r2;
+<i>48</i>&nbsp;    @FXML
+<i>49</i>&nbsp;    public ImageView c1r2;
+<i>50</i>&nbsp;    @FXML
+<i>51</i>&nbsp;    public ImageView c2r2;
+<i>52</i>&nbsp;    @FXML
+<i>53</i>&nbsp;    public ImageView c3r2;
+<i>54</i>&nbsp;    @FXML
+<i>55</i>&nbsp;    public ImageView c4r2;
+<i>56</i>&nbsp;    @FXML
+<i>57</i>&nbsp;    public ImageView c0r3;
+<i>58</i>&nbsp;    @FXML
+<i>59</i>&nbsp;    public ImageView c1r3;
+<i>60</i>&nbsp;    @FXML
+<i>61</i>&nbsp;    public ImageView c2r3;
+<i>62</i>&nbsp;    @FXML
+<i>63</i>&nbsp;    public ImageView c3r3;
+<i>64</i>&nbsp;    @FXML
+<i>65</i>&nbsp;    public ImageView c4r3;
+<i>66</i>&nbsp;    @FXML
+<i>67</i>&nbsp;    public ImageView c0r4;
+<i>68</i>&nbsp;    @FXML
+<i>69</i>&nbsp;    public ImageView c1r4;
+<i>70</i>&nbsp;    @FXML
+<i>71</i>&nbsp;    public ImageView c2r4;
+<i>72</i>&nbsp;    @FXML
+<i>73</i>&nbsp;    public ImageView c3r4;
+<i>74</i>&nbsp;    @FXML
+<i>75</i>&nbsp;    public ImageView c4r4;
+<i>76</i>&nbsp;
+<i>77</i>&nbsp;    @FXML
+<i>78</i>&nbsp;    private Text myNickname;
+<i>79</i>&nbsp;    @FXML
+<i>80</i>&nbsp;    private Text otherNicknameLeft;
+<i>81</i>&nbsp;    @FXML
+<i>82</i>&nbsp;    private Text otherNicknameRight;
+<i>83</i>&nbsp;    @FXML
+<i>84</i>&nbsp;    private ImageView myGod;
+<i>85</i>&nbsp;    @FXML
+<i>86</i>&nbsp;    private ImageView otherGodLeft;
+<i>87</i>&nbsp;    @FXML
+<i>88</i>&nbsp;    private ImageView otherGodRight;
+<i>89</i>&nbsp;    @FXML
+<i>90</i>&nbsp;    private ImageView godLeftBar;
+<i>91</i>&nbsp;    @FXML
+<i>92</i>&nbsp;    private ImageView godLeftFrame;
+<i>93</i>&nbsp;    @FXML
+<i>94</i>&nbsp;    private ImageView godPowerOnImage;
+<i>95</i>&nbsp;    @FXML
+<i>96</i>&nbsp;    private ImageView godPowerOffImage;
+<i>97</i>&nbsp;    @FXML
+<i>98</i>&nbsp;    private Text mainText;
+<i>99</i>&nbsp;    @FXML
+<i>100</i>&nbsp;    private GridPane boardGrid;
+<i>101</i>&nbsp;    @FXML
+<i>102</i>&nbsp;    private AnchorPane menu;
+<i>103</i>&nbsp;    @FXML
+<i>104</i>&nbsp;    private Button confirmButton;
+<i>105</i>&nbsp;    @FXML
+<i>106</i>&nbsp;    private TextArea godPowerText;
+<i>107</i>&nbsp;
+<i>108</i>&nbsp;    private final Image bluemale;
+<i>109</i>&nbsp;    private final Image bluefemale;
+<i>110</i>&nbsp;    private final Image whitemale;
+<i>111</i>&nbsp;    private final Image whitefemale;
+<i>112</i>&nbsp;    private final Image beigemale;
+<i>113</i>&nbsp;    private final Image beigefemale;
+<i>114</i>&nbsp;    private final Image level1;
+<i>115</i>&nbsp;    private final Image level2;
+<i>116</i>&nbsp;    private final Image level3;
+<i>117</i>&nbsp;    private final Image dome;
+<i>118</i>&nbsp;
+<i>119</i>&nbsp;    private boolean cellRequested;
+<i>120</i>&nbsp;    private boolean godPowerRequested;
+<i>121</i>&nbsp;    private String godPowerOffAnswer;
+<i>122</i>&nbsp;    private String godPowerOnAnswer;
+<i>123</i>&nbsp;    private int godClicked;
+<i>124</i>&nbsp;
+<i>125</i>&nbsp;
+<b class="nc"><i>126</i>&nbsp;    public BoardController() {</b>
+<b class="nc"><i>127</i>&nbsp;        cellRequested = false;</b>
+<b class="nc"><i>128</i>&nbsp;        bluemale = new Image(&quot;/board/workers/male_worker_blue.png&quot;);</b>
+<b class="nc"><i>129</i>&nbsp;        bluefemale = new Image(&quot;/board/workers/female_worker_blue.png&quot;);</b>
+<b class="nc"><i>130</i>&nbsp;        whitemale = new Image(&quot;/board/workers/male_worker_white.png&quot;);</b>
+<b class="nc"><i>131</i>&nbsp;        whitefemale = new Image(&quot;/board/workers/female_worker_white.png&quot;);</b>
+<b class="nc"><i>132</i>&nbsp;        beigemale = new Image(&quot;/board/workers/male_worker_beige.png&quot;);</b>
+<b class="nc"><i>133</i>&nbsp;        beigefemale = new Image(&quot;/board/workers/female_worker_beige.png&quot;);</b>
+<b class="nc"><i>134</i>&nbsp;        level1 = new Image(&quot;/board/buildings/level1.png&quot;);</b>
+<b class="nc"><i>135</i>&nbsp;        level2 = new Image(&quot;/board/buildings/level2.png&quot;);</b>
+<b class="nc"><i>136</i>&nbsp;        level3 = new Image(&quot;/board/buildings/level3.png&quot;);</b>
+<b class="nc"><i>137</i>&nbsp;        dome = new Image(&quot;/board/buildings/dome_light.png&quot;);</b>
+<b class="nc"><i>138</i>&nbsp;        godClicked = 0;</b>
+<i>139</i>&nbsp;    }
+<i>140</i>&nbsp;
+<i>141</i>&nbsp;
+<i>142</i>&nbsp;    /**
+<i>143</i>&nbsp;     * Initializes values for the scene.
+<i>144</i>&nbsp;     */
+<i>145</i>&nbsp;    protected void init() {
+<b class="nc"><i>146</i>&nbsp;        menu.setVisible(false);</b>
+<b class="nc"><i>147</i>&nbsp;        String nickname1 = players.get(0).getNickname();</b>
+<b class="nc"><i>148</i>&nbsp;        String god1 = players.get(0).getGod();</b>
+<b class="nc"><i>149</i>&nbsp;        String nickname2 = players.get(1).getNickname();</b>
+<b class="nc"><i>150</i>&nbsp;        String god2 = players.get(1).getGod();</b>
+<i>151</i>&nbsp;
+<i>152</i>&nbsp;        //right: player 2, left: player 3 (if
+<b class="nc"><i>153</i>&nbsp;        myNickname.setText(nickname1);</b>
+<b class="nc"><i>154</i>&nbsp;        otherNicknameRight.setText(nickname2);</b>
+<b class="nc"><i>155</i>&nbsp;        Image myGodImage = new Image(&quot;/gods/full_&quot; + god1.toLowerCase() + &quot;.png&quot;);</b>
+<b class="nc"><i>156</i>&nbsp;        Image godRightImage = new Image(&quot;/gods/full_&quot; + god2.toLowerCase() + &quot;.png&quot;);</b>
+<b class="nc"><i>157</i>&nbsp;        myGod.setImage(myGodImage);</b>
+<b class="nc"><i>158</i>&nbsp;        otherGodRight.setImage(godRightImage);</b>
+<i>159</i>&nbsp;
+<b class="nc"><i>160</i>&nbsp;        myGod.setOnMouseClicked(e -&gt; showGodDescription(god1));</b>
+<b class="nc"><i>161</i>&nbsp;        otherGodRight.setOnMouseClicked(e -&gt; showGodDescription(god2));</b>
+<i>162</i>&nbsp;
+<b class="nc"><i>163</i>&nbsp;        if (numberOfPlayers.get() == 2) {</b>
+<b class="nc"><i>164</i>&nbsp;            godLeftFrame.setVisible(false);</b>
+<b class="nc"><i>165</i>&nbsp;            godLeftBar.setVisible(false);</b>
+<b class="nc"><i>166</i>&nbsp;            otherNicknameLeft.setVisible(false);</b>
+<b class="nc"><i>167</i>&nbsp;            otherGodLeft.setVisible(false);</b>
+<i>168</i>&nbsp;        } else {
+<b class="nc"><i>169</i>&nbsp;            String nickname3 = players.get(2).getNickname();</b>
+<b class="nc"><i>170</i>&nbsp;            String god3 = players.get(2).getGod();</b>
+<i>171</i>&nbsp;
+<b class="nc"><i>172</i>&nbsp;            otherNicknameLeft.setText(nickname3);</b>
+<b class="nc"><i>173</i>&nbsp;            Image godLeftImage = new Image(&quot;/gods/full_&quot; + god3.toLowerCase() + &quot;.png&quot;);</b>
+<b class="nc"><i>174</i>&nbsp;            otherGodLeft.setImage(godLeftImage);</b>
+<i>175</i>&nbsp;
+<b class="nc"><i>176</i>&nbsp;            otherGodLeft.setOnMouseClicked(e -&gt; showGodDescription(god3));</b>
+<i>177</i>&nbsp;        }
+<i>178</i>&nbsp;
+<b class="nc"><i>179</i>&nbsp;        showGodPowers();</b>
+<i>180</i>&nbsp;
+<b class="nc"><i>181</i>&nbsp;        mainText.setText(&quot;WELCOME&quot;);</b>
+<i>182</i>&nbsp;    }
+<i>183</i>&nbsp;
+<i>184</i>&nbsp;
+<i>185</i>&nbsp;    protected void update(CellClient cell) {
+<b class="nc"><i>186</i>&nbsp;        boardClient.get().update(cell);</b>
+<i>187</i>&nbsp;    }
+<i>188</i>&nbsp;
+<i>189</i>&nbsp;
+<i>190</i>&nbsp;    /**
+<i>191</i>&nbsp;     * Allows to show the powers of the god on the text bar.
+<i>192</i>&nbsp;     */
+<i>193</i>&nbsp;    private void showGodPowers() {
+<i>194</i>&nbsp;
+<b class="nc"><i>195</i>&nbsp;        godPowerOnImage.setVisible(false);</b>
+<b class="nc"><i>196</i>&nbsp;        godPowerOffImage.setVisible(false);</b>
+<i>197</i>&nbsp;
+<b class="nc"><i>198</i>&nbsp;        disableGodPower();</b>
+<i>199</i>&nbsp;
+<b class="nc"><i>200</i>&nbsp;        String godPowerOnName = &quot;&quot;;</b>
+<b class="nc"><i>201</i>&nbsp;        String godPowerOffName = &quot;&quot;;</b>
+<i>202</i>&nbsp;
+<i>203</i>&nbsp;        //always Y N except for atlas
+<b class="nc"><i>204</i>&nbsp;        godPowerOnAnswer = &quot;Y&quot;;</b>
+<b class="nc"><i>205</i>&nbsp;        godPowerOffAnswer = &quot;N&quot;;</b>
+<i>206</i>&nbsp;
+<b class="nc"><i>207</i>&nbsp;        switch (players.get(0).getGod().toLowerCase()) {</b>
+<i>208</i>&nbsp;            case &quot;apollo&quot;:
+<b class="nc"><i>209</i>&nbsp;                break;</b>
+<i>210</i>&nbsp;            case &quot;artemis&quot;:
+<b class="nc"><i>211</i>&nbsp;                godPowerOnName = &quot;movefast&quot;;</b>
+<b class="nc"><i>212</i>&nbsp;                godPowerOffName = &quot;movefast_negate&quot;;</b>
+<b class="nc"><i>213</i>&nbsp;                break;</b>
+<i>214</i>&nbsp;            case &quot;athena&quot;:
+<b class="nc"><i>215</i>&nbsp;                break;</b>
+<i>216</i>&nbsp;            case &quot;atlas&quot;:
+<b class="nc"><i>217</i>&nbsp;                godPowerOnName = &quot;builddome&quot;;</b>
+<b class="nc"><i>218</i>&nbsp;                godPowerOffName = &quot;normalBuild&quot;;</b>
+<b class="nc"><i>219</i>&nbsp;                godPowerOnAnswer = &quot;D&quot;;</b>
+<b class="nc"><i>220</i>&nbsp;                godPowerOffAnswer = &quot;B&quot;;</b>
+<b class="nc"><i>221</i>&nbsp;                break;</b>
+<i>222</i>&nbsp;            case &quot;charon&quot;:
+<b class="nc"><i>223</i>&nbsp;                godPowerOnName = &quot;selectWorker&quot;;</b>
+<b class="nc"><i>224</i>&nbsp;                godPowerOffName = &quot;selectWorker_negate&quot;;</b>
+<b class="nc"><i>225</i>&nbsp;                godPowerOnAnswer = &quot;Y&quot;;</b>
+<b class="nc"><i>226</i>&nbsp;                godPowerOffAnswer = &quot;N&quot;;</b>
+<b class="nc"><i>227</i>&nbsp;                break;</b>
+<i>228</i>&nbsp;            case &quot;demeter&quot;:
+<b class="nc"><i>229</i>&nbsp;                godPowerOnName = &quot;bothbuild&quot;;</b>
+<b class="nc"><i>230</i>&nbsp;                godPowerOffName = &quot;bothbuild_negate&quot;;</b>
+<b class="nc"><i>231</i>&nbsp;                break;</b>
+<i>232</i>&nbsp;            case &quot;hephaestus&quot;:
+<b class="nc"><i>233</i>&nbsp;                godPowerOnName = &quot;bothbuild&quot;;</b>
+<b class="nc"><i>234</i>&nbsp;                godPowerOffName = &quot;bothbuild_negate&quot;;</b>
+<b class="nc"><i>235</i>&nbsp;                break;</b>
+<i>236</i>&nbsp;            case &quot;hera&quot;:
+<b class="nc"><i>237</i>&nbsp;                break;</b>
+<i>238</i>&nbsp;            case &quot;hestia&quot;:
+<b class="nc"><i>239</i>&nbsp;                godPowerOnName = &quot;bothbuild&quot;;</b>
+<b class="nc"><i>240</i>&nbsp;                godPowerOffName = &quot;bothbuild_negate&quot;;</b>
+<b class="nc"><i>241</i>&nbsp;                break;</b>
+<i>242</i>&nbsp;            case &quot;minotaur&quot;:
+<b class="nc"><i>243</i>&nbsp;                break;</b>
+<i>244</i>&nbsp;            case &quot;pan&quot;:
+<b class="nc"><i>245</i>&nbsp;                break;</b>
+<i>246</i>&nbsp;            case &quot;prometheus&quot;:
+<b class="nc"><i>247</i>&nbsp;                godPowerOnName = &quot;buildbeforemove&quot;;</b>
+<b class="nc"><i>248</i>&nbsp;                godPowerOffName = &quot;buildbeforemove_negate&quot;;</b>
+<b class="nc"><i>249</i>&nbsp;                break;</b>
+<i>250</i>&nbsp;            case &quot;triton&quot;:
+<b class="nc"><i>251</i>&nbsp;                godPowerOnName = &quot;movefast&quot;;</b>
+<b class="nc"><i>252</i>&nbsp;                godPowerOffName = &quot;movefast_negate&quot;;</b>
+<b class="nc"><i>253</i>&nbsp;                break;</b>
+<i>254</i>&nbsp;            case &quot;zeus&quot;:
+<i>255</i>&nbsp;                break;
+<i>256</i>&nbsp;        }
+<i>257</i>&nbsp;
+<b class="nc"><i>258</i>&nbsp;        if (!godPowerOnName.equals(&quot;&quot;)) {</b>
+<b class="nc"><i>259</i>&nbsp;            godPowerOnImage.setImage(new Image(&quot;/board/god_powers/gp_&quot; + godPowerOnName + &quot;_white.png&quot;));</b>
+<b class="nc"><i>260</i>&nbsp;            godPowerOnImage.setVisible(true);</b>
+<i>261</i>&nbsp;        }
+<i>262</i>&nbsp;
+<b class="nc"><i>263</i>&nbsp;        if (!godPowerOffName.equals(&quot;&quot;)) {</b>
+<b class="nc"><i>264</i>&nbsp;            godPowerOffImage.setImage(new Image(&quot;/board/god_powers/gp_&quot; + godPowerOffName + &quot;_white.png&quot;));</b>
+<b class="nc"><i>265</i>&nbsp;            godPowerOffImage.setVisible(true);</b>
+<i>266</i>&nbsp;        }
+<i>267</i>&nbsp;    }
+<i>268</i>&nbsp;
+<i>269</i>&nbsp;    /**
+<i>270</i>&nbsp;     * Sets enabled the power of the god on to use during a turn of the game.
+<i>271</i>&nbsp;     */
+<i>272</i>&nbsp;    protected void enableGodPower() {
+<b class="nc"><i>273</i>&nbsp;        godPowerOnImage.setDisable(false);</b>
+<b class="nc"><i>274</i>&nbsp;        godPowerOffImage.setDisable(false);</b>
+<i>275</i>&nbsp;    }
+<i>276</i>&nbsp;
+<i>277</i>&nbsp;    /**
+<i>278</i>&nbsp;     * Sets disabled the power of the god on to use during a turn of the game.
+<i>279</i>&nbsp;     */
+<i>280</i>&nbsp;    protected void disableGodPower() {
+<b class="nc"><i>281</i>&nbsp;        godPowerOnImage.setDisable(true);</b>
+<b class="nc"><i>282</i>&nbsp;        godPowerOffImage.setDisable(true);</b>
+<i>283</i>&nbsp;    }
+<i>284</i>&nbsp;
+<i>285</i>&nbsp;    /**
+<i>286</i>&nbsp;     * The map is printed again, updating the older version of the cells and what was inside them.
+<i>287</i>&nbsp;     */
+<i>288</i>&nbsp;    protected void printMap() {
+<i>289</i>&nbsp;
+<i>290</i>&nbsp;        //iterate on all panes of boardGrid and render them correctly
+<i>291</i>&nbsp;        //based on the corresponding content of boardClient
+<b class="nc"><i>292</i>&nbsp;        for (Node node : boardGrid.getChildren()) {</b>
+<i>293</i>&nbsp;
+<b class="nc"><i>294</i>&nbsp;            Pane pane = (Pane) node;</b>
+<i>295</i>&nbsp;
+<b class="nc"><i>296</i>&nbsp;            int row = GridPane.getRowIndex(node);</b>
+<b class="nc"><i>297</i>&nbsp;            int col = GridPane.getColumnIndex(node);</b>
+<i>298</i>&nbsp;
+<b class="nc"><i>299</i>&nbsp;            CellClient cell = boardClient.get().findCell(row, col);</b>
+<i>300</i>&nbsp;
+<i>301</i>&nbsp;            //cell contains building
+<b class="nc"><i>302</i>&nbsp;            switch (cell.getCellLevel()) {</b>
+<i>303</i>&nbsp;                case 0:
+<i>304</i>&nbsp;                    //nothing, ground level
+<b class="nc"><i>305</i>&nbsp;                    break;</b>
+<i>306</i>&nbsp;                case 1:
+<b class="nc"><i>307</i>&nbsp;                    ImageView building1 = new ImageView(level1);</b>
+<b class="nc"><i>308</i>&nbsp;                    building1.setFitWidth(80);</b>
+<b class="nc"><i>309</i>&nbsp;                    building1.setFitHeight(80);</b>
+<b class="nc"><i>310</i>&nbsp;                    pane.getChildren().add(building1);</b>
+<b class="nc"><i>311</i>&nbsp;                    break;</b>
+<i>312</i>&nbsp;                case 2:
+<b class="nc"><i>313</i>&nbsp;                    ImageView building2 = new ImageView(level2);</b>
+<b class="nc"><i>314</i>&nbsp;                    building2.setFitWidth(80);</b>
+<b class="nc"><i>315</i>&nbsp;                    building2.setFitHeight(80);</b>
+<b class="nc"><i>316</i>&nbsp;                    pane.getChildren().add(building2);</b>
+<b class="nc"><i>317</i>&nbsp;                    break;</b>
+<i>318</i>&nbsp;                case 3:
+<b class="nc"><i>319</i>&nbsp;                    ImageView building3 = new ImageView(level3);</b>
+<b class="nc"><i>320</i>&nbsp;                    building3.setFitWidth(56);</b>
+<b class="nc"><i>321</i>&nbsp;                    building3.setFitHeight(56);</b>
+<b class="nc"><i>322</i>&nbsp;                    building3.setX(11.8);</b>
+<b class="nc"><i>323</i>&nbsp;                    building3.setY(11.8);</b>
+<b class="nc"><i>324</i>&nbsp;                    pane.getChildren().add(building3);</b>
+<b class="nc"><i>325</i>&nbsp;                    break;</b>
+<i>326</i>&nbsp;
+<i>327</i>&nbsp;                default:
+<b class="nc"><i>328</i>&nbsp;                    System.out.println(&quot;building level error&quot;);</b>
+<i>329</i>&nbsp;            }
+<i>330</i>&nbsp;
+<i>331</i>&nbsp;            //cell contains dome
+<b class="nc"><i>332</i>&nbsp;            if (cell.hasDome()) {</b>
+<b class="nc"><i>333</i>&nbsp;                ImageView domeBuilding = new ImageView(dome);</b>
+<b class="nc"><i>334</i>&nbsp;                domeBuilding.setFitWidth(43.7);</b>
+<b class="nc"><i>335</i>&nbsp;                domeBuilding.setFitHeight(43.7);</b>
+<b class="nc"><i>336</i>&nbsp;                domeBuilding.setX(18.1);</b>
+<b class="nc"><i>337</i>&nbsp;                domeBuilding.setY(18.1);</b>
+<b class="nc"><i>338</i>&nbsp;                pane.getChildren().add(domeBuilding);</b>
+<i>339</i>&nbsp;            }
+<i>340</i>&nbsp;
+<i>341</i>&nbsp;            //get ImageView attribute of cell
+<b class="nc"><i>342</i>&nbsp;            Class&lt;?&gt; c = getClass();</b>
+<i>343</i>&nbsp;            Field field;
+<b class="nc"><i>344</i>&nbsp;            ImageView workerImageView = null;</b>
+<i>345</i>&nbsp;
+<i>346</i>&nbsp;            try {
+<i>347</i>&nbsp;
+<b class="nc"><i>348</i>&nbsp;                field = c.getDeclaredField(&quot;c&quot; + col + &quot;r&quot; + row);</b>
+<b class="nc"><i>349</i>&nbsp;                workerImageView = (ImageView) field.get(this);</b>
+<i>350</i>&nbsp;
+<b class="nc"><i>351</i>&nbsp;            } catch (NoSuchFieldException | IllegalAccessException e) {</b>
+<b class="nc"><i>352</i>&nbsp;                e.printStackTrace();</b>
+<b class="nc"><i>353</i>&nbsp;            }</b>
+<i>354</i>&nbsp;
+<i>355</i>&nbsp;            //cell contains worker
+<b class="nc"><i>356</i>&nbsp;            if (cell.hasWorker()) {</b>
+<i>357</i>&nbsp;
+<b class="nc"><i>358</i>&nbsp;                String sex = cell.getWorkerClient().getWorkerSex();</b>
+<b class="nc"><i>359</i>&nbsp;                String color = cell.getWorkerClient().getWorkerColor();</b>
+<i>360</i>&nbsp;
+<i>361</i>&nbsp;                //get image of worker in cell
+<i>362</i>&nbsp;                Field field2;
+<b class="nc"><i>363</i>&nbsp;                Image workerImage = null;</b>
+<i>364</i>&nbsp;
+<i>365</i>&nbsp;                try {
+<b class="nc"><i>366</i>&nbsp;                    String workerId = color + sex;</b>
+<b class="nc"><i>367</i>&nbsp;                    field2 = c.getDeclaredField(workerId.toLowerCase());</b>
+<b class="nc"><i>368</i>&nbsp;                    workerImage = (Image) field2.get(this);</b>
+<i>369</i>&nbsp;
+<b class="nc"><i>370</i>&nbsp;                } catch (NoSuchFieldException | IllegalAccessException e) {</b>
+<b class="nc"><i>371</i>&nbsp;                    e.printStackTrace();</b>
+<b class="nc"><i>372</i>&nbsp;                }</b>
+<i>373</i>&nbsp;
+<b class="nc"><i>374</i>&nbsp;                workerImageView.setViewOrder(-1.0);</b>
+<b class="nc"><i>375</i>&nbsp;                workerImageView.setImage(workerImage);</b>
+<b class="nc"><i>376</i>&nbsp;                workerImageView.setFitWidth(48);</b>
+<b class="nc"><i>377</i>&nbsp;                workerImageView.setFitHeight(48);</b>
+<b class="nc"><i>378</i>&nbsp;                workerImageView.setX(18);</b>
+<b class="nc"><i>379</i>&nbsp;                workerImageView.setY(15);</b>
+<i>380</i>&nbsp;
+<b class="nc"><i>381</i>&nbsp;            } else {</b>
+<b class="nc"><i>382</i>&nbsp;                workerImageView.setImage(null);</b>
+<i>383</i>&nbsp;            }
+<b class="nc"><i>384</i>&nbsp;        }</b>
+<i>385</i>&nbsp;    }
+<i>386</i>&nbsp;
+<i>387</i>&nbsp;
+<i>388</i>&nbsp;    /**
+<i>389</i>&nbsp;     * Allows to print something on the main central text bar.
+<i>390</i>&nbsp;     *
+<i>391</i>&nbsp;     * @param text The text to print.
+<i>392</i>&nbsp;     */
+<i>393</i>&nbsp;    protected void printToMainText(String text) {
+<b class="nc"><i>394</i>&nbsp;        mainText.setText(text);</b>
+<i>395</i>&nbsp;    }
+<i>396</i>&nbsp;
+<i>397</i>&nbsp;    /**
+<i>398</i>&nbsp;     * Allows to print the god description in its specific area.
+<i>399</i>&nbsp;     *
+<i>400</i>&nbsp;     * @param text description text.
+<i>401</i>&nbsp;     */
+<i>402</i>&nbsp;    protected void printToGodTextArea(String text) {
+<b class="nc"><i>403</i>&nbsp;        godPowerText.setText(text);</b>
+<i>404</i>&nbsp;    }
+<i>405</i>&nbsp;
+<i>406</i>&nbsp;
+<i>407</i>&nbsp;    protected void setCellRequested(boolean cellRequested) {
+<b class="nc"><i>408</i>&nbsp;        this.cellRequested = cellRequested;</b>
+<i>409</i>&nbsp;    }
+<i>410</i>&nbsp;
+<i>411</i>&nbsp;
+<i>412</i>&nbsp;    protected void setGodPowerRequested(boolean godPowerRequested) {
+<b class="nc"><i>413</i>&nbsp;        this.godPowerRequested = godPowerRequested;</b>
+<i>414</i>&nbsp;    }
+<i>415</i>&nbsp;
+<i>416</i>&nbsp;
+<i>417</i>&nbsp;    @FXML
+<i>418</i>&nbsp;    private void chooseCell(MouseEvent event) {
+<b class="nc"><i>419</i>&nbsp;        Node source = (Node) event.getSource();</b>
+<i>420</i>&nbsp;
+<i>421</i>&nbsp;        //for imageview of worker
+<b class="nc"><i>422</i>&nbsp;        if (source instanceof ImageView)</b>
+<b class="nc"><i>423</i>&nbsp;            source = source.getParent();</b>
+<i>424</i>&nbsp;
+<b class="nc"><i>425</i>&nbsp;        Integer colIndex = GridPane.getColumnIndex(source);</b>
+<b class="nc"><i>426</i>&nbsp;        Integer rowIndex = GridPane.getRowIndex(source);</b>
+<i>427</i>&nbsp;
+<i>428</i>&nbsp;        //if user clicks on a cell, and a method has requested a cell,
+<i>429</i>&nbsp;        //coordinates are sent to gui manager
+<b class="nc"><i>430</i>&nbsp;        if (cellRequested) {</b>
+<i>431</i>&nbsp;            try {
+<b class="nc"><i>432</i>&nbsp;                GuiManager.queue.put(rowIndex);</b>
+<b class="nc"><i>433</i>&nbsp;                GuiManager.queue.put(colIndex);</b>
+<b class="nc"><i>434</i>&nbsp;            } catch (InterruptedException e) {</b>
+<b class="nc"><i>435</i>&nbsp;                e.printStackTrace();</b>
+<b class="nc"><i>436</i>&nbsp;            }</b>
+<i>437</i>&nbsp;        }
+<i>438</i>&nbsp;
+<b class="nc"><i>439</i>&nbsp;        setCellRequested(false);</b>
+<i>440</i>&nbsp;    }
+<i>441</i>&nbsp;
+<i>442</i>&nbsp;    @FXML
+<i>443</i>&nbsp;    protected void showGodDescription(String god) {
+<i>444</i>&nbsp;
+<b class="nc"><i>445</i>&nbsp;        if (godClicked == 0) {</b>
+<i>446</i>&nbsp;
+<b class="nc"><i>447</i>&nbsp;            String godDescriptionField = god.toLowerCase() + &quot;Description&quot;;</b>
+<i>448</i>&nbsp;
+<b class="nc"><i>449</i>&nbsp;            Class&lt;?&gt; c = ChooseGodController.class;</b>
+<i>450</i>&nbsp;            Field field;
+<b class="nc"><i>451</i>&nbsp;            String godDescription = null;</b>
+<i>452</i>&nbsp;
+<i>453</i>&nbsp;            try {
+<i>454</i>&nbsp;
+<b class="nc"><i>455</i>&nbsp;                field = c.getDeclaredField(godDescriptionField);</b>
+<b class="nc"><i>456</i>&nbsp;                godDescription = (String) field.get(null);  //null because the field retrieved is static</b>
+<i>457</i>&nbsp;
+<b class="nc"><i>458</i>&nbsp;            } catch (NoSuchFieldException | IllegalAccessException e) {</b>
+<b class="nc"><i>459</i>&nbsp;                e.printStackTrace();</b>
+<b class="nc"><i>460</i>&nbsp;            }</b>
+<i>461</i>&nbsp;
+<b class="nc"><i>462</i>&nbsp;            printToGodTextArea(godDescription);</b>
+<i>463</i>&nbsp;
+<b class="nc"><i>464</i>&nbsp;            godClicked++;</b>
+<i>465</i>&nbsp;
+<b class="nc"><i>466</i>&nbsp;        } else {</b>
+<b class="nc"><i>467</i>&nbsp;            printToGodTextArea(&quot;&quot;);</b>
+<b class="nc"><i>468</i>&nbsp;            godClicked = 0;</b>
+<i>469</i>&nbsp;        }
+<i>470</i>&nbsp;
+<i>471</i>&nbsp;    }
+<i>472</i>&nbsp;
+<i>473</i>&nbsp;
+<i>474</i>&nbsp;    @FXML
+<i>475</i>&nbsp;    private void openMenu() {
+<b class="nc"><i>476</i>&nbsp;        menu.setVisible(true);</b>
+<i>477</i>&nbsp;    }
+<i>478</i>&nbsp;
+<i>479</i>&nbsp;    @FXML
+<i>480</i>&nbsp;    private void resume() {
+<b class="nc"><i>481</i>&nbsp;        menu.setVisible(false);</b>
+<i>482</i>&nbsp;    }
+<i>483</i>&nbsp;
+<i>484</i>&nbsp;    @FXML
+<i>485</i>&nbsp;    private void exit() {
+<b class="nc"><i>486</i>&nbsp;        System.exit(0);</b>
+<i>487</i>&nbsp;    }
+<i>488</i>&nbsp;
+<i>489</i>&nbsp;    @FXML
+<i>490</i>&nbsp;    private void godPowerOnClick() {
+<i>491</i>&nbsp;
+<b class="nc"><i>492</i>&nbsp;        if (godPowerRequested) {</b>
+<i>493</i>&nbsp;            try {
+<b class="nc"><i>494</i>&nbsp;                GuiManager.queue.put(godPowerOnAnswer);</b>
+<b class="nc"><i>495</i>&nbsp;            } catch (InterruptedException e) {</b>
+<b class="nc"><i>496</i>&nbsp;                e.printStackTrace();</b>
+<b class="nc"><i>497</i>&nbsp;            }</b>
+<b class="nc"><i>498</i>&nbsp;            printToMainText(&quot;You used your god power&quot;);</b>
+<i>499</i>&nbsp;        }
+<i>500</i>&nbsp;
+<b class="nc"><i>501</i>&nbsp;        setGodPowerRequested(false);</b>
+<i>502</i>&nbsp;    }
+<i>503</i>&nbsp;
+<i>504</i>&nbsp;    @FXML
+<i>505</i>&nbsp;    private void godPowerOffClick() {
+<i>506</i>&nbsp;
+<b class="nc"><i>507</i>&nbsp;        if (godPowerRequested) {</b>
+<i>508</i>&nbsp;            try {
+<b class="nc"><i>509</i>&nbsp;                GuiManager.queue.put(godPowerOffAnswer);</b>
+<b class="nc"><i>510</i>&nbsp;            } catch (InterruptedException e) {</b>
+<b class="nc"><i>511</i>&nbsp;                e.printStackTrace();</b>
+<b class="nc"><i>512</i>&nbsp;            }</b>
+<b class="nc"><i>513</i>&nbsp;            printToMainText(&quot;You didn&#39;t use your god power&quot;);</b>
+<i>514</i>&nbsp;        }
+<b class="nc"><i>515</i>&nbsp;        setGodPowerRequested(false);</b>
+<i>516</i>&nbsp;    }
+<i>517</i>&nbsp;
+<i>518</i>&nbsp;
+<i>519</i>&nbsp;    @FXML
+<i>520</i>&nbsp;    public void confirmRead() {
+<i>521</i>&nbsp;        try {
+<b class="nc"><i>522</i>&nbsp;            GuiManager.queue.put(true);</b>
+<b class="nc"><i>523</i>&nbsp;        } catch (InterruptedException e) {</b>
+<b class="nc"><i>524</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>525</i>&nbsp;        }</b>
+<i>526</i>&nbsp;
+<b class="nc"><i>527</i>&nbsp;        confirmButton.setVisible(false);</b>
+<i>528</i>&nbsp;    }
+<i>529</i>&nbsp;
+<i>530</i>&nbsp;
+<i>531</i>&nbsp;    public void setConfirmButtonVisible() {
+<b class="nc"><i>532</i>&nbsp;        confirmButton.setVisible(true);</b>
+<i>533</i>&nbsp;    }
+<i>534</i>&nbsp;
+<i>535</i>&nbsp;
+<i>536</i>&nbsp;    private void glowLevel(double value, Node source) {
+<b class="nc"><i>537</i>&nbsp;        Glow glow = new Glow(value);</b>
+<i>538</i>&nbsp;
+<b class="nc"><i>539</i>&nbsp;        source.setEffect(glow);</b>
+<i>540</i>&nbsp;
+<i>541</i>&nbsp;    }
+<i>542</i>&nbsp;
+<i>543</i>&nbsp;
+<i>544</i>&nbsp;    @FXML
+<i>545</i>&nbsp;    private void unglow(MouseEvent event) {
+<b class="nc"><i>546</i>&nbsp;        Node source = (Node) event.getSource();</b>
+<i>547</i>&nbsp;
+<i>548</i>&nbsp;        //for imageview of worker
+<b class="nc"><i>549</i>&nbsp;        if (source instanceof ImageView)</b>
+<b class="nc"><i>550</i>&nbsp;            source = source.getParent();</b>
+<i>551</i>&nbsp;
+<b class="nc"><i>552</i>&nbsp;        glowLevel(0, source);</b>
+<i>553</i>&nbsp;
+<i>554</i>&nbsp;    }
+<i>555</i>&nbsp;
+<i>556</i>&nbsp;
+<i>557</i>&nbsp;    @FXML
+<i>558</i>&nbsp;    private void glow(MouseEvent event) {
+<b class="nc"><i>559</i>&nbsp;        Node source = (Node) event.getSource();</b>
+<i>560</i>&nbsp;
+<i>561</i>&nbsp;        //for imageview of worker
+<b class="nc"><i>562</i>&nbsp;        if (source instanceof ImageView)</b>
+<b class="nc"><i>563</i>&nbsp;            source = source.getParent();</b>
+<i>564</i>&nbsp;
+<b class="nc"><i>565</i>&nbsp;        glowLevel(0.3, source);</b>
+<i>566</i>&nbsp;
+<i>567</i>&nbsp;    }
+<i>568</i>&nbsp;
+<i>569</i>&nbsp;    protected void removeGodFrame(String loserNickname) {
+<i>570</i>&nbsp;
+<b class="nc"><i>571</i>&nbsp;        String nickname2 = players.get(1).getNickname();</b>
+<b class="nc"><i>572</i>&nbsp;        String god3 = players.get(2).getGod();</b>
+<b class="nc"><i>573</i>&nbsp;        String nickname3 = players.get(2).getNickname();</b>
+<i>574</i>&nbsp;
+<i>575</i>&nbsp;
+<i>576</i>&nbsp;        //if the player in the right corner has lost,swap info between player 2 and 3
+<b class="nc"><i>577</i>&nbsp;        if (nickname2.equals(loserNickname)) {</b>
+<b class="nc"><i>578</i>&nbsp;            otherNicknameRight.setText(nickname3);</b>
+<b class="nc"><i>579</i>&nbsp;            Image godRightImage = new Image(&quot;/gods/full_&quot; + god3.toLowerCase() + &quot;.png&quot;);</b>
+<b class="nc"><i>580</i>&nbsp;            otherGodRight.setImage(godRightImage);</b>
+<i>581</i>&nbsp;        }
+<i>582</i>&nbsp;
+<i>583</i>&nbsp;        //removes the other player left data
+<b class="nc"><i>584</i>&nbsp;        godLeftFrame.setVisible(false);</b>
+<b class="nc"><i>585</i>&nbsp;        godLeftBar.setVisible(false);</b>
+<b class="nc"><i>586</i>&nbsp;        otherNicknameLeft.setVisible(false);</b>
+<b class="nc"><i>587</i>&nbsp;        otherGodLeft.setVisible(false);</b>
+<i>588</i>&nbsp;
+<i>589</i>&nbsp;    }
+<i>590</i>&nbsp;
+<i>591</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 21:20</div>
+</div>
+</body>
+</html>

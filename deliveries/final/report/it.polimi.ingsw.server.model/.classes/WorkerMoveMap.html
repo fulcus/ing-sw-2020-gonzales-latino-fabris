@@ -1,0 +1,188 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: WorkerMoveMap</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.server.model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: WorkerMoveMap (it.polimi.ingsw.server.model)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">WorkerMoveMap</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/ 9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (17/ 17)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">WorkerMoveMap$$EnhancerByMockitoWithCGLIB$$5f17848c</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/ 9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (17/ 17)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.server.model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;
+<i>4</i>&nbsp;/**
+<i>5</i>&nbsp; * Represents the positions adjacent to the worker, in which he
+<i>6</i>&nbsp; * may or may not move, depending on the boolean value of the cell.
+<i>7</i>&nbsp; */
+<i>8</i>&nbsp;public class WorkerMoveMap extends WorkerMap {
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;    public WorkerMoveMap(Worker worker) {
+<b class="fc"><i>12</i>&nbsp;        super(worker);</b>
+<b class="fc"><i>13</i>&nbsp;    }</b>
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    /**
+<i>17</i>&nbsp;     * Forbids worker to move in a cell occupied by a dome.
+<i>18</i>&nbsp;     */
+<i>19</i>&nbsp;    public void cannotMoveInDomeCell() {
+<b class="fc"><i>20</i>&nbsp;        domeCellFalse();</b>
+<b class="fc"><i>21</i>&nbsp;    }</b>
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    /**
+<i>25</i>&nbsp;     * Forbids worker to move in a cell occupied by a dome or another worker.
+<i>26</i>&nbsp;     */
+<i>27</i>&nbsp;    public void cannotMoveInOccupiedCell() {
+<b class="fc"><i>28</i>&nbsp;        occupiedCellFalse();</b>
+<b class="fc"><i>29</i>&nbsp;    }</b>
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    /**
+<i>33</i>&nbsp;     * Forbids worker to move in a cell occupied by the other worker of the same player.
+<i>34</i>&nbsp;     */
+<i>35</i>&nbsp;    public void cannotMoveInFriendlyWorkerCell() {
+<b class="fc"><i>36</i>&nbsp;        friendlyWorkerCellFalse();</b>
+<b class="fc"><i>37</i>&nbsp;    }</b>
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;    /**
+<i>41</i>&nbsp;     * Forbids worker to not move.
+<i>42</i>&nbsp;     */
+<i>43</i>&nbsp;    public void cannotStayStill() {
+<b class="fc"><i>44</i>&nbsp;        setCenterPosition(false);</b>
+<b class="fc"><i>45</i>&nbsp;    }</b>
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    /**
+<i>49</i>&nbsp;     * Finds out if worker is allowed to move in a given cell of the board.
+<i>50</i>&nbsp;     *
+<i>51</i>&nbsp;     * @param i Board coordinate X.
+<i>52</i>&nbsp;     * @param j Board coordinate Y.
+<i>53</i>&nbsp;     * @return True if it can move in cell, false otherwise.
+<i>54</i>&nbsp;     */
+<i>55</i>&nbsp;    public boolean isAllowedToMoveBoard(int i, int j) {
+<b class="fc"><i>56</i>&nbsp;        return getBooleanCellBoard(i, j);</b>
+<i>57</i>&nbsp;    }
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;    /**
+<i>61</i>&nbsp;     * Finds out if worker is allowed to move in a given cell of the moveMap.
+<i>62</i>&nbsp;     *
+<i>63</i>&nbsp;     * @param i moveMap coordinate X.
+<i>64</i>&nbsp;     * @param j moveMap coordinate Y.
+<i>65</i>&nbsp;     * @return True if it can move in position, false otherwise.
+<i>66</i>&nbsp;     */
+<i>67</i>&nbsp;    public boolean isAllowedToMoveWorkersMap(int i, int j) {
+<b class="fc"><i>68</i>&nbsp;        return getBooleanCellWorkerMap(i, j);</b>
+<i>69</i>&nbsp;    }
+<i>70</i>&nbsp;
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;    /**
+<i>73</i>&nbsp;     * Allows or forbids player to move up based on the canMoveUp attribute of Player.
+<i>74</i>&nbsp;     */
+<i>75</i>&nbsp;    public void updateMoveUpRestrictions() {
+<i>76</i>&nbsp;
+<b class="fc"><i>77</i>&nbsp;        if (getWorker().getPlayer().getCanMoveUp())</b>
+<b class="fc"><i>78</i>&nbsp;            levelDifferenceLessEqualThanX(1);</b>
+<i>79</i>&nbsp;        else
+<b class="fc"><i>80</i>&nbsp;            levelDifferenceLessEqualThanX(0);</b>
+<b class="fc"><i>81</i>&nbsp;    }</b>
+<i>82</i>&nbsp;
+<i>83</i>&nbsp;
+<i>84</i>&nbsp;    /**
+<i>85</i>&nbsp;     * Checks if the worker can move.
+<i>86</i>&nbsp;     *
+<i>87</i>&nbsp;     * @return Returns true if there is a cell the worker can move in, false otherwise.
+<i>88</i>&nbsp;     */
+<i>89</i>&nbsp;    public boolean anyAvailableMovePosition() {
+<b class="fc"><i>90</i>&nbsp;        return anyTrueCell();</b>
+<i>91</i>&nbsp;    }
+<i>92</i>&nbsp;
+<i>93</i>&nbsp;
+<i>94</i>&nbsp;
+<i>95</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 21:20</div>
+</div>
+</body>
+</html>

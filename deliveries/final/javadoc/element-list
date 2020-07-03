@@ -1,0 +1,8 @@
+it.polimi.ingsw.client
+it.polimi.ingsw.client.cli
+it.polimi.ingsw.client.gui
+it.polimi.ingsw.serializable
+it.polimi.ingsw.server
+it.polimi.ingsw.server.controller
+it.polimi.ingsw.server.controller.god
+it.polimi.ingsw.server.model

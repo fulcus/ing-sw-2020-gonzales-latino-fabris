@@ -1,0 +1,406 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ChooseGodController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.client.gui</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ChooseGodController (it.polimi.ingsw.client.gui)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ChooseGodController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 75)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.client.gui;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import javafx.fxml.FXML;
+<i>4</i>&nbsp;import javafx.scene.control.Button;
+<i>5</i>&nbsp;import javafx.scene.control.Label;
+<i>6</i>&nbsp;import javafx.scene.control.TextArea;
+<i>7</i>&nbsp;import javafx.scene.image.Image;
+<i>8</i>&nbsp;import javafx.scene.image.ImageView;
+<i>9</i>&nbsp;import javafx.scene.input.MouseEvent;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;import java.lang.reflect.Field;
+<i>12</i>&nbsp;import java.util.ArrayList;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;/**
+<i>15</i>&nbsp; * Controller class of the GUI choose god scene.
+<i>16</i>&nbsp; */
+<i>17</i>&nbsp;public class ChooseGodController {
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    @FXML
+<i>20</i>&nbsp;    private ImageView apolloFrame;
+<i>21</i>&nbsp;    @FXML
+<i>22</i>&nbsp;    private ImageView artemisFrame;
+<i>23</i>&nbsp;    @FXML
+<i>24</i>&nbsp;    private ImageView athenaFrame;
+<i>25</i>&nbsp;    @FXML
+<i>26</i>&nbsp;    private ImageView atlasFrame;
+<i>27</i>&nbsp;    @FXML
+<i>28</i>&nbsp;    private ImageView charonFrame;
+<i>29</i>&nbsp;    @FXML
+<i>30</i>&nbsp;    private ImageView demeterFrame;
+<i>31</i>&nbsp;    @FXML
+<i>32</i>&nbsp;    private ImageView hephaestusFrame;
+<i>33</i>&nbsp;    @FXML
+<i>34</i>&nbsp;    private ImageView heraFrame;
+<i>35</i>&nbsp;    @FXML
+<i>36</i>&nbsp;    private ImageView hestiaFrame;
+<i>37</i>&nbsp;    @FXML
+<i>38</i>&nbsp;    private ImageView minotaurFrame;
+<i>39</i>&nbsp;    @FXML
+<i>40</i>&nbsp;    private ImageView panFrame;
+<i>41</i>&nbsp;    @FXML
+<i>42</i>&nbsp;    private ImageView prometheusFrame;
+<i>43</i>&nbsp;    @FXML
+<i>44</i>&nbsp;    private ImageView tritonFrame;
+<i>45</i>&nbsp;    @FXML
+<i>46</i>&nbsp;    private ImageView zeusFrame;
+<i>47</i>&nbsp;    @FXML
+<i>48</i>&nbsp;    private Label godName;
+<i>49</i>&nbsp;    @FXML
+<i>50</i>&nbsp;    private TextArea godDescriptionArea;
+<i>51</i>&nbsp;    @FXML
+<i>52</i>&nbsp;    private ImageView selectedGodImage;
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;    @FXML
+<i>55</i>&nbsp;    private Label mainText;
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;    @FXML
+<i>58</i>&nbsp;    private Button select;
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;    protected static final String apolloDescription = &quot;Your Worker may move into an opponent Worker’s space\n by forcing their Worker to the space yours just vacated.&quot;;
+<i>61</i>&nbsp;    protected static final String artemisDescription = &quot;Your Worker may move one additional time, but not back to its initial space.&quot;;
+<i>62</i>&nbsp;    protected static final String athenaDescription = &quot;If one of your Workers moved up on your last turn, \nopponent Workers cannot move up this turn.&quot;;
+<i>63</i>&nbsp;    protected static final String atlasDescription = &quot;Your Worker may build a dome at any level.&quot;;
+<i>64</i>&nbsp;    protected static final String charonDescription = &quot;Before your Worker moves, you may force a neighboring opponent Worker\n to the space directly on the other side of your Worker, if that space is unoccupied.&quot;;
+<i>65</i>&nbsp;    protected static final String demeterDescription = &quot;Your Worker may build one additional time, but not on the same space.&quot;;
+<i>66</i>&nbsp;    protected static final String hephaestusDescription = &quot;Your Worker may build one additional block (not dome) \non top of your first block.&quot;;
+<i>67</i>&nbsp;    protected static final String heraDescription = &quot;An opponent cannot win by moving into a perimeter space.&quot;;
+<i>68</i>&nbsp;    protected static final String hestiaDescription = &quot;Your Worker may build one additional time,\nbut this cannot be on a perimeter space.&quot;;
+<i>69</i>&nbsp;    protected static final String minotaurDescription = &quot;Your Worker may move into an opponent Worker’s space, if their Worker\n can be forced one space straight backwards to an unoccupied space at any level.&quot;;
+<i>70</i>&nbsp;    protected static final String panDescription = &quot;You also win if your Worker moves down two or more levels.&quot;;
+<i>71</i>&nbsp;    protected static final String prometheusDescription = &quot;If your Worker does not move up, \nit may build both before and after moving.&quot;;
+<i>72</i>&nbsp;    protected static final String tritonDescription = &quot;Each time your Worker moves into a perimeter space, \nit may immediately move again.&quot;;
+<i>73</i>&nbsp;    protected static final String zeusDescription = &quot;Your Worker may build a block under itself.&quot;;
+<i>74</i>&nbsp;
+<i>75</i>&nbsp;    private final Image whiteFrame;
+<i>76</i>&nbsp;    private final Image blueFrame;
+<i>77</i>&nbsp;    private final Image redFrame;
+<i>78</i>&nbsp;
+<i>79</i>&nbsp;    private ImageView godFrame;
+<i>80</i>&nbsp;    private String selectedGodID;
+<i>81</i>&nbsp;
+<i>82</i>&nbsp;    private boolean challenger;
+<i>83</i>&nbsp;    protected ArrayList&lt;ImageView&gt; redFrames;
+<i>84</i>&nbsp;
+<i>85</i>&nbsp;
+<b class="nc"><i>86</i>&nbsp;    public ChooseGodController() {</b>
+<b class="nc"><i>87</i>&nbsp;        redFrames = new ArrayList&lt;&gt;(3);</b>
+<b class="nc"><i>88</i>&nbsp;        whiteFrame = new Image(&quot;/frames/frame_white.png&quot;);</b>
+<b class="nc"><i>89</i>&nbsp;        blueFrame = new Image(&quot;/frames/frame_blue.png&quot;);</b>
+<b class="nc"><i>90</i>&nbsp;        redFrame = new Image(&quot;/frames/frame_coral.png&quot;);</b>
+<b class="nc"><i>91</i>&nbsp;        selectedGodID = null;</b>
+<b class="nc"><i>92</i>&nbsp;        challenger = false;</b>
+<i>93</i>&nbsp;
+<i>94</i>&nbsp;    }
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;
+<i>97</i>&nbsp;    protected void init() {
+<i>98</i>&nbsp;        //  select.setDisable(true);
+<i>99</i>&nbsp;    }
+<i>100</i>&nbsp;
+<i>101</i>&nbsp;
+<i>102</i>&nbsp;    @FXML
+<i>103</i>&nbsp;    private void selectedGod(MouseEvent event) {
+<i>104</i>&nbsp;
+<b class="nc"><i>105</i>&nbsp;        String godId = ((ImageView) event.getSource()).getId();</b>
+<i>106</i>&nbsp;
+<b class="nc"><i>107</i>&nbsp;        String imagePath = &quot;/gods/full_&quot; + godId + &quot;.png&quot;;</b>
+<b class="nc"><i>108</i>&nbsp;        String name = godId.toUpperCase();</b>
+<i>109</i>&nbsp;
+<i>110</i>&nbsp;        //get the description attribute for the clicked god
+<b class="nc"><i>111</i>&nbsp;        Class&lt;?&gt; c = getClass();</b>
+<i>112</i>&nbsp;        Field godDescription;
+<b class="nc"><i>113</i>&nbsp;        String description = null;</b>
+<i>114</i>&nbsp;
+<i>115</i>&nbsp;        try {
+<b class="nc"><i>116</i>&nbsp;            godDescription = c.getDeclaredField(godId + &quot;Description&quot;);</b>
+<b class="nc"><i>117</i>&nbsp;            godDescription.setAccessible(true);</b>
+<b class="nc"><i>118</i>&nbsp;            description = (String) godDescription.get(this);</b>
+<b class="nc"><i>119</i>&nbsp;        } catch (NoSuchFieldException | IllegalAccessException e) {</b>
+<b class="nc"><i>120</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>121</i>&nbsp;        }</b>
+<i>122</i>&nbsp;
+<i>123</i>&nbsp;/*
+<i>124</i>&nbsp;        if (godFrame != null) {
+<i>125</i>&nbsp;
+<i>126</i>&nbsp;            if (godFrame.getImage().equals(redFrame))
+<i>127</i>&nbsp;                previouslyRed = true;
+<i>128</i>&nbsp;
+<i>129</i>&nbsp;            if (keepRedFrame &amp;&amp; godFrame.getImage().equals(blueFrame) &amp;&amp; previouslyRed) {
+<i>130</i>&nbsp;                godFrame.setImage(redFrame);
+<i>131</i>&nbsp;                previouslyRed = false;
+<i>132</i>&nbsp;            } else
+<i>133</i>&nbsp;                godFrame.setImage(whiteFrame);
+<i>134</i>&nbsp;        }
+<i>135</i>&nbsp;*/
+<i>136</i>&nbsp;
+<b class="nc"><i>137</i>&nbsp;        if (godFrame != null) {</b>
+<i>138</i>&nbsp;
+<i>139</i>&nbsp;            //if the clicked god, was part of selected gods, the frame is reset to red
+<b class="nc"><i>140</i>&nbsp;            if (redFrames.contains(godFrame))</b>
+<b class="nc"><i>141</i>&nbsp;                godFrame.setImage(redFrame);</b>
+<i>142</i>&nbsp;
+<i>143</i>&nbsp;            else
+<b class="nc"><i>144</i>&nbsp;                godFrame.setImage(whiteFrame);</b>
+<i>145</i>&nbsp;        }
+<i>146</i>&nbsp;
+<i>147</i>&nbsp;
+<i>148</i>&nbsp;        //get the ImageView godFrame attribute for the clicked god
+<i>149</i>&nbsp;        Field frame;
+<i>150</i>&nbsp;
+<i>151</i>&nbsp;        try {
+<b class="nc"><i>152</i>&nbsp;            frame = c.getDeclaredField(godId + &quot;Frame&quot;);</b>
+<b class="nc"><i>153</i>&nbsp;            frame.setAccessible(true);</b>
+<b class="nc"><i>154</i>&nbsp;            godFrame = (ImageView) frame.get(this);</b>
+<b class="nc"><i>155</i>&nbsp;        } catch (NoSuchFieldException | IllegalAccessException e) {</b>
+<b class="nc"><i>156</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>157</i>&nbsp;        }</b>
+<i>158</i>&nbsp;
+<b class="nc"><i>159</i>&nbsp;        godFrame.setImage(blueFrame);</b>
+<i>160</i>&nbsp;
+<i>161</i>&nbsp;
+<b class="nc"><i>162</i>&nbsp;        Image selectedGod = new Image(imagePath);</b>
+<b class="nc"><i>163</i>&nbsp;        selectedGodImage.setImage(selectedGod);</b>
+<i>164</i>&nbsp;
+<b class="nc"><i>165</i>&nbsp;        godName.setText(name);</b>
+<i>166</i>&nbsp;
+<b class="nc"><i>167</i>&nbsp;        godDescriptionArea.clear();</b>
+<b class="nc"><i>168</i>&nbsp;        godDescriptionArea.appendText(description);</b>
+<i>169</i>&nbsp;
+<b class="nc"><i>170</i>&nbsp;        selectedGodID = godId;</b>
+<i>171</i>&nbsp;
+<i>172</i>&nbsp;    }
+<i>173</i>&nbsp;
+<i>174</i>&nbsp;
+<i>175</i>&nbsp;    @FXML
+<i>176</i>&nbsp;    private void select() {
+<i>177</i>&nbsp;
+<b class="nc"><i>178</i>&nbsp;        if (selectedGodID == null)</b>
+<b class="nc"><i>179</i>&nbsp;            mainText.setText(&quot;Select a God!&quot;);</b>
+<i>180</i>&nbsp;
+<i>181</i>&nbsp;        else {
+<i>182</i>&nbsp;            try {
+<b class="nc"><i>183</i>&nbsp;                GuiManager.queue.put(selectedGodID);</b>
+<b class="nc"><i>184</i>&nbsp;            } catch (InterruptedException e) {</b>
+<b class="nc"><i>185</i>&nbsp;                e.printStackTrace();</b>
+<b class="nc"><i>186</i>&nbsp;            }</b>
+<i>187</i>&nbsp;        }
+<i>188</i>&nbsp;    }
+<i>189</i>&nbsp;
+<i>190</i>&nbsp;
+<i>191</i>&nbsp;    public void getGodFromChallenger(int numOfPlayers, int alreadyChosenGods) {
+<i>192</i>&nbsp;
+<b class="nc"><i>193</i>&nbsp;        setChallenger();</b>
+<i>194</i>&nbsp;
+<b class="nc"><i>195</i>&nbsp;        select.setDisable(false);</b>
+<i>196</i>&nbsp;
+<b class="nc"><i>197</i>&nbsp;        int godsLeftToChoose = numOfPlayers - alreadyChosenGods;</b>
+<i>198</i>&nbsp;
+<b class="nc"><i>199</i>&nbsp;        if (godsLeftToChoose == 2 || godsLeftToChoose == 3)</b>
+<b class="nc"><i>200</i>&nbsp;            mainText.setText(&quot;You are the Challenger! Select &quot; + godsLeftToChoose + &quot; gods&quot;);</b>
+<i>201</i>&nbsp;
+<i>202</i>&nbsp;        else
+<b class="nc"><i>203</i>&nbsp;            mainText.setText(&quot;You are the Challenger! Select &quot; + godsLeftToChoose + &quot; god&quot;);</b>
+<i>204</i>&nbsp;
+<i>205</i>&nbsp;    }
+<i>206</i>&nbsp;
+<i>207</i>&nbsp;
+<i>208</i>&nbsp;    public void setChallenger() {
+<b class="nc"><i>209</i>&nbsp;        challenger = true;</b>
+<i>210</i>&nbsp;    }
+<i>211</i>&nbsp;
+<i>212</i>&nbsp;
+<i>213</i>&nbsp;    /**
+<i>214</i>&nbsp;     * Lets the player know that the other player is choosing his god for the game.
+<i>215</i>&nbsp;     *
+<i>216</i>&nbsp;     * @param otherPlayer The nickname of the other player who&#39;s choosing his god.
+<i>217</i>&nbsp;     */
+<i>218</i>&nbsp;    public void waitOtherPlayerChooseGod(String otherPlayer) {
+<i>219</i>&nbsp;
+<b class="nc"><i>220</i>&nbsp;        select.setDisable(true);</b>
+<b class="nc"><i>221</i>&nbsp;        mainText.setText(otherPlayer + &quot; is choosing his god...&quot;);</b>
+<i>222</i>&nbsp;    }
+<i>223</i>&nbsp;
+<i>224</i>&nbsp;
+<i>225</i>&nbsp;    /**
+<i>226</i>&nbsp;     * Lets the player know that the challenger is choosing the gods for the game.
+<i>227</i>&nbsp;     *
+<i>228</i>&nbsp;     * @param challenger The nickname of the challenger.
+<i>229</i>&nbsp;     */
+<i>230</i>&nbsp;    public void waitChallengerChooseGods(String challenger) {
+<i>231</i>&nbsp;
+<b class="nc"><i>232</i>&nbsp;        mainText.setText(challenger + &quot; is the Challenger and is choosing the gods...&quot;);</b>
+<i>233</i>&nbsp;    }
+<i>234</i>&nbsp;
+<i>235</i>&nbsp;
+<i>236</i>&nbsp;    /**
+<i>237</i>&nbsp;     * Gives the player the order to choose the god for the game.
+<i>238</i>&nbsp;     * The player must choose an available god chosen by the challenger.
+<i>239</i>&nbsp;     */
+<i>240</i>&nbsp;    public void askPlayerGod() {
+<b class="nc"><i>241</i>&nbsp;        mainText.setText(&quot;Choose your god!.&quot;);</b>
+<b class="nc"><i>242</i>&nbsp;        select.setDisable(false);</b>
+<i>243</i>&nbsp;    }
+<i>244</i>&nbsp;
+<i>245</i>&nbsp;
+<i>246</i>&nbsp;    /**
+<i>247</i>&nbsp;     * Shows with a frame the gods that the challenger has chosen for the game.
+<i>248</i>&nbsp;     *
+<i>249</i>&nbsp;     * @param chosenGods The list of the chosen gods.
+<i>250</i>&nbsp;     */
+<i>251</i>&nbsp;    public void printChosenGods(ArrayList&lt;String&gt; chosenGods) {
+<i>252</i>&nbsp;
+<b class="nc"><i>253</i>&nbsp;        Class&lt;?&gt; c = getClass();</b>
+<i>254</i>&nbsp;        Field godFrame;
+<i>255</i>&nbsp;        ImageView frame;
+<i>256</i>&nbsp;
+<i>257</i>&nbsp;
+<b class="nc"><i>258</i>&nbsp;        for (String godId : chosenGods) {</b>
+<i>259</i>&nbsp;
+<i>260</i>&nbsp;
+<i>261</i>&nbsp;            try {
+<b class="nc"><i>262</i>&nbsp;                godFrame = c.getDeclaredField(godId.toLowerCase() + &quot;Frame&quot;);</b>
+<b class="nc"><i>263</i>&nbsp;                godFrame.setAccessible(true);</b>
+<b class="nc"><i>264</i>&nbsp;                frame = (ImageView) godFrame.get(this);</b>
+<b class="nc"><i>265</i>&nbsp;                frame.setImage(redFrame);</b>
+<i>266</i>&nbsp;
+<i>267</i>&nbsp;
+<b class="nc"><i>268</i>&nbsp;                redFrames.add(frame);//creates arraylist with frames of chosen gods</b>
+<i>269</i>&nbsp;                //when receive gods chosen by other players, remove from arraylist
+<i>270</i>&nbsp;
+<i>271</i>&nbsp;                //setKeepRedFrame();
+<i>272</i>&nbsp;
+<b class="nc"><i>273</i>&nbsp;            } catch (NoSuchFieldException | IllegalAccessException e) {</b>
+<b class="nc"><i>274</i>&nbsp;                e.printStackTrace();</b>
+<b class="nc"><i>275</i>&nbsp;            }</b>
+<i>276</i>&nbsp;
+<b class="nc"><i>277</i>&nbsp;        }</b>
+<i>278</i>&nbsp;
+<i>279</i>&nbsp;    }
+<i>280</i>&nbsp;
+<i>281</i>&nbsp;
+<i>282</i>&nbsp;    /**
+<i>283</i>&nbsp;     * If a player has already chosen the god for the current game, the other players are notified of his choice.
+<i>284</i>&nbsp;     *
+<i>285</i>&nbsp;     * @param otherPlayer The player who has already made his choice.
+<i>286</i>&nbsp;     * @param chosenGod   The god that the other player has chosen.
+<i>287</i>&nbsp;     */
+<i>288</i>&nbsp;    public void otherPlayerChoseGod(String otherPlayer, String chosenGod) {
+<i>289</i>&nbsp;
+<b class="nc"><i>290</i>&nbsp;        Class&lt;?&gt; c = getClass();</b>
+<i>291</i>&nbsp;        Field godFrame;
+<i>292</i>&nbsp;        ImageView frame;
+<i>293</i>&nbsp;
+<i>294</i>&nbsp;        try {
+<b class="nc"><i>295</i>&nbsp;            godFrame = c.getDeclaredField(chosenGod.toLowerCase() + &quot;Frame&quot;);</b>
+<b class="nc"><i>296</i>&nbsp;            godFrame.setAccessible(true);</b>
+<b class="nc"><i>297</i>&nbsp;            frame = (ImageView) godFrame.get(this);</b>
+<i>298</i>&nbsp;
+<i>299</i>&nbsp;            //when receive gods chosen by other players, remove from arraylist
+<b class="nc"><i>300</i>&nbsp;            redFrames.remove(frame);</b>
+<i>301</i>&nbsp;
+<b class="nc"><i>302</i>&nbsp;            frame.setImage(whiteFrame); //set to white</b>
+<i>303</i>&nbsp;
+<i>304</i>&nbsp;
+<b class="nc"><i>305</i>&nbsp;        } catch (NoSuchFieldException | IllegalAccessException e) {</b>
+<b class="nc"><i>306</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>307</i>&nbsp;        }</b>
+<i>308</i>&nbsp;
+<i>309</i>&nbsp;
+<b class="nc"><i>310</i>&nbsp;        mainText.setText(otherPlayer + &quot; has chosen &quot; + chosenGod);</b>
+<i>311</i>&nbsp;
+<i>312</i>&nbsp;    }
+<i>313</i>&nbsp;
+<i>314</i>&nbsp;
+<i>315</i>&nbsp;    /**
+<i>316</i>&nbsp;     * Allows to print into the main text field that the god was already chosen.
+<i>317</i>&nbsp;     */
+<i>318</i>&nbsp;    public void playerChoseInvalidGod() {
+<b class="nc"><i>319</i>&nbsp;        mainText.setText(&quot;This god has already been chosen&quot;);</b>
+<i>320</i>&nbsp;    }
+<i>321</i>&nbsp;
+<i>322</i>&nbsp;
+<i>323</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 21:20</div>
+</div>
+</body>
+</html>

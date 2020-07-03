@@ -1,0 +1,238 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Minotaur</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.server.controller.god</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Minotaur (it.polimi.ingsw.server.controller.god)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Minotaur</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    98.2%
+  </span>
+  <span class="absValue">
+    (54/ 55)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.server.controller.god;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.server.controller.GodController;
+<i>4</i>&nbsp;import it.polimi.ingsw.server.controller.UnableToMoveException;
+<i>5</i>&nbsp;import it.polimi.ingsw.server.model.Board;
+<i>6</i>&nbsp;import it.polimi.ingsw.server.model.Cell;
+<i>7</i>&nbsp;import it.polimi.ingsw.server.model.Worker;
+<i>8</i>&nbsp;import it.polimi.ingsw.server.model.WorkerMoveMap;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;import java.util.ArrayList;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;/**
+<i>14</i>&nbsp; * Represents the card of the God Minotaur.
+<i>15</i>&nbsp; * Allows to follow the instructions and to apply the effect of this specific God.
+<i>16</i>&nbsp; */
+<i>17</i>&nbsp;public class Minotaur extends God {
+<i>18</i>&nbsp;
+<b class="fc"><i>19</i>&nbsp;    public final String description = &quot;Your Worker may move into an opponent Worker’s space, if their Worker can be forced one space straight backwards to an unoccupied space at any level.&quot;;</b>
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    public Minotaur(GodController godController) {
+<b class="fc"><i>23</i>&nbsp;        super(godController);</b>
+<b class="fc"><i>24</i>&nbsp;    }</b>
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    /**
+<i>28</i>&nbsp;     * The minotaur move allows also to push back an enemy worker, if the cell behind the enemy (following the same direction) is free.
+<i>29</i>&nbsp;     * Default move is still valid.
+<i>30</i>&nbsp;     *
+<i>31</i>&nbsp;     * @param worker Selected worker that will move.
+<i>32</i>&nbsp;     * @throws UnableToMoveException The worker isn&#39;t allowed to move anywhere.
+<i>33</i>&nbsp;     */
+<i>34</i>&nbsp;    @Override
+<i>35</i>&nbsp;    public void move(Worker worker) throws UnableToMoveException {
+<i>36</i>&nbsp;
+<b class="fc"><i>37</i>&nbsp;        WorkerMoveMap moveMap = updateMoveMap(worker);</b>
+<b class="fc"><i>38</i>&nbsp;        Board map = worker.getPlayer().getGame().getBoard();</b>
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;        while (true) {
+<i>41</i>&nbsp;
+<b class="fc"><i>42</i>&nbsp;            int[] movePosition = godController.getMoveInput();</b>
+<b class="fc"><i>43</i>&nbsp;            int xMove = movePosition[0] + worker.getPosition().getX();</b>
+<b class="fc"><i>44</i>&nbsp;            int yMove = movePosition[1] + worker.getPosition().getY();</b>
+<i>45</i>&nbsp;
+<b class="fc"><i>46</i>&nbsp;            int xWorker = worker.getPosition().getX();</b>
+<b class="fc"><i>47</i>&nbsp;            int yWorker = worker.getPosition().getY();</b>
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;
+<b class="fc"><i>50</i>&nbsp;            Cell moveCell = map.findCell(xMove, yMove);</b>
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;            Worker enemyWorker;
+<i>53</i>&nbsp;            //if moveCell doesn&#39;t exist returns false
+<b class="fc"><i>54</i>&nbsp;            if (moveMap.isAllowedToMoveBoard(xMove, yMove)) {</b>
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;                //forces enemy back and puts worker in its former place
+<b class="fc"><i>57</i>&nbsp;                if (moveCell.hasWorker()) {    //moveMap rules assure that worker in moveCell is enemy</b>
+<i>58</i>&nbsp;
+<b class="fc"><i>59</i>&nbsp;                    enemyWorker = moveCell.getWorker();</b>
+<b class="fc"><i>60</i>&nbsp;                    Cell newEnemyPosition = map.findCell(2 * xMove - xWorker, 2 * yMove - yWorker);</b>
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;                    //checks if enemy can move in cell
+<b class="fc"><i>63</i>&nbsp;                    if (newEnemyPosition != null &amp;&amp; !newEnemyPosition.isOccupied()) {</b>
+<i>64</i>&nbsp;
+<b class="fc"><i>65</i>&nbsp;                        enemyWorker.setPosition(newEnemyPosition);</b>
+<b class="fc"><i>66</i>&nbsp;                        worker.setPosition(moveCell);</b>
+<b class="fc"><i>67</i>&nbsp;                        godController.displayBoard();</b>
+<b class="fc"><i>68</i>&nbsp;                        return;</b>
+<i>69</i>&nbsp;                    } else { //cannot move in that cell
+<b class="fc"><i>70</i>&nbsp;                        godController.errorMoveScreen();</b>
+<i>71</i>&nbsp;                    }
+<i>72</i>&nbsp;
+<b class="fc"><i>73</i>&nbsp;                } else {</b>
+<b class="fc"><i>74</i>&nbsp;                    worker.setPosition(xMove, yMove);</b>
+<b class="fc"><i>75</i>&nbsp;                    godController.displayBoard();</b>
+<b class="fc"><i>76</i>&nbsp;                    return;</b>
+<i>77</i>&nbsp;                }
+<i>78</i>&nbsp;
+<i>79</i>&nbsp;            } else
+<b class="fc"><i>80</i>&nbsp;                godController.errorMoveScreen();</b>
+<i>81</i>&nbsp;
+<b class="fc"><i>82</i>&nbsp;        }</b>
+<i>83</i>&nbsp;    }
+<i>84</i>&nbsp;
+<i>85</i>&nbsp;    private void updateUnpushableEnemies(Worker worker) {
+<i>86</i>&nbsp;
+<b class="fc"><i>87</i>&nbsp;        WorkerMoveMap moveMap = worker.getMoveMap();</b>
+<i>88</i>&nbsp;
+<b class="fc"><i>89</i>&nbsp;        Board map = worker.getPlayer().getGame().getBoard();</b>
+<b class="fc"><i>90</i>&nbsp;        ArrayList&lt;Worker&gt; enemies = moveMap.neighboringEnemyWorkers();</b>
+<i>91</i>&nbsp;
+<b class="fc"><i>92</i>&nbsp;        int xWorker = worker.getPosition().getX();</b>
+<b class="fc"><i>93</i>&nbsp;        int yWorker = worker.getPosition().getY();</b>
+<i>94</i>&nbsp;        int xEnemy, yEnemy;
+<i>95</i>&nbsp;
+<b class="fc"><i>96</i>&nbsp;        for (Worker enemy : enemies) {</b>
+<i>97</i>&nbsp;
+<b class="fc"><i>98</i>&nbsp;            xEnemy = enemy.getPosition().getX();</b>
+<b class="fc"><i>99</i>&nbsp;            yEnemy = enemy.getPosition().getY();</b>
+<i>100</i>&nbsp;
+<b class="fc"><i>101</i>&nbsp;            Cell newEnemyPosition = map.findCell(2 * xEnemy - xWorker, 2 * yEnemy - yWorker);</b>
+<i>102</i>&nbsp;
+<b class="fc"><i>103</i>&nbsp;            int relativeX = xEnemy - xWorker + 1;</b>
+<b class="fc"><i>104</i>&nbsp;            int relativeY = yEnemy - yWorker + 1;</b>
+<i>105</i>&nbsp;
+<i>106</i>&nbsp;            //checks if enemy can move in cell
+<b class="fc"><i>107</i>&nbsp;            if (newEnemyPosition == null || newEnemyPosition.isOccupied()) {</b>
+<b class="nc"><i>108</i>&nbsp;                moveMap.setCell(relativeX, relativeY, false);</b>
+<i>109</i>&nbsp;            }
+<i>110</i>&nbsp;            //else leaves previous value in cell (might be false for other reasons)
+<b class="fc"><i>111</i>&nbsp;        }</b>
+<i>112</i>&nbsp;
+<b class="fc"><i>113</i>&nbsp;    }</b>
+<i>114</i>&nbsp;
+<i>115</i>&nbsp;
+<i>116</i>&nbsp;    /**
+<i>117</i>&nbsp;     * The difference from the default method is that the worker can move into an enemy occupied cell.
+<i>118</i>&nbsp;     *
+<i>119</i>&nbsp;     * @param worker worker playing the turn.
+<i>120</i>&nbsp;     * @return The WorkerMoveMap of the chosen worker of the current turn.
+<i>121</i>&nbsp;     * @throws UnableToMoveException The worker isn&#39;t allowed to move anywhere.
+<i>122</i>&nbsp;     */
+<i>123</i>&nbsp;    @Override
+<i>124</i>&nbsp;    public WorkerMoveMap updateMoveMap(Worker worker) throws UnableToMoveException {
+<b class="fc"><i>125</i>&nbsp;        WorkerMoveMap moveMap = worker.getMoveMap();</b>
+<b class="fc"><i>126</i>&nbsp;        moveMap.reset();</b>
+<i>127</i>&nbsp;
+<b class="fc"><i>128</i>&nbsp;        moveMap.updateCellsOutOfMap();</b>
+<b class="fc"><i>129</i>&nbsp;        moveMap.updateMoveUpRestrictions();</b>
+<i>130</i>&nbsp;
+<b class="fc"><i>131</i>&nbsp;        moveMap.cannotStayStill();</b>
+<b class="fc"><i>132</i>&nbsp;        moveMap.cannotMoveInDomeCell();</b>
+<b class="fc"><i>133</i>&nbsp;        moveMap.cannotMoveInFriendlyWorkerCell();</b>
+<i>134</i>&nbsp;
+<b class="fc"><i>135</i>&nbsp;        updateUnpushableEnemies(worker);</b>
+<i>136</i>&nbsp;
+<i>137</i>&nbsp;        //moveMap.printMap();    //debugging
+<i>138</i>&nbsp;
+<b class="fc"><i>139</i>&nbsp;        if (!moveMap.anyAvailableMovePosition())</b>
+<b class="fc"><i>140</i>&nbsp;            throw new UnableToMoveException();</b>
+<i>141</i>&nbsp;
+<b class="fc"><i>142</i>&nbsp;        return moveMap;</b>
+<i>143</i>&nbsp;    }
+<i>144</i>&nbsp;
+<i>145</i>&nbsp;
+<i>146</i>&nbsp;    public GodController getGodController() {
+<b class="fc"><i>147</i>&nbsp;        return godController;</b>
+<i>148</i>&nbsp;    }
+<i>149</i>&nbsp;
+<i>150</i>&nbsp;
+<i>151</i>&nbsp;    public String getDescription() {
+<b class="fc"><i>152</i>&nbsp;        return description;</b>
+<i>153</i>&nbsp;    }
+<i>154</i>&nbsp;
+<i>155</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 21:20</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,568 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: GameController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.server.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: GameController (it.polimi.ingsw.server.controller)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GameController</td>
+<td class="coverageStat">
+  <span class="percent">
+    96.4%
+  </span>
+  <span class="absValue">
+    (27/ 28)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    87.9%
+  </span>
+  <span class="absValue">
+    (138/ 157)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">GameController$$EnhancerByMockitoWithCGLIB$$a6da3964</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    96.4%
+  </span>
+  <span class="absValue">
+    (27/ 28)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    87.9%
+  </span>
+  <span class="absValue">
+    (138/ 157)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.server.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.server.VirtualView;
+<i>4</i>&nbsp;import it.polimi.ingsw.server.controller.god.*;
+<i>5</i>&nbsp;import it.polimi.ingsw.server.model.Board;
+<i>6</i>&nbsp;import it.polimi.ingsw.server.model.Color;
+<i>7</i>&nbsp;import it.polimi.ingsw.server.model.Game;
+<i>8</i>&nbsp;import it.polimi.ingsw.server.model.Player;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;import java.util.ArrayList;
+<i>11</i>&nbsp;import java.util.concurrent.ExecutorService;
+<i>12</i>&nbsp;import java.util.concurrent.Executors;
+<i>13</i>&nbsp;import java.util.concurrent.TimeUnit;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;/**
+<i>17</i>&nbsp; * Controls the flow of the setup of the game.
+<i>18</i>&nbsp; */
+<i>19</i>&nbsp;public class GameController {
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    private Game game;
+<i>22</i>&nbsp;    private TurnHandler turnHandler;
+<i>23</i>&nbsp;    private GodController godController;
+<i>24</i>&nbsp;    private final ArrayList&lt;God&gt; godsDeck;
+<i>25</i>&nbsp;    private final ExecutorService executorPlayerAdder;
+<i>26</i>&nbsp;    private final ArrayList&lt;VirtualView&gt; gameClients;
+<i>27</i>&nbsp;    private final Object nicknameLock;
+<i>28</i>&nbsp;    private final Object colorLock;
+<i>29</i>&nbsp;    private volatile boolean full;
+<i>30</i>&nbsp;    private volatile boolean ended;
+<i>31</i>&nbsp;    private int clientsConnected;
+<i>32</i>&nbsp;    private final ArrayList&lt;String&gt; gameColors;
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;
+<b class="fc"><i>35</i>&nbsp;    public GameController() {</b>
+<b class="fc"><i>36</i>&nbsp;        game = null;</b>
+<b class="fc"><i>37</i>&nbsp;        turnHandler = null;</b>
+<b class="fc"><i>38</i>&nbsp;        godsDeck = new ArrayList&lt;&gt;(14);</b>
+<b class="fc"><i>39</i>&nbsp;        executorPlayerAdder = Executors.newCachedThreadPool();</b>
+<b class="fc"><i>40</i>&nbsp;        gameClients = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>41</i>&nbsp;        nicknameLock = new Object();</b>
+<b class="fc"><i>42</i>&nbsp;        colorLock = new Object();</b>
+<b class="fc"><i>43</i>&nbsp;        clientsConnected = 1; //counting creator</b>
+<b class="fc"><i>44</i>&nbsp;        full = false;</b>
+<b class="fc"><i>45</i>&nbsp;        ended = false;</b>
+<b class="fc"><i>46</i>&nbsp;        gameColors = new ArrayList&lt;&gt;(3);</b>
+<b class="fc"><i>47</i>&nbsp;        gameColors.add(&quot;BLUE&quot;);</b>
+<b class="fc"><i>48</i>&nbsp;        gameColors.add(&quot;WHITE&quot;);</b>
+<b class="fc"><i>49</i>&nbsp;        gameColors.add(&quot;BEIGE&quot;);</b>
+<b class="fc"><i>50</i>&nbsp;    }</b>
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;    /**
+<i>54</i>&nbsp;     * The first client that finds that no game is available then creates a new one.
+<i>55</i>&nbsp;     * So the client sets up the new game and is been added to it.
+<i>56</i>&nbsp;     *
+<i>57</i>&nbsp;     * @param newClient The client that creates the new game and sets it up.
+<i>58</i>&nbsp;     */
+<i>59</i>&nbsp;    public void create(VirtualView newClient) {
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;        //send message to creator
+<b class="fc"><i>62</i>&nbsp;        newClient.createGame();</b>
+<i>63</i>&nbsp;
+<b class="fc"><i>64</i>&nbsp;        setUpGame(newClient);</b>
+<i>65</i>&nbsp;
+<b class="fc"><i>66</i>&nbsp;        executorPlayerAdder.execute(() -&gt; addPlayer(newClient));</b>
+<i>67</i>&nbsp;
+<b class="fc"><i>68</i>&nbsp;    }</b>
+<i>69</i>&nbsp;
+<i>70</i>&nbsp;
+<i>71</i>&nbsp;    /**
+<i>72</i>&nbsp;     * The joiner client is added to a game that is already been created.
+<i>73</i>&nbsp;     *
+<i>74</i>&nbsp;     * @param newClient The client that has just joined the game and needs to be added to it.
+<i>75</i>&nbsp;     */
+<i>76</i>&nbsp;    public synchronized void join(VirtualView newClient) {
+<i>77</i>&nbsp;
+<i>78</i>&nbsp;        //send message to client
+<b class="fc"><i>79</i>&nbsp;        newClient.joinGame(game.getNumberOfPlayers());</b>
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;        //send client nickname and color of all players that are already in
+<b class="fc"><i>82</i>&nbsp;        sendOtherPlayersInfo(newClient);</b>
+<i>83</i>&nbsp;
+<b class="fc"><i>84</i>&nbsp;        executorPlayerAdder.execute(() -&gt; addPlayer(newClient));</b>
+<i>85</i>&nbsp;
+<i>86</i>&nbsp;        //waits for all players to finish adding their player ie setting nickname and color
+<i>87</i>&nbsp;        //sets availableGame null
+<b class="fc"><i>88</i>&nbsp;        if (clientsConnected == game.getNumberOfPlayers()) {</b>
+<i>89</i>&nbsp;
+<b class="nc"><i>90</i>&nbsp;            executorPlayerAdder.shutdown();</b>
+<i>91</i>&nbsp;            boolean terminated;
+<i>92</i>&nbsp;
+<i>93</i>&nbsp;            try {
+<i>94</i>&nbsp;                do {
+<b class="nc"><i>95</i>&nbsp;                    terminated = executorPlayerAdder.awaitTermination(20, TimeUnit.SECONDS);</b>
+<i>96</i>&nbsp;                    //after x seconds print: waiting for other players to join
+<b class="nc"><i>97</i>&nbsp;                } while (!terminated);</b>
+<i>98</i>&nbsp;
+<b class="nc"><i>99</i>&nbsp;            } catch (InterruptedException e) {</b>
+<b class="nc"><i>100</i>&nbsp;                e.printStackTrace();</b>
+<b class="nc"><i>101</i>&nbsp;            }</b>
+<i>102</i>&nbsp;
+<b class="nc"><i>103</i>&nbsp;            new Thread(turnHandler).start();</b>
+<i>104</i>&nbsp;        }
+<b class="fc"><i>105</i>&nbsp;    }</b>
+<i>106</i>&nbsp;
+<i>107</i>&nbsp;    public void incrementClients() {
+<b class="nc"><i>108</i>&nbsp;        clientsConnected++;</b>
+<i>109</i>&nbsp;
+<b class="nc"><i>110</i>&nbsp;        if (clientsConnected == game.getNumberOfPlayers())</b>
+<b class="nc"><i>111</i>&nbsp;            full = true;</b>
+<b class="nc"><i>112</i>&nbsp;    }</b>
+<i>113</i>&nbsp;
+<i>114</i>&nbsp;
+<i>115</i>&nbsp;    /**
+<i>116</i>&nbsp;     * Sends client nickname and color of all players that are already registered.
+<i>117</i>&nbsp;     *
+<i>118</i>&nbsp;     * @param newClient The client that has just joined and needs to get the other player&#39;s information.
+<i>119</i>&nbsp;     */
+<i>120</i>&nbsp;    private void sendOtherPlayersInfo(VirtualView newClient) {
+<i>121</i>&nbsp;
+<b class="fc"><i>122</i>&nbsp;        for (VirtualView otherClient : gameClients) {</b>
+<i>123</i>&nbsp;
+<i>124</i>&nbsp;            //first condition always true bc newClient isn&#39;t in gameClients yet
+<b class="nc"><i>125</i>&nbsp;            if (otherClient != newClient</b>
+<b class="nc"><i>126</i>&nbsp;                    &amp;&amp; otherClient.getPlayer() != null</b>
+<b class="nc"><i>127</i>&nbsp;                    &amp;&amp; otherClient.getPlayer().getColor() != null) {</b>
+<i>128</i>&nbsp;
+<b class="nc"><i>129</i>&nbsp;                String otherClientNickname = otherClient.getPlayer().getNickname();</b>
+<b class="nc"><i>130</i>&nbsp;                String otherClientColor = otherClient.getPlayer().getColor().name();</b>
+<i>131</i>&nbsp;
+<b class="nc"><i>132</i>&nbsp;                newClient.setOtherPlayersInfo(otherClientNickname, otherClientColor);</b>
+<i>133</i>&nbsp;
+<i>134</i>&nbsp;            }
+<b class="nc"><i>135</i>&nbsp;        }</b>
+<b class="fc"><i>136</i>&nbsp;    }</b>
+<i>137</i>&nbsp;
+<i>138</i>&nbsp;
+<i>139</i>&nbsp;    /**
+<i>140</i>&nbsp;     * Sets up game and starts the logic flow.
+<i>141</i>&nbsp;     *
+<i>142</i>&nbsp;     * @param firstClient is the first connected client who creates the game.
+<i>143</i>&nbsp;     */
+<i>144</i>&nbsp;    public synchronized void setUpGame(VirtualView firstClient) {
+<i>145</i>&nbsp;
+<b class="fc"><i>146</i>&nbsp;        godController = new GodController(this);</b>
+<b class="fc"><i>147</i>&nbsp;        createGodsDeck();</b>
+<i>148</i>&nbsp;
+<b class="fc"><i>149</i>&nbsp;        int numOfPlayers = firstClient.askNumberOfPlayers();</b>
+<i>150</i>&nbsp;
+<b class="fc"><i>151</i>&nbsp;        game = new Game(numOfPlayers);</b>
+<i>152</i>&nbsp;
+<b class="fc"><i>153</i>&nbsp;        turnHandler = new TurnHandler(game, this);</b>
+<i>154</i>&nbsp;
+<b class="fc"><i>155</i>&nbsp;    }</b>
+<i>156</i>&nbsp;
+<i>157</i>&nbsp;
+<i>158</i>&nbsp;    /**
+<i>159</i>&nbsp;     * Adds a player to the game, setting his attributes of nickname and color.
+<i>160</i>&nbsp;     *
+<i>161</i>&nbsp;     * @param client client to add.
+<i>162</i>&nbsp;     */
+<i>163</i>&nbsp;    public void addPlayer(VirtualView client) {
+<i>164</i>&nbsp;
+<b class="fc"><i>165</i>&nbsp;        gameClients.add(client);</b>
+<b class="fc"><i>166</i>&nbsp;        setUpObserverView(client);</b>
+<b class="fc"><i>167</i>&nbsp;        setPlayerNickname(client);</b>
+<b class="fc"><i>168</i>&nbsp;        setPlayerColor(client);</b>
+<i>169</i>&nbsp;
+<i>170</i>&nbsp;        //send player nickname and color to all other clients
+<b class="fc"><i>171</i>&nbsp;        String clientNickname = client.getPlayer().getNickname();</b>
+<b class="fc"><i>172</i>&nbsp;        String clientColor = client.getPlayer().getColor().name();</b>
+<i>173</i>&nbsp;
+<b class="fc"><i>174</i>&nbsp;        for (VirtualView otherClient : gameClients) {</b>
+<b class="fc"><i>175</i>&nbsp;            if (!otherClient.equals(client))</b>
+<b class="fc"><i>176</i>&nbsp;                otherClient.setOtherPlayersInfo(clientNickname, clientColor);</b>
+<b class="fc"><i>177</i>&nbsp;        }</b>
+<i>178</i>&nbsp;
+<b class="fc"><i>179</i>&nbsp;    }</b>
+<i>180</i>&nbsp;
+<i>181</i>&nbsp;
+<i>182</i>&nbsp;    /**
+<i>183</i>&nbsp;     * The client is registered to observe the behaviour of the cells of the board.
+<i>184</i>&nbsp;     *
+<i>185</i>&nbsp;     * @param client Client that is registered to observe.
+<i>186</i>&nbsp;     */
+<i>187</i>&nbsp;    private void setUpObserverView(VirtualView client) {
+<i>188</i>&nbsp;
+<b class="fc"><i>189</i>&nbsp;        for (int i = 0; i &lt; Board.SIDE; i++) {</b>
+<b class="fc"><i>190</i>&nbsp;            for (int j = 0; j &lt; Board.SIDE; j++) {</b>
+<i>191</i>&nbsp;
+<b class="fc"><i>192</i>&nbsp;                game.getBoard().findCell(i, j).register(client);</b>
+<i>193</i>&nbsp;            }
+<i>194</i>&nbsp;        }
+<i>195</i>&nbsp;
+<b class="fc"><i>196</i>&nbsp;    }</b>
+<i>197</i>&nbsp;
+<i>198</i>&nbsp;
+<i>199</i>&nbsp;    /**
+<i>200</i>&nbsp;     * Removes client from observing the cells of the map.
+<i>201</i>&nbsp;     *
+<i>202</i>&nbsp;     * @param client The client that is removed from the list of the observers.
+<i>203</i>&nbsp;     */
+<i>204</i>&nbsp;    public void removeClientObserver(VirtualView client) {
+<i>205</i>&nbsp;
+<b class="fc"><i>206</i>&nbsp;        for (int i = 0; i &lt; Board.SIDE; i++) {</b>
+<b class="fc"><i>207</i>&nbsp;            for (int j = 0; j &lt; Board.SIDE; j++) {</b>
+<i>208</i>&nbsp;
+<b class="fc"><i>209</i>&nbsp;                game.getBoard().findCell(i, j).remove(client);</b>
+<i>210</i>&nbsp;            }
+<i>211</i>&nbsp;        }
+<i>212</i>&nbsp;
+<b class="fc"><i>213</i>&nbsp;    }</b>
+<i>214</i>&nbsp;
+<i>215</i>&nbsp;
+<i>216</i>&nbsp;    /**
+<i>217</i>&nbsp;     * Lets the player choose his nickname.
+<i>218</i>&nbsp;     *
+<i>219</i>&nbsp;     * @param client view of the player.
+<i>220</i>&nbsp;     */
+<i>221</i>&nbsp;    private void setPlayerNickname(VirtualView client) {
+<i>222</i>&nbsp;
+<i>223</i>&nbsp;        while (true) {
+<i>224</i>&nbsp;
+<b class="fc"><i>225</i>&nbsp;            String chosenNickname = client.askPlayerNickname();</b>
+<i>226</i>&nbsp;
+<b class="fc"><i>227</i>&nbsp;            synchronized (nicknameLock) {</b>
+<b class="fc"><i>228</i>&nbsp;                if (checkNicknameValidity(chosenNickname, client, game)) {</b>
+<b class="fc"><i>229</i>&nbsp;                    return;</b>
+<i>230</i>&nbsp;                }
+<b class="fc"><i>231</i>&nbsp;            }</b>
+<b class="fc"><i>232</i>&nbsp;        }</b>
+<i>233</i>&nbsp;    }
+<i>234</i>&nbsp;
+<i>235</i>&nbsp;
+<i>236</i>&nbsp;    /**
+<i>237</i>&nbsp;     * Checks if the nickname chosen by the player is valid and notifies client about the outcome of the check.
+<i>238</i>&nbsp;     * A nickname is valid if no one has already chosen it and if it is a String longer than 0 but shorter than 9 characters.
+<i>239</i>&nbsp;     *
+<i>240</i>&nbsp;     * @param chosenNickname The nickname chosen by the player.
+<i>241</i>&nbsp;     * @param client         The client associated to the chosen nickname
+<i>242</i>&nbsp;     * @param game           The game where the player needs to be added.
+<i>243</i>&nbsp;     * @return True if the nickname was valid, false otherwise.
+<i>244</i>&nbsp;     */
+<i>245</i>&nbsp;    private boolean checkNicknameValidity(String chosenNickname, VirtualView client, Game game) {
+<b class="fc"><i>246</i>&nbsp;        if (chosenNickname.length() == 0 || chosenNickname.length() &gt; 8) {</b>
+<b class="fc"><i>247</i>&nbsp;            client.nicknameFormatError();</b>
+<b class="fc"><i>248</i>&nbsp;            return false;</b>
+<b class="fc"><i>249</i>&nbsp;        } else if (nicknameIsAvailable(chosenNickname)) {</b>
+<b class="fc"><i>250</i>&nbsp;            Player newPlayer = game.addPlayer(chosenNickname, client);</b>
+<b class="fc"><i>251</i>&nbsp;            client.setPlayer(newPlayer);</b>
+<b class="fc"><i>252</i>&nbsp;            client.notifyValidNick();</b>
+<b class="fc"><i>253</i>&nbsp;            return true;</b>
+<i>254</i>&nbsp;        } else {
+<b class="fc"><i>255</i>&nbsp;            client.notAvailableNickname();</b>
+<b class="fc"><i>256</i>&nbsp;            return false;</b>
+<i>257</i>&nbsp;        }
+<i>258</i>&nbsp;    }
+<i>259</i>&nbsp;
+<i>260</i>&nbsp;
+<i>261</i>&nbsp;    /**
+<i>262</i>&nbsp;     * Lets the player choose his color.
+<i>263</i>&nbsp;     *
+<i>264</i>&nbsp;     * @param client view of the player.
+<i>265</i>&nbsp;     */
+<i>266</i>&nbsp;    private void setPlayerColor(VirtualView client) {
+<i>267</i>&nbsp;
+<i>268</i>&nbsp;        while (true) {
+<i>269</i>&nbsp;
+<b class="fc"><i>270</i>&nbsp;            String chosenColor = client.askPlayerColor(gameColors);</b>
+<i>271</i>&nbsp;
+<b class="fc"><i>272</i>&nbsp;            synchronized (colorLock) {</b>
+<b class="fc"><i>273</i>&nbsp;                if (checkColorValidity(chosenColor, client)) {</b>
+<b class="fc"><i>274</i>&nbsp;                    gameColors.remove(chosenColor);</b>
+<b class="fc"><i>275</i>&nbsp;                    return;</b>
+<i>276</i>&nbsp;                }
+<b class="fc"><i>277</i>&nbsp;            }</b>
+<i>278</i>&nbsp;
+<b class="fc"><i>279</i>&nbsp;            client.notAvailableColor();</b>
+<b class="fc"><i>280</i>&nbsp;        }</b>
+<i>281</i>&nbsp;
+<i>282</i>&nbsp;    }
+<i>283</i>&nbsp;
+<i>284</i>&nbsp;
+<i>285</i>&nbsp;    /**
+<i>286</i>&nbsp;     * Checks if the nickname chosen by the player is valid.
+<i>287</i>&nbsp;     * A color is valid if no one has already chosen it and if it is one of the available colors of the game: blue, white, beige.
+<i>288</i>&nbsp;     *
+<i>289</i>&nbsp;     * @param chosenColor The color chosen by the player.
+<i>290</i>&nbsp;     * @param client      The client associated to the player.
+<i>291</i>&nbsp;     * @return True if the color was valid, false otherwise.
+<i>292</i>&nbsp;     */
+<i>293</i>&nbsp;    private boolean checkColorValidity(String chosenColor, VirtualView client) {
+<i>294</i>&nbsp;
+<b class="fc"><i>295</i>&nbsp;        if (colorIsAvailable(chosenColor) &amp;&amp; colorIsValid(chosenColor)) {</b>
+<b class="fc"><i>296</i>&nbsp;            client.notifyValidColor();</b>
+<b class="fc"><i>297</i>&nbsp;            client.getPlayer().setColor(Color.stringToColor(chosenColor));</b>
+<b class="fc"><i>298</i>&nbsp;            return true;</b>
+<i>299</i>&nbsp;        }
+<i>300</i>&nbsp;
+<b class="fc"><i>301</i>&nbsp;        return false;</b>
+<i>302</i>&nbsp;    }
+<i>303</i>&nbsp;
+<i>304</i>&nbsp;
+<i>305</i>&nbsp;    /**
+<i>306</i>&nbsp;     * Helper method to check color validity.
+<i>307</i>&nbsp;     * A color is valid if no one has already chosen it and if it is one of the available colors of the game: blue, white, beige.
+<i>308</i>&nbsp;     *
+<i>309</i>&nbsp;     * @param chosenColor The color chosen by the player.
+<i>310</i>&nbsp;     * @return True if the color is valid, false otherwise.
+<i>311</i>&nbsp;     */
+<i>312</i>&nbsp;    protected boolean colorIsValid(String chosenColor) {
+<b class="fc"><i>313</i>&nbsp;        return chosenColor.equals(Color.BLUE.name())</b>
+<b class="fc"><i>314</i>&nbsp;                || chosenColor.equals(Color.BEIGE.name())</b>
+<b class="fc"><i>315</i>&nbsp;                || chosenColor.equals(Color.WHITE.name());</b>
+<i>316</i>&nbsp;    }
+<i>317</i>&nbsp;
+<i>318</i>&nbsp;
+<i>319</i>&nbsp;    /**
+<i>320</i>&nbsp;     * Helper method to check nickname validity.
+<i>321</i>&nbsp;     *
+<i>322</i>&nbsp;     * @param chosenNickname The nickname chosen by the player.
+<i>323</i>&nbsp;     * @return True if the nickname is valid, false otherwise.
+<i>324</i>&nbsp;     */
+<i>325</i>&nbsp;    protected boolean nicknameIsAvailable(String chosenNickname) {
+<i>326</i>&nbsp;
+<b class="fc"><i>327</i>&nbsp;        for (Player player : game.getPlayers()) {</b>
+<i>328</i>&nbsp;
+<b class="fc"><i>329</i>&nbsp;            if (chosenNickname.equals(player.getNickname()))</b>
+<b class="fc"><i>330</i>&nbsp;                return false;</b>
+<b class="fc"><i>331</i>&nbsp;        }</b>
+<i>332</i>&nbsp;
+<b class="fc"><i>333</i>&nbsp;        return true;</b>
+<i>334</i>&nbsp;    }
+<i>335</i>&nbsp;
+<i>336</i>&nbsp;
+<i>337</i>&nbsp;    /**
+<i>338</i>&nbsp;     * Helper method to check color validity.
+<i>339</i>&nbsp;     * A color is valid if no one has already chosen it and if it is one of the available colors of the game: blue, white, beige.
+<i>340</i>&nbsp;     *
+<i>341</i>&nbsp;     * @param chosenColor The color chosen by the player.
+<i>342</i>&nbsp;     * @return True if the color is available, false otherwise.
+<i>343</i>&nbsp;     */
+<i>344</i>&nbsp;    protected boolean colorIsAvailable(String chosenColor) {
+<i>345</i>&nbsp;
+<b class="fc"><i>346</i>&nbsp;        for (Player player : game.getPlayers()) {</b>
+<i>347</i>&nbsp;
+<b class="fc"><i>348</i>&nbsp;            if ((player.getColor() != null) &amp;&amp; (chosenColor.equals(player.getColor().toString())))</b>
+<b class="nc"><i>349</i>&nbsp;                return false;</b>
+<b class="fc"><i>350</i>&nbsp;        }</b>
+<i>351</i>&nbsp;
+<b class="fc"><i>352</i>&nbsp;        return true;</b>
+<i>353</i>&nbsp;    }
+<i>354</i>&nbsp;
+<i>355</i>&nbsp;
+<i>356</i>&nbsp;    /**
+<i>357</i>&nbsp;     * Creates the deck where we can find all the God cards.
+<i>358</i>&nbsp;     */
+<i>359</i>&nbsp;    private void createGodsDeck() {
+<b class="fc"><i>360</i>&nbsp;        godsDeck.add(new Apollo(godController));</b>
+<b class="fc"><i>361</i>&nbsp;        godsDeck.add(new Artemis(godController));</b>
+<b class="fc"><i>362</i>&nbsp;        godsDeck.add(new Athena(godController));</b>
+<b class="fc"><i>363</i>&nbsp;        godsDeck.add(new Atlas(godController));</b>
+<b class="fc"><i>364</i>&nbsp;        godsDeck.add(new Charon(godController));</b>
+<b class="fc"><i>365</i>&nbsp;        godsDeck.add(new Demeter(godController));</b>
+<b class="fc"><i>366</i>&nbsp;        godsDeck.add(new Hephaestus(godController));</b>
+<b class="fc"><i>367</i>&nbsp;        godsDeck.add(new Hera(godController));</b>
+<b class="fc"><i>368</i>&nbsp;        godsDeck.add(new Hestia(godController));</b>
+<b class="fc"><i>369</i>&nbsp;        godsDeck.add(new Minotaur(godController));</b>
+<b class="fc"><i>370</i>&nbsp;        godsDeck.add(new Pan(godController));</b>
+<b class="fc"><i>371</i>&nbsp;        godsDeck.add(new Prometheus(godController));</b>
+<b class="fc"><i>372</i>&nbsp;        godsDeck.add(new Triton(godController));</b>
+<b class="fc"><i>373</i>&nbsp;        godsDeck.add(new Zeus(godController));</b>
+<b class="fc"><i>374</i>&nbsp;    }</b>
+<i>375</i>&nbsp;
+<i>376</i>&nbsp;
+<i>377</i>&nbsp;    /**
+<i>378</i>&nbsp;     * The winner of the game is notified of his success, while the others are notified of their lose.
+<i>379</i>&nbsp;     * The turn handler stops his flow.
+<i>380</i>&nbsp;     *
+<i>381</i>&nbsp;     * @param winner The player that has won the game.
+<i>382</i>&nbsp;     */
+<i>383</i>&nbsp;    public void winGame(Player winner) {
+<i>384</i>&nbsp;        //winningView and losingView are blocking since they must return boolean (although unused)
+<b class="fc"><i>385</i>&nbsp;        VirtualView winnerClient = winner.getClient();</b>
+<i>386</i>&nbsp;        //print &quot;you have won&quot; in winner view
+<b class="fc"><i>387</i>&nbsp;        winnerClient.winningView();</b>
+<b class="fc"><i>388</i>&nbsp;        winnerClient.killClient();</b>
+<i>389</i>&nbsp;        //print &quot;you have lost&quot; in loser views
+<b class="fc"><i>390</i>&nbsp;        for (Player player : game.getPlayers()) {</b>
+<i>391</i>&nbsp;
+<b class="fc"><i>392</i>&nbsp;            if (!player.equals(winner)) {</b>
+<b class="fc"><i>393</i>&nbsp;                player.getClient().losingView(winner.getNickname() + &quot;has won&quot;);</b>
+<b class="fc"><i>394</i>&nbsp;                player.getClient().killClient();</b>
+<i>395</i>&nbsp;            }
+<b class="fc"><i>396</i>&nbsp;        }</b>
+<b class="fc"><i>397</i>&nbsp;        turnHandler.stopTurnFlow();</b>
+<b class="fc"><i>398</i>&nbsp;    }</b>
+<i>399</i>&nbsp;
+<i>400</i>&nbsp;
+<i>401</i>&nbsp;    public ArrayList&lt;God&gt; getGodsDeck() {
+<b class="fc"><i>402</i>&nbsp;        return godsDeck;</b>
+<i>403</i>&nbsp;    }
+<i>404</i>&nbsp;
+<i>405</i>&nbsp;
+<i>406</i>&nbsp;    public Game getGame() {
+<b class="fc"><i>407</i>&nbsp;        return game;</b>
+<i>408</i>&nbsp;    }
+<i>409</i>&nbsp;
+<i>410</i>&nbsp;
+<i>411</i>&nbsp;    public GodController getGodController() {
+<b class="fc"><i>412</i>&nbsp;        return godController;</b>
+<i>413</i>&nbsp;    }
+<i>414</i>&nbsp;
+<i>415</i>&nbsp;
+<i>416</i>&nbsp;    public TurnHandler getTurnHandler() {
+<b class="fc"><i>417</i>&nbsp;        return turnHandler;</b>
+<i>418</i>&nbsp;    }
+<i>419</i>&nbsp;
+<i>420</i>&nbsp;
+<i>421</i>&nbsp;    public ExecutorService getExecutorPlayerAdder() {
+<b class="fc"><i>422</i>&nbsp;        return executorPlayerAdder;</b>
+<i>423</i>&nbsp;    }
+<i>424</i>&nbsp;
+<i>425</i>&nbsp;
+<i>426</i>&nbsp;    /**
+<i>427</i>&nbsp;     * Allows to notify the disconnection to the game.
+<i>428</i>&nbsp;     *
+<i>429</i>&nbsp;     * @param disconnectedPlayer The player that has disconnected from the game.
+<i>430</i>&nbsp;     */
+<i>431</i>&nbsp;    public void handleGameDisconnection(String disconnectedPlayer) {
+<i>432</i>&nbsp;
+<i>433</i>&nbsp;        //if disconnection is due to a player disconnection
+<b class="fc"><i>434</i>&nbsp;        for (VirtualView connectedClient : gameClients) {</b>
+<i>435</i>&nbsp;
+<b class="fc"><i>436</i>&nbsp;            if (connectedClient.isInGame()) {</b>
+<b class="fc"><i>437</i>&nbsp;                connectedClient.notifyOtherPlayerDisconnection(disconnectedPlayer);</b>
+<b class="fc"><i>438</i>&nbsp;                connectedClient.killClient();//Sends shut down and sets inGame=false;</b>
+<i>439</i>&nbsp;            }
+<i>440</i>&nbsp;
+<b class="fc"><i>441</i>&nbsp;        }</b>
+<i>442</i>&nbsp;
+<i>443</i>&nbsp;        //Checks if game is still in the available games in lobby
+<b class="fc"><i>444</i>&nbsp;        if (!isFull())</b>
+<b class="fc"><i>445</i>&nbsp;            ended = true;</b>
+<i>446</i>&nbsp;
+<b class="fc"><i>447</i>&nbsp;    }</b>
+<i>448</i>&nbsp;
+<i>449</i>&nbsp;
+<i>450</i>&nbsp;    /**
+<i>451</i>&nbsp;     * Notifies players someone lost the game.
+<i>452</i>&nbsp;     *
+<i>453</i>&nbsp;     * @param loserNickname The nickname of the player who lost the game.
+<i>454</i>&nbsp;     */
+<i>455</i>&nbsp;    public void notifyPlayersOfLoss(String loserNickname) {
+<b class="fc"><i>456</i>&nbsp;        for (Player player : game.getPlayers()) {</b>
+<b class="fc"><i>457</i>&nbsp;            player.getClient().notifyPlayersOfLoss(loserNickname);</b>
+<b class="fc"><i>458</i>&nbsp;        }</b>
+<b class="fc"><i>459</i>&nbsp;    }</b>
+<i>460</i>&nbsp;
+<i>461</i>&nbsp;
+<i>462</i>&nbsp;    public ArrayList&lt;VirtualView&gt; getGameClients() {
+<b class="fc"><i>463</i>&nbsp;        return gameClients;</b>
+<i>464</i>&nbsp;    }
+<i>465</i>&nbsp;
+<i>466</i>&nbsp;
+<i>467</i>&nbsp;    public boolean isFull() {
+<b class="fc"><i>468</i>&nbsp;        return full;</b>
+<i>469</i>&nbsp;    }
+<i>470</i>&nbsp;
+<i>471</i>&nbsp;    public boolean isEnded() {
+<b class="fc"><i>472</i>&nbsp;        return ended;</b>
+<i>473</i>&nbsp;    }
+<i>474</i>&nbsp;
+<i>475</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 21:20</div>
+</div>
+</body>
+</html>

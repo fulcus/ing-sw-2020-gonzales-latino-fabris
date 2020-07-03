@@ -1,0 +1,165 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: WorkerClient</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.serializable</a> ]
+</div>
+
+<h1>Coverage Summary for Class: WorkerClient (it.polimi.ingsw.serializable)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">WorkerClient</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 16)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.serializable;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.server.model.Worker;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import java.io.Serializable;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;/**
+<i>8</i>&nbsp; * The worker representation client side.
+<i>9</i>&nbsp; */
+<i>10</i>&nbsp;public class WorkerClient implements Serializable {
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;    private final String workerSex;
+<i>13</i>&nbsp;    private final String workerColor;
+<i>14</i>&nbsp;    private int xPosition;
+<i>15</i>&nbsp;    private int yPosition;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    public String getWorkerSex() {
+<b class="nc"><i>19</i>&nbsp;        return workerSex;</b>
+<i>20</i>&nbsp;    }
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    public String getWorkerColor() {
+<b class="nc"><i>24</i>&nbsp;        return workerColor;</b>
+<i>25</i>&nbsp;    }
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    public int getXPosition() {
+<b class="nc"><i>29</i>&nbsp;        return xPosition;</b>
+<i>30</i>&nbsp;    }
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    public int getYPosition() {
+<b class="nc"><i>34</i>&nbsp;        return yPosition;</b>
+<i>35</i>&nbsp;    }
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    //ONLY used in server
+<b class="nc"><i>39</i>&nbsp;    public WorkerClient(Worker worker) {</b>
+<b class="nc"><i>40</i>&nbsp;        workerSex = worker.getSex().toString();</b>
+<b class="nc"><i>41</i>&nbsp;        workerColor = worker.getPlayer().getColor().toString();</b>
+<b class="nc"><i>42</i>&nbsp;        xPosition = worker.getPosition().getX();</b>
+<b class="nc"><i>43</i>&nbsp;        yPosition = worker.getPosition().getY();</b>
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    }
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;
+<b class="nc"><i>48</i>&nbsp;    public WorkerClient(WorkerClient workerFromServer) {</b>
+<b class="nc"><i>49</i>&nbsp;        this.workerColor = workerFromServer.getWorkerColor();</b>
+<b class="nc"><i>50</i>&nbsp;        this.workerSex = workerFromServer.getWorkerSex();</b>
+<b class="nc"><i>51</i>&nbsp;        this.xPosition = workerFromServer.getXPosition();</b>
+<b class="nc"><i>52</i>&nbsp;        this.yPosition = workerFromServer.getYPosition();</b>
+<i>53</i>&nbsp;    }
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;    /**
+<i>57</i>&nbsp;     * Updates the position of the local representation of the worker.
+<i>58</i>&nbsp;     *
+<i>59</i>&nbsp;     * @param workerFromServer Worker received from the server.
+<i>60</i>&nbsp;     */
+<i>61</i>&nbsp;    public void updateWorkerPosition(WorkerClient workerFromServer) {
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;        /*
+<i>64</i>&nbsp;        System.out.println(&quot;workerFromServer: &quot;+workerFromServer.getWorkerColor()
+<i>65</i>&nbsp;        + &quot;; coordinates: &quot;+workerFromServer.getXPosition()+&quot;,&quot;+getYPosition());
+<i>66</i>&nbsp;        System.out.println(&quot;updatedWorker: &quot; + getWorkerColor());
+<i>67</i>&nbsp;        System.out.println(&quot;old x,y: &quot;+getXPosition() + &quot;,&quot; + getYPosition());
+<i>68</i>&nbsp;        */
+<i>69</i>&nbsp;
+<b class="nc"><i>70</i>&nbsp;        this.xPosition = workerFromServer.getXPosition();</b>
+<b class="nc"><i>71</i>&nbsp;        this.yPosition = workerFromServer.getYPosition();</b>
+<i>72</i>&nbsp;
+<i>73</i>&nbsp;        /*
+<i>74</i>&nbsp;        System.out.println(&quot;new x,y: &quot;
+<i>75</i>&nbsp;                + getXPosition() + &quot;,&quot; + getYPosition());
+<i>76</i>&nbsp;        System.out.println(&quot;attributes: &quot;
+<i>77</i>&nbsp;                + xPosition + &quot;,&quot; + yPosition);
+<i>78</i>&nbsp;        */
+<i>79</i>&nbsp;
+<i>80</i>&nbsp;    }
+<i>81</i>&nbsp;
+<i>82</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 21:20</div>
+</div>
+</body>
+</html>
