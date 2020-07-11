@@ -3,24 +3,24 @@
 
 ## How to run the game ##
 
-You need to have JDK 14 installed. It probably works with previous ones up to JDK 8.
+You need to have JDK 14 installed. It probably works with previous versions up to JDK 8.
 
-You can download the [server](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/raw/master/deliveries/final/jar/santorini-server.jar) and [client](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/raw/master/deliveries/final/jar/santorini-client.jar) jar or clone the repo and compile it yourself.
+You can download the [server](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/raw/master/deliveries/final/jar/santorini-server.jar) and [client](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/raw/master/deliveries/final/jar/santorini-client.jar) jars or clone the repo and compile it yourself.
 
 ### Server
 
-Go to the folder where the jar is located and from the terminal use the command `java -jar santorini-server.jar`
+`cd` into the folder containing the jar and run it with the command `java -jar santorini-server.jar`
 
 
 ### Client
 
-For each client: go to the folder where the jar is located and from the terminal and use the command `java -jar santorini-client.jar`
+For each client: cd into the folder containing the jar and run it with the command `java -jar santorini-client.jar`
 
   
 
 -------------------------------------------------- ----
 
-## 1. Implemented features ##
+## Implemented features ##
 
 - Complete rules
 
@@ -31,16 +31,16 @@ For each client: go to the folder where the jar is located and from the terminal
 - GUI
 
 
-### Advanced features
+  ### Advanced features
 
-- Advanced gods
+  - Advanced gods
 
-- Multiple games
+  - Multiple games
 
  
 -------------------------------------------------- ----
 
-## 2. UML ##
+## UML ##
 
 - In order to maximize the usability and readability of the UML class diagrams, we decided to create a general synthetic diagram that shows only the most representative  relations and attributes. Moreover we created a diagram for each main package with the IntelliJ autogeneration tool. 
 
@@ -66,16 +66,25 @@ For each client: go to the folder where the jar is located and from the terminal
 
 -------------------------------------------------- ----
 
-## 3. Test Coverage ##
+## Documentation ##
 
 
-- Model and controller tests have been implemented trying to obtain almost complete code coverage.
+We redacted the [documentation](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/tree/master/deliveries/final/javadoc) of the code using javadoc. You can browse it cloning the repo and opening `index.html`.
+
+[Here](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/blob/master/deliveries/final/rules/santorini_rules.pdf) you can find the rules of the game.
+
+-------------------------------------------------- ----
+
+## Test Coverage ##
+
+
+Model and controller tests have been implemented trying to obtain almost complete code coverage.
 You can find it [here](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/tree/master/deliveries/final/report).
 
 -------------------------------------------------- ----
 
 
-## 4. Implementation choices ##
+## Implementation choices ##
 
 - ### MVC
 
