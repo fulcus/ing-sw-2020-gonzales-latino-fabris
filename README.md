@@ -1,39 +1,20 @@
-# Final Project - Software Engineering
+# Software Engineering Final Project
 
-  
-
-  
-
-  
-
-##### Francesco Gonzales ([fulcus](https://github.com/fulcus))
-
-##### Alberto Latino ([albertolatino](https://github.com/albertolatino))
-
-##### Vittorio Fabris ([VittoFab](https://github.com/VittoFab))
-  
-
--------------------------------------------------- ----
-
-  
-
-  
 
 ## How to run the game ##
 
-  You can download the [server](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/raw/master/deliveries/final/jar/santorini-server.jar) and [client](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/raw/master/deliveries/final/jar/santorini-client.jar) jar or clone the repo and compile it yourself.
+You need to have JDK 14 installed. It probably works with previous ones up to JDK 8.
+
+You can download the [server](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/raw/master/deliveries/final/jar/santorini-server.jar) and [client](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/raw/master/deliveries/final/jar/santorini-client.jar) jar or clone the repo and compile it yourself.
 
 ### Server
 
+Go to the folder where the jar is located and from the terminal use the command `java -jar santorini-server.jar`
 
-Go to the folder where the jar is located and from the terminal use the command `java -jar server.jar`
-
-  
 
 ### Client
 
-
-For each client: go to the folder where the jar is located and from the terminal and use the command `java -jar client.jar`
+For each client: go to the folder where the jar is located and from the terminal and use the command `java -jar santorini-client.jar`
 
   
 
@@ -96,51 +77,57 @@ You can find it [here](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fab
 
 ## 4. Implementation choices ##
 
-
 - ### MVC
 
+  The implementation of the chosen MVC pattern is the "hybrid" one in which  input controls are also done on the client side to minimize network usage and server load. The controller takes care of managing turns, updating the model and managing events, requests and responses with the Client. On the server there is a Virtual View , on which the Controller calls methods and submits game requests. Virtual View will forward the methods to the client using the output stream.
 
-The implementation of the chosen MVC pattern is the "hybrid" one in which  input controls are also done on the client side to minimize network usage and server load. The controller takes care of managing turns, updating the model and managing events, requests and responses with the Client. On the server there is a Virtual View , on which the Controller calls methods and submits game requests. Virtual View will forward the methods to the client using the output stream.
 
+  - #### Model
 
-- #### Model
-  
-
-It represent the status of the game. In particular, there is the information of the single Game, the Players, the Board and all the related information regarding workers and buildings.
+    It represent the status of the game. In particular, there is the information of the single Game, the Players, the Board and all the related information regarding workers and buildings.
 
  
-- #### View
+  - #### View
 
-Provides the user with a representation of the model by saving and updating locally a partial copy of the state of the game. In particular a copy of the Board is saved with all the related information.
+    Provides the user with a representation of the model by saving and updating locally a partial copy of the state of the game. In particular a copy of the Board is saved with all the related information.
 
 
-- #### Controller
+  - #### Controller
 
-It has the application logic and makes changes to the model, by using user inputs. 
+  It has the application logic and makes changes to the model, by using user inputs.
 
-  
 
 - ### Observers
 
+  An __observer__ pattern has been used to implement the notification mechanism. In particular, the model and the view represent the observed and the observer respectively. Each cell in the game is observed, and as soon as there is a change in the state of that cell, clients are notified.
 
-An __observer__ pattern has been used to implement the notification mechanism. In particular, the model and the view represent the observed and the observer respectively. Each cell in the game is observed, and as soon as there is a change in the state of that cell, clients are notified.
 
-
-Given the presence of the network, it was necessary to duplicate the observer pattern also on the client. In fact, the client class receives an update from the Network Handler class.
+  Given the presence of the network, it was necessary to duplicate the observer pattern also on the client. In fact, the client class receives an update from the Network Handler class.
 
 - ### Network
 
-We decided to design the communication between server and client in order to make communication independent from the type of graphical interface chosen by the user. Therefore, the server always sends the same messages regardless of whether the client has chosen to play with CLI or GUI. Furthermore, two types of information are shared: those relating to the game and those useful for monitoring and managing the connection status of clients (PING).
+  We decided to design the communication between server and client in order to make communication independent from the type of graphical interface chosen by the user. Therefore, the server always sends the same messages regardless of whether the client has chosen to play with CLI or GUI. Furthermore, two types of information are shared: those relating to the game and those useful for monitoring and managing the connection status of clients (PING).
   
 
-Inside the server, there is a class that represents the virtual view associated with each client, on which the controller calls the methods which are then forwarded to the physical clients through the network.
+  Inside the server, there is a class that represents the virtual view associated with each client, on which the controller calls the methods which are then forwarded to the physical clients through the network.
 
-Messages have been divided into: Request (server -> client) and Response (client -> server). 
+  Messages have been divided into: Request (server -> client) and Response (client -> server).
 
 
-- #### Disconnection  
+  - #### Disconnection  
 
-A mechanism has been implemented for detecting disconnections of the client due to network errors or application closing. 
+    A mechanism has been implemented for detecting disconnections of the client due to network errors or application closing.
 
-Disconnections caused by voluntary closure of the client are detected by the server through the management of network exceptions (SocketException). 
+    Disconnections caused by voluntary closure of the client are detected by the server through the management of network exceptions (SocketException).
 
+
+------------------------------------------------------
+
+## Authors ##
+
+
+##### Francesco Gonzales ([fulcus](https://github.com/fulcus))
+
+##### Alberto Latino ([albertolatino](https://github.com/albertolatino))
+
+##### Vittorio Fabris ([VittoFab](https://github.com/VittoFab))
