@@ -3,9 +3,11 @@
 
 ## How to run the game ##
 
-You need to have JDK 14 installed. It probably works with previous versions up to JDK 8.
-
 You can download the [server](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/raw/master/deliveries/final/jar/santorini-server.jar) and [client](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/raw/master/deliveries/final/jar/santorini-client.jar) jars or clone the repo and compile it yourself.
+They can run on linux, macos and windows.
+
+Requirements:
+JDK 14. It probably works with previous versions up to JDK 8.
 
 ### Server
 
@@ -26,9 +28,9 @@ For each client: cd into the folder containing the jar and run it with the comma
 
 - Socket connection
 
-- CLI
+- Command Line Interface
 
-- GUI
+- Graphical User Interface using JavaFX
 
 
   ### Advanced features
@@ -71,20 +73,21 @@ For each client: cd into the folder containing the jar and run it with the comma
 
 We redacted the [documentation](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/tree/master/deliveries/final/javadoc) of the code using javadoc. You can browse it cloning the repo and opening `index.html`.
 
-[Here](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/blob/master/deliveries/final/rules/santorini_rules.pdf) you can find the rules of the game.
+[Here](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/raw/master/deliveries/final/rules/santorini_rules.pdf) you can find the rules of the game.
 
 -------------------------------------------------- ----
 
 ## Test Coverage ##
 
 
-Model and controller tests have been implemented trying to obtain almost complete code coverage.
-You can find it [here](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/tree/master/deliveries/final/report).
+The model and the controller have been tested using [mockito](https://site.mockito.org/).
+
+[Here](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/tree/master/deliveries/final/report) you can find the coverage report.
 
 -------------------------------------------------- ----
 
 
-## Implementation choices ##
+##Software Design ##
 
 - ### MVC
 
@@ -135,8 +138,8 @@ You can find it [here](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fab
 ## Authors ##
 
 
-##### Francesco Gonzales ([fulcus](https://github.com/fulcus))
+Francesco Gonzales ([fulcus](https://github.com/fulcus))
 
-##### Alberto Latino ([albertolatino](https://github.com/albertolatino))
+Alberto Latino ([albertolatino](https://github.com/albertolatino))
 
-##### Vittorio Fabris ([VittoFab](https://github.com/VittoFab))
+Vittorio Fabris ([VittoFab](https://github.com/VittoFab))
