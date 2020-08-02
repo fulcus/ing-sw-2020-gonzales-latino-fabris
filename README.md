@@ -87,7 +87,7 @@ The model and the controller have been tested using [mockito](https://site.mocki
 -------------------------------------------------- ----
 
 
-##Software Design ##
+## Software Design ##
 
 - ### MVC
 
