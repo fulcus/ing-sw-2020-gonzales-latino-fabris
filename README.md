@@ -61,8 +61,6 @@ To compile the server you must change the mainClass property of the maven-assemb
 
   - Multiple games
 
- 
----
 
 ## UML ##
 
@@ -88,24 +86,17 @@ To compile the server you must change the mainClass property of the maven-assemb
 - <a href="https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/blob/master/deliveries/final/uml/Package%20god.png"> God </a>
   
 
----
-
 ## Documentation ##
-
 
 We redacted the [documentation](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/tree/master/deliveries/final/javadoc) of the code using javadoc. You can browse it cloning the repo and opening `index.html`.
 
 [Here](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/raw/master/deliveries/final/rules/santorini_rules.pdf) you can find the rules of the game.
-
----
 
 ## Testing ##
 
 The model and the controller have been tested using [mockito](https://site.mockito.org/).
 
 [Here](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/tree/master/deliveries/final/report) you can find the coverage report.
-
----
 
 
 ## Software Design ##
@@ -153,10 +144,7 @@ The model and the controller have been tested using [mockito](https://site.mocki
 
     Disconnections caused by voluntary closure of the client are detected by the server through the management of network exceptions (SocketException).
 
-
----
-
-## Authors ##
+## Authors
 
 
 [Francesco Fulco Gonzales](https://github.com/fulcus)
@@ -164,3 +152,17 @@ The model and the controller have been tested using [mockito](https://site.mocki
 [Alberto Latino](https://github.com/albertolatino)
 
 [Vittorio Fabris](https://github.com/VittoFab)
+
+## Screenshots
+Here are some screenshots from the game
+
+### Lobby
+![picture](src/main/resources/screenshots/lobby.png)
+### God selection
+![picture](src/main/resources/screenshots/gods.png)
+### Lobby
+![picture](src/main/resources/screenshots/board.png)
+### Victory 
+![picture](src/main/resources/screenshots/victory.png)
+
+
