@@ -1,26 +1,48 @@
 # Software Engineering Final Project
 
 
-## How to run the game ##
+## Run the game
 
-You can download the [server](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/raw/master/deliveries/final/jar/santorini-server.jar) and [client](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/raw/master/deliveries/final/jar/santorini-client.jar) jars or clone the repo and compile it yourself.
-They can run on linux, macos and windows.
+You can download the [server](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/raw/master/deliveries/final/jar/santorini-server.jar) and [client](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/raw/master/deliveries/final/jar/santorini-client.jar) jars.
+They can run on linux, macos and windows and include all the needed dependecies for all platforms.
 
 Requirements:
 JDK 14. It probably works with previous versions up to JDK 8.
 
 ### Server
 
-`cd` into the folder containing the jar and run it with the command `java -jar santorini-server.jar`
+Run the jar with the command `java -jar santorini-server.jar`
 
 
 ### Client
 
-For each client: cd into the folder containing the jar and run it with the command `java -jar santorini-client.jar`
+Run the client jar with the command `java -jar santorini-client.jar` for each player you wish to create
 
-  
+---
 
--------------------------------------------------- ----
+## Technologies
+
+- Java SE 14
+- Maven
+- JavaFX
+- JUnit
+- mockito
+- IntelliJ IDEA
+
+## Compile
+
+To run the tests and compile the software:
+
+1. Install [Java SE 14](https://docs.oracle.com/en/java/javase/14/)
+2. Install [Maven](https://maven.apache.org/install.html)
+3. Clone this repo
+4. In the cloned repo folder, run:
+```bash
+mvn clean compile assembly:single
+```
+5. The compiled artifact will be inside the `target` folder.
+
+To compile the server you must change the mainClass property of the maven-assembly-plugin in the `pom.xml` and set it to `it.polimi.ingsw.server.Server`
 
 ## Implemented features ##
 
@@ -40,7 +62,7 @@ For each client: cd into the folder containing the jar and run it with the comma
   - Multiple games
 
  
--------------------------------------------------- ----
+---
 
 ## UML ##
 
@@ -66,7 +88,7 @@ For each client: cd into the folder containing the jar and run it with the comma
 - <a href="https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/blob/master/deliveries/final/uml/Package%20god.png"> God </a>
   
 
--------------------------------------------------- ----
+---
 
 ## Documentation ##
 
@@ -75,16 +97,15 @@ We redacted the [documentation](https://github.com/fulcus/ing-sw-2020-gonzales-l
 
 [Here](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/raw/master/deliveries/final/rules/santorini_rules.pdf) you can find the rules of the game.
 
--------------------------------------------------- ----
+---
 
-## Test Coverage ##
-
+## Testing ##
 
 The model and the controller have been tested using [mockito](https://site.mockito.org/).
 
 [Here](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/tree/master/deliveries/final/report) you can find the coverage report.
 
--------------------------------------------------- ----
+---
 
 
 ## Software Design ##
@@ -133,13 +154,13 @@ The model and the controller have been tested using [mockito](https://site.mocki
     Disconnections caused by voluntary closure of the client are detected by the server through the management of network exceptions (SocketException).
 
 
-------------------------------------------------------
+---
 
 ## Authors ##
 
 
-Francesco Gonzales ([fulcus](https://github.com/fulcus))
+[Francesco Fulco Gonzales](https://github.com/fulcus)
 
-Alberto Latino ([albertolatino](https://github.com/albertolatino))
+[Alberto Latino](https://github.com/albertolatino)
 
-Vittorio Fabris ([VittoFab](https://github.com/VittoFab))
+[Vittorio Fabris](https://github.com/VittoFab)
