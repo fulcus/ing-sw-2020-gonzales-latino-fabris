@@ -7,7 +7,7 @@ You can download the [server](https://github.com/fulcus/ing-sw-2020-gonzales-lat
 They can run on linux, macos and windows and include all the needed dependecies for all platforms.
 
 Requirements:
-JDK 14. It probably works with previous versions up to JDK 8.
+Tested and developed with the Oracle JDK 14.
 
 ### Server
 
@@ -88,7 +88,7 @@ To compile the server you must change the mainClass property of the maven-assemb
 
 ## Documentation ##
 
-We redacted the [documentation](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/tree/master/deliveries/final/javadoc) of the code using javadoc. You can browse it cloning the repo and opening `index.html`.
+[Here](https://fulcus.github.io/ing-sw-2020-gonzales-latino-fabris/deliveries/final/javadoc/) you can find the javadoc documentation.
 
 [Here](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/raw/master/deliveries/final/rules/santorini_rules.pdf) you can find the rules of the game.
 
