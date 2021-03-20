@@ -96,7 +96,7 @@ To compile the server you must change the mainClass property of the maven-assemb
 
 The model and the controller have been tested using [mockito](https://site.mockito.org/).
 
-[Here](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/tree/master/deliveries/final/report) you can find the coverage report.
+[Here](https://fulcus.github.io/ing-sw-2020-gonzales-latino-fabris/deliveries/final/report/) you can find the coverage report.
 
 
 ## Software Design ##
@@ -144,14 +144,6 @@ The model and the controller have been tested using [mockito](https://site.mocki
 
     Disconnections caused by voluntary closure of the client are detected by the server through the management of network exceptions (SocketException).
 
-## Authors
-
-
-[Francesco Fulco Gonzales](https://github.com/fulcus)
-
-[Alberto Latino](https://github.com/albertolatino)
-
-[Vittorio Fabris](https://github.com/VittoFab)
 
 ## Screenshots
 Here are some screenshots from the game
@@ -165,4 +157,11 @@ Here are some screenshots from the game
 ### Victory 
 ![picture](src/main/resources/screenshots/victory.png)
 
+## Authors
+
+[Francesco Fulco Gonzales](https://github.com/fulcus)
+
+[Alberto Latino](https://github.com/albertolatino)
+
+[Vittorio Fabris](https://github.com/VittoFab)
 
