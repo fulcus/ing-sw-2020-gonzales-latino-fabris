@@ -3,7 +3,7 @@
 
 ## Run the game
 
-You can download the [server](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/raw/master/deliveries/final/jar/santorini-server.jar) and [client](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/raw/master/deliveries/final/jar/santorini-client.jar) jars.
+You can download the [server](https://github.com/fulcus/santorini/raw/master/deliveries/final/jar/santorini-server.jar) and [client](https://github.com/fulcus/santorini/raw/master/deliveries/final/jar/santorini-client.jar) jars.
 They can run on linux, macos and windows and include all the needed dependecies for all platforms.
 
 Requirements:
@@ -67,36 +67,36 @@ To compile the server you must change the mainClass property of the maven-assemb
 - In order to maximize the usability and readability of the UML class diagrams, we decided to create a general synthetic diagram that shows only the most representative  relations and attributes. Moreover we created a diagram for each main package with the IntelliJ autogeneration tool. 
 
 
-- <a href="https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/blob/master/deliveries/final/uml/general.pdf"> General diagram </a>
+- <a href="https://github.com/fulcus/santorini/blob/master/deliveries/final/uml/general.pdf"> General diagram </a>
 
-- <a href="https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/blob/master/deliveries/final/uml/Package%20model.png"> Model </a>
+- <a href="https://github.com/fulcus/santorini/blob/master/deliveries/final/uml/Package%20model.png"> Model </a>
 
-- <a href="https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/blob/master/deliveries/final/uml/Package%20serializable.png"> Controller </a>
+- <a href="https://github.com/fulcus/santorini/blob/master/deliveries/final/uml/Package%20serializable.png"> Controller </a>
 
-- <a href="https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/blob/master/deliveries/final/uml/Package%20server.png"> Server </a>
+- <a href="https://github.com/fulcus/santorini/blob/master/deliveries/final/uml/Package%20server.png"> Server </a>
 
-- <a href="https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/blob/master/deliveries/final/uml/Package%20client.png"> Client </a>
+- <a href="https://github.com/fulcus/santorini/blob/master/deliveries/final/uml/Package%20client.png"> Client </a>
 
-- <a href="https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/blob/master/deliveries/final/uml/Package%20gui.png"> Gui </a>
+- <a href="https://github.com/fulcus/santorini/blob/master/deliveries/final/uml/Package%20gui.png"> Gui </a>
 
-- <a href="https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/blob/master/deliveries/final/uml/Package%20cli.png"> Cli </a>
+- <a href="https://github.com/fulcus/santorini/blob/master/deliveries/final/uml/Package%20cli.png"> Cli </a>
 
-- <a href="https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/blob/master/deliveries/final/uml/Package%20serializable.png"> Serializable </a>
+- <a href="https://github.com/fulcus/santorini/blob/master/deliveries/final/uml/Package%20serializable.png"> Serializable </a>
 
-- <a href="https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/blob/master/deliveries/final/uml/Package%20god.png"> God </a>
+- <a href="https://github.com/fulcus/santorini/blob/master/deliveries/final/uml/Package%20god.png"> God </a>
   
 
 ## Documentation ##
 
-[Here](https://fulcus.github.io/ing-sw-2020-gonzales-latino-fabris/deliveries/final/javadoc/) you can find the javadoc documentation.
+[Here](https://fulcus.github.io/santorini/deliveries/final/javadoc/) you can find the javadoc documentation.
 
-[Here](https://github.com/fulcus/ing-sw-2020-gonzales-latino-fabris/raw/master/deliveries/final/rules/santorini_rules.pdf) you can find the rules of the game.
+[Here](https://github.com/fulcus/santorini/raw/master/deliveries/final/rules/santorini_rules.pdf) you can find the rules of the game.
 
 ## Testing ##
 
 The model and the controller have been tested using [mockito](https://site.mockito.org/).
 
-[Here](https://fulcus.github.io/ing-sw-2020-gonzales-latino-fabris/deliveries/final/report/) you can find the coverage report.
+[Here](https://fulcus.github.io/santorini/deliveries/final/report/) you can find the coverage report.
 
 
 ## Software Design ##
